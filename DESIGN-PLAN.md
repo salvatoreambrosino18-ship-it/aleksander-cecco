@@ -375,6 +375,12 @@ Alt text is a required field.
    motion off. If it is not beautiful without motion, motion will not save it.
 8. Structure the enquiry action so that swapping it for a real checkout later
    touches one component, not the whole site.
+9. Nothing paid. The domain is the only paid item on this project. Everything
+   else must run on a genuinely free tier that is permanent: not a trial, not a
+   trial that lapses into payment, and nothing that requires a card on file. If
+   any choice would need payment, an expiring trial, or a card, stop and ask
+   before building it. No paid fonts, plugins, analytics, or hosting. Details and
+   the current free-tier audit are in section 12.
 
 ---
 
@@ -399,8 +405,9 @@ anything.
 
 Confirmed already:
 
-- Locale: `/it` default, `/en` available, switch always visible, no auto-detect
-  redirect.
+- Locale: `/it` default (DECIDED 2026-08-01: Italian stays the default; the brand
+  is Italian and produces in Italy), `/en` fully available through the switch,
+  switch always visible, no auto-detect redirect.
 - Currency: EUR.
 - Analytics: Cloudflare Web Analytics, and nothing else without asking.
 - Env: build against placeholders, commit `.env.example`, never `.env`.
@@ -519,3 +526,50 @@ Content-model corrections (2026-08-01, second round):
   warning; flagged in the need-from-you list so it cannot ship by accident.
 - About copy is held as an unapproved draft in the need-from-you list, not baked
   into the schema.
+
+---
+
+## 12. Cost and free-tier constraint (audit, 2026-08-01)
+
+Standing constraint (see rule 9): nothing paid except the domain. Free tiers must
+be permanent, with no trial-into-payment and no card on file. Re-verify each
+service's terms before wiring it, since plans change.
+
+Hosting: Cloudflare Pages free tier. Permits commercial use. Do not switch
+hosting without asking.
+
+Sanity (currently a 30-day Growth trial that will drop to Free):
+
+- Nothing built depends on a Growth-only feature. The studio, the schemas, the
+  structure and singleton, Vision, the drag-to-reorder plugin
+  (@sanity/orderable-document-list, open source), the custom field-level
+  localization, and publish webhooks all work on Free.
+- Free plan headroom (2026), all generous for this brand: up to 20 seats, 10,000
+  documents, about 100GB assets and bandwidth, 1M CDN plus 250K API requests per
+  month, webhooks included, free forever. Use a single "production" dataset (Free
+  allots one).
+- Not on Free, and not used here: scheduled publishing, comments and tasks, and
+  roles beyond Administrator and Viewer.
+- Watch item, not a blocker: image bandwidth. Studio photography served through
+  the Sanity CDN counts toward the 100GB. If traffic ever pressures it, download
+  the images at build time and serve them from Cloudflare instead.
+
+Enquiry email (to choose at wiring time, not decided). The endpoint is a
+server-validated, rate-limited Cloudflare Pages Function that calls an email API.
+Volume is tiny (the brand receiving enquiries).
+
+- Resend Free: 3,000 per month, 100 per day, one verified domain (the domain you
+  are buying, verified via free DNS records), permanent, no card expected
+  (confirm at signup). Clean API. Recommended.
+- Brevo Free: about 300 per day, no card, API or SMTP; free sends may carry Brevo
+  branding. Higher daily cap.
+- A form-to-email service (Web3Forms, Formspree) avoids an email account but adds
+  a third-party dependency with lower free caps and less control; likely not
+  wanted given the no-extra-third-party stance.
+
+Pick one when the form is wired. MailChannels is excluded on purpose: its free
+Cloudflare route ended in 2024.
+
+Fonts, plugins, analytics: all free. Self-hosted OFL fonts, open-source Sanity
+plugins, Cloudflare Web Analytics (cookieless, free). No paid font, plugin,
+analytics, or card-required service is used.
