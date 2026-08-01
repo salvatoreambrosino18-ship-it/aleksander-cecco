@@ -1,0 +1,76 @@
+---
+/*
+  A MEDIA SURFACE: one photograph, full bleed, filling the screen. No card, no
+  frame, no margin, no rounded corner, and no spine crossing it.
+
+  The overlay polarity is the owner's choice per image in the studio, so any
+  label laid over the picture is solid paper or solid ink, never gray and never
+  on a scrim. The same polarity is published on the element as
+  data-chrome-polarity, which is what lets the fixed chrome stay legible as this
+  image passes beneath it.
+
+  Video: the schema carries an optional muted loop and this component renders
+  its poster. The player is deliberately not built yet, so a media item with a
+  video looks exactly like one without until it is.
+*/
+import {fullBleedSrcSet, imageUrl, objectPosition} from "../lib/image";
+import {overlayTheme, type MediaItem} from "../lib/media";
+import {pick, type Locale} from "../lib/locales";
+
+interface Props {
+  media: MediaItem;
+  locale: Locale;
+  /** "screen" fills the viewport; "tall" leaves the next one peeking. */
+  height?: "screen" | "tall";
+  /** The first image on a page is the largest thing it downloads. */
+  priority?: boolean;
+  class?: string;
+}
+
+const {media, locale, height = "screen", priority = false, class: className = ""} = Astro.props;
+
+const theme = overlayTheme(media.overlay);
+const alt = pick(media.alt, locale) ?? "";
+const caption = pick(media.caption, locale);
+const src = imageUrl(media.poster, 1440);
+const srcset = fullBleedSrcSet(media.poster);
+---
+
+<figure
+  data-chrome-polarity={theme}
+  class:list={[
+    "relative w-full overflow-hidden",
+    height === "screen" ? "h-media-screen" : "h-media-tall",
+    className,
+  ]}
+>
+  {
+    src && (
+      <img
+        src={src}
+        srcset={srcset}
+        sizes="100vw"
+        alt={alt}
+        width={media.dimensions?.width}
+        height={media.dimensions?.height}
+        loading={priority ? "eager" : "lazy"}
+        decoding={priority ? "sync" : "async"}
+        fetchpriority={priority ? "high" : "auto"}
+        style={`object-position: ${objectPosition(media.poster)}`}
+        class="h-full w-full object-cover"
+      />
+    )
+  }
+
+  {
+    (caption || Astro.slots.has("default")) && (
+      <figcaption
+        data-theme={theme}
+        class="text-fg absolute inset-x-0 bottom-0 flex flex-col gap-u1 p-caption"
+      >
+        <slot />
+        {caption && <span class="type-label text-label">{caption}</span>}
+      </figcaption>
+    )
+  }
+</figure>

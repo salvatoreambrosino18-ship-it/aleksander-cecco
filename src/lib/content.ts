@@ -4,6 +4,7 @@
 */
 import {query} from "./sanity";
 import type {LocaleField} from "./locales";
+import type {MediaItem} from "./media";
 
 /** The placeholder address prefilled in the studio. It must never ship as a link. */
 export const PLACEHOLDER_EMAIL = "info@example.com";
@@ -42,4 +43,68 @@ export async function getSiteSettings(): Promise<SiteSettings> {
  */
 export function isPlaceholderEmail(email: string | null): boolean {
   return !email || email.trim().toLowerCase() === PLACEHOLDER_EMAIL;
+}
+
+/* ---------------------------------------------------------------- garments */
+
+export type Garment = {
+  name: string;
+  slug: string;
+  referenceCode: string | null;
+  category: string | null;
+  sizes: string[] | null;
+  price: number | null;
+  currency: string | null;
+  materials: LocaleField;
+  measurements: string | null;
+  description: LocaleField;
+  notOffered: boolean | null;
+  notOfferedNote: LocaleField;
+  collection: {name: string; slug: string | null; season: string | null} | null;
+  media: MediaItem[] | null;
+};
+
+// Selected once and reused: the media object is the same shape everywhere.
+const MEDIA_PROJECTION = /* groq */ `
+  poster,
+  alt,
+  overlay,
+  caption,
+  "hasVideo": defined(video.asset),
+  "dimensions": poster.asset->metadata.dimensions
+`;
+
+const GARMENT_PROJECTION = /* groq */ `
+  name,
+  "slug": slug.current,
+  referenceCode,
+  category,
+  sizes,
+  price,
+  currency,
+  materials,
+  measurements,
+  description,
+  notOffered,
+  notOfferedNote,
+  "collection": collection->{name, "slug": slug.current, season},
+  media[]{${MEDIA_PROJECTION}}
+`;
+
+/** Every garment that can have a page: it needs a slug and at least one image. */
+export async function getGarments(): Promise<Garment[]> {
+  return query<Garment[]>(
+    /* groq */ `*[_type == "garment" && defined(slug.current) && count(media) > 0]
+      | order(orderRank asc){${GARMENT_PROJECTION}}`,
+    {},
+    [],
+  );
+}
+
+export async function getGarment(slug: string): Promise<Garment | null> {
+  return query<Garment | null>(
+    /* groq */ `*[_type == "garment" && slug.current == $slug][0]{${GARMENT_PROJECTION}}`,
+    {slug},
+    null,
+  );
 }

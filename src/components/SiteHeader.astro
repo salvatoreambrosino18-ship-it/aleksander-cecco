@@ -1,26 +1,42 @@
 ---
 /*
-  The top of every page: the MENU label and nothing else.
+  The persistent chrome: the signature top left, MENU top right, and nothing
+  else. Both at label scale.
 
-  Revised 2026-08-01. The corner signature and the always-visible IT|EN pair are
-  gone from here; both now live inside the menu panel. Chrome does not compete
-  with the imagery, and on the home page the signature is the hero rather than a
-  corner mark (DESIGN-PLAN sections 1 and 4).
+  Revised 2026-08-01 (owner's call). It is fixed, so the mark stays visible over
+  full-bleed media at all times, which is exactly what the primary reference
+  does: Sorcinelli keeps its hairline signature in the top left over every
+  full-screen image. A brand hiding its own name on every page except home is
+  not restraint.
 
-  It is a text surface, so it carries its segment of the spine. It is NOT
-  sticky: it scrolls away with the page.
+  Polarity. The chrome floats over photography, so it cannot have a fixed color.
+  It carries its own data-theme, which the page sets from the media underneath
+  it (each media item's overlay polarity is the owner's choice in the studio).
+  With JavaScript off it keeps the page's declared chrome polarity; with it on,
+  a small observer updates it as media passes beneath. No blend mode, because
+  blending over a color photograph would produce a third color.
 */
-import TextSurface from "./TextSurface.astro";
+import Signature from "./Signature.astro";
 import Menu from "./Menu.astro";
-import type {Locale} from "../lib/locales";
+import {localePath, type Locale} from "../lib/locales";
+import {t} from "../i18n/ui";
 
 interface Props {
   locale: Locale;
+  /** Polarity of the chrome itself: "light" paints ink, "dark" paints paper. */
+  chrome?: "light" | "dark";
 }
 
-const {locale} = Astro.props;
+const {locale, chrome = "light"} = Astro.props;
 ---
 
-<TextSurface class="flex justify-end pt-u3 pb-u8">
+<header
+  id="site-chrome"
+  data-theme={chrome}
+  class="text-fg fixed inset-x-0 top-0 z-30 flex items-center justify-between px-margin py-u3"
+>
+  <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
+    <Signature class="h-sig-corner" decorative />
+  </a>
   <Menu locale={locale} />
-</TextSurface>
+</header>

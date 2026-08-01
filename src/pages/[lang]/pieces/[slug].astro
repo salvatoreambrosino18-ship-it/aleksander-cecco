@@ -1,0 +1,137 @@
+---
+/*
+  The garment page. Step 2 of the build order, and the page that matters most.
+
+  Structure (DESIGN-PLAN section 4): the gallery is the page. Every image is a
+  full-bleed media surface at screen height, the name and reference sit over the
+  first one at label scale, and only then does a text surface carry the mono
+  facts and the single action. The diptych is withdrawn, so nothing caps the
+  photograph at half the viewport.
+
+  No motion. No enquiry form yet: the action is present and visibly marked as
+  not wired, rather than linking at a route that does not exist.
+*/
+import Base from "../../../layouts/Base.astro";
+import TextSurface from "../../../components/TextSurface.astro";
+import MediaSurface from "../../../components/MediaSurface.astro";
+import {getGarments, type Garment} from "../../../lib/content";
+import {overlayTheme} from "../../../lib/media";
+import {LOCALES, pick, toLocale, type Locale} from "../../../lib/locales";
+import {orderedSizes, sizeLabel} from "../../../lib/sizes";
+import {t} from "../../../i18n/ui";
+
+export async function getStaticPaths() {
+  const garments = await getGarments();
+  return LOCALES.flatMap((lang) =>
+    garments.map((garment) => ({params: {lang, slug: garment.slug}, props: {garment}})),
+  );
+}
+
+const {garment} = Astro.props as {garment: Garment};
+const locale = toLocale(Astro.params.lang) as Locale;
+
+const media = garment.media ?? [];
+const [firstMedia] = media;
+
+const description = pick(garment.description, locale);
+const materials = pick(garment.materials, locale);
+const notOfferedNote = pick(garment.notOfferedNote, locale);
+const sizes = orderedSizes(garment.sizes);
+
+// Category values are controlled ("uomo" / "donna"). Whether the English
+// catalogue translates them is still an open question in the plan's
+// need-from-you list, so the stored value is shown as it is, in both locales.
+const category = garment.category;
+
+const price =
+  typeof garment.price === "number"
+    ? new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
+        style: "currency",
+        currency: garment.currency || "EUR",
+        maximumFractionDigits: 0,
+      }).format(garment.price)
+    : null;
+
+const facts: Array<{term: string; value: string | null; placeholder?: string}> = [
+  {
+    term: t(locale, "collection"),
+    value: garment.collection
+      ? [garment.collection.name, garment.collection.season].filter(Boolean).join("  /  ")
+      : null,
+  },
+  {term: t(locale, "category"), value: category},
+  {term: t(locale, "materials"), value: materials, placeholder: "{MATERIALS}"},
+  {
+    term: t(locale, "sizes"),
+    value: sizes.length ? sizes.map((size) => sizeLabel(size, locale)).join("   ") : null,
+    placeholder: "{AVAILABLE_SIZES}",
+  },
+  {
+    term: t(locale, "sampleMeasurements"),
+    value: garment.measurements,
+    placeholder: "{MEASUREMENTS}",
+  },
+  {term: t(locale, "price"), value: price, placeholder: "{PRICE_EUR}"},
+];
+---
+
+<Base
+  locale={locale}
+  title={garment.name}
+  description={description ?? undefined}
+  chrome={overlayTheme(firstMedia?.overlay)}
+>
+  {
+    media.map((item, index) => (
+      <MediaSurface media={item} locale={locale} priority={index === 0}>
+        {index === 0 && (
+          <>
+            <h1 class="type-label text-label">{garment.name}</h1>
+            {garment.referenceCode && (
+              <span class="type-mono text-mono">{garment.referenceCode}</span>
+            )}
+          </>
+        )}
+      </MediaSurface>
+    ))
+  }
+
+  <TextSurface class="flex flex-col gap-u8 py-u13">
+    <h2 class="sr-only">{t(locale, "details")}</h2>
+
+    {description && <p class="type-body text-body max-w-prose">{description}</p>}
+
+    <dl class="flex flex-col gap-u3">
+      {
+        facts.map(({term, value, placeholder}) =>
+          value || placeholder ? (
+            <div class="flex flex-col gap-u1">
+              <dt class="type-label text-label">{term}</dt>
+              <dd class="type-mono text-mono">
+                {value ?? <span class="placeholder-mark">{placeholder}</span>}
+              </dd>
+            </div>
+          ) : null,
+        )
+      }
+    </dl>
+
+    {
+      garment.notOffered ? (
+        /*
+          Not a sold state: the piece stays visible at full scale and only the
+          action is withdrawn, with the owner's own explanation where they wrote
+          one and a marked placeholder where they have not.
+        */
+        <p class="type-label text-label max-w-prose">
+          {notOfferedNote ?? <span class="placeholder-mark">{"{NOT_OFFERED_NOTE}"}</span>}
+        </p>
+      ) : (
+        <div class="flex flex-col items-start gap-u2">
+          <span class="type-label text-label hairline-box px-u3 py-u2">{t(locale, "enquire")}</span>
+          <span class="placeholder-mark">{"{ENQUIRY_FORM}"}</span>
+        </div>
+      )
+    }
+  </TextSurface>
+</Base>

@@ -36,6 +36,7 @@
   --spacing-sig-corner: var(--sig-corner-h);
   --spacing-sig-hero: var(--sig-hero-w);
   --spacing-caption: var(--caption-inset);
+  --spacing-chrome: var(--chrome-h);
 
   /* under --spacing-*, which is the namespace h-* and w-* read in Tailwind v4 */
   --spacing-media-screen: var(--media-h-screen);
@@ -99,6 +100,14 @@
 /* horizontal rule marking the grid, never boxing content in */
 @utility hairline-h {
   border-top: var(--hairline-w) solid var(--hairline);
+}
+/*
+  The one place a hairline is allowed to close on itself: the enquiry action.
+  It is a single action on the page and the outline is what makes it read as
+  one, without a fill, a color, or a second weight.
+*/
+@utility hairline-box {
+  border: var(--hairline-w) solid var(--fg);
 }
 
 /*
