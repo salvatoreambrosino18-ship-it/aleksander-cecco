@@ -34,6 +34,9 @@ Thumbs.db
 .idea/
 *.swp
 
+# the brand's original photographs: they belong in Sanity, not in the repo
+seed-photos/
+
 # misc
 .cache/
 coverage/

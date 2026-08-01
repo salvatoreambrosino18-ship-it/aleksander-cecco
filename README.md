@@ -90,6 +90,51 @@ npm run deploy     # deploy to Sanity hosting (see below)
 npm run typecheck  # tsc --noEmit
 ```
 
+## Seeding test content
+
+The revised layouts cannot be judged against placeholders, so there is a seed
+script that fills the dataset, images included.
+
+```
+npm run seed
+```
+
+It needs a write token. In https://www.sanity.io/manage, open the project, then
+API, then Tokens, and add a token with the **Editor** role (Viewer cannot
+create documents). Put it in `.env`:
+
+```
+SANITY_WRITE_TOKEN=your_editor_token
+```
+
+It expects the brand's photographs in `seed-photos/` at the repo root. That
+folder is gitignored on purpose: those are the owner's original files and they
+belong in Sanity, not in version control.
+
+What it writes:
+
+- One published collection, two published garments (A available with several
+  sizes including made to measure, B not currently offered with two sizes), and
+  the site settings singleton.
+- Nine images with alt text in both languages and a per-image overlay polarity.
+
+Idempotent. Images are matched by sha1, so the same file is never uploaded
+twice, and documents use fixed ids with `createOrReplace`, so a second run
+overwrites rather than duplicates. Any collection that is not the seed
+collection is deleted, so the dataset does not accumulate strays.
+
+Real versus placeholder, deliberately: the photographs, their alt text, the
+overlay polarity and the Instagram URL are real. Every name, reference code,
+statement, description, material, measurement and price is a placeholder and
+reads as `{LIKE_THIS}` on the page, so seeded content can never be mistaken for
+the brand's own voice. The contact email stays the studio placeholder.
+
+Alt text is written by looking at each photograph, and the overlay polarity is
+measured from the pixels (the caption band of each frame, compared by WCAG
+contrast against paper and ink) rather than guessed. Both are recorded per file
+in `scripts/seed.mjs`, including three frames flagged RISKY because their
+caption band spans both dark garment and bright concrete.
+
 ## Fonts
 
 Both typefaces are self-hosted and never loaded from a CDN. The files in
