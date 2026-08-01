@@ -317,9 +317,9 @@ architecture, not three.
   sticky enquiry action on desktop.
 - `/about`, `/contact` Prose in the body register, contact and Instagram as mono
   facts, inside the same spine system.
-- Enquiry Opens pre-filled with the garment name and reference code. Size select
-  limited to the sizes actually available for that garment. Email, optional
-  message. The button says "Send enquiry" (IT: "Invia richiesta"). The
+- Enquiry Opens pre-filled with the garment name and reference code. No size selector for now (pending the one-of-one vs
+  remade-on-request decision); the measurements field is the authoritative fact
+  about fit. Email, optional message. The button says "Send enquiry" (IT: "Invia richiesta"). The
   confirmation states what happens next and roughly when, using the reply-window
   token (see section 9), never an invented number. The error state names what
   failed and what to do, in `--fg` only, no apology, no color.
@@ -341,10 +341,13 @@ in Italian and English, helpful descriptions, sensible previews, drag to reorder
 
 - Collection: name, slug, season, statement (localized), cover image, display
   order, published flag.
-- Garment: name, slug, reference code, parent collection, price, currency
-  (default EUR), available sizes (multi-select), materials (localized),
-  measurements, description (localized), image gallery with alt text (localized
-  and required), sold-out flag, display order.
+- Garment: name, slug, reference code, parent collection, category (Uomo /
+  Donna, required, for catalogue filtering), price, currency (default EUR),
+  materials (localized, default "100% pelle italiana" / "100% Italian leather"),
+  measurements (the authoritative fact about the piece), description (localized),
+  image gallery with alt text (localized and required), sold-out flag, display
+  order. A size field is deliberately absent, pending the one-of-one vs
+  remade-on-request decision (see the need-from-you list).
 - Site settings: Instagram URL, contact email, about text (localized), shipping
   and returns text (localized), the two logo files.
 
@@ -436,9 +439,26 @@ cookieless page count.
   validated but cannot run for click-through until a real project exists. Create
   a free project and send the projectId and the dataset name (both are public
   identifiers, not secrets). Steps are in the README.
-- Size vocabulary: the garment "available sizes" field currently offers
-  XS, S, M, L, XL, XXL as a placeholder set. Confirm this, or send the real
-  system (letter, numeric IT, or per-garment).
+- Size system (OPEN QUESTION for the brand owner, not to be decided internally):
+  are garments one-of-one or remade on request? The XS-XXL placeholder has been
+  removed. Under one-of-one: no size field is needed (the sold flag is the
+  state), and the enquiry asks only for contact details. Under remade-on-request:
+  a real size system is added. The schema is structured so either answer is an
+  addition, not a rewrite.
+- Contact email is a PLACEHOLDER: info@example.com is prefilled in site settings
+  and the studio warns whenever it is still in place. It must not ship. Replace
+  with the real address before launch.
+- About copy is a DRAFT pending client sign-off (not committed as final):
+    IT: Aleksander Cecco nasce dalla pelle italiana, lavorata a mano, un pezzo
+    alla volta. Nessun capo è uguale a un altro: ogni creatura porta i segni
+    della propria costruzione. Prodotto in Italia, in quantità minime.
+    EN: Aleksander Cecco begins with Italian leather, worked by hand, one piece
+    at a time. No two garments are alike: every creature carries the marks of its
+    own making. Made in Italy, in very small numbers.
+  Confirm or replace before it goes into site settings.
+- Category labels in English: the two values are Uomo and Donna. Decide whether
+  the English catalogue shows them translated (Men / Women) or keeps the Italian
+  labels. Frontend-only, minor.
 - Logo files: still not present in ~/aleksander-cecco/assets/logo/. Needed for
   page building (the hero, the wipe, and the siteSettings logo fields). Drop the
   two files (white on black, black on white) there before that milestone.
@@ -483,3 +503,19 @@ wipe and on deliberate photography reveals.
   brief's insistence that alt is mandatory. Relaxable to Italian-only on request.
 - The site remains static output for now. The Cloudflare adapter and server
   output are added only when the enquiry API route (Resend) is wired.
+
+Content-model corrections (2026-08-01, second round):
+
+- Garment "category" (Uomo / Donna, required) added for catalogue filtering. It
+  is a controlled value, not localized; the English display label is a
+  frontend-only choice (see the need-from-you list).
+- The XS-XXL size field is removed. Size handling is deferred to the one-of-one
+  vs remade-on-request decision; measurements is the authoritative fact and the
+  sold flag is the state, so either answer is an addition, not a rewrite.
+- Materials prefill "100% pelle italiana" / "100% Italian leather" on a new
+  garment, editable per piece.
+- Instagram set to @aleksandercecco (https://www.instagram.com/aleksandercecco).
+- Contact email prefilled with the placeholder info@example.com plus a studio
+  warning; flagged in the need-from-you list so it cannot ship by accident.
+- About copy is held as an unapproved draft in the need-from-you list, not baked
+  into the schema.

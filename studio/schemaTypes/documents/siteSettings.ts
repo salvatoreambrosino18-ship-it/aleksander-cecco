@@ -10,12 +10,24 @@ export const siteSettings = defineType({
       name: 'instagramUrl',
       title: 'Instagram',
       type: 'url',
+      initialValue: 'https://www.instagram.com/aleksandercecco',
     }),
     defineField({
       name: 'contactEmail',
       title: 'Email di contatto / Contact email',
       type: 'string',
-      validation: (Rule) => Rule.email(),
+      description:
+        'Segnaposto fino al lancio. Sostituire prima di andare online. / Placeholder until launch. Replace before going live.',
+      initialValue: 'info@example.com',
+      validation: (Rule) => [
+        Rule.email(),
+        // Warn (not block) so the placeholder cannot ship unnoticed.
+        Rule.custom((value) =>
+          value === 'info@example.com'
+            ? 'Placeholder email. Replace with the real contact address before launch.'
+            : true,
+        ).warning(),
+      ],
     }),
     defineField({
       name: 'about',

@@ -33,6 +33,20 @@ export const garment = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'category',
+      title: 'Categoria / Category',
+      type: 'string',
+      description: 'Usata per filtrare il catalogo. / Used to filter the catalogue.',
+      options: {
+        list: [
+          {title: 'Uomo', value: 'uomo'},
+          {title: 'Donna', value: 'donna'},
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'price',
       title: 'Prezzo / Price (EUR)',
       type: 'number',
@@ -47,35 +61,19 @@ export const garment = defineType({
       readOnly: true,
     }),
     defineField({
-      name: 'availableSizes',
-      title: 'Taglie disponibili / Available sizes',
-      type: 'array',
-      of: [{type: 'string'}],
-      description:
-        'Le taglie effettivamente disponibili per questo capo. Popolano il modulo di richiesta. / The sizes actually available for this garment. They populate the enquiry form.',
-      options: {
-        list: [
-          {title: 'XS', value: 'XS'},
-          {title: 'S', value: 'S'},
-          {title: 'M', value: 'M'},
-          {title: 'L', value: 'L'},
-          {title: 'XL', value: 'XL'},
-          {title: 'XXL', value: 'XXL'},
-        ],
-        layout: 'grid',
-      },
-    }),
-    defineField({
       name: 'materials',
       title: 'Materiali / Materials',
       type: 'localeText',
+      // Editable per piece; this is only the starting value on a new garment.
+      initialValue: {it: '100% pelle italiana', en: '100% Italian leather'},
     }),
     defineField({
       name: 'measurements',
       title: 'Misure / Measurements',
       type: 'text',
       rows: 3,
-      description: 'Non tradotto. Mostrato in monospazio. / Not translated. Shown in monospace.',
+      description:
+        'Il dato autoritativo su questo capo. Non tradotto. Mostrato in monospazio. / The authoritative fact about this piece. Not translated. Shown in monospace.',
     }),
     defineField({
       name: 'description',
