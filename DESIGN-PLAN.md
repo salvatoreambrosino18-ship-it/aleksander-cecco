@@ -573,3 +573,54 @@ Cloudflare route ended in 2024.
 Fonts, plugins, analytics: all free. Self-hosted OFL fonts, open-source Sanity
 plugins, Cloudflare Web Analytics (cookieless, free). No paid font, plugin,
 analytics, or card-required service is used.
+
+---
+
+## 13. Handoff to a local machine (2026-08-01)
+
+Built in an ephemeral cloud environment and pushed to GitHub. To continue on your
+own machine: clone the repo, run `npm install` at the root and `cd studio &&
+npm install`, then copy `.env.example` to `.env` and `studio/.env.example` to
+`studio/.env` and fill them in (see the README).
+
+Pinned versions (as installed):
+
+- Site: Astro 7.1.6; Tailwind 4.3.3 with @tailwindcss/vite 4.3.3 (there is no
+  @astrojs/tailwind in v4). Dev tools: @astrojs/check 0.9.10, typescript 6.0.3,
+  @types/node 26.x.
+- Studio: sanity 6.8.0, @sanity/vision 6.8.0, @sanity/orderable-document-list
+  2.0.18, react and react-dom 19.2.8, styled-components 6.4.4; typescript 7.0.2,
+  @types/react 19.2.x.
+
+Fonts (self-hosted, no CDN):
+
+- public/fonts/archivo-latin-var.woff2: Archivo variable, carrying wght 100-900
+  and wdth 62-125 (verified before and after subsetting). One file serves both
+  condensed display and normal body.
+- public/fonts/jetbrains-mono-latin-var.woff2: JetBrains Mono variable, wght
+  100-800.
+- Both were downloaded as OFL TTFs from the google/fonts repository and subset
+  with fonttools (pyftsubset) to a Latin unicode range plus the euro sign and
+  general punctuation, output as woff2 with hinting dropped. The exact command
+  and unicode range are in the README under Fonts. OFL license texts sit in
+  public/fonts/.
+- Note: @fontsource-variable/archivo and @fontsource-variable/jetbrains-mono are
+  in package.json as a fallback font source but are NOT used by the build (the
+  site serves the subset woff2 above). Safe to remove with
+  `npm remove @fontsource-variable/archivo @fontsource-variable/jetbrains-mono`.
+
+Environment facts that will NOT be true on your machine:
+
+- GitHub codeload (codeload.github.com, the tarball host) is blocked here (HTTP
+  403 through the agent proxy). That is why `npm create astro` could not fetch a
+  template, and the project was set up with Astro's documented MANUAL setup
+  instead. On your machine `npm create astro@latest` works normally; the manual
+  setup is standard and needs no undoing.
+- raw.githubusercontent.com IS reachable here, which is how the font TTFs were
+  fetched. Only the codeload tarball host is blocked.
+- Git operations here route through a local agent proxy (a global url.insteadOf
+  rewrites github.com to http://local_proxy@127.0.0.1:.../git/...). The remote
+  stored in .git/config is the plain
+  https://github.com/salvatoreambrosino18-ship-it/aleksander-cecco.git with no
+  token; on your machine it uses your own Git credentials directly.
+- Built on Node 22. Use Node 20 or 22.
