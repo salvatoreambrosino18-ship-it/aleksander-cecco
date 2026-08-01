@@ -16,52 +16,53 @@ file is the source of truth. Read it first.
   src/layouts/        Base.astro
   src/pages/          pages (only a scaffold placeholder so far)
   public/fonts/       self-hosted, subset variable fonts (woff2) + OFL licenses
+  assets/logo/        the brand signature (SVG uses currentColor, plus a PNG)
 studio/               standalone Sanity Studio (its own package, deploys to Sanity)
   schemaTypes/        the content model
+  schemaTypes/constants/sizes.ts   the size list, single source of truth
 DESIGN-PLAN.md        approved design plan and running "need from you" list
 ```
 
 ## Prerequisites
 
-- Node 20.x or 22.x (built on Node 22).
+- Node 22.x or 24.x. Verified on Node 24.14.0 with npm 11.9.0: install, check,
+  build and both dev servers all pass.
 - A Sanity account (free) for the content, a Cloudflare account for hosting, and
   a Resend account for enquiry email. None are needed just to run the website
   locally against an empty or placeholder dataset.
 
 ## First-time setup
 
-### 1. Create the Sanity project
+### 1. Sanity project
 
-The studio cannot run until a real project exists. The project id and dataset
-name are public identifiers, not secrets.
+The project already exists. The project id and dataset name are public
+identifiers, not secrets:
 
-Web console (recommended, touches no files):
+```
+projectId  lq2xg1yd
+dataset    production
+```
 
-1. Go to https://www.sanity.io/manage and sign in.
-2. Create a new project, for example "Aleksander Cecco".
-3. Ensure it has a dataset named `production` with visibility Public.
-4. Copy the Project ID from the project overview.
-5. In the project API settings, add CORS origins (allow credentials) for:
-   `http://localhost:3333` (studio dev), `http://localhost:4321` (site dev), and
-   later the production site and studio URLs.
-
-You now have a Project ID and the dataset name `production`.
+In https://www.sanity.io/manage, confirm once that the `production` dataset
+visibility is Public, and that the project API settings list CORS origins (allow
+credentials) for `http://localhost:3333` (studio dev), `http://localhost:4321`
+(site dev), and later the production site and studio URLs.
 
 ### 2. Environment files
 
 Website (repo root): copy `.env.example` to `.env` and fill in at least:
 
 ```
-PUBLIC_SANITY_PROJECT_ID=your_project_id
+PUBLIC_SANITY_PROJECT_ID=lq2xg1yd
 PUBLIC_SANITY_DATASET=production
 PUBLIC_SANITY_API_VERSION=2026-03-01
-PUBLIC_SITE_URL=https://your-domain
+PUBLIC_SITE_URL=http://localhost:4321
 ```
 
 Studio: copy `studio/.env.example` to `studio/.env` and fill in:
 
 ```
-SANITY_STUDIO_PROJECT_ID=your_project_id
+SANITY_STUDIO_PROJECT_ID=lq2xg1yd
 SANITY_STUDIO_DATASET=production
 ```
 
@@ -112,7 +113,7 @@ Only the first-screen font (Archivo) is preloaded, in `src/layouts/Base.astro`.
 
 - Connect this repository in Cloudflare Pages.
 - Build command: `npm run build`. Output directory: `dist`. Root directory: repo
-  root. Set a Node version of 20 or 22.
+  root. Set a Node version of 22 or 24, matching local development.
 - Add the `PUBLIC_*` variables (and any server secrets, once the enquiry route is
   wired) in the Pages project settings.
 - Create a Deploy Hook and copy its URL into `CLOUDFLARE_DEPLOY_HOOK_URL`.
@@ -148,6 +149,24 @@ Done:
   token system, self-hosted subset variable fonts.
 - Sanity content model (collections, garments, site settings) in a standalone
   studio, with field-level Italian and English localization and drag-to-reorder.
+- The brand signature committed in `assets/logo/`. The SVG paints with
+  `currentColor`, so one file serves both the white and the black polarity.
+
+Content model, current shape (see DESIGN-PLAN.md sections 6 and 11):
+
+- Garments are remade on request, not one-of-one. Each garment carries the sizes
+  it is offered in, chosen from `studio/schemaTypes/constants/sizes.ts`. That
+  file is the only place the size list is defined; its current range is
+  PROVISIONAL until the brand owner supplies the real one.
+- "Su misura / Made to measure" is one of those options. When a visitor picks it,
+  the enquiry form (not built yet) reveals chest, shoulders and length in
+  centimetres. The form keys on the `MADE_TO_MEASURE` value, so keep it stable.
+- `measurements` is the sample piece's reference measurements, not the buyer's
+  garment.
+- `notOffered` replaces the old sold-out flag. Nothing sells out when pieces are
+  remade; the flag means the brand is not taking requests for that piece right
+  now. The garment stays visible and only the enquiry action is disabled, with a
+  short explanation from the optional `notOfferedNote`.
 
 Not wired yet (in planned order):
 

@@ -186,9 +186,15 @@ interpolation anywhere and therefore no gray state can exist.
 - Because both layers hold the same aligned content, the spine and the typography
   appear continuous while the edge recolors them as it passes. The letterforms
   and the spine flipping along a moving line is the drama.
-- The logo participates. The two supplied signature files (white-on-black,
-  black-on-white) sit one per layer, aligned, so the mark inverts with the edge
-  rather than snapping.
+- The logo participates, and it needs no second file. The supplied signature
+  (`assets/logo/logo-signature.svg`) paints with `fill="currentColor"`, so it
+  takes the foreground color of whatever layer it sits in and inverts with the
+  page for free. The same single SVG is placed in both wash layers; the edge
+  recolors it as it passes, exactly like the type and the spine. The earlier
+  plan called for two files (white-on-black and black-on-white) cross-faded one
+  per layer. That is unnecessary and is removed: one file, two inherited
+  colors. The PNG next to it is a raster fallback of the same mark, not a
+  second polarity.
 
 ### Does the wipe work with the spine and typography crossing the boundary
 
@@ -317,12 +323,19 @@ architecture, not three.
   sticky enquiry action on desktop.
 - `/about`, `/contact` Prose in the body register, contact and Instagram as mono
   facts, inside the same spine system.
-- Enquiry Opens pre-filled with the garment name and reference code. No size selector for now (pending the one-of-one vs
-  remade-on-request decision); the measurements field is the authoritative fact
-  about fit. Email, optional message. The button says "Send enquiry" (IT: "Invia richiesta"). The
+- Enquiry Opens pre-filled with the garment name and reference code. It names a
+  size: the sizes the owner marked available on that garment, plus "Su misura /
+  Made to measure" when offered. Choosing made to measure reveals three mono
+  number fields, chest, shoulders and length, in centimetres, and nothing else
+  changes. Garments are remade on request, so the size is the buyer's choice;
+  the measurements field describes the sample piece, not what the buyer
+  receives. Email, optional message. The button says "Send enquiry" (IT: "Invia richiesta"). The
   confirmation states what happens next and roughly when, using the reply-window
   token (see section 9), never an invented number. The error state names what
-  failed and what to do, in `--fg` only, no apology, no color.
+  failed and what to do, in `--fg` only, no apology, no color. When a garment is
+  flagged not currently offered, the piece stays fully visible and at full scale;
+  only the enquiry action is disabled, replaced by one short line in the same
+  place, either the owner's own explanation or the `{NOT_OFFERED_NOTE}` default.
 - 404 Same architecture, one photograph, a real way back.
 - i18n Astro i18n with `/it` (default) and `/en` path prefixes, a switch that
   preserves the current path, both first class, no auto-detect redirect. Sanity
@@ -342,14 +355,30 @@ in Italian and English, helpful descriptions, sensible previews, drag to reorder
 - Collection: name, slug, season, statement (localized), cover image, display
   order, published flag.
 - Garment: name, slug, reference code, parent collection, category (Uomo /
-  Donna, required, for catalogue filtering), price, currency (default EUR),
-  materials (localized, default "100% pelle italiana" / "100% Italian leather"),
-  measurements (the authoritative fact about the piece), description (localized),
-  image gallery with alt text (localized and required), sold-out flag, display
-  order. A size field is deliberately absent, pending the one-of-one vs
-  remade-on-request decision (see the need-from-you list).
+  Donna, required, for catalogue filtering), available sizes, price, currency
+  (default EUR), materials (localized, default "100% pelle italiana" / "100%
+  Italian leather"), measurements of the sample piece, description (localized),
+  image gallery with alt text (localized and required), not-currently-offered
+  flag with an optional one-line explanation (localized), display order.
+- Sizes: the garments are remade on request, not one-of-one. The size list is a
+  set of standard sizes plus "Su misura / Made to measure", and the owner ticks
+  which of them a given garment offers. The list lives in exactly one editable
+  file, `studio/schemaTypes/constants/sizes.ts`, and the range in it is
+  PROVISIONAL until the owner supplies the real one (see the need-from-you
+  list). Made to measure is not a size but a switch: it is what makes the
+  enquiry form ask for chest, shoulders and length in centimetres, so its value
+  string stays stable.
+- Measurements: the reference measurements of the sample piece that was
+  photographed, not of the garment a buyer receives. Since pieces are remade to
+  the requested size, this is context for judging cut and proportion, and the
+  studio label says so in both languages.
+- Not currently offered: this replaces the old sold-out flag, and it is not a
+  sold state. Nothing sells out when everything is remade. The flag means the
+  brand is not taking requests for that piece right now: the garment stays
+  visible, only the enquiry action is disabled, with a short explanation.
 - Site settings: Instagram URL, contact email, about text (localized), shipping
-  and returns text (localized), the two logo files.
+  and returns text (localized), one logo file (the signature SVG inherits color,
+  so there is no second polarity file, see section 3).
 
 Alt text is a required field.
 
@@ -415,8 +444,9 @@ Confirmed already:
 Placeholder tokens, to be filled by the owner. Everything here ships as a clearly
 marked placeholder string until supplied. Nothing in this list is invented.
 
-- `{SIGNATURE_LOGO_BLACK_ON_WHITE}`, `{SIGNATURE_LOGO_WHITE_ON_BLACK}`: the two
-  logo files.
+- `{SIGNATURE_LOGO}`: SUPPLIED. `assets/logo/logo-signature.svg` (plus a PNG
+  raster of the same mark). One file serves both polarities because it paints
+  with `currentColor`. There is no second, inverted file to ask for.
 - `{SIGNATURE_CROP}`: optional small crop of the signature for the corner mark, or
   leave it empty. No invented monogram.
 - Per collection: `{COLLECTION_NAME}`, `{SEASON_CODE}`,
@@ -429,6 +459,10 @@ marked placeholder string until supplied. Nothing in this list is invented.
 - `{REPLY_WINDOW}`: the enquiry confirmation reply window, kept as a token, not a
   number. The brand is not committed to a response time until the owner agrees
   one.
+- `{NOT_OFFERED_NOTE_IT}`, `{NOT_OFFERED_NOTE_EN}`: the one line shown in place
+  of the enquiry button when a garment is flagged not currently offered and the
+  owner has not written a per-garment explanation. Neutral, short, no promise
+  about when it returns.
 
 Service credentials, needed only when each piece is wired, never to scaffold:
 
@@ -442,16 +476,20 @@ cookieless page count.
 
 ### Added during the build (kept current)
 
-- Sanity projectId and dataset: the immediate item. The studio is built and
-  validated but cannot run for click-through until a real project exists. Create
-  a free project and send the projectId and the dataset name (both are public
-  identifiers, not secrets). Steps are in the README.
-- Size system (OPEN QUESTION for the brand owner, not to be decided internally):
-  are garments one-of-one or remade on request? The XS-XXL placeholder has been
-  removed. Under one-of-one: no size field is needed (the sold flag is the
-  state), and the enquiry asks only for contact details. Under remade-on-request:
-  a real size system is added. The schema is structured so either answer is an
-  addition, not a rewrite.
+- Sanity projectId and dataset: SUPPLIED 2026-08-01. projectId `lq2xg1yd`,
+  dataset `production`. Both are public identifiers, not secrets, and they live
+  in the untracked `.env` and `studio/.env` (copies of the committed
+  `.env.example` files). Still to confirm in the Sanity console: the dataset is
+  Public, and the CORS origins `http://localhost:3333` and
+  `http://localhost:4321` are allowed.
+- Size range: STILL PENDING, and the only thing blocking the size system. The
+  one-of-one question is ANSWERED (2026-08-01): garments are remade on request,
+  so a size field exists again. What is missing is the real range. The list
+  currently in `studio/schemaTypes/constants/sizes.ts` is a provisional S, M, L
+  plus "Su misura / Made to measure"; it is not the brand's list and must not
+  ship as one. Send the real sizes (letter sizes, Italian numeric sizes, or per
+  garment) and only that one file changes. The XS-XXL placeholder is not coming
+  back.
 - Contact email is a PLACEHOLDER: info@example.com is prefilled in site settings
   and the studio warns whenever it is still in place. It must not ship. Replace
   with the real address before launch.
@@ -466,9 +504,10 @@ cookieless page count.
 - Category labels in English: the two values are Uomo and Donna. Decide whether
   the English catalogue shows them translated (Men / Women) or keeps the Italian
   labels. Frontend-only, minor.
-- Logo files: still not present in ~/aleksander-cecco/assets/logo/. Needed for
-  page building (the hero, the wipe, and the siteSettings logo fields). Drop the
-  two files (white on black, black on white) there before that milestone.
+- Logo files: SUPPLIED and committed, in `assets/logo/`:
+  `logo-signature.svg` (2712x615 viewBox, `fill="currentColor"`, so it inverts
+  with the page) and `logo-signature.png` (the same mark, 2712x615, RGBA). One
+  mark, not a pair. Nothing further is needed here.
 
 ---
 
@@ -527,6 +566,32 @@ Content-model corrections (2026-08-01, second round):
 - About copy is held as an unapproved draft in the need-from-you list, not baked
   into the schema.
 
+Content-model corrections (2026-08-01, third round). The brand answered the open
+question: the garments are remade on request, they are not one-of-one. That
+answer moves four things:
+
+- Size field restored, as an array of ticked options on each garment, not free
+  text. The list is standard sizes plus "Su misura / Made to measure" and lives
+  in one file, `studio/schemaTypes/constants/sizes.ts`, exported as
+  `SIZE_OPTIONS` with the made-to-measure sentinel as `MADE_TO_MEASURE`. The
+  range in that file is provisional and flagged in the need-from-you list.
+  Validation warns rather than blocks while it is provisional.
+- Made to measure drives the enquiry form. Selecting it reveals chest, shoulders
+  and length in centimetres. Not built yet; the value string is fixed now so the
+  form can key on it.
+- Measurements re-labelled. It is the sample piece's reference measurements, not
+  the buyer's garment, and the studio label and description now say that in both
+  languages.
+- The sold-out flag is gone, replaced by `notOffered`. Nothing sells out when
+  every piece is remade. The new flag means "not taking requests for this piece
+  right now": the garment stays visible, the enquiry action is disabled, and an
+  optional localized `notOfferedNote` (shown only when the flag is on) carries
+  the explanation, falling back to the `{NOT_OFFERED_NOTE}` tokens. No content
+  migration is needed: the dataset holds no published garments yet.
+- Category (Uomo / Donna) is unchanged.
+- Consequence of the logo correction: `siteSettings` now has one `logo` field
+  instead of `logoBlackOnWhite` and `logoWhiteOnBlack`.
+
 ---
 
 ## 12. Cost and free-tier constraint (audit, 2026-08-01)
@@ -576,14 +641,41 @@ analytics, or card-required service is used.
 
 ---
 
-## 13. Handoff to a local machine (2026-08-01)
+## 13. The working environment (local machine, verified 2026-08-01)
 
-Built in an ephemeral cloud environment and pushed to GitHub. To continue on your
-own machine: clone the repo, run `npm install` at the root and `cd studio &&
-npm install`, then copy `.env.example` to `.env` and `studio/.env.example` to
-`studio/.env` and fill them in (see the README).
+This section previously described the ephemeral cloud container the project was
+scaffolded in. That container is gone and none of its constraints apply. The
+working environment is now the owner's own Mac, and everything below was checked
+on that machine on 2026-08-01 rather than carried over.
 
-Pinned versions (as installed):
+Machine: macOS (Darwin 25.5.0), repo at `/Users/salvatoreambrosino/aleksander-cecco`.
+
+Verified working here:
+
+- Node v24.14.0, npm 11.9.0. `npm install` (root and `studio/`), `npm run check`
+  (0 errors, 0 warnings, 0 hints), `npm run build` (static build into `dist/`),
+  `npm run dev` (site on http://localhost:4321) and `cd studio && npm run dev`
+  (studio on http://localhost:3333) all pass on this Node. The earlier note said
+  "use Node 20 or 22"; 24 is what is installed and what the toolchain is now
+  verified against. Set the Cloudflare Pages Node version to match a current LTS
+  (22 or 24), not 20.
+- No proxy of any kind. `git config` has no `url.*.insteadOf` rewrite, no
+  `http.proxy`, and the shell has no proxy variables; npm goes straight to
+  https://registry.npmjs.org/.
+- GitHub is fully reachable, `codeload.github.com` included (HTTP 200). The old
+  note said codeload was blocked, which is why the project was scaffolded with
+  Astro's documented manual setup instead of `npm create astro@latest`. That
+  block was the container's, not this machine's. The manual setup is standard,
+  is what is in the repo, and needs no undoing.
+- Git 2.50.1 (Apple Git-155). Remote is
+  `https://github.com/salvatoreambrosino18-ship-it/aleksander-cecco.git`,
+  credentials come from the macOS keychain (`credential.helper=osxkeychain`),
+  and `git ls-remote origin` authenticates without prompting. The GitHub CLI
+  (`gh`) is not installed; nothing in this project needs it.
+- Sanity project `lq2xg1yd`, dataset `production`, set in the untracked `.env`
+  and `studio/.env`.
+
+Pinned versions (verified installed on this machine, not just declared):
 
 - Site: Astro 7.1.6; Tailwind 4.3.3 with @tailwindcss/vite 4.3.3 (there is no
   @astrojs/tailwind in v4). Dev tools: @astrojs/check 0.9.10, typescript 6.0.3,
@@ -609,18 +701,13 @@ Fonts (self-hosted, no CDN):
   site serves the subset woff2 above). Safe to remove with
   `npm remove @fontsource-variable/archivo @fontsource-variable/jetbrains-mono`.
 
-Environment facts that will NOT be true on your machine:
+Running it, from a clean clone: `npm install` at the root, `cd studio && npm
+install`, copy `.env.example` to `.env` and `studio/.env.example` to
+`studio/.env` and fill in the Sanity ids above, then `npm run dev` for the site
+and `npm run dev` inside `studio/` for the studio. Full instructions are in the
+README.
 
-- GitHub codeload (codeload.github.com, the tarball host) is blocked here (HTTP
-  403 through the agent proxy). That is why `npm create astro` could not fetch a
-  template, and the project was set up with Astro's documented MANUAL setup
-  instead. On your machine `npm create astro@latest` works normally; the manual
-  setup is standard and needs no undoing.
-- raw.githubusercontent.com IS reachable here, which is how the font TTFs were
-  fetched. Only the codeload tarball host is blocked.
-- Git operations here route through a local agent proxy (a global url.insteadOf
-  rewrites github.com to http://local_proxy@127.0.0.1:.../git/...). The remote
-  stored in .git/config is the plain
-  https://github.com/salvatoreambrosino18-ship-it/aleksander-cecco.git with no
-  token; on your machine it uses your own Git credentials directly.
-- Built on Node 22. Use Node 20 or 22.
+A note for a future session reading this file: do not trust an environment claim
+in a handoff note, including this one. Check it. The constraints in the previous
+version of this section were real where they were written and wrong everywhere
+else.
