@@ -14,6 +14,13 @@ that other repo's branch, commit, or platform rules apply here.
 Direction was approved after one review round. The corrections from that round
 are applied throughout and summarized in section 10.
 
+A second, larger correction followed on 2026-08-01, after the reference sites
+were measured rather than remembered: typography demoted, media made the default
+state of every screen, the signature made the opening gesture, chrome hidden
+behind a menu, and video admitted to the content model. Sections 1, 2, 4, 5, 6
+and 7 are rewritten for it and the evidence is in section 14. Where this file
+disagrees with itself, section 14 and the sections it revised win.
+
 ---
 
 ## 0. The brief, and the constraints that cannot move
@@ -44,6 +51,13 @@ emptiness. Drama comes from composition, scale, and orchestrated transition, not
 from scattered decorative effects. One large deliberate movement beats five small
 ones.
 
+Note added 2026-08-01: "extreme scale contrast" was read as giant typography and
+that reading was wrong. Measured against the references, the contrast is between
+a photograph filling the entire screen and type at 11px, not between one type
+size and another. The brief is unchanged; the interpretation is corrected in
+sections 1, 2 and 14. Filippo Sorcinelli joins the reference set, and on the
+evidence it is the closest of the three to where this site is going.
+
 Stack: Astro with TypeScript, Sanity as the CMS, Tailwind for layout with all
 tokens wired into the theme config, GSAP with ScrollTrigger for the motion, Lenis
 for smooth scroll only if it does not fight mobile, Cloudflare Pages for deploy,
@@ -55,19 +69,36 @@ against official docs before installing anything.
 
 ## 1. Principles the whole build serves
 
-- The inversion is the architecture, not a feature. White and black are the two
-  states of one document, and scrolling is what moves between them.
-- Two type registers, and they mean different things. Archivo (variable width
-  axis) carries voice: condensed and enormous for names, normal and quiet for
-  prose. JetBrains Mono carries fact: sizes, materials, measurements, prices,
-  reference codes. If it came off the garment, it is mono. Nothing is mono for
-  decoration.
-- The image is the subject; the layout is the frame. No dense thumbnail grids. A
-  garment is shown at the largest scale the viewport allows, one thing at a time.
-- One large movement per moment. Motion budget goes to the inversion and to
-  deliberate photography reveals. No universal fade-up on every element.
-- Severity through emptiness. Wide margins, few elements per screen, a strict
-  grid marked by hairlines, verticality over horizontality.
+Revised 2026-08-01 against the reference sites, measured rather than remembered.
+The evidence is in section 14; these principles are what it changes.
+
+- A screen is a photograph. Media is the default state of the site and text is
+  the exception. Full bleed, edge to edge, no card, no frame, no margin, no
+  rounded corner. Wide margins exist for running text only, never for media.
+- Typography is demoted, deliberately and hard. Names, seasons, captions and
+  navigation are small uppercase labels with wide tracking. There is no giant
+  word anywhere on this site. On the closest reference the largest type on the
+  whole homepage is 11px; drama comes from the picture, not from the type size.
+- The signature is the opening gesture. The mark, stretched nearly edge to edge
+  and sitting in emptiness, is what replaces the giant collection name. It is
+  the one thing on the site allowed to be large, and it is hairline thin.
+- Statements are short lines, not blurbs. Section copy is two or three poetic
+  lines in the Sorcinelli register, set in the statement size, uppercase, light.
+  Never a marketing paragraph.
+- Chrome disappears. No persistent navigation bar. One small MENU label opens a
+  full-screen panel; the language switch lives with it. Nothing competes with
+  the imagery.
+- The mono register survives, narrowed. JetBrains Mono carries only hard facts
+  that came off the garment: reference code, sizes, sample measurements,
+  materials, price. Nothing is mono for decoration. See section 14 for the
+  honest note that the references use a single typeface for everything.
+- The inversion is still the architecture. White and black are the two states of
+  one document. It now reads as the rhythm between image chapters rather than a
+  scroll toy: settled media chapters, then a flat screen of type where the page
+  flips.
+- Severity through emptiness, on the text screens. Few elements, generous
+  vertical space, verticality over horizontality. The spine marks those screens
+  and stops at the edge of any photograph.
 
 ---
 
@@ -101,39 +132,69 @@ color to reach for; an error thickens a hairline to solid `--fg` and speaks in
 
 ### Type
 
+Revised 2026-08-01. The old scale ran to 20rem, which is 29 times the largest
+type measured on the primary reference. It is replaced, not softened.
+
 ```css
 --font-display: "Archivo Variable", system-ui, sans-serif; /* self-hosted, OFL */
 --font-mono:    "JetBrains Mono", ui-monospace, monospace;  /* self-hosted, OFL */
 
-/* the width axis is the instrument */
-/* openers and names: font-variation-settings 'wdth' 62-75, 'wght' 500-700 */
-/* body:              'wdth' 100, 'wght' 400 */
+/* The width axis is texture now, not volume. It is never used to shout. */
+/* labels:     'wdth' 92,  'wght' 500, uppercase, tracking 0.08em */
+/* statements: 'wdth' 100, 'wght' 300, uppercase, tracking 0.02em */
+/* prose:      'wdth' 100, 'wght' 400, sentence case */
 
-/* scale: a deliberately large jump between display and body */
---t-hero:  clamp(3.5rem, 22vw, 20rem);   /* collection name, section opener; condensed */
---t-h1:    clamp(2.25rem, 9vw, 6rem);
---t-h2:    clamp(1.5rem, 5vw, 3rem);
---t-body:  clamp(1rem, 0.98rem + 0.2vw, 1.125rem);
---t-small: 0.875rem;
---t-mono:  0.8125rem;   /* uppercase, letter-spacing 0.08em */
+--t-label:     0.6875rem;                                   /* 11px. names, seasons, captions, menu */
+--t-mono:      0.75rem;                                     /* 12px. garment data only */
+--t-body:      clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); /* running prose only: about, shipping */
+--t-statement: clamp(1.125rem, 0.95rem + 1.1vw, 1.75rem);   /* 18px to 28px. the poetic line */
+--t-chapter:   clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem);      /* 24px to 36px. rare, wash and 404 */
+
+/* the signature, the one thing allowed to be large */
+--sig-hero-w:   min(92vw, 74rem);  /* opening gesture, nearly edge to edge */
+--sig-corner-h: var(--s-u2);       /* corner mark, unchanged */
 ```
 
-The gap from `--t-hero` (up to 20rem) to `--t-body` (near 1rem) is the scale
-contrast the direction demands. It is not softened.
+Reference points behind those numbers: Rick Owens sets its entire homepage at
+10 to 11px with 0.08em tracking, 88% uppercase; Sorcinelli sets its statement
+lines at 22px, weight 300, 0.027em tracking, uppercase; Vivienne Westwood's
+hero line is 32px. `--t-statement` and `--t-chapter` bracket that range.
+
+The ratio from the largest text to body is now about 3:1, where it used to be
+20:1. That is the point. Scale contrast moves from the type to the pictures: a
+photograph occupies the whole screen, a name occupies 11px.
+
+`--t-hero`, `--t-h1` and `--t-h2` are removed. Nothing in the build should
+reintroduce a display size; if something needs emphasis it gets case, tracking,
+weight, position, or a whole screen of its own.
 
 ### Space and grid
 
 ```css
 --unit: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);   /* single rhythm unit */
 /* spacing scale = unit x {1,2,3,5,8,13,21}: restrained, near-Fibonacci, severe */
---margin: 6vw;                                     /* mobile */
-/* desktop --margin: clamp(3rem, 8vw, 10rem) -> wide margins */
---grid-cols: 12;                                   /* desktop; mobile is 1 col */
+--margin: 6vw;                                     /* mobile, TEXT ONLY */
+/* desktop --margin: clamp(3rem, 8vw, 10rem) -> wide margins, TEXT ONLY */
 --hairline-w: 1px;
+
+/* media occupies the screen; these are the only sizes it needs */
+--media-h-screen: 100svh;          /* a chapter: one photograph, one screen */
+--media-h-tall:   88svh;           /* a piece in a sequence, so the next one shows */
+--caption-inset:  var(--s-u3);     /* how far a label sits off the media edge */
 ```
 
-Hairline rules mark the grid, not boxes. A single vertical hairline, the spine,
-is the recurring structural mark (see concept A).
+Margins apply to running text and to the technical block. They never apply to
+media: a photograph or a video runs edge to edge, always, at every breakpoint.
+
+The 12 column grid is removed. It was never visible in the layouts it was meant
+to serve, and nothing in the references is built on one. Media is full bleed;
+text is a single measure inside the margins; the one structural mark is the
+spine.
+
+The spine runs on text surfaces only. It marks statement screens, technical
+blocks, about and contact, and the boundary wash. It stops at the edge of any
+full-bleed media and picks up again after it, so the hairline is never drawn
+across the owner's photography (DECIDED 2026-08-01).
 
 ### Motion
 
@@ -170,8 +231,12 @@ interpolation anywhere and therefore no gray state can exist.
   animates, so the long content scroll (where the photographs live) is cheap on
   mobile: no per-frame theme work while a visitor reads a collection.
 - Between two collections sits a dedicated full-viewport boundary wash. It is a
-  screen of type, the spine, and emptiness. No photograph is on screen while the
-  flip happens.
+  screen of small type, the spine, and emptiness. No photograph is on screen
+  while the flip happens. Revised 2026-08-01: this screen is now also the site's
+  pause. The chapters either side of it are full-bleed media with almost no
+  text, so the wash is where the reader breathes, and where the season code and
+  the next collection name are read. It carries the signature and a label, not a
+  giant word.
 - The wash is pinned with ScrollTrigger for `--wipe-pin`. During the pin, a hard
   horizontal edge travels across the viewport, scrubbed to scroll. The incoming
   polarity is on one side of the edge, the outgoing polarity on the other. When
@@ -183,9 +248,10 @@ interpolation anywhere and therefore no gray state can exist.
   revealed by the moving hard edge using compositor-friendly properties only
   (a scroll-driven `clip-path: inset(...)`, or a transform-driven mask). Each
   layer is a single flat theme, so each is only ever pure white or pure black.
-- Because both layers hold the same aligned content, the spine and the typography
-  appear continuous while the edge recolors them as it passes. The letterforms
-  and the spine flipping along a moving line is the drama.
+- Because both layers hold the same aligned content, the spine, the signature
+  and the labels appear continuous while the edge recolors them as it passes.
+  With type now small, the drama is the field flipping and the hairline
+  signature flipping with it, not letterforms filling the screen.
 - The logo participates, and it needs no second file. The supplied signature
   (`assets/logo/logo-signature.svg`) paints with `fill="currentColor"`, so it
   takes the foreground color of whatever layer it sits in and inverts with the
@@ -224,105 +290,167 @@ mobile, the wipe changes, not the frame-rate target.
 
 ## 4. Layout concepts
 
-Three systems. Wireframes are mobile-first, the primary target, with the desktop
-move noted. There is no invented AC monogram anywhere: the mark is the full
-signature, and the corner uses either a small crop of the signature or nothing.
+Rewritten 2026-08-01 against the reference study (section 14). The three
+"concepts" are gone. They were three ways to arrange type on a page, and the
+references are not arranged around type at all. There is now one architecture:
 
-### Concept A - The Spine (recommended structural system)
+**Full-bleed media is the page. Text surfaces are the exception between the
+pictures.** Every screen is one of two kinds, and the whole site is built from
+them alternating.
 
-A single hairline runs the full height of the document, offset into the left
-margin. Names bleed off it to the right at huge condensed scale; mono facts hang
-off it. Extreme verticality, generous emptiness, one clear axis.
+- MEDIA SURFACE. One photograph or one looping video, edge to edge, no margin,
+  filling the screen. Carries at most a label: a name, a season, a reference
+  code, at 11px uppercase with wide tracking, inset by `--caption-inset`. The
+  label is solid paper or solid ink, chosen per media item by the owner in the
+  studio, never gray, never on a scrim. No spine crosses it.
+- TEXT SURFACE. Flat paper or flat ink, no image. Margins apply, the spine runs,
+  and the content is a statement of two or three short lines, or a technical
+  block of mono facts, or running prose. This is where emptiness does its work.
+
+Wireframes are mobile first, the primary target. Desktop notes follow each.
+
+### Home
 
 ```
-┌───────────────┐  theme: LIGHT (pure paper)
-│ {sig crop?}IT|EN│  optional small crop of the signature, or nothing. no monogram.
+┌───────────────┐  TEXT SURFACE. no nav bar. no scroll cue.
+│          MENU │  11px uppercase, the only chrome on the site
 │               │
 │               │
-│    [ LOGO ]   │  full signature logo, black-on-white
+│ ~~~signature~~│  THE OPENING GESTURE: the mark at --sig-hero-w,
+│               │  nearly edge to edge, hairline, in emptiness
 │               │
-│  ▓▓▓▓▓▓▓▓▓▓▓  │  ONE photograph, full width, tall. nothing competes. no scroll cue.
-│  ▓  hero   ▓  │
-│  ▓▓▓▓▓▓▓▓▓▓▓  │
 ├───────────────┤
-│┊ COLLECTION   │  spine begins, runs the whole page; giant condensed name, bleeds right
-│┊ O N E        │
-│┊ SS26  (mono) │  season code hangs off the spine
-│┊ statement..  │  short localized statement, body width
-│┊ ▓▓▓▓▓▓▓▓▓▓   │  garment image, large, reveals on scroll (settled LIGHT)
-│┊ ▓ piece  ▓   │
-│┊ NAME  REF01  │  mono ref on the spine
-└───────────────┘
-      ... scroll ...
-┌───────────────┐  BOUNDARY WASH (pinned). the edge travels top to bottom.
-│███████████████│  incoming DARK above the edge
-│███ COLLECTION │  same title and spine, now white-on-black
-│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀│  <- hard edge, scrubbed to scroll
-│┊  COLLECTION  │  outgoing LIGHT below the edge (black-on-white)
-│┊  T W O       │
-└───────────────┘
-      ... edge completes, pin releases ...
-┌───────────────┐  theme: DARK (pure ink), settled
-│┊ COLLECTION   │
-│┊ T W O        │  white-on-black
-│┊ ▓▓▓▓▓▓▓▓▓▓   │  garment photo on a settled black page
+│███████████████│  MEDIA SURFACE, 100svh, full bleed
+│███████████████│  the collection cover: still now, video later
+│███████████████│
+│███ COLLEZIONE │  11px label over the media, polarity per item
+│███ UNO   SS26 │
+├───────────────┤
+│┊ short line   │  TEXT SURFACE: the statement, 2 to 3 lines
+│┊ second line  │  --t-statement, uppercase, light. spine returns.
+├───────────────┤
+│███████████████│  MEDIA SURFACE: next collection
+│███ COLLEZIONE │
+│███ DUE   AW26 │
 └───────────────┘
 ```
 
-Desktop: the spine sits at the left margin; names cross the 12-col grid; images
-occupy cols 4 to 12 or full-bleed; mono data pins to the spine column; wide outer
-margins.
+Desktop: identical structure. The media stays 100vh and full bleed; it does not
+become a column or a card. The signature scales with `--sig-hero-w` and is
+capped so its strokes stay hairline (see the open question in section 9).
 
-### Concept B - The Diptych (recommended for the garment page)
-
-The inversion made literal as facing pages: an image plane and a data plane. Weak
-as a whole-site system because it repeats over many collections, but exactly right
-for one garment, where image and fact belong side by side.
+### Collection, `/collections/[slug]`
 
 ```
-MOBILE (stacked)             DESKTOP (diptych)
-┌───────────────┐           ┌──────────────┬─────────────┐
-│┊ NAME    IT|EN │           │ ▓▓▓▓▓▓▓▓▓▓▓ │ NAME        │
-│┊ REF 001 (mono)│           │ ▓ image 1 ▓ │ REF 001 mono│
-│┊ ▓▓▓▓▓▓▓▓▓▓▓  │           │ ▓▓▓▓▓▓▓▓▓▓▓ │             │
-│┊ ▓ image 1 ▓  │ full      │             │ materials   │
-│┊ ▓▓▓▓▓▓▓▓▓▓▓  │ scale     │ ▓▓▓▓▓▓▓▓▓▓▓ │ measurements│
-│┊ ▓▓▓▓▓▓▓▓▓▓▓  │ gallery   │ ▓ image 2 ▓ │ (mono block)│
-│┊ ▓ image 2 ▓  │ one per   │ ▓▓▓▓▓▓▓▓▓▓▓ │ description  │
-│┊ ▓▓▓▓▓▓▓▓▓▓▓  │ screen    │             │ €PRICE      │
-│┊ MATERIALS..  │           │ (images     │ [ ENQUIRE ] │ sticky
-│┊ MEAS.. €PRICE│           │  scroll)    │  panel      │
-│┊ [ ENQUIRE ]  │ primary   └──────────────┴─────────────┘
+┌───────────────┐
+│          MENU │
+├───────────────┤
+│███████████████│  cover media, full bleed, 100svh
+│███ COLLEZIONE │
+│███ UNO   SS26 │
+├───────────────┤
+│┊ short line   │  TEXT SURFACE: the statement
+│┊ second line  │
+├───────────────┤
+│███████████████│  garment 1, full bleed, --media-h-tall
+│███ NOME  R001 │  label doubles as the link to the piece
+├───────────────┤
+│███████████████│  garment 2
+│███ NOME  R002 │
 └───────────────┘
 ```
 
-### Concept C - The Column (considered, set aside)
+Desktop: garments may pair two up, each still full height and touching, as on
+the primary reference (two 720x900 videos side by side, no gutter). Never a card
+grid, never a thumbnail.
 
-Everything in one centered column with enormous vertical emptiness, images one at
-a time like film frames, full-screen washes between chapters. Beautiful, but as a
-whole system it dissolves the grid and the spine and hides the mono data register
-that makes this brand feel engineered rather than only moody. Not adopted whole.
-Its one borrowed idea, the full-viewport boundary wash, is exactly where the wipe
-now lives.
+### Garment, `/pieces/[slug]`
 
-Recommendation: Concept A as the structural system across the site, Concept B for
-`/pieces/[slug]`, the boundary wash from C as the home of the wipe. One coherent
-architecture, not three.
+The diptych is withdrawn. Splitting the screen into an image plane and a data
+plane is a product-page pattern, not something any reference does; it also caps
+the photograph at half the viewport, which contradicts the first principle.
+
+```
+┌───────────────┐
+│          MENU │
+├───────────────┤
+│███████████████│  image 1, full bleed, 100svh
+│███████████████│
+│███ NOME  R001 │  name and reference over the media
+├───────────────┤
+│███████████████│  image 2, or the video with its poster
+├───────────────┤
+│███████████████│  image 3
+├───────────────┤
+│┊ MATERIALI    │  TEXT SURFACE: the technical block, mono
+│┊ 100% pelle.. │
+│┊ TAGLIE       │
+│┊ S  M  L  SU  │  sizes as mono facts
+│┊ MISURA       │
+│┊ MISURE DEL   │  sample piece measurements, labelled as such
+│┊ CAPO CAMPIONE│
+│┊ EUR 000      │
+│┊ [ RICHIEDI ] │  one action. or the not-offered line in its place
+└───────────────┘
+```
+
+Desktop: the images stay full bleed and stacked. The technical block sits inside
+the margins as two columns, facts left, action right, and does not float or
+stick over the photography.
+
+### Collections index, `/collections`
+
+Each collection is one full-bleed media screen with its label. Scrolling the
+index is scrolling through the collections themselves.
+
+### About and contact
+
+Text surfaces throughout: statement lines, then running prose in the body
+register inside the margins, then contact and Instagram as mono facts. One
+photograph may open the page, full bleed, if the owner supplies one.
+
+### The menu
+
+```
+┌───────────────┐  full screen, flat ink or flat paper, no media
+│         CHIUDI│
+│               │
+│ COLLEZIONI    │  11px uppercase, wide tracking, stacked, generous
+│ CAPI          │
+│ CHI SIAMO     │
+│ CONTATTI      │
+│               │
+│ IT | EN       │  the language switch lives here
+└───────────────┘
+```
+
+The switch is no longer in a corner on every screen. It is always reachable in
+one tap from the menu label, which is the only persistent chrome. This keeps the
+brief's "always visible switch" honest without a bar competing with the imagery:
+the menu label is always visible, and the switch is always one tap away. If you
+want the literal always-visible switch back, say so and it returns next to MENU
+at 11px.
 
 ---
 
 ## 5. Pages
 
-- `/` Opens on the signature logo and one photograph, nothing else, no scroll cue.
-  Then collections in sequence on the spine, each boundary a wipe.
-- `/collections` The collections as full-scale entries, each a name plus cover
-  image plus season, stacked. Not a grid of chips.
-- `/collections/[slug]` The statement, then its garments at large scale,
-  alternating across the grid on desktop, single column on mobile.
-- `/pieces/[slug]` Concept B. Full gallery at large scale, mono technical block,
-  sticky enquiry action on desktop.
-- `/about`, `/contact` Prose in the body register, contact and Instagram as mono
-  facts, inside the same spine system.
+- `/` Opens on the signature stretched nearly edge to edge, in emptiness, with
+  the MENU label and nothing else. No photograph on the first screen, no scroll
+  cue. Then the collections in sequence as full-bleed media chapters, each
+  boundary a wipe on a text surface.
+- `/collections` One full-bleed media screen per collection, label over the
+  media. Not a grid, not chips, not cards.
+- `/collections/[slug]` Cover media, then the statement on a text surface, then
+  its garments as full-bleed media, one per screen on mobile and optionally two
+  up and touching on desktop.
+- `/pieces/[slug]` The gallery full bleed and stacked at full screen, then the
+  mono technical block on a text surface, with one enquiry action. The diptych
+  is withdrawn (section 4).
+- `/about`, `/contact` Statement lines, then prose in the body register, then
+  contact and Instagram as mono facts. Text surfaces, spine present.
+- Menu The only chrome. A MENU label opens a full-screen panel holding the four
+  destinations and the language switch. No persistent bar anywhere.
 - Enquiry Opens pre-filled with the garment name and reference code. It names a
   size: the sizes the owner marked available on that garment, plus "Su misura /
   Made to measure" when offered. Choosing made to measure reveals three mono
@@ -336,14 +464,21 @@ architecture, not three.
   flagged not currently offered, the piece stays fully visible and at full scale;
   only the enquiry action is disabled, replaced by one short line in the same
   place, either the owner's own explanation or the `{NOT_OFFERED_NOTE}` default.
-- 404 Same architecture, one photograph, a real way back.
+- 404 One full-bleed photograph, one label, and a real way back.
 - i18n Astro i18n with `/it` (default) and `/en` path prefixes, a switch that
   preserves the current path, both first class, no auto-detect redirect. Sanity
-  field-level localization feeds both.
+  field-level localization feeds both. The switch now lives inside the menu
+  (section 4), one tap from any screen.
 - Quality floor carried structurally: aspect-ratio boxes from Sanity image
   metadata so there is no layout shift, responsive `srcset` via the Sanity image
   pipeline, lazy below the fold, semantic headings in order, localized metadata,
-  Open Graph images, and a sitemap.
+  Open Graph images, and a sitemap. Full-bleed media raises the stakes on all of
+  it: a screen-filling image is the largest thing the site downloads, so the
+  poster still is what ships first and the video, when it exists, loads after.
+- Headings under a demoted type scale: the heading a screen reader announces and
+  the 11px label a reader sees are the same element. Small type is a visual
+  decision, never a semantic one, so heading order stays correct even though
+  nothing looks like a heading.
 
 ---
 
@@ -352,8 +487,15 @@ architecture, not three.
 Designed so the studio is pleasant for a non-technical owner: clear field labels
 in Italian and English, helpful descriptions, sensible previews, drag to reorder.
 
-- Collection: name, slug, season, statement (localized), cover image, display
+- Collection: name, slug, season, statement (localized), cover media, display
   order, published flag.
+- Statement (revised 2026-08-01): it is two or three short lines in the
+  Sorcinelli register, not a paragraph. The field is a localized text area whose
+  studio description says exactly that and shows the line count expected. Line
+  breaks are meaningful and are preserved; the layout sets each line on its own
+  line at `--t-statement`. It is not rich text and it is not a blurb. The copy
+  itself stays a marked placeholder until the owner writes it; the brand's voice
+  is not something to invent here.
 - Garment: name, slug, reference code, parent collection, category (Uomo /
   Donna, required, for catalogue filtering), available sizes, price, currency
   (default EUR), materials (localized, default "100% pelle italiana" / "100%
@@ -376,6 +518,33 @@ in Italian and English, helpful descriptions, sensible previews, drag to reorder
   sold state. Nothing sells out when everything is remade. The flag means the
   brand is not taking requests for that piece right now: the garment stays
   visible, only the enquiry action is disabled, with a short explanation.
+- Media, the shared building block (NEW 2026-08-01, video-ready). Every place
+  the site shows something visual uses one object, so adding video later changes
+  no layout and no schema:
+
+  ```
+  media {
+    poster:  image     REQUIRED. the still. also the video's poster and fallback.
+    alt:     localeString  REQUIRED (it + en), on the poster.
+    video:   file      OPTIONAL. short muted loop, mp4 (h.264) or webm.
+    overlay: 'paper' | 'ink'   REQUIRED. the polarity of any label laid over it.
+    caption: localeString  OPTIONAL. one short line, if this media needs words.
+  }
+  ```
+
+  Rules that come with it: the poster is required even when a video exists, so
+  every screen has something to show before playback and with motion disabled.
+  Video is muted, looping, `playsinline`, `preload="none"`, and never autoplays
+  under `prefers-reduced-motion`, where the poster simply stands. The player is
+  NOT built yet; only the schema and the layout are shaped for it.
+- Overlay polarity is an owner decision, per media item (DECIDED 2026-08-01).
+  The studio asks "testo sopra: bianco o nero" and the site obeys. No scrim, no
+  gradient, no gray: solid paper or solid ink over the picture. A human looking
+  at the photograph beats a luminance heuristic on a frame that is bright in one
+  corner and dark in the other.
+- Collection uses one media (the cover). Garment uses an ordered list of media
+  (the gallery). The existing gallery image field becomes this object; alt text
+  stays required in both languages.
 - Site settings: Instagram URL, contact email, about text (localized), shipping
   and returns text (localized), one logo file (the signature SVG inherits color,
   so there is no second polarity file, see section 3).
@@ -404,7 +573,22 @@ Alt text is a required field.
    motion off. If it is not beautiful without motion, motion will not save it.
 8. Structure the enquiry action so that swapping it for a real checkout later
    touches one component, not the whole site.
-9. Nothing paid. The domain is the only paid item on this project. Everything
+9. Media is the default state of a screen and it is always full bleed. No card,
+   no frame, no margin, no rounded corner on any photograph or video, at any
+   breakpoint. Margins are for running text.
+10. No display type. Nothing on this site is set larger than `--t-chapter`
+   except the signature. If a screen feels weak, the answer is a better
+   photograph or more emptiness, never a bigger word.
+11. Text over media is solid paper or solid ink, chosen per media item in the
+   studio. No scrim, no gradient, no gray, no blend mode. If neither polarity is
+   legible on a given photograph, that photograph carries no text.
+12. Video stays cheap and free. Short muted loops as Sanity file assets, poster
+   always required, nothing autoplays under reduced motion. Sanity's free tier
+   allows roughly 100GB of asset bandwidth a month and video is the one thing on
+   this site capable of eating it, so keep loops under about 15 seconds and only
+   where they earn their place. If usage ever approaches the cap, the fix is
+   fewer and shorter loops, or serving them from Cloudflare, not a paid plan.
+13. Nothing paid. The domain is the only paid item on this project. Everything
    else must run on a genuinely free tier that is permanent: not a trial, not a
    trial that lapses into payment, and nothing that requires a card on file. If
    any choice would need payment, an expiring trial, or a card, stop and ask
@@ -504,6 +688,19 @@ cookieless page count.
 - Category labels in English: the two values are Uomo and Donna. Decide whether
   the English catalogue shows them translated (Men / Women) or keeps the Italian
   labels. Frontend-only, minor.
+- Test photography (NEEDED NOW, 2026-08-01, to judge the revised layouts). The
+  minimum set is in section 14. Nothing about the media-first direction can be
+  judged against placeholders.
+- Signature weight at hero scale (OPEN, for the owner's eye). The mark is a
+  filled path, not a stroke, so stretching it to `--sig-hero-w` scales its
+  thickness with it: hairline on a phone, noticeably heavier at 1440px and
+  above. Three ways out, and this is a judgement call about the mark, not a
+  technical one: cap the hero width so the strokes stay thin, accept the heavier
+  desktop presence, or supply a lighter-weight version of the signature for
+  large sizes. Decide once there is real photography to see it against.
+- Statement copy per collection: two or three short lines each, in the brand's
+  own voice, IT and EN. Held as `{COLLECTION_STATEMENT_IT}` and
+  `{COLLECTION_STATEMENT_EN}`. Not invented here; see section 4 for the register.
 - Logo files: SUPPLIED and committed, in `assets/logo/`:
   `logo-signature.svg` (2712x615 viewBox, `fill="currentColor"`, so it inverts
   with the page) and `logo-signature.png` (the same mark, 2712x615, RGBA). One
@@ -711,3 +908,115 @@ A note for a future session reading this file: do not trust an environment claim
 in a handoff note, including this one. Check it. The constraints in the previous
 version of this section were real where they were written and wrong everywhere
 else.
+
+---
+
+## 14. Reference study (2026-08-01) and what it changed
+
+Method: the three sites were rendered in headless Chrome at 1440x900 and
+390x844, with consent and promo overlays removed rather than accepted, and the
+numbers below read out of the live DOM with `getComputedStyle`. They are
+measurements, not impressions. Sites change; this is what they were on
+2026-08-01. Hover states and transitions were NOT observed, because headless
+rendering does not hover.
+
+### Rick Owens (rickowens.eu/en-us)
+
+- Body font-size 10px. The largest text run anywhere near the top of the
+  document is 11px, letter-spacing 0.88px (0.08em), uppercase. There is no
+  display type on the homepage at all.
+- 88% of visible text runs are uppercase. 26 text runs on the entire page, and
+  they are navigation and category labels (SALE, FW26 TOWER, EYEWEAR, BAGS,
+  SHOES). Most media carries NO caption.
+- 14 videos, every one autoplay, loop, muted, with a poster. Desktop: one
+  1440x900 video, then pairs of 720x900 side by side, touching, no gutter.
+  Mobile: 390x844 then a stack of 390x488. Zero margins anywhere.
+- Persistent sticky header, 1440x60, using mix-blend-mode so it inverts over
+  whatever is beneath. Menu, Search, wordmark, Account, Bag. The 87-link
+  navigation is what is hidden behind "Menu", not the header itself.
+- The wordmark is a small script signature centered in that header, about 180px
+  wide at 1440. It is NOT stretched edge to edge. Our stretched-signature hero
+  is our own decision, and should not be justified as "what Rick Owens does".
+- The homepage imagery is saturated acid green and yellow. These references are
+  not monochrome. White and black is this brand's constraint, not theirs.
+
+### Filippo Sorcinelli (filipposorcinelli.com)
+
+- Page background near-black (rgb 16,16,16). The homepage is a sequence of
+  full-bleed 1440x900 stills plus one video, all object-fit cover, edge to edge.
+- 91% uppercase. Statement lines at 22px, weight 300, tracking 0.6px, laid over
+  the image at lower left, in two or three short lines: "Ogni tavolo una storia.
+  / Ogni sguardo un ricordo." This is the register section 4 now calls for.
+- The identity mark is a hairline handwritten signature, white, top left, over
+  full-bleed media: 275px wide on desktop (19% of the viewport) and 190px on
+  mobile (49%). Proportionally much larger on the phone. This is the closest
+  living analogue to our own asset and it is the evidence for the signature-led
+  opening, more than Rick Owens is.
+- Chrome: a 142px header with 17 visible links on desktop, collapsing to three
+  icons and a hamburger on mobile. Overlay text is mid-gray at partial opacity,
+  which we cannot copy under the black-and-white rule.
+
+### Vivienne Westwood (viviennewestwood.com/en-us)
+
+- The weakest of the three for this direction, and it should not carry equal
+  weight. 45 images, zero video, 16px Helvetica body, largest type 32px.
+- One full-bleed hero with centered uppercase type over it, then a conventional
+  product grid of 325x375 cards, standard e-commerce chrome, a newsletter modal.
+- It supports "full-bleed hero with type over it" and contradicts "imagery is
+  everything, no grids". Treated as a mood reference for the clothes, not as a
+  model for the site.
+
+### What was generic, honestly
+
+Asked which parts of the original plan were fashionable ideas rather than
+choices made for this brand, the answer is: more than is comfortable.
+
+- The 20rem display scale. Pure "editorial fashion site" reflex. Nothing in any
+  reference is set larger than 32px. This was the biggest error in the plan and
+  it drove the wireframes, the type tokens and the whole home page.
+- "Extreme scale contrast" as a principle. It sounded severe and it was
+  borrowed. The references get their severity from a photograph filling the
+  screen next to 11px type, which is a contrast of media against text, not of
+  type against type.
+- The 12 column grid. Design-system furniture. It appeared in the token list and
+  in the desktop notes and was never visible in a single wireframe. Removed.
+- The diptych for the garment page. A standard product-page pattern dressed up
+  as a concept, and it caps the photograph at half the viewport. Withdrawn.
+- The spine, partly. No reference has a hairline rule anywhere. It survives
+  because it is genuinely useful on text screens and because it gives the wash a
+  structure, but it has been scoped to text surfaces and kept off the
+  photography (DECIDED 2026-08-01).
+- Two typefaces, partly. The references use one family and let case, tracking
+  and weight do the work; Rick Owens sets an entire site in one weight of one
+  face. Our mono register is kept because a made-to-measure brand has real hard
+  data to show and mono marks it honestly, but it is now narrowed to that data
+  only. If it ever reads as decoration, drop to one family.
+- "One large movement per moment" as the motion thesis. Reasonable, but the
+  references do not choreograph scroll at all: they play video. Motion budget
+  should be reconsidered when motion is built, after the layouts are right.
+
+What was NOT generic, and stands: white and black only, bilingual and both first
+class, enquiry instead of checkout, mobile first, the refusal to invent brand
+assets or copy, images never cropped into decorative thumbnails, and the
+inversion itself, which comes from the brief's own idea that the page has two
+states.
+
+### Minimum test photography set
+
+To judge the revised layouts, the studio needs, at minimum:
+
+1. One collection cover: portrait, at least 2000px on the long edge. Ideally the
+   frame that would later carry a video.
+2. Two garments, three images each: full length on model or form (portrait), one
+   detail or texture crop, one back or alternate view.
+3. One landscape or wide frame, to prove what a horizontal composition does when
+   forced full bleed on a phone.
+4. One clearly BRIGHT image and one clearly DARK image, so the per-media overlay
+   polarity is exercised in both directions rather than assumed.
+5. Optional but valuable: one short muted video loop (8 to 15 seconds, mp4
+   h.264, ideally under 8MB) with its poster still, so the video-shaped layout is
+   real before the player exists.
+6. Alt text in Italian and English for every one of them, since it is required.
+
+That is nine stills, optionally one loop. Fewer than that and the layouts get
+judged against placeholders, which is how the last set of wireframes went wrong.
