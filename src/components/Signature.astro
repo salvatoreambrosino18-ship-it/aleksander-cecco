@@ -1,0 +1,31 @@
+---
+/*
+  The brand signature, inlined so it inherits the page color.
+
+  One file serves both polarities: the SVG paints with currentColor, so it is
+  black on the paper theme and white on the ink theme with no second asset and
+  no cross-fade (DESIGN-PLAN section 3). There is no monogram; the mark is the
+  full signature at whatever scale the caller sets.
+*/
+import rawSignature from "../../assets/logo/logo-signature.svg?raw";
+
+interface Props {
+  /** Height utility derived from tokens, e.g. "h-sig-corner". Width follows the viewBox. */
+  class?: string;
+  /** Decorative when the mark sits next to a text label that already names the brand. */
+  decorative?: boolean;
+}
+
+const {class: className = "", decorative = false} = Astro.props;
+
+// The source file carries role="img", an aria-label and a <title>. When the
+// mark is decorative we strip that so it is not announced twice.
+const svg = decorative
+  ? rawSignature
+      .replace(/\s(role|aria-label)="[^"]*"/g, "")
+      .replace(/<title>[\s\S]*?<\/title>/, "")
+      .replace("<svg", '<svg aria-hidden="true" focusable="false"')
+  : rawSignature;
+---
+
+<span class:list={["signature", className]} set:html={svg} />

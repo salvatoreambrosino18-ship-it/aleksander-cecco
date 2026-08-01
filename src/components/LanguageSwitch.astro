@@ -1,0 +1,35 @@
+---
+/*
+  IT | EN. Always visible, both languages first class, nothing auto-detected.
+  The switch preserves the current path, so a reader on a garment page lands on
+  the same garment in the other language (DESIGN-PLAN section 5).
+*/
+import {LOCALES, switchLocalePath, type Locale} from "../lib/locales";
+import {t} from "../i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const {locale} = Astro.props;
+const pathname = Astro.url.pathname;
+---
+
+<nav class="type-mono text-mono flex items-baseline gap-u1" aria-label={t(locale, "languageLabel")}>
+  {
+    LOCALES.map((code, index) => (
+      <>
+        {index > 0 && <span aria-hidden="true">|</span>}
+        {code === locale ? (
+          <span aria-current="true" class="underline underline-offset-4">
+            {code}
+          </span>
+        ) : (
+          <a href={switchLocalePath(pathname, code)} hreflang={code} class="hover:underline underline-offset-4">
+            {code}
+          </a>
+        )}
+      </>
+    ))
+  }
+</nav>

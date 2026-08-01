@@ -1,0 +1,60 @@
+---
+/*
+  The footer: contact and Instagram as mono facts, hanging off the spine
+  (DESIGN-PLAN section 5). Nothing here is invented. Where the owner has not
+  supplied a value yet, the placeholder token is shown as a marked placeholder
+  rather than smoothed into real-looking text, and never as a working link.
+*/
+import {isPlaceholderEmail, type SiteSettings} from "../lib/content";
+import type {Locale} from "../lib/locales";
+import {t} from "../i18n/ui";
+
+interface Props {
+  locale: Locale;
+  settings: SiteSettings;
+}
+
+const {locale, settings} = Astro.props;
+
+const instagramUrl = settings.instagramUrl?.trim() || null;
+// Show the handle rather than the full URL: it is the fact, the URL is plumbing.
+const instagramHandle = instagramUrl
+  ? `@${instagramUrl.replace(/\/+$/, "").split("/").pop()}`
+  : null;
+
+const email = settings.contactEmail?.trim() || null;
+const emailIsPlaceholder = isPlaceholderEmail(email);
+---
+
+<footer class="frame hairline-h mt-u21 py-u5 flex flex-col gap-u3">
+  <h2 class="sr-only">{t(locale, "footerNav")}</h2>
+
+  <ul class="type-mono text-mono flex flex-col gap-u1">
+    <li class="flex flex-wrap items-baseline gap-u2">
+      <span>{t(locale, "instagram")}</span>
+      {
+        instagramUrl ? (
+          <a href={instagramUrl} rel="me noopener" target="_blank" class="hover:underline underline-offset-4">
+            {instagramHandle}
+          </a>
+        ) : (
+          <span class="placeholder-mark">{"{INSTAGRAM_URL}"}</span>
+        )
+      }
+    </li>
+    <li class="flex flex-wrap items-baseline gap-u2">
+      <span>{t(locale, "email")}</span>
+      {
+        emailIsPlaceholder ? (
+          <span class="placeholder-mark">{"{CONTACT_EMAIL}"}</span>
+        ) : (
+          <a href={`mailto:${email}`} class="hover:underline underline-offset-4">
+            {email}
+          </a>
+        )
+      }
+    </li>
+  </ul>
+
+  <p class="type-mono text-mono">Aleksander Cecco</p>
+</footer>

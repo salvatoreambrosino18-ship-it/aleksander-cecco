@@ -1,0 +1,29 @@
+---
+/*
+  The corner treatment. Not a navigation bar: there is no persistent top nav
+  competing with the hero (DESIGN-PLAN section 10). It is the mark, the switch,
+  and nothing else, and it scrolls away with the page.
+
+  The mark is the full signature at corner scale. The plan allows "a small crop
+  of the signature, or nothing"; no crop has been supplied, and cropping the
+  owner's mark is not a decision to take here, so the whole signature is used
+  small. Swapping in a {SIGNATURE_CROP} asset later touches this file only.
+*/
+import Signature from "./Signature.astro";
+import LanguageSwitch from "./LanguageSwitch.astro";
+import {localePath, type Locale} from "../lib/locales";
+import {t} from "../i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const {locale} = Astro.props;
+---
+
+<header class="frame flex items-center justify-between gap-u3 pt-u3 pb-u8">
+  <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
+    <Signature class="h-sig-corner" decorative />
+  </a>
+  <LanguageSwitch locale={locale} />
+</header>

@@ -1,0 +1,56 @@
+---
+/*
+  PLACEHOLDER PAGE, step 1 of the build order.
+
+  This is not the home page. It exists so the shell (spine, corner mark,
+  language switch, footer) is viewable on its own before any page content is
+  built. Step 4 of the build order replaces this file with the real home page.
+*/
+import Base from "../../layouts/Base.astro";
+import Surface from "../../components/Surface.astro";
+import {LOCALES, toLocale} from "../../lib/locales";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({params: {lang}}));
+}
+
+const locale = toLocale(Astro.params.lang);
+---
+
+<Base locale={locale} title="Shell">
+  <section class="frame flex min-h-svh flex-col justify-between pb-u21">
+    <div class="flex flex-col gap-u3">
+      <p class="placeholder-mark">{"{PAGE_CONTENT}"}</p>
+      <p class="type-mono text-mono">Step 1 / shell only</p>
+    </div>
+
+    <div class="flex flex-col gap-u2">
+      <h1 class="type-display text-h1">The frame</h1>
+      <p class="type-body text-body max-w-prose">
+        Spine, corner mark, language switch, footer. Page content lands here in
+        the steps that follow.
+      </p>
+    </div>
+  </section>
+
+  {/*
+    Both polarities on one screen, so the shell can be checked in white and in
+    black before any page is built. data-theme is what swaps them, with no
+    interpolated state in between. This preview block goes away with the rest of
+    the placeholder page at step 4.
+  */}
+  <Surface theme="dark" class="frame flex min-h-svh flex-col justify-between py-u8">
+    <div class="flex flex-col gap-u3">
+      <p class="placeholder-mark">{"{PAGE_CONTENT}"}</p>
+      <p class="type-mono text-mono">Same frame, ink polarity</p>
+    </div>
+
+    <div class="flex flex-col gap-u2">
+      <h2 class="type-display text-h1">Inverted</h2>
+      <p class="type-body text-body max-w-prose">
+        The identical shell on the ink theme. Pure paper or pure ink, never a
+        state between the two.
+      </p>
+    </div>
+  </Surface>
+</Base>

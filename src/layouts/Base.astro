@@ -1,30 +1,73 @@
 ---
+/*
+  The shell every page sits inside: the document head, the spine, the corner
+  treatment, and the footer. Pages supply only their own content.
+
+  Polarity is a property of the page (or later, of a section): `theme` sets
+  data-theme, and every token resolves from it. There is no interpolated state
+  between the two themes anywhere (DESIGN-PLAN section 3).
+*/
 import "../styles/global.css";
+import Spine from "../components/Spine.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import {getSiteSettings} from "../lib/content";
+import {LOCALES, localePath, switchLocalePath, type Locale} from "../lib/locales";
+import {t} from "../i18n/ui";
 
 interface Props {
+  locale: Locale;
+  /** Page title, without the brand name; the brand is appended here. */
   title?: string;
+  description?: string;
   theme?: "light" | "dark";
 }
 
-const { title = "Aleksander Cecco", theme = "light" } = Astro.props;
+const {locale, title, description, theme = "light"} = Astro.props;
+
+const settings = await getSiteSettings();
+
+const brand = "Aleksander Cecco";
+const documentTitle = title ? `${title} / ${brand}` : brand;
+
+const pathname = Astro.url.pathname;
+const canonical = Astro.site ? new URL(pathname, Astro.site) : null;
 ---
 
 <!doctype html>
-<html lang="it" data-theme={theme}>
+<html lang={locale} data-theme={theme}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <title>{documentTitle}</title>
+    {description && <meta name="description" content={description} />}
+    {canonical && <link rel="canonical" href={canonical.href} />}
+    {
+      Astro.site &&
+        LOCALES.map((code) => (
+          <link rel="alternate" hreflang={code} href={new URL(switchLocalePath(pathname, code), Astro.site).href} />
+        ))
+    }
+    {Astro.site && <link rel="alternate" hreflang="x-default" href={new URL(localePath("it"), Astro.site).href} />}
     {/* Preload only the first-screen typeface (Archivo). Mono is not on the hero. */}
-    <link
-      rel="preload"
-      href="/fonts/archivo-latin-var.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
-    <slot />
+    <a
+      href="#content"
+      class="type-mono text-mono sr-only focus:not-sr-only focus:absolute focus:left-content focus:top-u1 focus:z-10 focus:bg-bg focus:p-u1 focus:text-fg"
+    >
+      {t(locale, "skipToContent")}
+    </a>
+
+    {/* The frame wraps the whole document, so the spine runs its full height. */}
+    <div class="relative flex min-h-svh flex-col">
+      <Spine />
+      <SiteHeader locale={locale} />
+      <main id="content" class="flex-1">
+        <slot />
+      </main>
+      <SiteFooter locale={locale} settings={settings} />
+    </div>
   </body>
 </html>

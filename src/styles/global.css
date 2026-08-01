@@ -32,6 +32,23 @@
   --spacing-u13: var(--s-u13);
   --spacing-u21: var(--s-u21);
   --spacing-margin: var(--margin);
+  --spacing-spine: var(--spine-x);
+  --spacing-content: var(--content-x);
+  --spacing-sig-corner: var(--sig-corner-h);
+}
+
+/*
+  Tailwind's color utilities read --color-*, which @theme declares once on
+  :root. A custom property is substituted where it is declared, so those would
+  hold the root polarity forever and `bg-bg` inside a dark section would still
+  paint paper. Re-declare the bridge inside each theme block so utilities invert
+  with data-theme, wherever it is set. Unlayered, so it beats @theme's defaults.
+*/
+[data-theme="light"],
+[data-theme="dark"] {
+  --color-fg: var(--fg);
+  --color-bg: var(--bg);
+  --color-hairline: var(--hairline);
 }
 
 /*
@@ -58,6 +75,32 @@
 /* the recurring vertical hairline (the spine) */
 @utility hairline-v {
   border-left: var(--hairline-w) solid var(--hairline);
+}
+/* horizontal rule marking the grid, never boxing content in */
+@utility hairline-h {
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+/*
+  The frame: content hangs off the spine on the left and stops at the margin on
+  the right. Full-bleed sections simply do not use it.
+*/
+@utility frame {
+  padding-left: var(--content-x);
+  padding-right: var(--margin);
+}
+
+/*
+  Placeholder marker. Copy that is not the brand's own stays visibly a
+  placeholder (standing rule 6): mono register, bracketed, at reduced presence
+  but still black or white, never a third color.
+*/
+@utility placeholder-mark {
+  font-family: var(--ff-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--t-mono);
+  border-bottom: var(--hairline-w) dashed var(--fg);
 }
 
 @layer base {
@@ -99,6 +142,25 @@
     max-width: 100%;
     height: auto;
     display: block;
+  }
+}
+
+@layer components {
+  /*
+    The signature is inlined as SVG, not loaded through <img>, because it paints
+    with currentColor: inline, it inherits --fg and inverts with the page, which
+    is what makes one file serve both polarities (DESIGN-PLAN section 3).
+    Height comes from the caller (a token-derived utility); width follows the
+    viewBox.
+  */
+  .signature {
+    display: block;
+  }
+  .signature > svg {
+    display: block;
+    height: 100%;
+    width: auto;
+    fill: currentColor;
   }
 }
 

@@ -41,6 +41,17 @@
   --margin: 6vw; /* mobile */
   --hairline-w: 1px;
 
+  /*
+    The spine (DESIGN-PLAN section 4, concept A): one vertical hairline running
+    the full height of the document, offset into the left margin. Content hangs
+    off it to the right, never touching it.
+  */
+  --spine-x: var(--margin);
+  --content-x: calc(var(--spine-x) + var(--s-u3)); /* mobile gutter off the spine */
+
+  /* the signature mark at corner scale (its viewBox is 2712x615, ratio 4.41) */
+  --sig-corner-h: var(--s-u2);
+
   /* motion */
   --wipe-pin: 100vh;
   --dur-reveal: 900ms;
@@ -50,32 +61,40 @@
   /* default polarity = light, so tokens resolve even before a theme is set */
   --fg: var(--ink);
   --bg: var(--paper);
+  --hairline: color-mix(in srgb, var(--ink) 20%, transparent);
+  --focus: var(--ink);
   color-scheme: light;
 }
 
 @media (min-width: 48rem) {
   :root {
     --margin: clamp(3rem, 8vw, 10rem); /* wide desktop margins */
+    --content-x: calc(var(--spine-x) + var(--s-u5)); /* wider gutter off the spine */
+    --sig-corner-h: var(--s-u3);
   }
 }
 
 /*
   Two discrete themes. The inversion swaps which one is active; there is no
   interpolated (gray) state anywhere. See DESIGN-PLAN.md section 3.
+
+  Every derived token is re-declared inside each theme block, deliberately.
+  A custom property whose value contains var() is substituted where it is
+  DECLARED, not where it is used, so a derived token declared once at :root
+  would freeze at the root polarity and never invert. Any future derived token
+  belongs in both blocks for the same reason.
 */
 [data-theme="light"] {
   --fg: var(--ink);
   --bg: var(--paper);
+  --hairline: color-mix(in srgb, var(--ink) 20%, transparent);
+  --focus: var(--ink);
   color-scheme: light;
 }
 [data-theme="dark"] {
   --fg: var(--paper);
   --bg: var(--ink);
+  --hairline: color-mix(in srgb, var(--paper) 20%, transparent);
+  --focus: var(--paper);
   color-scheme: dark;
-}
-
-/* tokens derived from the active fg (resolve against whichever theme is set) */
-:root {
-  --hairline: color-mix(in srgb, var(--fg) 20%, transparent);
-  --focus: var(--fg);
 }

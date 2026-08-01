@@ -1,0 +1,28 @@
+---
+/*
+  A settled section of one polarity.
+
+  The page as a whole has a polarity (set on <html> by the layout) and the
+  document spine is drawn once behind everything. A section that needs the other
+  polarity is a Surface: it sets data-theme, paints its own background, and
+  carries its own segment of the spine, so the hairline stays continuous down
+  the page while taking the correct color in each section.
+
+  This is what makes the boundary wash possible later without reworking the
+  layout: each settled section is already wholly one polarity, and the wipe only
+  ever happens between two of them (DESIGN-PLAN section 3). No motion here.
+*/
+import Spine from "./Spine.astro";
+
+interface Props {
+  theme: "light" | "dark";
+  class?: string;
+}
+
+const {theme, class: className = ""} = Astro.props;
+---
+
+<section data-theme={theme} class:list={["relative bg-bg text-fg", className]}>
+  <Spine />
+  <slot />
+</section>
