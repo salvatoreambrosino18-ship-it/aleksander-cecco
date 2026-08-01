@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# secrets: never commit real env files. .env.example is tracked on purpose.
+.env
+.env.*
+!.env.example
+
+# build output
+dist/
+.output/
+.vercel/
+.netlify/
+.wrangler/
+
+# astro
+.astro/
+
+# sanity
+.sanity/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# misc
+.cache/
+coverage/
