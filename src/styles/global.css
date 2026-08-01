@@ -17,12 +17,11 @@
   --font-display: var(--ff-display);
   --font-mono: var(--ff-mono);
 
-  --text-hero: var(--t-hero);
-  --text-h1: var(--t-h1);
-  --text-h2: var(--t-h2);
-  --text-body: var(--t-body);
-  --text-small: var(--t-small);
+  --text-label: var(--t-label);
   --text-mono: var(--t-mono);
+  --text-body: var(--t-body);
+  --text-statement: var(--t-statement);
+  --text-chapter: var(--t-chapter);
 
   --spacing-u1: var(--s-u1);
   --spacing-u2: var(--s-u2);
@@ -35,6 +34,12 @@
   --spacing-spine: var(--spine-x);
   --spacing-content: var(--content-x);
   --spacing-sig-corner: var(--sig-corner-h);
+  --spacing-sig-hero: var(--sig-hero-w);
+  --spacing-caption: var(--caption-inset);
+
+  /* under --spacing-*, which is the namespace h-* and w-* read in Tailwind v4 */
+  --spacing-media-screen: var(--media-h-screen);
+  --spacing-media-tall: var(--media-h-tall);
 }
 
 /*
@@ -52,14 +57,29 @@
 }
 
 /*
-  Typographic registers. The width axis is the instrument: condensed for
-  display, normal for body. Mono marks data that comes off the garment.
+  Typographic registers, revised 2026-08-01. There is no display register any
+  more. Case, tracking and position carry the emphasis that size used to.
+
+  type-label     names, seasons, captions, the menu. The workhorse.
+  type-statement the two or three poetic lines on a text surface.
+  type-body      running prose only (about, shipping).
+  type-mono      facts that came off the garment. Nothing decorative, ever.
 */
-@utility type-display {
+@utility type-label {
   font-family: var(--ff-display);
-  font-variation-settings: "wght" var(--wght-display), "wdth" var(--wdth-condensed);
-  line-height: 0.9;
-  letter-spacing: -0.01em;
+  font-variation-settings: "wght" var(--wght-label), "wdth" var(--wdth-label);
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  line-height: 1.2;
+}
+@utility type-statement {
+  font-family: var(--ff-display);
+  font-variation-settings: "wght" var(--wght-statement), "wdth" var(--wdth-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--track-statement);
+  line-height: 1.35;
+  /* statements are written as short lines and the line breaks are meaningful */
+  white-space: pre-line;
 }
 @utility type-body {
   font-family: var(--ff-display);
@@ -69,7 +89,7 @@
 @utility type-mono {
   font-family: var(--ff-mono);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--track-label);
 }
 
 /* the recurring vertical hairline (the spine) */
@@ -146,6 +166,56 @@
 }
 
 @layer components {
+  /*
+    The menu. A <details> element so it works with no JavaScript; the open state
+    is CSS only, with no transition (motion comes later, if at all).
+  */
+  .menu > summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .menu > summary::-webkit-details-marker {
+    display: none;
+  }
+  .menu > summary::marker {
+    content: "";
+  }
+  .menu-when-open {
+    display: none;
+  }
+  .menu[open] > summary {
+    /* becomes the close control, above the panel, while the panel is open */
+    position: fixed;
+    top: var(--s-u3);
+    right: var(--margin);
+    z-index: 20;
+  }
+  .menu[open] .menu-when-closed {
+    display: none;
+  }
+  .menu[open] .menu-when-open {
+    display: inline;
+  }
+  /*
+    Explicitly out of the layout when closed. Browsers now keep <details>
+    content in the box tree (content-visibility rather than display:none), and a
+    fixed, full-screen panel left in the tree widens the document.
+  */
+  .menu:not([open]) .menu-panel {
+    display: none;
+  }
+  .menu-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: var(--s-u13);
+    padding-bottom: var(--s-u8);
+  }
+
   /*
     The signature is inlined as SVG, not loaded through <img>, because it paints
     with currentColor: inline, it inherits --fg and inverts with the page, which

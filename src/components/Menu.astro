@@ -1,0 +1,50 @@
+---
+/*
+  The only chrome on the site.
+
+  A MENU label sits in the flow at the top of the page and scrolls away with it:
+  no persistent bar competing with the imagery (DESIGN-PLAN section 1). Opening
+  it covers the screen with a flat panel of labels. The language switch lives
+  here, so it is always one tap away without occupying a corner of every screen.
+
+  Built on <details>, so it opens, closes and takes keyboard focus with no
+  JavaScript at all. When open, the summary becomes the fixed CLOSE control
+  above the panel; that is a CSS state change, not motion.
+*/
+import Signature from "./Signature.astro";
+import LanguageSwitch from "./LanguageSwitch.astro";
+import {localePath, type Locale} from "../lib/locales";
+import {t, MENU_DESTINATIONS} from "../i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const {locale} = Astro.props;
+---
+
+<details class="menu">
+  <summary class="type-label text-label menu-toggle" aria-label={t(locale, "menu")}>
+    <span class="menu-when-closed">{t(locale, "menu")}</span>
+    <span class="menu-when-open">{t(locale, "close")}</span>
+  </summary>
+
+  <div class="menu-panel bg-bg text-fg frame">
+    <nav class="flex flex-col gap-u5" aria-label={t(locale, "menu")}>
+      {
+        MENU_DESTINATIONS.map(({key, path}) => (
+          <a href={localePath(locale, path)} class="type-label text-statement hover:underline underline-offset-8">
+            {t(locale, key)}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-end justify-between gap-u3">
+      <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
+        <Signature class="h-sig-corner" decorative />
+      </a>
+      <LanguageSwitch locale={locale} />
+    </div>
+  </div>
+</details>

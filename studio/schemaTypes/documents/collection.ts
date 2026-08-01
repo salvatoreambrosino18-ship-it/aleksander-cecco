@@ -31,12 +31,25 @@ export const collection = defineType({
       name: 'statement',
       title: 'Testo / Statement',
       type: 'localeText',
-      description: 'Breve testo introduttivo della collezione. / Short introductory text for the collection.',
+      description:
+        'DUE O TRE RIGHE BREVI, non un paragrafo. Ogni riga va a capo dove vuoi tu: le interruzioni di riga contano e il sito le rispetta. / TWO OR THREE SHORT LINES, not a paragraph. Break the lines where you want them: the line breaks are meaningful and the site keeps them.',
+      validation: (Rule) =>
+        Rule.custom((value: {it?: string; en?: string} | undefined) => {
+          const tooLong = (['it', 'en'] as const).filter((lang) => {
+            const lines = (value?.[lang] ?? '').split('\n').filter((line) => line.trim() !== '')
+            return lines.length > 4
+          })
+          return tooLong.length
+            ? 'A statement is two or three short lines, not a paragraph. Trim it.'
+            : true
+        }).warning(),
     }),
     defineField({
-      name: 'coverImage',
-      title: 'Immagine di copertina / Cover image',
-      type: 'galleryImage',
+      name: 'cover',
+      title: 'Copertina / Cover',
+      type: 'media',
+      description:
+        'A tutto schermo, senza margini. Puo essere una foto o un video con la sua immagine di copertina. / Full screen, no margins. A photograph, or later a video with its poster.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -51,6 +64,6 @@ export const collection = defineType({
   ],
   orderings: [orderRankOrdering],
   preview: {
-    select: {title: 'name', subtitle: 'season', media: 'coverImage'},
+    select: {title: 'name', subtitle: 'season', media: 'cover.poster'},
   },
 })

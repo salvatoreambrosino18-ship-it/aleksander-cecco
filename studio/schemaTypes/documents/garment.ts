@@ -95,10 +95,12 @@ export const garment = defineType({
       type: 'localeText',
     }),
     defineField({
-      name: 'images',
-      title: 'Galleria / Image gallery',
+      name: 'media',
+      title: 'Galleria / Gallery',
       type: 'array',
-      of: [{type: 'galleryImage'}],
+      of: [{type: 'media'}],
+      description:
+        'Ogni elemento occupa uno schermo intero, senza margini. Trascina per riordinare. / Each item fills a whole screen, edge to edge. Drag to reorder.',
       validation: (Rule) => Rule.min(1).error('At least one image is required'),
     }),
     // Not a sold state: the garments are remade on request, so nothing sells
@@ -127,7 +129,7 @@ export const garment = defineType({
       title: 'name',
       ref: 'referenceCode',
       collection: 'collection.name',
-      media: 'images.0',
+      media: 'media.0.poster',
       notOffered: 'notOffered',
     },
     prepare({title, ref, collection, media, notOffered}) {

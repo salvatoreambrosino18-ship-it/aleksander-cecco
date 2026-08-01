@@ -13,19 +13,32 @@
   --ff-display: "Archivo Variable", system-ui, sans-serif;
   --ff-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
 
-  /* variation-axis presets. Archivo carries wdth 62-125 and wght 100-900. */
-  --wdth-condensed: 70;
+  /*
+    Variation-axis presets. Archivo carries wdth 62-125 and wght 100-900.
+    Revised 2026-08-01: the width axis is texture, never volume. Nothing on this
+    site uses the condensed extreme to shout (DESIGN-PLAN sections 1, 2, 14).
+  */
+  --wdth-label: 92;
   --wdth-normal: 100;
-  --wght-display: 600;
+  --wght-label: 500;
+  --wght-statement: 300;
   --wght-body: 400;
 
-  /* type scale: a deliberately large jump between display and body */
-  --t-hero: clamp(3.5rem, 22vw, 20rem);
-  --t-h1: clamp(2.25rem, 9vw, 6rem);
-  --t-h2: clamp(1.5rem, 5vw, 3rem);
-  --t-body: clamp(1rem, 0.98rem + 0.2vw, 1.125rem);
-  --t-small: 0.875rem;
-  --t-mono: 0.8125rem;
+  /* tracking, measured off the references: 0.08em on labels, 0.02em statements */
+  --track-label: 0.08em;
+  --track-statement: 0.02em;
+
+  /*
+    Type scale, revised 2026-08-01 against the measured references. The old
+    scale ran to 20rem, 29x the largest type on the Rick Owens homepage.
+    Largest-to-body is now about 3:1. Scale contrast lives in the pictures.
+    There is deliberately no display size: do not reintroduce one.
+  */
+  --t-label: 0.6875rem; /* 11px. names, seasons, captions, menu */
+  --t-mono: 0.75rem; /* 12px. facts off the garment, nothing else */
+  --t-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); /* running prose only */
+  --t-statement: clamp(1.125rem, 0.95rem + 1.1vw, 1.75rem); /* 18-28px. the poetic line */
+  --t-chapter: clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem); /* 24-36px. rare: wash, 404 */
 
   /* spacing: one rhythm unit, near-Fibonacci multiples */
   --unit: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
@@ -37,19 +50,36 @@
   --s-u13: calc(var(--unit) * 13);
   --s-u21: calc(var(--unit) * 21);
 
-  /* layout */
+  /*
+    Layout. The margin is for RUNNING TEXT ONLY. Media is full bleed at every
+    breakpoint: no card, no frame, no margin, no rounded corner.
+  */
   --margin: 6vw; /* mobile */
   --hairline-w: 1px;
 
   /*
-    The spine (DESIGN-PLAN section 4, concept A): one vertical hairline running
-    the full height of the document, offset into the left margin. Content hangs
-    off it to the right, never touching it.
+    The spine: one vertical hairline offset into the left margin, marking TEXT
+    surfaces only. It stops at the edge of any full-bleed media and picks up
+    after it, so a rule is never drawn across the owner's photography.
   */
   --spine-x: var(--margin);
   --content-x: calc(var(--spine-x) + var(--s-u3)); /* mobile gutter off the spine */
 
-  /* the signature mark at corner scale (its viewBox is 2712x615, ratio 4.41) */
+  /*
+    Media. A screen is a photograph, so these are the only sizes it needs.
+    svh, not vh: mobile browser chrome must not push the bottom edge off screen.
+  */
+  --media-h-screen: 100svh; /* a chapter: one photograph, one screen */
+  --media-h-tall: 88svh; /* one in a sequence, so the next one shows */
+  --caption-inset: var(--s-u3); /* how far a label sits off the media edge */
+
+  /*
+    The signature (viewBox 2712x615, ratio 4.41). Sorcinelli measurement, the
+    most useful number in the study: its mark is 19% of the viewport on desktop
+    and 49% on a phone, so the mark gets proportionally BIGGER as the screen
+    gets smaller. --sig-hero-w follows that curve.
+  */
+  --sig-hero-w: 92vw; /* mobile: the opening gesture, nearly edge to edge */
   --sig-corner-h: var(--s-u2);
 
   /* motion */
@@ -68,9 +98,16 @@
 
 @media (min-width: 48rem) {
   :root {
-    --margin: clamp(3rem, 8vw, 10rem); /* wide desktop margins */
+    --margin: clamp(3rem, 8vw, 10rem); /* wide desktop margins, text only */
     --content-x: calc(var(--spine-x) + var(--s-u5)); /* wider gutter off the spine */
     --sig-corner-h: var(--s-u3);
+    /*
+      The mark shrinks in proportion as the screen grows, as on the primary
+      reference. The cap also keeps the strokes hairline: the signature is a
+      filled path, so its thickness scales with its width and would read heavy
+      at full desktop bleed. Open question in DESIGN-PLAN section 9.
+    */
+    --sig-hero-w: min(64vw, 60rem);
   }
 }
 

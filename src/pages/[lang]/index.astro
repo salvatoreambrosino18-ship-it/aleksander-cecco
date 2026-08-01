@@ -1,13 +1,15 @@
 ---
 /*
-  PLACEHOLDER PAGE, step 1 of the build order.
+  PLACEHOLDER PAGE, step 1 of the build order, rebuilt 2026-08-01 against the
+  revised scale.
 
-  This is not the home page. It exists so the shell (spine, corner mark,
-  language switch, footer) is viewable on its own before any page content is
-  built. Step 4 of the build order replaces this file with the real home page.
+  This is not the home page. It is the shell plus a specimen of every type
+  register at its new size, so the demoted scale can be judged before any page
+  is built on it. Step 4 replaces this file with the real home page.
 */
 import Base from "../../layouts/Base.astro";
-import Surface from "../../components/Surface.astro";
+import TextSurface from "../../components/TextSurface.astro";
+import Signature from "../../components/Signature.astro";
 import {LOCALES, toLocale} from "../../lib/locales";
 
 export function getStaticPaths() {
@@ -18,39 +20,65 @@ const locale = toLocale(Astro.params.lang);
 ---
 
 <Base locale={locale} title="Shell">
-  <section class="frame flex min-h-svh flex-col justify-between pb-u21">
-    <div class="flex flex-col gap-u3">
-      <p class="placeholder-mark">{"{PAGE_CONTENT}"}</p>
-      <p class="type-mono text-mono">Step 1 / shell only</p>
+  {/*
+    The opening gesture at its real size: the signature at --sig-hero-w, in
+    emptiness, with nothing else on the screen. 92vw on a phone, capped on
+    desktop so the strokes stay hairline (the open question in section 9).
+  */}
+  <TextSurface framed={false} class="flex min-h-svh flex-col justify-center">
+    <div class="w-sig-hero self-center">
+      <Signature />
     </div>
+  </TextSurface>
+
+  <TextSurface class="flex flex-col gap-u8 py-u13">
+    <p class="placeholder-mark">{"{PAGE_CONTENT}"}</p>
 
     <div class="flex flex-col gap-u2">
-      <h1 class="type-display text-h1">The frame</h1>
-      <p class="type-body text-body max-w-prose">
-        Spine, corner mark, language switch, footer. Page content lands here in
-        the steps that follow.
-      </p>
+      <p class="type-label text-label">Collezione uno</p>
+      <p class="type-label text-label">SS26 / label, 11px</p>
     </div>
-  </section>
+
+    <p class="type-statement text-statement max-w-prose">
+      {"{COLLECTION_STATEMENT_IT}\n{SECOND LINE}\n{THIRD LINE}"}
+    </p>
+
+    <ul class="type-mono text-mono flex flex-col gap-u1">
+      <li>Ref {"{REF_CODE}"}</li>
+      <li>Taglie S M L su misura</li>
+      <li>Misure del capo campione {"{MEASUREMENTS}"}</li>
+      <li>EUR {"{PRICE_EUR}"}</li>
+    </ul>
+
+    <p class="type-body text-body max-w-prose">
+      Running prose stays in the body register and inside the margins. It is the
+      only text on the site set in sentence case, and it exists for the about
+      and shipping copy, nothing else. Everything above this paragraph is a
+      label, a statement, or a fact off the garment.
+    </p>
+  </TextSurface>
 
   {/*
-    Both polarities on one screen, so the shell can be checked in white and in
-    black before any page is built. data-theme is what swaps them, with no
-    interpolated state in between. This preview block goes away with the rest of
-    the placeholder page at step 4.
+    The same shell on the ink polarity, so both can be checked before any page
+    exists. This preview goes away with the rest of the placeholder at step 4.
   */}
-  <Surface theme="dark" class="frame flex min-h-svh flex-col justify-between py-u8">
-    <div class="flex flex-col gap-u3">
+  <TextSurface theme="dark" framed={false} class="flex min-h-svh flex-col justify-between py-u13">
+    <div class="frame flex flex-col gap-u3">
       <p class="placeholder-mark">{"{PAGE_CONTENT}"}</p>
-      <p class="type-mono text-mono">Same frame, ink polarity</p>
+      <p class="type-label text-label">Stessa scala, polarita inchiostro</p>
     </div>
 
-    <div class="flex flex-col gap-u2">
-      <h2 class="type-display text-h1">Inverted</h2>
-      <p class="type-body text-body max-w-prose">
-        The identical shell on the ink theme. Pure paper or pure ink, never a
-        state between the two.
+    {/*
+      The signature is measured against the viewport (--sig-hero-w is 92vw), so
+      it sits on an unframed surface. Inside the text margins it would overflow.
+    */}
+    <div class="flex flex-col gap-u5">
+      <div class="w-sig-hero self-center">
+        <Signature />
+      </div>
+      <p class="frame type-statement text-statement max-w-prose">
+        {"{STATEMENT_LINE_ONE}\n{STATEMENT_LINE_TWO}"}
       </p>
     </div>
-  </Surface>
+  </TextSurface>
 </Base>

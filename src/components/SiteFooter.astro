@@ -5,6 +5,7 @@
   supplied a value yet, the placeholder token is shown as a marked placeholder
   rather than smoothed into real-looking text, and never as a working link.
 */
+import TextSurface from "./TextSurface.astro";
 import {isPlaceholderEmail, type SiteSettings} from "../lib/content";
 import type {Locale} from "../lib/locales";
 import {t} from "../i18n/ui";
@@ -26,7 +27,8 @@ const email = settings.contactEmail?.trim() || null;
 const emailIsPlaceholder = isPlaceholderEmail(email);
 ---
 
-<footer class="frame hairline-h mt-u21 py-u5 flex flex-col gap-u3">
+<TextSurface class="hairline-h mt-u21 py-u5">
+  <footer class="flex flex-col gap-u3">
   <h2 class="sr-only">{t(locale, "footerNav")}</h2>
 
   <ul class="type-mono text-mono flex flex-col gap-u1">
@@ -56,5 +58,6 @@ const emailIsPlaceholder = isPlaceholderEmail(email);
     </li>
   </ul>
 
-  <p class="type-mono text-mono">Aleksander Cecco</p>
-</footer>
+    <p class="type-label text-label">Aleksander Cecco</p>
+  </footer>
+</TextSurface>

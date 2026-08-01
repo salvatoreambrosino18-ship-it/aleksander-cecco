@@ -1,0 +1,33 @@
+---
+/*
+  A TEXT SURFACE: flat paper or flat ink, no image, margins apply, and the spine
+  runs down it.
+
+  The site is built from two kinds of screen (DESIGN-PLAN section 4): media
+  surfaces, which are full bleed and carry no rule of any kind, and text
+  surfaces, which are these. The spine lives here and only here, so a hairline
+  is never drawn across the owner's photography. Because consecutive text
+  surfaces each draw their own segment at the same offset, the line reads
+  continuous down the page and simply stops wherever a photograph interrupts it.
+
+  Replaces the earlier Surface component, which drew the spine everywhere.
+*/
+import Spine from "./Spine.astro";
+
+interface Props {
+  theme?: "light" | "dark";
+  /** Apply the text margins. Off only when the caller lays out its own padding. */
+  framed?: boolean;
+  class?: string;
+}
+
+const {theme, framed = true, class: className = ""} = Astro.props;
+---
+
+<section
+  data-theme={theme}
+  class:list={["relative", theme && "bg-bg text-fg", framed && "frame", className]}
+>
+  <Spine />
+  <slot />
+</section>

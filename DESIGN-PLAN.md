@@ -77,8 +77,8 @@ The evidence is in section 14; these principles are what it changes.
   rounded corner. Wide margins exist for running text only, never for media.
 - Typography is demoted, deliberately and hard. Names, seasons, captions and
   navigation are small uppercase labels with wide tracking. There is no giant
-  word anywhere on this site. On the closest reference the largest type on the
-  whole homepage is 11px; drama comes from the picture, not from the type size.
+  word anywhere on this site. On Rick Owens the largest type on the whole
+  homepage is 11px; drama comes from the picture, not from the type size.
 - The signature is the opening gesture. The mark, stretched nearly edge to edge
   and sitting in emptiness, is what replaces the giant collection name. It is
   the one thing on the site allowed to be large, and it is hairline thin.
@@ -133,7 +133,7 @@ color to reach for; an error thickens a hairline to solid `--fg` and speaks in
 ### Type
 
 Revised 2026-08-01. The old scale ran to 20rem, which is 29 times the largest
-type measured on the primary reference. It is replaced, not softened.
+type measured anywhere on the Rick Owens homepage. It is replaced, not softened.
 
 ```css
 --font-display: "Archivo Variable", system-ui, sans-serif; /* self-hosted, OFL */
@@ -911,14 +911,91 @@ else.
 
 ---
 
-## 14. Reference study (2026-08-01) and what it changed
+## 14. Reference study, verified live on 2026-08-01
 
-Method: the three sites were rendered in headless Chrome at 1440x900 and
-390x844, with consent and promo overlays removed rather than accepted, and the
-numbers below read out of the live DOM with `getComputedStyle`. They are
-measurements, not impressions. Sites change; this is what they were on
-2026-08-01. Hover states and transitions were NOT observed, because headless
-rendering does not hover.
+STATUS: VERIFIED, NOT REMEMBERED. The three sites were rendered in headless
+Chrome at 1440x900 and 390x844 on 2026-08-01, with consent and promo overlays
+removed rather than accepted, and every number below was read out of the live
+DOM with `getComputedStyle`. A future session should treat these as findings of
+record and NOT re-derive them from memory or from what these brands are
+generally said to do. Re-measure only if the direction is being questioned
+again, and date the result when you do. Hover states and transitions were NOT
+observed: headless rendering does not hover.
+
+### Findings that corrected the brief (verified 2026-08-01)
+
+Three things widely assumed about Rick Owens were checked against the live site
+and are false as of this date. They are recorded here because each one was about
+to be designed into our site:
+
+1. There is NO stretched wordmark. The mark is a small script signature centered
+   in the header, about 180px wide on a 1440px viewport. Our stretched-signature
+   hero is our own decision and must be argued on its own merits, never as "what
+   Rick Owens does".
+2. The chrome does NOT disappear. A persistent sticky header, 1440x60, stays at
+   the top of the page. It survives by being 11px and using mix-blend-mode so it
+   inverts over whatever is beneath it. What is hidden behind "Menu" is the
+   87-link navigation, not the header.
+3. Most tiles carry NO caption at all. 26 visible text runs on the entire
+   homepage, and they are navigation and category labels. The imagery is
+   overwhelmingly wordless. "Full-screen video with a small caption over it"
+   overstates how much text is on that site.
+
+### How the three references are weighted
+
+Ranked by how much each one actually tells us about this brand's situation, on
+the evidence rather than on reputation:
+
+1. FILIPPO SORCINELLI, primary. A hairline handwritten signature over full-bleed
+   media is literally our asset and literally our situation. The single most
+   useful measurement in this study is its mobile behavior: the mark grows from
+   19% of the viewport width on desktop to 49% on a phone. The mark gets
+   proportionally BIGGER as the screen gets smaller. That is the model for our
+   opening gesture and for the corner mark.
+2. RICK OWENS, secondary. Consulted for two things only: the type scale (10 to
+   11px, 0.08em tracking, 88% uppercase, nothing larger anywhere) and the
+   video-first structure (full-bleed autoplay loops, poster always present, no
+   gutters, no cards).
+3. VIVIENNE WESTWOOD, last, and close to dropped. A conventional e-commerce site
+   with a 325x375 product card grid. It is a mood reference for the clothes and
+   is not a model for this site. Nothing in the build should cite it.
+
+### On monochrome (DECIDED 2026-08-01)
+
+None of the references is monochrome; the Rick Owens homepage is currently
+saturated acid green. Pure white and pure black is the OWNER'S constraint, not
+something inherited from the references, and it stays. It is also the thing that
+keeps this site from being a pastiche of the three: the signature already exists
+in both polarities, the inversion is the one structural idea the site owns, and
+the palette is what makes the result this brand's rather than a copy of anyone.
+
+### Decisions confirmed by the owner (2026-08-01)
+
+- Overlay polarity is picked per media item by the owner in the studio.
+- The spine is scoped to text surfaces and stays off the photography.
+- The diptych is withdrawn: capping the photograph at half the viewport
+  contradicts the first principle.
+- The 12 column grid is removed and the display scale is cut.
+- The mono register is KEPT for now, on one condition, which is the test set in
+  section 1 and is binding: mono marks facts that came off the garment and
+  nothing else. If it ever starts reading as decoration rather than as data,
+  drop to a single family and say so.
+
+### Filippo Sorcinelli (filipposorcinelli.com)
+
+- Page background near-black (rgb 16,16,16). The homepage is a sequence of
+  full-bleed 1440x900 stills plus one video, all object-fit cover, edge to edge.
+- 91% uppercase. Statement lines at 22px, weight 300, tracking 0.6px, laid over
+  the image at lower left, in two or three short lines: "Ogni tavolo una storia.
+  / Ogni sguardo un ricordo." This is the register section 4 now calls for.
+- The identity mark is a hairline handwritten signature, white, top left, over
+  full-bleed media: 275px wide on desktop (19% of the viewport) and 190px on
+  mobile (49%). Proportionally much larger on the phone. This is the closest
+  living analogue to our own asset and it is the evidence for the signature-led
+  opening, more than Rick Owens is.
+- Chrome: a 142px header with 17 visible links on desktop, collapsing to three
+  icons and a hamburger on mobile. Overlay text is mid-gray at partial opacity,
+  which we cannot copy under the black-and-white rule.
 
 ### Rick Owens (rickowens.eu/en-us)
 
@@ -939,22 +1016,6 @@ rendering does not hover.
   is our own decision, and should not be justified as "what Rick Owens does".
 - The homepage imagery is saturated acid green and yellow. These references are
   not monochrome. White and black is this brand's constraint, not theirs.
-
-### Filippo Sorcinelli (filipposorcinelli.com)
-
-- Page background near-black (rgb 16,16,16). The homepage is a sequence of
-  full-bleed 1440x900 stills plus one video, all object-fit cover, edge to edge.
-- 91% uppercase. Statement lines at 22px, weight 300, tracking 0.6px, laid over
-  the image at lower left, in two or three short lines: "Ogni tavolo una storia.
-  / Ogni sguardo un ricordo." This is the register section 4 now calls for.
-- The identity mark is a hairline handwritten signature, white, top left, over
-  full-bleed media: 275px wide on desktop (19% of the viewport) and 190px on
-  mobile (49%). Proportionally much larger on the phone. This is the closest
-  living analogue to our own asset and it is the evidence for the signature-led
-  opening, more than Rick Owens is.
-- Chrome: a 142px header with 17 visible links on desktop, collapsing to three
-  icons and a hamburger on mobile. Overlay text is mid-gray at partial opacity,
-  which we cannot copy under the black-and-white rule.
 
 ### Vivienne Westwood (viviennewestwood.com/en-us)
 

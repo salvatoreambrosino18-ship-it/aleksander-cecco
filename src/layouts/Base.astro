@@ -8,7 +8,6 @@
   between the two themes anywhere (DESIGN-PLAN section 3).
 */
 import "../styles/global.css";
-import Spine from "../components/Spine.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import {getSiteSettings} from "../lib/content";
@@ -60,9 +59,13 @@ const canonical = Astro.site ? new URL(pathname, Astro.site) : null;
       {t(locale, "skipToContent")}
     </a>
 
-    {/* The frame wraps the whole document, so the spine runs its full height. */}
-    <div class="relative flex min-h-svh flex-col">
-      <Spine />
+    {/*
+      No spine at this level. The spine belongs to text surfaces only and stops
+      at the edge of any full-bleed media (DESIGN-PLAN section 2). Header,
+      footer and every text section draw their own segment at the same offset,
+      so the line reads continuous and breaks exactly where a photograph starts.
+    */}
+    <div class="flex min-h-svh flex-col">
       <SiteHeader locale={locale} />
       <main id="content" class="flex-1">
         <slot />
