@@ -1,0 +1,81 @@
+/*
+  Design tokens: the single source of truth for color, type, space, and motion.
+  Values from DESIGN-PLAN.md section 2. No literal color or size belongs anywhere
+  else; everything derives from here (via global.css @theme for Tailwind utilities).
+*/
+
+:root {
+  /* base palette: near-black and warm near-white, never pure #000 / #fff */
+  --ink: #0a0a0a;
+  --paper: #fafaf8;
+
+  /* type families (self-hosted, subset, variable) */
+  --ff-display: "Archivo Variable", system-ui, sans-serif;
+  --ff-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* variation-axis presets. Archivo carries wdth 62-125 and wght 100-900. */
+  --wdth-condensed: 70;
+  --wdth-normal: 100;
+  --wght-display: 600;
+  --wght-body: 400;
+
+  /* type scale: a deliberately large jump between display and body */
+  --t-hero: clamp(3.5rem, 22vw, 20rem);
+  --t-h1: clamp(2.25rem, 9vw, 6rem);
+  --t-h2: clamp(1.5rem, 5vw, 3rem);
+  --t-body: clamp(1rem, 0.98rem + 0.2vw, 1.125rem);
+  --t-small: 0.875rem;
+  --t-mono: 0.8125rem;
+
+  /* spacing: one rhythm unit, near-Fibonacci multiples */
+  --unit: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+  --s-u1: var(--unit);
+  --s-u2: calc(var(--unit) * 2);
+  --s-u3: calc(var(--unit) * 3);
+  --s-u5: calc(var(--unit) * 5);
+  --s-u8: calc(var(--unit) * 8);
+  --s-u13: calc(var(--unit) * 13);
+  --s-u21: calc(var(--unit) * 21);
+
+  /* layout */
+  --margin: 6vw; /* mobile */
+  --hairline-w: 1px;
+
+  /* motion */
+  --wipe-pin: 100vh;
+  --dur-reveal: 900ms;
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inversion: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* default polarity = light, so tokens resolve even before a theme is set */
+  --fg: var(--ink);
+  --bg: var(--paper);
+  color-scheme: light;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --margin: clamp(3rem, 8vw, 10rem); /* wide desktop margins */
+  }
+}
+
+/*
+  Two discrete themes. The inversion swaps which one is active; there is no
+  interpolated (gray) state anywhere. See DESIGN-PLAN.md section 3.
+*/
+[data-theme="light"] {
+  --fg: var(--ink);
+  --bg: var(--paper);
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --fg: var(--paper);
+  --bg: var(--ink);
+  color-scheme: dark;
+}
+
+/* tokens derived from the active fg (resolve against whichever theme is set) */
+:root {
+  --hairline: color-mix(in srgb, var(--fg) 20%, transparent);
+  --focus: var(--fg);
+}

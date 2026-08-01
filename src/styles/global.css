@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./fonts.css";
+
+/*
+  Map the design tokens into Tailwind's theme so utilities are generated from
+  them (bg-bg, text-fg, font-display, text-hero, p-margin, gap-u3, ...). This is
+  the only bridge between tokens and utilities; no literal values in markup.
+*/
+@theme {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-fg: var(--fg);
+  --color-bg: var(--bg);
+  --color-hairline: var(--hairline);
+
+  --font-display: var(--ff-display);
+  --font-mono: var(--ff-mono);
+
+  --text-hero: var(--t-hero);
+  --text-h1: var(--t-h1);
+  --text-h2: var(--t-h2);
+  --text-body: var(--t-body);
+  --text-small: var(--t-small);
+  --text-mono: var(--t-mono);
+
+  --spacing-u1: var(--s-u1);
+  --spacing-u2: var(--s-u2);
+  --spacing-u3: var(--s-u3);
+  --spacing-u5: var(--s-u5);
+  --spacing-u8: var(--s-u8);
+  --spacing-u13: var(--s-u13);
+  --spacing-u21: var(--s-u21);
+  --spacing-margin: var(--margin);
+}
+
+/*
+  Typographic registers. The width axis is the instrument: condensed for
+  display, normal for body. Mono marks data that comes off the garment.
+*/
+@utility type-display {
+  font-family: var(--ff-display);
+  font-variation-settings: "wght" var(--wght-display), "wdth" var(--wdth-condensed);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+}
+@utility type-body {
+  font-family: var(--ff-display);
+  font-variation-settings: "wght" var(--wght-body), "wdth" var(--wdth-normal);
+  line-height: 1.5;
+}
+@utility type-mono {
+  font-family: var(--ff-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* the recurring vertical hairline (the spine) */
+@utility hairline-v {
+  border-left: var(--hairline-w) solid var(--hairline);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--ff-display);
+    font-variation-settings: "wght" var(--wght-body), "wdth" var(--wdth-normal);
+    font-size: var(--t-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /*
+    Focus: black or white only. An fg outline with a bg halo in the offset gap,
+    so it stays visible over photography without introducing a third color.
+  */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--bg);
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  img,
+  picture,
+  video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* Motion is opt-in per element; here we guarantee the reduced-motion floor. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,30 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  theme?: "light" | "dark";
+}
+
+const { title = "Aleksander Cecco", theme = "light" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="it" data-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {/* Preload only the first-screen typeface (Archivo). Mono is not on the hero. */}
+    <link
+      rel="preload"
+      href="/fonts/archivo-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
