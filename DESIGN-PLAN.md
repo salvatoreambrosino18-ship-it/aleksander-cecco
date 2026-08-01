@@ -430,6 +430,19 @@ Service credentials, needed only when each piece is wired, never to scaffold:
 Legal: entity details for a privacy page covering the enquiry form and the
 cookieless page count.
 
+### Added during the build (kept current)
+
+- Sanity projectId and dataset: the immediate item. The studio is built and
+  validated but cannot run for click-through until a real project exists. Create
+  a free project and send the projectId and the dataset name (both are public
+  identifiers, not secrets). Steps are in the README.
+- Size vocabulary: the garment "available sizes" field currently offers
+  XS, S, M, L, XL, XXL as a placeholder set. Confirm this, or send the real
+  system (letter, numeric IT, or per-garment).
+- Logo files: still not present in ~/aleksander-cecco/assets/logo/. Needed for
+  page building (the hero, the wipe, and the siteSettings logo fields). Drop the
+  two files (white on black, black on white) there before that milestone.
+
 ---
 
 ## 10. Corrections applied after review
@@ -452,3 +465,21 @@ Earlier self-critique from the first plan, still in force: no persistent top nav
 bar competing with the hero; no thumbnail grid on the collections pages, garments
 are shown at large scale; no universal fade-up on scroll, motion is spent on the
 wipe and on deliberate photography reveals.
+
+---
+
+## 11. Decisions taken during the build (2026-08-01)
+
+- Toolchain versions verified against current docs before installing: Astro
+  7.1.6, Tailwind v4 via @tailwindcss/vite (the @astrojs/tailwind integration is
+  gone in v4), Sanity v6.8, @sanity/orderable-document-list v2 (React 19).
+- Studio architecture: a standalone studio/ folder deployed to Sanity hosting,
+  so the Astro site stays a pure static, JS-light build for Cloudflare.
+- Fonts: self-hosted, Latin-subset variable woff2. Archivo carries both the wdth
+  (62-125) and wght (100-900) axes (verified before and after subsetting); one
+  file serves condensed display and normal body. JetBrains Mono carries wght
+  (100-800). Only the first-screen font (Archivo) is preloaded.
+- Alt text: required in both Italian and English on every image, honouring the
+  brief's insistence that alt is mandatory. Relaxable to Italian-only on request.
+- The site remains static output for now. The Cloudflare adapter and server
+  output are added only when the enquiry API route (Resend) is wired.
