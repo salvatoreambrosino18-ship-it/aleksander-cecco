@@ -39,17 +39,15 @@ export const siteSettings = defineType({
       title: 'Spedizioni e resi / Shipping and returns',
       type: 'localeText',
     }),
+    // One file only. The supplied signature SVG paints with currentColor, so it
+    // inverts with the page and serves both polarities. See DESIGN-PLAN.md
+    // section 3.
     defineField({
-      name: 'logoBlackOnWhite',
-      title: 'Logo nero su bianco / Logo black on white',
+      name: 'logo',
+      title: 'Logo (firma / signature)',
       type: 'image',
-      description: 'Usato nella polarita chiara. / Used in the light polarity.',
-    }),
-    defineField({
-      name: 'logoWhiteOnBlack',
-      title: 'Logo bianco su nero / Logo white on black',
-      type: 'image',
-      description: 'Usato nella polarita scura. / Used in the dark polarity.',
+      description:
+        'Un solo file. La firma SVG usa currentColor e si inverte con la pagina, quindi vale sia per il bianco sia per il nero. / One file only. The signature SVG uses currentColor and inverts with the page, so it serves both the white and the black polarity.',
     }),
   ],
   preview: {
