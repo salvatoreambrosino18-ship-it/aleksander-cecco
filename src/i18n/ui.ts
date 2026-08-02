@@ -33,6 +33,8 @@ const ui = {
     composition: "Composizione",
     handmadeMadeToMeasure: "Fatto a mano. Su misura.",
     outsideCollections: "Fuori dalle collezioni.",
+    // A buyer who cannot try anything on needs a way to use these numbers.
+    fitGuidance: "Confrontale con un capo che gia possiedi e che ti veste come vuoi.",
     madeToOrder: "Su ordinazione.",
     unique: "Unica. 1 di 1.",
     privateOrder: "Ordine privato.",
@@ -90,6 +92,7 @@ const ui = {
     composition: "Composition",
     handmadeMadeToMeasure: "Handmade. Made to measure.",
     outsideCollections: "Outside the collections.",
+    fitGuidance: "Compare these with a garment you already own and like the fit of.",
     madeToOrder: "Made to order.",
     unique: "Unique. 1 of 1.",
     privateOrder: "Private order.",

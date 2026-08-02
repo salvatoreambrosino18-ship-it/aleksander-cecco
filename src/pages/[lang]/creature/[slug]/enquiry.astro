@@ -88,17 +88,45 @@ const availabilityNote = pick(garment.availabilityNote, locale);
                 <span class="type-label text-label">{copy.measureTitle}</span>
               </legend>
 
+              {/*
+                ONE UNIT FOR ALL THREE, chosen by the person filling the form
+                (DESIGN-PLAN section 38). Nobody measures a chest in inches and
+                shoulders in centimetres, so asking three times would be three
+                chances to get it wrong.
+
+                A radio group, not a script: the whole form works with no
+                JavaScript and the server does the conversion. That is also why
+                the field labels no longer say "(cm)": without JavaScript a
+                label cannot follow the radio, so the unit is stated once, here,
+                and applies to everything below it.
+              */}
+              <div class="flex flex-wrap items-baseline gap-u3">
+                <span class="type-label text-label">{copy.unitQuestion}</span>
+                {(["cm", "in"] as const).map((unit, index) => (
+                  <label class="type-label text-label flex items-baseline gap-u1">
+                    <input type="radio" name="unit" value={unit} checked={index === 0} />
+                    {unit.toUpperCase()}
+                  </label>
+                ))}
+              </div>
+
               {(["chest", "shoulders", "length"] as const).map((key, index) => (
                 <div class="field">
                   <label class="type-label text-label" for={key}>
-                    {copy.measures[index].label} (cm)
+                    {copy.measures[index].label}
                   </label>
+                  {/*
+                    step="any" and NO min/max: the accepted range depends on the
+                    unit chosen above, and a browser cannot know which one that
+                    is without JavaScript. The server validates, and its error
+                    names the range in the unit that was chosen.
+                  */}
                   <input
                     id={key}
                     name={key}
                     type="number"
                     inputmode="decimal"
-                    step="0.5"
+                    step="any"
                     required
                     aria-describedby={`${key}-how`}
                   />
@@ -110,6 +138,11 @@ const availabilityNote = pick(garment.availabilityNote, locale);
                   </p>
                 </div>
               ))}
+
+              <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && "draft-text"]}>
+                {copy.measureHelp}
+              </p>
+
             </fieldset>
 
             <div class="field">

@@ -9,7 +9,24 @@
 
 export const LOCALES = ["it", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
-export const DEFAULT_LOCALE: Locale = "it";
+/*
+  The routing default, changed to English on 2026-08-02. The intended buyer is
+  not Italian (DESIGN-PLAN section 37): the labour price and the international
+  market price are the same number, so the market is international. Italian
+  stays fully first class, keeps its own prefix, and carries the owner's own
+  approved words. Nothing auto-detects; this is only which language the bare
+  root resolves to.
+*/
+export const DEFAULT_LOCALE: Locale = "en";
+
+/*
+  WHICH LANGUAGE ALT TEXT FALLS BACK TO, and it is NOT the routing default.
+  These were one constant until the default changed, and collapsing them again
+  would silently empty the alt text on every English page: alt is authored in
+  ITALIAN and English is optional (section 17), so an English reader with no
+  English alt must fall back to Italian, never to the empty English field.
+*/
+export const ALT_FALLBACK_LOCALE: Locale = "it";
 
 export function isLocale(value: unknown): value is Locale {
   return typeof value === "string" && (LOCALES as readonly string[]).includes(value);
@@ -67,5 +84,5 @@ export function pick(field: LocaleField, locale: Locale): string | null {
  * missing translation as missing (see pick).
  */
 export function pickAlt(field: LocaleField, locale: Locale): string {
-  return pick(field, locale) ?? pick(field, DEFAULT_LOCALE) ?? "";
+  return pick(field, locale) ?? pick(field, ALT_FALLBACK_LOCALE) ?? "";
 }

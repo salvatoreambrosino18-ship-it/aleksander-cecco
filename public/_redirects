@@ -1,6 +1,7 @@
 # Cloudflare Pages reads this file from the root of the build output.
 #
-# The bare root is not a language, so it goes to the default one. Astro's own
+# The bare root is not a language, so it goes to the default one, which is
+# ENGLISH from 2026-08-02 (DESIGN-PLAN section 37). Astro's own
 # static redirect emits an index.html carrying a meta refresh, which works but
 # answers 200 and costs the reader a round trip. Cloudflare applies redirects
 # before static assets, so this turns the same hop into a real 301. The Astro
@@ -8,7 +9,7 @@
 #
 # This is a path redirect, not language detection: nothing here reads
 # Accept-Language, and the switch stays visible on every page.
-/  /it  301
+/  /en  301
 
 # The pieces are Creature, the owner's own word for them (DESIGN-PLAN section
 # 22), so /pieces/ became /creature/ on 2026-08-02. Nothing had been shared and

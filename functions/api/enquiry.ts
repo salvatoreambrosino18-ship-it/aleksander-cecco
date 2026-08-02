@@ -179,24 +179,46 @@ async function globalSends(store: Store) {
 
 type Locale = "it" | "en";
 
+/*
+  MEASUREMENT RANGES, in centimetres, which is what is stored and sent.
+
+  A buyer working in inches is NOT rejected (DESIGN-PLAN section 38). Before
+  this, chest was validated between 50 and 200 with no unit choice, so an
+  American entering 40 was told "Chest is in centimetres, between 50 and 200"
+  for a perfectly normal chest. That is a valid customer turned away by a
+  validator, and it is the kind of lost sale that appears in no log anywhere.
+*/
 const RANGES = {
   chest: [50, 200],
   shoulders: [25, 90],
   length: [30, 200],
 } as const;
 
+const PER_INCH = 2.54;
+
+/*
+  The range shown back to someone who chose inches is rounded INWARD: ceil the
+  minimum, floor the maximum. Anyone who obeys the message therefore passes,
+  where rounding outward would print a range that then gets rejected.
+*/
+function shownRange(key: keyof typeof RANGES, unit: "cm" | "in"): [number, number] {
+  const [min, max] = RANGES[key];
+  if (unit === "cm") return [min, max];
+  return [Math.ceil(min / PER_INCH), Math.floor(max / PER_INCH)];
+}
+
 const TEXT = {
   it: {
     title: "Richiesta",
     ok: "Richiesta ricevuta. Ti rispondiamo via email.",
-    replyWindow: "Rispondiamo entro un giorno.",
+    replyWindow: "Rispondiamo entro un giorno, ora italiana.",
     back: "Torna alla Creatura",
     invalid: "Controlla i dati inseriti.",
     name: "Serve un nome.",
     email: "Serve un indirizzo email valido.",
-    chest: "Il torace va indicato in centimetri, tra 50 e 200.",
-    shoulders: "Le spalle vanno indicate in centimetri, tra 25 e 90.",
-    length: "La lunghezza va indicata in centimetri, tra 30 e 200.",
+    measure: {chest: "Torace", shoulders: "Spalle", length: "Lunghezza"},
+    range: (field: string, min: number, max: number, unit: string) =>
+      `${field}: indica un valore tra ${min} e ${max} ${unit}.`,
     tooFast: "Riprova: il modulo e stato inviato troppo in fretta.",
     notSent: "Non siamo riusciti a inviare la richiesta. Riprova piu tardi.",
     notConfigured: "L'invio delle richieste non e ancora attivo su questo sito.",
@@ -206,14 +228,14 @@ const TEXT = {
   en: {
     title: "Enquiry",
     ok: "Enquiry received. We will reply by email.",
-    replyWindow: "We reply within one day.",
+    replyWindow: "We reply within one day, Italian time.",
     back: "Back to the Creature",
     invalid: "Please check what you entered.",
     name: "A name is needed.",
     email: "A valid email address is needed.",
-    chest: "Chest is in centimetres, between 50 and 200.",
-    shoulders: "Shoulders are in centimetres, between 25 and 90.",
-    length: "Length is in centimetres, between 30 and 200.",
+    measure: {chest: "Chest", shoulders: "Shoulders", length: "Length"},
+    range: (field: string, min: number, max: number, unit: string) =>
+      `${field}: enter a value between ${min} and ${max} ${unit}.`,
     tooFast: "Please try again: the form was submitted too quickly.",
     notSent: "We could not send your enquiry. Please try again later.",
     notConfigured: "Sending enquiries is not switched on for this site yet.",
@@ -321,10 +343,26 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email) || fields.email.length > 254) {
     problems.push(text.email);
   }
+  /*
+    Whatever unit they chose, CENTIMETRES are what get validated, stored and
+    sent. The error names the range in THEIR unit, because telling someone who
+    chose inches that a chest must be "between 50 and 200" is the original bug
+    wearing a different hat.
+  */
+  const unit: "cm" | "in" = get("unit") === "in" ? "in" : "cm";
+  const cm: Record<"chest" | "shoulders" | "length", number> = {chest: 0, shoulders: 0, length: 0};
+
   for (const key of ["chest", "shoulders", "length"] as const) {
-    const value = Number(fields[key].replace(",", "."));
+    // A comma is a decimal separator in most of the languages this site meets.
+    const entered = Number(fields[key].replace(",", "."));
+    const value = unit === "in" ? entered * PER_INCH : entered;
     const [min, max] = RANGES[key];
-    if (!Number.isFinite(value) || value < min || value > max) problems.push(text[key]);
+    if (!Number.isFinite(value) || value < min || value > max) {
+      const [lo, hi] = shownRange(key, unit);
+      problems.push(text.range(text.measure[key], lo, hi, unit));
+    } else {
+      cm[key] = Math.round(value * 10) / 10;
+    }
   }
 
   if (problems.length > 0) {
@@ -368,9 +406,11 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     `Name: ${fields.name}`,
     `Email: ${fields.email}`,
     "",
-    `Chest: ${fields.chest} cm`,
-    `Shoulders: ${fields.shoulders} cm`,
-    `Length: ${fields.length} cm`,
+    // Always centimetres. The original is echoed only when it was not, so the
+    // owner can sanity-check a conversion without doing arithmetic himself.
+    `Chest: ${cm.chest} cm${unit === "in" ? ` (entered ${fields.chest} in)` : ""}`,
+    `Shoulders: ${cm.shoulders} cm${unit === "in" ? ` (entered ${fields.shoulders} in)` : ""}`,
+    `Length: ${cm.length} cm${unit === "in" ? ` (entered ${fields.length} in)` : ""}`,
     "",
     fields.note ? `Note:\n${fields.note}` : "Note: (none)",
   ].join("\n");

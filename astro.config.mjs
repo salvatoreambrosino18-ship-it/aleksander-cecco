@@ -24,12 +24,12 @@ const { PUBLIC_SITE_URL } = loadEnv(process.env.NODE_ENV ?? '', process.cwd(), '
 export default defineConfig({
   site: PUBLIC_SITE_URL || 'https://example.com',
 
-  // Italian is the default and English is fully first class. Both carry a path
-  // prefix, so neither language is the "unmarked" one, and nothing redirects by
-  // detected language (DESIGN-PLAN section 5). Pages are authored once under a
-  // [lang] segment and built for every locale.
+  // English is the routing default from 2026-08-02 and Italian is fully first
+  // class. Both carry a path prefix, so neither is the "unmarked" one, and
+  // nothing redirects by detected language (DESIGN-PLAN sections 5 and 37).
+  // Pages are authored once under a [lang] segment and built for every locale.
   i18n: {
-    defaultLocale: 'it',
+    defaultLocale: 'en',
     locales: ['it', 'en'],
     routing: {
       prefixDefaultLocale: true,
@@ -37,9 +37,9 @@ export default defineConfig({
   },
 
   // The bare root is not a language, so it sends the reader to the default one.
-  // This is a path redirect, not language auto-detection.
+  // This is a path redirect, not language auto-detection: no header is read.
   redirects: {
-    '/': '/it',
+    '/': '/en',
   },
 
   // The sitemap knows about both locales, so each page lists its counterpart as
@@ -47,7 +47,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       i18n: {
-        defaultLocale: 'it',
+        defaultLocale: 'en',
         locales: { it: 'it', en: 'en' },
       },
     }),

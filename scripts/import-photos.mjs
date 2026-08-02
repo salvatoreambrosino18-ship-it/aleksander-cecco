@@ -402,11 +402,24 @@ const ABOUT_TEXT = {
   nothing more. No window, no conditions, no "please note": none of that has
   been agreed and inventing it would be inventing policy.
 
+  The third line, added 2026-08-02, is an EXTENSION of his stated rule rather
+  than a new one: he said the customer pays to send it back, and outside the EU
+  that cost also includes customs. At these prices the difference is material
+  and leaving it unsaid would be the omission, not the honesty.
+
   Ours, so it stays marked as an unapproved draft in BOTH languages.
 */
 const SHIPPING_RETURNS = {
-  it: "Spedito in tutto il mondo.\nResi accettati. La spedizione di reso è a carico del cliente.",
-  en: "Shipped worldwide.\nReturns accepted. The customer pays the return shipping.",
+  it: [
+    "Spedito in tutto il mondo.",
+    "Resi accettati. La spedizione di reso è a carico del cliente.",
+    "Fuori dall'Unione Europea, anche eventuali oneri doganali sono a carico del cliente.",
+  ].join("\n"),
+  en: [
+    "Shipped worldwide.",
+    "Returns accepted. The customer pays the return shipping.",
+    "Outside the EU, any customs or import charges are the customer's too.",
+  ].join("\n"),
 };
 
 const FOOTER_COPY = {

@@ -32,7 +32,11 @@ export const ENQUIRY_COPY_IS_DRAFT = true;
 type EnquiryCopy = {
   intro: string;
   measureTitle: string;
+  /** Which unit the three numbers are in. Chosen once, for all of them. */
+  unitQuestion: string;
   measures: Array<{label: string; how: string}>;
+  /** Practical help, because most people measure themselves alone. */
+  measureHelp: string;
   confirmation: string;
 };
 
@@ -41,6 +45,7 @@ const copy: Record<Locale, EnquiryCopy> = {
     // Our translation of his line below.
     intro: "Inviaci le tue misure e penseremo noi a crearla apposta per te.",
     measureTitle: "Come prendere le misure",
+    unitQuestion: "In che unita sono le misure",
     measures: [
       {
         label: "Torace",
@@ -55,12 +60,15 @@ const copy: Record<Locale, EnquiryCopy> = {
         how: "dalla base del collo fino al punto dove vuoi che la Creatura finisca.",
       },
     ],
+    measureHelp:
+      "Se non hai un metro da sarto va bene uno spago: misuralo poi con un metro rigido. Per le spalle fatti aiutare da qualcuno, da solo viene quasi sempre sbagliata. Nel dubbio scrivi la misura che ti sembra piu probabile e diccelo nelle note.",
     confirmation: "Richiesta ricevuta. Ti rispondiamo via email.",
   },
   en: {
     // HIS WORDS, verbatim, from the Armonyen post.
     intro: "Send us your measurements and we'll take care of creating it specifically for you.",
     measureTitle: "How to measure",
+    unitQuestion: "Which unit are these in",
     measures: [
       {
         label: "Chest",
@@ -75,6 +83,8 @@ const copy: Record<Locale, EnquiryCopy> = {
         how: "from the base of the neck down to where you want the Creature to end.",
       },
     ],
+    measureHelp:
+      "No tape measure is fine: use a piece of string and measure the string against a ruler. Ask someone to help with the shoulders, because alone it is almost always wrong. If you are unsure, send your best guess and say so in the note.",
     confirmation: "Enquiry received. We will reply by email.",
   },
 };

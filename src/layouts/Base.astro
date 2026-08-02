@@ -70,7 +70,7 @@ const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === "true";
           <link rel="alternate" hreflang={code} href={new URL(switchLocalePath(pathname, code), Astro.site).href} />
         ))
     }
-    {Astro.site && <link rel="alternate" hreflang="x-default" href={new URL(localePath("it"), Astro.site).href} />}
+    {Astro.site && <link rel="alternate" hreflang="x-default" href={new URL(localePath("en"), Astro.site).href} />}
 
     {/*
       Sharing metadata. The image is always one of the owner's photographs, from

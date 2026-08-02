@@ -3227,3 +3227,108 @@ The pattern: items 1, 5, 8, 9 and 10 are all **trust and completability**, which
 is exactly what section 32 predicted would replace mood as the primary design
 problem the moment the buyer stops being able to visit the studio.
 
+
+---
+
+## 38. Units, the default locale, and the rest of section 37 (2026-08-02)
+
+### A buyer in inches is no longer turned away
+
+The highest-value fix on the list, because it was a lost sale that appeared in
+no log. Chest was validated between 50 and 200 with no unit choice, so an
+American entering 40, a completely ordinary chest in inches, was told "Chest is
+in centimetres, between 50 and 200" and could not proceed.
+
+How it works now:
+
+- ONE unit for all three numbers, chosen by the person filling the form. Nobody
+  measures a chest in inches and shoulders in centimetres, and asking three
+  times would be three chances to get it wrong.
+- A RADIO GROUP, not a script. The whole form works with no JavaScript
+  (section 19) and the server does the conversion. That is also why the field
+  labels no longer read "(cm)": without JavaScript a label cannot follow a
+  radio, so the unit is stated once and governs everything under it.
+- The inputs carry `step="any"` and NO min/max, because the accepted range
+  depends on a unit the browser cannot know about without script.
+- CENTIMETRES are validated, stored and sent. The email carries centimetres and
+  echoes the original only when it was inches, so the owner can sanity-check a
+  conversion without doing arithmetic.
+- The error names the range in THE UNIT THEY CHOSE. Telling someone who picked
+  inches that a chest must be "between 50 and 200" is the original bug wearing a
+  different hat. The inch range is rounded INWARD, ceil the minimum and floor
+  the maximum, so anyone who obeys the message passes.
+
+Verified against the real Workers runtime: 40/18/28 in returns 200 where it
+previously returned 422; the same numbers as centimetres are still refused,
+because a 40cm chest is not a chest; an out-of-range inch value reports "between
+20 and 78 in" in English and "tra 20 e 78 in" in Italian; and a 102/46/71 cm
+buyer is unaffected.
+
+### English is the routing default
+
+Changed because the positioning is settled (section 32): the labour price and
+the international market price are the same number, so the intended buyer is not
+Italian. The bare root, the Astro i18n default, the sitemap default and
+`hreflang="x-default"` all point at English now.
+
+Italian is unchanged in every other respect: its own prefix, first class, the
+owner's own approved words, reachable in one tap from the menu. Nothing detects
+a language and nothing reads a header. This is a path default, not a redirect by
+detection, and section 5 still holds.
+
+**One trap inside this change, worth remembering.** `DEFAULT_LOCALE` was doing
+two unrelated jobs: which language the site routes to, and which language ALT
+TEXT falls back to. Those answers are now different. Alt text is authored in
+ITALIAN with English optional (section 17), so flipping one constant would have
+silently emptied the alt text on every English page: an English reader with no
+English alt would have fallen back to the empty English field instead of the
+Italian description. They are now two constants, `DEFAULT_LOCALE` and
+`ALT_FALLBACK_LOCALE`, and the second must never be collapsed into the first.
+
+### The rest of section 37, where it did not need the owner
+
+- **Timezone on the reply promise.** "We reply within one day, Italian time."
+  One day from a one-person studio means something different in Seoul, and the
+  promise was unqualified rather than wrong.
+- **Returns outside the EU.** A third line: "Outside the EU, any customs or
+  import charges are the customer's too." That is an EXTENSION of his stated
+  rule rather than a new one. He said the customer pays to send it back; outside
+  the EU that cost also includes customs, and at these prices the difference is
+  material. Still our wording, so still marked.
+- **Fit guidance.** One line beside the reference measurements: compare them
+  with a garment you already own and like the fit of. Deliberately phrased to be
+  true under BOTH answers to the open question in section 31, since it works
+  whether the numbers describe the photographed sample or the object that will
+  arrive.
+- **Measuring help.** The instructions assumed a tape measure and no help. They
+  now say a piece of string works, that the shoulders need a second person, and
+  that a best guess plus a note in the message is better than a wrong number
+  entered confidently.
+
+STILL WAITING ON THE OWNER, unchanged: the address (item 5) and payment
+(item 10). Legal remains deferred and gated exactly as section 36 describes;
+nothing here relaxes it.
+
+### A live-fire hazard found while testing, and NOT fixed
+
+The local `.env` holds all three Resend secrets, and current Wrangler reads
+`.env`. **Submitting the enquiry form against `wrangler pages dev` therefore
+sends REAL EMAIL.** Three test submissions during the work above were accepted
+by Resend and delivered to `ENQUIRY_TO_EMAIL`, from "Sam <s@example.com>", and
+spent three of the hundred-a-day allowance.
+
+This is the same class of trap as the seed script: a local command with an
+outward-facing side effect and nothing saying so. It is recorded rather than
+fixed because the fix is a judgement call, not a mechanism:
+
+- The secrets arguably should not be on the laptop at all. Section 29 step 3
+  puts them in the Cloudflare Pages environment, which is where they belong;
+  local `.env` needs `PUBLIC_*` and `SANITY_WRITE_TOKEN` and nothing else.
+- Alternatively the function could refuse to send when it can see it is running
+  locally, but "detect localhost" is exactly the kind of environment sniffing
+  that goes wrong quietly.
+
+RECOMMENDATION: remove the three Resend values from local `.env` and keep them
+only in Cloudflare. Then local testing exercises the 503 path, which is what
+section 19 always assumed it did.
+

@@ -183,6 +183,15 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       }
     </dl>
 
+    {/*
+      A buyer who can neither visit nor try anything on has only these numbers.
+      The line is deliberately true under BOTH answers to the open question in
+      section 31: comparing against a garment you already own works whether
+      these are the measurements of the photographed sample or of the object
+      that will arrive.
+    */}
+    {garment.measurements && <p class="type-label text-label max-w-prose">{t(locale, "fitGuidance")}</p>}
+
     {
       canEnquire ? (
         <a
