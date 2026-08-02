@@ -6,12 +6,21 @@ import type {LocaleField} from "./locales";
 import type {SanityImage} from "./image";
 
 export type OverlayPolarity = "paper" | "ink";
+export type CaptionPlacement = "over" | "below";
 
 export type MediaItem = {
   poster: SanityImage;
   alt: LocaleField;
-  /** The color of text laid over this picture. The owner picks it per image. */
+  /**
+   * The color of text over this picture, and of the fixed chrome while it
+   * passes over it. The owner picks it per image.
+   */
   overlay: OverlayPolarity;
+  /**
+   * Where the label goes. "below" takes the text off a photograph whose
+   * caption band is too contrasted for either color to survive.
+   */
+  captionPlacement: CaptionPlacement;
   caption: LocaleField;
   hasVideo: boolean;
   dimensions: {width: number; height: number} | null;

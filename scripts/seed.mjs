@@ -28,9 +28,16 @@
   measured: the bottom band of the frame, where a caption lands, was sampled and
   the WCAG contrast of paper (#FAFAF8) and ink (#0A0A0A) against it compared.
   The measured luminance and the resulting contrast are recorded next to each
-  entry. Three files are marked RISKY: their caption band spans both a dark
-  garment and bright concrete, so whichever polarity is chosen fails somewhere
-  in the band. Those are the ones to check by eye.
+  entry.
+
+  Three frames (IMG_3116, IMG_3691, IMG_3692) are shot against bright concrete
+  with a dark garment in the frame, so their caption band holds both extremes:
+  the winning polarity still drops to a contrast of 1.1 to 1.6 somewhere in the
+  band, which is unreadable. Rather than force a value, those three carry
+  captionPlacement "below": the label leaves the picture and sits on the page.
+  For them the overlay value then serves the fixed chrome that still passes over
+  the image, and is chosen from the TOP band, which is why IMG_3116 takes paper
+  while the other two take ink.
 */
 import {createHash} from "node:crypto";
 import fs from "node:fs";
@@ -95,14 +102,21 @@ const PHOTOS = {
     },
   },
   "IMG_3691.jpg": {
-    overlay: "ink", // RISKY. caption band L 0.330, ink contrast 7.13 but worst 1.40
+    // Caption band L 0.330: ink wins on the mean (7.13) but collapses to 1.40 at
+    // the dark end, so the caption comes off the picture entirely. The overlay
+    // value here therefore serves the CHROME band (L 0.494), where ink wins.
+    captionPlacement: "below",
+    overlay: "ink",
     alt: {
       it: "Pantaloni ampi in pelle nera, visti di fronte, con zip a vista e orlo grezzo, appesi contro un muro di cemento.",
       en: "Wide-leg black leather trousers, seen from the front, with an exposed zip and a raw hem, hanging against a concrete wall.",
     },
   },
   "IMG_3692.jpg": {
-    overlay: "ink", // RISKY. caption band L 0.387, ink contrast 8.19 but worst 1.60
+    // Caption band L 0.387, ink 8.19 on the mean but 1.60 at the dark end.
+    // Caption below; overlay serves the chrome band (L 0.403), where ink wins.
+    captionPlacement: "below",
+    overlay: "ink",
     alt: {
       it: "Gli stessi pantaloni in pelle nera visti da dietro, con due tasche con zip e l'orlo tagliato irregolare.",
       en: "The same black leather trousers seen from behind, with two zipped pockets and an irregular cut hem.",
@@ -123,7 +137,11 @@ const PHOTOS = {
     },
   },
   "IMG_3116.jpg": {
-    overlay: "ink", // RISKY. caption band L 0.240, ink contrast 5.44 but worst 1.13
+    // Caption band L 0.240, ink 5.44 on the mean but 1.13 at the dark end: the
+    // worst of the three. Caption below. Its chrome band is dark (L 0.163), so
+    // unlike the other two this one takes PAPER for the chrome passing over it.
+    captionPlacement: "below",
+    overlay: "paper",
     alt: {
       it: "Top smanicato in pelle nera increspata con collo alto arricciato, su un manichino chiaro; a sinistra una camicia scura su una gruccia e sul muro dietro i cartamodelli.",
       en: "A sleeveless top in crinkled black leather with a high gathered collar, on a pale mannequin; a dark shirt hangs to the left and paper patterns are pinned on the wall behind.",
@@ -158,6 +176,7 @@ function mediaItem(assetId, filename, key) {
     poster: {_type: "image", asset: {_type: "reference", _ref: assetId}},
     alt: {_type: "localeString", ...photo.alt},
     overlay: photo.overlay,
+    captionPlacement: photo.captionPlacement ?? "over",
   };
 }
 

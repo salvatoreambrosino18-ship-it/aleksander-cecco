@@ -69,6 +69,7 @@ const MEDIA_PROJECTION = /* groq */ `
   poster,
   alt,
   overlay,
+  "captionPlacement": coalesce(captionPlacement, "over"),
   caption,
   "hasVideo": defined(video.asset),
   "dimensions": poster.asset->metadata.dimensions

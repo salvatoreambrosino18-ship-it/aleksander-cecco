@@ -3,15 +3,21 @@
   A MEDIA SURFACE: one photograph, full bleed, filling the screen. No card, no
   frame, no margin, no rounded corner, and no spine crossing it.
 
-  The overlay polarity is the owner's choice per image in the studio, so any
-  label laid over the picture is solid paper or solid ink, never gray and never
-  on a scrim. The same polarity is published on the element as
-  data-chrome-polarity, which is what lets the fixed chrome stay legible as this
-  image passes beneath it.
+  Two ways to caption it, chosen per image by the owner in the studio:
 
-  Video: the schema carries an optional muted loop and this component renders
-  its poster. The player is deliberately not built yet, so a media item with a
-  video looks exactly like one without until it is.
+  - "over": the label sits on the picture, in solid paper or solid ink (their
+    choice), with no scrim and no gray.
+  - "below": the label sits under the picture on the page itself, in the page's
+    own polarity. This exists because three of the brand's own photographs are
+    shot against bright concrete with a dark garment in frame, so the caption
+    band holds both extremes and neither text color survives it.
+
+  Either way the image publishes its overlay polarity as data-chrome-polarity,
+  because the fixed signature and MENU still pass over the picture and still
+  have to stay legible.
+
+  Video: the schema carries an optional muted loop and this renders its poster.
+  The player is deliberately not built yet.
 */
 import {fullBleedSrcSet, imageUrl, objectPosition} from "../lib/image";
 import {overlayTheme, type MediaItem} from "../lib/media";
@@ -34,40 +40,53 @@ const alt = pick(media.alt, locale) ?? "";
 const caption = pick(media.caption, locale);
 const src = imageUrl(media.poster, 1440);
 const srcset = fullBleedSrcSet(media.poster);
+
+const below = media.captionPlacement === "below";
+const hasLabel = Boolean(caption) || Astro.slots.has("default");
 ---
 
-<figure
-  data-chrome-polarity={theme}
-  class:list={[
-    "relative w-full overflow-hidden",
-    height === "screen" ? "h-media-screen" : "h-media-tall",
-    className,
-  ]}
->
-  {
-    src && (
-      <img
-        src={src}
-        srcset={srcset}
-        sizes="100vw"
-        alt={alt}
-        width={media.dimensions?.width}
-        height={media.dimensions?.height}
-        loading={priority ? "eager" : "lazy"}
-        decoding={priority ? "sync" : "async"}
-        fetchpriority={priority ? "high" : "auto"}
-        style={`object-position: ${objectPosition(media.poster)}`}
-        class="h-full w-full object-cover"
-      />
-    )
-  }
+<figure data-chrome-polarity={theme} class:list={["relative w-full", className]}>
+  <div
+    class:list={[
+      "relative w-full overflow-hidden",
+      height === "screen" ? "h-media-screen" : "h-media-tall",
+    ]}
+  >
+    {
+      src && (
+        <img
+          src={src}
+          srcset={srcset}
+          sizes="100vw"
+          alt={alt}
+          width={media.dimensions?.width}
+          height={media.dimensions?.height}
+          loading={priority ? "eager" : "lazy"}
+          decoding={priority ? "sync" : "async"}
+          fetchpriority={priority ? "high" : "auto"}
+          style={`object-position: ${objectPosition(media.poster)}`}
+          class="h-full w-full object-cover"
+        />
+      )
+    }
+
+    {
+      hasLabel && !below && (
+        <figcaption
+          data-theme={theme}
+          class="text-fg absolute inset-x-0 bottom-0 flex flex-col gap-u1 p-caption"
+        >
+          <slot />
+          {caption && <span class="type-label text-label">{caption}</span>}
+        </figcaption>
+      )
+    }
+  </div>
 
   {
-    (caption || Astro.slots.has("default")) && (
-      <figcaption
-        data-theme={theme}
-        class="text-fg absolute inset-x-0 bottom-0 flex flex-col gap-u1 p-caption"
-      >
+    hasLabel && below && (
+      /* On the page, not on the picture: page polarity, inside the margins. */
+      <figcaption class="frame flex flex-col gap-u1 py-u3">
         <slot />
         {caption && <span class="type-label text-label">{caption}</span>}
       </figcaption>

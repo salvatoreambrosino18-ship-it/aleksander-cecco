@@ -49,7 +49,7 @@ export const media = defineType({
       title: 'Testo sopra / Text over this media',
       type: 'string',
       description:
-        "Il colore del testo sovrapposto. Guarda l'immagine e scegli quello leggibile. Solo bianco o nero, mai grigio. / The color of any text laid over this media. Look at the picture and pick the legible one. White or black only, never gray.",
+        "Il colore del testo sopra questa immagine, e del logo e del menu quando ci passano sopra. Guarda l'immagine e scegli quello leggibile. Solo bianco o nero, mai grigio. / The color of text over this media, and of the logo and menu while they pass over it. Look at the picture and pick the legible one. White or black only, never gray.",
       options: {
         list: [
           {title: 'Bianco / White', value: 'paper'},
@@ -58,6 +58,30 @@ export const media = defineType({
         layout: 'radio',
       },
       initialValue: 'paper',
+      validation: (Rule) => Rule.required(),
+    }),
+    /*
+      Added 2026-08-02, because real photography demanded it. Three of the nine
+      seeded frames are shot against bright concrete with a dark garment in the
+      frame, so the band where a caption sits contains both extremes: white text
+      fails on the concrete, black text fails on the garment, and no overlay
+      value is correct. Forcing one would have meant shipping an unreadable
+      caption. The honest answer is to take the text off the picture.
+    */
+    defineField({
+      name: 'captionPlacement',
+      title: 'Posizione del testo / Caption placement',
+      type: 'string',
+      description:
+        "Sopra l'immagine quando la foto ha una zona uniforme dove leggere. Sotto, sulla pagina, quando la foto e' troppo contrastata e nessun colore di testo resta leggibile. / Over the image when the photograph has an even area to read against. Below, on the page, when the photograph is too contrasted for either text color to stay legible.",
+      options: {
+        list: [
+          {title: "Sopra l'immagine / Over the image", value: 'over'},
+          {title: 'Sotto, sulla pagina / Below, on the page', value: 'below'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'over',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
