@@ -1,20 +1,33 @@
 ---
 /*
-  The archive: past work, as a sequence of full-screen frames.
+  THE GALLERY. Revised 2026-08-02 from an archive, by the owner's decision, and
+  it is a change of kind rather than of degree (DESIGN-PLAN section 18).
 
-  Deliberately not a grid. A grid would turn the only evidence that a body of
-  work exists into a contact sheet, and the brief forbids thumbnails anyway.
-  Deliberately not all of it either: the archive is curated, and its length is
-  the design. Frames sit at --media-h-tall so the next one always peeks and the
-  eye is pulled down rather than stalled.
+  AN ARCHIVE WANTS CHRONOLOGY AND PROVENANCE. Dates, one frame per distinct
+  piece, a caption naming what each thing is. Section 18 set a condition on
+  exactly that: without years it was a mood board, not a record.
 
-  Each frame carries at most a year and a name, in the mono register. With
-  nothing at all it is a mood board; with a year it is an archive.
+  A GALLERY WANTS SEQUENCE AND RHYTHM. So:
+
+  - THE YEAR IS GONE, from the schema and from every frame. The condition in
+    section 18 is withdrawn because it was measuring the wrong object.
+  - NAMES ARE OPTIONAL and usually absent. A frame is allowed to be silent, and
+    most are: this is imagery, and a label on a photograph that needs none is
+    an interruption.
+  - RHYTHM REPLACES UNIFORMITY. Frames alternate tall and short rather than
+    marching at one height, the same device the Creature index uses, because a
+    sequence of identical rectangles is a contact sheet no matter how large the
+    rectangles are.
+  - CURATION IS LOOSER. The old rule was one frame per distinct piece, which
+    existed to stop an archive double-counting. A gallery has nothing to
+    double-count: a frame earns its place by being a good photograph.
+
+  Still deliberately not a grid, and still full bleed.
 */
 import Base from "../../layouts/Base.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import TextSurface from "../../components/TextSurface.astro";
-import {getArchive} from "../../lib/content";
+import {getGallery} from "../../lib/content";
 import {LOCALES, toLocale} from "../../lib/locales";
 import {imageUrl} from "../../lib/image";
 import {overlayTheme} from "../../lib/media";
@@ -25,8 +38,13 @@ export function getStaticPaths() {
 }
 
 const locale = toLocale(Astro.params.lang);
-const pieces = (await getArchive()).filter((piece) => piece.media?.length);
-const first = pieces[0]?.media?.[0] ?? null;
+const images = (await getGallery()).filter((image) => image.media?.length);
+const first = images[0]?.media?.[0] ?? null;
+
+/* Flattened first, so the rhythm counts FRAMES and not documents. */
+const frames = images.flatMap((image) =>
+  (image.media ?? []).map((media, index) => ({media, title: index === 0 ? image.title : null})),
+);
 ---
 
 <Base
@@ -34,33 +52,28 @@ const first = pieces[0]?.media?.[0] ?? null;
   title={t(locale, "archive")}
   chrome={overlayTheme(first?.overlay)}
   image={first ? imageUrl(first.poster, 1200) : null}
+  theme="dark"
+  footerTheme="dark"
 >
   <h1 class="sr-only">{t(locale, "archive")}</h1>
 
   {
-    pieces.map((piece, index) =>
-      piece.media!.map((media, mediaIndex) => (
-        <MediaSurface
-          media={media}
-          locale={locale}
-          height="tall"
-          priority={index === 0 && mediaIndex === 0}
-        >
-          {mediaIndex === 0 && (piece.title || piece.year) && (
-            <div class="flex flex-col gap-u1">
-              {piece.title && <h2 class="type-label text-label">{piece.title}</h2>}
-              {piece.year && <span class="type-mono text-mono">{piece.year}</span>}
-            </div>
-          )}
-        </MediaSurface>
-      )),
-    )
+    frames.map(({media, title}, index) => (
+      <MediaSurface
+        media={media}
+        locale={locale}
+        height={index % 2 === 0 ? "tall" : "short"}
+        priority={index === 0}
+      >
+        {title && <h2 class="type-label text-label">{title}</h2>}
+      </MediaSurface>
+    ))
   }
 
   {
-    pieces.length === 0 && (
-      <TextSurface class="flex min-h-svh flex-col justify-center">
-        <p class="placeholder-mark self-start">{"{ARCHIVE_EMPTY}"}</p>
+    frames.length === 0 && (
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
+        <p class="placeholder-mark self-start">{"{GALLERY_EMPTY}"}</p>
       </TextSurface>
     )
   }

@@ -26,9 +26,9 @@ export type HomeTile = {
   garment: {name: string; slug: string | null} | null;
 };
 
-export type ArchivePiece = {
+/** A frame in the gallery. No year: it is a gallery, not an archive (s.18). */
+export type GalleryImage = {
   title: string | null;
-  year: string | null;
   media: MediaItem[] | null;
 };
 
@@ -49,6 +49,8 @@ export type SiteSettings = {
   approvedLanguages: string[] | null;
   /** True while the two footer lines are still ours rather than his. */
   footerCopyIsDraft: boolean | null;
+  designerPortrait: MediaItem | null;
+  designerText: LocaleField;
   aboutOpeningMedia: MediaItem | null;
   aboutOpeningLine: LocaleField;
   aboutMedia: MediaItem[] | null;
@@ -74,6 +76,8 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     makingStatement,
     "approvedLanguages": coalesce(approvedLanguages, ["en"]),
     "footerCopyIsDraft": coalesce(footerCopyIsDraft, true),
+    designerPortrait{${MEDIA_PROJECTION}},
+    designerText,
     aboutOpeningMedia{${MEDIA_PROJECTION}},
     aboutOpeningLine,
     aboutMedia[]{${MEDIA_PROJECTION}},
@@ -95,6 +99,8 @@ const EMPTY_SETTINGS: SiteSettings = {
   makingStatement: null,
   approvedLanguages: null,
   footerCopyIsDraft: null,
+  designerPortrait: null,
+  designerText: null,
   aboutOpeningMedia: null,
   aboutOpeningLine: null,
   aboutMedia: null,
@@ -246,11 +252,32 @@ export function byStage<T extends {stage: string | null}>(items: T[]): T[] {
   return [...items].sort((a, b) => rank(a) - rank(b));
 }
 
-/** The archive, in the owner's order. A sequence, not a catalogue. */
-export async function getArchive(): Promise<ArchivePiece[]> {
-  return query<ArchivePiece[]>(
+/*
+  NEXT AND PREVIOUS, in the same order the index and the collection use. Without
+  it every Creature is a dead end and seeing two means going back to the index
+  in between, which was the single most-repeated action on the site.
+
+  It WRAPS, deliberately: the sixteenth leads to the first. A sequence that
+  stops has an end, and an end invites leaving.
+*/
+export function neighbours<T extends {slug: string; stage: string | null}>(
+  all: T[],
+  slug: string,
+): {previous: T | null; next: T | null} {
+  const ordered = byStage(all);
+  const index = ordered.findIndex((item) => item.slug === slug);
+  if (index === -1 || ordered.length < 2) return {previous: null, next: null};
+  return {
+    previous: ordered[(index - 1 + ordered.length) % ordered.length]!,
+    next: ordered[(index + 1) % ordered.length]!,
+  };
+}
+
+/** The gallery, in the owner's order. Sequence and rhythm, not chronology. */
+export async function getGallery(): Promise<GalleryImage[]> {
+  return query<GalleryImage[]>(
     /* groq */ `*[_type == "archivePiece" && count(media) > 0]
-      | order(orderRank asc){title, year, media[]{${MEDIA_PROJECTION}}}`,
+      | order(orderRank asc){title, media[]{${MEDIA_PROJECTION}}}`,
     {},
     [],
   );

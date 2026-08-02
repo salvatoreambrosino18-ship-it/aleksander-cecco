@@ -3441,3 +3441,156 @@ and `archive-` ids it generates. `createOrReplace` writes what is in the plan
 and says nothing about what has left it, which is how those four would otherwise
 have lingered.
 
+
+---
+
+## 41. Three questions settled, and the designer page (2026-08-02)
+
+### READY OR REMADE: SETTLED. Do not reopen.
+
+The owner's answer: **the sixteen pieces on the site are EXAMPLES, and every one
+is remade to the buyer's measurements. There are no ready pieces in fixed
+sizes.**
+
+Consequences, recorded so the third round of this conversation does not happen:
+
+- Section 31's costing is spent. Reading A was correct, the cost was zero, and
+  **nothing in the enquiry path was wrong**: the form asking for chest,
+  shoulders and length is right; his own line about sending measurements is
+  right; "Handmade. Made to measure." on every inscription is right.
+- `measurements` means what it always meant: the REFERENCE measurements of the
+  photographed piece, not of the object a buyer receives.
+- **No size system returns.** Section 17 stands, now for the second time and on
+  the owner's own word rather than on inference.
+- The `availability` enum keeps its four values. Widening it to five was
+  contingency and the contingency did not fire.
+
+### ACCESSORIES ARE CREATURE
+
+No `kind` field, no accessories section. The hat and the bag take their place in
+the index like everything else. If pricing tiers need to tell them apart later
+that is a PRICING concern and not a taxonomy one, and it does not belong in the
+content model.
+
+### THE ARCHIVE IS A GALLERY
+
+The owner wants the brand's imagery held as a gallery, not a dated record of
+past work. **The condition set in section 18 is withdrawn**: it demanded a year
+per frame or the section should be dropped, and that was right for an archive
+and wrong for what this is.
+
+WHAT CHANGES, because a gallery and an archive are different objects:
+
+| | archive | gallery |
+| --- | --- | --- |
+| wants | chronology and provenance | sequence and rhythm |
+| the year | required, or it is a mood board | REMOVED from the schema |
+| the name | identifies a piece | optional, usually absent, the frame is silent |
+| curation | one frame per distinct piece, to avoid double-counting | a frame earns its place by being a good photograph |
+| order | chronological | editorial, and it is the whole design |
+| form | uniform full screens, a record | alternating tall and short, so it reads as a sequence rather than a contact sheet |
+
+Implemented: `year` is gone from the schema and every frame, the label is
+Gallery / Galleria in both languages, and the page alternates
+`--media-h-tall` and `--media-h-short`.
+
+TWO CONSEQUENCES WORTH DECIDING, not done:
+
+1. **It should probably grow.** The old curation rule capped it at one frame per
+   piece and that rule is gone, so five frames is now thin for something whose
+   whole purpose is rhythm. There are roughly a dozen unused frames that would
+   qualify. Say the word and it fills.
+2. **The route is still `/archive`** while the label says Gallery. Renaming a
+   URL was your call last time and this is the same kind of decision, so it is
+   left as a question rather than done.
+
+### The designer page
+
+Built, at `/[lang]/designer`, and in the menu. It is the strongest
+international-trust lever in section 33: a buyer who cannot visit the studio is
+sending four figures to a stranger, and this is the page that makes him not one.
+
+The portrait does the work: him at the sewing machine, a whole hide across the
+table, in black and white. Chrome contrast measured at 9.02.
+
+**NO INVENTED BIOGRAPHY.** The only text is his own making lines, which are the
+one thing he has written that is genuinely about how HE works rather than about
+the brand. Everything else is a marked `{DESIGNER_BIOGRAPHY}` placeholder.
+
+WHAT TO ASK HIM, phrased to send:
+
+1. Come ti chiami? Il file della fotografia si chiama "ciro-designer", quindi ti
+   chiami Ciro? E Aleksander Cecco e il nome del marchio e non il tuo?
+   (What is your name? The photograph is filed as "ciro-designer", so are you
+   Ciro, and is Aleksander Cecco the brand's name rather than yours?)
+2. Come hai imparato? Due frasi tue, non un curriculum.
+   (How did you learn? Two sentences in your own words, not a CV.)
+3. Da quanto tempo fai questo lavoro?
+   (How long have you been doing this?)
+4. Lavori da solo o con qualcuno?
+   (Do you work alone, or with someone?)
+5. Perche la pelle e non altro?
+   (Why leather and not something else?)
+6. Vuoi altre fotografie di te al lavoro, o basta questa?
+   (Do you want more photographs of yourself working, or is this one enough?)
+
+**A find worth reporting: the leather hat is IN this photograph**, on the table
+in the foreground. It exists. It has no product shot, which is a filming request
+rather than a gap in the catalogue.
+
+---
+
+## 42. The audit fixes (2026-08-02)
+
+**The collection page is a narrative again.** Fixing "it carries one photograph"
+by pairing fifteen Creature two across created a worse problem: two pages
+showing the same fifteen frames in nearly the same layout. The pairs belong on
+the index, where density is the point. This page is now cover, statement, FIVE
+Creature one per screen, then the count and the route to the rest. Five is
+roughly four screens, which is a chapter; fifteen is a catalogue and the
+catalogue has its own page. Which five is his, being the first five in his own
+drag order, so curating this page is reordering the collection.
+
+**Next and previous** on every Creature, in the same order as the index, and it
+WRAPS: a sequence that stops has an end and an end invites leaving. Sixteen dead
+ends became a sequence, and the most repeated action on the site (back to the
+index, pick another) is gone.
+
+**The count on the index.** Sixteen, in mono, under the heading. A visitor who
+has seen four photographs on the home page has no other way to know the
+catalogue is real.
+
+**The worn band draws from everything on-model.** It showed five frames of TWO
+garments, which made the brand look smaller on the page most visitors see than
+it actually is. It now carries one frame from every Creature that has an
+on-model photograph, five of the sixteen, plus the one on-model frame belonging
+to no Creature. Five garments instead of two.
+
+Only five Creature have EVER been photographed on a body. That is the ceiling
+here and it is a shoot request, not a code problem.
+
+---
+
+## 43. Launch checklist, reordered (2026-08-02)
+
+**1. THERE IS NO WORKING WAY TO REACH A HUMAN.** `contactEmail` is still
+`info@example.com`, so the site renders a marked placeholder and the only route
+to the brand is Instagram. This is now the TOP of the checklist, above legal, on
+the owner's instruction and correctly: legal makes the site unlawful to operate,
+this makes it useless. A visitor who wants a Creature cannot ask for one.
+
+2. Legal entity and privacy notice, still deferred, still gated exactly as
+   section 36 describes.
+3. Creature names, compositions and prices.
+4. Two weeks: working hours or elapsed.
+5. The remaining launch items in section 35, unchanged.
+
+### Added to the shot list (section 34)
+
+- **The leather hat.** It exists, it is in the designer portrait on the table,
+  and it has no photograph of its own. With the bag it is an entry-tier piece.
+- **Five single-frame Creature**: Styrax, `capo-03`, `capo-04`, `capo-12`,
+  `capo-13`. One photograph is not enough to buy from at these prices.
+- **On-model frames for the other eleven Creature.** Only five have ever been
+  worn in a photograph, which caps the worn band at five no matter what the code
+  does.

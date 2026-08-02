@@ -131,6 +131,25 @@ export const siteSettings = defineType({
       description:
         'Immagini di processo e materiale, alternate al testo. / Process and material images, interleaved with the text.',
     }),
+    /*
+      THE DESIGNER. A buyer sending EUR 1,500 to one person they have never met
+      needs to see that person (DESIGN-PLAN sections 32 and 41). This is not the
+      about page: that is the brand's story, this is who makes it.
+    */
+    defineField({
+      name: 'designerPortrait',
+      title: 'Ritratto / Portrait',
+      type: 'media',
+      description:
+        "Una fotografia di chi fa le Creature, meglio se al lavoro. / One photograph of the person who makes the Creature, ideally at work.",
+    }),
+    defineField({
+      name: 'designerText',
+      title: 'Chi lo fa: il testo / The designer: the text',
+      type: 'localeText',
+      description:
+        "Parole sue. Lasciare vuoto finche' non le ha scritte: la pagina mostra un segnaposto invece di inventare una biografia. / His own words. Leave empty until he has written them: the page shows a placeholder rather than inventing a biography.",
+    }),
     defineField({
       name: 'aboutOpeningMedia',
       title: 'Chi siamo: fotografia di apertura / About: opening photograph',

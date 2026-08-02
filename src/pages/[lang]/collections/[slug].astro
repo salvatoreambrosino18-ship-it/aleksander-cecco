@@ -18,9 +18,17 @@
   5. The home page, the collections index and this page all made the same
      gesture: a full-bleed cover with a small label. Three pages, one move.
 
-  WHAT CHANGED HERE: pairs on desktop, the statement marked, and a close that
-  says how a Creature is got. (5) is only partly answered and is noted in the
-  design plan rather than papered over.
+  REVISED AGAIN 2026-08-02, because fixing (1) created a worse problem. Pairing
+  fifteen Creature two across turned this page into the Creature index with a
+  statement on top: two pages, the same fifteen frames, nearly the same layout.
+
+  So the pairs move to the index, where density belongs, and this page goes back
+  to being the NARRATIVE. Cover, statement, then a FEW Creature one per screen,
+  then the way to see them all. Five is roughly four screens of scrolling, which
+  is a chapter; fifteen is a catalogue, and the catalogue has its own page now.
+
+  Which five is the owner's: they are the first five in his own drag order, so
+  curating this page is reordering the collection, not editing code.
 
   POLARITY: ink throughout, and deliberately no wipe. The home page performs the
   inversion once; a collection is where the work is looked at, not a second
@@ -79,6 +87,15 @@ const {collection, garments: unordered} = Astro.props as {
   a second inversion on top would turn a structure into a mannerism.
 */
 const garments = byStage(unordered);
+
+/*
+  THE CHAPTER LENGTH. Five, and the number is the design: five full screens is a
+  chapter a reader finishes, fifteen is a catalogue they scroll past. The
+  catalogue has its own page, so this one does not have to be it.
+*/
+const CHAPTER = 5;
+const chapter = garments.slice(0, CHAPTER);
+const remaining = garments.length - chapter.length;
 const locale = toLocale(Astro.params.lang);
 const statement = pick(collection.statement, locale);
 // The statement is the owner's own text, so the only question is the language.
@@ -110,19 +127,13 @@ const voice = voiceState(settings, locale);
   <Statement text={statement} locale={locale} voice={voice} theme="dark" token={"{COLLECTION_STATEMENT}"} />
 
   {/*
-    THE CREATURE, two up and touching on desktop, one column on a phone. This is
-    what DESIGN-PLAN section 4 specified from the start and what the primary
-    reference actually does: pairs of 720x900 side by side with no gutter. It
-    exists here to stop a portrait photograph being letterboxed into a 1440-wide
-    strip, which is what one column did to it.
-
-    An odd count leaves the last one alone in its row, at half width. That is
-    correct and is not a gap to fill: the alternative is stretching one Creature
-    across the full width purely because of how many there are.
+    THE CHAPTER. A few Creature, one per screen, full bleed. This is the one
+    place the one-per-screen treatment survives, and it is what makes this page
+    a narrative rather than a second index (DESIGN-PLAN section 42).
   */}
-  <div class="grid grid-cols-1 md:grid-cols-2">
+  <div>
     {
-      garments.map((garment) => {
+      chapter.map((garment) => {
         const cover = garment.media?.[0];
         if (!cover) return null;
         return (
@@ -147,6 +158,12 @@ const voice = voiceState(settings, locale);
     comes off the Creature itself, never from here.
   */}
   <TextSurface theme="dark" class="flex flex-col gap-u3 py-u13">
+    {/* Say what is not on this page, then lead to it. */}
+    {remaining > 0 && (
+      <p class="type-mono text-mono">
+        {garments.length} {t(locale, "countCreatures")}
+      </p>
+    )}
     <p class="type-mono text-mono">{t(locale, "madeToMeasureValue")}</p>
     <a
       href={localePath(locale, "creature")}

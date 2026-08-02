@@ -15,7 +15,7 @@
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
-import {getGarments, isPlaceholderText, type Garment} from "../../../lib/content";
+import {getGarments, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
 import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
@@ -24,12 +24,24 @@ import {t} from "../../../i18n/ui";
 export async function getStaticPaths() {
   const garments = await getGarments();
   return LOCALES.flatMap((lang) =>
-    garments.map((garment) => ({params: {lang, slug: garment.slug}, props: {garment}})),
+    garments.map((garment) => ({
+      params: {lang, slug: garment.slug},
+      // The whole set travels with the page so it can name its neighbours.
+      props: {garment, all: garments},
+    })),
   );
 }
 
-const {garment} = Astro.props as {garment: Garment};
+const {garment, all} = Astro.props as {garment: Garment; all: Garment[]};
 const locale = toLocale(Astro.params.lang) as Locale;
+
+/*
+  NEXT AND PREVIOUS. Without them every Creature was a dead end and seeing two
+  meant returning to the index in between, which was the most repeated action
+  on the site. Same order as the index and the collection, and it WRAPS: a
+  sequence that stops has an end, and an end invites leaving.
+*/
+const {previous, next} = neighbours(all, garment.slug);
 
 const media = garment.media ?? [];
 const [firstMedia] = media;
@@ -210,4 +222,41 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       )
     }
   </TextSurface>
+
+  {/*
+    The sequence. Label register, hanging off the spine, no arrows or chevrons:
+    the words are the control, as everywhere else on this site.
+  */}
+  {
+    (previous || next) && (
+      <TextSurface class="hairline-h flex flex-wrap justify-between gap-u3 py-u5">
+        {previous ? (
+          <a
+            href={localePath(locale, `creature/${previous.slug}`)}
+            class="type-label text-label hover:underline underline-offset-8"
+          >
+            {t(locale, "previousCreature")}
+          </a>
+        ) : (
+          <span />
+        )}
+        <a
+          href={localePath(locale, "creature")}
+          class="type-label text-label hover:underline underline-offset-8"
+        >
+          {t(locale, "allCreatures")}
+        </a>
+        {next ? (
+          <a
+            href={localePath(locale, `creature/${next.slug}`)}
+            class="type-label text-label hover:underline underline-offset-8"
+          >
+            {t(locale, "nextCreature")}
+          </a>
+        ) : (
+          <span />
+        )}
+      </TextSurface>
+    )
+  }
 </Base>

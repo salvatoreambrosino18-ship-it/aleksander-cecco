@@ -76,8 +76,14 @@ const rowHeight = (index: number): "tall" | "short" =>
     full bleed like any media. It is the only text on the page that is not an
     inscription over a photograph.
   */}
-  <TextSurface theme="dark" class="pt-chrome pb-u5">
+  <TextSurface theme="dark" class="flex flex-col gap-u1 pt-chrome pb-u5">
     <h1 class="type-label text-label">{t(locale, "allCreatures")}</h1>
+    {/*
+      The count, in the mono register because it is a hard fact. It says the
+      catalogue is real: a visitor who has seen four photographs on the home
+      page has no other way to know there are sixteen.
+    */}
+    <p class="type-mono text-mono">{creature.length} {t(locale, "countCreatures")}</p>
   </TextSurface>
 
   {

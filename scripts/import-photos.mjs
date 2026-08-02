@@ -368,23 +368,26 @@ const OPENING = [
 /*
   WORN: the pieces on people, the horizontal band halfway down the home page.
 
-  Five frames, all portrait, because a band frame is a tall crop and a landscape
-  source loses its subject in it. That rules out IMG_1898, which is the best
-  on-model photograph in the set and is 4032x3024.
+  REBUILT 2026-08-02. It used to be five frames of TWO garments, which made the
+  brand look smaller on the page most visitors see than it actually is. It now
+  draws one frame from EVERY Creature that has an on-model photograph, which is
+  five of the sixteen, plus the one on-model frame that belongs to no Creature.
 
-  Honest limit, worth the owner knowing: the on-model photography covers only
-  two garments (capo-08 and capo-06) plus one unlinked frame, so the band is
-  thinner than it looks. More people in more pieces is the single most useful
-  thing that could be shot for this page.
+  Five garments instead of two. Still not the whole catalogue, because only five
+  Creature have ever been photographed on a body: that is a shoot request, not a
+  code problem, and it is in the shot list.
+
+  All portrait, because a band frame is a tall crop and a landscape source loses
+  its subject in it. That still rules out IMG_1898.
 */
 const WORN = [
   ["products/aa52ef49-6c71-4a9b-b832-24cb5827376d", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul cemento.", "piece-completo-fascia-gonna"],
-  ["products/IMG_3477", "Modella a figura intera con la giacca in pelle rossa, nel laboratorio.", "piece-giacca-rossa"],
-  ["homepage/IMG_3485", "Uomo con gilet in pelle nera e pantaloni corti in pelle, in piedi al sole sul cemento.", null],
-  ["products/IMG_3475", "La stessa giacca rossa vista di spalle, tra i capi appesi del laboratorio.", "piece-giacca-rossa"],
-  ["products/05b164db-ab89-4d66-bebc-98d8a31ec147", "La stessa uscita in piena luce, con stivali alti.", "piece-completo-fascia-gonna"],
+  ["archive/IMG_0204", "Il top in pelliccia di capra e pelle indossato, in un bosco di rami spogli.", "piece-styrax"],
+  ["products/IMG_3477", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio.", "piece-giacca-rossa"],
+  ["archive/IMG_3474", "Uomo a figura intera con pantaloni chiari molto ampi, in laboratorio.", "piece-chiari-lunghi"],
+  ["archive/IMG_9592", "La giacca in pelle marrone indossata, vista da dietro, con il collo alto.", "piece-ghezard"],
+  ["homepage/IMG_3485", "Uomo con gilet in pelle nera e pantaloni corti in pelle, al sole sul cemento.", null],
 ];
-
 /*
   THE MAKING. Two frames of the same hide, and the pair is the whole argument:
   the skin as it arrives, then the same skin with a collar built onto it. The
@@ -578,6 +581,16 @@ const ABOUT_OPENING = [
   "Dettaglio ravvicinato di pelle nera con la firma del marchio impressa, accanto a una zip.",
 ];
 
+/*
+  THE DESIGNER. Him at the machine, a hide on the table, in black and white. It
+  is the strongest trust signal on the site (DESIGN-PLAN sections 32, 33, 41)
+  and it does the work no copy can: it shows that one person really makes these.
+*/
+const DESIGNER_PORTRAIT = [
+  "experimental/ciro-designer",
+  "Il fondatore al lavoro alla macchina da cucire, con una pelle intera stesa sul tavolo.",
+];
+
 const ABOUT_MEDIA = [
   ["experimental/IMG_2626", "Pennello largo appoggiato su una pelle appena tinta di scuro."],
   ["experimental/387ba92d-448a-4763-a76b-fba6e046351a", "Pezzi di cartamodello in tela chiara disposti sul tavolo da lavoro."],
@@ -693,6 +706,7 @@ async function main() {
     ...WORN.map(([f]) => f),
     ...MAKING.map(([f]) => f),
     ABOUT_OPENING[0],
+    DESIGNER_PORTRAIT[0],
     ...ABOUT_MEDIA.map(([f]) => f),
   ];
   // The same frame can legitimately appear in two places (a garment gallery and
@@ -822,6 +836,12 @@ async function main() {
     makingStatement: {_type: "localeText", it: OWNER_IT.making, en: OWNER_EN.making},
 
     // The about page: his text complete, unbroken, in his order.
+    designerPortrait: mediaObject(
+      assets.get(DESIGNER_PORTRAIT[0]),
+      DESIGNER_PORTRAIT[1],
+      ov(DESIGNER_PORTRAIT[0]),
+      "designer",
+    ),
     aboutOpeningMedia: mediaObject(
       assets.get(ABOUT_OPENING[0]),
       ABOUT_OPENING[1],
