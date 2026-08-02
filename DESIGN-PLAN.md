@@ -1383,6 +1383,16 @@ Where to look when it lags, neither of which is visible from this machine:
   rather than queued, which would explain a change that never lands while
   neighbouring ones do.
 
+STANDING NOTE, so a future session does not chase this as a bug: the publish
+chain is INTERMITTENT by nature on this plan. Cloudflare Pages Free runs one
+build at a time, and a trigger arriving while a build is running can be dropped
+rather than queued. A publish that does not appear is therefore expected
+behaviour under load, not a defect to debug. A git push is the reliable
+fallback and has never failed to deploy, in about 40 seconds each time. If
+deploys ever need to be dependable rather than convenient, that is a reason to
+revisit the plan tier, and it is the first thing on this project that would cost
+money, so it needs asking first.
+
 Until that is understood, treat a git push as the dependable way to force a
 deploy. `node scripts/verify-webhook.mjs` re-runs the test end to end: it
 publishes a unique marker, watches the live site, restores the field, and never
