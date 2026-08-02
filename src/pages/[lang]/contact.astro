@@ -1,0 +1,81 @@
+---
+/*
+  Contact. Instagram and the email address as mono facts, on the spine.
+
+  The email is the studio placeholder until the brand supplies a real one, and
+  while it is a placeholder it is NEVER rendered as a working mailto link: a
+  live link to info@example.com would be worse than no link at all.
+*/
+import Base from "../../layouts/Base.astro";
+import TextSurface from "../../components/TextSurface.astro";
+import {getSiteSettings, isPlaceholderEmail, isPlaceholderText} from "../../lib/content";
+import {LOCALES, pick, toLocale} from "../../lib/locales";
+import {t} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({params: {lang}}));
+}
+
+const locale = toLocale(Astro.params.lang);
+const settings = await getSiteSettings();
+
+const instagramUrl = settings.instagramUrl?.trim() || null;
+const instagramHandle = instagramUrl
+  ? `@${instagramUrl.replace(/\/+$/, "").split("/").pop()}`
+  : null;
+
+const email = settings.contactEmail?.trim() || null;
+const emailIsPlaceholder = isPlaceholderEmail(email);
+
+const shipping = pick(settings.shippingReturns, locale);
+const shippingIsPlaceholder = isPlaceholderText(shipping);
+---
+
+<Base locale={locale} title={t(locale, "contact")}>
+  <TextSurface class="flex min-h-svh flex-col gap-u8 pt-chrome pb-u21">
+    <h1 class="type-label text-label">{t(locale, "contact")}</h1>
+
+    <dl class="flex flex-col gap-u3">
+      <div class="flex flex-col gap-u1">
+        <dt class="type-label text-label">{t(locale, "instagram")}</dt>
+        <dd class="type-mono text-mono">
+          {
+            instagramUrl ? (
+              <a href={instagramUrl} rel="me noopener" target="_blank" class="hover:underline underline-offset-4">
+                {instagramHandle}
+              </a>
+            ) : (
+              <span class="placeholder-mark">{"{INSTAGRAM_URL}"}</span>
+            )
+          }
+        </dd>
+      </div>
+
+      <div class="flex flex-col gap-u1">
+        <dt class="type-label text-label">{t(locale, "email")}</dt>
+        <dd class="type-mono text-mono">
+          {
+            emailIsPlaceholder ? (
+              <span class="placeholder-mark">{"{CONTACT_EMAIL}"}</span>
+            ) : (
+              <a href={`mailto:${email}`} class="hover:underline underline-offset-4">
+                {email}
+              </a>
+            )
+          }
+        </dd>
+      </div>
+    </dl>
+
+    <div class="flex flex-col gap-u2">
+      <h2 class="type-label text-label">{t(locale, "shippingReturns")}</h2>
+      {
+        shipping && !shippingIsPlaceholder ? (
+          <p class="type-body text-body max-w-prose whitespace-pre-line">{shipping}</p>
+        ) : (
+          <p class="placeholder-mark self-start">{shipping ?? "{SHIPPING_RETURNS}"}</p>
+        )
+      }
+    </div>
+  </TextSurface>
+</Base>

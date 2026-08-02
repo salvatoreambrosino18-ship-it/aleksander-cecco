@@ -1,0 +1,41 @@
+---
+/*
+  About. A text surface on the spine: no media unless the owner supplies one.
+
+  The about copy comes from site settings and is a placeholder until the brand
+  writes its own. While it is a placeholder it is MARKED as one, rather than
+  being smoothed into something that reads like the brand's voice.
+*/
+import Base from "../../layouts/Base.astro";
+import TextSurface from "../../components/TextSurface.astro";
+import {getSiteSettings, isPlaceholderText} from "../../lib/content";
+import {LOCALES, pick, toLocale} from "../../lib/locales";
+import {t} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({params: {lang}}));
+}
+
+const locale = toLocale(Astro.params.lang);
+const settings = await getSiteSettings();
+const about = pick(settings.about, locale);
+const aboutIsPlaceholder = isPlaceholderText(about);
+---
+
+<Base locale={locale} title={t(locale, "about")}>
+  <TextSurface class="flex min-h-svh flex-col gap-u8 pt-chrome pb-u21">
+    <h1 class="type-label text-label">{t(locale, "about")}</h1>
+
+    {
+      about ? (
+        aboutIsPlaceholder ? (
+          <p class="placeholder-mark self-start">{about}</p>
+        ) : (
+          <p class="type-body text-body max-w-prose whitespace-pre-line">{about}</p>
+        )
+      ) : (
+        <p class="placeholder-mark self-start">{"{ABOUT}"}</p>
+      )
+    }
+  </TextSurface>
+</Base>

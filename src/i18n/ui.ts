@@ -27,6 +27,9 @@ const ui = {
     price: "Prezzo",
     enquire: "Invia richiesta",
     details: "Scheda tecnica",
+    shippingReturns: "Spedizioni e resi",
+    notFound: "Pagina non trovata",
+    backHome: "Torna all'inizio",
   },
   en: {
     skipToContent: "Skip to content",
@@ -48,6 +51,9 @@ const ui = {
     price: "Price",
     enquire: "Send enquiry",
     details: "Technical details",
+    shippingReturns: "Shipping and returns",
+    notFound: "Page not found",
+    backHome: "Back to the beginning",
   },
 } as const;
 

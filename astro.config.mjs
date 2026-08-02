@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 import { loadEnv } from 'vite';
 
 // The config file runs before Astro loads .env, so read it here: `site` feeds
@@ -31,6 +32,17 @@ export default defineConfig({
   redirects: {
     '/': '/it',
   },
+
+  // The sitemap knows about both locales, so each page lists its counterpart as
+  // an hreflang alternate rather than looking like two unrelated sites.
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'it',
+        locales: { it: 'it', en: 'en' },
+      },
+    }),
+  ],
 
   vite: {
     plugins: [tailwindcss()],

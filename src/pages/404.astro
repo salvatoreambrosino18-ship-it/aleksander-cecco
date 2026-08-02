@@ -1,0 +1,51 @@
+---
+/*
+  404. One photograph and a real way back.
+
+  It sits outside the [lang] segment because a 404 is served for any path,
+  including paths with no language in them. It answers in the default language
+  and offers both, so a reader who arrived in English is one tap from English.
+
+  The photograph is whatever the owner published first: no separate asset to
+  maintain, and nothing invented.
+*/
+import Base from "../layouts/Base.astro";
+import MediaSurface from "../components/MediaSurface.astro";
+import TextSurface from "../components/TextSurface.astro";
+import {getCollections} from "../lib/content";
+import {DEFAULT_LOCALE, LOCALES, localePath} from "../lib/locales";
+import {overlayTheme} from "../lib/media";
+import {t} from "../i18n/ui";
+
+const locale = DEFAULT_LOCALE;
+const collections = await getCollections();
+const photograph = collections.find((collection) => collection.cover)?.cover ?? null;
+---
+
+<Base locale={locale} title="404" chrome={overlayTheme(photograph?.overlay)}>
+  {
+    photograph && (
+      <MediaSurface media={photograph} locale={locale} priority>
+        <h1 class="type-label text-label">404 / {t(locale, "notFound")}</h1>
+      </MediaSurface>
+    )
+  }
+
+  <TextSurface class="flex flex-col gap-u5 py-u13">
+    {!photograph && <h1 class="type-label text-label">404 / {t(locale, "notFound")}</h1>}
+
+    <nav class="flex flex-col gap-u2" aria-label={t(locale, "backHome")}>
+      {
+        LOCALES.map((code) => (
+          <a
+            href={localePath(code)}
+            hreflang={code}
+            class="type-label text-statement self-start hover:underline underline-offset-8"
+          >
+            {t(code, "backHome")}
+          </a>
+        ))
+      }
+    </nav>
+  </TextSurface>
+</Base>

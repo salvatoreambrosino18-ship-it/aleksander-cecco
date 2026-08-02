@@ -45,6 +45,15 @@ export function isPlaceholderEmail(email: string | null): boolean {
   return !email || email.trim().toLowerCase() === PLACEHOLDER_EMAIL;
 }
 
+/**
+ * Copy that is still a placeholder token, e.g. "{ABOUT_EN}". Seeded and
+ * unwritten content reads as {LIKE_THIS}, and the site marks it as such rather
+ * than letting it pass for the brand's own voice (standing rule 6).
+ */
+export function isPlaceholderText(value: string | null): boolean {
+  return Boolean(value && /^\{[A-Z0-9_]+\}$/.test(value.trim()));
+}
+
 /* ------------------------------------------------------------- collections */
 
 export type Collection = {
