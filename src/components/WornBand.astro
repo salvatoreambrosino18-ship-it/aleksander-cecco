@@ -42,7 +42,7 @@ const {tiles, locale, label} = Astro.props;
 
 {
   tiles.length > 0 && (
-    <section aria-labelledby="worn-heading">
+    <section aria-labelledby="worn-heading" data-reveal>
       {/*
         The heading sits inside the margins like any text, and the strip below
         it runs full bleed like any media. Media never takes a margin.
@@ -58,12 +58,12 @@ const {tiles, locale, label} = Astro.props;
           <li>
             {tile.garment?.slug ? (
               <a href={localePath(locale, `creature/${tile.garment.slug}`)} class="block">
-                <MediaSurface media={tile.media} locale={locale} height="worn">
+                <MediaSurface media={tile.media} locale={locale} height="worn" reveal={false}>
                   <span class="type-label text-label">{tile.garment.name}</span>
                 </MediaSurface>
               </a>
             ) : (
-              <MediaSurface media={tile.media} locale={locale} height="worn" />
+              <MediaSurface media={tile.media} locale={locale} height="worn" reveal={false} />
             )}
           </li>
         ))}

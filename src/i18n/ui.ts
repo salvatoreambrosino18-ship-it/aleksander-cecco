@@ -32,7 +32,7 @@ const ui = {
     privateOrder: "Ordine privato.",
     notTakingRequests: "Non in lavorazione ora.",
     // "Creatura" is the owner's own word for a piece, not ours (2026-08-02).
-    madeToMeasureValue: "Ogni Creatura è realizzata sulle misure di chi la indosserà",
+    madeToMeasureValue: "Costruita sulle tue misure.",
     draftNotice: "Bozza non approvata",
     /*
       Distinct from draftNotice on purpose. The brand HAS decided what it says;
@@ -58,7 +58,7 @@ const ui = {
     note: "Note",
     details: "Scheda tecnica",
     shippingReturns: "Spedizioni e resi",
-    notFound: "Pagina non trovata",
+    notFound: "Niente qui.",
     backHome: "Torna all'inizio",
   },
   en: {
@@ -84,7 +84,7 @@ const ui = {
     unique: "Unique. 1 of 1.",
     privateOrder: "Private order.",
     notTakingRequests: "Not in the making now.",
-    madeToMeasureValue: "Every Creature is built to the measurements of the person who will wear it",
+    madeToMeasureValue: "Built to your measurements.",
     draftNotice: "Unapproved draft",
     translationNotice: "Unapproved translation",
     theWork: "The work",
@@ -101,7 +101,7 @@ const ui = {
     note: "Note",
     details: "Technical details",
     shippingReturns: "Shipping and returns",
-    notFound: "Page not found",
+    notFound: "Nothing here.",
     backHome: "Back to the beginning",
   },
 } as const;

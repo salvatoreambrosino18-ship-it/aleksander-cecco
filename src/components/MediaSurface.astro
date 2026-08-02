@@ -35,10 +35,26 @@ interface Props {
   height?: "screen" | "tall" | "band" | "worn";
   /** The first image on a page is the largest thing it downloads. */
   priority?: boolean;
+  /**
+   * Reveal this frame as it enters (DESIGN-PLAN section 24). Defaults to on,
+   * except for a priority image: the arrival must not be faded in, because it
+   * is the LCP element and an arrival that arrives late is not an arrival.
+   * The worn band turns it off per frame and reveals as one presence instead.
+   */
+  reveal?: boolean;
   class?: string;
 }
 
-const {media, locale, height = "screen", priority = false, class: className = ""} = Astro.props;
+const {
+  media,
+  locale,
+  height = "screen",
+  priority = false,
+  reveal,
+  class: className = "",
+} = Astro.props;
+
+const revealThis = reveal ?? !priority;
 
 const theme = overlayTheme(media.overlay);
 const alt = pickAlt(media.alt, locale);
@@ -50,7 +66,11 @@ const below = media.captionPlacement === "below";
 const hasLabel = Boolean(caption) || Astro.slots.has("default");
 ---
 
-<figure data-chrome-polarity={theme} class:list={["relative w-full", className]}>
+<figure
+  data-chrome-polarity={theme}
+  data-reveal={revealThis ? "" : undefined}
+  class:list={["relative w-full", className]}
+>
   <div
     class:list={[
       "relative w-full overflow-hidden",

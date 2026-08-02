@@ -261,6 +261,54 @@
   }
 
   /*
+    THE PHOTOGRAPHY REVEAL. One large movement per moment (DESIGN-PLAN section
+    24): a full-bleed photograph rises a little and resolves, once, and never
+    again. No scale, no blur, no stagger, no bounce. The mood is a presence
+    arriving in a room, and a presence does not bounce.
+
+    WHAT NEVER REVEALS, and each exclusion is deliberate:
+    - the arrival photograph on any page. It is the LCP element and the first
+      thing a reader sees; fading it in delays the only image that must not be
+      delayed, and an arrival that arrives late is not an arrival.
+    - text. If everything moves, nothing does, and the plan's whole motion
+      thesis is one large movement per moment rather than five small ones.
+    - the frames inside the worn band. The band reveals as one presence; making
+      six frames animate individually while the reader drags them sideways is
+      the bouncing this is meant to avoid.
+
+    ONLY ONCE THE SCRIPT HAS TAKEN CHARGE. The hidden state hangs off
+    data-reveal-live on the root, exactly as the wipe does. Without it a reader
+    with JavaScript off would get a page of invisible photographs, which is a
+    catastrophic failure mode for a site that is entirely photographs.
+  */
+  [data-reveal-live] [data-reveal] {
+    opacity: 0;
+    transform: translateY(var(--reveal-shift));
+    will-change: opacity, transform;
+  }
+  [data-reveal-live] [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--dur-reveal) var(--ease-reveal),
+      transform var(--dur-reveal) var(--ease-reveal);
+    will-change: auto;
+  }
+  /*
+    Motion off: nothing hides and nothing moves. The script does not even mark
+    the root, so this is belt and braces for the case where the preference
+    changes after load.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal-live] [data-reveal],
+    [data-reveal-live] [data-reveal][data-revealed] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /*
     THE WORN BAND. The site's only horizontal region, and the only place it asks
     for a gesture other than scrolling down. Both known problems with that are
     answered here rather than left to chance.

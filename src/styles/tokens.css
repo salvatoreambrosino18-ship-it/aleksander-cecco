@@ -115,6 +115,13 @@
   --chrome-h: calc(var(--sig-corner-h) + var(--s-u3) * 2);
 
   /* motion */
+  /*
+    THE REVEAL. A presence arriving, not an element sliding in. The shift is
+    deliberately small: at 24px the photograph settles rather than travels, and
+    nothing about it reads as a slideshow. Scale is NOT used, because scaling a
+    photograph is a zoom, and a zoom is a slideshow.
+  */
+  --reveal-shift: 24px;
   --wipe-pin: 100vh;
   --dur-reveal: 900ms;
   --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);

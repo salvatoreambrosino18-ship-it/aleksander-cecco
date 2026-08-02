@@ -15,6 +15,14 @@
   The reply window is deliberately NOT here. The brand is not committed to a
   response time nobody has agreed, so the confirmation carries the
   {REPLY_WINDOW} placeholder until the owner sets one.
+
+  ONE EXCEPTION, added 2026-08-02: the English intro is now the owner's OWN
+  sentence, from the Armonyen post, and is therefore approved. It said what our
+  draft was trying to say and said it better, which is the whole argument for
+  taking the voice from his captions rather than inventing one. The Italian is
+  our translation of it. The measuring instructions below remain ours, and are
+  deliberately NOT compressed into his register: they are the one place on the
+  site where a person has to act on what they read, and clarity beats style.
 */
 import type {Locale} from "../lib/locales";
 
@@ -29,7 +37,8 @@ type EnquiryCopy = {
 
 const copy: Record<Locale, EnquiryCopy> = {
   it: {
-    intro: "Ogni Creatura viene costruita su misura. Lasciaci le tue misure e ti scriviamo noi.",
+    // Our translation of his line below.
+    intro: "Inviaci le tue misure e penseremo noi a crearla apposta per te.",
     measureTitle: "Come prendere le misure",
     measures: [
       {
@@ -48,7 +57,8 @@ const copy: Record<Locale, EnquiryCopy> = {
     confirmation: "Richiesta ricevuta. Ti rispondiamo via email.",
   },
   en: {
-    intro: "Every Creature is built to measure. Leave your measurements and we will write back.",
+    // HIS WORDS, verbatim, from the Armonyen post.
+    intro: "Send us your measurements and we'll take care of creating it specifically for you.",
     measureTitle: "How to measure",
     measures: [
       {

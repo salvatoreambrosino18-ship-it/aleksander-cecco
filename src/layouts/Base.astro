@@ -152,5 +152,51 @@ const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === "true";
         zones.forEach((zone) => observer.observe(zone));
       })();
     </script>
+
+    {/*
+      THE PHOTOGRAPHY REVEAL (DESIGN-PLAN section 24). A presence arriving: the
+      frame rises a little and resolves, once, and is never touched again.
+
+      Two refusals are the important part of this script.
+
+      IT MARKS THE ROOT BEFORE HIDING ANYTHING. The hidden state lives behind
+      data-reveal-live, so a reader with JavaScript off, or with a blocked
+      script, or on a browser without IntersectionObserver, gets every
+      photograph visible. On a site that is entirely photographs, the failure
+      mode of getting this wrong is a blank page, so it is not left to chance.
+
+      IT UNOBSERVES ON FIRST SIGHT. A frame reveals once and never re-hides on
+      the way back up. Motion that repeats every time a reader scrolls past is
+      the "elements bouncing" this is meant to avoid.
+
+      Reduced motion: the root is never marked, so nothing is ever hidden and no
+      transition is ever declared. The CSS repeats the guarantee in case the
+      preference changes after load.
+    */}
+    <script is:inline>
+      (() => {
+        const frames = document.querySelectorAll("[data-reveal]");
+        if (!frames.length) return;
+        if (!("IntersectionObserver" in window)) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        document.documentElement.setAttribute("data-reveal-live", "");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.setAttribute("data-revealed", "");
+              observer.unobserve(entry.target);
+            }
+          },
+          // A little into the viewport, so a frame is already resolving by the
+          // time it is properly on screen rather than starting at the edge.
+          {rootMargin: "0px 0px -8% 0px"},
+        );
+
+        frames.forEach((frame) => observer.observe(frame));
+      })();
+    </script>
   </body>
 </html>
