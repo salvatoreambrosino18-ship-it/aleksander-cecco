@@ -1,0 +1,145 @@
+---
+/*
+  THE INVERSION, built as a wipe. The thing the whole design was built around
+  (DESIGN-PLAN section 3).
+
+  Two stacked full-viewport layers, pixel aligned, holding the same content. The
+  bottom layer is the outgoing polarity, the top layer the incoming one. A hard
+  horizontal edge travels down the viewport, scrubbed to scroll, revealing the
+  top layer. Each layer is a single flat theme, so the page is only ever pure
+  paper or pure ink and no gray state can exist anywhere in between. That was
+  the whole reason the original cross-fade was thrown out.
+
+  It is confined to this screen, which carries the signature, a label and the
+  spine, and never a photograph. No image is ever sliced by the edge.
+
+  HOW IT IS PINNED. The section is one viewport plus --wipe-pin tall, and holds
+  a position:sticky child. Native sticky, not a library: it is what mobile
+  browsers are built to do smoothly, and it costs nothing to download on a site
+  whose argument is that photographs load fast.
+
+  WITH NO JAVASCRIPT, or under prefers-reduced-motion: the edge never moves, the
+  section collapses to a single screen, and the polarity flips discretely at the
+  boundary instead. The page stays coherent, which is the test the plan set.
+*/
+import Spine from "./Spine.astro";
+import Signature from "./Signature.astro";
+
+interface Props {
+  /** The polarity the page is leaving. */
+  from: "light" | "dark";
+  /** The polarity the page continues in after the edge completes. */
+  to: "light" | "dark";
+  label?: string | null;
+  sublabel?: string | null;
+}
+
+const {from, to, label, sublabel} = Astro.props;
+---
+
+<section class="wash" data-wash>
+  <div class="wash-sticky">
+    {/* OUTGOING: the polarity the reader arrived in. */}
+    <div class="wash-layer frame" data-theme={from}>
+      <Spine />
+      <div class="wash-content">
+        <div class="w-sig-wash">
+          <Signature decorative />
+        </div>
+        {label && <p class="type-label text-label">{label}</p>}
+        {sublabel && <p class="type-mono text-mono">{sublabel}</p>}
+      </div>
+    </div>
+
+    {/*
+      INCOMING: identical content, opposite polarity, clipped by the edge. It
+      declares the chrome polarity too, so the signature and MENU flip with the
+      field rather than a moment later.
+    */}
+    <div class="wash-layer wash-layer-in frame" data-theme={to} data-chrome-polarity={to}>
+      <Spine />
+      <div class="wash-content" aria-hidden="true">
+        <div class="w-sig-wash">
+          <Signature decorative />
+        </div>
+        {label && <p class="type-label text-label">{label}</p>}
+        {sublabel && <p class="type-mono text-mono">{sublabel}</p>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  /*
+    Drive the edge from scroll. One listener, one rAF, one custom property.
+
+    The edge is a percentage of the viewport, written to --edge on the incoming
+    layer, which clips itself with inset(). Nothing else changes: no layout, no
+    element moves, and the layers never repaint anything but flat colour and a
+    little type.
+  */
+  const washes = document.querySelectorAll<HTMLElement>("[data-wash]");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (washes.length && !reduced.matches) {
+    // Tells the stylesheet the edge is under control: only then does the
+    // section take its pinned height and the incoming layer appear.
+    document.documentElement.setAttribute("data-wash-live", "");
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      for (const wash of washes) {
+        const rect = wash.getBoundingClientRect();
+        // Off screen entirely: leave it at whichever end it belongs.
+        if (rect.bottom < 0) {
+          wash.style.setProperty("--edge", "100%");
+          continue;
+        }
+        if (rect.top > window.innerHeight) {
+          wash.style.setProperty("--edge", "0%");
+          continue;
+        }
+        // How far through the pinned distance the reader has scrolled.
+        const travel = rect.height - window.innerHeight;
+        const progress = travel > 0 ? Math.min(Math.max(-rect.top / travel, 0), 1) : 0;
+        wash.style.setProperty("--edge", `${(progress * 100).toFixed(2)}%`);
+      }
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    /*
+      Only listen while a wash is actually on screen: a homepage should not run
+      a scroll handler while the reader is three screens away from it.
+
+      A SET, not a counter. An IntersectionObserver fires once per observed
+      element on setup, including when it is NOT intersecting, so counting
+      +1/-1 starts at minus one and the listener never attaches. That is exactly
+      what happened the first time, and the edge sat at zero for the whole
+      pinned distance.
+    */
+    const onScreen = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) onScreen.add(entry.target);
+          else onScreen.delete(entry.target);
+        }
+        if (onScreen.size > 0) {
+          window.addEventListener("scroll", onScroll, {passive: true});
+          update();
+        } else {
+          window.removeEventListener("scroll", onScroll);
+        }
+      },
+      {rootMargin: "100% 0px"},
+    );
+    washes.forEach((wash) => observer.observe(wash));
+    update();
+  }
+</script>

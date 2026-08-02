@@ -1596,3 +1596,55 @@ The reply window. The confirmation says an email will come and marks
 `{REPLY_WINDOW}` where the timing belongs. The brand is not committed to a
 response time nobody has agreed.
 
+---
+
+## 20. The inversion wipe, built (2026-08-02)
+
+Built as section 3 specifies: two stacked full-viewport layers, each a flat pure
+theme, a hard edge scrubbed to scroll, confined to a boundary screen of the
+signature, a label and the spine. No photograph is ever under the edge.
+
+### Built without GSAP, and why
+
+The stack in section 0 names GSAP with ScrollTrigger. The wipe needs neither,
+and the owner chose the lighter route:
+
+- Pinning is `position: sticky` on a child of a section one viewport plus
+  `--wipe-pin` tall. Native sticky is what mobile browsers are built to do
+  smoothly, and it is what GSAP's pin emulates with transforms.
+- The edge is one CSS custom property, `--edge`, written by a rAF-throttled
+  scroll handler and consumed by `clip-path: inset(0 0 calc(100% - var(--edge)) 0)`.
+  Nothing moves, nothing reflows, and the layers repaint only flat colour and a
+  little type.
+
+Cost: zero kilobytes, against roughly fifty for GSAP plus ScrollTrigger on a
+site whose whole argument is that photographs load fast. If later motion ever
+needs a real timeline, the wash is self-contained and can be swapped.
+
+### The three states, all verified
+
+| state | wash height | pinned | incoming layer |
+| --- | --- | --- | --- |
+| normal | 2 viewports | sticky | clipped by the edge |
+| prefers-reduced-motion | 1 viewport | no | hidden, polarity flips discretely |
+| JavaScript off | 1 viewport | no | hidden, polarity flips discretely |
+
+The pinned distance is added ONLY once the script has taken charge, keyed off
+`data-wash-live` on the root. Without that, a reader with scripts off would
+scroll a whole viewport for nothing, which is worse than having no effect.
+
+### One bug worth remembering
+
+The first version attached its scroll listener behind a counter of intersecting
+elements. An IntersectionObserver fires once per observed element on setup,
+including when it is NOT intersecting, so the counter started at minus one, the
+listener never attached, and the edge sat at zero through the whole pinned
+distance while everything else looked correct. It is a Set now. Anything
+gating on "is it on screen" should be written the same way.
+
+### Measurement
+
+At 4x CPU throttling, scrubbing the full pinned distance: no frame over 20ms.
+That is an approximation of a phone, not a phone. The real device test belongs
+to the owner and is the one that counts (standing rule 3).
+

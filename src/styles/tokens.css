@@ -88,6 +88,8 @@
   */
   --sig-hero-w: 92vw; /* mobile: the opening gesture, nearly edge to edge */
   --sig-corner-h: var(--s-u2);
+  /* the mark on a boundary wash: present, not the opening gesture */
+  --sig-wash-w: 62vw;
   /* the mark's own proportion, 2712/615 from its viewBox, not a guess */
   --sig-corner-w: calc(var(--sig-corner-h) * 4.41);
 
@@ -120,6 +122,7 @@
       at full desktop bleed. Open question in DESIGN-PLAN section 9.
     */
     --sig-hero-w: min(64vw, 60rem);
+    --sig-wash-w: min(34vw, 32rem);
   }
 }
 

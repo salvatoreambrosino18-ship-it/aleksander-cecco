@@ -13,9 +13,11 @@ import {t} from "../i18n/ui";
 interface Props {
   locale: Locale;
   settings: SiteSettings;
+  /** Set when the page inverts above it, so the footer joins the second half. */
+  theme?: "light" | "dark";
 }
 
-const {locale, settings} = Astro.props;
+const {locale, settings, theme} = Astro.props;
 
 const instagramUrl = settings.instagramUrl?.trim() || null;
 // Show the handle rather than the full URL: it is the fact, the URL is plumbing.
@@ -27,7 +29,7 @@ const email = settings.contactEmail?.trim() || null;
 const emailIsPlaceholder = isPlaceholderEmail(email);
 ---
 
-<TextSurface class="hairline-h mt-u21 py-u5">
+<TextSurface theme={theme} class="hairline-h mt-u21 py-u5">
   <footer class="flex flex-col gap-u3">
   <h2 class="sr-only">{t(locale, "footerNav")}</h2>
 

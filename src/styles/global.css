@@ -35,6 +35,7 @@
   --spacing-content: var(--content-x);
   --spacing-sig-corner: var(--sig-corner-h);
   --spacing-sig-hero: var(--sig-hero-w);
+  --spacing-sig-wash: var(--sig-wash-w);
   --spacing-caption: var(--caption-inset);
   --spacing-chrome: var(--chrome-h);
 
@@ -186,6 +187,78 @@
 }
 
 @layer components {
+  /*
+    THE WIPE. The section is a viewport plus --wipe-pin tall and holds a sticky
+    child, so the boundary screen stays put while the reader scrolls that
+    distance and the edge travels. Native sticky, no library.
+  */
+  .wash {
+    --edge: 0%;
+    position: relative;
+    /*
+      One screen by default. The pinned distance is added ONLY once the script
+      has taken charge of the edge: without it, that extra viewport would be
+      scrolling that does nothing, which is worse than no effect at all.
+    */
+    height: 100svh;
+  }
+  [data-wash-live] .wash {
+    height: calc(100svh + var(--wipe-pin));
+  }
+  .wash-sticky {
+    position: relative;
+    height: 100svh;
+    overflow: hidden;
+  }
+  [data-wash-live] .wash-sticky {
+    position: sticky;
+    top: 0;
+  }
+  .wash-layer {
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg);
+    color: var(--fg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  /*
+    The hard edge. inset() from the bottom, so the incoming polarity is revealed
+    downward from the top of the screen. No interpolation, no blur, no gradient:
+    at every frame each pixel is either paper or ink.
+  */
+  .wash-layer-in {
+    /* Hidden until the script drives it, so no-JS sees a clean discrete flip. */
+    display: none;
+  }
+  [data-wash-live] .wash-layer-in {
+    display: flex;
+    clip-path: inset(0 0 calc(100% - var(--edge)) 0);
+  }
+  .wash-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-u3);
+  }
+
+  /*
+    With motion reduced the edge never moves, so the pinned distance would be
+    dead scrolling. The section collapses to one screen and the polarity flips
+    discretely at the boundary, which is what the plan asks for.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    [data-wash-live] .wash {
+      height: 100svh;
+    }
+    [data-wash-live] .wash-sticky {
+      position: relative;
+    }
+    [data-wash-live] .wash-layer-in {
+      display: none;
+    }
+  }
+
   /*
     The form. There is no colour to reach for, so an invalid field thickens its
     hairline to solid fg and says what is wrong in fg text (standing rule 1).

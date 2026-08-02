@@ -27,9 +27,14 @@ interface Props {
   chrome?: "light" | "dark";
   /** Absolute URL of the sharing image. Always a real photograph, never art. */
   image?: string | null;
+  /**
+   * The polarity the page ENDS in. On a page that inverts partway down, the
+   * footer belongs to the second half, not the first.
+   */
+  footerTheme?: "light" | "dark";
 }
 
-const {locale, title, description, theme = "light", chrome, image} = Astro.props;
+const {locale, title, description, theme = "light", chrome, image, footerTheme} = Astro.props;
 
 const settings = await getSiteSettings();
 
@@ -104,7 +109,7 @@ const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === "true";
       <main id="content" class="flex-1">
         <slot />
       </main>
-      <SiteFooter locale={locale} settings={settings} />
+      <SiteFooter locale={locale} settings={settings} theme={footerTheme} />
     </div>
 
     {/*
