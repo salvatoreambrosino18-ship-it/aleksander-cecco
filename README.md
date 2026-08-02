@@ -154,14 +154,31 @@ Only the first-screen font (Archivo) is preloaded, in `src/layouts/Base.astro`.
 
 ## Deploy
 
-### Website: Cloudflare Pages
+### Website: Cloudflare Pages (free tier, pages.dev)
 
-- Connect this repository in Cloudflare Pages.
-- Build command: `npm run build`. Output directory: `dist`. Root directory: repo
-  root. Set a Node version of 22 or 24, matching local development.
-- Add the `PUBLIC_*` variables (and any server secrets, once the enquiry route is
-  wired) in the Pages project settings.
-- Create a Deploy Hook and copy its URL into `CLOUDFLARE_DEPLOY_HOOK_URL`.
+Connect this repository in Cloudflare Pages and let a push to `main` deploy it.
+
+- Build command `npm run build`, output directory `dist`, root directory the
+  repository root.
+- Environment variables for the production branch. All are public identifiers;
+  none is a secret:
+
+  ```
+  PUBLIC_SANITY_PROJECT_ID=lq2xg1yd
+  PUBLIC_SANITY_DATASET=production
+  PUBLIC_SANITY_API_VERSION=2026-03-01
+  PUBLIC_SITE_URL=https://<your-project>.pages.dev
+  NODE_VERSION=24
+  ```
+
+- Do NOT add `SANITY_WRITE_TOKEN` to Cloudflare. It exists so the seed script
+  can write from a local machine. The site only reads, from a public dataset,
+  and needs no token.
+- `PUBLIC_SITE_URL` must match the deployed address, because it feeds canonical
+  links, Open Graph and the sitemap.
+
+The site is deliberately kept out of search results until launch. See
+DESIGN-PLAN section 16 for both locks and the exact steps to remove them.
 
 ### Studio: Sanity hosting
 
@@ -176,9 +193,15 @@ Add the deployed studio URL to the project CORS origins.
 
 ### Content updates trigger a rebuild
 
-In the Sanity project, add a webhook that fires on publish and calls the
-Cloudflare deploy hook URL. Publishing content then rebuilds and redeploys the
-static site.
+In the Pages project, Settings > Builds > Add deploy hook, pointed at `main`.
+Copy the URL into `.env` as `CLOUDFLARE_DEPLOY_HOOK_URL` and into a Sanity
+webhook (sanity.io/manage > API > Webhooks) that fires on create, update and
+delete for the `production` dataset, method POST, no filter. Publishing content
+then rebuilds and redeploys the static site.
+
+The deploy hook URL needs no authentication, so treat it as a secret: anyone
+holding it can trigger builds against the 500 a month. If it leaks, delete the
+hook and make another.
 
 ### Analytics
 
