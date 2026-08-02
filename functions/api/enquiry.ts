@@ -116,7 +116,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const locale: Locale = get("lang") === "en" ? "en" : "it";
   const text = TEXT[locale];
   const slug = get("slug").replace(/[^a-z0-9-]/gi, "");
-  const backHref = slug ? `/${locale}/pieces/${slug}/` : `/${locale}/`;
+  const backHref = slug ? `/${locale}/creature/${slug}/` : `/${locale}/`;
 
   const fields = {
     name: get("name"),

@@ -57,7 +57,7 @@ const {tiles, locale, label} = Astro.props;
         {tiles.map((tile) => (
           <li>
             {tile.garment?.slug ? (
-              <a href={localePath(locale, `pieces/${tile.garment.slug}`)} class="block">
+              <a href={localePath(locale, `creature/${tile.garment.slug}`)} class="block">
                 <MediaSurface media={tile.media} locale={locale} height="worn">
                   <span class="type-label text-label">{tile.garment.name}</span>
                 </MediaSurface>

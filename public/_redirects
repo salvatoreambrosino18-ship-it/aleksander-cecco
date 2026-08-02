@@ -9,3 +9,10 @@
 # This is a path redirect, not language detection: nothing here reads
 # Accept-Language, and the switch stays visible on every page.
 /  /it  301
+
+# The pieces are Creature, the owner's own word for them (DESIGN-PLAN section
+# 22), so /pieces/ became /creature/ on 2026-08-02. Nothing had been shared and
+# the site is noindexed, so nothing is known to break; these exist because a URL
+# that once resolved should not start answering 404, and they cost nothing.
+/it/pieces/*  /it/creature/:splat  301
+/en/pieces/*  /en/creature/:splat  301

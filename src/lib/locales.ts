@@ -20,7 +20,7 @@ export function otherLocale(locale: Locale): Locale {
   return locale === "it" ? "en" : "it";
 }
 
-/** Build a path inside a locale: localePath("en", "pieces/x") -> "/en/pieces/x" */
+/** Build a path inside a locale: localePath("en", "creature/x") -> "/en/creature/x" */
 export function localePath(locale: Locale, path = ""): string {
   const clean = path.replace(/^\/+|\/+$/g, "");
   return clean ? `/${locale}/${clean}` : `/${locale}`;
