@@ -26,7 +26,8 @@ DESIGN-PLAN.md        approved design plan and running "need from you" list
 ## Prerequisites
 
 - Node 22.x or 24.x. Verified on Node 24.14.0 with npm 11.9.0: install, check,
-  build and both dev servers all pass.
+  build and both dev servers all pass (check re-verified 2026-08-02, after it
+  had been silently failing; see below).
 - A Sanity account (free) for the content, a Cloudflare account for hosting, and
   a Resend account for enquiry email. None are needed just to run the website
   locally against an empty or placeholder dataset.
@@ -75,10 +76,28 @@ Never commit `.env`. Only `.env.example` files are tracked.
 ```
 npm install
 npm run dev        # http://localhost:4321
-npm run check      # astro + TypeScript diagnostics
+npm run check      # astro + TypeScript diagnostics, site AND Pages Function
 npm run build      # static build into dist/
 npm run preview    # serve the production build locally
 ```
+
+#### Two TypeScript configs, on purpose
+
+`npm run check` is `astro check && tsc -p functions --noEmit`, because this
+repository holds code for two different runtimes and neither should be typed
+against the other:
+
+- `tsconfig.json` covers the site. Browser code, so it keeps the DOM lib, and it
+  **excludes** `functions/`.
+- `functions/tsconfig.json` covers the Cloudflare Pages Function. Workers
+  runtime, so it uses `@cloudflare/workers-types`, `lib` of ES2022 plus
+  WebWorker, and no DOM lib at all.
+
+If you add a file under `functions/`, it is checked by the second config. Do not
+"fix" a missing Workers global by adding `@cloudflare/workers-types` to the root
+config: that types the whole website against the wrong runtime. This is
+explained at greater length in DESIGN-PLAN section 13, including why the check
+was quietly failing for several commits before 2026-08-02.
 
 ### Studio (studio/)
 

@@ -1,0 +1,10 @@
+{
+  "//": "The Pages Function runs in the Workers runtime. It needs PagesFunction and the Workers globals, and it must NOT be given the browser DOM lib, so it is checked here rather than by the site's tsconfig. `npm run check` runs both.",
+  "extends": "astro/tsconfigs/strict",
+  "include": ["**/*.ts"],
+  "compilerOptions": {
+    "lib": ["ES2022", "WebWorker"],
+    "types": ["@cloudflare/workers-types"],
+    "noEmit": true
+  }
+}

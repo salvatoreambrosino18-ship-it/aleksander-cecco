@@ -850,12 +850,41 @@ Machine: macOS (Darwin 25.5.0), repo at `/Users/salvatoreambrosino/aleksander-ce
 Verified working here:
 
 - Node v24.14.0, npm 11.9.0. `npm install` (root and `studio/`), `npm run check`
-  (0 errors, 0 warnings, 0 hints), `npm run build` (static build into `dist/`),
-  `npm run dev` (site on http://localhost:4321) and `cd studio && npm run dev`
-  (studio on http://localhost:3333) all pass on this Node. The earlier note said
+  (0 errors, 0 warnings, 0 hints; re-verified 2026-08-02, see the note below),
+  `npm run build` (static build into `dist/`), `npm run dev` (site on
+  http://localhost:4321) and `cd studio && npm run dev` (studio on
+  http://localhost:3333) all pass on this Node. The earlier note said
   "use Node 20 or 22"; 24 is what is installed and what the toolchain is now
   verified against. Set the Cloudflare Pages Node version to match a current LTS
   (22 or 24), not 20.
+
+  A correction worth recording, because the claim above was false for a while
+  and nobody noticed. When the enquiry form landed (section 19), the Pages
+  Function arrived in `functions/` and the root `tsconfig.json` included it via
+  `**/*` while nothing supplied the Workers types. `npm run check` reported four
+  errors from that day onward, and this file went on saying it ran clean. The
+  fix, 2026-08-02:
+
+  - `@cloudflare/workers-types` is a devDependency.
+  - `functions/tsconfig.json` checks the function against the Workers runtime:
+    `lib` of ES2022 plus WebWorker, `types` of `@cloudflare/workers-types`, and
+    NO browser DOM lib, because that function never runs in a browser.
+  - The root `tsconfig.json` excludes `functions` for the same reason in
+    reverse: the site is browser code and must keep the DOM lib and must not be
+    handed Workers globals.
+  - `npm run check` runs both: `astro check && tsc -p functions --noEmit`.
+
+  Applying the Workers types globally instead was tried first and also reported
+  zero errors, which is precisely why it was rejected: it would have typed 46
+  files of browser code against the wrong runtime to make one file pass.
+
+  The gate was then confirmed to actually fail, rather than assumed to work: a
+  deliberate type error and a call to a nonexistent method were added to the
+  function, `npm run check` reported both and exited nonzero, and the file was
+  restored. The error named `Request<unknown, CfProperties<unknown>>`, which is
+  the Workers `Request`, confirming the function is checked against the runtime
+  it really runs in. Do this whenever a gate is repaired: a gate that passes has
+  proved nothing until it has been seen to fail.
 - No proxy of any kind. `git config` has no `url.*.insteadOf` rewrite, no
   `http.proxy`, and the shell has no proxy variables; npm goes straight to
   https://registry.npmjs.org/.

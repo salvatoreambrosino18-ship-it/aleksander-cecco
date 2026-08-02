@@ -1,5 +1,6 @@
 {
+  "//": "functions/ is the Cloudflare Pages Function. It runs in the Workers runtime, not the browser, so it is typechecked separately against @cloudflare/workers-types by functions/tsconfig.json. `npm run check` runs both.",
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "exclude": ["dist", "functions"]
 }

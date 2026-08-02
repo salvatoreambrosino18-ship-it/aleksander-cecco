@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
+    "check": "astro check && tsc -p functions --noEmit",
     "astro": "astro",
     "seed": "node scripts/seed.mjs",
     "import": "node scripts/import-photos.mjs"
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20260801.1",
     "@types/node": "^26.1.2",
     "typescript": "^6.0.3",
     "wrangler": "^4.118.0"
