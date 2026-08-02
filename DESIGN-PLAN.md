@@ -1344,3 +1344,52 @@ The check can be re-run at any time with `node scripts/verify-webhook.mjs`. It
 publishes a marker, watches the live site, restores the field, and never reads
 or prints the hook URL.
 
+### The publish chain, wired and tested (2026-08-02)
+
+How it is wired, so no future session has to rediscover it:
+
+```
+publish in Sanity Studio
+  -> Sanity webhook (sanity.io/manage > API > Webhooks)
+     dataset production, POST, on create/update/delete, no filter
+  -> Cloudflare Pages deploy hook (Pages project > Settings > Builds)
+  -> Pages build: npm run build, which fetches content from Sanity at build time
+  -> deploy to https://aleksander-cecco.pages.dev
+```
+
+There are TWO triggers and they are independent. A push to `main` builds the
+site from the repository. A publish in Sanity builds it through the webhook. Both
+produce the same output, because content is fetched during the build either way.
+
+CONFIRMED WORKING. The webhook did not exist during the first attempt, which is
+why that test failed. With it in place, two independent observations:
+
+- A studio edit at 15:03:02Z was live by 15:04:29Z, about 90 seconds.
+- A published change through the API was live roughly 7 minutes later.
+
+NOT YET RELIABLE, and worth knowing before trusting it. A third change,
+published at 15:20:25Z, had still not appeared 21 minutes later, while the
+dataset plainly held the new value. A git push then put it live in about 40
+seconds, as git pushes consistently have. So the build is not the problem; the
+trigger is intermittent.
+
+Where to look when it lags, neither of which is visible from this machine:
+
+- Sanity: sanity.io/manage > API > Webhooks, the delivery log for that hook.
+  It lists each attempt and its response code, which distinguishes "never fired"
+  from "fired and was refused".
+- Cloudflare: the Pages project build log. The free plan runs ONE build at a
+  time, and triggers that arrive while a build is running can be cancelled
+  rather than queued, which would explain a change that never lands while
+  neighbouring ones do.
+
+Until that is understood, treat a git push as the dependable way to force a
+deploy. `node scripts/verify-webhook.mjs` re-runs the test end to end: it
+publishes a unique marker, watches the live site, restores the field, and never
+reads or prints the hook URL.
+
+A caution learned the hard way: the automated verdict from that script and the
+manual observation disagreed once, the script reporting a timeout for a marker
+this session had already seen live. Trust the live page over the script, and
+report both when they differ.
+

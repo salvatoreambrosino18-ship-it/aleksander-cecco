@@ -23,7 +23,9 @@ process.loadEnvFile(path.join(ROOT, ".env"));
 const SITE = process.argv[2] || "https://aleksander-cecco.pages.dev";
 const COLLECTION_ID = "seed-collection-uno";
 const ORIGINAL = "{SEASON}";
-const MARKER = "{SEASON}-CHAIN-TEST";
+// Unique per run: patching a field to the value it already holds is not a
+// change, so a fixed marker would fire no webhook and look like a failure.
+const MARKER = `{SEASON}-CHAIN-TEST-${process.pid}`;
 const TIMEOUT_MS = 15 * 60 * 1000;
 const POLL_MS = 20000;
 
@@ -36,7 +38,11 @@ const client = createClient({
 });
 
 async function liveContains(needle) {
-  const res = await fetch(`${SITE}/it/`, {cache: "no-store", headers: {"Cache-Control": "no-cache"}});
+  // cache-bust: the edge can hold the previous deploy for a few seconds
+  const res = await fetch(`${SITE}/it/?cb=${Date.now()}`, {
+    cache: "no-store",
+    headers: {"Cache-Control": "no-cache"},
+  });
   const html = await res.text();
   return html.includes(needle);
 }
