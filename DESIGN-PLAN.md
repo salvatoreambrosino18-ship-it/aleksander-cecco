@@ -2081,3 +2081,194 @@ collection is where the work is looked at, not a second performance of the same
 transformation, and section 22's second condition says one per journey. Ink
 because these photographs are dark leather in hard light and the page should
 serve them. It is one prop to reverse if the owner reads it differently.
+
+---
+
+## 24. The Instagram history: names, states, voice, motion (2026-08-02)
+
+The owner's published posts are the deepest look at the brand's own language the
+project has had. They are his approved public words: quoted verbatim they are
+approved copy, and everywhere else they are the style the site should be written
+in.
+
+### Naming the Creature
+
+What is possible here has a hard limit worth stating: the CAPTIONS are in hand,
+the Instagram IMAGES are not. So a match can only be made where a caption names
+a feature that can be SEEN in one of our imported frames. Anything else would be
+a guess dressed as a decision.
+
+RENAMED, one, and the evidence is decisive:
+
+- **Rubedo**, our `piece-giacca-rossa`, now at `/creature/rubedo`. His caption:
+  "Red and Black faded colour. 500 handmade scar-stitch. Oblivion hole on the
+  back." IMG_3475 is our back view and shows precisely that: an almond opening
+  in the upper back, with sleeves fading from dark to bright red. Nothing else
+  in the imported set is red. Composition lambskin, from his own words; caption
+  verbatim as the description; private order, so no enquiry action.
+
+NOT RENAMED, and these are questions for the owner rather than gaps:
+
+| our piece | what it is | candidates | why it is not settled |
+| --- | --- | --- | --- |
+| `capo-01` | black crumpled leather shirt, hung from a bare branch | Armonyen, Corvinus | two shirt names, two black shirts, nothing in either caption that separates them |
+| `capo-02` | black fitted shirt, bell sleeves, pointed hem, shot under a crucifix | Corvinus, Armonyen | same pattern as Rubedo in black. Corvinus is "your protector in those dark nights", which suits the crucifix, but suiting is not evidence |
+| `capo-03` | black vest, visible scrap panels, central zip | Monumentus Tenebrae Scrap Vest | the scrap construction is plainly visible, but his caption names a set, "Scrap Vest and Pants", and we cannot tell which trousers are its Pants |
+| `capo-04` | crinkled dark vest, held in hand | none confidently | no caption matches a second vest |
+| `capo-05` | black trousers hung from a chain inside the steel frame | Tibia Cut, Scrap Pants | two names, two pairs of black trousers |
+| `capo-07` | wide black trousers, scalloped raw hem | Tibia Cut, Scrap Pants | same problem inverted |
+| `capo-08` | tube top AND snake-textured skirt, on model | Severya | the SKIRT is confidently Severya ("Handmade Snake Skirt") but our document bundles it with the top. Split the document, or name it Severya and note the top? |
+
+Named by him but not matched to any imported garment: **Tomar**, **Styrax**,
+**Ghezard**, **Monumentus Lux co-ord**.
+
+Two observations offered as leads, not decisions:
+
+- **Ghezard** is "Goat Shearling featuring a Washed brown Leather", and
+  `archive/IMG_9568` is a brown leather jacket with a fur collar. It is in the
+  ARCHIVE, not among the garments.
+- **Tenebrae and Lux may be a division of material, not a mood.** Every black
+  washed veg tan piece is Tenebrae; the pale and cream pieces, including the
+  arrival photograph and the on-model cream trousers, would then be **Monumentus
+  Lux**. If that is right it also means the arrival frame is a Lux piece, and it
+  is worth the owner confirming.
+
+RAISED, because it undermines something already built: the **making** section on
+the home page uses `products/IMG_0206` and `IMG_0208`, a black shearling pelt
+with a leather collar attached, on the argument that it is raw hide before and
+after construction. **Styrax is "Handmade Goat Sherling & Leather Top."** If
+those frames are Styrax, they are a finished Creature lying flat, not material,
+and the section's argument is wrong. The owner should say which.
+
+### Materials
+
+The generic line is dead. "100% Italian leather" named a country, not a
+composition, and his captions are precise per piece: lambskin, goat shearling,
+black washed veg tan sheepskin, waxed linen.
+
+Only Rubedo carries a real composition. Every unmatched Creature now shows a
+marked `{MATERIALS}` placeholder, DELIBERATELY. Filling them all with
+"vegetable-tanned" would be a newer generic line asserted about pieces nobody
+has verified: the same mistake with a better vocabulary. The schema default for
+a NEW Creature is vegetable-tanned, which is a starting point the owner edits,
+not a claim the site makes.
+
+### How a Creature can be had
+
+The old `notOffered` boolean knew two states; his captions describe four, and
+`garment.availability` now holds them: `madeToOrder`, `unique` (1 of 1),
+`privateOrder`, `notOffered`.
+
+Only made-to-order carries the enquiry action. A unique piece and a private
+commission are already made and already someone's, and offering to build another
+would be a lie. They stay visible at full scale, which is the rule that has
+always governed a withdrawn action here, and the line states what the piece is
+with no apology attached.
+
+### Motion
+
+Built on the structure rather than instead of it.
+
+**Photography reveals.** A full-bleed frame rises `--reveal-shift` (24px) and
+resolves once, over `--dur-reveal` on the expo-out curve already in the tokens.
+No scale: scaling a photograph is a zoom, and a zoom is a slideshow. No stagger,
+no blur, no bounce. A presence arriving in a room does not bounce.
+
+Three things never reveal, and each exclusion is the point:
+
+- the ARRIVAL photograph on any page. It is the LCP element, and an arrival that
+  arrives late is not an arrival.
+- TEXT. If everything moves, nothing does.
+- the frames INSIDE the worn band. The band reveals as one presence. Six frames
+  animating individually while a reader drags them sideways is the bouncing this
+  is meant to avoid.
+
+**Safety.** The hidden state hangs off `data-reveal-live`, which the script sets
+before anything is hidden. No JavaScript, a blocked script, or no
+IntersectionObserver, and every photograph is simply visible. On a site that is
+entirely photographs, getting this wrong produces a blank page, so it is not
+left to chance. Frames unobserve on first sight and never re-hide.
+
+**Measured.** 4x CPU throttle, scrolling the whole home page: median frame
+8.2ms, p95 10.3ms, worst 10.7ms, nothing over 50ms. Reduced motion verified at
+runtime with the preference emulated, not assumed: neither script marks the
+root, zero of four reveal targets are hidden, and the wash collapses to exactly
+one viewport with no dead scroll. Standing rule 3 still applies: the real phone
+test belongs to the owner and is the one that counts.
+
+**PAGE TRANSITIONS ARE NOT BUILT**, and that is the judgement rather than an
+omission. Astro's view transitions would swap the document on navigation, which
+does three things this site cannot afford: it cross-fades a whole page of
+photographs directly against the reveals, so two motions compete for the same
+moment; it discards the scroll position the pinned wipe depends on; and it
+spends kilobytes of JavaScript on a static site whose entire argument is that
+photographs load fast. The brief said "if they survive without competing", and
+they do not. If it is wanted anyway, the honest version is a very short fade on
+the incoming page only, with the reveals disabled during it.
+
+### Voice applied to our own strings
+
+His register is short, declarative, material-precise. Where our strings were
+softer they are rewritten:
+
+| string | was | now |
+| --- | --- | --- |
+| enquiry intro (EN) | "Every Creature is built to measure. Leave your measurements and we will write back." | HIS OWN LINE, verbatim, from the Armonyen post: "Send us your measurements and we'll take care of creating it specifically for you." |
+| `madeToMeasureValue` | "Every Creature is built to the measurements of the person who will wear it" | "Built to your measurements." |
+| `notFound` | "Page not found" | "Nothing here." |
+
+The three MEASURING INSTRUCTIONS are deliberately not compressed. They are the
+one place on the site where a person has to act on what they read, and clarity
+beats style.
+
+### Noted, not built
+
+- **Tyrrhenian Women** is a next drop. Not built, per instruction. Recorded here
+  as evidence that collections continue, which matters for section 22's third
+  condition: the wipe must keep working when MONUMENTUS is not the only one.
+- **Creative team credits** (photographer, MUA, model handles) are NOT on the
+  site. They are a question for the owner: crediting the people who made the
+  images is normal and generous, and it is also his call and nobody else's.
+
+---
+
+## 25. Does it feel like the studio, or like a shop? (2026-08-02)
+
+The instruction was to check every design decision against the mood of his
+photographs, concrete and shutters and chains and crucifixes and bare branches,
+and to flag anywhere the site reads as a clean e-commerce template instead.
+
+Flagged, worst first. Nothing here is changed yet; several are the owner's call.
+
+1. **THE FOOTER IS A SHOP FOOTER, and it is ours.** Four blocks in a four column
+   grid, Instagram / Support / Worldwide shipping / Made in Italy. That is the
+   standard commerce footer, the structure was taken from a shop, and "Support"
+   is a customer-service word for a brand that has no support desk. It is the
+   most template-like thing on the site and it was built to a brief. Worth
+   replacing with something in his register: a line, an address, the handle.
+2. **THE CREATURE PAGE HAS A SPEC TABLE.** A definition list of Collection,
+   Category, Made to measure, Materials, Reference measurements, Price, How it
+   can be had. His own caption for the same kind of object is one line:
+   "Creature: Tomar. Composition: 100% lambskin. Handmade." Seven labelled rows
+   is a product sheet; his is an inscription.
+3. **CATEGORY IS UOMO / DONNA, and his own words contradict it.** The Armonyen
+   caption says the shirt is "designed for both him and her." A gendered
+   catalogue taxonomy exists to filter a shop. This is the clearest case on the
+   list, because the evidence against it is his, not mine.
+4. **PRICE IS RENDERED AS A CURRENCY.** `Intl.NumberFormat` produces a shop
+   price. Nothing in his posts prices a piece publicly; they are made to measure
+   and some are private orders. Recommend removing price from the page entirely
+   and letting it belong to the conversation the enquiry starts.
+5. **"SEND ENQUIRY" IS A BORDERED BUTTON.** A hairline box is the one closed
+   shape in the whole system and it reads as a call to action. There is a real
+   argument for it, since it is the site's single action, but in his register it
+   would be a line and not a box.
+6. **THE COLLECTIONS INDEX** repeats the same full-bleed cover gesture as the
+   home page and the collection page, already recorded in section 23.
+
+What is NOT off-mood, and is worth saying because restraint can look like
+absence: the photographs carry the studio on their own, and the page furniture
+around them stays deliberately neutral. The concrete, the chains and the
+crucifixes are IN the frames. Adding studio texture to the page itself, a
+concrete ground, a rule that looks like a chain, would be costume, and the brief
+has warned against the costume reading of gothic since section 0.
