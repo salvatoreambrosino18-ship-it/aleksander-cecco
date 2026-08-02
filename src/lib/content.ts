@@ -45,7 +45,17 @@ export function isPlaceholderEmail(email: string | null): boolean {
   return !email || email.trim().toLowerCase() === PLACEHOLDER_EMAIL;
 }
 
-/* ---------------------------------------------------------------- garments */
+/* ------------------------------------------------------------- collections */
+
+export type Collection = {
+  name: string;
+  slug: string;
+  season: string | null;
+  statement: LocaleField;
+  cover: MediaItem | null;
+};
+
+/* -------------------------------------------------------------- projection */
 
 export type Garment = {
   name: string;
@@ -107,5 +117,41 @@ export async function getGarment(slug: string): Promise<Garment | null> {
     /* groq */ `*[_type == "garment" && slug.current == $slug][0]{${GARMENT_PROJECTION}}`,
     {slug},
     null,
+  );
+}
+
+const COLLECTION_PROJECTION = /* groq */ `
+  name,
+  "slug": slug.current,
+  season,
+  statement,
+  cover{${MEDIA_PROJECTION}}
+`;
+
+/** Published collections, in the order the owner dragged them into. */
+export async function getCollections(): Promise<Collection[]> {
+  return query<Collection[]>(
+    /* groq */ `*[_type == "collection" && published == true && defined(slug.current)]
+      | order(orderRank asc){${COLLECTION_PROJECTION}}`,
+    {},
+    [],
+  );
+}
+
+export async function getCollection(slug: string): Promise<Collection | null> {
+  return query<Collection | null>(
+    /* groq */ `*[_type == "collection" && slug.current == $slug][0]{${COLLECTION_PROJECTION}}`,
+    {slug},
+    null,
+  );
+}
+
+/** Garments in one collection, in the owner's order. */
+export async function getGarmentsInCollection(slug: string): Promise<Garment[]> {
+  return query<Garment[]>(
+    /* groq */ `*[_type == "garment" && collection->slug.current == $slug && count(media) > 0]
+      | order(orderRank asc){${GARMENT_PROJECTION}}`,
+    {slug},
+    [],
   );
 }

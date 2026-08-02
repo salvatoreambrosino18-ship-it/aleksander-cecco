@@ -1,0 +1,81 @@
+---
+/*
+  One collection. Step 5 of the build order.
+
+  Cover, then the statement on a text surface, then the garments at full bleed,
+  one screen each, every one a link to its own page. No thumbnail grid: a
+  garment is never reduced to a card here (DESIGN-PLAN section 4).
+*/
+import Base from "../../../layouts/Base.astro";
+import TextSurface from "../../../components/TextSurface.astro";
+import MediaSurface from "../../../components/MediaSurface.astro";
+import {getCollections, getGarmentsInCollection, type Collection, type Garment} from "../../../lib/content";
+import {LOCALES, localePath, pick, toLocale} from "../../../lib/locales";
+import {overlayTheme} from "../../../lib/media";
+
+export async function getStaticPaths() {
+  const collections = await getCollections();
+  const withGarments = await Promise.all(
+    collections.map(async (collection) => ({
+      collection,
+      garments: await getGarmentsInCollection(collection.slug),
+    })),
+  );
+
+  return LOCALES.flatMap((lang) =>
+    withGarments.map(({collection, garments}) => ({
+      params: {lang, slug: collection.slug},
+      props: {collection, garments},
+    })),
+  );
+}
+
+const {collection, garments} = Astro.props as {collection: Collection; garments: Garment[]};
+const locale = toLocale(Astro.params.lang);
+const statement = pick(collection.statement, locale);
+---
+
+<Base
+  locale={locale}
+  title={collection.name}
+  description={statement ?? undefined}
+  chrome={overlayTheme(collection.cover?.overlay)}
+>
+  {
+    collection.cover && (
+      <MediaSurface media={collection.cover} locale={locale} priority>
+        <div class="flex flex-col gap-u1">
+          <h1 class="type-label text-label">{collection.name}</h1>
+          {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
+        </div>
+      </MediaSurface>
+    )
+  }
+
+  {
+    statement && (
+      <TextSurface class="py-u13">
+        <p class="type-statement text-statement max-w-prose">{statement}</p>
+      </TextSurface>
+    )
+  }
+
+  {
+    garments.map((garment) => {
+      const cover = garment.media?.[0];
+      if (!cover) return null;
+      return (
+        <a href={localePath(locale, `pieces/${garment.slug}`)} class="block">
+          <MediaSurface media={cover} locale={locale} height="tall">
+            <div class="flex flex-col gap-u1">
+              <h2 class="type-label text-label">{garment.name}</h2>
+              {garment.referenceCode && (
+                <span class="type-mono text-mono">{garment.referenceCode}</span>
+              )}
+            </div>
+          </MediaSurface>
+        </a>
+      );
+    })
+  }
+</Base>

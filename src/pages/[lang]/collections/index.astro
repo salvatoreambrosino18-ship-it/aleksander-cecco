@@ -1,0 +1,50 @@
+---
+/*
+  The collections index. Step 5 of the build order.
+
+  One full-bleed media screen per collection, with its name and season as a
+  label. Scrolling the index is scrolling through the collections themselves.
+  Not a grid, not chips, not cards (DESIGN-PLAN sections 4 and 5).
+*/
+import Base from "../../../layouts/Base.astro";
+import MediaSurface from "../../../components/MediaSurface.astro";
+import TextSurface from "../../../components/TextSurface.astro";
+import {getCollections} from "../../../lib/content";
+import {LOCALES, localePath, toLocale} from "../../../lib/locales";
+import {overlayTheme} from "../../../lib/media";
+import {t} from "../../../i18n/ui";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({params: {lang}}));
+}
+
+const locale = toLocale(Astro.params.lang);
+
+// A collection without a cover has nothing to show on a media-led index, and
+// the schema requires one, so this only guards against a half-filled document.
+const collections = (await getCollections()).filter((collection) => collection.cover);
+const first = collections[0]?.cover;
+---
+
+<Base locale={locale} title={t(locale, "collections")} chrome={overlayTheme(first?.overlay)}>
+  <h1 class="sr-only">{t(locale, "collections")}</h1>
+
+  {
+    collections.map((collection, index) => (
+      <MediaSurface media={collection.cover!} locale={locale} priority={index === 0}>
+        <a href={localePath(locale, `collections/${collection.slug}`)} class="flex flex-col gap-u1">
+          <h2 class="type-label text-label">{collection.name}</h2>
+          {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
+        </a>
+      </MediaSurface>
+    ))
+  }
+
+  {
+    collections.length === 0 && (
+      <TextSurface class="flex min-h-svh flex-col justify-center">
+        <p class="placeholder-mark">{"{NO_COLLECTIONS_PUBLISHED}"}</p>
+      </TextSurface>
+    )
+  }
+</Base>
