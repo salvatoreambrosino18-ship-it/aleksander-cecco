@@ -2692,3 +2692,443 @@ Worth handing to the owner alongside the ambiguity table in section 24:
 7. Whether the fox fur and goat shearling parity on Styrax was deliberate.
 8. Which of the thirteen still exist as offerable Creature, since only eight
    garments are imported and the names do not all line up.
+
+---
+
+## 31. Ready or remade: the contradiction, and its cost
+
+The owner now says all pieces are ready and can be bought. Hours earlier he said
+nothing exists before it is requested, and section 17 deleted the size system on
+that basis. Both cannot be true of the same Creature at the same time. NOTHING
+HAS BEEN REINTRODUCED; this is the cost of each answer so he can choose.
+
+### What a catalogue must express to be honest
+
+Five questions a buyer asks, and the site currently answers only two:
+
+1. Does this exact object exist right now?
+2. If it exists, will it fit ME?
+3. Can it be remade for me?
+4. If remade, will it be identical? (his own answer: "similar, but never identical")
+5. How do I get it?
+
+### The smallest schema: no new fields at all
+
+The existing `availability` enum widens from four values to five. That is the
+whole change.
+
+| value | exists now | remade | measurements mean |
+| --- | --- | --- | --- |
+| `readyOnly` | yes | no | THIS object's measurements. A fit spec. |
+| `madeToOrder` | no | yes | the photographed sample, as context |
+| `readyOrRemade` | yes | yes | this object's, and context for a remake |
+| `privateOrder` | gone | no | historical |
+| `notOffered` | n/a | n/a | n/a |
+
+Why one enum and not two booleans: two booleans give sixteen combinations, most
+of them nonsense, and allow a document to say it neither exists nor can be made.
+Five named values cannot express a contradiction.
+
+**No size field returns.** Section 17 holds and was right in advance: "If a
+future session finds a garment that seems to need one, the answer is a reference
+measurement on that garment, not a size system." A ready piece's measurements
+ARE its size.
+
+**One field changes meaning, and that is the trap.** `measurements` currently
+means "the sample that was photographed, not what you receive". For a ready
+piece it means "the object you will receive". Same field, opposite claim. The
+LABEL must follow `availability`; the field does not need to be duplicated.
+
+### Exactly which strings become wrong
+
+Under READING A (made to measure only, the current site): **nothing.** The site
+is internally consistent today. Cost of confirming A: zero.
+
+Under READING B (everything ready), these become false:
+
+| where | string | why it breaks |
+| --- | --- | --- |
+| `functions/api/enquiry.ts` | chest/shoulders/length **validation** | NOT copy. The server REJECTS a submission without three measurements, 422. A buyer of a ready piece cannot complete the form at all. |
+| `creature/[slug]/enquiry.astro` | the three inputs carry `required` | the browser blocks submission before the server sees it |
+| `i18n/enquiry.ts` | "Send us your measurements and we'll take care of creating it specifically for you." | **HIS approved words.** False for a ready piece, and only he can change them. |
+| `i18n/enquiry.ts` | `measureTitle` + three measuring instructions | instructions for something not being done |
+| `i18n/ui.ts` | `madeToMeasureValue` "Built to your measurements." | false. Shown on the home page AND every collection page. |
+| `i18n/ui.ts` | `handmadeMadeToMeasure` "Handmade. Made to measure." | half false, and it is in every Creature's inscription |
+| `i18n/ui.ts` | `referenceMeasurements` "Reference measurements" | wrong noun: they are the actual measurements |
+| `i18n/ui.ts` | `madeToOrder` "Made to order." | the default state would be wrong for every piece |
+| his brand text | "In 100% vegetable-tanned leather, **Made to Measure**, handmade in South Italy." | **HIS approved words**, on the home page and the about page |
+
+Under READING C (mixed, per Creature): the same list, but every one of those
+strings stops being a constant and becomes a function of `availability`, and the
+enquiry form needs the measurements block shown or hidden per Creature with the
+server validating conditionally.
+
+### The cost of each answer
+
+- **A, made to measure only.** Zero. Nothing changes. He simply confirms.
+- **B, everything ready.** Half a day of work, plus owner sign-off on TWO lines
+  of his own approved text. The expensive part is not the copy, it is that the
+  enquiry endpoint hard-requires three measurements: under B that is a server
+  rejecting a legitimate purchase, not a wording problem.
+- **C, mixed.** About a day. Not much more than B, because B already forces the
+  conditional path to exist; C just means both branches are reachable. This is
+  also the only reading that survives him changing his mind again, which on the
+  evidence of the last few hours is worth something.
+
+RECOMMENDATION: ask him for C even if today the answer is A or B, because C
+costs one extra half day now and prevents this entire conversation recurring.
+
+---
+
+## 32. Pricing: three levers, and the arithmetic behind them
+
+Analysis only. No price is on the site; every Creature still shows
+`{PRICE_EUR}`.
+
+### Correction to the earlier arithmetic
+
+RECORDED AS INSTRUCTED: the old figures were dollars chosen as dollars, not
+euro converted to dollars. The conversion hypothesis in section 30 was wrong.
+
+The honest footnote, because the anomaly is still there and someone will find it
+again: dividing that list by 1.18 returns a set that is uniformly a multiple of
+25, with seven exact hits. That is a real pattern and this correction does not
+explain it. The likely reconciliation is that the old storefront displayed
+converted dollars against euro he had set, and the dollar figures are what he
+remembers seeing. It does not matter for any decision: **the euro-equivalent is
+roughly the same either way, and every conclusion below is unchanged.**
+
+### The constraint, stated plainly
+
+About two weeks per Creature, and it is not known whether that is working hours
+or elapsed time. Leather is not a major cost, so this is almost entirely labour.
+
+| reading | hours | at EUR 15/h | at EUR 25/h | at EUR 40/h |
+| --- | --- | --- | --- | --- |
+| 2 weeks elapsed, ~3h/day | 30 | 530 | 830 | 1,280 |
+| 2 weeks elapsed, ~5h/day | 50 | 830 | 1,330 | 2,080 |
+| 2 weeks working, 8h/day | 80 | 1,280 | 2,080 | 3,280 |
+
+Those rates are billed rates, and a self-employed maker in Italy keeps roughly
+half of one after contributions and tax. EUR 15/h billed is below a living wage
+once unbilled time (admin, photography, Instagram, answering enquiries, which is
+easily a third of the week) is carried by the same hours.
+
+### What the eight Creature would cost, by shape
+
+Hours are banded by construction, not guessed to the hour. PRICE = hours x rate
++ EUR 80 material.
+
+| Creature | hours | @15/h | @25/h | @40/h |
+| --- | --- | --- | --- | --- |
+| capo-01 black leather shirt | 40-60 | 680-980 | 1,080-1,580 | 1,680-2,480 |
+| capo-02 shirt, bell sleeves | 40-60 | 680-980 | 1,080-1,580 | 1,680-2,480 |
+| capo-03 scrap vest, pieced | 25-40 | 455-680 | 705-1,080 | 1,080-1,680 |
+| capo-04 vest | 15-25 | 305-455 | 455-705 | 680-1,080 |
+| capo-05 leather trousers | 30-45 | 530-755 | 830-1,205 | 1,280-1,880 |
+| Rubedo, 500 hand stitches | 70-100 | 1,130-1,580 | 1,830-2,580 | 2,880-4,080 |
+| capo-07 wide leather trousers | 30-45 | 530-755 | 830-1,205 | 1,280-1,880 |
+| capo-08 tube top + python skirt | 20-30 | 380-530 | 580-830 | 880-1,280 |
+
+### What the old list actually paid him, per hour
+
+Material deducted, hours banded as above:
+
+| item | EUR | hours | EUR per hour |
+| --- | --- | --- | --- |
+| patchwork tibia cut pants | 175 | 30-45 | **2.1-3.2** |
+| snakeskin mini bag | 150 | 8-14 | 5.0-8.8 |
+| Tenebrae scraps vest | 300 | 25-40 | 5.5-8.8 |
+| leather hat | 125 | 4-8 | 5.6-11.2 |
+| Severya python skirt | 250 | 20-30 | 5.7-8.5 |
+| Armonyen shirt | 450 | 40-60 | 6.2-9.2 |
+| Monumentus Tenebrae tibia cut | 675 | 30-45 | 13.2-19.8 |
+| Tenebrae leather pants | 875 | 30-45 | 17.7-26.5 |
+
+**On any plausible reading the old list paid him between two and nine euro an
+hour for most of the range.** Only the two most expensive pieces cleared
+thirteen. Pricing work below the cost of making it does not survive success: the
+better it sells the faster he goes broke, and the busier he is the less time he
+has to fix it. This is the finding, and it should not be softened.
+
+### The three levers, and what each really costs him
+
+**1. Repeat known pieces at a lower tier.**
+Buys a sellable tier without lowering the price of new work, and it does not
+contradict the brand: his own text already says "A work of repetition, patience,
+and precision."
+The cost is not money, it is attention. Every hour repeating is an hour not
+experimenting, and the tenth Tomar is not interesting to make. It also caps that
+piece forever: once a repeat price exists, the original cannot be sold at three
+times as much to someone else.
+Before pricing this tier he must TIME AN ACTUAL REPEAT. First repeats are rarely
+much faster, and a tier priced on an imagined speedup loses money on every unit.
+
+**2. A genuinely lower entry tier of accessories.**
+The strongest lever, and the cheapest. Few hours, uses offcuts he already
+generates (the scrap vest proves the offcuts exist), and it is the only way a
+young audience owns anything of the brand.
+His own old list already validates it: the hat at EUR 125 for four to eight
+hours is the only line item that approaches a defensible rate.
+The cost is positioning. Rick Owens sells EUR 300 accessories underneath a EUR
+3,000 clothing brand, and the clothing legitimises the accessory, never the
+reverse. If accessories become most of the revenue the brand becomes an
+accessories brand. The garments must stay visible and expensive for this to
+work, which means the site must not let accessories dominate it.
+
+**3. Price for an international audience.**
+This is the lever that resolves the constraint rather than working around it.
+80 hours at EUR 25 plus material is EUR 2,080. Isaac Sellam's leather jackets
+are EUR 2,016 to 2,270. **The labour-derived price and the international market
+price are the same number.** The labour price is not too high; the Italian
+market is the wrong market for labour-priced work.
+What it costs him is operations, not craft: customs paperwork, IOSS or local VAT
+handling, returns from outside the EU, longer payment cycles, and answering
+enquiries in English at Asian hours. The one-day reply promise gets harder and
+more valuable at the same time.
+
+### What changes on the site if the buyer is Tokyo, Seoul, Berlin or New York
+
+1. **Trust replaces mood as the primary design problem.** A Neapolitan buyer can
+   visit the studio. A Tokyo buyer is sending EUR 1,500 to one person they have
+   never met. Process photography, the maker's hands and face, a real address
+   and a real reply stop being atmosphere and start being evidence.
+2. **The default locale is wrong.** `/` redirects to `/it`. For an
+   English-speaking international buyer the site opens in a language they do not
+   read. Section 5 forbids auto-detect, and rightly, but the DEFAULT is a
+   separate decision and is currently Italian by inheritance rather than by
+   choice.
+3. **Duties and shipping must be explicit.** "Shipped worldwide" is not enough
+   at this price from outside the EU. Who pays customs is a question the site
+   does not answer.
+4. **Payment.** Enquiry to invoice to bank transfer is heavy friction for an
+   international buyer. A payment link is the obvious answer and it is the first
+   thing on this project that would cost money (standing rule 13), so it needs
+   asking before building.
+5. **Measurements in centimetres only.** An American buyer thinks in inches.
+6. **Fit confidence**, which loops directly back to section 31. An international
+   buyer cannot try anything on, so whichever answer he gives there matters more
+   abroad than at home.
+
+### What he must supply
+
+Unchanged from section 30, plus one: **is two weeks working hours or elapsed
+time?** Every number above moves by a factor of two and a half on that answer
+alone, and it is a single question.
+
+---
+
+## 33. What the references have that we do not (re-fetched 2026-08-02)
+
+Structure only, not styling. Sellam and Rick Owens re-fetched live; Sorcinelli
+has become a fragrance shop and is now weak evidence for a clothing site.
+
+| structural piece | Sellam | Rick Owens | Sorcinelli | us | verdict |
+| --- | --- | --- | --- | --- | --- |
+| Legal / privacy / terms / refund | yes | yes | yes | **NONE** | **MANDATORY** |
+| Newsletter | yes | yes | yes | no | valuable, not free |
+| The designer (a page about the person) | "THE DESIGNER" | no | "About us" | no | **RECOMMEND** |
+| Care instructions | no | no | no | no | **RECOMMEND anyway** |
+| Stockists / store locator | yes | "Stores" | no | no | furniture, he has none |
+| Archive AND sample sales | "ARCHIVES AND SAMPLE SALES" | no | no | archive only | **RAISE** |
+| Search | yes | yes | no | no | furniture at eight pieces |
+| Account, cart, wishlist | yes | yes | yes | no | furniture, we do not sell |
+| Region / currency switcher | no | yes | no | no | furniture, EUR decided |
+| Editorial (runway, interviews, exhibitions) | no | yes | no | no | furniture at this size |
+| Size guide | not visible | not visible | n/a | no | note: NEITHER reference publishes one |
+
+Four conclusions worth acting on:
+
+1. **Legal is not furniture and it is the single hardest launch blocker.** All
+   three references carry privacy, terms and refund pages. We collect a name, an
+   email and three BODY MEASUREMENTS through a form that works today, with no
+   privacy notice, no consent line and no legal entity named. That is a GDPR
+   obligation, not a nicety, and it is already live behind a noindex.
+2. **A designer page is cheap and does real work**, and it is the international
+   trust lever from section 32. Sellam has one. Ours would be one photograph of
+   him or his hands, and a short text in his voice. It is not the About page:
+   that is the brand's story, this is the person.
+3. **Care instructions are recommended even though no reference has one.**
+   Vegetable-tanned leather changes with wear, which is the brand's entire
+   argument ("living textures", "similar, but never identical"). Telling a buyer
+   how to live with it is on-brand and useful, and it is a page of text.
+4. **Sellam sells his archive.** We have an archive page with nine pieces and no
+   years. If archive pieces could be marked available, that is inventory that
+   already exists, photographed, unsold, and it directly serves the entry-tier
+   problem in section 32.
+
+---
+
+## 34. Video, and the arrival
+
+### Video is the real gap, and the references agree
+
+Rick Owens carries five or six video blocks on the homepage; the plan measured
+fourteen autoplay loops in section 14. Both video-carrying references move
+INSIDE the frame rather than moving the frame. We have stills only.
+
+### Where video can live on the free tier
+
+Two options and they trade against each other:
+
+- **Sanity assets** (the `media.video` field already exists). The owner can
+  upload it himself, which is constraint 3 in section 0 and matters. The risk is
+  bandwidth: the free tier is about 100GB a month and a 4MB loop viewed 10,000
+  times is 40GB. Section 12 already anticipated exactly this.
+- **Cloudflare Pages, files committed under `public/`.** Static asset requests
+  are unlimited and free (section 16), with a 25 MiB per-file ceiling. No
+  bandwidth risk at all. The cost is that the owner cannot add a video without a
+  developer, and every clip lives in git history forever.
+
+RECOMMENDATION: start on Sanity, because owner-manageable beats theoretically
+cheaper, and move to Pages if bandwidth approaches the cap. That is what section
+12 already committed to and there is no reason to reverse it.
+
+### How it has to behave
+
+- Poster always required and always shipped first. The poster is the LCP
+  candidate and goes through the Sanity image pipeline with a real srcset.
+- `muted loop playsinline preload="none"`. Muted is not a preference, it is the
+  only way autoplay is permitted at all.
+- Play only when on screen, pause when off, via IntersectionObserver. A phone
+  should never download a loop the reader never reaches.
+- Never autoplay under `prefers-reduced-motion`. The poster simply stands.
+- Never autoplay when `navigator.connection.saveData` is set.
+- **On a slow phone:** the poster paints immediately, the video begins
+  downloading only when the frame is in view, and if it never arrives the poster
+  stands and nothing looks broken or empty. That is the whole design: the video
+  is an enhancement over a page that is already complete.
+
+### The shot list to send the owner
+
+The three existing clips are unusable: three to five seconds is too short to
+loop without a visible jump, 720p is too soft for a full-bleed frame on a 3x
+phone screen, and the audio will be stripped anyway.
+
+**Rules for all of them**
+
+- **Vertical, 9:16.** The site is mobile-first and full bleed; a landscape clip
+  gets destroyed by the crop.
+- **4K if the phone offers it, otherwise 1080x1920 minimum. 24 or 30fps, never
+  60.** Sixty is a bigger file for no visible benefit here.
+- **Film 20 to 30 seconds. We cut an 8 to 15 second loop out of the middle.**
+- **It must loop.** Film a CONTINUOUS UNCHANGING action: leather moving in a
+  draught, hands stitching in rhythm. Do not begin with a hand entering the
+  frame and end with it leaving; there is no loop point in that.
+- **Lock the phone down.** Tripod, or wedge it against something. No handheld,
+  no walking, no zoom, no pan. The camera is a witness, not a participant.
+- **Lock exposure and focus.** Tap and hold until AE/AF locks. Auto-exposure
+  hunting mid-shot is the single thing that makes phone video look amateur, and
+  it destroys a loop because the two ends no longer match.
+- **No slow motion, no filters, no in-app grading.**
+- **The light he already uses.** Hard directional sun in the studio. Do not add
+  lamps.
+- **Send the originals**, uncompressed, one file per shot, named per the list.
+
+**The five shots, in priority order**
+
+1. **THE ARRIVAL.** One Creature hanging in the black steel frame, filmed
+   straight on, camera locked, in a draught so the leather moves a few
+   centimetres. 30 seconds. This is the most valuable clip on the list: it is
+   the answer to the arrival question below.
+2. **THE WALK.** A person wearing a Creature walking toward or away from the
+   camera through the shaft of sunlight, one continuous pass, 15 seconds. For
+   the worn band.
+3. **THE HANDS.** Close on hands stitching or cutting, locked off, 30 seconds of
+   continuous rhythm. This is the clip that PROVES "500 handmade scar-stitch",
+   and it is the one an international buyer needs most (section 32).
+4. **THE HIDE.** A whole hide being lifted, turned or laid down. One movement,
+   10 seconds. Shows scale and weight, which no still can.
+5. **A DETAIL IN MOTION.** A zip, a fringe, a cut hem swinging. 10 seconds.
+   Optional, and only if it genuinely moves.
+
+### The arrival: argued, and the answer is no
+
+Should a held black precede the first photograph?
+
+FOR: the brand is built on thresholds and transformation, and the site currently
+starts with the reader already inside.
+
+AGAINST, and it is decisive:
+
+1. **The wipe is already the site's threshold.** Section 22's second condition
+   is one inversion per journey. A held black before the first photograph would
+   be a second threshold within thirty seconds of the first, and the two would
+   compete rather than compound.
+2. **It costs the first paint.** The arrival photograph is the LCP element and
+   is deliberately excluded from the reveal for exactly that reason. Putting a
+   held black in front of it contradicts a decision already made on evidence.
+3. **The primary visitor is on a phone on mobile data, arriving from
+   Instagram.** A splash spends their attention before showing them anything.
+4. **The second visit is worse than the first.** Making it once-per-session
+   needs storage and produces two different sites.
+5. It is the most dated gesture in fashion web design.
+
+**But the want behind the question is real, and there is a free answer.**
+
+The page opens in INK, because the wipe now runs nigredo to albedo. The arrival
+photograph is `IMG_3463`, the PALE trousers: a Lux piece, bright, on a black
+page. **The arrival currently contradicts the wipe's own direction.** Opening on
+a dark Tenebrae frame would make the page appear to emerge out of black, give
+the threshold its moment, cost nothing, and put the sequence in his own order:
+darkness first, light after.
+
+RECOMMENDATION: no splash. Swap the arrival frame for a dark one, which is free
+and is an owner choice about which photograph. Then film shot 1 above, and the
+hanging Creature moving in a draught becomes the real arrival: a presence, held,
+before the reader scrolls. That is the threshold the question is asking for, and
+it arrives as content rather than as an effect.
+
+---
+
+## 35. Everything else, ordered by whether it blocks launch
+
+### Blocks launch, needs the owner
+
+1. **Legal entity details and a privacy policy.** The form collects a name, an
+   email and three body measurements TODAY. GDPR. Hardest blocker (section 33).
+2. **The real contact email.** `info@example.com` is still in site settings and
+   must never ship. The studio warns; the site shows a marked placeholder.
+3. **Ready or remade** (section 31). Everything about the enquiry path depends
+   on the answer.
+4. **Creature names, compositions, prices.** Seven of eight show placeholders.
+5. **Two weeks: working hours or elapsed?** One question, and every price in
+   section 32 moves by two and a half times on the answer.
+6. **Tannage**, to confirm the seven tenebrae assignments.
+7. **Archive years**, or fold the best frames into the home sequence and drop
+   the section (section 18 already set that condition).
+
+### Blocks launch, mine
+
+8. **A privacy notice and a consent line on the enquiry form.** Depends on 1.
+9. **RATE LIMITING ON THE ENQUIRY ENDPOINT.** Section 8 specified it and it was
+   never built: the function has a spam trap and a three-second floor and
+   nothing else. Anyone can POST in a loop and burn the Resend free allowance of
+   100 a day, which is a denial of the brand's only sales channel. This is the
+   most serious unflagged gap in the build.
+10. **Remove the two noindex locks** (section 16), last, after everything else.
+11. **The domain switch**, four steps, ready in section 29.
+12. **Resolve the visible draft marks.** Live pages currently show "Unapproved
+    draft" in the footer and on the enquiry page. Either he approves the wording
+    or it is rewritten, but shipping a launch with visible draft marks is worse
+    than either.
+13. **Cloudflare Web Analytics token.** Cheap, cookieless, decided long ago in
+    section 9, still not wired.
+
+### Does not block launch
+
+14. Video, and the shot list (section 34).
+15. A designer page (section 33).
+16. Care instructions (section 33).
+17. Archive pieces marked available, the Sellam sample-sale idea (section 33).
+18. An accessories entry tier (section 32).
+19. Newsletter. Needs a free, GDPR-safe, no-third-party-script provider, which
+    conflicts with standing rules 4 and 13. Defer until someone asks for it.
+20. The collections index still repeats the home page's opening gesture
+    (section 23 flag 5), unresolved and waiting for a second collection.
+21. Accents in the older Italian interface strings, inconsistent with the brand
+    copy (flagged in section 22, still not fixed).
+22. **`npm run seed` is now a footgun.** It deletes any collection that is not
+    the seed collection, which means running it against the current dataset
+    destroys real content. It should refuse to run unless a flag is passed.
+
