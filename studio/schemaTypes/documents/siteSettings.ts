@@ -29,6 +29,34 @@ export const siteSettings = defineType({
         ).warning(),
       ],
     }),
+    /*
+      The home page. The opening photograph is the first thing a visitor meets;
+      the sequence below it is the band of tiles (see homeTile).
+    */
+    defineField({
+      name: 'openingMedia',
+      title: 'Fotografia di apertura / Opening photograph',
+      type: 'media',
+      description:
+        'La prima cosa che si vede dopo la firma. A tutto schermo. / The first thing seen after the signature. Full screen.',
+    }),
+    defineField({
+      name: 'homeSequence',
+      title: 'Sequenza in home / Home sequence',
+      type: 'array',
+      of: [{type: 'homeTile'}],
+      description:
+        'I riquadri sotto la fotografia di apertura, in ordine. Da tre a sei: si scorre, non scorre da solo. / The tiles below the opening photograph, in order. Three to six: the reader scrolls, nothing moves by itself.',
+      validation: (Rule) => Rule.max(8).warning('More than eight tiles is a long scroll before anything else.'),
+    }),
+    defineField({
+      name: 'aboutMedia',
+      title: 'Fotografie di Chi siamo / About photographs',
+      type: 'array',
+      of: [{type: 'media'}],
+      description:
+        'Immagini di processo e materiale, alternate al testo. / Process and material images, interleaved with the text.',
+    }),
     defineField({
       name: 'about',
       title: 'Chi siamo / About',

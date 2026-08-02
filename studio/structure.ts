@@ -19,6 +19,12 @@ export const structure: StructureResolver = (S, context) =>
         S,
         context,
       }),
+      orderableDocumentListDeskItem({
+        type: 'archivePiece',
+        title: 'Archivio / Archive',
+        S,
+        context,
+      }),
       S.divider(),
       S.listItem()
         .title('Impostazioni / Site settings')
