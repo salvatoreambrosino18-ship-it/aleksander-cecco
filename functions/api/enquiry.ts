@@ -88,7 +88,7 @@ type Store = {
   bump(key: string, ttl: number, current: number): Promise<void>;
 };
 
-function makeStore(env: Env): Store {
+function makeStore(env: Env, origin: string): Store {
   if (env.ENQUIRY_LIMITS) {
     const kv = env.ENQUIRY_LIMITS;
     return {
@@ -103,18 +103,30 @@ function makeStore(env: Env): Store {
     };
   }
 
-  // No binding: the Cache API, which needs none.
-  const origin = "https://ratelimit.invalid/";
+  /*
+    No binding: the Cache API, which needs none.
+
+    THE KEY MUST BE ON THIS SITE'S OWN ORIGIN. A synthetic host was tried first
+    (https://ratelimit.invalid/...) and it works under `wrangler dev` and does
+    NOTHING in production: Cloudflare's cache is scoped to the zone, so a put()
+    for a hostname the zone does not serve is silently dropped, every read then
+    misses, and the limiter fails open forever while looking perfectly healthy.
+    It was caught by testing the deployed endpoint rather than the local one,
+    which is the only place the difference shows.
+  */
+  const base = `${origin}/__rate/`;
   return {
     async read(key) {
-      const hit = await caches.default.match(new Request(origin + encodeURIComponent(key)));
+      const hit = await caches.default.match(new Request(base + encodeURIComponent(key)));
       if (!hit) return 0;
       return Number(await hit.text()) || 0;
     },
     async bump(key, ttl, current) {
       await caches.default.put(
-        new Request(origin + encodeURIComponent(key)),
-        new Response(String(current + 1), {headers: {"Cache-Control": `max-age=${ttl}`}}),
+        new Request(base + encodeURIComponent(key)),
+        new Response(String(current + 1), {
+          headers: {"Cache-Control": `max-age=${ttl}`, "Content-Type": "text/plain"},
+        }),
       );
     },
   };
@@ -269,7 +281,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     attempts rather than sends is deliberate: a loop of invalid payloads is
     still abuse, and the cheapest place to shed it is here.
   */
-  const store = makeStore(env);
+  const store = makeStore(env, new URL(request.url).origin);
   const ip =
     request.headers.get("cf-connecting-ip") ||
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
