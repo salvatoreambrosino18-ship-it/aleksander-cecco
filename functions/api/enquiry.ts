@@ -182,6 +182,8 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   ].join("\n");
 
   try {
+    // One line per attempt, so a live test can be followed in the function log.
+    console.log(`[enquiry] sending for "${piece}" (${locale})`);
     const sent = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json"},
@@ -195,7 +197,12 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     });
 
     if (!sent.ok) {
-      console.error(`[enquiry] Resend refused the message: ${sent.status}`);
+      // Log WHY, not just that it failed. Resend answers with a JSON body that
+      // names the reason ("domain not verified", "invalid from", a bad key),
+      // and without it an operator is guessing from a 502. It goes to the
+      // Cloudflare function log, never to the visitor.
+      const reason = await sent.text().catch(() => "(no body)");
+      console.error(`[enquiry] Resend refused the message: ${sent.status} ${reason.slice(0, 500)}`);
       return new Response(
         page(locale, {heading: text.title, lines: [text.notSent], backHref}),
         {status: 502, headers: {"Content-Type": "text/html; charset=utf-8"}},
