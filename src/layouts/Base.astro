@@ -38,6 +38,8 @@ const documentTitle = title ? `${title} / ${brand}` : brand;
 
 const pathname = Astro.url.pathname;
 const canonical = Astro.site ? new URL(pathname, Astro.site) : null;
+
+const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === "true";
 ---
 
 <!doctype html>
@@ -47,6 +49,15 @@ const canonical = Astro.site ? new URL(pathname, Astro.site) : null;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{documentTitle}</title>
     {description && <meta name="description" content={description} />}
+
+    {/*
+      Pre-launch: keep an unfinished site carrying {PLACEHOLDER} copy out of
+      search results. Follows one switch, PUBLIC_ALLOW_INDEXING, so launch is a
+      configuration change rather than an edit to every page. The second lock is
+      the X-Robots-Tag header in public/_headers, removed by hand at launch.
+      DESIGN-PLAN section 16.
+    */}
+    {!allowIndexing && <meta name="robots" content="noindex, nofollow" />}
     {canonical && <link rel="canonical" href={canonical.href} />}
     {
       Astro.site &&

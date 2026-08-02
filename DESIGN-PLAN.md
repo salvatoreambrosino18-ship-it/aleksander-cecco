@@ -1213,3 +1213,86 @@ What is built now: an optional `ambientAudio` file field on site settings, with
 help text in both languages explaining the constraint, so the owner is not left
 expecting autoplay. Nothing plays audio anywhere in the site yet.
 
+---
+
+## 16. Deployment (Cloudflare Pages, free tier, 2026-08-02)
+
+Static build, deployed from the GitHub repository, so a push to `main` updates
+the site. No custom domain: the address is `<project>.pages.dev` until the name
+is decided and bought.
+
+### What is free, verified against the docs on 2026-08-02
+
+- Cloudflare Pages Free: 500 builds a month, 1 concurrent build, up to 20,000
+  files per site, 25 MiB per asset, requests to static assets unlimited and
+  free. This site builds 15 pages and a handful of assets, so nothing is close
+  to a limit. Free is a plan, not a trial.
+- Deploy hooks are a Pages project feature and cost nothing. The hook URL needs
+  no authentication, which is exactly why it is a secret: anyone holding it can
+  trigger builds. It lives in `.env` and in the Sanity webhook, nowhere else.
+- Sanity webhooks are included and fire on publish. Free plan, single dataset.
+- Images are served from the Sanity CDN, which counts against the free asset
+  bandwidth allowance already audited in section 12.
+
+Nothing in this deployment needs a card, a trial, or a paid plan. If a step ever
+asks for payment details, stop and raise it rather than entering them.
+
+### The build
+
+- Build command `npm run build`, output directory `dist`, root directory the
+  repository root.
+- Node version set through a `NODE_VERSION` environment variable, 22 or 24. The
+  toolchain is verified on 24.
+- Environment variables, all PUBLIC and none of them secret:
+  `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`,
+  `PUBLIC_SANITY_API_VERSION`, `PUBLIC_SITE_URL`.
+- `SANITY_WRITE_TOKEN` must NEVER be added to Cloudflare. It exists so the seed
+  script can write from this machine. The site itself only reads, and reads a
+  public dataset, so it needs no token at all.
+
+### Keeping an unfinished site out of search results
+
+The site carries visible {PLACEHOLDER} copy and seeded test content, so it is
+kept out of the index by two independent locks:
+
+1. `<meta name="robots" content="noindex, nofollow">` on every page, and a
+   `robots.txt` generated to match. Both follow one switch,
+   `PUBLIC_ALLOW_INDEXING`, which is unset (and therefore off) everywhere.
+2. `X-Robots-Tag: noindex, nofollow` on every response, from `public/_headers`.
+   Deliberately manual: a header cannot be generated from an environment
+   variable in a static build, and a second lock that has to be removed by hand
+   is the right kind of friction in front of an unfinished site.
+
+Note the deliberate choice inside `robots.txt`: crawling is ALLOWED. A
+`Disallow: /` would stop a crawler fetching the page, which means it never sees
+the noindex answer, and a URL linked from anywhere could still be listed with
+nothing under it. Allowing the crawl and replying "noindex" is what actually
+keeps a page out of the index. The sitemap is generated but not advertised.
+
+### TO REMOVE AT LAUNCH, in full
+
+1. Set `PUBLIC_ALLOW_INDEXING=true` in the Cloudflare Pages environment
+   variables for the production branch, and redeploy. This flips the meta tag
+   and makes `robots.txt` advertise the sitemap.
+2. Delete these two lines from `public/_headers`, and commit:
+
+   ```
+   /*
+     X-Robots-Tag: noindex, nofollow
+   ```
+
+3. Confirm on the live site: `curl -sI https://<site>/it | grep -i x-robots-tag`
+   returns nothing, and `curl -s https://<site>/robots.txt` shows the `Sitemap:`
+   line.
+4. Only then submit the sitemap anywhere.
+
+Do not do any of this while {PLACEHOLDER} copy is still visible on the site.
+
+### Content publish triggers a rebuild
+
+A deploy hook on the Pages project, called by a Sanity webhook that fires on
+publish. The hook URL is a secret: it goes in `.env` as
+`CLOUDFLARE_DEPLOY_HOOK_URL` and into the Sanity webhook form, and nowhere else.
+If it leaks, delete the hook and create another; the only damage is unwanted
+builds against the 500 a month.
+

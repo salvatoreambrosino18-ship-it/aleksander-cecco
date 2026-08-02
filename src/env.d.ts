@@ -10,6 +10,8 @@ interface ImportMetaEnv {
   readonly RESEND_FROM: string;
   readonly ENQUIRY_TO_EMAIL: string;
   readonly PUBLIC_CF_WEB_ANALYTICS_TOKEN: string;
+  /** "true" only at launch. Anything else keeps the site out of search results. */
+  readonly PUBLIC_ALLOW_INDEXING: string;
 }
 
 interface ImportMeta {
