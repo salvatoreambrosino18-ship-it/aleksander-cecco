@@ -972,6 +972,15 @@ the palette is what makes the result this brand's rather than a copy of anyone.
 ### Decisions confirmed by the owner (2026-08-01)
 
 - Overlay polarity is picked per media item by the owner in the studio.
+- Caption placement is picked per media item too: over the image, or below it on
+  the page (ADDED 2026-08-02). This exists because the brand's own photography
+  demanded it, not for symmetry. Three of the nine seeded frames are shot against
+  bright concrete with a dark garment in shot, so the band where a caption sits
+  contains both extremes: the polarity that wins on the mean still falls to a
+  contrast of 1.1 to 1.6 somewhere in that band, which is unreadable. Forcing a
+  value would have shipped an illegible caption over the owner's photography.
+  When a caption sits below, the overlay value still governs the fixed chrome
+  passing over the image, and is then read off the top band instead.
 - The spine is scoped to text surfaces and stays off the photography.
 - The diptych is withdrawn: capping the photograph at half the viewport
   contradicts the first principle.
@@ -980,6 +989,44 @@ the palette is what makes the result this brand's rather than a copy of anyone.
   section 1 and is binding: mono marks facts that came off the garment and
   nothing else. If it ever starts reading as decoration rather than as data,
   drop to a single family and say so.
+
+### Isaac Sellam (isaacsellam.com), verified 2026-08-02
+
+Sent by the brand owner, described as: "you arrive on a photograph of a jacket,
+you scroll, and the story appears." Rendered and measured like the others.
+
+- The description is accurate. The sequence is exactly PHOTOGRAPH, then STORY,
+  then PIECES: a full-bleed hero image (1440x990 desktop, 390x928 mobile, cover,
+  filling the viewport), then a centred prose block of four sentence-case lines
+  about the designer, then a labelled carousel of product cards with names and
+  prices.
+- One type size for the entire page: every text run measures 17.85px on desktop
+  and 15.75px on mobile. No display type, but also no demotion to 11px labels.
+  Uppercase is only 23% desktop and 5% mobile, against 88% on Rick Owens and 91%
+  on Sorcinelli. The story is set in sentence case, as running prose.
+- Palette: near-black page, text rgb(233,233,233), which is a light GREY, not
+  white. Photography is black and white. We cannot copy the grey.
+- Persistent header, 131px, with a logo lockup and ten visible nav items. No
+  hidden menu on desktop. This is the most conventional chrome of the four
+  references.
+- It has a scroll cue: a chevron at the foot of the hero. Our plan cut that
+  deliberately (section 10). Noted, not adopted.
+- Product cards are 327x491 on desktop and 164x245 on mobile, two across. That
+  is a thumbnail grid, which our brief forbids. Sellam is evidence for the
+  SEQUENCE, not for the presentation of the pieces.
+- 18 images, zero video.
+
+Weighting: consulted for narrative order only. On type, palette, chrome and the
+treatment of pieces it is further from this brand than Sorcinelli or Rick Owens.
+
+### The home sequence question (OPEN, for the owner, 2026-08-02)
+
+Our home opens on the signature in emptiness and only then reaches a photograph.
+Sellam opens on the photograph. The owner sent Sellam as a model, so this is a
+real divergence and it is the owner's call, not a technical one. Both options,
+with the tradeoff, are in the report accompanying this revision. The build keeps
+the home page as a plain sequence of sibling blocks precisely so that reordering
+it is a move, not a rewrite.
 
 ### Filippo Sorcinelli (filipposorcinelli.com)
 
@@ -1081,3 +1128,33 @@ To judge the revised layouts, the studio needs, at minimum:
 
 That is nine stills, optionally one loop. Fewer than that and the layouts get
 judged against placeholders, which is how the last set of wireframes went wrong.
+
+---
+
+## 15. Ambient sound (schema only, 2026-08-02)
+
+The owner wants storm sound on entry. The field exists in site settings; the
+player does not, and no audio file has been supplied yet.
+
+Why it cannot work the way it was asked for: every current browser blocks audio
+that begins without a user gesture. A site that tries is muted by the browser,
+so the effect would simply not happen for most visitors. It would also be the
+wrong thing to do to someone opening the site on a phone in public.
+
+Intended behaviour when it is built:
+
+- A small corner control, in the label register, in the same paper or ink as
+  everything else. No icon set, no third color.
+- OFF by default, always. Sound begins only when the visitor asks for it.
+- The on/off state persists across pages, so a visitor who turned it on does not
+  have to keep turning it on. Persisted client side (localStorage), no cookie,
+  no third-party script, nothing to consent to.
+- It stays off under `prefers-reduced-motion`, and the control says so rather
+  than silently ignoring the request.
+- One short loop, muted-friendly: the page is complete and coherent in silence,
+  exactly as it is complete with motion disabled.
+
+What is built now: an optional `ambientAudio` file field on site settings, with
+help text in both languages explaining the constraint, so the owner is not left
+expecting autoplay. Nothing plays audio anywhere in the site yet.
+
