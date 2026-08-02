@@ -10,8 +10,17 @@ import { loadEnv } from 'vite';
 const { PUBLIC_SITE_URL } = loadEnv(process.env.NODE_ENV ?? '', process.cwd(), '');
 
 // Static build with the token system, self-hosted fonts, and bilingual routing.
-// Added in later milestones, deliberately not here yet:
-//   - the Cloudflare adapter + server output, when the enquiry API route is wired
+//
+// The output stays FULLY STATIC, including the enquiry page. The one piece of
+// server work this site needs, receiving the enquiry POST, is a Cloudflare
+// Pages Function in functions/api/enquiry.ts instead of an Astro server route.
+//
+// Why not the Astro Cloudflare adapter: as of 2026 it no longer supports
+// Cloudflare Pages and targets Workers instead. Adopting it would mean
+// migrating the whole deployment off Pages, losing the pages.dev URL, the git
+// integration, the deploy hook and the Sanity webhook already wired to it. That
+// is an infrastructure decision for the owner, not a side effect of building a
+// form. A Pages Function needs none of it and costs nothing.
 export default defineConfig({
   site: PUBLIC_SITE_URL || 'https://example.com',
 

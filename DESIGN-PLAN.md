@@ -1533,3 +1533,66 @@ the source folder has spaces in its name, and extensions cannot be hard-coded
 because the same batch mixes JPG, WEBP and HEIC, with two files carrying an
 extension their neighbours do not. Files are resolved by folder and stem.
 
+---
+
+## 19. The enquiry form (2026-08-02)
+
+Built and wired end to end. The form is the reason the site exists, so it is the
+one thing that works without JavaScript from end to end: a static page per
+garment per language, posting to a Cloudflare Pages Function that validates,
+sends, and answers with a whole page.
+
+### Why a Pages Function and not an Astro server route
+
+The Astro Cloudflare adapter no longer supports Cloudflare Pages; it targets
+Workers. Adopting it would have meant migrating the whole deployment off Pages,
+losing the pages.dev URL, the git integration, the deploy hook and the Sanity
+webhook already wired to it. That is an infrastructure decision for the owner,
+not a side effect of building a form, so the form uses a Pages Function instead
+and the site stays fully static. If a future session wants Astro server routes,
+that migration is the price and it needs asking first.
+
+### What it does
+
+- Validates on the server, because nothing from a browser is trusted: name,
+  a deliberately loose email check, and three measurements in centimetres with
+  human ranges (chest 50-200, shoulders 25-90, length 30-200).
+- Two spam checks that cost a person nothing: a field hidden from people but not
+  from bots, and a refusal of anything submitted within three seconds of the
+  page rendering.
+- Answers with a small self-contained page in the right language: confirmed,
+  or what to fix, or an honest failure. It never says an email was sent when
+  none was.
+- The reply is addressed back to the visitor, so answering goes straight to them.
+
+Verified locally against Wrangler, which runs the same runtime Cloudflare does:
+valid-but-unconfigured returns 503 and says so, invalid returns 422 listing every
+reason in the right language, the spam trap returns 422, and a refused key
+returns 502. The success page is the one path that cannot be tested without a
+real key.
+
+### BLOCKED ON THE DOMAIN
+
+The form is complete and sends nothing, for one reason: Resend will not deliver
+to arbitrary recipients from an unverified domain.
+
+- With no domain, the only usable sender is `onboarding@resend.dev`, and Resend
+  restricts delivery to the address that owns the Resend account. That is enough
+  to prove the chain works, and useless for a brand receiving enquiries from
+  strangers, because it can only ever email the owner.
+- Once a domain exists: add it in Resend, add the DNS records it asks for (SPF
+  and DKIM, both free), and set `RESEND_FROM` to something at that domain.
+  Nothing in the code changes. Only the three secrets change.
+- Resend Free stays free at 3,000 emails a month and 100 a day, no card. This
+  brand will not approach that.
+
+Until then the three secrets are unset, and the form tells anyone who submits it
+that sending is not switched on yet, in their language. That is deliberate: a
+form that silently swallowed enquiries would be worse than one that admits it.
+
+### Still to write
+
+The reply window. The confirmation says an email will come and marks
+`{REPLY_WINDOW}` where the timing belongs. The brand is not committed to a
+response time nobody has agreed.
+

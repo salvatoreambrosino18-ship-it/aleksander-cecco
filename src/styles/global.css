@@ -187,6 +187,52 @@
 
 @layer components {
   /*
+    The form. There is no colour to reach for, so an invalid field thickens its
+    hairline to solid fg and says what is wrong in fg text (standing rule 1).
+  */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-u1);
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: transparent;
+    color: var(--fg);
+    font-family: var(--ff-mono);
+    font-size: var(--t-mono);
+    padding: var(--s-u1) 0;
+    border: 0;
+    border-bottom: var(--hairline-w) solid var(--fg);
+    border-radius: 0;
+  }
+  .field textarea {
+    resize: vertical;
+  }
+  .field[data-invalid] input,
+  .field[data-invalid] textarea {
+    border-bottom-width: calc(var(--hairline-w) * 2);
+  }
+  .field-error {
+    border-left: calc(var(--hairline-w) * 2) solid var(--fg);
+    padding-left: var(--s-u2);
+  }
+  button {
+    background: transparent;
+    cursor: pointer;
+  }
+  /* Visually gone, still reachable by anything that fills forms blindly. */
+  .spam-trap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /*
     The menu. A <details> element so it works with no JavaScript; the open state
     is CSS only, with no transition (motion comes later, if at all).
   */

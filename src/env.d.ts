@@ -17,3 +17,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare namespace App {
+  interface Locals {
+    /** Cloudflare's request runtime, where server secrets live in production. */
+    runtime?: {env: Record<string, unknown>};
+  }
+}
