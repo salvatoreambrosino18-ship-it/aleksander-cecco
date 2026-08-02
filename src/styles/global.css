@@ -43,6 +43,7 @@
   --spacing-media-screen: var(--media-h-screen);
   --spacing-media-tall: var(--media-h-tall);
   --spacing-media-band: var(--media-h-band);
+  --spacing-worn: var(--worn-h);
 }
 
 /*
@@ -257,6 +258,61 @@
     [data-wash-live] .wash-layer-in {
       display: none;
     }
+  }
+
+  /*
+    THE WORN BAND. The site's only horizontal region, and the only place it asks
+    for a gesture other than scrolling down. Both known problems with that are
+    answered here rather than left to chance.
+
+    PROBLEM 1, it fights the vertical gesture on a phone.
+
+    - No touch-action override. Every mobile engine already locks a touch drag
+      to its dominant axis, so a mostly-vertical swipe that happens to start on
+      the band still scrolls the page. That behaviour is better tuned than
+      anything set here, and `touch-action: pan-x` risks swallowing the vertical
+      pan outright on some engines. The default is the correct choice, and it is
+      a choice.
+    - overscroll-behavior-x: contain IS set, and it is the one that matters.
+      Without it, reaching either end chains the scroll outward: on a phone that
+      can trigger the browser's back-swipe, so running off the last frame
+      navigates away from the site.
+    - The band is --worn-h tall, well under a viewport, so there is always page
+      above and below it to grab (see tokens.css).
+
+    PROBLEM 2, nobody notices a horizontal region exists.
+
+    - The frames are --worn-w wide, never a whole viewport, so one is always cut
+      by the right edge. A frame sliced by the screen edge is the cue: it says
+      "this continues" in the same language the vertical sequences already use.
+    - scroll-snap-type is PROXIMITY, not mandatory. Proximity confirms the
+      region is scrollable by settling as you let go, which teaches the gesture.
+      Mandatory would fight every partial drag and make a vertical swipe that
+      grazes the band feel sticky.
+    - No arrows and no dots, per the brief. The peek and the snap are the whole
+      mechanism.
+
+    Keyboard and accessibility: the scrollbar is hidden (a native one paints an
+    OS grey, which is a third colour), so the region carries role="region", an
+    accessible name and tabindex="0". That is the WCAG requirement for a
+    scrollable region with no visible scrollbar: it must be focusable and
+    arrow-scrollable. Tabbing through the frame links also scrolls them into
+    view, which is the path most keyboard readers will actually take.
+  */
+  .worn {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .worn::-webkit-scrollbar {
+    display: none;
+  }
+  .worn > * {
+    /* no gutter: frames touch, as the measured reference does */
+    flex: 0 0 var(--worn-w);
+    scroll-snap-align: start;
   }
 
   /*

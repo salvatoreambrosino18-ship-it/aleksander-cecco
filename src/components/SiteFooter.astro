@@ -1,13 +1,25 @@
 ---
 /*
-  The footer: contact and Instagram as mono facts, hanging off the spine
-  (DESIGN-PLAN section 5). Nothing here is invented. Where the owner has not
-  supplied a value yet, the placeholder token is shown as a marked placeholder
-  rather than smoothed into real-looking text, and never as a working link.
+  The footer: four blocks, Instagram, support, shipping, origin.
+
+  The four-block structure comes from Isaac Sellam, which the owner sent as a
+  reference (DESIGN-PLAN section 14). The STRUCTURE is what was borrowed; every
+  word here is written for this brand, and the register is this site's own:
+  label headings at 11px, facts in mono, one short line each. Nothing is
+  restated from his wording.
+
+  Nothing here is invented. The Instagram handle and the contact address come
+  from site settings; the two written lines come from site settings as well and
+  are marked as unapproved drafts while the owner has not signed them off. Where
+  the owner has supplied nothing, the placeholder token shows as a placeholder
+  and never as a working link (standing rule 6).
+
+  On a phone the blocks stack in one column; from the medium breakpoint they sit
+  four across, which is where the borrowed structure actually shows.
 */
 import TextSurface from "./TextSurface.astro";
-import {isPlaceholderEmail, type SiteSettings} from "../lib/content";
-import type {Locale} from "../lib/locales";
+import {isPlaceholderEmail, isPlaceholderText, type SiteSettings} from "../lib/content";
+import {localePath, pick, type Locale} from "../lib/locales";
 import {t} from "../i18n/ui";
 
 interface Props {
@@ -27,38 +39,92 @@ const instagramHandle = instagramUrl
 
 const email = settings.contactEmail?.trim() || null;
 const emailIsPlaceholder = isPlaceholderEmail(email);
+
+const shipping = pick(settings.footerShipping, locale);
+const origin = pick(settings.footerOrigin, locale);
+const draft = Boolean(settings.homeCopyIsDraft);
+
+/** A written line is a draft only when it is real prose, not a {TOKEN}. */
+const isDraftLine = (value: string | null) => draft && Boolean(value) && !isPlaceholderText(value);
 ---
 
-<TextSurface theme={theme} class="hairline-h mt-u21 py-u5">
-  <footer class="flex flex-col gap-u3">
-  <h2 class="sr-only">{t(locale, "footerNav")}</h2>
+<TextSurface theme={theme} class="hairline-h mt-u21 py-u8">
+  <footer class="flex flex-col gap-u8">
+    <h2 class="sr-only">{t(locale, "footerNav")}</h2>
 
-  <ul class="type-mono text-mono flex flex-col gap-u1">
-    <li class="flex flex-wrap items-baseline gap-u2">
-      <span>{t(locale, "instagram")}</span>
-      {
-        instagramUrl ? (
-          <a href={instagramUrl} rel="me noopener" target="_blank" class="hover:underline underline-offset-4">
-            {instagramHandle}
-          </a>
-        ) : (
-          <span class="placeholder-mark">{"{INSTAGRAM_URL}"}</span>
-        )
-      }
-    </li>
-    <li class="flex flex-wrap items-baseline gap-u2">
-      <span>{t(locale, "email")}</span>
-      {
-        emailIsPlaceholder ? (
-          <span class="placeholder-mark">{"{CONTACT_EMAIL}"}</span>
-        ) : (
-          <a href={`mailto:${email}`} class="hover:underline underline-offset-4">
-            {email}
-          </a>
-        )
-      }
-    </li>
-  </ul>
+    <ul class="grid grid-cols-1 gap-u5 md:grid-cols-4">
+      {/* 1. INSTAGRAM. Where this brand actually lives. */}
+      <li class="flex flex-col gap-u1">
+        <h3 class="type-label text-label">{t(locale, "instagram")}</h3>
+        {
+          instagramUrl ? (
+            <a
+              href={instagramUrl}
+              rel="me noopener"
+              target="_blank"
+              class="type-mono text-mono self-start hover:underline underline-offset-4"
+            >
+              {instagramHandle}
+            </a>
+          ) : (
+            <span class="placeholder-mark self-start">{"{INSTAGRAM_URL}"}</span>
+          )
+        }
+      </li>
+
+      {/* 2. SUPPORT. One address and one page, not a help centre. */}
+      <li class="flex flex-col gap-u1">
+        <h3 class="type-label text-label">{t(locale, "support")}</h3>
+        {
+          emailIsPlaceholder ? (
+            <span class="placeholder-mark self-start">{"{CONTACT_EMAIL}"}</span>
+          ) : (
+            <a
+              href={`mailto:${email}`}
+              class="type-mono text-mono self-start hover:underline underline-offset-4"
+            >
+              {email}
+            </a>
+          )
+        }
+        <a
+          href={localePath(locale, "contact")}
+          class="type-label text-label self-start hover:underline underline-offset-4"
+        >
+          {t(locale, "contact")}
+        </a>
+      </li>
+
+      {/* 3. SHIPPING. One line. No timing and no cost until those are decided. */}
+      <li class="flex flex-col gap-u1">
+        <h3 class="type-label text-label">{t(locale, "worldwideShipping")}</h3>
+        {!shipping && <span class="placeholder-mark self-start">{"{FOOTER_SHIPPING}"}</span>}
+        {
+          shipping && (
+            <p class:list={["type-mono text-mono", isDraftLine(shipping) && "draft-text"]}>
+              {shipping}
+            </p>
+          )
+        }
+      </li>
+
+      {/* 4. ORIGIN. */}
+      <li class="flex flex-col gap-u1">
+        <h3 class="type-label text-label">{t(locale, "madeInItaly")}</h3>
+        {!origin && <span class="placeholder-mark self-start">{"{FOOTER_ORIGIN}"}</span>}
+        {
+          origin && (
+            <p class:list={["type-mono text-mono", isDraftLine(origin) && "draft-text"]}>{origin}</p>
+          )
+        }
+      </li>
+    </ul>
+
+    {
+      (isDraftLine(shipping) || isDraftLine(origin)) && (
+        <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
+      )
+    }
 
     <p class="type-label text-label">Aleksander Cecco</p>
   </footer>

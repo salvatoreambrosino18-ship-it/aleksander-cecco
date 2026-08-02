@@ -27,11 +27,12 @@ interface Props {
   media: MediaItem;
   locale: Locale;
   /**
-   * "screen" fills the viewport, "tall" leaves the next one peeking, and
-   * "band" is a tile in the home sequence: 58svh on a phone, full height on
-   * desktop where tiles pair up two across (DESIGN-PLAN section 14).
+   * "screen" fills the viewport, "tall" leaves the next one peeking, "band" is
+   * a tile in a stacked pair (58svh on a phone, full height on desktop, see
+   * DESIGN-PLAN section 14), and "worn" is a frame inside the horizontal worn
+   * band, whose width comes from the flex item around it.
    */
-  height?: "screen" | "tall" | "band";
+  height?: "screen" | "tall" | "band" | "worn";
   /** The first image on a page is the largest thing it downloads. */
   priority?: boolean;
   class?: string;
@@ -56,6 +57,7 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
       height === "screen" && "h-media-screen",
       height === "tall" && "h-media-tall",
       height === "band" && "h-media-band md:h-media-screen",
+      height === "worn" && "h-worn",
     ]}
   >
     {

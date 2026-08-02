@@ -36,12 +36,21 @@ export type SiteSettings = {
   instagramUrl: string | null;
   contactEmail: string | null;
   openingMedia: MediaItem | null;
+  /** The short about-the-brand lines on the home page, not the full story. */
+  homeStatement: LocaleField;
+  /** The worn band: the pieces on people, scrolled sideways. */
   homeSequence: HomeTile[] | null;
+  makingMedia: MediaItem[] | null;
+  makingStatement: LocaleField;
+  /** True while the home page copy is written for the brand, not by it. */
+  homeCopyIsDraft: boolean | null;
   aboutMedia: MediaItem[] | null;
   about: LocaleField;
   /** True while the brand story is an unapproved draft. */
   aboutIsDraft: boolean | null;
   shippingReturns: LocaleField;
+  footerShipping: LocaleField;
+  footerOrigin: LocaleField;
 };
 
 const SITE_SETTINGS_QUERY = /* groq */ `
@@ -49,14 +58,20 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     instagramUrl,
     contactEmail,
     openingMedia{${MEDIA_PROJECTION}},
+    homeStatement,
     homeSequence[]{
       media{${MEDIA_PROJECTION}},
       "garment": garment->{name, "slug": slug.current}
     },
+    makingMedia[]{${MEDIA_PROJECTION}},
+    makingStatement,
+    "homeCopyIsDraft": coalesce(homeCopyIsDraft, false),
     aboutMedia[]{${MEDIA_PROJECTION}},
     about,
     "aboutIsDraft": coalesce(aboutIsDraft, false),
-    shippingReturns
+    shippingReturns,
+    footerShipping,
+    footerOrigin
   }
 `;
 
@@ -64,11 +79,17 @@ const EMPTY_SETTINGS: SiteSettings = {
   instagramUrl: null,
   contactEmail: null,
   openingMedia: null,
+  homeStatement: null,
   homeSequence: null,
+  makingMedia: null,
+  makingStatement: null,
+  homeCopyIsDraft: null,
   aboutMedia: null,
   about: null,
   aboutIsDraft: null,
   shippingReturns: null,
+  footerShipping: null,
+  footerOrigin: null,
 };
 
 export async function getSiteSettings(): Promise<SiteSettings> {

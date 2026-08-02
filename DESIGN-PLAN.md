@@ -1677,3 +1677,169 @@ At 4x CPU throttling, scrubbing the full pinned distance: no frame over 20ms.
 That is an approximation of a phone, not a phone. The real device test belongs
 to the owner and is the one that counts (standing rule 3).
 
+---
+
+## 21. The home page as a narrative sequence (2026-08-02)
+
+The owner's judgement, and it is the right one: the site read like a postcard
+rather than a site. Every screen was a closed composition and nothing pulled the
+reader down through it. The instruction was to restructure first and add motion
+to the new structure afterwards, so the photography reveals are deliberately NOT
+built here.
+
+### What was actually wrong, mechanically
+
+Not taste. Geometry. Every block was exactly one viewport tall, so every block
+sealed itself and each boundary read as an ending. The fix is boring and it
+works: only the ARRIVAL is a full screen, because an arrival should be. Every
+media block after it is `--media-h-tall` (88svh), so the next frame is always
+already peeking, and the text surfaces are sized to their content instead of to
+the viewport. The collection covers changed from `screen` to `tall` for exactly
+this reason.
+
+### The sequence
+
+1. ARRIVAL, one photograph, the whole screen.
+2. THE WORK, the brand in three lines, on a text surface.
+3. WORN, the pieces on people, scrolled sideways.
+4. THE MAKING, two frames and a line, plus the route to asking for a piece.
+   [ the boundary wash: paper above, ink below ]
+5. THE COLLECTIONS as chapters, then the footer.
+
+### The opening photograph, and why this frame
+
+RESOLVED, and it settles the question section 14 deferred: the home page opens
+on a photograph, not on the signature. The signature is now persistent corner
+chrome (SiteHeader already drew it on every page), so the brand is still named
+without spending the first screen on it. The STORY SLOT comment is deleted.
+
+The frame is `homepage/IMG_3463`, the pale leather trousers hanging inside a
+black steel frame against concrete. Chosen against the other ten frames in
+`homepage/` on four counts that are about this layout, not about taste:
+
+- Portrait and 3024x4032, so it survives the 100svh crop on a phone. This is
+  what rules out IMG_1898, which is the best photograph in the folder and is
+  landscape, so a phone crop takes a narrow centre column of it.
+- The composition is NOT closed. The garment hangs high, the steel frame and the
+  concrete floor continue past the bottom edge, and the eye is carried down.
+  That is the whole point of the rebuild.
+- Evenly lit top band, so one overlay value serves both marks.
+- Monochrome in fact, so nothing competes with the black and white rule. This is
+  what rules out IMG_3477, which is portrait and high resolution but is
+  dominated by a red jacket, and the first screen is not where a third colour
+  should arrive.
+
+Rejected, and worth recording because the owner named them: the two files called
+HOMEPAGE and homepage (1) are flat-lay leather details. They are beautiful and
+they are the most closed compositions in the whole set, which is the exact
+failure being corrected. HOMEPAGE is now the collection cover instead, where a
+material statement belongs. IMG_3485 is a strong figure but is 1320x1778, below
+the 2000px floor for a full-screen frame; it is used in the worn band, where the
+crop is smaller and the resolution is ample.
+
+### Chrome legibility on the arrival frame, measured
+
+Measured at the exact rectangle the marks occupy at 390px (x 24 to 169, y 22 to
+42, derived from `--margin`, `--s-u3` and `--sig-corner-h`, not guessed): mean
+luminance 0.162, so PAPER scores 4.75 and INK 3.98. Paper is correct and is what
+the importer chose.
+
+It is marginal, and honestly so. Within that same rectangle the darkest decile
+is 0.025 and the brightest is 0.309, because the marks lie across a corrugated
+shutter whose slats alternate light and dark. A striped background is the worst
+case for any single polarity, and no per-image value can fix it. This is the
+residual issue section 14 already records. The three levers all belong to the
+owner: choose ink instead, move the image hotspot in the studio so the crop puts
+an even area under the marks, or accept it.
+
+A caution for whoever measures next: a first pass over a broader 260x70 band
+gave the opposite answer (ink 6.64, paper 2.97) because it reached into the
+bright shutter to the right of the marks. The region measured has to be the
+rectangle the marks actually occupy. `scripts/lib/measure-overlay.mjs` samples
+y 3% to 9% of the file, which is close but is not derived from the tokens; it
+agreed here (4.54 against 4.75) and may not always.
+
+### The worn band: the one horizontal region
+
+Two known problems with horizontal scroll inside a vertical page, both answered
+in code rather than left to chance. The reasoning lives in `global.css` under
+`.worn`; the short version:
+
+- It fights the vertical gesture. The band is 62svh, well under a screen, so
+  there is always page above and below it to grab. `overscroll-behavior-x:
+  contain` stops the scroll chaining outward at the ends, which on a phone would
+  otherwise trigger the browser's back-swipe and navigate away from the site.
+  `touch-action` is deliberately NOT overridden: every mobile engine already
+  locks a drag to its dominant axis, and `pan-x` risks swallowing vertical
+  scroll outright.
+- Nobody notices it exists. The frames are `--worn-w`, which is deliberately
+  never a whole viewport (78vw on a phone, min(32vw, 26rem) on desktop), so one
+  frame is always cut by the right edge. A frame sliced by the screen edge says
+  "this continues" in the same language the vertical sequences already use with
+  `--media-h-tall`. Snapping is `proximity`, not `mandatory`: it settles the
+  strip as the reader lets go, which teaches the gesture, where mandatory would
+  fight every partial drag. No arrows and no dots, as instructed.
+- The scrollbar is hidden because a native one paints an OS grey, which is a
+  third colour. That makes the region focusable by requirement, so it carries
+  `role="region"`, an accessible name and `tabindex="0"`.
+
+Verified in a headless render at 390px: band height 469 (62svh of a 757 viewport),
+`scrollWidth` 1950 against `clientWidth` 500, so it scrolls internally with no
+page-level horizontal overflow, and all nine frames in view decode.
+
+Is horizontal right for these photographs? Yes, and the argument is narrative
+rather than decorative: by that point the reader has met four screen-filling
+vertical frames, and a change of axis is the cheapest way to say "these are a
+different kind of thing" without a heading explaining it. The pieces on a body
+also read as a group, which is what a strip does and six more full screens would
+not. If the answer ever changes, the component is self-contained and a vertical
+sequence is a swap, not a rewrite.
+
+Honest limit: the on-model photography covers two garments plus one unlinked
+frame. More people in more pieces is the single most useful thing that could be
+shot for this page.
+
+### The fourth section: the making
+
+Proposed and built. What the page was missing between the band and the footer is
+EVIDENCE. Section 2 claims the work is a transformation, hides becoming
+something else; nothing on the page showed it, and a claim without evidence is a
+slogan. The two frames are the same hide twice: the skin as it arrives, then the
+same skin with a collar built onto it. That pair is the brand's whole argument in
+two pictures, and it is the only place the home page distinguishes this label
+from any other leather brand.
+
+It also earns the one thing the home page never said: how to get a piece. After
+the hand that makes it, "every piece is built to the measurements of the person
+who will wear it" lands, and the route into the work follows it.
+
+Deliberately not the `experimental/` bench frames: those belong to the about
+page, and the home page should promise that story rather than spend it.
+
+### The footer
+
+Four blocks, Instagram, support, shipping, origin. The STRUCTURE is Isaac
+Sellam's, which the owner sent as a reference; every word is written for this
+brand and the register is this site's own, labels at 11px and facts in mono.
+Nothing is restated from his wording.
+
+### Everything written here is an unapproved draft
+
+One switch, `siteSettings.homeCopyIsDraft`, default ON, covering the short about
+lines, the making line and the two footer lines, in both languages. While it is
+on the page marks each as a draft in the same way `aboutIsDraft` already does:
+fully readable, because the owner judges copy by reading it, and impossible to
+mistake for the brand's approved voice. Nothing in the copy goes beyond what the
+owner stated: Italian leather, alchemy and transformation, minimal construction,
+forms from nature, made by hand one piece at a time, nothing made in advance,
+worldwide shipping.
+
+### Frames that lost their place
+
+The previous home tile grid is gone, and three frames went with it:
+`homepage/IMG_3434` and `homepage/IMG_2378` (leather details) and
+`homepage/IMG_1898` (the landscape on-model frame). Their assets are still in
+the dataset, simply unreferenced. They are good photographs and the new
+structure has no slot for them, so where they belong, the archive, a collection,
+or the about page, is the owner's call.
+

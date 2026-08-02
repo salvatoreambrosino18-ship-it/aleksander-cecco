@@ -30,24 +30,69 @@ export const siteSettings = defineType({
       ],
     }),
     /*
-      The home page. The opening photograph is the first thing a visitor meets;
-      the sequence below it is the band of tiles (see homeTile).
+      THE HOME SEQUENCE, revised 2026-08-02 (DESIGN-PLAN section 21). The page
+      is now a descent with five movements, and these fields are four of them:
+
+        1. openingMedia    the arrival. one photograph, the whole screen.
+        2. homeStatement   who the brand is, in three lines.
+        3. homeSequence    the pieces on people, scrolled sideways.
+        4. makingMedia +
+           makingStatement the work behind them.
+        5. (the collections and the footer follow, from their own documents)
     */
     defineField({
       name: 'openingMedia',
       title: 'Fotografia di apertura / Opening photograph',
       type: 'media',
       description:
-        'La prima cosa che si vede dopo la firma. A tutto schermo. / The first thing seen after the signature. Full screen.',
+        "La prima cosa che si vede: una fotografia a tutto schermo, non la firma. Scegliere un'immagine verticale, alta almeno 2000px, con la parte alta uniforme (chiara o scura) perche' la firma e il MENU ci passano sopra. / The first thing seen: one full-screen photograph, not the signature. Choose a vertical frame, at least 2000px tall, with an even top band (either light or dark) because the signature and MENU sit over it.",
+    }),
+    defineField({
+      name: 'homeStatement',
+      title: 'Chi siamo, in breve (home) / About the brand, short (home)',
+      type: 'localeText',
+      description:
+        "Due o tre righe brevi, non un paragrafo. Gli a capo contano: ogni riga va a capo sulla pagina. / Two or three short lines, not a paragraph. Line breaks are meaningful: each line is set on its own line.",
     }),
     defineField({
       name: 'homeSequence',
-      title: 'Sequenza in home / Home sequence',
+      title: 'Addosso: i capi indossati / Worn: the pieces on people',
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
-        'I riquadri sotto la fotografia di apertura, in ordine. Da tre a sei: si scorre, non scorre da solo. / The tiles below the opening photograph, in order. Three to six: the reader scrolls, nothing moves by itself.',
-      validation: (Rule) => Rule.max(8).warning('More than eight tiles is a long scroll before anything else.'),
+        "La fascia orizzontale a meta' home. Fotografie di persone che indossano i capi: si scorre di lato, niente frecce e niente puntini. Da quattro a sei. Collegare ogni fotografia al suo capo, dove esiste. / The horizontal band halfway down the home page. Photographs of people wearing the pieces: it scrolls sideways, with no arrows and no dots. Four to six. Link each frame to its piece where one exists.",
+      validation: (Rule) =>
+        Rule.max(8).warning('More than eight is a long sideways scroll; four to six reads best.'),
+    }),
+    defineField({
+      name: 'makingMedia',
+      title: 'La lavorazione / The making',
+      type: 'array',
+      of: [{type: 'media'}],
+      description:
+        "Due o tre fotografie del lavoro: la pelle grezza, il banco, le mani. Non i capi finiti, che si vedono gia' sopra. / Two or three photographs of the work: the raw hide, the bench, the hands. Not finished garments, which are already shown above.",
+      validation: (Rule) => Rule.max(4).warning('Two or three frames say it; more turns a claim into a gallery.'),
+    }),
+    defineField({
+      name: 'makingStatement',
+      title: 'La lavorazione, il testo / The making, the text',
+      type: 'localeText',
+      description:
+        'Una o due righe brevi sul come sono fatti i capi. / One or two short lines about how the pieces are made.',
+    }),
+    /*
+      One switch for every line of home-page copy that was written FOR the brand
+      rather than BY it, exactly like aboutIsDraft. While it is on, each of
+      those texts is marked as an unapproved draft on the page: readable, so the
+      owner can judge it by reading it, but never passing as the brand's voice.
+    */
+    defineField({
+      name: 'homeCopyIsDraft',
+      title: 'Testi della home non approvati / Home copy not approved',
+      type: 'boolean',
+      description:
+        "Acceso finche' il titolare non approva i testi della home (chi siamo in breve, lavorazione, righe del fondo pagina). / On until the owner approves the home page copy (the short about, the making, and the footer lines).",
+      initialValue: true,
     }),
     defineField({
       name: 'aboutMedia',
@@ -82,6 +127,24 @@ export const siteSettings = defineType({
       name: 'shippingReturns',
       title: 'Spedizioni e resi / Shipping and returns',
       type: 'localeText',
+    }),
+    /*
+      The footer's four blocks. Instagram and the contact address are already
+      fields above; these two carry the remaining pair. They are one short line
+      each, not a policy: the full shipping text lives in shippingReturns.
+    */
+    defineField({
+      name: 'footerShipping',
+      title: 'Fondo pagina: spedizioni / Footer: shipping',
+      type: 'localeText',
+      description:
+        "Una riga sola. Nessuna promessa di tempi o costi finche' non sono decisi. / One line only. No promise about timing or cost until those are decided.",
+    }),
+    defineField({
+      name: 'footerOrigin',
+      title: 'Fondo pagina: dove nasce / Footer: where it is made',
+      type: 'localeText',
+      description: 'Una riga sola. / One line only.',
     }),
     /*
       Ambient sound. The field exists so the file has somewhere to live; the

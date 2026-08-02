@@ -78,6 +78,24 @@
     height. So: 58svh here, and full height in the desktop block below.
   */
   --media-h-band: 58svh;
+  /*
+    THE WORN BAND: the one horizontal region on the site.
+
+    Two numbers do the discoverability work, and neither is an arrow or a dot.
+
+    --worn-w is deliberately NOT a whole viewport. At 78vw the next frame is
+    always cut by the right edge, so the strip visibly continues past the screen.
+    This is the same device the vertical sequences already use (--media-h-tall
+    leaves the next frame peeking below); here it is simply turned 90 degrees, so
+    the site teaches the gesture with a form the reader has already met.
+
+    --worn-h is deliberately well under a screen. A full-height horizontal region
+    on a phone leaves nothing above or below it to grab, and a reader who wants
+    to continue DOWN the page has to find clear space first. At 62svh there is
+    always page either side of it.
+  */
+  --worn-w: 78vw;
+  --worn-h: 62svh;
   --caption-inset: var(--s-u3); /* how far a label sits off the media edge */
 
   /*
@@ -123,6 +141,13 @@
     */
     --sig-hero-w: min(64vw, 60rem);
     --sig-wash-w: min(34vw, 32rem);
+    /*
+      Desktop keeps the same rule: never a whole number of frames across. At
+      32vw two and a half fit, so one is always cut by the right edge and the
+      strip still reads as continuing.
+    */
+    --worn-w: min(32vw, 26rem);
+    --worn-h: 78svh;
   }
 }
 

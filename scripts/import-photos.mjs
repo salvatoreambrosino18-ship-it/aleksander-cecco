@@ -139,19 +139,100 @@ const ARCHIVE = [
   ["archive/01323077-3c8b-4f10-bb66-6253bcf1bcb8", "Borsa in pelle nera appesa a una catena, con patta sagomata."],
 ];
 
+/*
+  THE ARRIVAL. One photograph, the whole first screen, chosen 2026-08-02 from
+  the eleven frames in homepage/ (DESIGN-PLAN section 21 records the comparison).
+
+  IMG_3463 wins on four counts that are about this layout, not about taste:
+  it is portrait and 3024x4032, so it survives the 100svh crop on a phone; the
+  garment hangs high inside a steel frame with concrete continuing below it, so
+  the composition is not sealed and the eye is carried downward; the top band is
+  evenly bright, so one overlay value keeps both the signature and MENU legible;
+  and it is monochrome in fact, so nothing fights the black and white rule.
+
+  The two files the owner named HOMEPAGE are flat-lay leather details. They are
+  beautiful and they are the most closed compositions in the set, which is the
+  exact failure this rebuild is correcting, so they are not used here.
+*/
 const OPENING = [
+  "homepage/IMG_3463",
+  "Pantaloni chiari in pelle appesi dentro una cornice di metallo nero, davanti a un muro di cemento e a una serranda.",
+];
+
+/*
+  WORN: the pieces on people, the horizontal band halfway down the home page.
+
+  Five frames, all portrait, because a band frame is a tall crop and a landscape
+  source loses its subject in it. That rules out IMG_1898, which is the best
+  on-model photograph in the set and is 4032x3024.
+
+  Honest limit, worth the owner knowing: the on-model photography covers only
+  two garments (capo-08 and capo-06) plus one unlinked frame, so the band is
+  thinner than it looks. More people in more pieces is the single most useful
+  thing that could be shot for this page.
+*/
+const WORN = [
+  ["products/aa52ef49-6c71-4a9b-b832-24cb5827376d", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul cemento.", "piece-completo-fascia-gonna"],
+  ["products/IMG_3477", "Modella a figura intera con la giacca in pelle rossa, nel laboratorio.", "piece-giacca-rossa"],
+  ["homepage/IMG_3485", "Uomo con gilet in pelle nera e pantaloni corti in pelle, in piedi al sole sul cemento.", null],
+  ["products/IMG_3475", "La stessa giacca rossa vista di spalle, tra i capi appesi del laboratorio.", "piece-giacca-rossa"],
+  ["products/05b164db-ab89-4d66-bebc-98d8a31ec147", "La stessa uscita in piena luce, con stivali alti.", "piece-completo-fascia-gonna"],
+];
+
+/*
+  THE MAKING. Two frames of the same hide, and the pair is the whole argument:
+  the skin as it arrives, then the same skin with a collar built onto it. The
+  home page claims the work is a transformation a few screens earlier; this is
+  where it is shown rather than asserted.
+
+  Deliberately NOT the experimental/ bench frames, which belong to the about
+  page: the home page should promise that story, not spend it.
+*/
+const MAKING = [
+  ["products/IMG_0206", "Una pelle nera a pelo lungo distesa sul cemento, con i fili di cucitura ancora attaccati."],
+  ["products/IMG_0208", "La stessa pelle con un collo in pelle gia montato e chiuso da bottoni automatici."],
+];
+
+/*
+  The collection cover. It used to be the same frame as the opening, which was
+  harmless while the home page opened on the signature and unforgivable now that
+  the page opens on a photograph: the arrival and the first chapter cover would
+  be the same picture, twice on one screenful of scrolling.
+
+  This is the frame the owner named HOMEPAGE. It is not the arrival, for the
+  reason recorded above, but it is a strong material statement and a chapter
+  cover is exactly where a material statement belongs.
+*/
+const COLLECTION_COVER = [
   "homepage/HOMEPAGE",
   "Dettaglio ravvicinato di una pelle chiara, con pieghe profonde e una cucitura che la attraversa.",
 ];
 
-// Four tiles: on a phone they stack, on a desktop they pair up and touch, which
-// is the Rick Owens form measured in DESIGN-PLAN section 14. No carousel.
-const HOME_TILES = [
-  ["homepage/IMG_3434", "Dettaglio di pelle nera con la firma del marchio impressa accanto a una zip.", "piece-pelle-drappeggiata"],
-  ["homepage/IMG_3463", "Pantaloni chiari appesi a un muro di cemento davanti a una serranda.", null],
-  ["homepage/IMG_2378", "Dettaglio della chiusura con zip su pelle grigio chiaro.", null],
-  ["homepage/IMG_1898", "Uomo di spalle con pantaloni chiari ampi, in un laboratorio.", null],
-];
+/*
+  Home page copy. Written FOR the brand, never BY it, so it ships with
+  homeCopyIsDraft on and the page marks every line as an unapproved draft.
+  Nothing here goes beyond what the owner has stated: Italian leather, alchemy
+  and transformation, minimal construction, forms from nature, made by hand one
+  piece at a time, nothing made in advance, worldwide shipping.
+*/
+const HOME_COPY = {
+  homeStatement: {
+    it: "Cento per cento pelle italiana.\nAlchimia: una pelle diventa un'altra cosa.\nCostruzione minima, forme prese dalla natura.",
+    en: "One hundred per cent Italian leather.\nAlchemy: a hide becomes something else.\nMinimal construction, forms taken from nature.",
+  },
+  makingStatement: {
+    it: "Pelli intere, scelte e rimesse insieme a mano.\nNessun capo esiste prima che qualcuno lo chieda.",
+    en: "Whole hides, chosen and put back together by hand.\nNo piece exists before someone asks for it.",
+  },
+  footerShipping: {
+    it: "Spediamo in tutto il mondo.",
+    en: "We ship worldwide.",
+  },
+  footerOrigin: {
+    it: "Fatto a mano in Italia, un pezzo alla volta.",
+    en: "Made by hand in Italy, one piece at a time.",
+  },
+};
 
 const ABOUT_MEDIA = [
   ["experimental/IMG_2626", "Pennello largo appoggiato su una pelle appena tinta di scuro."],
@@ -255,25 +336,31 @@ async function main() {
     ...GARMENTS.flatMap((g) => g.files.map(([f]) => f)),
     ...ARCHIVE.map(([f]) => f),
     OPENING[0],
-    ...HOME_TILES.map(([f]) => f),
+    COLLECTION_COVER[0],
+    ...WORN.map(([f]) => f),
+    ...MAKING.map(([f]) => f),
     ...ABOUT_MEDIA.map(([f]) => f),
   ];
+  // The same frame can legitimately appear in two places (a garment gallery and
+  // the worn band, say). Upload dedupes by sha1, but measuring and logging the
+  // same file twice is just noise.
+  const unique = [...new Set(everything)];
   await buildIndex();
-  console.log(`Importing ${everything.length} photographs from:\n  ${SOURCE}\n`);
+  console.log(`Importing ${unique.length} photographs from:\n  ${SOURCE}\n`);
 
   console.log("Converting HEIC where needed (into the system temp directory):");
   const usable = new Map();
   let converted = 0;
-  for (const key of everything) {
+  for (const key of unique) {
     const file = await usableFile(key);
     if (file.startsWith(TMP)) converted++;
     usable.set(key, file);
   }
-  console.log(`  ${converted} converted, ${everything.length - converted} used as they are\n`);
+  console.log(`  ${converted} converted, ${unique.length - converted} used as they are\n`);
 
   console.log("Measuring where the chrome sits, to choose paper or ink per photograph:");
   const overlays = await measureOverlay([...usable.values()]);
-  for (const rel of everything) {
+  for (const rel of unique) {
     const m = overlays.get(usable.get(rel));
     console.log(`  ${m.overlay.padEnd(5)} contrast ${String(m.contrast).padStart(5)}  ${rel}`);
   }
@@ -285,7 +372,7 @@ async function main() {
 
   console.log("\nUploading:");
   const assets = new Map();
-  for (const rel of everything) assets.set(rel, await uploadOnce(usable.get(rel)));
+  for (const rel of unique) assets.set(rel, await uploadOnce(usable.get(rel)));
 
   const ov = (rel) => overlays.get(usable.get(rel)).overlay;
 
@@ -305,7 +392,12 @@ async function main() {
       it: "{STATEMENT_RIGA_UNO}\n{STATEMENT_RIGA_DUE}",
       en: "{STATEMENT_LINE_ONE}\n{STATEMENT_LINE_TWO}",
     },
-    cover: mediaObject(assets.get(OPENING[0]), OPENING[1], ov(OPENING[0]), "cover"),
+    cover: mediaObject(
+      assets.get(COLLECTION_COVER[0]),
+      COLLECTION_COVER[1],
+      ov(COLLECTION_COVER[0]),
+      "cover",
+    ),
     published: true,
     orderRank: "0|100000:",
   });
@@ -354,15 +446,21 @@ async function main() {
     _id: "siteSettings",
     _type: "siteSettings",
     openingMedia: mediaObject(assets.get(OPENING[0]), OPENING[1], ov(OPENING[0]), "opening"),
-    homeSequence: HOME_TILES.map(([rel, alt, garmentId], i) => ({
+    homeSequence: WORN.map(([rel, alt, garmentId], i) => ({
       _type: "homeTile",
       _key: `t${i}`,
       media: mediaObject(assets.get(rel), alt, ov(rel), `tm${i}`),
       ...(garmentId ? {garment: {_type: "reference", _ref: garmentId}} : {}),
     })),
-    aboutMedia: ABOUT_MEDIA.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `a${i}`)),
+    makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`)),
+    homeStatement: {_type: "localeText", ...HOME_COPY.homeStatement},
+    makingStatement: {_type: "localeText", ...HOME_COPY.makingStatement},
+    footerShipping: {_type: "localeText", ...HOME_COPY.footerShipping},
+    footerOrigin: {_type: "localeText", ...HOME_COPY.footerOrigin},
+    // Nobody has approved a word of it. The page says so until the owner does.
+    homeCopyIsDraft: true,
   });
-  console.log("  siteSettings  opening, home sequence, about photographs");
+  console.log("  siteSettings  arrival, worn band, making, home copy (all draft)");
 
   // The seeded fixtures have done their job now that real work is in.
   for (const id of ["seed-garment-a", "seed-garment-b", "seed-collection-uno"]) {

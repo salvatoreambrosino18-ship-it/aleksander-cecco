@@ -27,6 +27,15 @@ const ui = {
     madeToMeasure: "Su misura",
     madeToMeasureValue: "Ogni capo e realizzato sulle misure di chi lo indossera",
     draftNotice: "Bozza non approvata",
+    // Home sequence section labels. These name a region, they are not brand
+    // copy: the brand's own words for each section come from Sanity.
+    theWork: "Il lavoro",
+    worn: "Addosso",
+    theMaking: "La lavorazione",
+    // Footer block headings.
+    support: "Assistenza",
+    worldwideShipping: "Spedizioni in tutto il mondo",
+    madeInItaly: "Fatto in Italia",
     price: "Prezzo",
     enquire: "Invia richiesta",
     yourName: "Nome",
@@ -57,6 +66,12 @@ const ui = {
     madeToMeasure: "Made to measure",
     madeToMeasureValue: "Every piece is built to the measurements of the person who will wear it",
     draftNotice: "Unapproved draft",
+    theWork: "The work",
+    worn: "Worn",
+    theMaking: "The making",
+    support: "Support",
+    worldwideShipping: "Worldwide shipping",
+    madeInItaly: "Made in Italy",
     price: "Price",
     enquire: "Send enquiry",
     yourName: "Name",

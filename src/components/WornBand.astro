@@ -1,0 +1,73 @@
+---
+/*
+  THE WORN BAND: the pieces on people, scrolled sideways.
+
+  The one horizontal region on the site, and the only place it asks for a
+  gesture other than down. Why it earns that: everything else here is a vertical
+  column of screen-filling frames, and by this point in the page the reader has
+  met four of them. A change of axis is the cheapest way to say "these are a
+  different kind of thing" without a heading explaining it. The pieces on a
+  body read as a group, together, which is exactly what a strip does and what
+  six more full screens would not.
+
+  It is NOT a carousel. Nothing advances by itself, nothing fades, there are no
+  arrows and no dots. The reader drags, or scrolls, or tabs.
+
+  How it is made discoverable, with no arrows and no dots: the frames are
+  --worn-w wide, which is never a whole viewport, so one is always cut by the
+  right edge, and proximity snapping settles the strip as the reader lets go.
+  How the vertical gesture is protected: the band is well under a screen tall,
+  and overscroll chaining is contained so running off the end cannot trigger the
+  browser's back-swipe. The full reasoning is in global.css under .worn, and in
+  DESIGN-PLAN section 21.
+
+  Keyboard: the strip is a focusable, named region because its scrollbar is
+  hidden. Frames that link to a piece are in the tab order anyway, and focusing
+  one scrolls it into view.
+*/
+import MediaSurface from "./MediaSurface.astro";
+import type {HomeTile} from "../lib/content";
+import type {Locale} from "../lib/locales";
+import {localePath} from "../lib/locales";
+
+interface Props {
+  tiles: HomeTile[];
+  locale: Locale;
+  /** Names the region for a screen reader, and titles it on the page. */
+  label: string;
+}
+
+const {tiles, locale, label} = Astro.props;
+---
+
+{
+  tiles.length > 0 && (
+    <section aria-labelledby="worn-heading">
+      {/*
+        The heading sits inside the margins like any text, and the strip below
+        it runs full bleed like any media. Media never takes a margin.
+      */}
+      <div class="frame pb-u3">
+        <h2 id="worn-heading" class="type-label text-label">
+          {label}
+        </h2>
+      </div>
+
+      <ul class="worn" role="region" aria-labelledby="worn-heading" tabindex="0">
+        {tiles.map((tile) => (
+          <li>
+            {tile.garment?.slug ? (
+              <a href={localePath(locale, `pieces/${tile.garment.slug}`)} class="block">
+                <MediaSurface media={tile.media} locale={locale} height="worn">
+                  <span class="type-label text-label">{tile.garment.name}</span>
+                </MediaSurface>
+              </a>
+            ) : (
+              <MediaSurface media={tile.media} locale={locale} height="worn" />
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

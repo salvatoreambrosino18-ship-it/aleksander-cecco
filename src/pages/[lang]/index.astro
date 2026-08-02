@@ -1,35 +1,49 @@
 ---
 /*
-  Home.
+  Home, rebuilt 2026-08-02 as a narrative sequence (DESIGN-PLAN section 21).
 
-  The sequence, and it is deliberately a flat list of sibling blocks:
+  WHAT WAS WRONG. The page was a stack of closed compositions: signature, then a
+  screen-filling photograph, then tiles, then the wipe, then more screen-filling
+  photographs. Every block sealed itself at exactly one viewport, so each one
+  read as an ending and nothing pulled the reader into the next. It looked like
+  a set of postcards rather than a site with a direction.
 
-    1. OPENING     the signature at hero width, in emptiness, nothing else
-    2. PHOTOGRAPH  the opening photograph, full bleed, one whole screen
-    3. SEQUENCE    the band of tiles
-    4. per collection: cover as a chapter, then its statement
+  THE SEQUENCE NOW, and each movement earns its place:
 
-  THE BAND, and what it is not. It is not a carousel. Nothing advances by
-  itself, there are no arrows and no dots, and the reader simply scrolls. That
-  is what the primary reference actually does, measured rather than remembered
-  (DESIGN-PLAN section 14): full-bleed tiles in sequence, 390x844 then 390x488
-  on a phone, and on desktop pairs of 720x900 side by side and TOUCHING, with no
-  gutter between them. So: one column at 58svh on a phone, two columns at full
-  height on desktop, nothing between them.
+    1. ARRIVAL   one photograph, the whole screen. The signature is no longer
+                 the opening gesture; it is persistent corner chrome, drawn by
+                 SiteHeader on every page, so the brand is still named without
+                 spending the first screen on it. This settles the question
+                 deferred in DESIGN-PLAN section 14 in favour of image first.
+    2. THE WORK  who the brand is, in three lines, on a text surface.
+    3. WORN      the pieces on people, scrolled sideways. The one horizontal
+                 region on the site (see WornBand.astro).
+    4. MAKING    the work behind the pieces, and the one route to asking for
+                 one. Section 2 makes a claim; this is where it is shown.
+    [ THE WIPE ] the boundary wash. Paper above it, ink below, footer included.
+    5. COLLECTIONS as chapters, on ink.
 
-  The blocks are siblings on purpose. The owner sent Isaac Sellam, whose order
-  is photograph, then story, then pieces, and our opening is the signature. That
-  is still an open decision. Should it go the Sellam way, block 1 moves below
-  block 2 and a STORY surface drops into the marked slot. No component changes.
+  HOW THE PULL IS BUILT, since that was the actual complaint. Only the arrival
+  is a sealed screen, because an arrival should be. Everything after it is
+  height="tall" (88svh), so the next frame is always already peeking above the
+  fold, and the text surfaces are sized to their content rather than to the
+  viewport. The reader is never shown a boundary that looks like the end.
+
+  The blocks stay flat siblings, as they were, so reordering the page is a move
+  rather than a rewrite. The STORY SLOT comment is gone: the question it was
+  holding open has been answered.
 */
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
-import Signature from "../../components/Signature.astro";
+import Statement from "../../components/Statement.astro";
+import WornBand from "../../components/WornBand.astro";
 import BoundaryWash from "../../components/BoundaryWash.astro";
 import {getCollections, getSiteSettings} from "../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
+import {overlayTheme} from "../../lib/media";
 import {imageUrl} from "../../lib/image";
+import {t} from "../../i18n/ui";
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({params: {lang}}));
@@ -39,53 +53,87 @@ const locale = toLocale(Astro.params.lang);
 const [collections, settings] = await Promise.all([getCollections(), getSiteSettings()]);
 
 const opening = settings.openingMedia;
-const tiles = settings.homeSequence ?? [];
+const worn = settings.homeSequence ?? [];
+const makingMedia = settings.makingMedia ?? [];
+const homeStatement = pick(settings.homeStatement, locale);
+const makingStatement = pick(settings.makingStatement, locale);
+const draft = Boolean(settings.homeCopyIsDraft);
+
 const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 ---
 
+{/* chrome: the first screen is a photograph now, so the fixed signature and
+    MENU take that photograph's overlay polarity on first paint. */}
 <Base
   locale={locale}
   image={shareImage ? imageUrl(shareImage.poster, 1200) : null}
+  chrome={overlayTheme(opening?.overlay)}
   footerTheme="dark"
 >
-  {/* 1. OPENING. The one thing on the site allowed to be large. */}
-  <TextSurface framed={false} class="flex min-h-svh flex-col justify-center">
-    <h1 class="w-sig-hero self-center">
-      <Signature />
-    </h1>
-  </TextSurface>
-
   {/*
-    STORY SLOT. If the home sequence becomes image, story, pieces, the story
-    text surface goes here, reading siteSettings.about. Nothing else moves
-    except block 1, which drops below the opening photograph.
+    1. ARRIVAL. The one sealed screen on the page, and the only priority image:
+    it is the largest thing the site downloads and the first thing seen.
   */}
-
-  {/* 2. THE OPENING PHOTOGRAPH */}
-  {opening && <MediaSurface media={opening} locale={locale} priority />}
-
-  {/* 3. THE SEQUENCE. Two across and touching on desktop, stacked on a phone. */}
   {
-    tiles.length > 0 && (
-      <div class="grid grid-cols-1 md:grid-cols-2">
-        {tiles.map((tile) =>
-          tile.garment?.slug ? (
-            <a href={localePath(locale, `pieces/${tile.garment.slug}`)} class="block">
-              <MediaSurface media={tile.media} locale={locale} height="band">
-                <span class="type-label text-label">{tile.garment.name}</span>
-              </MediaSurface>
-            </a>
-          ) : (
-            <MediaSurface media={tile.media} locale={locale} height="band" />
-          ),
-        )}
-      </div>
+    opening ? (
+      <>
+        <h1 class="sr-only">Aleksander Cecco</h1>
+        <MediaSurface media={opening} locale={locale} priority />
+      </>
+    ) : (
+      <TextSurface class="flex min-h-svh flex-col justify-center">
+        <h1 class="type-label text-label">Aleksander Cecco</h1>
+        <p class="placeholder-mark self-start">{"{OPENING_PHOTOGRAPH}"}</p>
+      </TextSurface>
     )
   }
 
+  {/* 2. THE WORK. Three lines, then the way into the longer story. */}
+  <Statement
+    text={homeStatement}
+    locale={locale}
+    heading={t(locale, "theWork")}
+    token={"{HOME_STATEMENT}"}
+    isDraft={draft}
+  >
+    <a
+      href={localePath(locale, "about")}
+      class="type-label text-label self-start hover:underline underline-offset-8"
+    >
+      {t(locale, "about")}
+    </a>
+  </Statement>
+
+  {/* 3. WORN. The pieces on people, sideways. */}
+  <WornBand tiles={worn} locale={locale} label={t(locale, "worn")} />
+
   {/*
-    4. THE BOUNDARY. The page has been paper since the signature; from here it
-    is ink. A screen of type and the mark, with no photograph anywhere near the
+    4. THE MAKING. Section 2 claims the work is a transformation; this is the
+    evidence for it, and it is the only place the home page says how a piece is
+    actually got. The frames are "tall", so the wash below is already showing.
+  */}
+  <Statement
+    text={makingStatement}
+    locale={locale}
+    heading={t(locale, "theMaking")}
+    token={"{MAKING_STATEMENT}"}
+    isDraft={draft}
+    class="pt-u13 pb-u8"
+  >
+    <p class="type-mono text-mono">{t(locale, "madeToMeasureValue")}</p>
+    <a
+      href={localePath(locale, "collections")}
+      class="type-label text-label self-start hover:underline underline-offset-8"
+    >
+      {t(locale, "collections")}
+    </a>
+  </Statement>
+
+  {makingMedia.map((media) => <MediaSurface media={media} locale={locale} height="tall" />)}
+
+  {/*
+    THE BOUNDARY. The page has been paper since the arrival; from here it is
+    ink. A screen of type and the mark, with no photograph anywhere near the
     edge, which is the condition the whole wipe depends on.
   */}
   <BoundaryWash
@@ -95,7 +143,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     sublabel={collections[0]?.season ?? null}
   />
 
-  {/* 5. THE COLLECTIONS, now on ink */}
+  {/* 5. THE COLLECTIONS, now on ink. */}
   {
     collections.map((collection) => {
       const statement = pick(collection.statement, locale);
@@ -103,7 +151,12 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
       return (
         <>
           {collection.cover && (
-            <MediaSurface media={collection.cover} locale={locale}>
+            /*
+              "tall", not "screen": a chapter cover that seals itself at exactly
+              one viewport is the postcard problem. Leaving the next block
+              peeking is what keeps the reader descending.
+            */
+            <MediaSurface media={collection.cover} locale={locale} height="tall">
               <a href={href} class="flex flex-col gap-u1">
                 <h2 class="type-label text-label">{collection.name}</h2>
                 {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
