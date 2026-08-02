@@ -1,18 +1,48 @@
 ---
 /*
-  One collection. Step 5 of the build order.
+  One collection. Revised 2026-08-02 (DESIGN-PLAN section 23).
 
-  Cover, then the statement on a text surface, then the garments at full bleed,
-  one screen each, every one a link to its own page. No thumbnail grid: a
-  garment is never reduced to a card here (DESIGN-PLAN section 4).
+  WHAT WAS WEAK, before anything was changed:
+
+  1. On desktop the page was ONE COLUMN at every width, so a portrait photograph
+     was cropped to a 1440x790 letterbox and most of the frame was thrown away.
+     DESIGN-PLAN section 4 always specified pairs, two up and touching, measured
+     off the primary reference; it had simply never been built. This was the
+     worst of the problems because it damaged the photography itself.
+  2. NO RHYTHM. Cover, statement, then the identical block repeated once per
+     Creature. With names still placeholders it read as a stack of same-shaped
+     rectangles, which is the postcard problem again in its purest form.
+  3. The statement carried NO MARK, so our Italian translation of the owner's
+     text would have passed as the brand's own voice.
+  4. NO ENDING. After the last Creature the page simply stopped at the footer.
+  5. The home page, the collections index and this page all made the same
+     gesture: a full-bleed cover with a small label. Three pages, one move.
+
+  WHAT CHANGED HERE: pairs on desktop, the statement marked, and a close that
+  says how a Creature is got. (5) is only partly answered and is noted in the
+  design plan rather than papered over.
+
+  POLARITY: ink throughout, and deliberately no wipe. The home page performs the
+  inversion once; a collection is where the work is looked at, not a second
+  performance of the same transformation. Ink because these photographs are dark
+  leather in hard light and the page should serve them. One prop to reverse.
 */
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
-import {getCollections, getGarmentsInCollection, type Collection, type Garment} from "../../../lib/content";
+import Statement from "../../../components/Statement.astro";
+import {
+  getCollections,
+  getGarmentsInCollection,
+  getSiteSettings,
+  type Collection,
+  type Garment,
+} from "../../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../../lib/locales";
 import {overlayTheme} from "../../../lib/media";
+import {voiceState} from "../../../lib/voice";
 import {imageUrl} from "../../../lib/image";
+import {t} from "../../../i18n/ui";
 
 export async function getStaticPaths() {
   const collections = await getCollections();
@@ -34,6 +64,9 @@ export async function getStaticPaths() {
 const {collection, garments} = Astro.props as {collection: Collection; garments: Garment[]};
 const locale = toLocale(Astro.params.lang);
 const statement = pick(collection.statement, locale);
+// The statement is the owner's own text, so the only question is the language.
+const settings = await getSiteSettings();
+const voice = voiceState(settings, locale);
 ---
 
 <Base
@@ -42,6 +75,8 @@ const statement = pick(collection.statement, locale);
   description={statement ?? undefined}
   chrome={overlayTheme(collection.cover?.overlay)}
   image={collection.cover ? imageUrl(collection.cover.poster, 1200) : null}
+  theme="dark"
+  footerTheme="dark"
 >
   {
     collection.cover && (
@@ -54,30 +89,53 @@ const statement = pick(collection.statement, locale);
     )
   }
 
-  {
-    statement && (
-      <TextSurface class="py-u13">
-        <p class="type-statement text-statement max-w-prose">{statement}</p>
-      </TextSurface>
-    )
-  }
+  {/* The owner's own words. Marked only where the language is our translation. */}
+  <Statement text={statement} locale={locale} voice={voice} theme="dark" token={"{COLLECTION_STATEMENT}"} />
 
-  {
-    garments.map((garment) => {
-      const cover = garment.media?.[0];
-      if (!cover) return null;
-      return (
-        <a href={localePath(locale, `pieces/${garment.slug}`)} class="block">
-          <MediaSurface media={cover} locale={locale} height="tall">
-            <div class="flex flex-col gap-u1">
-              <h2 class="type-label text-label">{garment.name}</h2>
-              {garment.referenceCode && (
-                <span class="type-mono text-mono">{garment.referenceCode}</span>
-              )}
-            </div>
-          </MediaSurface>
-        </a>
-      );
-    })
-  }
+  {/*
+    THE CREATURE, two up and touching on desktop, one column on a phone. This is
+    what DESIGN-PLAN section 4 specified from the start and what the primary
+    reference actually does: pairs of 720x900 side by side with no gutter. It
+    exists here to stop a portrait photograph being letterboxed into a 1440-wide
+    strip, which is what one column did to it.
+
+    An odd count leaves the last one alone in its row, at half width. That is
+    correct and is not a gap to fill: the alternative is stretching one Creature
+    across the full width purely because of how many there are.
+  */}
+  <div class="grid grid-cols-1 md:grid-cols-2">
+    {
+      garments.map((garment) => {
+        const cover = garment.media?.[0];
+        if (!cover) return null;
+        return (
+          <a href={localePath(locale, `pieces/${garment.slug}`)} class="block">
+            <MediaSurface media={cover} locale={locale} height="tall">
+              <div class="flex flex-col gap-u1">
+                <h2 class="type-label text-label">{garment.name}</h2>
+                {garment.referenceCode && (
+                  <span class="type-mono text-mono">{garment.referenceCode}</span>
+                )}
+              </div>
+            </MediaSurface>
+          </a>
+        );
+      })
+    }
+  </div>
+
+  {/*
+    THE CLOSE. The page used to stop dead at the last photograph. One fact and
+    one route: how a Creature is got. No invented promise, and the material line
+    comes off the Creature itself, never from here.
+  */}
+  <TextSurface theme="dark" class="flex flex-col gap-u3 py-u13">
+    <p class="type-mono text-mono">{t(locale, "madeToMeasureValue")}</p>
+    <a
+      href={localePath(locale, "contact")}
+      class="type-label text-label self-start hover:underline underline-offset-8"
+    >
+      {t(locale, "contact")}
+    </a>
+  </TextSurface>
 </Base>

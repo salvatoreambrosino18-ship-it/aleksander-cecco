@@ -2005,3 +2005,79 @@ from the intermittent publish webhook in section 16 and has a different cause.
   statement even though he names the pieces Creature. The translation keeps
   "capi" to stay faithful. Worth asking whether he wants that sentence to say
   Creature.
+
+---
+
+## 23. The about page as a story, and the collection page (2026-08-02)
+
+### About, rebuilt
+
+The instruction was: one photograph with a single line over it, then descend
+through the pieces artistically rather than as a list, telling the story as you
+go, and give the writing room.
+
+FORM. The opening frame is `homepage/IMG_3436`, black leather at close range
+with the brand's signature embossed into it, and the line over it is "Living
+textures." That is the shortest complete sentence the owner wrote, used
+unaltered, so the opening line is his and carries no mark. It also rescues one
+of the three frames orphaned when the home tile grid was replaced (section 21).
+
+Below it the page alternates: a screen of text, a photograph, the next screen of
+text. The paragraphs come from HIS blank lines, so he controls where the page
+breathes; we do not re-cut his writing to fit a layout. Each paragraph picks its
+register by length, short ones declamatory and long ones as prose, on a word
+count rather than on a judgement about which sentence matters more.
+
+The translation mark appears ONCE, at the top of the story, not beside every
+paragraph. Repeating it down the page would turn one honest caveat into noise.
+
+Only the opening photograph is a sealed screen; every frame after it is 88svh,
+so the next block always peeks. Same rule as the home page, same reason.
+
+Note that "Living textures." then recurs in its proper place inside the full
+text a few screens later. That repetition is deliberate: it is his sentence in
+his order, and a refrain that opens a page and returns in context is not an
+error to edit out.
+
+### The collection page: what was weak, before anything changed
+
+Asked for the critique first, so it is recorded before the fix:
+
+1. ON DESKTOP IT WAS ONE COLUMN at every width, so a portrait photograph was
+   cropped to a roughly 1440x790 letterbox and most of the frame was discarded.
+   Section 4 specified pairs, two up and touching, from the very beginning and
+   it had simply never been built. This was the worst of the five because it
+   damaged the photography itself, which is the thing the whole site exists to
+   serve.
+2. NO RHYTHM. Cover, statement, then one identical block per Creature. With
+   names still placeholders it read as a stack of same-shaped rectangles, which
+   is the postcard problem in its purest form.
+3. THE STATEMENT CARRIED NO MARK, so our Italian translation of the owner's own
+   words would have passed as the brand's voice. A correctness bug, not a taste
+   one.
+4. NO ENDING. After the last Creature the page stopped dead at the footer, with
+   nothing said about how a piece is actually got.
+5. THE SAME GESTURE THREE TIMES. The home page, the collections index and the
+   collection page all open with a full-bleed cover carrying a small label.
+   Three pages, one move.
+
+### What changed, and what did not
+
+Fixed: (1) pairs on desktop, one column on a phone, no gutter, as measured on
+the primary reference. An odd count leaves the last Creature alone at half
+width, which is correct and is not a gap to fill. (3) the statement now runs
+through the same voice model as everything else. (4) a close carrying one fact,
+that every Creature is built to the wearer's measurements, and one route.
+
+NOT fixed, and recorded rather than papered over: (5). The collections index and
+the collection cover still make the same opening move. The honest fix is
+probably that the index stops being a page of covers at all, since with one
+collection it is a list of one, but that is a structural question and it should
+wait until there is a second collection to design against.
+
+POLARITY, and it is a judgement call worth stating. The collection page is ink
+throughout and has NO wipe. The home page performs the inversion once; a
+collection is where the work is looked at, not a second performance of the same
+transformation, and section 22's second condition says one per journey. Ink
+because these photographs are dark leather in hard light and the page should
+serve them. It is one prop to reverse if the owner reads it differently.

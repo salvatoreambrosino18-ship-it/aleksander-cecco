@@ -1,16 +1,38 @@
 ---
 /*
-  About. A text surface on the spine: no media unless the owner supplies one.
+  About, rebuilt 2026-08-02 as a story (DESIGN-PLAN section 22).
 
-  The about copy comes from site settings and is a placeholder until the brand
-  writes its own. While it is a placeholder it is MARKED as one, rather than
-  being smoothed into something that reads like the brand's voice.
+  This is the one page where the owner's text appears COMPLETE and UNBROKEN, in
+  his order, nothing cut. Everywhere else on the site carries an excerpt of it;
+  here it exists whole, so there is always one place a reader can go and get the
+  brand in its own words rather than in fragments we chose.
+
+  THE FORM. One photograph with a single line over it, then a descent: a screen
+  of text, a photograph, the next screen of text, and so on. The text sets the
+  pace and the photographs are the evidence for it. Paragraphs come from the
+  owner's own blank lines, so HE controls where the page breathes; we do not
+  re-cut his writing to fit a layout.
+
+  Two registers, chosen by length rather than by rule. His short declamatory
+  paragraphs take the statement register; his long discursive ones take body.
+  Uppercasing a sixty-word sentence at statement size is shouting, and the
+  register exists to serve the voice, not the other way round.
+
+  WHOSE WORDS. His, so no draft mark. In Italian they are our translation of
+  his, so the page says exactly that, once, at the top. See lib/voice.ts: an
+  "unapproved draft" would wrongly imply the brand has not decided what it says.
+
+  Reduced from a full screen: the opening photograph is the only sealed screen,
+  and every frame after it is "tall", so the next block always peeks.
 */
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import {getSiteSettings, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
+import {overlayTheme} from "../../lib/media";
+import {imageUrl} from "../../lib/image";
+import {isMarked, voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
 
 export function getStaticPaths() {
@@ -19,65 +41,117 @@ export function getStaticPaths() {
 
 const locale = toLocale(Astro.params.lang);
 const settings = await getSiteSettings();
+
 const about = pick(settings.about, locale);
 const aboutIsPlaceholder = isPlaceholderText(about);
-// A real text nobody has approved. Marked, not hidden: the owner has to be able
-// to read it on the page to judge it, and a visitor has to be able to tell.
-const aboutIsDraft = Boolean(settings.aboutIsDraft) && !aboutIsPlaceholder;
+const openingLine = pick(settings.aboutOpeningLine, locale);
+const openingMedia = settings.aboutOpeningMedia;
+const photographs = settings.aboutMedia ?? [];
 
 /*
-  The story and the process photographs alternate: a paragraph, then a frame,
-  then the next paragraph. The text is the spine of the page and the images are
-  the evidence for it. If there are more paragraphs than photographs, or the
-  other way round, the leftovers simply follow: the page degrades to plain prose
-  or to a sequence of frames without a rewrite.
+  aboutIsDraft means "we wrote this", which is now false: the story is his. What
+  remains is whether this language is one he approved.
 */
-const paragraphs = (about ?? "").split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
-const photographs = settings.aboutMedia ?? [];
+const voice = voiceState(settings, locale, Boolean(settings.aboutIsDraft));
+const marked = isMarked(voice) && Boolean(about) && !aboutIsPlaceholder;
+const noticeKey = voice === "translation" ? "translationNotice" : "draftNotice";
+
+/*
+  His blank lines are the paragraph breaks. Short paragraphs get the statement
+  register, long ones get body; the threshold is a word count, not a guess about
+  which sentence is more important.
+*/
+const paragraphs = (about ?? "")
+  .split(/\n\s*\n/)
+  .map((p) => p.trim())
+  .filter(Boolean);
+const isShort = (p: string) => p.split(/\s+/).length <= 18;
 ---
 
-<Base locale={locale} title={t(locale, "about")}>
-  <TextSurface class="flex min-h-svh flex-col gap-u8 pt-chrome pb-u21">
-    <h1 class="type-label text-label">{t(locale, "about")}</h1>
+<Base
+  locale={locale}
+  title={t(locale, "about")}
+  description={openingLine ?? undefined}
+  theme="dark"
+  footerTheme="dark"
+  chrome={overlayTheme(openingMedia?.overlay)}
+  image={openingMedia ? imageUrl(openingMedia.poster, 1200) : null}
+>
+  {/*
+    THE ARRIVAL: one photograph, one line. The line is a whole sentence of his,
+    unaltered, and it is deliberately the shortest one he wrote.
+  */}
+  {
+    openingMedia ? (
+      <MediaSurface media={openingMedia} locale={locale} priority>
+        <h1 class="type-statement text-statement">{openingLine ?? t(locale, "about")}</h1>
+      </MediaSurface>
+    ) : (
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
+        <h1 class="type-label text-label">{t(locale, "about")}</h1>
+        <p class="placeholder-mark self-start">{"{ABOUT_OPENING_PHOTOGRAPH}"}</p>
+      </TextSurface>
+    )
+  }
 
-    {aboutIsDraft && <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>}
+  {/*
+    The mark, once, at the top of the story rather than beside every paragraph.
+    Repeating it down the page would turn a single honest caveat into noise.
+  */}
+  {
+    marked && (
+      <TextSurface theme="dark" class="pt-u8">
+        <p class="placeholder-mark self-start">{t(locale, noticeKey)}</p>
+      </TextSurface>
+    )
+  }
 
-    {
-      !about && <p class="placeholder-mark self-start">{"{ABOUT}"}</p>
-    }
-    {
-      about && aboutIsPlaceholder && <p class="placeholder-mark self-start">{about}</p>
-    }
-    {
-      about && !aboutIsPlaceholder && paragraphs.length > 0 && (
-        <p class:list={["type-body text-body max-w-prose", aboutIsDraft && "draft-text"]}>
-          {paragraphs[0]}
-        </p>
-      )
-    }
-  </TextSurface>
+  {!about && (
+    <TextSurface theme="dark" class="py-u13">
+      <p class="placeholder-mark self-start">{"{ABOUT}"}</p>
+    </TextSurface>
+  )}
 
+  {
+    about && aboutIsPlaceholder && (
+      <TextSurface theme="dark" class="py-u13">
+        <p class="placeholder-mark self-start">{about}</p>
+      </TextSurface>
+    )
+  }
+
+  {/*
+    THE DESCENT. A paragraph, then a photograph, then the next paragraph. If
+    there are more paragraphs than frames, or the other way round, the leftovers
+    simply continue: the page degrades to plain prose, or to a sequence of
+    photographs, without a rewrite.
+  */}
   {
     about &&
       !aboutIsPlaceholder &&
-      paragraphs.slice(1).map((paragraph, index) => (
+      paragraphs.map((paragraph, index) => (
         <>
-          {photographs[index] && (
-            <MediaSurface media={photographs[index]} locale={locale} height="tall" />
-          )}
-          <TextSurface class="py-u13">
-            <p class:list={["type-body text-body max-w-prose", aboutIsDraft && "draft-text"]}>
+          <TextSurface theme="dark" class="py-u13">
+            <p
+              class:list={[
+                isShort(paragraph) ? "type-statement text-statement" : "type-body text-body",
+                "max-w-prose whitespace-pre-line",
+                marked && "draft-text",
+              ]}
+            >
               {paragraph}
             </p>
           </TextSurface>
+
+          {photographs[index] && (
+            <MediaSurface media={photographs[index]} locale={locale} height="tall" />
+          )}
         </>
       ))
   }
 
-  {/* any photographs left over after the text simply continue the sequence */}
-  {
-    photographs.slice(Math.max(paragraphs.length - 1, 0)).map((media) => (
-      <MediaSurface media={media} locale={locale} height="tall" />
-    ))
-  }
+  {/* Any frames left over after the text simply continue the sequence. */}
+  {photographs.slice(paragraphs.length).map((media) => (
+    <MediaSurface media={media} locale={locale} height="tall" />
+  ))}
 </Base>
