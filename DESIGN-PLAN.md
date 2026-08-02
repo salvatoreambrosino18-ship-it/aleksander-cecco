@@ -3332,3 +3332,112 @@ RECOMMENDATION: remove the three Resend values from local `.env` and keep them
 only in Cloudflare. Then local testing exercises the 503 path, which is what
 section 19 always assumed it did.
 
+
+---
+
+## 39. The no-grid rule, revised openly (2026-08-02)
+
+### The revision
+
+**"No thumbnail grid" was OUR rule, not the brief's.** It was derived from the
+references in section 14 before there was a real catalogue, when the dataset
+held two seeded fixtures and the only risk worth guarding against was reducing
+a garment to a card. With sixteen Creature the same rule produces a different
+failure: no view of the work as a body, and every piece four taps from the door.
+
+It is revised rather than abandoned, and the distinction matters:
+
+- **A view of everything now exists**, at `/[lang]/creature`. It is where you go
+  to see the catalogue.
+- **The one-per-screen treatment survives** on the collection page, which is the
+  narrative, and on the home sequence.
+- **The thing the rule was protecting is still protected.** Two per row maximum,
+  never three, because three across is the width at which a garment becomes a
+  thumbnail. No cards, no borders, no gaps, no shadows, no rounded corners, no
+  prices, no filters, no sort control.
+
+The primary reference already licenses this: Rick Owens pairs 720x900 frames
+side by side and TOUCHING, measured in section 14 and never built until now.
+
+### What makes it density rather than a spreadsheet
+
+- **Touching.** No gutter at all. The seam between two Creature is a hard edge,
+  which is the same language the wipe speaks.
+- **An alternating rhythm.** Rows alternate `--media-h-tall` (88svh) and
+  `--media-h-short` (62svh on a phone, 68svh on desktop), computed per ROW so a
+  pair always agrees with itself. Two frames of different heights side by side
+  would leave a hole, which is the one thing a page with no gaps cannot have.
+- **11px inscriptions** over the frame, in the owner's per-image polarity. Name
+  and reference code. No price: this page is for seeing the work.
+- **Order is the stage order** (section 28): tenebrae, then lux, then
+  unassigned. Nothing labels it.
+
+### Navigation depth, which was the real bug
+
+The old Shopify site put every product two taps from the door and this one had
+lost that. From the home page it is now: **home, All Creature, a Creature. Two
+taps.** The menu also carries the index, and the collection page ends with a
+route to it, so there is no path that reaches a dead end.
+
+The menu had three destinations for a site with six sections. It has five now:
+All Creature, Collections, Archive, About, Contact.
+
+---
+
+## 40. Filling the catalogue: what was named and what was not
+
+The old site carried sixteen products; eight were imported. Going back through
+`products/` and `archive/` frame by frame found the rest. **Sixteen Creature
+now**, from 72 assets.
+
+### Named, with the evidence
+
+| Creature | frames | why it is certain |
+| --- | --- | --- |
+| **Glovyes** | 4 | Leg warmers are unmistakable: two separate tubes with crossing straps, not joined at the waist. Nothing else in the set is that shape. |
+| **Styrax** | 1 | His caption: "The Forest Calling. Name of the creature: Styrax." `archive/IMG_0204` is the ONLY frame in the entire set shot in a forest, and it shows a shearling and leather top, which is the other caption exactly. |
+| **Ghezard** | 4 | "Goat Shearling featuring a Washed brown Leather." The only brown piece in the set, and the fur lining is visible at the zip. |
+| **Rubedo** | 7, was 3 | Four hanging frames added, including `archive/IMG_3481` which shows the Oblivion hole in the upper back, and `IMG_3479` which confirms it is a SHIRT (collar, placket, cuffs) as his caption says. |
+
+### Not named, and the reason for each
+
+| id | what it is | why not named |
+| --- | --- | --- |
+| `capo-09` | the bag, 2 frames | The only bag in the set, so it is the bag from the price list. That list calls it a "snakeskin mini bag" and this leather reads as pebbled rather than snake, so the name is his to confirm. |
+| `capo-10` | pale trousers, cropped and very wide, 4 frames | Pale, so Lux. Which of Lux leather pants, Aleya bootcut or Tomar shorts it is cannot be read off a photograph. |
+| `capo-11` | pale trousers, full length, 4 frames | Recorded SEPARATELY from capo-10 because the lengths plainly differ: capo-10 ends mid-calf on a hanger, capo-11 pools at the ankle on a body. If they are one piece, merge them; if not, they need two names. |
+| `capo-12` | black leather halter top on a mannequin | A finished piece with no caption to match it to. |
+| `capo-13` | dark piece, leather waistband and fabric panels | Same. |
+| `capo-01` to `capo-08` | as before | Unchanged, and the ambiguity table in section 24 still stands. |
+
+### THE HAT DOES NOT EXIST IN ANY FOLDER
+
+Every file in `products/`, `archive/`, `experimental/` and `homepage/` has now
+been looked at. **There is no photograph of the leather hat.** It is on the price
+list at EUR 125 and it is, with the bag, one of the two entry-tier pieces the
+pricing analysis in section 32 said the brand needs. It cannot go on the site
+until it is photographed, and photographing it should be near the top of his
+list.
+
+### Materials, and a deliberate gap in Italian
+
+Styrax and Ghezard carry his own composition lines. Their DESCRIPTIONS are his
+captions verbatim in English and **deliberately empty in Italian**: he approved
+the Italian of the brand text he was SHOWN, not translations invented
+afterwards, and `approvedLanguages` is global. An empty field shows as missing
+(see `pick` in `lib/locales.ts`), which is honest and makes the gap visible
+instead of forging approval. Materials ARE translated, because a composition is
+a fact like a reference code, not a voice.
+
+### The archive shrank, and that is a promotion
+
+From nine frames to five. Ghezard, the bag, the pale trousers and the red shirt
+became Creature with pages of their own, so keeping them in the archive as well
+would have shown the same object twice under two different ideas of what it is.
+What remains is what the archive was always for: work with no page of its own.
+
+The import now also DELETES documents it no longer owns, scoped to the `piece-`
+and `archive-` ids it generates. `createOrReplace` writes what is in the plan
+and says nothing about what has left it, which is how those four would otherwise
+have lingered.
+

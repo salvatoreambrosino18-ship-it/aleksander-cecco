@@ -132,6 +132,17 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     class="pt-u13 pb-u8"
   >
     <p class="type-mono text-mono">{t(locale, "madeToMeasureValue")}</p>
+    {/*
+      Two routes out, not one. The index is the shortest path to any Creature:
+      one tap to the index and one more to a piece, which is the two-tap depth
+      the old Shopify site had and this one had lost.
+    */}
+    <a
+      href={localePath(locale, "creature")}
+      class="type-label text-label self-start hover:underline underline-offset-8"
+    >
+      {t(locale, "allCreatures")}
+    </a>
     <a
       href={localePath(locale, "collections")}
       class="type-label text-label self-start hover:underline underline-offset-8"

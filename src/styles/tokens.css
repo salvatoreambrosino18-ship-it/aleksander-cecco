@@ -79,6 +79,14 @@
   */
   --media-h-band: 58svh;
   /*
+    THE SHORT ROW on the Creature index. Paired with --media-h-tall it gives the
+    index an alternating pulse instead of a conveyor of identical rectangles.
+    The gap between the two is deliberately wide enough to feel on a phone
+    (88svh against 62svh) and narrower on desktop, where two frames sit side by
+    side and a big difference would read as a mistake rather than a rhythm.
+  */
+  --media-h-short: 62svh;
+  /*
     THE WORN BAND: the one horizontal region on the site.
 
     Two numbers do the discoverability work, and neither is an arrow or a dot.
@@ -155,6 +163,7 @@
     */
     --worn-w: min(32vw, 26rem);
     --worn-h: 78svh;
+    --media-h-short: 68svh;
   }
 }
 

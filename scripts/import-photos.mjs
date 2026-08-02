@@ -172,6 +172,10 @@ const GARMENTS = [
       ["products/IMG_3476", "Modella con giacca in pelle rossa e pantaloni neri lucidi, braccia incrociate, in laboratorio."],
       ["products/IMG_3475", "La stessa giacca rossa vista di spalle, tra i capi appesi del laboratorio."],
       ["products/IMG_3477", "Modella a figura intera con la giacca in pelle rossa, nel laboratorio."],
+      ["archive/IMG_3479", "La camicia rossa appesa sotto un crocifisso, vista frontale."],
+      ["archive/IMG_3481", "Il retro della camicia rossa, con l'apertura a mandorla fra le scapole."],
+      ["archive/IMG_3478", "Dettaglio della camicia rossa: la manica lunga e l'orlo tagliato a punte."],
+      ["archive/IMG_3480", "La camicia rossa su un manichino, vista ravvicinata."],
     ],
   },
   {
@@ -191,23 +195,148 @@ const GARMENTS = [
       ["products/aa52ef49-6c71-4a9b-b832-24cb5827376d", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul muro."],
       ["products/05b164db-ab89-4d66-bebc-98d8a31ec147", "La stessa uscita in piena luce, con stivali alti."],
       ["products/7682a1f5-5ce2-4527-b02f-d3213bee8af8", "Dettaglio della gonna in pelle nera con orlo a punte, indossata."],
+      ["archive/IMG_0212", "La gonna con la trama di serpente e il top a fascia, in piena luce."],
+    ],
+  },
+
+  /* ================= ADDED 2026-08-02: the rest of the catalogue =================
+
+     The old site carried sixteen products and eight were imported. These are the
+     rest, found by going back through products/ and archive/ frame by frame.
+
+     NAMED where a caption names something visible in the photograph, and left as
+     a marked placeholder where it does not. The reasoning per piece is in
+     DESIGN-PLAN section 39.
+
+     ENGLISH DESCRIPTIONS ARE HIS CAPTIONS, VERBATIM. The Italian is deliberately
+     LEFT EMPTY rather than translated: he approved the Italian of the brand text
+     he was shown, not translations we invent afterwards, and approvedLanguages is
+     global. An empty field shows as missing (see pick in lib/locales.ts), which is
+     the honest outcome and makes the gap visible instead of forging approval.
+  */
+  {
+    // CONFIDENT. Leg warmers are unmistakable: two separate tubes, not joined.
+    id: "piece-glovyes",
+    slug: "glovyes",
+    name: "Glovyes",
+    stage: "tenebrae",
+    files: [
+      ["archive/IMG_0211", "Le ghette in pelle nera appese a una gruccia davanti a una serranda."],
+      ["archive/IMG_0209", "Le due ghette distese sul cemento, con le cinghie incrociate."],
+      ["archive/IMG_0210", "Dettaglio delle fibbie e delle cinghie sulle ghette."],
+      ["archive/IMG_0214", "Le ghette viste da vicino, con le zip lungo il polpaccio."],
+    ],
+  },
+  {
+    /*
+      CONFIDENT, and the evidence is the setting. His caption reads "The Forest
+      Calling. Name of the creature: Styrax", and this is the only frame in the
+      whole set shot in a forest. The composition also matches the other caption,
+      "Handmade Goat Sherling & Leather Top".
+    */
+    id: "piece-styrax",
+    slug: "styrax",
+    name: "Styrax",
+    stage: "tenebrae",
+    materials: {it: "Pelliccia di capra e pelle", en: "Goat shearling and leather"},
+    description: {en: "Handmade Goat Sherling & Leather Top."},
+    files: [
+      ["archive/IMG_0204", "Il top in pelliccia di capra e pelle, indossato, in un bosco di rami spogli."],
+    ],
+  },
+  {
+    /*
+      CONFIDENT. "Goat Shearling featuring a Washed brown Leather" is the only
+      brown piece in the entire set, and the fur lining is visible at the zip.
+    */
+    id: "piece-ghezard",
+    slug: "ghezard",
+    name: "Ghezard",
+    // Brown, so neither tenebrae (black) nor lux (pale). Left unset on purpose.
+    materials: {it: "Pelliccia di capra, pelle marrone lavata", en: "Goat shearling, washed brown leather"},
+    description: {en: "Goat Shearling featuring a Washed brown Leather."},
+    files: [
+      ["archive/IMG_9568", "La giacca in pelle marrone con la fodera in pelliccia, distesa."],
+      ["archive/IMG_9572", "Dettaglio della zip centrale e della pelliccia interna."],
+      ["archive/IMG_9577", "Il retro della giacca marrone, disteso al sole sul cemento."],
+      ["archive/IMG_9592", "La giacca marrone indossata, vista da dietro, con il collo alto."],
+    ],
+  },
+  {
+    /*
+      The only bag in the set, so it is the bag from the price list. The list
+      calls it a snakeskin mini bag and this leather reads as pebbled rather than
+      snake, so the NAME is left as a placeholder for the owner.
+    */
+    id: "piece-borsa",
+    slug: "capo-09",
+    stage: "tenebrae",
+    files: [
+      ["archive/4d8045b4-5497-471d-9725-580a0bf932a3", "La borsa in pelle nera appesa a un ramo con una catena, con la patta sagomata."],
+      ["archive/01323077-3c8b-4f10-bb66-6253bcf1bcb8", "La stessa borsa vista di fronte, con la catena raccolta."],
+    ],
+  },
+  {
+    // Pale, so Lux. Cropped and very wide; which of the owner's names it carries
+    // is his to say (section 39).
+    id: "piece-chiari-corti",
+    slug: "capo-10",
+    stage: "lux",
+    files: [
+      ["archive/IMG_3619", "Pantaloni chiari corti e ampi appesi a una gruccia sotto una croce di ferro."],
+      ["archive/IMG_3625", "Il retro degli stessi pantaloni chiari, con due tasche con zip."],
+      ["homepage/IMG_3463", "Pantaloni chiari in pelle appesi dentro una cornice di metallo nero."],
+      ["homepage/IMG_3464", "Dettaglio della cintura e delle tasche con zip sui pantaloni chiari."],
+    ],
+  },
+  {
+    // Pale and full length, a different length from capo-10, so recorded as a
+    // separate piece rather than merged with it.
+    id: "piece-chiari-lunghi",
+    slug: "capo-11",
+    stage: "lux",
+    files: [
+      ["archive/IMG_3474", "Uomo a figura intera con maglia trasparente e pantaloni chiari molto ampi."],
+      ["archive/IMG_3472", "Gli stessi pantaloni chiari visti di profilo, nel laboratorio."],
+      ["archive/IMG_1902", "Gli stessi pantaloni visti da dietro, mentre cammina nella luce."],
+      ["homepage/IMG_1898", "Uomo di spalle con i pantaloni chiari ampi, in laboratorio."],
+    ],
+  },
+  {
+    id: "piece-top-allacciato",
+    slug: "capo-12",
+    stage: "tenebrae",
+    files: [
+      ["experimental/IMG_3116", "Top in pelle nera con collo alto allacciato, su un manichino, davanti ai cartamodelli."],
+    ],
+  },
+  {
+    id: "piece-gonna-pannelli",
+    slug: "capo-13",
+    stage: "tenebrae",
+    files: [
+      ["archive/IMG_1834", "Capo scuro con cintura in pelle e pannelli di tessuto, appeso a una catena."],
     ],
   },
 ];
 
-// The archive is a SEQUENCE, curated to one frame per piece, and every frame
-// chosen here is at least 2000px on its long edge. The six low-resolution
-// archive files are deliberately left out (see the report).
+/*
+  The archive is a SEQUENCE, one frame per piece, nothing under 2000px on the
+  long edge.
+
+  It SHRANK on 2026-08-02, from nine frames to five, and that is a promotion
+  rather than a loss: Ghezard, the bag, the pale trousers and the red shirt all
+  became Creature with pages of their own, so keeping them here as well would
+  have shown the same object twice under two different ideas of what it is.
+
+  What remains is what it was always for: work with no page of its own.
+*/
 const ARCHIVE = [
-  ["archive/IMG_9568", "Giacca in pelle marrone con collo in pelliccia, distesa."],
-  ["archive/IMG_3480", "Giacca in pelle rossa su un manichino, vista frontale ravvicinata."],
   ["archive/IMG_2235", "Capo in pelle nera aperto e disteso sul cemento, a forma di mantella."],
   ["archive/IMG_2242", "Gilet smanicato in pelle nera disteso sul cemento."],
   ["archive/IMG_2244", "Un secondo gilet in pelle nera disteso sul cemento, visto di sbieco."],
   ["archive/IMG_2229", "Dettaglio di un capo in pelle scura con una zip lunga, disteso."],
   ["archive/IMG_3643", "Pantaloni chiari e gilet appesi insieme davanti a una serranda."],
-  ["archive/IMG_3474", "Uomo a figura intera con maglia e pantaloni chiari, in un laboratorio."],
-  ["archive/01323077-3c8b-4f10-bb66-6253bcf1bcb8", "Borsa in pelle nera appesa a una catena, con patta sagomata."],
 ];
 
 /*
@@ -544,6 +673,15 @@ function mediaObject(assetId, altIt, overlay, key) {
   };
 }
 
+/** One place the archive id is derived, so the writer and the cleanup agree. */
+function archiveId(rel) {
+  return `archive-${path
+    .basename(rel)
+    .replace(/\.[^.]+$/, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")}`;
+}
+
 /* -------------------------------------------------------------------- run */
 
 async function main() {
@@ -653,7 +791,7 @@ async function main() {
   rank = 100000;
   for (const [rel, alt] of ARCHIVE) {
     rank += 1000;
-    const id = `archive-${path.basename(rel).replace(/\.[^.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    const id = archiveId(rel);
     await client.createOrReplace({
       _id: id,
       _type: "archivePiece",
@@ -706,6 +844,34 @@ async function main() {
     approvedLanguages: ["en", "it"],
   });
   console.log("  siteSettings  his words, English and Italian both approved");
+
+  /*
+    STALE DOCUMENTS THIS SCRIPT USED TO OWN.
+
+    createOrReplace writes what is in the plan and says nothing about what has
+    LEFT it. When four archive frames were promoted to Creature on 2026-08-02
+    the old archivePiece documents stayed behind, so the same object would have
+    appeared twice under two different ideas of what it is.
+
+    Scoped deliberately: only ids this script generates, `piece-` and `archive-`.
+    Anything a human made in the studio is not ours to remove.
+  */
+  const planned = new Set([
+    ...GARMENTS.map((g) => g.id),
+    ...ARCHIVE.map(([rel]) => archiveId(rel)),
+  ]);
+  const stale = await client.fetch(
+    `*[_type in ["garment", "archivePiece"] && (_id match "piece-*" || _id match "archive-*")]{_id}`,
+  );
+  const orphans = stale.map((d) => d._id).filter((id) => !planned.has(id));
+  if (orphans.length) {
+    console.log("\nRemoving documents this script no longer owns:");
+    for (const id of orphans) {
+      console.log(`  deleted       ${id}`);
+      await client.delete(id).catch(() => {});
+      await client.delete(`drafts.${id}`).catch(() => {});
+    }
+  }
 
   // The seeded fixtures have done their job now that real work is in.
   for (const id of ["seed-garment-a", "seed-garment-b", "seed-collection-uno"]) {

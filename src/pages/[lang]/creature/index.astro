@@ -1,0 +1,110 @@
+---
+/*
+  THE CREATURE INDEX. Everything, at once.
+
+  This page exists because a founding rule was revised, openly, on 2026-08-02
+  (DESIGN-PLAN section 39). "No thumbnail grid" was OUR rule, derived from the
+  references before there was a real catalogue. With sixteen Creature the site
+  needs one view where many are visible together, and the primary reference
+  itself pairs tiles two across and touching.
+
+  WHAT IT IS NOT: a shop grid. No cards, no borders, no gaps, no shadows, no
+  rounded corners, no prices, no filters, no sort control, no "quick view".
+
+  WHAT IT IS: designed density.
+
+  - TWO PER ROW MAXIMUM on desktop, never three. Three across is the point at
+    which a garment becomes a thumbnail, and the brief has forbidden that from
+    the beginning. One per row on a phone, because half of 390px is not a
+    photograph.
+  - TOUCHING. No gutter at all, the way the reference pairs 720x900 frames with
+    nothing between them. The seam between two Creature is a hard edge, which
+    is the same language as the wipe.
+  - AN ALTERNATING RHYTHM. Rows alternate tall and short, so scrolling the index
+    has a pulse instead of being a conveyor of identical rectangles. That is the
+    difference between density and a spreadsheet.
+  - 11px INSCRIPTIONS, over the frame, in the polarity the owner chose per
+    image. Name and reference code, nothing else. No price: this page is for
+    seeing the work, and a price grid is the shop this site is not.
+
+  The one-per-screen treatment survives on the collection page, which is the
+  narrative. This is where you go to see everything.
+
+  ORDER: tenebrae, then lux, then unassigned, then his own drag order within
+  each group, exactly as the collection page (section 28). Nothing labels it.
+*/
+import Base from "../../../layouts/Base.astro";
+import TextSurface from "../../../components/TextSurface.astro";
+import MediaSurface from "../../../components/MediaSurface.astro";
+import {byStage, getGarments, type Garment} from "../../../lib/content";
+import {LOCALES, localePath, toLocale} from "../../../lib/locales";
+import {overlayTheme} from "../../../lib/media";
+import {imageUrl} from "../../../lib/image";
+import {t} from "../../../i18n/ui";
+
+export async function getStaticPaths() {
+  const garments = await getGarments();
+  return LOCALES.map((lang) => ({params: {lang}, props: {garments}}));
+}
+
+const {garments: unordered} = Astro.props as {garments: Garment[]};
+const locale = toLocale(Astro.params.lang);
+
+const creature = byStage(unordered).filter((g) => g.media?.[0]);
+const first = creature[0]?.media?.[0];
+
+/*
+  The rhythm. Rows alternate tall and short, and it is computed per ROW rather
+  than per Creature so a pair always agrees with itself: two frames side by side
+  at different heights would leave a hole, which is the one thing a page with no
+  gaps cannot have.
+*/
+const rowHeight = (index: number): "tall" | "short" =>
+  Math.floor(index / 2) % 2 === 0 ? "tall" : "short";
+---
+
+<Base
+  locale={locale}
+  title={t(locale, "allCreatures")}
+  chrome={overlayTheme(first?.overlay)}
+  image={first ? imageUrl(first.poster, 1200) : null}
+  theme="dark"
+  footerTheme="dark"
+>
+  {/*
+    The heading sits inside the margins like any text; the frames below run
+    full bleed like any media. It is the only text on the page that is not an
+    inscription over a photograph.
+  */}
+  <TextSurface theme="dark" class="pt-chrome pb-u5">
+    <h1 class="type-label text-label">{t(locale, "allCreatures")}</h1>
+  </TextSurface>
+
+  {
+    creature.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        {creature.map((garment, index) => (
+          <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
+            <MediaSurface
+              media={garment.media![0]}
+              locale={locale}
+              height={rowHeight(index)}
+              priority={index < 2}
+            >
+              <div class="flex flex-col gap-u1">
+                <h2 class="type-label text-label">{garment.name}</h2>
+                {garment.referenceCode && (
+                  <span class="type-mono text-mono">{garment.referenceCode}</span>
+                )}
+              </div>
+            </MediaSurface>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
+        <p class="placeholder-mark self-start">{"{NO_CREATURE_PUBLISHED}"}</p>
+      </TextSurface>
+    )
+  }
+</Base>

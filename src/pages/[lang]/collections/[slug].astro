@@ -149,6 +149,12 @@ const voice = voiceState(settings, locale);
   <TextSurface theme="dark" class="flex flex-col gap-u3 py-u13">
     <p class="type-mono text-mono">{t(locale, "madeToMeasureValue")}</p>
     <a
+      href={localePath(locale, "creature")}
+      class="type-label text-label self-start hover:underline underline-offset-8"
+    >
+      {t(locale, "allCreatures")}
+    </a>
+    <a
       href={localePath(locale, "contact")}
       class="type-label text-label self-start hover:underline underline-offset-8"
     >

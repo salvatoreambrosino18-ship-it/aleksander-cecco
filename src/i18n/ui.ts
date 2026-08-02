@@ -14,6 +14,7 @@ const ui = {
     close: "Chiudi",
     languageLabel: "Lingua",
     collections: "Collezioni",
+    allCreatures: "Tutte le Creature",
     archive: "Archivio",
     about: "Chi siamo",
     contact: "Contatti",
@@ -76,6 +77,7 @@ const ui = {
     close: "Close",
     languageLabel: "Language",
     collections: "Collections",
+    allCreatures: "All Creature",
     archive: "Archive",
     about: "About",
     contact: "Contact",
@@ -126,12 +128,13 @@ export function t(locale: Locale, key: UIKey): string {
 }
 
 /*
-  The menu destinations. Deliberately three, not four: the wireframe in
-  DESIGN-PLAN section 4 lists a "Capi" (all garments) entry, but no such page
-  exists in the page list, and linking a menu at a page that was never planned
-  is how dead ends get built. Add it here the day that page exists.
+  The menu destinations. The "all Creature" entry that DESIGN-PLAN section 4
+  always wanted is here now, because as of 2026-08-02 the page it points at
+  exists: with sixteen Creature the catalogue needs a view of everything, and
+  the rule against linking a menu at a page that was never built still holds.
 */
 export const MENU_DESTINATIONS = [
+  {key: "allCreatures", path: "creature"},
   {key: "collections", path: "collections"},
   {key: "archive", path: "archive"},
   {key: "about", path: "about"},
