@@ -1296,3 +1296,51 @@ publish. The hook URL is a secret: it goes in `.env` as
 If it leaks, delete the hook and create another; the only damage is unwanted
 builds against the 500 a month.
 
+### Deployment verified live, 2026-08-02
+
+Live at https://aleksander-cecco.pages.dev on the free tier, pages.dev
+subdomain, no custom domain.
+
+Working, checked against the deployed site rather than locally:
+
+- Both languages: `/it/` and `/en/` render, `lang` attributes correct, canonical
+  and hreflang all pointing at the pages.dev origin, so PUBLIC_SITE_URL is set
+  correctly in Cloudflare.
+- A garment page loads its photographs from the Sanity CDN in the deployed
+  build: `srcset` offers six widths from 640 to 2560, every one returns 200, and
+  the page renders them in a real browser at 390px with no horizontal overflow.
+- Both noindex locks are live: `X-Robots-Tag: noindex, nofollow` on every
+  response, including robots.txt, the sitemap and the fonts, plus the meta tag
+  in every page.
+- robots.txt is served, allows crawling on purpose, and does NOT advertise the
+  sitemap. The sitemap itself exists with 14 URLs, 7 pages in each language.
+- The custom 404 answers with a real 404 status.
+- Fonts carry the immutable cache header.
+- The bare root now answers a real 301 to /it via `_redirects`.
+
+BROKEN, and it needs the owner: PUBLISHING IN SANITY DOES NOT REBUILD THE SITE.
+
+Evidence, in order:
+
+1. A field was published in Sanity. Six minutes later the live site was
+   unchanged.
+2. A git push to `main` put the same change live in about 40 seconds, so the
+   build pipeline, the git trigger and the build-time Sanity fetch all work.
+3. The field was restored in Sanity. Five more minutes with no push, and the
+   live site still showed the old value.
+
+So the failing link is the trigger, not the build. Two things to check, and the
+first one is almost certainly it:
+
+- `CLOUDFLARE_DEPLOY_HOOK_URL` is EMPTY in `.env`. The key is there, the value
+  never landed. If the same paste went missing when the Sanity webhook was
+  configured, the webhook is pointing at nothing.
+- In sanity.io/manage > API > Webhooks: the hook must be enabled, on dataset
+  `production`, HTTP method POST, triggering on create, update AND delete, with
+  no filter. Its delivery log shows the response code for each attempt, which
+  says immediately whether it is firing and being refused, or not firing at all.
+
+The check can be re-run at any time with `node scripts/verify-webhook.mjs`. It
+publishes a marker, watches the live site, restores the field, and never reads
+or prints the hook URL.
+
