@@ -84,9 +84,27 @@ const client = createClient({
   ON PURPOSE. Filling them all with "vegetable-tanned" would just be a new
   generic line, asserted about pieces nobody has verified.
 */
+/*
+  STAGE ASSIGNMENT, and the limit of it. The owner's division is by MATERIAL AND
+  COLOUR: Tenebrae is the black washed veg tan work, Lux the pale pieces.
+
+  Colour is directly observable in our frames and every imported Creature except
+  Rubedo is black, so none of them can be Lux under his own definition. Tannage
+  is NOT observable, so "tenebrae" here is assigned on the half of the criterion
+  that can be seen, and he should confirm the other half when he names them.
+
+  Rubedo is deliberately left UNSET. It is named for a third alchemical stage
+  that the collection title does not include, and forcing it into one of two
+  would be a guess. The gap asks the question.
+
+  No Lux Creature has been imported yet, which is itself worth knowing: the pale
+  pieces exist in the photography (the arrival frame, the cream trousers on
+  model) but none of them is a garment document.
+*/
 const GARMENTS = [
   {
     id: "piece-camicia-pelle-nera",
+    stage: "tenebrae",
     slug: "capo-01",
     files: [
       ["products/0d454a66-7c17-4d8d-a6f0-9872225ab82b", "Camicia in pelle nera stropicciata, vista frontale, appesa a un muro di cemento chiaro."],
@@ -95,6 +113,7 @@ const GARMENTS = [
   },
   {
     id: "piece-giacca-orlo-smerlato",
+    stage: "tenebrae",
     slug: "capo-02",
     files: [
       ["products/IMG_3451", "Giacca in pelle nera con orlo a punte, vista frontale, appesa davanti a una serranda metallica."],
@@ -108,16 +127,19 @@ const GARMENTS = [
   },
   {
     id: "piece-gilet-zip",
+    stage: "tenebrae",
     slug: "capo-03",
     files: [["products/IMG_3465", "Gilet in pelle nera con zip centrale, appeso a una gruccia davanti a una serranda."]],
   },
   {
     id: "piece-top-leggero",
+    stage: "tenebrae",
     slug: "capo-04",
     files: [["products/IMG_3466", "Top nero leggero e trasparente, tenuto in mano davanti a un muro di cemento."]],
   },
   {
     id: "piece-pelle-drappeggiata",
+    stage: "tenebrae",
     slug: "capo-05",
     files: [
       ["products/IMG_3467", "Capo in pelle nera appeso a una parete di cemento, sotto una croce di metallo."],
@@ -147,6 +169,7 @@ const GARMENTS = [
   },
   {
     id: "piece-pantaloni-pelle",
+    stage: "tenebrae",
     slug: "capo-07",
     files: [
       ["products/IMG_3691", "Pantaloni ampi in pelle nera, vista frontale, con zip a vista e orlo grezzo."],
@@ -155,6 +178,7 @@ const GARMENTS = [
   },
   {
     id: "piece-completo-fascia-gonna",
+    stage: "tenebrae",
     slug: "capo-08",
     files: [
       ["products/aa52ef49-6c71-4a9b-b832-24cb5827376d", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul muro."],
@@ -310,27 +334,38 @@ const OWNER_EN = {
   openingLine: "Living textures.",
 };
 
-/** Our translation of the above. Marked on the site until he approves it. */
+/*
+  ITALIAN, SUPPLIED AND AUTHORISED 2026-08-02. This is no longer our draft: the
+  owner authorised the translation on the condition it stays faithful rather
+  than adapted, and this is the text that came back. It replaces ours word for
+  word, including the places where his differs from what we had written
+  ("texture viventi" not "texture vive", "indossate sul corpo" not "portate sul
+  corpo", "in cui" not "dove", "Su Misura" capitalised as he capitalises it).
+
+  Consequence: approvedLanguages becomes ["en", "it"] and every translation mark
+  on brand copy disappears from the site. What stays marked is the copy WE wrote,
+  which is now only the two footer lines and the shipping and returns text.
+*/
 const OWNER_IT = {
   brand: [
-    "Aleksander Cecco nasce per raccontare ciò che si sta lentamente dimenticando: la natura e le sue forme imprevedibili, le sue texture, la sua perfezione imperfetta.",
+    "Aleksander Cecco nasce per raccontare ciò che lentamente si sta dimenticando: la natura e le sue forme imprevedibili, le sue texture, la sua perfezione imperfetta.",
     "Il progetto vive tra alchimia, esoterismo e il legame primordiale tra essere umano e natura.",
   ].join("\n"),
   creature: [
     'Chiamiamo i nostri pezzi "Creature" perché per noi sono vive.',
-    "Texture vive. Entità con un respiro proprio, nate dalla terra e portate sul corpo.",
+    "Texture viventi. Entità con un respiro proprio, nate dalla terra e indossate sul corpo.",
   ].join("\n"),
   collection: [
     "Presentiamo MONUMENTUS: Tenebrae & Lux.",
-    "Nigredo e Albedo esplorati come texture vive.",
-    "I capi sono entità alchemiche dove decomposizione e purificazione si incontrano.",
+    "Nigredo e Albedo esplorati come texture viventi.",
+    "I capi sono entità alchemiche in cui decomposizione e purificazione si incontrano.",
   ].join("\n"),
   making: [
-    "In pelle 100% conciata al vegetale, su misura, fatta a mano nel Sud Italia. Ogni processo è artigianale.",
+    "In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia. Ogni processo è artigianale.",
     "Un lavoro di ripetizione, pazienza e precisione.",
     "È questo che rende ogni pezzo simile, ma mai identico.",
   ].join("\n"),
-  openingLine: "Texture vive.",
+  openingLine: "Texture viventi.",
 };
 
 /** The complete text, his order, nothing cut. The about page shows this. */
@@ -347,6 +382,20 @@ const ABOUT_TEXT = {
   used anywhere: his text says South Italy and the owner has not confirmed the
   city.
 */
+/*
+  Shipping and returns, written by US in his register: short, declarative, no
+  hedging and no apology. The fact the owner gave is that returns are accepted
+  and the customer pays the return shipping, so that is exactly what it says and
+  nothing more. No window, no conditions, no "please note": none of that has
+  been agreed and inventing it would be inventing policy.
+
+  Ours, so it stays marked as an unapproved draft in BOTH languages.
+*/
+const SHIPPING_RETURNS = {
+  it: "Spedito in tutto il mondo.\nResi accettati. La spedizione di reso è a carico del cliente.",
+  en: "Shipped worldwide.\nReturns accepted. The customer pays the return shipping.",
+};
+
 const FOOTER_COPY = {
   // Tightened 2026-08-02 into his register: he drops the subject and states the
   // fact. "Handmade." not "we handmake". "Made to Measure." not "we offer".
@@ -553,7 +602,7 @@ async function main() {
       slug: {_type: "slug", current: g.slug},
       referenceCode: "{REF_CODE}",
       collection: {_type: "reference", _ref: COLLECTION_ID},
-      category: "donna",
+      stage: g.stage ?? null,
       currency: "EUR",
       /*
         Composition per Creature, or nothing. The old "100% Italian leather"
@@ -623,12 +672,14 @@ async function main() {
     // Ours, and still drafts in both languages.
     footerShipping: {_type: "localeText", ...FOOTER_COPY.footerShipping},
     footerOrigin: {_type: "localeText", ...FOOTER_COPY.footerOrigin},
+    shippingReturns: {_type: "localeText", ...SHIPPING_RETURNS},
     footerCopyIsDraft: true,
 
-    // He wrote in English. Italian is our translation until he says otherwise.
-    approvedLanguages: ["en"],
+    // BOTH now. He wrote the English and authorised the Italian above, so no
+    // brand copy on the site is an unapproved translation any more.
+    approvedLanguages: ["en", "it"],
   });
-  console.log("  siteSettings  his words (en approved, it marked as translation)");
+  console.log("  siteSettings  his words, English and Italian both approved");
 
   // The seeded fixtures have done their job now that real work is in.
   for (const id of ["seed-garment-a", "seed-garment-b", "seed-collection-uno"]) {

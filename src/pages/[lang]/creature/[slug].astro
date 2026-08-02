@@ -54,11 +54,6 @@ const availabilityLabel = {
   notOffered: t(locale, "notTakingRequests"),
 }[availability] ?? t(locale, "madeToOrder");
 
-// Category values are controlled ("uomo" / "donna"). Whether the English
-// catalogue translates them is still an open question in the plan's
-// need-from-you list, so the stored value is shown as it is, in both locales.
-const category = garment.category;
-
 const price =
   typeof garment.price === "number"
     ? new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
@@ -95,9 +90,13 @@ const inscription: Array<{text: string | null; token: string}> = [
   no sizes they are the ONLY way to judge cut and proportion (section 17) and
   hiding them behind a click would be the wrong kind of restraint.
 
-  This block is sized to shrink. Category and price are here only until the
-  owner rules on them (section 25 flags 3 and 4); the evidence for both points
-  at removal, and when that lands this becomes measurements alone.
+  Category is GONE (2026-08-02): the owner confirmed that Uomo/Donna
+  contradicted his own words about Armonyen. What replaced it, the tenebrae/lux
+  stage, is deliberately not printed here: it is already inside the names he
+  gives his Creature, and a page that also printed "Stage: Tenebrae" would be
+  the site explaining itself. It drives the collection page's order instead.
+
+  Price STAYS: the owner confirmed prices are visible on the site.
 */
 const subordinate: Array<{term: string; value: string | null; placeholder?: string}> = [
   {
@@ -106,7 +105,6 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       ? [garment.collection.name, garment.collection.season].filter(Boolean).join("  /  ")
       : null,
   },
-  {term: t(locale, "category"), value: category},
   {
     term: t(locale, "referenceMeasurements"),
     value: garment.measurements,

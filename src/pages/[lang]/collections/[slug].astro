@@ -32,6 +32,7 @@ import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
 import Statement from "../../../components/Statement.astro";
 import {
+  byStage,
   getCollections,
   getGarmentsInCollection,
   getSiteSettings,
@@ -61,7 +62,23 @@ export async function getStaticPaths() {
   );
 }
 
-const {collection, garments} = Astro.props as {collection: Collection; garments: Garment[]};
+const {collection, garments: unordered} = Astro.props as {
+  collection: Collection;
+  garments: Garment[];
+};
+
+/*
+  THE CATALOGUE DIVISION (2026-08-02, confirmed by the owner). Tenebrae, the
+  black washed veg tan work, then Lux, the pale pieces. Nothing announces it:
+  there is no heading, no divider and no label. The reader meets the black
+  Creature and then the pale ones, and feels the division the same way the wipe
+  is felt (DESIGN-PLAN section 28).
+
+  And no wipe here. The home page performs the inversion once per journey; this
+  page ordering itself darkness-then-light is the same idea already, and adding
+  a second inversion on top would turn a structure into a mannerism.
+*/
+const garments = byStage(unordered);
 const locale = toLocale(Astro.params.lang);
 const statement = pick(collection.statement, locale);
 // The statement is the owner's own text, so the only question is the language.

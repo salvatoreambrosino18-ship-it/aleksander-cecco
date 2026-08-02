@@ -2456,3 +2456,240 @@ WHAT WOULD NOT CHANGE: the interface says none of this. There is no stage label
 on a Creature page, no "Tenebrae" heading, no explanation. If the division is
 real a reader feels it in the photographs and in the order, exactly as with the
 wipe, and is never told.
+
+---
+
+## 28. The owner's decisions, applied (2026-08-02)
+
+### The catalogue divides by stage, and Uomo/Donna is gone
+
+Confirmed by the owner: Tenebrae is the black washed veg tan work, Lux the pale
+pieces. `garment.stage` replaces `garment.category`, which his own Armonyen
+caption contradicted ("designed for both him and her").
+
+WHAT THE STAGE DOES: it orders the collection page, tenebrae then lux, then
+anything unassigned, keeping his drag order inside each group (`byStage` in
+`src/lib/content.ts`).
+
+WHAT IT DOES NOT DO: appear anywhere as a label. The stage is already inside the
+names he gives his Creature, "Monumentus Tenebrae tibia cut pants", so a page
+that also printed "Stage: Tenebrae" would be the site explaining itself. A
+reader meets the black Creature and then the pale ones and feels the division,
+exactly as with the wipe. No heading, no divider, no legend.
+
+AND NO WIPE ON THE COLLECTION PAGE. A page that orders itself darkness then
+light is already the same idea; a second inversion on top of it would turn a
+structure into a mannerism. Section 22's second condition holds.
+
+ASSIGNMENT, and its limit. His criterion is material AND colour. Colour is
+observable in our frames and every imported Creature except Rubedo is black, so
+none can be Lux under his own definition; all seven are marked tenebrae. Tannage
+is NOT observable, so half the criterion is assumed and he should confirm it
+when he names them.
+
+**Rubedo is deliberately unassigned.** It is named for a third alchemical stage
+the collection title does not include, and forcing it into one of two would be a
+guess. It sorts last and the gap asks the question.
+
+**No Lux Creature exists as a document.** The pale pieces are in the photography
+(the arrival frame, the cream trousers on model) but none of them has been
+imported as a garment, so the Lux half of the catalogue is currently empty.
+
+### Italian is his now
+
+He authorised the translation on condition it stays faithful rather than
+adapted, and supplied the text. It replaced ours word for word, including where
+his differs: "texture viventi" not "texture vive", "indossate sul corpo" not
+"portate sul corpo", "in cui" not "dove", "Su Misura" capitalised as he
+capitalises it.
+
+`approvedLanguages` is now `["en", "it"]`. Every translation mark on brand copy
+is gone from the site. What is still marked is copy WE wrote, which is now only
+the two footer lines and the shipping and returns text.
+
+### Shipping and returns
+
+Written by us in his register, and marked as ours in both languages. It carries
+his two facts and nothing else:
+
+> Shipped worldwide.
+> Returns accepted. The customer pays the return shipping.
+
+No window, no conditions, no "please note". None of that has been agreed, and
+inventing policy is worse than inventing copy.
+
+### Settled and needing nothing further
+
+- **Prices are visible on the site.** The price field stays. Nothing was added
+  to it: every Creature still shows the `{PRICE_EUR}` placeholder.
+- **No credits section.** The creative team stays on Instagram. The question
+  raised in section 24 is closed.
+- **Creature names** stay marked placeholders. He will assign them himself.
+
+---
+
+## 29. The domain switch, prepared (aleksandercecco.com)
+
+Approved and being bought. Nothing below is done yet: it is the order to do it
+in once DNS is live, written now so it is not reconstructed under pressure.
+
+**1. Point the domain at Cloudflare Pages.**
+Pages project, Custom domains, add `aleksandercecco.com` and `www`. Cloudflare
+will either take over the nameservers or ask for a CNAME, depending on where it
+is registered. Then change `PUBLIC_SITE_URL` to `https://aleksandercecco.com` in
+the production environment variables and REDEPLOY, because that value feeds the
+canonical links, the hreflang pair, Open Graph and the sitemap, and all four are
+baked in at build time.
+
+**2. Verify the sending domain in Resend.**
+Resend, Domains, add `aleksandercecco.com`, then add the DNS records it hands
+back: SPF as TXT, DKIM as TXT or CNAME, and DMARC if wanted. All free, all on
+the same zone. Wait for the domain to read verified before going on.
+
+**3. Set the three secrets and redeploy.**
+`RESEND_API_KEY`, `RESEND_FROM` (an address at the verified domain), and
+`ENQUIRY_TO_EMAIL`, on the production branch, encrypted. THEN REDEPLOY: Pages
+Functions pick up new secrets only on a new deployment, which cost a deploy to
+learn once already (commit 6ae60b1). Until all three are set the form answers
+503 and says sending is not switched on, which is deliberate.
+
+**4. Replace the placeholder address and test end to end.**
+`siteSettings.contactEmail` is still `info@example.com` and the studio warns
+about it. Put the real address in, then submit the form on the live site and
+confirm three things: the enquiry arrives, the reply-to is the visitor rather
+than the brand, and the confirmation page says the right thing in both
+languages.
+
+STILL OUTSTANDING AFTERWARDS, and not part of this switch:
+
+- `{REPLY_WINDOW}` is unset, so the confirmation names no timing.
+- The two noindex locks stay until launch. They are section 16 and are
+  deliberately separate from the domain move.
+
+---
+
+## 30. The old price list, analysed (2026-08-02)
+
+Analysis only. Nothing was priced on the site; every Creature still shows
+`{PRICE_EUR}`.
+
+### The conversion arithmetic
+
+The list is converted, not chosen. **The rate is 1.18, not 1.086.**
+
+At 1.18, seven of the thirteen figures come back as EXACT round euro prices:
+150, 250, 250, 250, 250, 300, 350, 350, 450. The rest land within 1.3 euro of a
+round figure, and the drift in the implied rate (1.1783 to 1.1840) is what
+automatic conversion looks like when prices are fetched at slightly different
+moments.
+
+The clincher is not the roundness but the STEP: the recovered set is
+
+`125, 150, 175, 250, 300, 350, 450, 675, 875`
+
+and every one of those is a multiple of 25. A person choosing prices lands on
+multiples of 25. A currency conversion does not produce a set that is uniformly
+divisible by 25 after you divide it back out.
+
+At 1.086 nothing lands: the worst figure is 12 euro from any round number, and
+no multiple-of-25 structure appears at all.
+
+So the hypothesis is right and the rate is wrong. The dollar figures are also
+stale by however far the rate has moved since, which is a second reason not to
+carry them anywhere.
+
+| Creature | USD shown | EUR chosen |
+| --- | --- | --- |
+| leather hat | 148 | 125 |
+| snakeskin mini bag | 177 | 150 |
+| patchwork tibia cut pants | 207 | 175 |
+| Glovyes leg warmers | 295 | 250 |
+| Styrax top, red fox fur | 295 | 250 |
+| Styrax top, goat shearling | 295 | 250 |
+| Severya python skirt | 295 | 250 |
+| Tenebrae scraps vest | 354 | 300 |
+| Tomar shorts | 413 | 350 |
+| Aleya bootcut pants | 413 | 350 |
+| Armonyen shirt | 531 | 450 |
+| Monumentus Tenebrae tibia cut pants | 796 | 675 |
+| Tenebrae leather pants | 1031 | 875 |
+| Lux leather pants | 1031 | 875 |
+
+### The list is also identification evidence
+
+Worth handing to the owner alongside the ambiguity table in section 24:
+
+- There are **two different tibia cut pieces**, a patchwork one and a Monumentus
+  Tenebrae one. That may resolve the two-pairs-of-black-trousers ambiguity.
+- **Tenebrae leather pants and Lux leather pants both exist**, which independently
+  confirms the stage division and confirms pale leather trousers are a Creature.
+- **Styrax is a top in goat shearling.** This sharpens the open question in
+  section 27: our `IMG_0206` and `IMG_0208` are black shearling with a leather
+  collar, and if they are Styrax then the making section is built on a finished
+  Creature rather than raw material.
+- **Severya is python**, matching the scaled skirt in `capo-08`.
+- Names not seen before: **Glovyes**, **Aleya**, and Tomar as SHORTS.
+
+### Where the list is internally inconsistent
+
+1. **The same cut spans 175 to 675 euro.** Patchwork tibia cut at 175, Monumentus
+   Tenebrae tibia cut at 675, nearly four times. If "tibia cut" names the hem and
+   nothing else, then the cut is not what is priced and the material and labour
+   are, which is fine but means the name carries no price information. The
+   suspicious end is the CHEAP one: 175 euro is less than the scraps vest at 300,
+   and trousers are more work than a vest by any measure. Something is wrong with
+   175, not with 675.
+2. **Styrax costs the same in red fox fur and in goat shearling.** Those raw
+   materials are not remotely comparable in cost. Either the price tracks the
+   pattern and the labour only, in which case the material precision in his
+   captions is decorative rather than commercial, or the fur version is
+   underpriced. It cannot be both.
+3. **Exotic material is priced like ordinary material.** A python skirt at 250
+   sits at exactly the same price as leg warmers. Snakeskin bag at 150.
+4. **Tenebrae and Lux leather pants both at 875 is the one coherent entry** and
+   is worth keeping: same pattern, same labour, two finishes, one price. That is
+   a rule, and it is the only one in the list.
+5. **Rubedo is absent.** The 1/1 private order is not on it at all, so the list
+   cannot express the availability model the site now has. A private commission
+   is not priced from a catalogue.
+6. **The deepest problem: it prices garments as if they were stock.** Everything
+   is made to measure by one person. A flat catalogue price ignores that the
+   binding constraint is his hours, not his materials, and that his capacity is
+   fixed. At 175 euro, handmade leather trousers imply an hourly rate below
+   minimum wage unless they take under two hours, which they do not.
+
+### What a coherent structure would look like
+
+1. **Price from time and material, then round.** Hours times the rate he is
+   willing to work for, plus material at yield, plus a remake allowance. That is
+   the only defensible floor, and everything else is positioning on top of it.
+2. **Tier by construction, not by garment type.** Accessories, then single-panel
+   garments, then constructed garments, then tailored ones with collars, cuffs
+   and plackets. His own list already half does this: the shirt is top.
+3. **Material as a modifier on the tier, not baked into one number.** Same
+   Creature, different hide, different price. This is what makes the material
+   precision in his captions mean something commercially instead of decoratively.
+4. **Decide made-to-measure explicitly.** Either the base price includes it or it
+   is a stated supplement. Right now it is neither, which means it is absorbed
+   invisibly and unevenly.
+5. **Three availability states need three price behaviours.** Made to order gets
+   a price; unique gets a price that WAS, or none; private order gets no public
+   price at all. The site already models the states, so the prices have to match
+   or a 1/1 will show a catalogue figure for something nobody can buy.
+6. **One currency, EUR.** He is in Italy, invoicing in euro, selling by enquiry.
+   There is no checkout that needs a local price, and automatic conversion is
+   precisely the artefact diagnosed above. Let the visitor's bank convert.
+
+### What he would have to supply to price properly
+
+1. Rough hours for three representative Creature: a shirt, a pair of trousers,
+   an accessory.
+2. The hourly rate he wants for his own time.
+3. Material cost per hide or skin, and how many Creature come out of one.
+4. Whether anything on the old list actually SOLD at those numbers, or whether
+   they were aspirational.
+5. Whether made to measure is included or supplementary.
+6. What a 1/1 or a private commission is priced on.
+7. Whether the fox fur and goat shearling parity on Styrax was deliberate.
+8. Which of the thirteen still exist as offerable Creature, since only eight
+   garments are imported and the names do not all line up.

@@ -143,7 +143,8 @@ export type Garment = {
   name: string;
   slug: string;
   referenceCode: string | null;
-  category: string | null;
+  /** tenebrae | lux, or null. Drives catalogue ORDER, never a visible label. */
+  stage: string | null;
   price: number | null;
   currency: string | null;
   materials: LocaleField;
@@ -160,7 +161,7 @@ const GARMENT_PROJECTION = /* groq */ `
   name,
   "slug": slug.current,
   referenceCode,
-  category,
+  stage,
   price,
   currency,
   materials,
@@ -224,6 +225,25 @@ export async function getGarmentsInCollection(slug: string): Promise<Garment[]> 
     {slug},
     [],
   );
+}
+
+/*
+  Catalogue order: tenebrae, then lux, then anything unassigned, and the owner's
+  own drag order within each group. This is what "the catalogue divides by
+  material and colour" means in practice (DESIGN-PLAN section 28). It is done
+  here rather than in GROQ so the sequence lives next to the type that defines
+  it, and so an unassigned Creature sorts last instead of vanishing.
+*/
+const STAGE_ORDER = ["tenebrae", "lux"];
+
+export function byStage<T extends {stage: string | null}>(items: T[]): T[] {
+  const rank = (item: T) => {
+    const index = STAGE_ORDER.indexOf(item.stage ?? "");
+    return index === -1 ? STAGE_ORDER.length : index;
+  };
+  // Stable: Array.prototype.sort is stable, so the owner's drag order survives
+  // inside each group.
+  return [...items].sort((a, b) => rank(a) - rank(b));
 }
 
 /** The archive, in the owner's order. A sequence, not a catalogue. */

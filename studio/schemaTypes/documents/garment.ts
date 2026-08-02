@@ -32,19 +32,36 @@ export const garment = defineType({
       to: [{type: 'collection'}],
       validation: (Rule) => Rule.required(),
     }),
+    /*
+      THE STAGE (2026-08-02). The catalogue divides by material and colour, and
+      the division is the owner's, confirmed: Tenebrae is the black washed veg
+      tan work, Lux the pale pieces. It replaces the Uomo/Donna category, which
+      his own Armonyen caption contradicted ("designed for both him and her").
+
+      It is deliberately NOT shown as a label on a Creature page. The stage is
+      already inside the names he gives them, "Monumentus Tenebrae tibia cut",
+      and a page that also printed "Stage: Tenebrae" would be the site
+      explaining itself. What it drives is ORDER: the collection page groups
+      tenebrae then lux, and a reader feels the division without being told it
+      (DESIGN-PLAN section 28).
+
+      Optional on purpose. Rubedo is named for a third alchemical stage the
+      collection title does not include, so it is left unset rather than forced
+      into one of two, and the gap asks the question instead of hiding it.
+    */
     defineField({
-      name: 'category',
-      title: 'Categoria / Category',
+      name: 'stage',
+      title: 'Tenebrae o Lux / Tenebrae or Lux',
       type: 'string',
-      description: 'Usata per filtrare il catalogo. / Used to filter the catalogue.',
       options: {
         list: [
-          {title: 'Uomo', value: 'uomo'},
-          {title: 'Donna', value: 'donna'},
+          {title: 'Tenebrae (pelle nera lavata / black washed veg tan)', value: 'tenebrae'},
+          {title: 'Lux (pezzi chiari / the pale pieces)', value: 'lux'},
         ],
         layout: 'radio',
       },
-      validation: (Rule) => Rule.required(),
+      description:
+        "Divide il catalogo per materiale e colore. Lasciare vuoto se la Creatura non appartiene a nessuno dei due. / Divides the catalogue by material and colour. Leave empty when the Creature belongs to neither.",
     }),
     defineField({
       name: 'price',

@@ -10,6 +10,7 @@ import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import {getSiteSettings, isPlaceholderEmail, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
+import {isMarked, voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
 
 export function getStaticPaths() {
@@ -29,6 +30,15 @@ const emailIsPlaceholder = isPlaceholderEmail(email);
 
 const shipping = pick(settings.shippingReturns, locale);
 const shippingIsPlaceholder = isPlaceholderText(shipping);
+
+/*
+  The shipping and returns text is OURS, not his, so it is a draft in every
+  language rather than a translation, and it says so. The two facts in it are
+  the owner's (worldwide, customer pays return shipping); the wording is not.
+*/
+const voice = voiceState(settings, locale, Boolean(settings.footerCopyIsDraft));
+const shippingIsMarked = isMarked(voice) && Boolean(shipping) && !shippingIsPlaceholder;
+const notice = voice === "translation" ? "translationNotice" : "draftNotice";
 ---
 
 <Base locale={locale} title={t(locale, "contact")}>
@@ -69,9 +79,17 @@ const shippingIsPlaceholder = isPlaceholderText(shipping);
 
     <div class="flex flex-col gap-u2">
       <h2 class="type-label text-label">{t(locale, "shippingReturns")}</h2>
+      {shippingIsMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
       {
         shipping && !shippingIsPlaceholder ? (
-          <p class="type-body text-body max-w-prose whitespace-pre-line">{shipping}</p>
+          <p
+            class:list={[
+              "type-body text-body max-w-prose whitespace-pre-line",
+              shippingIsMarked && "draft-text",
+            ]}
+          >
+            {shipping}
+          </p>
         ) : (
           <p class="placeholder-mark self-start">{shipping ?? "{SHIPPING_RETURNS}"}</p>
         )
