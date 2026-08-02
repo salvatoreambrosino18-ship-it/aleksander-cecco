@@ -194,10 +194,14 @@
     display: none;
   }
   .menu[open] > summary {
-    /* becomes the close control, above the panel, while the panel is open */
+    /*
+      Becomes the close control while the panel is open, and stays exactly where
+      the MENU label was: top left, beside the signature. Nothing jumps across
+      the screen between opening and closing.
+    */
     position: fixed;
     top: var(--s-u3);
-    right: var(--margin);
+    left: calc(var(--margin) + var(--sig-corner-w) + var(--s-u3));
     z-index: 20;
   }
   .menu[open] .menu-when-closed {

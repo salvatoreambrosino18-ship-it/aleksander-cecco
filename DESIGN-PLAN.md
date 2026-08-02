@@ -969,10 +969,11 @@ keeps this site from being a pastiche of the three: the signature already exists
 in both polarities, the inversion is the one structural idea the site owns, and
 the palette is what makes the result this brand's rather than a copy of anyone.
 
-### Verification finding: the chrome cannot always stay legible (2026-08-02)
+### Verification finding: chrome legibility (2026-08-02, RESOLVED)
 
 Found while checking the built pages against the brand's own photographs, and
-recorded rather than papered over.
+recorded rather than papered over. RESOLVED the same day by the owner's
+decision, recorded at the end of this subsection.
 
 The fixed chrome (signature top left, MENU top right) floats over full-bleed
 photography and takes its polarity from the image beneath it. One polarity value
@@ -989,18 +990,31 @@ per image is not always enough, for two reasons:
    is weak. The seeded set shows this on `/collections` and the collection page
    at 1440px: the signature reads well, MENU is marginal.
 
-Options, none applied, because this is a design decision for the owner:
+RESOLUTION (owner, 2026-08-02): MENU moves next to the signature, both top
+left. The two marks now share one small local background, so a single polarity
+value is always right for both, and the defect is removed rather than worked
+around. The rejected alternatives are kept here because they explain why this
+one was chosen: accepting a marginal MENU on some frames; putting the chrome on
+a flat band of page colour, which reintroduces the persistent bar the direction
+removed; or suppressing chrome over hostile frames, which needs a rule for where
+the chrome goes instead.
 
-- Move MENU next to the signature, both top left. They then share one local
-  background and one polarity is always right for both. Cheapest, and it is a
-  layout change of a few lines.
-- Accept it: choose the polarity for the signature, which is the mark that
-  matters, and let MENU be marginal on some frames.
-- Put the chrome on a flat band of page colour. Legible everywhere, but it
-  reintroduces the persistent bar the direction removed.
-- Caption placement already solves the equivalent problem lower down the frame,
-  and could be extended: an image whose top band is hostile could simply not
-  carry chrome. That needs a rule for where the chrome goes instead.
+Measured effect of the move, across all nine seeded frames: the weakest chrome
+contrast rises from about 2.4, which is unreadable, to 5.51. One overlay value
+changed as a result (IMG_2378, back to paper), because the corner the marks
+occupy is dark leather even though the full width of that band is not.
+
+A second benefit, not the reason for the move but worth recording: the caption
+sits bottom left and the marks now sit top left, so both live in the same column
+of the frame. One overlay value is therefore far more likely to serve both. The
+two-band conflict is not gone in principle. Nothing in this set trips it now.
+
+WHAT REMAINS, and it is inherent to putting any mark over photography: the
+signature is a wide mark and can still straddle a boundary inside its own
+corner. On the collection cover at 390px the tail of the mark crosses onto the
+pale mannequin and goes faint. Three levers exist and all belong to the owner:
+choose the other polarity for that frame, move the image hotspot in the studio
+so the crop puts an even area under the marks, or accept it.
 
 ### Decisions confirmed by the owner (2026-08-01)
 
@@ -1052,7 +1066,7 @@ you scroll, and the story appears." Rendered and measured like the others.
 Weighting: consulted for narrative order only. On type, palette, chrome and the
 treatment of pieces it is further from this brand than Sorcinelli or Rick Owens.
 
-### The home sequence question (OPEN, for the owner, 2026-08-02)
+### The home sequence question (OPEN, DEFERRED 2026-08-02)
 
 Our home opens on the signature in emptiness and only then reaches a photograph.
 Sellam opens on the photograph. The owner sent Sellam as a model, so this is a
@@ -1060,6 +1074,14 @@ real divergence and it is the owner's call, not a technical one. Both options,
 with the tradeoff, are in the report accompanying this revision. The build keeps
 the home page as a plain sequence of sibling blocks precisely so that reordering
 it is a move, not a rewrite.
+
+DEFERRED 2026-08-02, deliberately and not by oversight: the brand owner is to
+see the current version, signature first, before the question is settled, since
+he chose the reference and should say whether the signature opening reads as a
+stronger arrival than the photograph does. Nothing is to be implemented until
+then. The STORY SLOT comment stays in src/pages/[lang]/index.astro and the swap
+stays cheap: move the opening block below the first cover, drop a story text
+surface into the slot, no component or data change.
 
 ### Filippo Sorcinelli (filipposorcinelli.com)
 

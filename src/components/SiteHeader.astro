@@ -1,7 +1,14 @@
 ---
 /*
-  The persistent chrome: the signature top left, MENU top right, and nothing
+  The persistent chrome: the signature and MENU together, top left, and nothing
   else. Both at label scale.
+
+  Revised 2026-08-02 (owner's call). MENU moved from the top right to sit beside
+  the signature. This is not tidying, it removes a defect found in verification:
+  the two marks used to sit at opposite ends of the same band of photograph, and
+  a photograph can be dark at one end and bright at the other, so one polarity
+  value could not keep both legible. Sharing a single local background means one
+  value is always right for both (DESIGN-PLAN section 14).
 
   Revised 2026-08-01 (owner's call). It is fixed, so the mark stays visible over
   full-bleed media at all times, which is exactly what the primary reference
@@ -33,7 +40,7 @@ const {locale, chrome = "light"} = Astro.props;
 <header
   id="site-chrome"
   data-theme={chrome}
-  class="text-fg fixed inset-x-0 top-0 z-30 flex items-center justify-between px-margin py-u3"
+  class="text-fg fixed inset-x-0 top-0 z-30 flex items-center gap-u3 px-margin py-u3"
 >
   <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
     <Signature class="h-sig-corner" decorative />

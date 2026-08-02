@@ -81,6 +81,8 @@
   */
   --sig-hero-w: 92vw; /* mobile: the opening gesture, nearly edge to edge */
   --sig-corner-h: var(--s-u2);
+  /* the mark's own proportion, 2712/615 from its viewBox, not a guess */
+  --sig-corner-w: calc(var(--sig-corner-h) * 4.41);
 
   /* height of the fixed chrome, so text surfaces can clear it */
   --chrome-h: calc(var(--sig-corner-h) + var(--s-u3) * 2);

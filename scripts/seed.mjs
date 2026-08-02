@@ -30,19 +30,22 @@
   The measured luminance and the resulting contrast are recorded next to each
   entry.
 
-  A SECOND measurement pass (2026-08-02) corrected four of these. The first pass
-  sampled bands of the FILE, but object-fit cover re-crops every file to the
-  viewport, so the band a phone actually shows under the fixed chrome is a
-  centre column of the file, not the whole width. Values below are now measured
-  on that centre column at phone aspect.
+  MEASURED TWICE, then once more. The first pass sampled bands of the FILE, but
+  object-fit cover re-crops every file to the viewport, so what a phone shows
+  under the chrome is a centre column, not the whole width. The second pass
+  measured that column and corrected four values, two of them backwards.
 
-  It also exposed a limit of the model, recorded here because it will matter
-  again: ONE overlay value has to serve two different bands, the caption at the
-  bottom of the frame and the chrome at the top, and a photograph can be dark at
-  one end and bright at the other. In this set every image that carries a caption
-  happens to agree at both ends, and the six that carry no caption take the value
-  the chrome needs. A future photograph may not be so obliging, and then the
-  field has to split in two.
+  The third pass (2026-08-02) followed the chrome itself. MENU moved to sit
+  beside the signature, top left, so the marks no longer straddle a whole band
+  of photograph: they share one small region. Values below are measured on THAT
+  region, the top left of the phone crop, and only IMG_2378 changed again.
+
+  The move also raised the floor. Measured across all nine frames, the weakest
+  chrome contrast went from about 2.4, which is unreadable, to 5.51. And because
+  the caption sits bottom left while the marks now sit top left, both live in the
+  same column of the frame, so one overlay value is far more likely to serve
+  both. The two-band conflict recorded in DESIGN-PLAN section 14 is not gone in
+  principle, but nothing in this set trips it any more.
 
   Three frames (IMG_3116, IMG_3691, IMG_3692) are shot against bright concrete
   with a dark garment in the frame, so their caption band holds both extremes:
@@ -88,8 +91,8 @@ const client = createClient({
 */
 const PHOTOS = {
   "IMG_3619.jpg": {
-    // Caption over the image. Bottom band L 0.164 (paper 4.70) and phone-crop
-    // top band L 0.165 (paper 4.68) agree: paper serves caption and chrome.
+    // Caption over the image. Bottom band L 0.164 (paper 4.70) and the top left
+    // of the phone crop L 0.070 (paper 8.38) agree: paper serves both.
     overlay: "paper",
     alt: {
       it: "Pantaloni ampi in tela chiara, visti di fronte, appesi a una gruccia contro un muro di cemento e una serranda metallica.",
@@ -97,7 +100,7 @@ const PHOTOS = {
     },
   },
   "IMG_3625.jpg": {
-    // No caption. Phone-crop top band L 0.142: paper 5.25 against ink 3.60.
+    // No caption. Top left of the phone crop: L 0.061, paper 9.08 against ink 2.08.
     overlay: "paper",
     alt: {
       it: "Gli stessi pantaloni chiari visti da dietro, con due tasche con zip sul retro.",
@@ -114,8 +117,10 @@ const PHOTOS = {
     },
   },
   "IMG_2378.jpg": {
-    // No caption. Phone-crop top band L 0.213: ink 4.93 against paper 3.83.
-    overlay: "ink",
+    // No caption. Measured where the marks now sit, the top LEFT of the phone
+    // crop: L 0.107, paper 6.40 against ink 2.95. The full-width top band said
+    // ink; the corner the marks actually occupy is dark leather, so paper.
+    overlay: "paper",
     alt: {
       it: "Dettaglio ravvicinato della chiusura con zip e di un passante su pelle grigio chiaro, sopra un capo in pelle nera su una superficie scura e lucida.",
       en: "Close-up of a zip fastening and a belt loop on pale grey leather, over a black leather piece on a dark reflective surface.",
@@ -143,8 +148,8 @@ const PHOTOS = {
     },
   },
   "IMG_1834.jpg": {
-    // No caption. Phone-crop top band L 0.520 (bright branch and wall): ink
-    // 10.69 against paper 1.77. The first pass read the dark bottom of the
+    // No caption. Top left of the phone crop: L 0.453 (bright branch and wall),
+    // ink 9.43 against paper 2.00. The first pass read the dark bottom of the
     // frame and got this exactly backwards.
     overlay: "ink",
     alt: {
@@ -153,7 +158,7 @@ const PHOTOS = {
     },
   },
   "IMG_2127.jpg": {
-    // No caption. Phone-crop top band L 0.513: ink 10.57 against paper 1.79.
+    // No caption. Top left of the phone crop: L 0.714, ink 14.33 against paper 1.32.
     overlay: "ink",
     alt: {
       it: "Dettaglio di pannelli in pelle grigio verde con una cucitura curva, distesi su una superficie scura.",
@@ -165,7 +170,7 @@ const PHOTOS = {
     // worst of the three. Caption below. Its chrome band is dark (L 0.163), so
     // unlike the other two this one takes PAPER for the chrome passing over it.
     captionPlacement: "below",
-    overlay: "paper", // phone-crop top band L 0.154: paper 4.92 against ink 3.84
+    overlay: "paper", // top left of the phone crop: L 0.121, paper 5.88 against ink 3.21
     alt: {
       it: "Top smanicato in pelle nera increspata con collo alto arricciato, su un manichino chiaro; a sinistra una camicia scura su una gruccia e sul muro dietro i cartamodelli.",
       en: "A sleeveless top in crinkled black leather with a high gathered collar, on a pale mannequin; a dark shirt hangs to the left and paper patterns are pinned on the wall behind.",
