@@ -1,25 +1,31 @@
 ---
 /*
-  The footer: four blocks, Instagram, support, shipping, origin.
+  The footer, rebuilt 2026-08-02 as an INSCRIPTION (DESIGN-PLAN section 26).
 
-  The four-block structure comes from Isaac Sellam, which the owner sent as a
-  reference (DESIGN-PLAN section 14). The STRUCTURE is what was borrowed; every
-  word here is written for this brand, and the register is this site's own:
-  label headings at 11px, facts in mono, one short line each. Nothing is
-  restated from his wording.
+  WHAT IT WAS: four blocks in a four-column grid, headed Instagram, Support,
+  Worldwide shipping, Made in Italy. That is the standard commerce footer, the
+  structure was borrowed from a shop, and "Support" is a customer-service word
+  for a brand with no support desk. It was the most template-like thing on the
+  site (section 25).
 
-  Nothing here is invented. The Instagram handle and the contact address come
-  from site settings; the two written lines come from site settings as well and
-  are marked as unapproved drafts while the owner has not signed them off. Where
-  the owner has supplied nothing, the placeholder token shows as a placeholder
-  and never as a working link (standing rule 6).
+  WHAT IT IS NOW: the same four facts, set as an inscription. One column, no
+  headings, no grid at any width, each fact a short declarative line in the
+  owner's own register: "Handmade in South Italy." "Shipped worldwide." A grid
+  of headed cells says "here are our service pillars"; a stack of statements
+  says what is true about the work. The second is what this brand sounds like.
 
-  On a phone the blocks stack in one column; from the medium breakpoint they sit
-  four across, which is where the borrowed structure actually shows.
+  It does NOT become a grid on desktop. That is the point of the change: an
+  inscription at 390px that turns into four columns at 1440px was never an
+  inscription, it was a responsive shop footer waiting for room.
+
+  WHOSE WORDS: the two written lines are still ours and stay marked as drafts in
+  both languages. The handle and the address are facts from site settings and
+  carry no mark. Where the owner has supplied nothing, the placeholder shows as
+  a placeholder and never as a working link (standing rule 6).
 */
 import TextSurface from "./TextSurface.astro";
 import {isPlaceholderEmail, isPlaceholderText, type SiteSettings} from "../lib/content";
-import {localePath, pick, type Locale} from "../lib/locales";
+import {pick, type Locale} from "../lib/locales";
 import {isMarked, voiceState} from "../lib/voice";
 import {t} from "../i18n/ui";
 
@@ -33,7 +39,7 @@ interface Props {
 const {locale, settings, theme} = Astro.props;
 
 const instagramUrl = settings.instagramUrl?.trim() || null;
-// Show the handle rather than the full URL: it is the fact, the URL is plumbing.
+// The handle is the fact; the URL is plumbing.
 const instagramHandle = instagramUrl
   ? `@${instagramUrl.replace(/\/+$/, "").split("/").pop()}`
   : null;
@@ -41,97 +47,60 @@ const instagramHandle = instagramUrl
 const email = settings.contactEmail?.trim() || null;
 const emailIsPlaceholder = isPlaceholderEmail(email);
 
-const shipping = pick(settings.footerShipping, locale);
 const origin = pick(settings.footerOrigin, locale);
+const shipping = pick(settings.footerShipping, locale);
 
-/*
-  These two lines are the only brand copy on the site still written by US rather
-  than by the owner, so they are drafts in every language, not translations.
-  Everything else here is a fact from settings, which needs no mark at all.
-*/
+/* Our two lines, so drafts in every language rather than translations. */
 const voice = voiceState(settings, locale, Boolean(settings.footerCopyIsDraft));
 const notice = voice === "translation" ? "translationNotice" : "draftNotice";
 const isMarkedLine = (value: string | null) =>
   isMarked(voice) && Boolean(value) && !isPlaceholderText(value);
+const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
 ---
 
-<TextSurface theme={theme} class="hairline-h mt-u21 py-u8">
+<TextSurface theme={theme} class="hairline-h mt-u21 py-u13">
   <footer class="flex flex-col gap-u8">
     <h2 class="sr-only">{t(locale, "footerNav")}</h2>
 
-    <ul class="grid grid-cols-1 gap-u5 md:grid-cols-4">
-      {/* 1. INSTAGRAM. Where this brand actually lives. */}
-      <li class="flex flex-col gap-u1">
-        <h3 class="type-label text-label">{t(locale, "instagram")}</h3>
-        {
-          instagramUrl ? (
-            <a
-              href={instagramUrl}
-              rel="me noopener"
-              target="_blank"
-              class="type-mono text-mono self-start hover:underline underline-offset-4"
-            >
-              {instagramHandle}
-            </a>
-          ) : (
-            <span class="placeholder-mark self-start">{"{INSTAGRAM_URL}"}</span>
-          )
-        }
-      </li>
+    {/*
+      The inscription. Written lines first, because they are what the brand is,
+      then the two ways to reach it. One column, always.
+    */}
+    <div class="type-label text-label flex flex-col gap-u2">
+      {!origin && <span class="placeholder-mark self-start">{"{FOOTER_ORIGIN}"}</span>}
+      {origin && <p class:list={[isMarkedLine(origin) && "draft-text"]}>{origin}</p>}
 
-      {/* 2. SUPPORT. One address and one page, not a help centre. */}
-      <li class="flex flex-col gap-u1">
-        <h3 class="type-label text-label">{t(locale, "support")}</h3>
-        {
-          emailIsPlaceholder ? (
-            <span class="placeholder-mark self-start">{"{CONTACT_EMAIL}"}</span>
-          ) : (
-            <a
-              href={`mailto:${email}`}
-              class="type-mono text-mono self-start hover:underline underline-offset-4"
-            >
-              {email}
-            </a>
-          )
-        }
-        <a
-          href={localePath(locale, "contact")}
-          class="type-label text-label self-start hover:underline underline-offset-4"
-        >
-          {t(locale, "contact")}
-        </a>
-      </li>
+      {!shipping && <span class="placeholder-mark self-start">{"{FOOTER_SHIPPING}"}</span>}
+      {shipping && <p class:list={[isMarkedLine(shipping) && "draft-text"]}>{shipping}</p>}
+    </div>
 
-      {/* 3. SHIPPING. One line. No timing and no cost until those are decided. */}
-      <li class="flex flex-col gap-u1">
-        <h3 class="type-label text-label">{t(locale, "worldwideShipping")}</h3>
-        {!shipping && <span class="placeholder-mark self-start">{"{FOOTER_SHIPPING}"}</span>}
-        {
-          shipping && (
-            <p class:list={["type-mono text-mono", isMarkedLine(shipping) && "draft-text"]}>
-              {shipping}
-            </p>
-          )
-        }
-      </li>
+    <div class="type-label text-label flex flex-col gap-u2">
+      {
+        instagramUrl ? (
+          <a
+            href={instagramUrl}
+            rel="me noopener"
+            target="_blank"
+            class="self-start hover:underline underline-offset-8"
+          >
+            {instagramHandle}
+          </a>
+        ) : (
+          <span class="placeholder-mark self-start">{"{INSTAGRAM_URL}"}</span>
+        )
+      }
+      {
+        emailIsPlaceholder ? (
+          <span class="placeholder-mark self-start">{"{CONTACT_EMAIL}"}</span>
+        ) : (
+          <a href={`mailto:${email}`} class="self-start hover:underline underline-offset-8">
+            {email}
+          </a>
+        )
+      }
+    </div>
 
-      {/* 4. ORIGIN. */}
-      <li class="flex flex-col gap-u1">
-        <h3 class="type-label text-label">{t(locale, "madeInItaly")}</h3>
-        {!origin && <span class="placeholder-mark self-start">{"{FOOTER_ORIGIN}"}</span>}
-        {
-          origin && (
-            <p class:list={["type-mono text-mono", isMarkedLine(origin) && "draft-text"]}>{origin}</p>
-          )
-        }
-      </li>
-    </ul>
-
-    {
-      (isMarkedLine(shipping) || isMarkedLine(origin)) && (
-        <p class="placeholder-mark self-start">{t(locale, notice)}</p>
-      )
-    }
+    {anyMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
 
     <p class="type-label text-label">Aleksander Cecco</p>
   </footer>

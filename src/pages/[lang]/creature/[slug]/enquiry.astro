@@ -129,7 +129,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
             <input type="hidden" name="garmentRef" value={garment.referenceCode ?? ""} />
             <input type="hidden" name="renderedAt" value={String(Date.now())} />
 
-            <button type="submit" class="type-label text-label hairline-box self-start px-u3 py-u2">
+            <button type="submit" class="type-label text-label hairline-under self-start">
               {t(locale, "enquire")}
             </button>
           </form>

@@ -2272,3 +2272,187 @@ around them stays deliberately neutral. The concrete, the chains and the
 crucifixes are IN the frames. Adding studio texture to the page itself, a
 concrete ground, a rule that looks like a chain, would be costume, and the brief
 has warned against the costume reading of gothic since section 0.
+
+---
+
+## 26. The mood flags, answered (2026-08-02)
+
+Three of the five flags in section 25 were decided and are applied. Two are the
+owner's and are recorded here with the evidence, unchanged in the interface.
+
+### 1. The footer is an inscription, not a grid
+
+"Support" is gone: it is a customer-service word for a brand with no support
+desk. The four facts survive as four short declarative lines in one column,
+in his register, with no headings and no grid at any width.
+
+The width point is the substance of the change, not a detail. A footer that is
+one column at 390px and four columns at 1440px was never an inscription; it was
+a responsive shop footer waiting for room. It is one column everywhere now.
+
+The two written lines tightened into his voice, which drops the subject and
+states the fact: "We ship worldwide." became "Shipped worldwide.", and "Every
+Creature is handmade in South Italy." became "Handmade in South Italy." They
+are still OURS and still marked as unapproved drafts in both languages.
+
+### 2. The Creature page is an inscription, not a spec sheet
+
+His caption for one of his own objects is a single line:
+
+> Creature: Tomar. Composition: 100% lambskin. Handmade.
+
+So the page says exactly that, at statement size:
+
+```
+CREATURE: RUBEDO.
+COMPOSITION: LAMBSKIN LEATHER.
+HANDMADE. MADE TO MEASURE.
+PRIVATE ORDER.
+```
+
+The seven row definition list is gone. What remains below it is four subordinate
+facts in mono: collection, category, reference measurements, price.
+
+Two decisions inside that:
+
+- The MEASUREMENTS are NOT hidden behind a disclosure. Section 17 is explicit
+  that with no sizes they matter more, not less, because they are the only way
+  to judge cut and proportion from a photograph. Subordinate means smaller and
+  later, not one click away.
+- They are demoted BY SIZE, not by opacity. The inscription is `--t-statement`
+  (18 to 28px) against `--t-mono` (12px), which is a 2x contrast on its own. A
+  first pass used `opacity: 0.6` on the labels and that is a GRAY HALF-STATE,
+  which standing rule 1 forbids outright. It was caught before it shipped and is
+  recorded here because it shows how easily the rule gets broken by habit: every
+  design system fades secondary text, and this one cannot.
+
+The subordinate block is sized to shrink. If the owner rules against category
+and price it becomes measurements alone, which is the right end state.
+
+### 3. The action speaks the system's own form language
+
+The enquiry action was a bordered box, the only closed shape in the system, and
+it read as a shop's call-to-action button.
+
+The system already had a form language and nobody had noticed: a field on the
+enquiry form is a label with a solid hairline UNDER it, and the one way this
+site emphasises anything is to THICKEN a hairline (`.field[data-invalid]`
+doubles exactly that line). So the action is now drawn as a field. Same weight,
+same colour, same rule, and hover and focus double it.
+
+The thing you press looks like the things you fill in, which is the truest
+description of what it does. `hairline-box` is deleted rather than left unused.
+
+### 4 and 5, waiting on the owner, evidence recorded
+
+- **Category (Uomo / Donna).** The evidence points at REMOVING it, and the
+  evidence is his: the Armonyen caption says the shirt is "designed for both him
+  and her." A gendered taxonomy exists to filter a shop. Nothing is changed
+  until he rules. If it goes, `garment.category` and its schema field go with
+  it, and the frontend question in section 9 about translating the labels
+  disappears rather than being answered.
+- **Price.** Nothing in his posts prices a piece publicly; they are made to
+  measure and some are private orders. If price moves into the enquiry
+  conversation, `garment.price` and `currency` leave the page and probably the
+  schema, and `{PRICE_EUR}` retires from the placeholder list.
+
+### A cause fixed rather than documented again
+
+`useCdn` is now FALSE on the site's build-time Sanity client. With it on, a build
+started soon after content changed served the PREVIOUS content: it happened
+three times in one session, once producing an old collection slug and twice an
+old footer wording, each time while the dataset plainly held the new value, and
+each time it cost minutes chasing a bug that did not exist.
+
+The CDN bought nothing. These queries run once per deploy, not once per visitor,
+so there is no traffic to amortise a cache over, and what it cost was
+correctness: a static build is a photograph of the dataset, and a photograph of
+a stale cache is worse than useless because it looks fine. Quota is not a
+concern (section 12): 250,000 API requests a month against a handful per build.
+
+---
+
+## 27. Two open identifications, and what each would change
+
+### If the making frames are Styrax
+
+`products/IMG_0206` and `IMG_0208` are used as the home page's MAKING section on
+the argument that they are one hide before and after construction: the skin as
+it arrives, then the same skin with a collar built onto it. **Styrax is
+"Handmade Goat Sherling & Leather Top."** If those frames are Styrax, they are a
+finished Creature lying flat and the argument is false.
+
+Precisely what is and is not affected, because it is narrower than it looks:
+
+- NO VISIBLE COPY IS WRONG. The section renders the owner's own making text,
+  which claims nothing about those two frames. The false claim lives in the
+  component comment, in the import script, and in section 21 of this file.
+- WHAT BREAKS IS THE SECTION'S REASON TO EXIST. It was argued into the page as
+  EVIDENCE: the site claims the work is a transformation, and those two frames
+  showed it. Two photographs of a finished garment prove nothing, and the
+  section becomes two more pictures in a page that already has enough.
+
+If the owner confirms Styrax, the fix is prepared and small:
+
+1. The frames move to where a finished Creature belongs, a Creature page or the
+   collection, and gain their real name and composition.
+2. The making section takes real process frames, which already exist and are
+   already imported: `experimental/IMG_2626` (a wide brush laid on leather just
+   dyed dark) and `experimental/IMG_3406` (offcuts, stones and tools on the
+   bench). Both are literally the work being done.
+3. `experimental/387ba92d` (the paper pattern pieces) is the third candidate if
+   two frames read thin.
+4. The about page keeps the remainder; the overlap is acceptable because the
+   about page is the long story and the home page is the promise of it.
+5. Sections 21 and 24 of this file get corrected, not quietly edited.
+
+Cost: one array in `scripts/import-photos.mjs`, one re-import, three comment
+corrections. Roughly fifteen minutes, and no layout or schema change at all.
+
+If instead he confirms they are RAW MATERIAL, nothing moves and section 21
+stands as written.
+
+### The Tenebrae and Lux hypothesis
+
+RECORDED AS A HYPOTHESIS. Deliberately NOT in the interface, because it is a
+reading of the evidence and not something the owner has said.
+
+The reading: **Tenebrae and Lux may divide the work by MATERIAL rather than by
+mood.** His captions attach "Monumentus Tenebrae" to black washed veg tan
+pieces, and "Monumentus Lux" to a co-ord. Our own photography splits the same
+way with nothing forcing it: the black leather Creature on one side, and the
+pale and cream pieces, including the arrival photograph and the on-model cream
+trousers, on the other.
+
+If it holds, the alchemical stages are the brand's own catalogue taxonomy rather
+than a metaphor laid over one, and his third name confirms the shape: the red
+piece is called **Rubedo**, which is the third stage. Nigredo, Albedo, Rubedo.
+Tenebrae, Lux, and the red one.
+
+WHAT WOULD CHANGE IF HE CONFIRMS IT:
+
+1. A `stage` field on each Creature, with exactly three values: `tenebrae`,
+   `lux`, `rubedo`. Controlled, not free text, and not localized: they are the
+   brand's own words in both languages.
+2. The collection page GROUPS by stage instead of listing in drag order, in the
+   sequence tenebrae then lux, which is the alchemical order and the order of
+   his own title. Rubedo sits last or apart, since it is one piece and a private
+   order.
+3. Rubedo's membership becomes a real question. It is named for a stage the
+   collection title does not include, so it may belong outside MONUMENTUS:
+   Tenebrae & Lux entirely.
+4. The archive could carry the same field, which would make the archive
+   searchable by stage without inventing a category of our own.
+5. **The wipe would gain a second reading, and this is the danger.** The home
+   page already runs ink to paper, nigredo to albedo. If the collection page
+   also ordered tenebrae then lux, a reader would meet the same movement twice
+   and it would start to look like a system announcing itself. Section 22's
+   second condition holds: ONE inversion per journey. The collection page groups
+   by stage but does NOT invert, and no wipe is added to it.
+6. Nothing in the CATALOGUE STRUCTURE would need migrating: it is one added
+   field on an existing document type, and eight documents.
+
+WHAT WOULD NOT CHANGE: the interface says none of this. There is no stage label
+on a Creature page, no "Tenebrae" heading, no explanation. If the division is
+real a reader feels it in the photographs and in the order, exactly as with the
+wipe, and is never told.

@@ -348,13 +348,15 @@ const ABOUT_TEXT = {
   city.
 */
 const FOOTER_COPY = {
+  // Tightened 2026-08-02 into his register: he drops the subject and states the
+  // fact. "Handmade." not "we handmake". "Made to Measure." not "we offer".
   footerShipping: {
-    it: "Spediamo in tutto il mondo.",
-    en: "We ship worldwide.",
+    it: "Spedito in tutto il mondo.",
+    en: "Shipped worldwide.",
   },
   footerOrigin: {
-    it: "Ogni Creatura è fatta a mano nel Sud Italia.",
-    en: "Every Creature is handmade in South Italy.",
+    it: "Fatto a mano nel Sud Italia.",
+    en: "Handmade in South Italy.",
   },
 };
 

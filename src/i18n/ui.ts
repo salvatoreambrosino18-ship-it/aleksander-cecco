@@ -27,6 +27,11 @@ const ui = {
     madeToMeasure: "Su misura",
     // How a Creature can be had. His register: short, declarative, no hedging.
     availability: "Come si ottiene",
+    // The inscription on a Creature page, in his own caption format:
+    // "Creature: Tomar. Composition: 100% lambskin. Handmade."
+    creature: "Creatura",
+    composition: "Composizione",
+    handmadeMadeToMeasure: "Fatto a mano. Su misura.",
     madeToOrder: "Su ordinazione.",
     unique: "Unica. 1 di 1.",
     privateOrder: "Ordine privato.",
@@ -80,6 +85,9 @@ const ui = {
     referenceMeasurements: "Reference measurements",
     madeToMeasure: "Made to measure",
     availability: "How it can be had",
+    creature: "Creature",
+    composition: "Composition",
+    handmadeMadeToMeasure: "Handmade. Made to measure.",
     madeToOrder: "Made to order.",
     unique: "Unique. 1 of 1.",
     privateOrder: "Private order.",

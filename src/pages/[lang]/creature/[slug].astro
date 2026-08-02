@@ -15,7 +15,7 @@
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
-import {getGarments, type Garment} from "../../../lib/content";
+import {getGarments, isPlaceholderText, type Garment} from "../../../lib/content";
 import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
@@ -68,7 +68,38 @@ const price =
       }).format(garment.price)
     : null;
 
-const facts: Array<{term: string; value: string | null; placeholder?: string}> = [
+/*
+  THE INSCRIPTION, in his own caption format (DESIGN-PLAN section 26):
+
+      Creature: Tomar. Composition: 100% lambskin. Handmade.
+
+  It replaced a seven row definition list. His caption for the same kind of
+  object is one line; seven labelled rows is a product sheet, and a product
+  sheet is what this site is not. Each part still shows a marked placeholder
+  where the owner has not supplied the fact, so nothing is invented to make the
+  sentence read well.
+*/
+const named = Boolean(garment.name) && !isPlaceholderText(garment.name);
+const composed = Boolean(materials) && !isPlaceholderText(materials);
+
+const inscription: Array<{text: string | null; token: string}> = [
+  {text: named ? `${t(locale, "creature")}: ${garment.name}.` : null, token: "{GARMENT_NAME}"},
+  {text: composed ? `${t(locale, "composition")}: ${materials}.` : null, token: "{MATERIALS}"},
+  // Always true of every Creature, so it is a constant rather than a field.
+  {text: t(locale, "handmadeMadeToMeasure"), token: ""},
+];
+
+/*
+  What is left after the inscription: facts that are real but subordinate. The
+  reference measurements stay here rather than behind a disclosure, because with
+  no sizes they are the ONLY way to judge cut and proportion (section 17) and
+  hiding them behind a click would be the wrong kind of restraint.
+
+  This block is sized to shrink. Category and price are here only until the
+  owner rules on them (section 25 flags 3 and 4); the evidence for both points
+  at removal, and when that lands this becomes measurements alone.
+*/
+const subordinate: Array<{term: string; value: string | null; placeholder?: string}> = [
   {
     term: t(locale, "collection"),
     value: garment.collection
@@ -76,11 +107,6 @@ const facts: Array<{term: string; value: string | null; placeholder?: string}> =
       : null,
   },
   {term: t(locale, "category"), value: category},
-  // Not a field any more: every piece is made to measure, always, so this is a
-  // fact about the brand rather than a property of one garment.
-  {term: t(locale, "madeToMeasure"), value: t(locale, "madeToMeasureValue")},
-  {term: t(locale, "materials"), value: materials, placeholder: "{MATERIALS}"},
-  {term: t(locale, "availability"), value: availabilityLabel},
   {
     term: t(locale, "referenceMeasurements"),
     value: garment.measurements,
@@ -115,14 +141,35 @@ const facts: Array<{term: string; value: string | null; placeholder?: string}> =
   <TextSurface class="flex flex-col gap-u8 py-u13">
     <h2 class="sr-only">{t(locale, "details")}</h2>
 
+    {/* The inscription. One statement, three short lines, no labels. */}
+    <div class="type-statement text-statement flex flex-col gap-u1">
+      {
+        inscription.map(({text, token}) =>
+          text ? (
+            <p>{text}</p>
+          ) : token ? (
+            <p class="placeholder-mark self-start">{token}</p>
+          ) : null,
+        )
+      }
+      <p>{availabilityLabel}</p>
+    </div>
+
     {description && <p class="type-body text-body max-w-prose">{description}</p>}
 
-    <dl class="flex flex-col gap-u3">
+    {/*
+      Subordinate facts. Demoted by SIZE, not by opacity: the inscription above
+      is --t-statement (18 to 28px) and this is --t-mono (12px), which is a 2x
+      contrast on its own. Fading these to 60% would paint gray text, and there
+      is no gray in this system at all (standing rule 1). It nearly shipped that
+      way, which is exactly why the rule is absolute rather than a preference.
+    */}
+    <dl class="flex flex-col gap-u2">
       {
-        facts.map(({term, value, placeholder}) =>
+        subordinate.map(({term, value, placeholder}) =>
           value || placeholder ? (
-            <div class="flex flex-col gap-u1">
-              <dt class="type-label text-label">{term}</dt>
+            <div class="flex flex-wrap items-baseline gap-u2">
+              <dt class="type-mono text-mono">{term}</dt>
               <dd class="type-mono text-mono">
                 {value ?? <span class="placeholder-mark">{placeholder}</span>}
               </dd>
@@ -136,18 +183,17 @@ const facts: Array<{term: string; value: string | null; placeholder?: string}> =
       canEnquire ? (
         <a
           href={localePath(locale, `creature/${garment.slug}/enquiry`)}
-          class="type-label text-label hairline-box self-start px-u3 py-u2"
+          class="type-label text-label hairline-under self-start"
         >
           {t(locale, "enquire")}
         </a>
       ) : (
         /*
           No action, and no apology. The Creature stays visible at full scale
-          and the line says plainly what it is. The owner's own extra line wins
-          where he wrote one; the default is the state itself, which for a
-          unique piece is the whole truth.
+          and the inscription above has already said what it is; only the
+          owner's own extra line, where he wrote one, is added here.
         */
-        <p class="type-label text-label max-w-prose">{availabilityNote ?? availabilityLabel}</p>
+        availabilityNote && <p class="type-label text-label max-w-prose">{availabilityNote}</p>
       )
     }
   </TextSurface>

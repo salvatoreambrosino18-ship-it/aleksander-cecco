@@ -105,12 +105,33 @@
   border-top: var(--hairline-w) solid var(--hairline);
 }
 /*
-  The one place a hairline is allowed to close on itself: the enquiry action.
-  It is a single action on the page and the outline is what makes it read as
-  one, without a fill, a color, or a second weight.
+  THE ACTION, revised 2026-08-02. It used to be a closed box, and a box was the
+  only closed shape in the whole system: it read as a call-to-action button on a
+  site that is not a shop (DESIGN-PLAN section 25).
+
+  The system already had a form language and nobody had noticed. A field on the
+  enquiry form is a label with a solid hairline UNDER it, and the one way this
+  site emphasises anything is to THICKEN a hairline (see .field[data-invalid],
+  which doubles exactly this line). So the action is drawn as a field: the same
+  weight, the same colour, the same rule. The thing you press looks like the
+  things you fill in, which is the truest description of what it does.
+
+  Hover and focus double the line, which is the system's only emphasis
+  mechanism. No fill, no colour, no second weight, nothing that closes.
 */
-@utility hairline-box {
-  border: var(--hairline-w) solid var(--fg);
+@utility hairline-under {
+  border-bottom: var(--hairline-w) solid var(--fg);
+  padding-bottom: var(--s-u1);
+  transition: border-bottom-width 120ms linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hairline-under {
+    transition: none;
+  }
+}
+.hairline-under:hover,
+.hairline-under:focus-visible {
+  border-bottom-width: calc(var(--hairline-w) * 2);
 }
 
 /*
