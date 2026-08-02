@@ -30,7 +30,8 @@ export const garment = defineType({
       title: 'Collezione / Collection',
       type: 'reference',
       to: [{type: 'collection'}],
-      validation: (Rule) => Rule.required(),
+      description:
+        "Lasciare vuoto se la Creatura non appartiene a nessuna collezione: la pagina lo dice esplicitamente invece di lasciare un buco. / Leave empty when the Creature belongs to no collection: the page says so explicitly rather than leaving a hole.",
     }),
     /*
       THE STAGE (2026-08-02). The catalogue divides by material and colour, and
@@ -57,6 +58,7 @@ export const garment = defineType({
         list: [
           {title: 'Tenebrae (pelle nera lavata / black washed veg tan)', value: 'tenebrae'},
           {title: 'Lux (pezzi chiari / the pale pieces)', value: 'lux'},
+          {title: 'Rubedo (il rosso, fuori collezione / the red, outside the collections)', value: 'rubedo'},
         ],
         layout: 'radio',
       },

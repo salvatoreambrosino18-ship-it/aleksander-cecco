@@ -33,7 +33,7 @@ const TEXT = {
   it: {
     title: "Richiesta",
     ok: "Richiesta ricevuta. Ti rispondiamo via email.",
-    replyWindow: "{REPLY_WINDOW}",
+    replyWindow: "Rispondiamo entro un giorno.",
     back: "Torna alla Creatura",
     invalid: "Controlla i dati inseriti.",
     name: "Serve un nome.",
@@ -49,7 +49,7 @@ const TEXT = {
   en: {
     title: "Enquiry",
     ok: "Enquiry received. We will reply by email.",
-    replyWindow: "{REPLY_WINDOW}",
+    replyWindow: "We reply within one day.",
     back: "Back to the Creature",
     invalid: "Please check what you entered.",
     name: "A name is needed.",
@@ -219,10 +219,14 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   return new Response(
     page(locale, {
       heading: text.title,
-      lines: [text.ok],
-      placeholder: text.replyWindow,
+      /*
+        The reply window is a real commitment now: the owner set it at one day
+        MAXIMUM (2026-08-02), so the copy promises no more than that and is a
+        line rather than a marked placeholder. {REPLY_WINDOW} is retired.
+      */
+      lines: [text.ok, text.replyWindow],
       backHref,
-      draft: true, // the confirmation copy is an unapproved draft
+      draft: true, // the wording is still ours, so it stays marked as a draft
     }),
     {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
   );

@@ -80,6 +80,12 @@ const composed = Boolean(materials) && !isPlaceholderText(materials);
 const inscription: Array<{text: string | null; token: string}> = [
   {text: named ? `${t(locale, "creature")}: ${garment.name}.` : null, token: "{GARMENT_NAME}"},
   {text: composed ? `${t(locale, "composition")}: ${materials}.` : null, token: "{MATERIALS}"},
+  /*
+    A Creature with no collection SAYS so. Rubedo is outside MONUMENTUS:
+    Tenebrae & Lux, confirmed by the owner, and an empty collection row would
+    read as an oversight rather than as a fact (DESIGN-PLAN section 31).
+  */
+  ...(garment.collection ? [] : [{text: t(locale, "outsideCollections"), token: ""}]),
   // Always true of every Creature, so it is a constant rather than a field.
   {text: t(locale, "handmadeMadeToMeasure"), token: ""},
 ];

@@ -640,9 +640,8 @@ marked placeholder string until supplied. Nothing in this list is invented.
   `{DESCRIPTION_IT}`, `{DESCRIPTION_EN}`, `{ALT_TEXT_IT}`, `{ALT_TEXT_EN}`.
 - Site: `{ABOUT_IT}`, `{ABOUT_EN}`, `{SHIPPING_RETURNS_IT}`,
   `{SHIPPING_RETURNS_EN}`, `{CONTACT_EMAIL}`, `{INSTAGRAM_URL}`.
-- `{REPLY_WINDOW}`: the enquiry confirmation reply window, kept as a token, not a
-  number. The brand is not committed to a response time until the owner agrees
-  one.
+- `{REPLY_WINDOW}`: RETIRED 2026-08-02. The owner committed to one day maximum,
+  so the confirmation says "We reply within one day." and promises no more.
 - `{NOT_OFFERED_NOTE_IT}`, `{NOT_OFFERED_NOTE_EN}`: the one line shown in place
   of the enquiry button when a garment is flagged not currently offered and the
   owner has not written a per-garment explanation. Neutral, short, no promise

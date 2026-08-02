@@ -154,6 +154,13 @@ const GARMENTS = [
       and carries the "Oblivion hole" his caption describes.
     */
     name: "Rubedo",
+    /*
+      OUTSIDE MONUMENTUS, confirmed by the owner 2026-08-02. It is named for the
+      third alchemical stage, which the collection title does not include, so it
+      belongs to no collection and its page says exactly that.
+    */
+    collection: null,
+    stage: "rubedo",
     materials: {it: "Pelle di agnello", en: "Lambskin leather"},
     // His caption, verbatim. Approved copy, so it carries no mark in English.
     description: {
@@ -601,7 +608,7 @@ async function main() {
       name: g.name ?? "{GARMENT_NAME}",
       slug: {_type: "slug", current: g.slug},
       referenceCode: "{REF_CODE}",
-      collection: {_type: "reference", _ref: COLLECTION_ID},
+      collection: g.collection === null ? undefined : {_type: "reference", _ref: COLLECTION_ID},
       stage: g.stage ?? null,
       currency: "EUR",
       /*

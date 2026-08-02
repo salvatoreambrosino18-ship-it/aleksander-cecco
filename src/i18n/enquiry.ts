@@ -12,9 +12,10 @@
   something the owner rewrites freely. If he wants to edit it himself, moving it
   into site settings is a small change: same strings, four more fields.
 
-  The reply window is deliberately NOT here. The brand is not committed to a
-  response time nobody has agreed, so the confirmation carries the
-  {REPLY_WINDOW} placeholder until the owner sets one.
+  The reply window is SET, 2026-08-02: the owner committed to one day maximum,
+  so the confirmation promises "within one day" and no more. It lives in the
+  Pages Function beside the rest of the confirmation copy, not here. The
+  {REPLY_WINDOW} token is retired.
 
   ONE EXCEPTION, added 2026-08-02: the English intro is now the owner's OWN
   sentence, from the Armonyen post, and is therefore approved. It said what our
