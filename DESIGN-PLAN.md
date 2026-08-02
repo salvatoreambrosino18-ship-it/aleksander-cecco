@@ -1467,3 +1467,69 @@ on the about page marks the text as a draft in the placeholder register. The
 text stays fully readable, because the owner judges it by reading it on the
 page. Replacing it is: paste the approved text, turn the flag off.
 
+---
+
+## 18. The archive, the home sequence, and the import (2026-08-02)
+
+### The archive earns its place, on one condition
+
+Built, and curated to nine frames from the twenty-seven unique archive images.
+For a brand with no stock and no seasons the archive is the only evidence that a
+body of work exists, which makes it close to the most important section on the
+site. But thirty-five undated frames is a mood board, not an archive: one fact
+per frame is what separates the two.
+
+Form: a vertical sequence of full-bleed frames at `--media-h-tall`, so the next
+one always peeks and the eye is pulled down. Never a grid. Never a thumbnail.
+On the numbers, the whole archive is a scroll of about nine screens, against the
+twenty-seven it would have been.
+
+Curation rules used, so a future session can repeat them:
+
+- one frame per distinct piece, never two views of the same garment;
+- nothing below 2000px on the long edge, which excluded six low-resolution
+  archive files outright;
+- spread across kinds: outerwear, flat-lay, on-model, and one accessory.
+
+WHAT THE OWNER MUST DECIDE, and it is marked `{NOME_PEZZO}` and `{ANNO}` on
+every frame until he does: the year of each piece, its name if it has one, and
+whether the pieces chosen are the ones he would choose. A year is the difference
+between an archive and a pile of images, so if no years arrive, the honest
+answer is to fold the best frames into the home sequence and drop the section.
+
+### The home sequence is not a carousel
+
+Built in the Rick Owens form, from the measurements in section 14 rather than
+from memory of the site. What that reference actually does is NOT a horizontal
+band: it stacks full-bleed tiles, 390x844 then 390x488 on a phone, and pairs
+720x900 side by side and touching on desktop. No arrows, no dots, no
+auto-advance, nothing moves by itself. The reader scrolls.
+
+Ours measures 390x490 on a phone and 720px + 720px with no gap on desktop, which
+is the reference to within two pixels. A tile may link to a garment, which is
+what keeps the sequence a way into the work rather than decoration.
+
+### Importing the owner's photographs
+
+`npm run import` is deliberately separate from `npm run seed`: seed makes
+disposable fixtures, import puts real work in, and merging them means one
+careless seed overwrites real content. It reads the owner's Google Drive folder
+READ ONLY, converts HEIC into the system temp directory with `sips`, and writes
+nothing to the source or to the repository.
+
+It decides three things by looking rather than guessing, and leaves the rest:
+
+- grouping, from contact sheets of all 69 unique images: 39 photographs became 8
+  garments and 9 archive pieces;
+- Italian alt text per photograph, flagged `altIsDraft`;
+- overlay polarity, measured in the top left of the phone crop where the chrome
+  actually sits. Every imported frame lands above 4.3 contrast.
+
+Names, reference codes, prices, descriptions and measurements are not invented
+and ship as `{PLACEHOLDER}` tokens.
+
+Two traps, both hit and both worth remembering: file URLs need encoding because
+the source folder has spaces in its name, and extensions cannot be hard-coded
+because the same batch mixes JPG, WEBP and HEIC, with two files carrying an
+extension their neighbours do not. Files are resolved by folder and stem.
+

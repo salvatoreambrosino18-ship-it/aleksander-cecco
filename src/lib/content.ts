@@ -9,9 +9,35 @@ import type {MediaItem} from "./media";
 /** The placeholder address prefilled in the studio. It must never ship as a link. */
 export const PLACEHOLDER_EMAIL = "info@example.com";
 
+// Selected once and reused: the media object is the same shape everywhere.
+const MEDIA_PROJECTION = /* groq */ `
+  poster,
+  alt,
+  "altIsDraft": coalesce(altIsDraft, false),
+  overlay,
+  "captionPlacement": coalesce(captionPlacement, "over"),
+  caption,
+  "hasVideo": defined(video.asset),
+  "dimensions": poster.asset->metadata.dimensions
+`;
+
+export type HomeTile = {
+  media: MediaItem;
+  garment: {name: string; slug: string | null} | null;
+};
+
+export type ArchivePiece = {
+  title: string | null;
+  year: string | null;
+  media: MediaItem[] | null;
+};
+
 export type SiteSettings = {
   instagramUrl: string | null;
   contactEmail: string | null;
+  openingMedia: MediaItem | null;
+  homeSequence: HomeTile[] | null;
+  aboutMedia: MediaItem[] | null;
   about: LocaleField;
   /** True while the brand story is an unapproved draft. */
   aboutIsDraft: boolean | null;
@@ -22,6 +48,12 @@ const SITE_SETTINGS_QUERY = /* groq */ `
   *[_type == "siteSettings"][0]{
     instagramUrl,
     contactEmail,
+    openingMedia{${MEDIA_PROJECTION}},
+    homeSequence[]{
+      media{${MEDIA_PROJECTION}},
+      "garment": garment->{name, "slug": slug.current}
+    },
+    aboutMedia[]{${MEDIA_PROJECTION}},
     about,
     "aboutIsDraft": coalesce(aboutIsDraft, false),
     shippingReturns
@@ -31,6 +63,9 @@ const SITE_SETTINGS_QUERY = /* groq */ `
 const EMPTY_SETTINGS: SiteSettings = {
   instagramUrl: null,
   contactEmail: null,
+  openingMedia: null,
+  homeSequence: null,
+  aboutMedia: null,
   about: null,
   aboutIsDraft: null,
   shippingReturns: null,
@@ -85,18 +120,6 @@ export type Garment = {
   collection: {name: string; slug: string | null; season: string | null} | null;
   media: MediaItem[] | null;
 };
-
-// Selected once and reused: the media object is the same shape everywhere.
-const MEDIA_PROJECTION = /* groq */ `
-  poster,
-  alt,
-  "altIsDraft": coalesce(altIsDraft, false),
-  overlay,
-  "captionPlacement": coalesce(captionPlacement, "over"),
-  caption,
-  "hasVideo": defined(video.asset),
-  "dimensions": poster.asset->metadata.dimensions
-`;
 
 const GARMENT_PROJECTION = /* groq */ `
   name,
@@ -164,6 +187,16 @@ export async function getGarmentsInCollection(slug: string): Promise<Garment[]> 
     /* groq */ `*[_type == "garment" && collection->slug.current == $slug && count(media) > 0]
       | order(orderRank asc){${GARMENT_PROJECTION}}`,
     {slug},
+    [],
+  );
+}
+
+/** The archive, in the owner's order. A sequence, not a catalogue. */
+export async function getArchive(): Promise<ArchivePiece[]> {
+  return query<ArchivePiece[]>(
+    /* groq */ `*[_type == "archivePiece" && count(media) > 0]
+      | order(orderRank asc){title, year, media[]{${MEDIA_PROJECTION}}}`,
+    {},
     [],
   );
 }

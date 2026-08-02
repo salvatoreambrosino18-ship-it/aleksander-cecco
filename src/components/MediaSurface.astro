@@ -26,8 +26,12 @@ import {pick, pickAlt, type Locale} from "../lib/locales";
 interface Props {
   media: MediaItem;
   locale: Locale;
-  /** "screen" fills the viewport; "tall" leaves the next one peeking. */
-  height?: "screen" | "tall";
+  /**
+   * "screen" fills the viewport, "tall" leaves the next one peeking, and
+   * "band" is a tile in the home sequence: 58svh on a phone, full height on
+   * desktop where tiles pair up two across (DESIGN-PLAN section 14).
+   */
+  height?: "screen" | "tall" | "band";
   /** The first image on a page is the largest thing it downloads. */
   priority?: boolean;
   class?: string;
@@ -49,7 +53,9 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
   <div
     class:list={[
       "relative w-full overflow-hidden",
-      height === "screen" ? "h-media-screen" : "h-media-tall",
+      height === "screen" && "h-media-screen",
+      height === "tall" && "h-media-tall",
+      height === "band" && "h-media-band md:h-media-screen",
     ]}
   >
     {

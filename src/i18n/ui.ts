@@ -14,6 +14,7 @@ const ui = {
     close: "Chiudi",
     languageLabel: "Lingua",
     collections: "Collezioni",
+    archive: "Archivio",
     about: "Chi siamo",
     contact: "Contatti",
     instagram: "Instagram",
@@ -40,6 +41,7 @@ const ui = {
     close: "Close",
     languageLabel: "Language",
     collections: "Collections",
+    archive: "Archive",
     about: "About",
     contact: "Contact",
     instagram: "Instagram",
@@ -75,6 +77,7 @@ export function t(locale: Locale, key: UIKey): string {
 */
 export const MENU_DESTINATIONS = [
   {key: "collections", path: "collections"},
+  {key: "archive", path: "archive"},
   {key: "about", path: "about"},
   {key: "contact", path: "contact"},
 ] as const satisfies ReadonlyArray<{key: UIKey; path: string}>;

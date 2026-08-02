@@ -71,6 +71,13 @@
   */
   --media-h-screen: 100svh; /* a chapter: one photograph, one screen */
   --media-h-tall: 88svh; /* one in a sequence, so the next one shows */
+  /*
+    A tile in the home sequence. Measured off the primary reference: Rick Owens
+    stacks 390x844 then 390x488 on a phone, which is 58% of the viewport, and
+    pairs 720x900 side by side on desktop, which is half the width at full
+    height. So: 58svh here, and full height in the desktop block below.
+  */
+  --media-h-band: 58svh;
   --caption-inset: var(--s-u3); /* how far a label sits off the media edge */
 
   /*

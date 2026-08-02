@@ -1,26 +1,32 @@
 ---
 /*
-  Home. Step 4 of the build order.
+  Home.
 
   The sequence, and it is deliberately a flat list of sibling blocks:
 
     1. OPENING     the signature at hero width, in emptiness, nothing else
-    2. per collection:
-       2a. COVER   the collection cover as a full-bleed chapter
-       2b. VOICE   its statement on a text surface
+    2. PHOTOGRAPH  the opening photograph, full bleed, one whole screen
+    3. SEQUENCE    the band of tiles
+    4. per collection: cover as a chapter, then its statement
 
-  The blocks are siblings on purpose. The owner sent Isaac Sellam as a model,
-  where the order is photograph, then story, then pieces, and our opening is the
-  signature rather than a photograph (DESIGN-PLAN section 14, "The home sequence
-  question"). That is an open decision. Should it go the Sellam way, the change
-  is: move block 1 below the first cover, and drop a STORY text surface in at
-  the marked slot. No component changes, no data changes, no rewrite.
+  THE BAND, and what it is not. It is not a carousel. Nothing advances by
+  itself, there are no arrows and no dots, and the reader simply scrolls. That
+  is what the primary reference actually does, measured rather than remembered
+  (DESIGN-PLAN section 14): full-bleed tiles in sequence, 390x844 then 390x488
+  on a phone, and on desktop pairs of 720x900 side by side and TOUCHING, with no
+  gutter between them. So: one column at 58svh on a phone, two columns at full
+  height on desktop, nothing between them.
+
+  The blocks are siblings on purpose. The owner sent Isaac Sellam, whose order
+  is photograph, then story, then pieces, and our opening is the signature. That
+  is still an open decision. Should it go the Sellam way, block 1 moves below
+  block 2 and a STORY surface drops into the marked slot. No component changes.
 */
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import Signature from "../../components/Signature.astro";
-import {getCollections} from "../../lib/content";
+import {getCollections, getSiteSettings} from "../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {imageUrl} from "../../lib/image";
 
@@ -29,8 +35,11 @@ export function getStaticPaths() {
 }
 
 const locale = toLocale(Astro.params.lang);
-const collections = await getCollections();
-const shareImage = collections.find((c) => c.cover)?.cover ?? null;
+const [collections, settings] = await Promise.all([getCollections(), getSiteSettings()]);
+
+const opening = settings.openingMedia;
+const tiles = settings.homeSequence ?? [];
+const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 ---
 
 <Base locale={locale} image={shareImage ? imageUrl(shareImage.poster, 1200) : null}>
@@ -44,18 +53,40 @@ const shareImage = collections.find((c) => c.cover)?.cover ?? null;
   {/*
     STORY SLOT. If the home sequence becomes image, story, pieces, the story
     text surface goes here, reading siteSettings.about. Nothing else moves
-    except block 1, which drops below the first cover.
+    except block 1, which drops below the opening photograph.
   */}
 
+  {/* 2. THE OPENING PHOTOGRAPH */}
+  {opening && <MediaSurface media={opening} locale={locale} priority />}
+
+  {/* 3. THE SEQUENCE. Two across and touching on desktop, stacked on a phone. */}
   {
-    collections.map((collection, index) => {
+    tiles.length > 0 && (
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        {tiles.map((tile) =>
+          tile.garment?.slug ? (
+            <a href={localePath(locale, `pieces/${tile.garment.slug}`)} class="block">
+              <MediaSurface media={tile.media} locale={locale} height="band">
+                <span class="type-label text-label">{tile.garment.name}</span>
+              </MediaSurface>
+            </a>
+          ) : (
+            <MediaSurface media={tile.media} locale={locale} height="band" />
+          ),
+        )}
+      </div>
+    )
+  }
+
+  {/* 4. THE COLLECTIONS */}
+  {
+    collections.map((collection) => {
       const statement = pick(collection.statement, locale);
       const href = localePath(locale, `collections/${collection.slug}`);
       return (
         <>
-          {/* 2a. COVER */}
           {collection.cover && (
-            <MediaSurface media={collection.cover} locale={locale} priority={index === 0}>
+            <MediaSurface media={collection.cover} locale={locale}>
               <a href={href} class="flex flex-col gap-u1">
                 <h2 class="type-label text-label">{collection.name}</h2>
                 {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
@@ -63,7 +94,6 @@ const shareImage = collections.find((c) => c.cover)?.cover ?? null;
             </MediaSurface>
           )}
 
-          {/* 2b. VOICE */}
           {statement && (
             <TextSurface class="flex flex-col gap-u5 py-u13">
               <p class="type-statement text-statement max-w-prose">{statement}</p>

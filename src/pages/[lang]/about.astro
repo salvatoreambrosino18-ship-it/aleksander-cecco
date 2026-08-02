@@ -8,6 +8,7 @@
 */
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
+import MediaSurface from "../../components/MediaSurface.astro";
 import {getSiteSettings, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
 import {t} from "../../i18n/ui";
@@ -23,32 +24,60 @@ const aboutIsPlaceholder = isPlaceholderText(about);
 // A real text nobody has approved. Marked, not hidden: the owner has to be able
 // to read it on the page to judge it, and a visitor has to be able to tell.
 const aboutIsDraft = Boolean(settings.aboutIsDraft) && !aboutIsPlaceholder;
+
+/*
+  The story and the process photographs alternate: a paragraph, then a frame,
+  then the next paragraph. The text is the spine of the page and the images are
+  the evidence for it. If there are more paragraphs than photographs, or the
+  other way round, the leftovers simply follow: the page degrades to plain prose
+  or to a sequence of frames without a rewrite.
+*/
+const paragraphs = (about ?? "").split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+const photographs = settings.aboutMedia ?? [];
 ---
 
 <Base locale={locale} title={t(locale, "about")}>
   <TextSurface class="flex min-h-svh flex-col gap-u8 pt-chrome pb-u21">
     <h1 class="type-label text-label">{t(locale, "about")}</h1>
 
+    {aboutIsDraft && <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>}
+
     {
-      about ? (
-        aboutIsPlaceholder ? (
-          <p class="placeholder-mark self-start">{about}</p>
-        ) : (
-          <div class="flex flex-col gap-u3">
-            {aboutIsDraft && <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>}
-            <p
-              class:list={[
-                "type-body text-body max-w-prose whitespace-pre-line",
-                aboutIsDraft && "draft-text",
-              ]}
-            >
-              {about}
-            </p>
-          </div>
-        )
-      ) : (
-        <p class="placeholder-mark self-start">{"{ABOUT}"}</p>
+      !about && <p class="placeholder-mark self-start">{"{ABOUT}"}</p>
+    }
+    {
+      about && aboutIsPlaceholder && <p class="placeholder-mark self-start">{about}</p>
+    }
+    {
+      about && !aboutIsPlaceholder && paragraphs.length > 0 && (
+        <p class:list={["type-body text-body max-w-prose", aboutIsDraft && "draft-text"]}>
+          {paragraphs[0]}
+        </p>
       )
     }
   </TextSurface>
+
+  {
+    about &&
+      !aboutIsPlaceholder &&
+      paragraphs.slice(1).map((paragraph, index) => (
+        <>
+          {photographs[index] && (
+            <MediaSurface media={photographs[index]} locale={locale} height="tall" />
+          )}
+          <TextSurface class="py-u13">
+            <p class:list={["type-body text-body max-w-prose", aboutIsDraft && "draft-text"]}>
+              {paragraph}
+            </p>
+          </TextSurface>
+        </>
+      ))
+  }
+
+  {/* any photographs left over after the text simply continue the sequence */}
+  {
+    photographs.slice(Math.max(paragraphs.length - 1, 0)).map((media) => (
+      <MediaSurface media={media} locale={locale} height="tall" />
+    ))
+  }
 </Base>
