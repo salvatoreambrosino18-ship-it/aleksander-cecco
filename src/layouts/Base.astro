@@ -25,9 +25,11 @@ interface Props {
    * On a media-led page this is the first media item's overlay polarity.
    */
   chrome?: "light" | "dark";
+  /** Absolute URL of the sharing image. Always a real photograph, never art. */
+  image?: string | null;
 }
 
-const {locale, title, description, theme = "light", chrome} = Astro.props;
+const {locale, title, description, theme = "light", chrome, image} = Astro.props;
 
 const settings = await getSiteSettings();
 
@@ -53,6 +55,21 @@ const canonical = Astro.site ? new URL(pathname, Astro.site) : null;
         ))
     }
     {Astro.site && <link rel="alternate" hreflang="x-default" href={new URL(localePath("it"), Astro.site).href} />}
+
+    {/*
+      Sharing metadata. The image is always one of the owner's photographs, from
+      the page it belongs to. There is no generated card and no invented
+      artwork. Description is present only where the content supplies one:
+      inventing brand copy for a meta tag is still inventing brand copy.
+    */}
+    <meta property="og:site_name" content={brand} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:locale" content={locale === "it" ? "it_IT" : "en_GB"} />
+    {canonical && <meta property="og:url" content={canonical.href} />}
+    {description && <meta property="og:description" content={description} />}
+    {image && <meta property="og:image" content={image} />}
+    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
     {/* Preload only the first-screen typeface (Archivo). Mono is not on the hero. */}
     <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   </head>

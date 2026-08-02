@@ -969,6 +969,39 @@ keeps this site from being a pastiche of the three: the signature already exists
 in both polarities, the inversion is the one structural idea the site owns, and
 the palette is what makes the result this brand's rather than a copy of anyone.
 
+### Verification finding: the chrome cannot always stay legible (2026-08-02)
+
+Found while checking the built pages against the brand's own photographs, and
+recorded rather than papered over.
+
+The fixed chrome (signature top left, MENU top right) floats over full-bleed
+photography and takes its polarity from the image beneath it. One polarity value
+per image is not always enough, for two reasons:
+
+1. `object-fit: cover` re-crops every photograph to the viewport, so the band
+   under the chrome on a phone is a centre column of the file, and at desktop it
+   is a different region again. A value measured against the file can be wrong
+   on the device. Four of the nine seeded images had their value corrected once
+   the measurement was redone at phone crop.
+2. The signature and MENU sit at opposite corners of the same band. On the
+   collection cover at desktop, the left corner falls on a dark garment and the
+   right corner on a pale wall, so whichever polarity is chosen one of the two
+   is weak. The seeded set shows this on `/collections` and the collection page
+   at 1440px: the signature reads well, MENU is marginal.
+
+Options, none applied, because this is a design decision for the owner:
+
+- Move MENU next to the signature, both top left. They then share one local
+  background and one polarity is always right for both. Cheapest, and it is a
+  layout change of a few lines.
+- Accept it: choose the polarity for the signature, which is the mark that
+  matters, and let MENU be marginal on some frames.
+- Put the chrome on a flat band of page colour. Legible everywhere, but it
+  reintroduces the persistent bar the direction removed.
+- Caption placement already solves the equivalent problem lower down the frame,
+  and could be extended: an image whose top band is hostile could simply not
+  carry chrome. That needs a rule for where the chrome goes instead.
+
 ### Decisions confirmed by the owner (2026-08-01)
 
 - Overlay polarity is picked per media item by the owner in the studio.

@@ -22,6 +22,7 @@ import MediaSurface from "../../components/MediaSurface.astro";
 import Signature from "../../components/Signature.astro";
 import {getCollections} from "../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
+import {imageUrl} from "../../lib/image";
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({params: {lang}}));
@@ -29,9 +30,10 @@ export function getStaticPaths() {
 
 const locale = toLocale(Astro.params.lang);
 const collections = await getCollections();
+const shareImage = collections.find((c) => c.cover)?.cover ?? null;
 ---
 
-<Base locale={locale}>
+<Base locale={locale} image={shareImage ? imageUrl(shareImage.poster, 1200) : null}>
   {/* 1. OPENING. The one thing on the site allowed to be large. */}
   <TextSurface framed={false} class="flex min-h-svh flex-col justify-center">
     <h1 class="w-sig-hero self-center">

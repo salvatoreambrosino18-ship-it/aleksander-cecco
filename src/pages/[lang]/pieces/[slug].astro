@@ -16,6 +16,7 @@ import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
 import {getGarments, type Garment} from "../../../lib/content";
 import {overlayTheme} from "../../../lib/media";
+import {imageUrl} from "../../../lib/image";
 import {LOCALES, pick, toLocale, type Locale} from "../../../lib/locales";
 import {orderedSizes, sizeLabel} from "../../../lib/sizes";
 import {t} from "../../../i18n/ui";
@@ -80,6 +81,7 @@ const facts: Array<{term: string; value: string | null; placeholder?: string}> =
   title={garment.name}
   description={description ?? undefined}
   chrome={overlayTheme(firstMedia?.overlay)}
+  image={firstMedia ? imageUrl(firstMedia.poster, 1200) : null}
 >
   {
     media.map((item, index) => (

@@ -30,6 +30,20 @@
   The measured luminance and the resulting contrast are recorded next to each
   entry.
 
+  A SECOND measurement pass (2026-08-02) corrected four of these. The first pass
+  sampled bands of the FILE, but object-fit cover re-crops every file to the
+  viewport, so the band a phone actually shows under the fixed chrome is a
+  centre column of the file, not the whole width. Values below are now measured
+  on that centre column at phone aspect.
+
+  It also exposed a limit of the model, recorded here because it will matter
+  again: ONE overlay value has to serve two different bands, the caption at the
+  bottom of the frame and the chrome at the top, and a photograph can be dark at
+  one end and bright at the other. In this set every image that carries a caption
+  happens to agree at both ends, and the six that carry no caption take the value
+  the chrome needs. A future photograph may not be so obliging, and then the
+  field has to split in two.
+
   Three frames (IMG_3116, IMG_3691, IMG_3692) are shot against bright concrete
   with a dark garment in the frame, so their caption band holds both extremes:
   the winning polarity still drops to a contrast of 1.1 to 1.6 somewhere in the
@@ -74,28 +88,34 @@ const client = createClient({
 */
 const PHOTOS = {
   "IMG_3619.jpg": {
-    overlay: "paper", // caption band L 0.164, paper contrast 4.70 (worst 3.12)
+    // Caption over the image. Bottom band L 0.164 (paper 4.70) and phone-crop
+    // top band L 0.165 (paper 4.68) agree: paper serves caption and chrome.
+    overlay: "paper",
     alt: {
       it: "Pantaloni ampi in tela chiara, visti di fronte, appesi a una gruccia contro un muro di cemento e una serranda metallica.",
       en: "Wide-leg trousers in pale canvas, seen from the front, hanging from a hanger against a concrete wall and a metal roller shutter.",
     },
   },
   "IMG_3625.jpg": {
-    overlay: "paper", // caption band L 0.142, paper contrast 5.25 (worst 3.40)
+    // No caption. Phone-crop top band L 0.142: paper 5.25 against ink 3.60.
+    overlay: "paper",
     alt: {
       it: "Gli stessi pantaloni chiari visti da dietro, con due tasche con zip sul retro.",
       en: "The same pale trousers seen from behind, with two zipped pockets at the back.",
     },
   },
   "IMG_2368.jpg": {
-    overlay: "paper", // caption band L 0.088, paper contrast 7.30 (worst 4.47)
+    // No caption on this frame, so overlay serves only the chrome passing over
+    // it. Phone-crop top band L 0.308: ink 6.72 against paper 2.81.
+    overlay: "ink",
     alt: {
       it: "Dettaglio della vita di un capo in pelle grigio chiaro, con passanti e due tasche con zip, appoggiato su una superficie scura accanto a un capo in pelle nera.",
       en: "Close-up of the waist of a pale grey leather piece, with belt loops and two zipped pockets, resting on a dark surface next to a black leather piece.",
     },
   },
   "IMG_2378.jpg": {
-    overlay: "paper", // caption band L 0.058, paper contrast 9.33 (worst 7.42)
+    // No caption. Phone-crop top band L 0.213: ink 4.93 against paper 3.83.
+    overlay: "ink",
     alt: {
       it: "Dettaglio ravvicinato della chiusura con zip e di un passante su pelle grigio chiaro, sopra un capo in pelle nera su una superficie scura e lucida.",
       en: "Close-up of a zip fastening and a belt loop on pale grey leather, over a black leather piece on a dark reflective surface.",
@@ -123,14 +143,18 @@ const PHOTOS = {
     },
   },
   "IMG_1834.jpg": {
-    overlay: "paper", // caption band L 0.016, paper contrast 15.27 (worst 10.79)
+    // No caption. Phone-crop top band L 0.520 (bright branch and wall): ink
+    // 10.69 against paper 1.77. The first pass read the dark bottom of the
+    // frame and got this exactly backwards.
+    overlay: "ink",
     alt: {
       it: "Dettaglio ravvicinato di una cintura in pelle nera sopra pannelli di lino scuro, il capo appeso a un ramo con una catena e una gruccia di filo.",
       en: "Close-up of a black leather waistband over dark linen panels, the garment hanging from a branch by a chain and a wire hanger.",
     },
   },
   "IMG_2127.jpg": {
-    overlay: "paper", // caption band L 0.024, paper contrast 13.56 (worst 10.99)
+    // No caption. Phone-crop top band L 0.513: ink 10.57 against paper 1.79.
+    overlay: "ink",
     alt: {
       it: "Dettaglio di pannelli in pelle grigio verde con una cucitura curva, distesi su una superficie scura.",
       en: "Close-up of grey-green leather panels with a curved seam, laid out on a dark surface.",
@@ -141,7 +165,7 @@ const PHOTOS = {
     // worst of the three. Caption below. Its chrome band is dark (L 0.163), so
     // unlike the other two this one takes PAPER for the chrome passing over it.
     captionPlacement: "below",
-    overlay: "paper",
+    overlay: "paper", // phone-crop top band L 0.154: paper 4.92 against ink 3.84
     alt: {
       it: "Top smanicato in pelle nera increspata con collo alto arricciato, su un manichino chiaro; a sinistra una camicia scura su una gruccia e sul muro dietro i cartamodelli.",
       en: "A sleeveless top in crinkled black leather with a high gathered collar, on a pale mannequin; a dark shirt hangs to the left and paper patterns are pinned on the wall behind.",
