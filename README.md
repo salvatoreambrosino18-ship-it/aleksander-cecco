@@ -135,6 +135,27 @@ contrast against paper and ink) rather than guessed. Both are recorded per file
 in `scripts/seed.mjs`, including three frames flagged RISKY because their
 caption band spans both dark garment and bright concrete.
 
+## Importing the owner's photographs
+
+```
+npm run import            # convert, measure, upload, write documents
+npm run import -- --dry   # convert and measure only, upload nothing
+```
+
+Separate from `npm run seed` on purpose: seed makes disposable test fixtures,
+import puts real work in. Running import removes the seeded placeholders.
+
+It reads the owner's Google Drive folder READ ONLY and writes nothing there or
+into this repository. HEIC is converted with `sips` into the system temp
+directory, because Sanity's pipeline does not accept HEIC. If the owner uploads
+through the studio instead, exporting as JPEG from Photos avoids the problem
+entirely and needs no script.
+
+Grouping, alt text and overlay polarity are decided in `scripts/import-photos.mjs`.
+Alt text is Italian, flagged `altIsDraft` until a person approves it. Overlay
+polarity is measured, not guessed: `scripts/lib/measure-overlay.mjs` samples the
+top left of the phone crop, where the fixed chrome actually sits.
+
 ## Fonts
 
 Both typefaces are self-hosted and never loaded from a CDN. The files in
