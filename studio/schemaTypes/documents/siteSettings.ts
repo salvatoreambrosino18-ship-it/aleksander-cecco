@@ -81,17 +81,46 @@ export const siteSettings = defineType({
         'Una o due righe brevi sul come sono fatti i capi. / One or two short lines about how the pieces are made.',
     }),
     /*
-      One switch for every line of home-page copy that was written FOR the brand
-      rather than BY it, exactly like aboutIsDraft. While it is on, each of
-      those texts is marked as an unapproved draft on the page: readable, so the
-      owner can judge it by reading it, but never passing as the brand's voice.
+      WHICH LANGUAGES CARRY THE OWNER'S OWN VOICE (2026-08-02).
+
+      He wrote the brand text in English. The Italian on the site is our
+      translation of it, and Italian is the DEFAULT locale, so most visitors
+      read a version he has never approved. That has to be visible.
+
+      Ticking a language here says: the brand copy in this language is his, as
+      he wrote it. Untick it and every brand text in that language is marked on
+      the site as an unapproved translation. It is not a draft: the brand knows
+      what it says, it said it in English, and only the wording is ours.
+
+      This replaced a single homeCopyIsDraft boolean, which could not tell the
+      two apart and would have labelled his own English an unapproved draft.
     */
     defineField({
-      name: 'homeCopyIsDraft',
-      title: 'Testi della home non approvati / Home copy not approved',
+      name: 'approvedLanguages',
+      title: 'Lingue approvate dal titolare / Languages the owner has approved',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'Italiano', value: 'it'},
+          {title: 'English', value: 'en'},
+        ],
+        layout: 'grid',
+      },
+      description:
+        "Spuntare una lingua quando i testi del marchio in quella lingua sono parole del titolare. Le lingue non spuntate vengono mostrate sul sito come traduzione non approvata. / Tick a language when the brand texts in it are the owner's own words. Languages left unticked are shown on the site as an unapproved translation.",
+      initialValue: ['en'],
+    }),
+    /*
+      Copy WE wrote, in every language, which no approved language can fix. Only
+      the two footer lines are ours now; the rest of the brand voice is his.
+    */
+    defineField({
+      name: 'footerCopyIsDraft',
+      title: 'Righe del fondo pagina non approvate / Footer lines not approved',
       type: 'boolean',
       description:
-        "Acceso finche' il titolare non approva i testi della home (chi siamo in breve, lavorazione, righe del fondo pagina). / On until the owner approves the home page copy (the short about, the making, and the footer lines).",
+        "Acceso finche' il titolare non approva le due righe che abbiamo scritto noi in fondo alla pagina (spedizioni, origine). / On until the owner approves the two footer lines we wrote (shipping, origin).",
       initialValue: true,
     }),
     defineField({
@@ -103,25 +132,42 @@ export const siteSettings = defineType({
         'Immagini di processo e materiale, alternate al testo. / Process and material images, interleaved with the text.',
     }),
     defineField({
+      name: 'aboutOpeningMedia',
+      title: 'Chi siamo: fotografia di apertura / About: opening photograph',
+      type: 'media',
+      description:
+        "La prima schermata della pagina, a tutto schermo, con una sola riga sopra. / The first screen of the page, full bleed, with a single line over it.",
+    }),
+    defineField({
+      name: 'aboutOpeningLine',
+      title: 'Chi siamo: la riga di apertura / About: the opening line',
+      type: 'localeString',
+      description:
+        "Una frase sola, sopra la fotografia di apertura. Breve. / One sentence only, over the opening photograph. Short.",
+    }),
+    defineField({
       name: 'about',
       title: 'Chi siamo / About',
       type: 'localeText',
       description:
-        'La storia del marchio. Righe e paragrafi vengono rispettati. / The brand story. Line and paragraph breaks are kept.',
+        "La storia del marchio, per intero. Una riga vuota separa i paragrafi, e ogni paragrafo prende una schermata di testo fra le fotografie. Righe e paragrafi vengono rispettati. / The brand story, complete. A blank line separates paragraphs, and each paragraph takes a screen of text between the photographs. Line and paragraph breaks are kept.",
     }),
     /*
-      The story on the site is a draft nobody has approved. While this is on,
-      the about page marks it as such in the same register as a placeholder, so
-      an unapproved voice can never be mistaken for the brand's own. Replacing
-      it is: paste the approved text, turn this off. No code, no deploy.
+      Turned OFF on 2026-08-02: the story is now the owner's own text, so it is
+      no longer a draft in any language. What remains is the translation
+      question, which approvedLanguages answers on its own.
+
+      The field stays because the distinction it makes is still real: it means
+      "these words are ours, not his". Turn it back on the day anyone writes
+      brand story copy on the owner's behalf again.
     */
     defineField({
       name: 'aboutIsDraft',
-      title: 'Testo non approvato / Text not approved',
+      title: 'La storia e stata scritta da noi / The story was written by us',
       type: 'boolean',
       description:
-        'Acceso finche il titolare non approva il testo. Il sito lo mostra marcato come bozza. / On until the owner approves the text. The site shows it marked as a draft.',
-      initialValue: true,
+        "Acceso solo se il testo NON e del titolare. Il sito lo marca come bozza in tutte le lingue. Per la sola questione della traduzione usare invece le lingue approvate. / On only when the text is NOT the owner's. The site then marks it as a draft in every language. For the translation question alone, use the approved languages field instead.",
+      initialValue: false,
     }),
     defineField({
       name: 'shippingReturns',

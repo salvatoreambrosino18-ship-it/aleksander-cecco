@@ -29,7 +29,7 @@ type EnquiryCopy = {
 
 const copy: Record<Locale, EnquiryCopy> = {
   it: {
-    intro: "Ogni capo viene costruito su misura. Lasciaci le tue misure e ti scriviamo noi.",
+    intro: "Ogni Creatura viene costruita su misura. Lasciaci le tue misure e ti scriviamo noi.",
     measureTitle: "Come prendere le misure",
     measures: [
       {
@@ -42,13 +42,13 @@ const copy: Record<Locale, EnquiryCopy> = {
       },
       {
         label: "Lunghezza",
-        how: "dalla base del collo fino al punto dove vuoi che il capo finisca.",
+        how: "dalla base del collo fino al punto dove vuoi che la Creatura finisca.",
       },
     ],
     confirmation: "Richiesta ricevuta. Ti rispondiamo via email.",
   },
   en: {
-    intro: "Every piece is built to measure. Leave your measurements and we will write back.",
+    intro: "Every Creature is built to measure. Leave your measurements and we will write back.",
     measureTitle: "How to measure",
     measures: [
       {
@@ -61,7 +61,7 @@ const copy: Record<Locale, EnquiryCopy> = {
       },
       {
         label: "Length",
-        how: "from the base of the neck down to where you want the piece to end.",
+        how: "from the base of the neck down to where you want the Creature to end.",
       },
     ],
     confirmation: "Enquiry received. We will reply by email.",

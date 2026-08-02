@@ -1843,3 +1843,165 @@ the dataset, simply unreferenced. They are good photographs and the new
 structure has no slot for them, so where they belong, the archive, a collection,
 or the about page, is the owner's call.
 
+
+---
+
+## 22. The brand's own words (2026-08-02)
+
+The owner supplied his text. It REPLACES everything that had been written on his
+behalf, which was only ever a placeholder standing in for exactly this. Nothing
+from the earlier drafts survives anywhere on the site, and the earlier material
+that came with them is withdrawn with them: no Naples, no "German and Northern
+European sensibilities", no "forms taken from nature" in our phrasing. His text
+is the source now.
+
+### The rule for handling it
+
+His sentences appear UNALTERED and in HIS ORDER. The only editorial act allowed
+is deciding where each contiguous run of them is placed. No sentence is trimmed,
+merged, reworded or paraphrased. Anything failing that test is our writing and
+carries a mark.
+
+Where each run goes, and it is all in `scripts/import-photos.mjs` under
+`OWNER_EN`:
+
+| his lines | subject | where |
+| --- | --- | --- |
+| 1-2 | the brand's reason for being | home, "the work" |
+| 3-4 | the Creature | about only |
+| 5-7 | the collection | the MONUMENTUS statement |
+| 8-10 | the making | home, "the making" |
+
+The ABOUT PAGE carries all ten, complete and unbroken. That is deliberate and it
+is not redundancy: every other placement is an excerpt WE chose, so there has to
+be one page where his text exists whole and a reader can judge it without our
+edit in the way.
+
+### Three kinds of copy, and why one boolean could not hold them
+
+`src/lib/voice.ts`. The site distinguishes:
+
+- APPROVED, his own words in the language he wrote them. No mark of any kind.
+- TRANSLATION, his words carried into the other language by us. Marked
+  "unapproved translation".
+- DRAFT, words we wrote. Marked "unapproved draft".
+
+The translation/draft distinction is the point, not pedantry. He wrote in
+English and Italian is the site's DEFAULT locale, so most visitors read wording
+he has never seen. Labelling that an "unapproved draft" would tell an Italian
+reader the brand has not decided what it thinks, which is false: it has decided,
+in English, and only the wording is ours.
+
+Two independent facts decide the state, which is why the old single
+`homeCopyIsDraft` boolean was replaced:
+
+- `siteSettings.approvedLanguages`, currently `["en"]`. Tick Italian in the
+  studio when he approves it and every mark on the site disappears at once.
+- a per-block "we wrote this" flag, which no approved language can override.
+  Only `footerCopyIsDraft` is still on; `aboutIsDraft` is now off.
+
+### Nigredo, Albedo, and the wipe
+
+ANSWERED, and the answer is yes, on conditions.
+
+The collection is MONUMENTUS: Tenebrae & Lux, and his text names the two
+alchemical stages in order: Nigredo the blackening, then Albedo the whitening.
+The wipe travelled paper to ink, which ran that sequence backwards. It now runs
+INK TO PAPER. The home page begins in darkness and resolves into light.
+
+Why this is not heavy-handed: nothing was added. Two props changed on one
+component that already existed, and no copy anywhere explains it. A reader who
+knows the terms may feel it; a reader who does not sees a page that inverts
+once, exactly as before. That is the test the owner set and it is the only
+honest way to pass it.
+
+Three conditions, and they are binding:
+
+1. DIRECTION, NOT ADDITION. The meaning is carried by the direction of a
+   movement the site already made. The moment it needs a second element to
+   carry it, it has failed.
+2. ONE PER JOURNEY. One wipe, at the boundary it already occupied. The
+   temptation will be to invert between every chapter; resist it. A
+   transformation that happens five times is not a transformation, it is a
+   transition effect. The collection page therefore has NO wipe (section 23).
+3. IT MUST SURVIVE THE COLLECTION. The inversion is the site's permanent
+   architecture (section 1), not MONUMENTUS's iconography. It reads as "the page
+   has two states" on its own terms, so a second collection does not inherit a
+   meaning belonging to the first. If the wipe ever has to be explained, or ever
+   stops making sense without MONUMENTUS, it has become branding and should be
+   pulled back to being structure.
+
+The honest risk, recorded rather than hidden: this is the kind of idea that
+invites elaboration, and every elaboration would break condition 1. The
+safeguard is that it costs two props, so it can be reversed in a minute.
+
+### Facts corrected across the site
+
+- Collection name: MONUMENTUS: Tenebrae & Lux. `{COLLECTION_NAME}` is retired.
+  Its slug is `/collections/monumentus`, previously `collezione-01`.
+- Material: 100% VEGETABLE-TANNED leather, in the garment schema default and in
+  every imported Creature. Vegetable-tanned is a process; "Italian leather" named
+  only a country and was the wrong fact.
+- Origin: handmade in SOUTH ITALY. Naples is NOT used anywhere, because his text
+  says South Italy and the owner has not confirmed the city.
+- The pieces are CREATURE. Singular Creatura in Italian.
+
+### Where "Creature" replaced garment or piece
+
+Visible interface text, all changed:
+
+| file | string |
+| --- | --- |
+| `src/i18n/ui.ts` | `madeToMeasureValue`, both languages |
+| `src/i18n/ui.ts` | `madeInItaly` is now "Handmade in South Italy" |
+| `src/i18n/enquiry.ts` | the form intro, both languages |
+| `src/i18n/enquiry.ts` | the "length" measuring instruction, both languages |
+| `functions/api/enquiry.ts` | the "back" link on every reply page, both languages |
+| `studio/schemaTypes/documents/garment.ts` | the document is now "Creatura / Creature" in the studio |
+
+NOT changed, deliberately:
+
+- The Sanity document type id is still `garment`. It is an internal identifier;
+  renaming it means migrating every document to buy nothing a reader can see.
+- The route is still `/pieces/[slug]`. This one is a real decision and it is the
+  owner's: `/creature/[slug]` is more faithful, and the cheapest moment to
+  change a URL is now, before launch, while the site is noindexed and no link
+  has been shared. It touches the route, the enquiry sub-route, the Pages
+  Function's back link, the sitemap and every internal link, so it is not done
+  on our own authority.
+- The enquiry email subject and body still say "Piece:". That text is read by
+  the owner, not by a visitor.
+
+### A register decision, made against the plan
+
+His writing is long and discursive. `--t-statement` is uppercase, and
+uppercasing a sixty-word sentence turns a manifesto into shouting and makes it
+hard to read. So `Statement.astro` gained a `register` prop: his prose passages
+are set in the BODY register, sentence case, and only his short declamatory
+passages take the statement register. The about page chooses per paragraph on a
+word count.
+
+This bends section 1, which says statement copy is always short uppercase lines.
+The plan was written before anyone had seen the brand's actual voice. The
+register exists to serve the voice; the voice does not get cut to fit it.
+
+### A build gotcha worth knowing
+
+`src/lib/sanity.ts` reads with `useCdn: true`, so a build run immediately after
+`npm run import` can serve the PREVIOUS content: it happened here, and the first
+build after the rename still produced `/collections/collezione-01`. The dataset
+was already correct. Rebuild a minute later, or check the dataset directly with
+a `useCdn: false` client before concluding anything is broken. This is distinct
+from the intermittent publish webhook in section 16 and has a different cause.
+
+### Still open
+
+- The Italian is our translation and is marked as such everywhere. It needs him.
+- Two Italian conventions collide: the older interface strings drop accents
+  ("e" for "è"), while the new brand copy carries them correctly. The brand copy
+  should win and the interface strings should be corrected; it is small and was
+  not done in the same pass as the content.
+- His own English says "The garments are alchemical entities" in the collection
+  statement even though he names the pieces Creature. The translation keeps
+  "capi" to stay faithful. Worth asking whether he wants that sentence to say
+  Creature.

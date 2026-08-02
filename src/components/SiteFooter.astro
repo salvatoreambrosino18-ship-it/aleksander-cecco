@@ -20,6 +20,7 @@
 import TextSurface from "./TextSurface.astro";
 import {isPlaceholderEmail, isPlaceholderText, type SiteSettings} from "../lib/content";
 import {localePath, pick, type Locale} from "../lib/locales";
+import {isMarked, voiceState} from "../lib/voice";
 import {t} from "../i18n/ui";
 
 interface Props {
@@ -42,10 +43,16 @@ const emailIsPlaceholder = isPlaceholderEmail(email);
 
 const shipping = pick(settings.footerShipping, locale);
 const origin = pick(settings.footerOrigin, locale);
-const draft = Boolean(settings.homeCopyIsDraft);
 
-/** A written line is a draft only when it is real prose, not a {TOKEN}. */
-const isDraftLine = (value: string | null) => draft && Boolean(value) && !isPlaceholderText(value);
+/*
+  These two lines are the only brand copy on the site still written by US rather
+  than by the owner, so they are drafts in every language, not translations.
+  Everything else here is a fact from settings, which needs no mark at all.
+*/
+const voice = voiceState(settings, locale, Boolean(settings.footerCopyIsDraft));
+const notice = voice === "translation" ? "translationNotice" : "draftNotice";
+const isMarkedLine = (value: string | null) =>
+  isMarked(voice) && Boolean(value) && !isPlaceholderText(value);
 ---
 
 <TextSurface theme={theme} class="hairline-h mt-u21 py-u8">
@@ -101,7 +108,7 @@ const isDraftLine = (value: string | null) => draft && Boolean(value) && !isPlac
         {!shipping && <span class="placeholder-mark self-start">{"{FOOTER_SHIPPING}"}</span>}
         {
           shipping && (
-            <p class:list={["type-mono text-mono", isDraftLine(shipping) && "draft-text"]}>
+            <p class:list={["type-mono text-mono", isMarkedLine(shipping) && "draft-text"]}>
               {shipping}
             </p>
           )
@@ -114,15 +121,15 @@ const isDraftLine = (value: string | null) => draft && Boolean(value) && !isPlac
         {!origin && <span class="placeholder-mark self-start">{"{FOOTER_ORIGIN}"}</span>}
         {
           origin && (
-            <p class:list={["type-mono text-mono", isDraftLine(origin) && "draft-text"]}>{origin}</p>
+            <p class:list={["type-mono text-mono", isMarkedLine(origin) && "draft-text"]}>{origin}</p>
           )
         }
       </li>
     </ul>
 
     {
-      (isDraftLine(shipping) || isDraftLine(origin)) && (
-        <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
+      (isMarkedLine(shipping) || isMarkedLine(origin)) && (
+        <p class="placeholder-mark self-start">{t(locale, notice)}</p>
       )
     }
 

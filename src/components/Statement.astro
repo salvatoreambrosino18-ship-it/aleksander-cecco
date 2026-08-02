@@ -1,55 +1,79 @@
 ---
 /*
-  A STATEMENT: two or three short lines in the brand's voice, on a text surface.
+  A BLOCK OF BRAND COPY on a text surface.
 
-  Line breaks are meaningful and are preserved (type-statement sets
-  white-space: pre-line), because the owner writes these as lines, not as a
-  paragraph that happens to wrap.
+  Two registers, and the choice is not cosmetic:
 
-  Three states, and the middle one is the one that matters here:
+  - "statement" is the Sorcinelli register the plan was built around: uppercase,
+    wide, two or three short declamatory lines.
+  - "body" is running prose in sentence case.
 
-  - missing:     nothing to say yet, so the {TOKEN} shows as a marked placeholder.
-  - placeholder: the field still holds a {LIKE_THIS} token, marked the same way.
-  - draft:       real prose that nobody has approved. It stays fully readable,
-                 because the owner judges it by reading it on the page, and it
-                 carries the draft rule beside it so it can never be mistaken
-                 for the brand's own approved voice (DESIGN-PLAN section 17).
+  The owner writes long, discursive sentences, and forcing those into uppercase
+  at statement size turns a manifesto into shouting and makes it hard to read.
+  So his prose passages take the body register and his short declamatory
+  passages take the statement register. The site serves the voice; the voice
+  does not get cut down to fit a register (DESIGN-PLAN section 22).
+
+  Line breaks are meaningful in both, because he writes in lines.
+
+  WHOSE WORDS. See lib/voice.ts. Approved copy carries no mark at all. A
+  translation says so. A draft says so. The distinction is deliberate: telling
+  an Italian reader that the brand's own statement is an "unapproved draft"
+  would suggest the brand has not decided what it thinks, which is false; it has
+  decided, in English.
 */
 import TextSurface from "./TextSurface.astro";
 import {isPlaceholderText} from "../lib/content";
 import type {Locale} from "../lib/locales";
+import {isMarked, type VoiceState} from "../lib/voice";
 import {t} from "../i18n/ui";
 
 interface Props {
-  /** The lines themselves, already picked for this locale. */
   text: string | null;
   locale: Locale;
-  /** Section heading, at label scale. Announced even where it reads small. */
-  heading: string;
-  /** The token shown when the owner has not written this yet. */
-  token: string;
-  /** True while the copy is written for the brand rather than by it. */
-  isDraft?: boolean;
+  /** Section heading, at label scale. Omit to render the copy with no heading. */
+  heading?: string | null;
+  /** Shown when the owner has not written this yet. */
+  token?: string;
+  /** approved | translation | draft, from voiceState(). */
+  voice?: VoiceState;
+  register?: "statement" | "body";
   theme?: "light" | "dark";
   class?: string;
 }
 
-const {text, locale, heading, token, isDraft = false, theme, class: className = ""} = Astro.props;
+const {
+  text,
+  locale,
+  heading = null,
+  token = null,
+  voice = "approved",
+  register = "statement",
+  theme,
+  class: className = "",
+} = Astro.props;
 
 const isPlaceholder = isPlaceholderText(text);
-const showDraftMark = isDraft && Boolean(text) && !isPlaceholder;
+const marked = isMarked(voice) && Boolean(text) && !isPlaceholder;
+const noticeKey = voice === "translation" ? "translationNotice" : "draftNotice";
 ---
 
 <TextSurface theme={theme} class:list={["flex flex-col gap-u5 py-u13", className]}>
-  <h2 class="type-label text-label">{heading}</h2>
+  {heading && <h2 class="type-label text-label">{heading}</h2>}
 
-  {showDraftMark && <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>}
+  {marked && <p class="placeholder-mark self-start">{t(locale, noticeKey)}</p>}
 
-  {!text && <p class="placeholder-mark self-start">{token}</p>}
+  {!text && token && <p class="placeholder-mark self-start">{token}</p>}
   {text && isPlaceholder && <p class="placeholder-mark self-start">{text}</p>}
   {
     text && !isPlaceholder && (
-      <p class:list={["type-statement text-statement max-w-prose", showDraftMark && "draft-text"]}>
+      <p
+        class:list={[
+          register === "statement" ? "type-statement text-statement" : "type-body text-body",
+          "max-w-prose whitespace-pre-line",
+          marked && "draft-text",
+        ]}
+      >
         {text}
       </p>
     )

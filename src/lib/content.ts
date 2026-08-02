@@ -42,11 +42,18 @@ export type SiteSettings = {
   homeSequence: HomeTile[] | null;
   makingMedia: MediaItem[] | null;
   makingStatement: LocaleField;
-  /** True while the home page copy is written for the brand, not by it. */
-  homeCopyIsDraft: boolean | null;
+  /**
+   * The languages whose brand copy is the owner's own words. Anything else is
+   * our translation and is marked as such on the page. See lib/voice.ts.
+   */
+  approvedLanguages: string[] | null;
+  /** True while the two footer lines are still ours rather than his. */
+  footerCopyIsDraft: boolean | null;
+  aboutOpeningMedia: MediaItem | null;
+  aboutOpeningLine: LocaleField;
   aboutMedia: MediaItem[] | null;
   about: LocaleField;
-  /** True while the brand story is an unapproved draft. */
+  /** True only if the brand story was written by us rather than by the owner. */
   aboutIsDraft: boolean | null;
   shippingReturns: LocaleField;
   footerShipping: LocaleField;
@@ -65,7 +72,10 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     },
     makingMedia[]{${MEDIA_PROJECTION}},
     makingStatement,
-    "homeCopyIsDraft": coalesce(homeCopyIsDraft, false),
+    "approvedLanguages": coalesce(approvedLanguages, ["en"]),
+    "footerCopyIsDraft": coalesce(footerCopyIsDraft, true),
+    aboutOpeningMedia{${MEDIA_PROJECTION}},
+    aboutOpeningLine,
     aboutMedia[]{${MEDIA_PROJECTION}},
     about,
     "aboutIsDraft": coalesce(aboutIsDraft, false),
@@ -83,7 +93,10 @@ const EMPTY_SETTINGS: SiteSettings = {
   homeSequence: null,
   makingMedia: null,
   makingStatement: null,
-  homeCopyIsDraft: null,
+  approvedLanguages: null,
+  footerCopyIsDraft: null,
+  aboutOpeningMedia: null,
+  aboutOpeningLine: null,
   aboutMedia: null,
   about: null,
   aboutIsDraft: null,

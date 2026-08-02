@@ -3,7 +3,7 @@ import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list
 
 export const garment = defineType({
   name: 'garment',
-  title: 'Capo / Garment',
+  title: 'Creatura / Creature',
   type: 'document',
   fields: [
     defineField({
@@ -64,8 +64,10 @@ export const garment = defineType({
       name: 'materials',
       title: 'Materiali / Materials',
       type: 'localeText',
-      // Editable per piece; this is only the starting value on a new garment.
-      initialValue: {it: '100% pelle italiana', en: '100% Italian leather'},
+      // Editable per Creature; this is only the starting value on a new one.
+      // Corrected 2026-08-02: the owner's text says vegetable-tanned, which is a
+      // tanning process, not just a country of origin.
+      initialValue: {it: '100% pelle conciata al vegetale', en: '100% vegetable-tanned leather'},
     }),
     defineField({
       name: 'measurements',

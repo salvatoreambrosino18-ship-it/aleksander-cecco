@@ -20,8 +20,9 @@
                  region on the site (see WornBand.astro).
     4. MAKING    the work behind the pieces, and the one route to asking for
                  one. Section 2 makes a claim; this is where it is shown.
-    [ THE WIPE ] the boundary wash. Paper above it, ink below, footer included.
-    5. COLLECTIONS as chapters, on ink.
+    [ THE WIPE ] the boundary wash. INK above it, paper below, footer included.
+                 Nigredo then Albedo: see the note at the wash itself.
+    5. COLLECTIONS as chapters, on paper.
 
   HOW THE PULL IS BUILT, since that was the actual complaint. Only the arrival
   is a sealed screen, because an arrival should be. Everything after it is
@@ -42,6 +43,7 @@ import BoundaryWash from "../../components/BoundaryWash.astro";
 import {getCollections, getSiteSettings} from "../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
+import {voiceState} from "../../lib/voice";
 import {imageUrl} from "../../lib/image";
 import {t} from "../../i18n/ui";
 
@@ -57,7 +59,9 @@ const worn = settings.homeSequence ?? [];
 const makingMedia = settings.makingMedia ?? [];
 const homeStatement = pick(settings.homeStatement, locale);
 const makingStatement = pick(settings.makingStatement, locale);
-const draft = Boolean(settings.homeCopyIsDraft);
+// Both blocks are the owner's own words now, so the only question left is
+// whether this language is one he approved. See lib/voice.ts.
+const voice = voiceState(settings, locale);
 
 const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 ---
@@ -68,7 +72,8 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   locale={locale}
   image={shareImage ? imageUrl(shareImage.poster, 1200) : null}
   chrome={overlayTheme(opening?.overlay)}
-  footerTheme="dark"
+  theme="dark"
+  footerTheme="light"
 >
   {/*
     1. ARRIVAL. The one sealed screen on the page, and the only priority image:
@@ -88,13 +93,18 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     )
   }
 
-  {/* 2. THE WORK. Three lines, then the way into the longer story. */}
+  {/*
+    2. THE WORK. The owner's own opening two sentences. Body register, not the
+    statement register: he writes long discursive prose, and uppercasing it at
+    statement size turns a manifesto into shouting (DESIGN-PLAN section 22).
+  */}
   <Statement
     text={homeStatement}
     locale={locale}
     heading={t(locale, "theWork")}
     token={"{HOME_STATEMENT}"}
-    isDraft={draft}
+    voice={voice}
+    register="body"
   >
     <a
       href={localePath(locale, "about")}
@@ -117,7 +127,8 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     locale={locale}
     heading={t(locale, "theMaking")}
     token={"{MAKING_STATEMENT}"}
-    isDraft={draft}
+    voice={voice}
+    register="body"
     class="pt-u13 pb-u8"
   >
     <p class="type-mono text-mono">{t(locale, "madeToMeasureValue")}</p>
@@ -132,18 +143,27 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   {makingMedia.map((media) => <MediaSurface media={media} locale={locale} height="tall" />)}
 
   {/*
-    THE BOUNDARY. The page has been paper since the arrival; from here it is
-    ink. A screen of type and the mark, with no photograph anywhere near the
-    edge, which is the condition the whole wipe depends on.
+    THE BOUNDARY, reversed 2026-08-02. The page has been INK since the arrival;
+    from here it is paper.
+
+    It used to run the other way, and the direction is no longer arbitrary. The
+    collection is MONUMENTUS: Tenebrae & Lux, and the owner's text names the two
+    alchemical stages in order: Nigredo, the blackening, then Albedo, the
+    whitening. Darkness, then light. A wipe that travelled from white into black
+    ran the sequence backwards.
+
+    Nothing is added and nothing says so. Two props changed. If a reader feels
+    it, good; if not, the page is still a page that inverts once, which is what
+    it was before (DESIGN-PLAN section 22).
   */}
   <BoundaryWash
-    from="light"
-    to="dark"
+    from="dark"
+    to="light"
     label={collections[0]?.name ?? null}
     sublabel={collections[0]?.season ?? null}
   />
 
-  {/* 5. THE COLLECTIONS, now on ink. */}
+  {/* 5. THE COLLECTIONS, now on paper. */}
   {
     collections.map((collection) => {
       const statement = pick(collection.statement, locale);
@@ -165,7 +185,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           )}
 
           {statement && (
-            <TextSurface theme="dark" class="flex flex-col gap-u5 py-u13">
+            <TextSurface theme="light" class="flex flex-col gap-u5 py-u13">
               <p class="type-statement text-statement max-w-prose">{statement}</p>
               <a href={href} class="type-label text-label self-start hover:underline underline-offset-8">
                 {collection.name}

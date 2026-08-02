@@ -25,17 +25,26 @@ const ui = {
     materials: "Materiali",
     referenceMeasurements: "Misure di riferimento",
     madeToMeasure: "Su misura",
-    madeToMeasureValue: "Ogni capo e realizzato sulle misure di chi lo indossera",
+    // "Creatura" is the owner's own word for a piece, not ours (2026-08-02).
+    madeToMeasureValue: "Ogni Creatura è realizzata sulle misure di chi la indosserà",
     draftNotice: "Bozza non approvata",
+    /*
+      Distinct from draftNotice on purpose. The brand HAS decided what it says;
+      it said it in English. Marking the Italian "unapproved draft" would imply
+      otherwise. It is an unapproved translation, which is a different claim.
+    */
+    translationNotice: "Traduzione non approvata",
     // Home sequence section labels. These name a region, they are not brand
     // copy: the brand's own words for each section come from Sanity.
     theWork: "Il lavoro",
     worn: "Addosso",
     theMaking: "La lavorazione",
+    /* The owner's word for a piece. Plural "Creature", singular "Creatura". */
+    creatures: "Creature",
     // Footer block headings.
     support: "Assistenza",
     worldwideShipping: "Spedizioni in tutto il mondo",
-    madeInItaly: "Fatto in Italia",
+    madeInItaly: "Fatto a mano nel Sud Italia",
     price: "Prezzo",
     enquire: "Invia richiesta",
     yourName: "Nome",
@@ -64,14 +73,16 @@ const ui = {
     materials: "Materials",
     referenceMeasurements: "Reference measurements",
     madeToMeasure: "Made to measure",
-    madeToMeasureValue: "Every piece is built to the measurements of the person who will wear it",
+    madeToMeasureValue: "Every Creature is built to the measurements of the person who will wear it",
     draftNotice: "Unapproved draft",
+    translationNotice: "Unapproved translation",
     theWork: "The work",
     worn: "Worn",
     theMaking: "The making",
+    creatures: "Creature",
     support: "Support",
     worldwideShipping: "Worldwide shipping",
-    madeInItaly: "Made in Italy",
+    madeInItaly: "Handmade in South Italy",
     price: "Price",
     enquire: "Send enquiry",
     yourName: "Name",

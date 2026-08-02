@@ -209,30 +209,128 @@ const COLLECTION_COVER = [
 ];
 
 /*
-  Home page copy. Written FOR the brand, never BY it, so it ships with
-  homeCopyIsDraft on and the page marks every line as an unapproved draft.
-  Nothing here goes beyond what the owner has stated: Italian leather, alchemy
-  and transformation, minimal construction, forms from nature, made by hand one
-  piece at a time, nothing made in advance, worldwide shipping.
+  ================== THE BRAND'S OWN WORDS (supplied 2026-08-02) ==================
+
+  Everything in OWNER_EN below is the owner's text, VERBATIM. It replaced the
+  copy that had been written on his behalf, which was only ever a placeholder
+  standing in for exactly this.
+
+  THE RULE, and it is not negotiable. His sentences appear unaltered and in his
+  order. The ONLY editorial act permitted here is deciding where each contiguous
+  run of them is placed on the site. No sentence is trimmed, merged, reworded or
+  paraphrased. Anything that fails that test is our writing and is marked as an
+  unapproved draft (see FOOTER_COPY below, which is the only thing left that is).
+
+  The runs, in his order, and where each one goes:
+
+    1-2   the brand's reason for being   -> home, "the work"
+    3-4   the Creature                   -> (about only)
+    5-7   the collection                 -> collection statement
+    8-10  the making                     -> home, "the making"
+
+  The about page carries all ten, complete and unbroken. That is deliberate:
+  every other placement is an excerpt WE chose, so there has to be one page
+  where his text exists whole and a reader can judge it for themselves.
+
+  ITALIAN IS OUR TRANSLATION, NOT HIS VOICE. He wrote in English. Italian is the
+  site's default locale, so most visitors read words he has never approved, and
+  the site says so on every block until he ticks Italian in the studio
+  (siteSettings.approvedLanguages). Translating a brand's voice and presenting it
+  as the brand's own is the one thing that would make this dishonest.
+
+  Two notes on the translation, both deliberate:
+  - "The garments are alchemical entities" is rendered "I capi sono entita
+    alchemiche". His own English says "garments" in this one sentence even
+    though he names the pieces Creature, and a faithful translation keeps what
+    he wrote rather than tidying it.
+  - Accents are correct Italian here (e, perche, cio, entita all carry them).
+    The older interface strings drop them; that inconsistency is flagged in the
+    design plan rather than silently spread.
 */
-const HOME_COPY = {
-  homeStatement: {
-    it: "Cento per cento pelle italiana.\nAlchimia: una pelle diventa un'altra cosa.\nCostruzione minima, forme prese dalla natura.",
-    en: "One hundred per cent Italian leather.\nAlchemy: a hide becomes something else.\nMinimal construction, forms taken from nature.",
-  },
-  makingStatement: {
-    it: "Pelli intere, scelte e rimesse insieme a mano.\nNessun capo esiste prima che qualcuno lo chieda.",
-    en: "Whole hides, chosen and put back together by hand.\nNo piece exists before someone asks for it.",
-  },
+const OWNER_EN = {
+  brand: [
+    "Aleksander Cecco is born to tell what is slowly being forgotten: nature and its unpredictable forms, its textures, its imperfect perfection.",
+    "The project lives between alchemy, esotericism and the primal link between human being and nature.",
+  ].join("\n"),
+  creature: [
+    'We call our pieces "Creature" because for us they are living.',
+    "Living textures. Entities with their own breath, born from the earth and worn on the body.",
+  ].join("\n"),
+  collection: [
+    "We present MONUMENTUS: Tenebrae & Lux.",
+    "Nigredo and Albedo explored as living textures.",
+    "The garments are alchemical entities where decomposition and purification meet.",
+  ].join("\n"),
+  making: [
+    "In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy. Every process is Artisan.",
+    "A work of repetition, patience, and precision.",
+    "This is what makes every piece similar, but never identical.",
+  ].join("\n"),
+  /** The shortest complete sentence he wrote. Two words over a photograph. */
+  openingLine: "Living textures.",
+};
+
+/** Our translation of the above. Marked on the site until he approves it. */
+const OWNER_IT = {
+  brand: [
+    "Aleksander Cecco nasce per raccontare ciò che si sta lentamente dimenticando: la natura e le sue forme imprevedibili, le sue texture, la sua perfezione imperfetta.",
+    "Il progetto vive tra alchimia, esoterismo e il legame primordiale tra essere umano e natura.",
+  ].join("\n"),
+  creature: [
+    'Chiamiamo i nostri pezzi "Creature" perché per noi sono vive.',
+    "Texture vive. Entità con un respiro proprio, nate dalla terra e portate sul corpo.",
+  ].join("\n"),
+  collection: [
+    "Presentiamo MONUMENTUS: Tenebrae & Lux.",
+    "Nigredo e Albedo esplorati come texture vive.",
+    "I capi sono entità alchemiche dove decomposizione e purificazione si incontrano.",
+  ].join("\n"),
+  making: [
+    "In pelle 100% conciata al vegetale, su misura, fatta a mano nel Sud Italia. Ogni processo è artigianale.",
+    "Un lavoro di ripetizione, pazienza e precisione.",
+    "È questo che rende ogni pezzo simile, ma mai identico.",
+  ].join("\n"),
+  openingLine: "Texture vive.",
+};
+
+/** The complete text, his order, nothing cut. The about page shows this. */
+const ABOUT_TEXT = {
+  en: [OWNER_EN.brand, OWNER_EN.creature, OWNER_EN.collection, OWNER_EN.making].join("\n\n"),
+  it: [OWNER_IT.brand, OWNER_IT.creature, OWNER_IT.collection, OWNER_IT.making].join("\n\n"),
+};
+
+/*
+  The ONLY brand copy on the site still written by us. Kept separate from his
+  text on purpose, and marked as an unapproved draft in BOTH languages, which no
+  amount of approving a language changes. Facts corrected 2026-08-02: South
+  Italy, not Italy; vegetable-tanned, not simply Italian leather. Naples is NOT
+  used anywhere: his text says South Italy and the owner has not confirmed the
+  city.
+*/
+const FOOTER_COPY = {
   footerShipping: {
     it: "Spediamo in tutto il mondo.",
     en: "We ship worldwide.",
   },
   footerOrigin: {
-    it: "Fatto a mano in Italia, un pezzo alla volta.",
-    en: "Made by hand in Italy, one piece at a time.",
+    it: "Ogni Creatura è fatta a mano nel Sud Italia.",
+    en: "Every Creature is handmade in South Italy.",
   },
 };
+
+/*
+  The about page opens on one photograph with "Living textures." over it, so the
+  frame has to BE a texture. IMG_3436 is black leather at close range with the
+  brand's own signature embossed into it: dark, intimate, and the mark is in the
+  photograph rather than laid over it. 4284x5712, so it holds a full screen.
+
+  It also rescues one of the three frames orphaned when the home tile grid was
+  replaced (DESIGN-PLAN section 21).
+*/
+const ABOUT_OPENING = [
+  "homepage/IMG_3436",
+  "Dettaglio ravvicinato di pelle nera con la firma del marchio impressa, accanto a una zip.",
+];
 
 const ABOUT_MEDIA = [
   ["experimental/IMG_2626", "Pennello largo appoggiato su una pelle appena tinta di scuro."],
@@ -339,6 +437,7 @@ async function main() {
     COLLECTION_COVER[0],
     ...WORN.map(([f]) => f),
     ...MAKING.map(([f]) => f),
+    ABOUT_OPENING[0],
     ...ABOUT_MEDIA.map(([f]) => f),
   ];
   // The same frame can legitimately appear in two places (a garment gallery and
@@ -385,13 +484,10 @@ async function main() {
   await client.createOrReplace({
     _id: COLLECTION_ID,
     _type: "collection",
-    name: "{COLLECTION_NAME}",
-    slug: {_type: "slug", current: "collezione-01"},
-    statement: {
-      _type: "localeText",
-      it: "{STATEMENT_RIGA_UNO}\n{STATEMENT_RIGA_DUE}",
-      en: "{STATEMENT_LINE_ONE}\n{STATEMENT_LINE_TWO}",
-    },
+    // Named by the owner, 2026-08-02. {COLLECTION_NAME} is retired.
+    name: "MONUMENTUS: Tenebrae & Lux",
+    slug: {_type: "slug", current: "monumentus"},
+    statement: {_type: "localeText", it: OWNER_IT.collection, en: OWNER_EN.collection},
     cover: mediaObject(
       assets.get(COLLECTION_COVER[0]),
       COLLECTION_COVER[1],
@@ -415,7 +511,12 @@ async function main() {
       collection: {_type: "reference", _ref: COLLECTION_ID},
       category: "donna",
       currency: "EUR",
-      materials: {_type: "localeText", it: "100% pelle italiana", en: "100% Italian leather"},
+      // Corrected 2026-08-02: vegetable-tanned is a process, not a country.
+      materials: {
+        _type: "localeText",
+        it: "100% pelle conciata al vegetale",
+        en: "100% vegetable-tanned leather",
+      },
       measurements: "{MISURE_DI_RIFERIMENTO}",
       description: {_type: "localeText", it: "{DESCRIZIONE_IT}", en: "{DESCRIPTION_EN}"},
       media: g.files.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `m${i}`)),
@@ -453,14 +554,32 @@ async function main() {
       ...(garmentId ? {garment: {_type: "reference", _ref: garmentId}} : {}),
     })),
     makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`)),
-    homeStatement: {_type: "localeText", ...HOME_COPY.homeStatement},
-    makingStatement: {_type: "localeText", ...HOME_COPY.makingStatement},
-    footerShipping: {_type: "localeText", ...HOME_COPY.footerShipping},
-    footerOrigin: {_type: "localeText", ...HOME_COPY.footerOrigin},
-    // Nobody has approved a word of it. The page says so until the owner does.
-    homeCopyIsDraft: true,
+
+    // His words, in the two places each run belongs.
+    homeStatement: {_type: "localeText", it: OWNER_IT.brand, en: OWNER_EN.brand},
+    makingStatement: {_type: "localeText", it: OWNER_IT.making, en: OWNER_EN.making},
+
+    // The about page: his text complete, unbroken, in his order.
+    aboutOpeningMedia: mediaObject(
+      assets.get(ABOUT_OPENING[0]),
+      ABOUT_OPENING[1],
+      ov(ABOUT_OPENING[0]),
+      "aboutOpening",
+    ),
+    aboutOpeningLine: {_type: "localeString", it: OWNER_IT.openingLine, en: OWNER_EN.openingLine},
+    about: {_type: "localeText", ...ABOUT_TEXT},
+    // The story is HIS now, so it is not our draft in any language.
+    aboutIsDraft: false,
+
+    // Ours, and still drafts in both languages.
+    footerShipping: {_type: "localeText", ...FOOTER_COPY.footerShipping},
+    footerOrigin: {_type: "localeText", ...FOOTER_COPY.footerOrigin},
+    footerCopyIsDraft: true,
+
+    // He wrote in English. Italian is our translation until he says otherwise.
+    approvedLanguages: ["en"],
   });
-  console.log("  siteSettings  arrival, worn band, making, home copy (all draft)");
+  console.log("  siteSettings  his words (en approved, it marked as translation)");
 
   // The seeded fixtures have done their job now that real work is in.
   for (const id of ["seed-garment-a", "seed-garment-b", "seed-collection-uno"]) {
