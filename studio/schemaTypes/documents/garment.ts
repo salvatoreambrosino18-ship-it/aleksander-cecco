@@ -91,23 +91,40 @@ export const garment = defineType({
         'Ogni elemento occupa uno schermo intero, senza margini. Trascina per riordinare. / Each item fills a whole screen, edge to edge. Drag to reorder.',
       validation: (Rule) => Rule.min(1).error('At least one image is required'),
     }),
-    // Not a sold state: the garments are remade on request, so nothing sells
-    // out. This means "we are not taking requests for this piece right now".
+    /*
+      HOW THIS CREATURE CAN BE HAD (2026-08-02, from the owner's own captions).
+
+      A boolean could not say what his Instagram says. Some Creature are made to
+      order; the Rubedo shirt was "sold as a private order" and is 1/1; and
+      "not taking requests" is a fourth, different thing. Nothing here is a sold
+      state: nothing sells out when a piece is built on request.
+
+      Replaces the old notOffered boolean, which only knew two of the four.
+    */
     defineField({
-      name: 'notOffered',
-      title: 'Non disponibile su richiesta / Not currently offered',
-      type: 'boolean',
-      initialValue: false,
+      name: 'availability',
+      title: 'Come si ottiene / How it can be had',
+      type: 'string',
+      initialValue: 'madeToOrder',
+      options: {
+        list: [
+          {title: 'Su ordinazione / Made to order', value: 'madeToOrder'},
+          {title: 'Pezzo unico, 1 di 1 / Unique, 1 of 1', value: 'unique'},
+          {title: 'Ordine privato / Private order', value: 'privateOrder'},
+          {title: 'Non disponibile ora / Not taking requests now', value: 'notOffered'},
+        ],
+        layout: 'radio',
+      },
       description:
-        'Il capo resta visibile sul sito, ma il pulsante di richiesta e disattivato con una breve spiegazione. / The garment stays visible on the site, but the enquiry button is disabled with a short explanation.',
+        "Unica e ordine privato restano visibili e leggibili, ma senza pulsante di richiesta: non si possono ordinare di nuovo. / Unique and private order stay visible and readable but carry no enquiry button: they cannot be ordered again.",
     }),
     defineField({
-      name: 'notOfferedNote',
-      title: 'Spiegazione / Explanation',
+      name: 'availabilityNote',
+      title: 'Riga aggiuntiva / Extra line',
       type: 'localeString',
       description:
-        'Una riga, mostrata al posto del pulsante di richiesta. Se vuota il sito usa il testo predefinito. / One line, shown in place of the enquiry button. If empty the site uses the default text.',
-      hidden: ({parent}) => !parent?.notOffered,
+        "Una riga, al posto del pulsante di richiesta. Se vuota il sito usa la formula predefinita. / One line, in place of the enquiry button. If empty the site uses its default wording.",
+      hidden: ({parent}) => parent?.availability === 'madeToOrder',
     }),
     orderRankField({type: 'garment'}),
   ],

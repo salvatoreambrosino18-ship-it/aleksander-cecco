@@ -34,8 +34,20 @@ export async function getStaticPaths() {
 const {garment} = Astro.props as {garment: Garment};
 const locale = toLocale(Astro.params.lang);
 const copy = enquiryCopy(locale);
-const notOffered = Boolean(garment.notOffered);
-const notOfferedNote = pick(garment.notOfferedNote, locale);
+/*
+  Only a Creature that is made to order can be enquired about. A unique piece
+  and a private order are already made and already someone's, so the form is not
+  shown for them (DESIGN-PLAN section 24).
+*/
+const availability = garment.availability ?? "madeToOrder";
+const canEnquire = availability === "madeToOrder";
+const availabilityLabel = {
+  madeToOrder: t(locale, "madeToOrder"),
+  unique: t(locale, "unique"),
+  privateOrder: t(locale, "privateOrder"),
+  notOffered: t(locale, "notTakingRequests"),
+}[availability] ?? t(locale, "madeToOrder");
+const availabilityNote = pick(garment.availabilityNote, locale);
 ---
 
 <Base locale={locale} title={`${t(locale, "enquire")} / ${garment.name}`}>
@@ -50,11 +62,9 @@ const notOfferedNote = pick(garment.notOfferedNote, locale);
     {ENQUIRY_COPY_IS_DRAFT && <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>}
 
     {
-      notOffered ? (
-        /* Nothing to send: the piece is not being offered. */
-        <p class="type-label text-label max-w-prose">
-          {notOfferedNote ?? <span class="placeholder-mark">{"{NOT_OFFERED_NOTE}"}</span>}
-        </p>
+      !canEnquire ? (
+        /* Nothing to send: this Creature is not one that can be commissioned. */
+        <p class="type-label text-label max-w-prose">{availabilityNote ?? availabilityLabel}</p>
       ) : (
         <>
           <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && "draft-text"]}>

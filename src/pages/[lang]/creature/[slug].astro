@@ -8,8 +8,9 @@
   facts and the single action. The diptych is withdrawn, so nothing caps the
   photograph at half the viewport.
 
-  No motion. No enquiry form yet: the action is present and visibly marked as
-  not wired, rather than linking at a route that does not exist.
+  How a Creature can be had is a four-state fact, not a boolean: made to order,
+  unique (1 of 1), a private order, or not in the making now. Only the first
+  carries an enquiry action (DESIGN-PLAN section 24).
 */
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
@@ -35,7 +36,23 @@ const [firstMedia] = media;
 
 const description = pick(garment.description, locale);
 const materials = pick(garment.materials, locale);
-const notOfferedNote = pick(garment.notOfferedNote, locale);
+const availabilityNote = pick(garment.availabilityNote, locale);
+
+/*
+  HOW THIS CREATURE CAN BE HAD. Four states, not two (DESIGN-PLAN section 24).
+  Only "made to order" carries the enquiry action: a unique piece and a private
+  commission are both already made and already someone's, so offering to build
+  another would be a lie. They stay fully visible at full scale, which is the
+  rule that has always governed a withdrawn action here.
+*/
+const availability = garment.availability ?? "madeToOrder";
+const canEnquire = availability === "madeToOrder";
+const availabilityLabel = {
+  madeToOrder: t(locale, "madeToOrder"),
+  unique: t(locale, "unique"),
+  privateOrder: t(locale, "privateOrder"),
+  notOffered: t(locale, "notTakingRequests"),
+}[availability] ?? t(locale, "madeToOrder");
 
 // Category values are controlled ("uomo" / "donna"). Whether the English
 // catalogue translates them is still an open question in the plan's
@@ -63,6 +80,7 @@ const facts: Array<{term: string; value: string | null; placeholder?: string}> =
   // fact about the brand rather than a property of one garment.
   {term: t(locale, "madeToMeasure"), value: t(locale, "madeToMeasureValue")},
   {term: t(locale, "materials"), value: materials, placeholder: "{MATERIALS}"},
+  {term: t(locale, "availability"), value: availabilityLabel},
   {
     term: t(locale, "referenceMeasurements"),
     value: garment.measurements,
@@ -115,22 +133,21 @@ const facts: Array<{term: string; value: string | null; placeholder?: string}> =
     </dl>
 
     {
-      garment.notOffered ? (
-        /*
-          Not a sold state: the piece stays visible at full scale and only the
-          action is withdrawn, with the owner's own explanation where they wrote
-          one and a marked placeholder where they have not.
-        */
-        <p class="type-label text-label max-w-prose">
-          {notOfferedNote ?? <span class="placeholder-mark">{"{NOT_OFFERED_NOTE}"}</span>}
-        </p>
-      ) : (
+      canEnquire ? (
         <a
           href={localePath(locale, `creature/${garment.slug}/enquiry`)}
           class="type-label text-label hairline-box self-start px-u3 py-u2"
         >
           {t(locale, "enquire")}
         </a>
+      ) : (
+        /*
+          No action, and no apology. The Creature stays visible at full scale
+          and the line says plainly what it is. The owner's own extra line wins
+          where he wrote one; the default is the state itself, which for a
+          unique piece is the whole truth.
+        */
+        <p class="type-label text-label max-w-prose">{availabilityNote ?? availabilityLabel}</p>
       )
     }
   </TextSurface>

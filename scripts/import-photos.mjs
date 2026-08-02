@@ -55,7 +55,35 @@ const client = createClient({
 
 /* ------------------------------------------------------------------ the plan */
 
-// Grouping and alt text, both decided by looking at every photograph.
+/*
+  ============ NAMING THE CREATURE (2026-08-02) ============
+
+  The owner's Instagram gives ten Creature their real names and compositions.
+  What is possible here is matching our imported PHOTOGRAPHS against his written
+  CAPTIONS: the Instagram images themselves are not available, so a match is
+  only made where a caption names a feature that can be SEEN in our frames.
+
+  RENAMED, because the evidence is decisive:
+
+  - Rubedo. His caption: "Red and Black faded colour. 500 handmade scar-stitch.
+    Oblivion hole on the back." Our IMG_3475 is the back view and shows exactly
+    that hole, an almond opening in the upper back, and the sleeves fade from
+    dark to bright red. Nothing else in the set is red. Sold as a private order
+    and 1/1, so it carries no enquiry action.
+
+  NOT RENAMED, and listed for the owner rather than guessed. The full reasoning
+  is in DESIGN-PLAN section 24; briefly, two shirts compete for two names
+  (Armonyen and Corvinus) with nothing in the captions to separate them, two
+  pairs of black trousers compete for Tibia Cut and the Scrap Pants, and one
+  garment document bundles a tube top with a skirt where the caption names only
+  the skirt (Severya).
+
+  MATERIALS. The generic line is dead: "100% Italian leather" named a country
+  and not a composition. Only Rubedo gets a real one, from his own caption. For
+  every unmatched Creature the field is left as a marked {MATERIALS} placeholder
+  ON PURPOSE. Filling them all with "vegetable-tanned" would just be a new
+  generic line, asserted about pieces nobody has verified.
+*/
 const GARMENTS = [
   {
     id: "piece-camicia-pelle-nera",
@@ -98,7 +126,19 @@ const GARMENTS = [
   },
   {
     id: "piece-giacca-rossa",
-    slug: "capo-06",
+    slug: "rubedo",
+    /*
+      CONFIRMED against the photograph, not inferred: IMG_3475 is the back view
+      and carries the "Oblivion hole" his caption describes.
+    */
+    name: "Rubedo",
+    materials: {it: "Pelle di agnello", en: "Lambskin leather"},
+    // His caption, verbatim. Approved copy, so it carries no mark in English.
+    description: {
+      en: "Red and Black faded colour. 500 handmade scar-stitch. Oblivion hole on the back.",
+      it: "Colore rosso e nero sfumato. 500 scar-stitch fatti a mano. Oblivion hole sulla schiena.",
+    },
+    availability: "privateOrder",
     files: [
       ["products/IMG_3476", "Modella con giacca in pelle rossa e pantaloni neri lucidi, braccia incrociate, in laboratorio."],
       ["products/IMG_3475", "La stessa giacca rossa vista di spalle, tra i capi appesi del laboratorio."],
@@ -505,25 +545,32 @@ async function main() {
     await client.createOrReplace({
       _id: g.id,
       _type: "garment",
-      name: "{GARMENT_NAME}",
+      // His name where a caption could be matched to a photograph, a marked
+      // placeholder where it could not. Never a guessed name.
+      name: g.name ?? "{GARMENT_NAME}",
       slug: {_type: "slug", current: g.slug},
       referenceCode: "{REF_CODE}",
       collection: {_type: "reference", _ref: COLLECTION_ID},
       category: "donna",
       currency: "EUR",
-      // Corrected 2026-08-02: vegetable-tanned is a process, not a country.
-      materials: {
-        _type: "localeText",
-        it: "100% pelle conciata al vegetale",
-        en: "100% vegetable-tanned leather",
-      },
+      /*
+        Composition per Creature, or nothing. The old "100% Italian leather"
+        line named a country rather than a material and is gone; filling every
+        unmatched piece with "vegetable-tanned" instead would only be a newer
+        generic line asserted about pieces nobody has verified.
+      */
+      materials: g.materials
+        ? {_type: "localeText", ...g.materials}
+        : {_type: "localeText", it: "{MATERIALI}", en: "{MATERIALS}"},
       measurements: "{MISURE_DI_RIFERIMENTO}",
-      description: {_type: "localeText", it: "{DESCRIZIONE_IT}", en: "{DESCRIPTION_EN}"},
+      description: g.description
+        ? {_type: "localeText", ...g.description}
+        : {_type: "localeText", it: "{DESCRIZIONE_IT}", en: "{DESCRIPTION_EN}"},
       media: g.files.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `m${i}`)),
-      notOffered: false,
+      availability: g.availability ?? "madeToOrder",
       orderRank: `0|${rank}:`,
     });
-    console.log(`  garment       ${g.id}  (${g.files.length} photographs)`);
+    console.log(`  creature      ${(g.name ?? g.slug).padEnd(22)} ${g.files.length} photographs`);
   }
 
   rank = 100000;

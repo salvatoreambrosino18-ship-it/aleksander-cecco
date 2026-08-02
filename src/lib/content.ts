@@ -149,8 +149,9 @@ export type Garment = {
   materials: LocaleField;
   measurements: string | null;
   description: LocaleField;
-  notOffered: boolean | null;
-  notOfferedNote: LocaleField;
+  /** madeToOrder | unique | privateOrder | notOffered. See the garment schema. */
+  availability: string | null;
+  availabilityNote: LocaleField;
   collection: {name: string; slug: string | null; season: string | null} | null;
   media: MediaItem[] | null;
 };
@@ -165,8 +166,8 @@ const GARMENT_PROJECTION = /* groq */ `
   materials,
   measurements,
   description,
-  notOffered,
-  notOfferedNote,
+  "availability": coalesce(availability, "madeToOrder"),
+  availabilityNote,
   "collection": collection->{name, "slug": slug.current, season},
   media[]{${MEDIA_PROJECTION}}
 `;
