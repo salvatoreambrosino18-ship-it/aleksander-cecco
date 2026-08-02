@@ -115,8 +115,22 @@ The revised layouts cannot be judged against placeholders, so there is a seed
 script that fills the dataset, images included.
 
 ```
-npm run seed
+npm run seed -- --confirm
 ```
+
+**IT REFUSES TO RUN WITHOUT `--confirm`, and refuses even with it when the
+dataset holds content it did not create.** The script deletes every collection
+that is not its own and overwrites site settings wholesale, which was harmless
+when the dataset held only fixtures and stopped being harmless the moment
+`npm run import` put the owner's photographs and his own words in there.
+
+| command | what happens |
+| --- | --- |
+| `npm run seed` | refuses, explains, changes nothing |
+| `npm run seed -- --confirm` | runs, but only against a dataset with no real content |
+| `npm run seed -- --confirm --force` | runs anyway, after printing exactly what it will destroy |
+
+If you want real content, you want `npm run import`, not this.
 
 It needs a write token. In https://www.sanity.io/manage, open the project, then
 API, then Tokens, and add a token with the **Editor** role (Viewer cannot
@@ -280,8 +294,8 @@ Not wired yet (in planned order):
 
 - Pages, mobile first (home, collections, collection, garment, about, contact,
   404), and i18n routing (/it default, /en).
-- The enquiry API route (Resend, server validation, rate limiting) and the
-  Cloudflare adapter with server output that it requires.
+- The Cloudflare adapter with server output, if Astro server routes are ever
+  wanted (the enquiry runs as a Pages Function instead, see DESIGN-PLAN 19).
 - Motion: the scroll-driven wipe inversion, photography reveals, hover states,
   all reduced or disabled under prefers-reduced-motion.
 - Localized metadata, Open Graph images, sitemap, and the analytics beacon.

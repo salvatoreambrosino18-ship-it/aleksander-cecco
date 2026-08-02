@@ -1,9 +1,10 @@
 {
   "//": "The Pages Function runs in the Workers runtime. It needs PagesFunction and the Workers globals, and it must NOT be given the browser DOM lib, so it is checked here rather than by the site's tsconfig. `npm run check` runs both.",
+  "//lib": "ES2022 ONLY. The WebWorker lib was dropped 2026-08-02: it declares the standard `caches: CacheStorage`, which has no `default` and shadows Cloudflare's, so `caches.default` failed to typecheck even though it is the documented Workers API. @cloudflare/workers-types supplies every global this file uses, including fetch, Request, Response and the correct CacheStorage, so adding WebWorker on top only introduces conflicts.",
   "extends": "astro/tsconfigs/strict",
   "include": ["**/*.ts"],
   "compilerOptions": {
-    "lib": ["ES2022", "WebWorker"],
+    "lib": ["ES2022"],
     "types": ["@cloudflare/workers-types"],
     "noEmit": true
   }

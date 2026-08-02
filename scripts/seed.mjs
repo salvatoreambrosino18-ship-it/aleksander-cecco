@@ -1,7 +1,11 @@
 /*
   Seed the Sanity dataset with test content, images included.
 
-    npm run seed
+    npm run seed -- --confirm
+
+  IT REFUSES TO RUN WITHOUT THAT FLAG, and refuses even with it when the dataset
+  holds content it did not create. See THE SAFETY GATE in main() below. This
+  script is for disposable fixtures; `npm run import` is what loads real work.
 
   Why this exists: the revised layouts cannot be judged against placeholders,
   and filling the studio by hand nine times is not a good use of anyone's
@@ -242,6 +246,81 @@ const GARMENT_A_ID = "seed-garment-a";
 const GARMENT_B_ID = "seed-garment-b";
 
 async function seed() {
+  /*
+    ============================ THE SAFETY GATE ============================
+
+    This script DESTROYS CONTENT. It deletes every collection that is not its
+    own and overwrites siteSettings wholesale. That was harmless when the
+    dataset held nothing but fixtures. It stopped being harmless the moment
+    `npm run import` put the owner's real photographs, his own words and the
+    MONUMENTUS collection in there, and a command that silently overwrites real
+    work is a trap for whoever runs it next at three in the morning.
+
+    Two gates, and the second cannot be passed by accident:
+
+      npm run seed                  refuses. Explains itself. Changes nothing.
+      npm run seed -- --confirm     runs, but ONLY against a dataset that holds
+                                    no real content.
+      npm run seed -- --confirm --force
+                                    runs anyway, after printing exactly what it
+                                    is about to destroy.
+
+    "Real content" is anything this script did not create: any collection,
+    garment or archive piece whose id is not one of the fixture ids below.
+  */
+  const args = process.argv.slice(2);
+  const confirmed = args.includes("--confirm");
+  const forced = args.includes("--force");
+
+  const FIXTURES = [COLLECTION_ID, GARMENT_A_ID, GARMENT_B_ID];
+  const real = await client.fetch(
+    `*[_type in ["collection", "garment", "archivePiece"] && !(_id in $fixtures) && !(_id in $drafts)]{_id, _type, name, title}`,
+    {fixtures: FIXTURES, drafts: FIXTURES.map((id) => `drafts.${id}`)},
+  );
+
+  if (!confirmed) {
+    console.error(
+      [
+        "",
+        "REFUSING TO RUN.",
+        "",
+        "  npm run seed writes disposable test fixtures and DELETES every",
+        "  collection that is not its own. It is not the way to load real work:",
+        "  that is `npm run import`.",
+        "",
+        `  This dataset currently holds ${real.length} document(s) this script did not create.`,
+        "",
+        "  If you are sure:  npm run seed -- --confirm",
+        "",
+      ].join("\n"),
+    );
+    process.exit(1);
+  }
+
+  if (real.length > 0 && !forced) {
+    console.error(
+      [
+        "",
+        "REFUSING TO RUN: this dataset holds real content.",
+        "",
+        ...real.map((d) => `  ${d._type.padEnd(13)} ${d._id}  ${d.name ?? d.title ?? ""}`),
+        "",
+        "  Seeding would delete the collection(s) above and overwrite site",
+        "  settings, including the owner's own text.",
+        "",
+        "  To restore the fixtures instead:  npm run import",
+        "  To destroy the above anyway:      npm run seed -- --confirm --force",
+        "",
+      ].join("\n"),
+    );
+    process.exit(1);
+  }
+
+  if (real.length > 0) {
+    console.warn(`\n--force: destroying ${real.length} real document(s):`);
+    for (const d of real) console.warn(`  ${d._type.padEnd(13)} ${d._id}  ${d.name ?? d.title ?? ""}`);
+  }
+
   console.log(`Seeding ${projectId}/${dataset}`);
   console.log("\nImages:");
 

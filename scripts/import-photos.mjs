@@ -211,25 +211,31 @@ const ARCHIVE = [
 ];
 
 /*
-  THE ARRIVAL. One photograph, the whole first screen, chosen 2026-08-02 from
-  the eleven frames in homepage/ (DESIGN-PLAN section 21 records the comparison).
+  THE ARRIVAL. One photograph, the whole first screen.
 
-  IMG_3463 wins on four counts that are about this layout, not about taste:
-  it is portrait and 3024x4032, so it survives the 100svh crop on a phone; the
-  garment hangs high inside a steel frame with concrete continuing below it, so
-  the composition is not sealed and the eye is carried downward; the top band is
-  evenly bright, so one overlay value keeps both the signature and MENU legible;
-  and it is monochrome in fact, so nothing fights the black and white rule.
+  CHANGED 2026-08-02 to a DARK frame, and the reason is structural rather than
+  aesthetic. The page now opens in INK, because the wipe runs nigredo to albedo
+  (section 22). The previous arrival, IMG_3463, is the PALE trousers: a Lux
+  piece, bright, sitting on a black page, so the very first screen contradicted
+  the direction of the site's one inversion. Darkness first, light after, is his
+  own order, and the arrival is where it has to start.
 
-  The two files the owner named HOMEPAGE are flat-lay leather details. They are
-  beautiful and they are the most closed compositions in the set, which is the
-  exact failure this rebuild is correcting, so they are not used here.
+  IMG_2378 measured darkest among the usable frames in homepage/: overall
+  luminance 0.081 against 0.179 for IMG_3463, and 0.046 in the top-left band
+  where the signature and MENU sit, which is the cleanest chrome contrast in the
+  whole set. Portrait 3024x4032, so it survives the 100svh crop on a phone.
+
+  It also rescues the last of the three frames orphaned when the home tile grid
+  was replaced (section 21). IMG_3434 stays orphaned because it is landscape.
+
+  This settles the arrival question in section 34 the free way: no splash
+  screen, no held black, no delayed first paint. The page simply opens out of
+  darkness because the photograph is dark.
 */
 const OPENING = [
-  "homepage/IMG_3463",
-  "Pantaloni chiari in pelle appesi dentro una cornice di metallo nero, davanti a un muro di cemento e a una serranda.",
+  "homepage/IMG_2378",
+  "Dettaglio ravvicinato della cintura di un capo in pelle grigio chiaro, con passante e zip, contro pelle nera.",
 ];
-
 /*
   WORN: the pieces on people, the horizontal band halfway down the home page.
 

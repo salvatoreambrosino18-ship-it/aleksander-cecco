@@ -19,7 +19,151 @@ type Env = {
   RESEND_API_KEY?: string;
   RESEND_FROM?: string;
   ENQUIRY_TO_EMAIL?: string;
+  /**
+   * OPTIONAL KV namespace for rate limiting. When it is not bound the limiter
+   * falls back to the Cache API, which needs no configuration at all. See the
+   * RATE LIMITING block below.
+   */
+  ENQUIRY_LIMITS?: KVNamespace;
 };
+
+/* ---------------------------------------------------------- rate limiting */
+
+/*
+  WHY THIS EXISTS. This endpoint is the brand's ONLY sales channel and it spends
+  a finite resource: the Resend free allowance is 100 emails a day. Before this,
+  anyone could POST in a loop and drain that allowance in under a minute, after
+  which no real buyer could reach the brand until the next day. That is a denial
+  of the business, not of a website, and it cost nothing to mount.
+
+  THE LIMITS, and why these numbers:
+
+  - 5 per IP per hour. Nobody legitimately sends six enquiries in an hour. An
+    enthusiastic buyer asking about three or four Creature in one sitting is
+    still comfortably under it.
+  - 20 per IP per day. Covers a genuine returning visitor across a whole day
+    while making a slow drip attack from one address pointless.
+  - 40 SENDS site-wide per day, against Resend's 100. A circuit breaker for
+    distributed abuse, deliberately set well below the allowance so that
+    tripping it still leaves the brand able to receive mail tomorrow. Realistic
+    volume for a brand with eight pieces is a small number per week, so 40 is
+    roughly two orders of magnitude of headroom.
+
+  WHAT IS COUNTED WHERE, and it is not the same thing:
+
+  - The per-IP counters count ATTEMPTS, before validation. An attacker looping
+    invalid payloads is still abuse and should be shed as early as possible.
+  - The global counter counts SENDS only, because it exists to protect the
+    Resend allowance and an invalid submission never reaches Resend.
+
+  STORAGE, on the free tier and with no configuration required:
+
+  - If a KV namespace is bound as ENQUIRY_LIMITS it is used. KV is shared across
+    locations, which makes the limit close to global. Free tier: 100,000 reads
+    and 1,000 writes a day. A sustained flood from one address writes ONCE per
+    window and then only reads, so a flood cannot exhaust the write budget.
+  - Otherwise the Cache API is used, which exists in the Workers runtime with no
+    binding, no dashboard step and no cost. It is per location rather than
+    global, so a distributed attacker gets one bucket per Cloudflare colo. That
+    is materially weaker and materially better than nothing, and it means this
+    protection works the moment it deploys rather than after someone remembers
+    to create a namespace.
+
+  IT FAILS OPEN. If the store errors, the request is allowed. Blocking every
+  enquiry because a cache misbehaved would do more damage than the attack this
+  prevents, and there is no way for an attacker to force that state anyway.
+
+  A NOTE FOR LOCAL TESTING: `wrangler dev` gives a Cache API that does not
+  persist, so limits will not appear to work locally unless KV is bound. That is
+  the local runtime, not this code.
+*/
+const LIMITS = {
+  perIpPerHour: {max: 5, ttl: 60 * 60},
+  perIpPerDay: {max: 20, ttl: 60 * 60 * 24},
+  globalSendsPerDay: {max: 40, ttl: 60 * 60 * 24},
+} as const;
+
+type Store = {
+  read(key: string): Promise<number>;
+  bump(key: string, ttl: number, current: number): Promise<void>;
+};
+
+function makeStore(env: Env): Store {
+  if (env.ENQUIRY_LIMITS) {
+    const kv = env.ENQUIRY_LIMITS;
+    return {
+      async read(key) {
+        return Number((await kv.get(key)) ?? 0) || 0;
+      },
+      async bump(key, ttl, current) {
+        // expirationTtl is set from the CURRENT write, so a bucket expires a
+        // fixed window after it opened rather than sliding forever.
+        await kv.put(key, String(current + 1), {expirationTtl: ttl});
+      },
+    };
+  }
+
+  // No binding: the Cache API, which needs none.
+  const origin = "https://ratelimit.invalid/";
+  return {
+    async read(key) {
+      const hit = await caches.default.match(new Request(origin + encodeURIComponent(key)));
+      if (!hit) return 0;
+      return Number(await hit.text()) || 0;
+    },
+    async bump(key, ttl, current) {
+      await caches.default.put(
+        new Request(origin + encodeURIComponent(key)),
+        new Response(String(current + 1), {headers: {"Cache-Control": `max-age=${ttl}`}}),
+      );
+    },
+  };
+}
+
+/** The window a counter belongs to, so buckets roll over instead of sliding. */
+function windowKey(prefix: string, seconds: number): string {
+  return `${prefix}:${Math.floor(Date.now() / 1000 / seconds)}`;
+}
+
+/**
+ * Check every per-IP limit and record the attempt. Returns the seconds to wait
+ * when the caller should be refused, or null when it may proceed.
+ */
+async function limitAttempt(store: Store, ip: string): Promise<number | null> {
+  try {
+    for (const [name, {max, ttl}] of [
+      ["h", LIMITS.perIpPerHour],
+      ["d", LIMITS.perIpPerDay],
+    ] as const) {
+      const key = windowKey(`ip:${name}:${ip}`, ttl);
+      const used = await store.read(key);
+      if (used >= max) return ttl;
+      await store.bump(key, ttl, used);
+    }
+    return null;
+  } catch (error) {
+    // Fails OPEN, deliberately. See the note above.
+    console.warn(`[enquiry] rate limit store unavailable, allowing: ${(error as Error).message}`);
+    return null;
+  }
+}
+
+/** The site-wide send counter, checked and incremented around an actual send. */
+async function globalSends(store: Store) {
+  const {max, ttl} = LIMITS.globalSendsPerDay;
+  const key = windowKey("global:sends", ttl);
+  try {
+    const used = await store.read(key);
+    return {
+      exhausted: used >= max,
+      async record() {
+        await store.bump(key, ttl, used).catch(() => {});
+      },
+    };
+  } catch {
+    return {exhausted: false, async record() {}};
+  }
+}
 
 type Locale = "it" | "en";
 
@@ -44,6 +188,7 @@ const TEXT = {
     tooFast: "Riprova: il modulo e stato inviato troppo in fretta.",
     notSent: "Non siamo riusciti a inviare la richiesta. Riprova piu tardi.",
     notConfigured: "L'invio delle richieste non e ancora attivo su questo sito.",
+    tooMany: "Troppe richieste da qui. Riprova piu tardi.",
     draft: "Bozza non approvata",
   },
   en: {
@@ -60,6 +205,7 @@ const TEXT = {
     tooFast: "Please try again: the form was submitted too quickly.",
     notSent: "We could not send your enquiry. Please try again later.",
     notConfigured: "Sending enquiries is not switched on for this site yet.",
+    tooMany: "Too many enquiries from here. Try again later.",
     draft: "Unapproved draft",
   },
 } as const;
@@ -118,6 +264,25 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const slug = get("slug").replace(/[^a-z0-9-]/gi, "");
   const backHref = slug ? `/${locale}/creature/${slug}/` : `/${locale}/`;
 
+  /*
+    RATE LIMIT, before validation and before anything expensive. Counting
+    attempts rather than sends is deliberate: a loop of invalid payloads is
+    still abuse, and the cheapest place to shed it is here.
+  */
+  const store = makeStore(env);
+  const ip =
+    request.headers.get("cf-connecting-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown";
+  const retryAfter = await limitAttempt(store, ip);
+  if (retryAfter !== null) {
+    console.warn(`[enquiry] rate limited ${ip}`);
+    return new Response(page(locale, {heading: text.title, lines: [text.tooMany], backHref}), {
+      status: 429,
+      headers: {"Content-Type": "text/html; charset=utf-8", "Retry-After": String(retryAfter)},
+    });
+  }
+
   const fields = {
     name: get("name"),
     email: get("email"),
@@ -155,6 +320,23 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
       page(locale, {heading: text.invalid, lines: problems, backHref}),
       {status: 422, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
+  }
+
+  /*
+    The site-wide circuit breaker. It guards the Resend allowance rather than
+    this endpoint, so it counts SENDS and is checked only once a submission is
+    valid and about to cost one.
+  */
+  const sends = await globalSends(store);
+  if (sends.exhausted) {
+    console.error("[enquiry] DAILY SEND CAP REACHED: refusing to spend more of the Resend allowance");
+    return new Response(page(locale, {heading: text.title, lines: [text.tooMany], backHref}), {
+      status: 429,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        "Retry-After": String(LIMITS.globalSendsPerDay.ttl),
+      },
+    });
   }
 
   if (!env.RESEND_API_KEY || !env.RESEND_FROM || !env.ENQUIRY_TO_EMAIL) {
@@ -208,6 +390,10 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
         {status: 502, headers: {"Content-Type": "text/html; charset=utf-8"}},
       );
     }
+
+    // Counted only here, on a send that actually happened. A refusal by Resend
+    // did not spend the allowance and must not spend the budget either.
+    await sends.record();
   } catch (error) {
     console.error(`[enquiry] could not reach Resend: ${(error as Error).message}`);
     return new Response(
