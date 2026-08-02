@@ -3132,3 +3132,98 @@ it arrives as content rather than as an effect.
     the seed collection, which means running it against the current dataset
     destroys real content. It should refuse to run unless a flag is passed.
 
+
+---
+
+## 36. Legal is deferred, and what that means concretely (2026-08-02)
+
+DEFERRED BY THE OWNER. Recorded here so it cannot be mistaken for done, and so
+the consequence is written down rather than assumed.
+
+**THE SITE CANNOT ACCEPT A REAL ENQUIRY UNTIL A PRIVACY NOTICE EXISTS.** The
+form collects a name, an email address and three body measurements. That is
+personal data under GDPR, and body measurements are the kind of data a person
+reasonably expects to be told about. Collecting it with no privacy notice, no
+named data controller and no consent line is not a missing page: it is
+collecting personal data without the disclosure that makes collecting it lawful.
+
+Today this is contained by accident rather than by design: the three Resend
+secrets are unset, so a submission is refused with a 503 and no data leaves
+Cloudflare. **The moment those secrets are set, the site starts receiving and
+storing personal data, and at that moment the absence becomes real.** Step 3 of
+the domain switch in section 29 is therefore gated on this, and section 29
+should not be run past step 2 until it is resolved.
+
+**THE RATE LIMIT DOES NOT SUBSTITUTE FOR IT.** They solve unrelated problems.
+Section 35 item 9 protects the Resend allowance from abuse; it says nothing
+about whether the brand is allowed to hold a stranger's chest measurement. A
+rate-limited form that unlawfully collects data collects it more slowly.
+
+What is needed, minimally: the legal entity name and address, a privacy notice
+naming the controller, what is collected, why, how long it is kept and how to
+ask for deletion, and one line plus a link on the enquiry form itself.
+
+---
+
+## 37. If the buyer is not Italian: two costings (2026-08-02)
+
+Costed, NOT built.
+
+### 1. The root redirect to /it
+
+`public/_redirects` sends `/` to `/it` with a 301, and `Base.astro` points
+`hreflang="x-default"` at the Italian home. Both say Italian is the site's
+default, which was inherited rather than chosen. Section 5 forbids language
+AUTO-DETECTION and that stands; the DEFAULT is a separate decision.
+
+| option | what it is | cost | verdict |
+| --- | --- | --- | --- |
+| **A. Default to `/en`** | change the redirect and `x-default`. | Two lines and a redeploy. Italian visitors, including the owner, land in English and use the switch. No technical risk, no new page, no new concept. | **RECOMMENDED** if the intended buyer is international. It is a positioning decision wearing a technical costume. |
+| **B. A chooser at the root** | `/` serves a screen with the signature and two words, ITALIANO and ENGLISH. | One new page, plus a click before anyone sees a photograph. It is not a splash but it lands in the same place: a barrier in front of the work, which section 34 argued against. Also a thin root page for search engines. | **NO.** It buys neutrality and spends the arrival. |
+| **C. `/` serves English directly, no redirect** | the root becomes a copy of the English home; `/it` and `/en` also exist. | Cheap, but three URLs for two pages, needing a canonical on the root pointing at `/en`, and every internal link has to pick one. Muddies a structure that is currently clean. | **NO**, unless A is rejected for a reason that also rules out a redirect. |
+| **D. Keep `/it`, make the switch louder** | move the language switch out of the menu. | Contradicts section 4, which removed persistent chrome deliberately, and does not fix the first impression: the visitor still reads Italian before they find the switch. | **NO.** |
+| **E. Geo-routing at the edge** | Cloudflare can route on country. | Country is not language, an Italian in Berlin gets the wrong one, and it is auto-detection in everything but name. | **NO**, and it breaks section 5. |
+
+Note that A costs nothing to reverse, which is the main argument for trying it.
+
+### 2. What else assumes an Italian buyer
+
+Beyond the three already named (duties, payment friction, centimetres):
+
+1. **The enquiry form actively REJECTS American measurements.** Chest is
+   validated between 50 and 200, which is centimetres. A US buyer typing 40, in
+   inches, is told "Chest is in centimetres, between 50 and 200." The number
+   they entered is a perfectly normal chest. This is not a units label problem,
+   it is a valid customer being turned away by a validator, and it is the worst
+   item on this list.
+2. **`hreflang="x-default"` points at Italian**, so search engines are told the
+   Italian page is the one to show a visitor of unknown language.
+3. **No timezone on the reply promise.** "We reply within one day" from a
+   one-person studio in Italy means something different in Seoul. It is not
+   wrong, it is just unqualified.
+4. **The returns line understates the cost outside the EU.** "The customer pays
+   the return shipping" is true and incomplete: a non-EU return can also mean
+   customs charges and re-import paperwork. At these prices that difference is
+   material.
+5. **No address anywhere.** With legal deferred (section 36) the site says
+   "South Italy" and nothing else. A buyer sending EUR 1,500 to one person has
+   no way to establish the business exists.
+6. **Currency is EUR only, correctly**, but nothing on the site says so before
+   the price appears. A US visitor sees a number whose currency they have to
+   infer.
+7. **Italian is the default locale**, so the first impression for a
+   non-Italian is a language they may not read. Same root as costing 1.
+8. **No fit guidance of any kind**, and no reference does this either. An
+   international buyer cannot try anything on and cannot visit, so whichever
+   answer section 31 gets matters more abroad than at home.
+9. **The measurement instructions assume someone with a tape measure and
+   nobody to help.** "From the outer edge of one shoulder to the other, across
+   the back" is hard alone. A buyer who guesses produces a garment that does not
+   fit, which becomes a return, which is item 4.
+10. **Payment is unnamed.** The site never says how a piece is paid for. In
+    Italy a bank transfer is unremarkable; elsewhere it reads as a warning sign.
+
+The pattern: items 1, 5, 8, 9 and 10 are all **trust and completability**, which
+is exactly what section 32 predicted would replace mood as the primary design
+problem the moment the buyer stops being able to visit the studio.
+

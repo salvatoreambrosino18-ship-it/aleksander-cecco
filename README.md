@@ -14,12 +14,12 @@ file is the source of truth. Read it first.
 .                     the Astro website (static build for Cloudflare Pages)
   src/styles/         tokens.css (single source of truth) + global.css + fonts.css
   src/layouts/        Base.astro
-  src/pages/          pages (only a scaffold placeholder so far)
+  src/pages/[lang]/   every page, once per locale (/it and /en)
+  functions/api/      the enquiry Pages Function (Workers runtime)
   public/fonts/       self-hosted, subset variable fonts (woff2) + OFL licenses
   assets/logo/        the brand signature (SVG uses currentColor, plus a PNG)
 studio/               standalone Sanity Studio (its own package, deploys to Sanity)
   schemaTypes/        the content model
-  schemaTypes/constants/sizes.ts   the size list, single source of truth
 DESIGN-PLAN.md        approved design plan and running "need from you" list
 ```
 
@@ -90,8 +90,10 @@ against the other:
 - `tsconfig.json` covers the site. Browser code, so it keeps the DOM lib, and it
   **excludes** `functions/`.
 - `functions/tsconfig.json` covers the Cloudflare Pages Function. Workers
-  runtime, so it uses `@cloudflare/workers-types`, `lib` of ES2022 plus
-  WebWorker, and no DOM lib at all.
+  runtime, so it uses `@cloudflare/workers-types`, `lib` of ES2022 ONLY, and no
+  DOM lib at all. The WebWorker lib is deliberately absent: it declares a
+  `CacheStorage` with no `default`, which shadows Cloudflare's and makes the
+  documented `caches.default` fail to typecheck.
 
 If you add a file under `functions/`, it is checked by the second config. Do not
 "fix" a missing Workers global by adding `@cloudflare/workers-types` to the root
@@ -146,9 +148,9 @@ belong in Sanity, not in version control.
 
 What it writes:
 
-- One published collection, two published garments (A available with several
-  sizes including made to measure, B not currently offered with two sizes), and
-  the site settings singleton.
+- One published collection, two published garments, and the site settings
+  singleton. (There is no size system: every Creature is described by its
+  measurements. See DESIGN-PLAN section 17.)
 - Nine images with alt text in both languages and a per-image overlay polarity.
 
 Idempotent. Images are matched by sha1, so the same file is never uploaded
@@ -274,21 +276,21 @@ Done:
 - The brand signature committed in `assets/logo/`. The SVG paints with
   `currentColor`, so one file serves both the white and the black polarity.
 
-Content model, current shape (see DESIGN-PLAN.md sections 6 and 11):
+Content model, current shape (see DESIGN-PLAN.md sections 17, 22, 24 and 28):
 
-- Garments are remade on request, not one-of-one. Each garment carries the sizes
-  it is offered in, chosen from `studio/schemaTypes/constants/sizes.ts`. That
-  file is the only place the size list is defined; its current range is
-  PROVISIONAL until the brand owner supplies the real one.
-- "Su misura / Made to measure" is one of those options. When a visitor picks it,
-  the enquiry form (not built yet) reveals chest, shoulders and length in
-  centimetres. The form keys on the `MADE_TO_MEASURE` value, so keep it stable.
-- `measurements` is the sample piece's reference measurements, not the buyer's
-  garment.
-- `notOffered` replaces the old sold-out flag. Nothing sells out when pieces are
-  remade; the flag means the brand is not taking requests for that piece right
-  now. The garment stays visible and only the enquiry action is disabled, with a
-  short explanation from the optional `notOfferedNote`.
+- The pieces are **Creature**, the owner's own word for them. The Sanity
+  document type is still `garment` because it is an internal identifier.
+- **There is no size system and none is coming back** (section 17). A Creature is
+  described by `measurements`. Whether those describe the photographed sample or
+  an object you can buy as it is depends on an open question, recorded in
+  section 31.
+- `availability` says how a Creature can be had: `madeToOrder`, `unique`,
+  `privateOrder`, `notOffered`. Only made-to-order carries an enquiry action.
+- `stage` divides the catalogue by material and colour: `tenebrae` (the black
+  washed veg tan work), `lux` (the pale pieces), `rubedo`. It orders the
+  collection page and is never shown as a label.
+- `materials` is a composition per Creature. There is no generic default on
+  imported pieces: an unverified one shows a marked `{MATERIALS}` placeholder.
 
 Not wired yet (in planned order):
 
