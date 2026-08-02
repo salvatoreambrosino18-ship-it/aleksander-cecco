@@ -57,3 +57,15 @@ export function pick(field: LocaleField, locale: Locale): string | null {
   const value = field?.[locale];
   return typeof value === "string" && value.trim() !== "" ? value : null;
 }
+
+/**
+ * Alt text, which is the one place a missing translation must NOT show as
+ * missing. Italian is required in the studio and English is optional, so an
+ * English reader falls back to the Italian description rather than getting
+ * nothing: an accurate description in the wrong language beats silence for
+ * someone using a screen reader. Everything else on the site still shows a
+ * missing translation as missing (see pick).
+ */
+export function pickAlt(field: LocaleField, locale: Locale): string {
+  return pick(field, locale) ?? pick(field, DEFAULT_LOCALE) ?? "";
+}

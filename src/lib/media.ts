@@ -11,6 +11,8 @@ export type CaptionPlacement = "over" | "below";
 export type MediaItem = {
   poster: SanityImage;
   alt: LocaleField;
+  /** True while the description was generated and no person has checked it. */
+  altIsDraft: boolean | null;
   /**
    * The color of text over this picture, and of the fixed chrome while it
    * passes over it. The owner picks it per image.

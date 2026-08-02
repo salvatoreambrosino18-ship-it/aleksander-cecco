@@ -1,6 +1,5 @@
 import {defineType, defineField} from 'sanity'
 import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
-import {SIZE_OPTIONS} from '../constants/sizes'
 
 export const garment = defineType({
   name: 'garment',
@@ -48,19 +47,6 @@ export const garment = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'sizes',
-      title: 'Taglie disponibili / Available sizes',
-      type: 'array',
-      of: [{type: 'string'}],
-      description:
-        'I capi sono rifatti su richiesta. Seleziona le taglie offerte per questo capo. "Su misura" apre nel modulo di richiesta i campi torace, spalle e lunghezza in centimetri. / Pieces are remade on request. Select the sizes offered for this garment. "Made to measure" reveals chest, shoulders and length in centimetres in the enquiry form.',
-      options: {list: SIZE_OPTIONS, layout: 'grid'},
-      // The real size range is still pending from the owner, so this warns
-      // rather than blocks. See schemaTypes/constants/sizes.ts.
-      validation: (Rule) =>
-        Rule.min(1).warning('Select at least one size, otherwise the enquiry form has nothing to offer.'),
-    }),
-    defineField({
       name: 'price',
       title: 'Prezzo / Price (EUR)',
       type: 'number',
@@ -83,11 +69,11 @@ export const garment = defineType({
     }),
     defineField({
       name: 'measurements',
-      title: 'Misure del capo campione / Measurements of the sample piece',
+      title: 'Misure di riferimento / Reference measurements',
       type: 'text',
       rows: 3,
       description:
-        'Misure di riferimento del capo fotografato, NON del capo che ricevera chi acquista: ogni capo viene rifatto sulla taglia richiesta. Non tradotto. Mostrato in monospazio. / Reference measurements of the photographed sample piece, NOT of the garment the buyer receives: each piece is remade in the size requested. Not translated. Shown in monospace.',
+        'Le misure del capo fotografato, per far capire taglio e proporzioni. NON sono le misure di chi compra: ogni capo e fatto su misura e le misure del cliente arrivano con la richiesta. Non tradotto. Mostrato in monospazio. / The measurements of the photographed piece, so a visitor can judge cut and proportion. NOT the buyer measurements: every piece is made to measure and the customer measurements arrive with the enquiry. Not translated. Shown in monospace.',
     }),
     defineField({
       name: 'description',

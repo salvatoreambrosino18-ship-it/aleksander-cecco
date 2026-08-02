@@ -38,11 +38,27 @@ export const media = defineType({
       title: 'Testo alternativo / Alt text',
       type: 'localeString',
       description:
-        'Descrizione per screen reader e SEO. Obbligatorio in italiano e inglese. / Description for screen readers and SEO. Required in Italian and English.',
+        "Descrizione per chi usa uno screen reader. L'italiano e obbligatorio; se l'inglese e vuoto il sito usa l'italiano. / Description for screen reader users. Italian is required; if English is empty the site falls back to Italian.",
       validation: (Rule) =>
         Rule.custom((alt: {it?: string; en?: string} | undefined) =>
-          !alt?.it || !alt?.en ? 'Alt text is required in Italian and English' : true,
+          !alt?.it ? 'Alt text in Italian is required' : true,
         ),
+    }),
+    /*
+      Alt text is generated from the photograph and then corrected by a human.
+      Requiring two hand-written languages for every image guarantees the real
+      outcome: the same word typed 138 times, which is worse for a screen reader
+      user than an accurate draft. So Italian is required, English falls back to
+      it, and generated drafts are FLAGGED so approved text can be told apart
+      from text nobody has read yet.
+    */
+    defineField({
+      name: 'altIsDraft',
+      title: 'Testo alternativo da approvare / Alt text needs approval',
+      type: 'boolean',
+      description:
+        'Acceso quando la descrizione e stata generata e non ancora letta da una persona. Spegnilo quando la approvi. / On when the description was generated and no person has read it yet. Turn it off once you approve it.',
+      initialValue: false,
     }),
     defineField({
       name: 'overlay',
@@ -101,9 +117,19 @@ export const media = defineType({
     }),
   ],
   preview: {
-    select: {title: 'alt.it', overlay: 'overlay', media: 'poster', video: 'video.asset'},
-    prepare({title, overlay, media: posterAsset, video}) {
-      const marks = [overlay === 'ink' ? 'testo nero' : 'testo bianco', video ? 'VIDEO' : null]
+    select: {
+      title: 'alt.it',
+      overlay: 'overlay',
+      media: 'poster',
+      video: 'video.asset',
+      altIsDraft: 'altIsDraft',
+    },
+    prepare({title, overlay, media: posterAsset, video, altIsDraft}) {
+      const marks = [
+        altIsDraft ? 'ALT DA APPROVARE' : null,
+        overlay === 'ink' ? 'testo nero' : 'testo bianco',
+        video ? 'VIDEO' : null,
+      ]
       return {
         title: title || '(senza alt / no alt)',
         subtitle: marks.filter(Boolean).join('  /  '),

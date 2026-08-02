@@ -33,6 +33,22 @@ export const siteSettings = defineType({
       name: 'about',
       title: 'Chi siamo / About',
       type: 'localeText',
+      description:
+        'La storia del marchio. Righe e paragrafi vengono rispettati. / The brand story. Line and paragraph breaks are kept.',
+    }),
+    /*
+      The story on the site is a draft nobody has approved. While this is on,
+      the about page marks it as such in the same register as a placeholder, so
+      an unapproved voice can never be mistaken for the brand's own. Replacing
+      it is: paste the approved text, turn this off. No code, no deploy.
+    */
+    defineField({
+      name: 'aboutIsDraft',
+      title: 'Testo non approvato / Text not approved',
+      type: 'boolean',
+      description:
+        'Acceso finche il titolare non approva il testo. Il sito lo mostra marcato come bozza. / On until the owner approves the text. The site shows it marked as a draft.',
+      initialValue: true,
     }),
     defineField({
       name: 'shippingReturns',

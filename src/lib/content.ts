@@ -13,6 +13,8 @@ export type SiteSettings = {
   instagramUrl: string | null;
   contactEmail: string | null;
   about: LocaleField;
+  /** True while the brand story is an unapproved draft. */
+  aboutIsDraft: boolean | null;
   shippingReturns: LocaleField;
 };
 
@@ -21,6 +23,7 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     instagramUrl,
     contactEmail,
     about,
+    "aboutIsDraft": coalesce(aboutIsDraft, false),
     shippingReturns
   }
 `;
@@ -29,6 +32,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   instagramUrl: null,
   contactEmail: null,
   about: null,
+  aboutIsDraft: null,
   shippingReturns: null,
 };
 
@@ -71,7 +75,6 @@ export type Garment = {
   slug: string;
   referenceCode: string | null;
   category: string | null;
-  sizes: string[] | null;
   price: number | null;
   currency: string | null;
   materials: LocaleField;
@@ -87,6 +90,7 @@ export type Garment = {
 const MEDIA_PROJECTION = /* groq */ `
   poster,
   alt,
+  "altIsDraft": coalesce(altIsDraft, false),
   overlay,
   "captionPlacement": coalesce(captionPlacement, "over"),
   caption,
@@ -99,7 +103,6 @@ const GARMENT_PROJECTION = /* groq */ `
   "slug": slug.current,
   referenceCode,
   category,
-  sizes,
   price,
   currency,
   materials,

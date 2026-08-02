@@ -204,10 +204,36 @@ function mediaItem(assetId, filename, key) {
     _key: key,
     poster: {_type: "image", asset: {_type: "reference", _ref: assetId}},
     alt: {_type: "localeString", ...photo.alt},
+    // Written by looking at each photograph, but nobody at the brand has read
+    // them, so they carry the flag that says exactly that.
+    altIsDraft: true,
     overlay: photo.overlay,
     captionPlacement: photo.captionPlacement ?? "over",
   };
 }
+
+
+/*
+  The brand story, supplied 2026-08-02 as an UNAPPROVED DRAFT. The brand owner
+  has not seen it. aboutIsDraft stays on until he does, and the about page marks
+  it as a draft while that flag is set. Replacing it is: paste the approved text
+  in the studio, turn the flag off. No code, no deploy.
+*/
+const ABOUT_IT = `La pelle non si convince, si ascolta.
+
+Ogni capo Aleksander Cecco nasce da una pelle italiana scelta a mano, e da li decide cosa vuole diventare. Le pieghe non vengono corrette. I bordi restano vivi. Quello che in una fabbrica sarebbe uno scarto, qui e il punto.
+
+Nessun capo esiste prima di essere richiesto. Ogni pezzo viene costruito sulle misure di chi lo indossera, una volta sola, e per questo non esistono due capi identici: la stessa pelle, sulla stessa forma, non cade mai allo stesso modo.
+
+Non ci sono stagioni, non ci sono taglie. C'e una persona, una pelle, e il tempo che serve.`
+
+const ABOUT_EN = `Leather is not persuaded. It is listened to.
+
+Every Aleksander Cecco piece begins with Italian leather chosen by hand, and from there it decides what it wants to become. The creases are not corrected. The edges stay raw. What a factory would discard is the point here.
+
+No garment exists before it is asked for. Each piece is built to the measurements of the person who will wear it, once, which is why no two are alike: the same leather, on the same form, never falls the same way.
+
+There are no seasons and no sizes. There is a person, a hide, and the time it takes.`
 
 /* --------------------------------------------------------------- documents */
 
@@ -261,7 +287,7 @@ async function seed() {
   const collectionRef = {_type: "reference", _ref: COLLECTION_ID};
 
   /*
-    Garment A: available, several sizes including made to measure.
+    Garment A: available.
     Gallery order puts the 9:16 frames first: they are the phone ratio and
     survive a full-bleed screen without losing most of the garment.
   */
@@ -273,7 +299,6 @@ async function seed() {
     referenceCode: "{REF_CODE_A}",
     collection: collectionRef,
     category: "uomo",
-    sizes: ["s", "m", "l", "su-misura"],
     price: 1111, // deliberately fake, repeated digits: not a real price
     currency: "EUR",
     materials: {_type: "localeText", it: "{MATERIALI_IT}", en: "{MATERIALS_EN}"},
@@ -288,11 +313,11 @@ async function seed() {
     notOffered: false,
     orderRank: "0|100000:",
   });
-  console.log(`  garment A   ${GARMENT_A_ID}  (available, 4 sizes incl. made to measure)`);
+  console.log(`  garment A   ${GARMENT_A_ID}  (available)`);
 
   /*
-    Garment B: two sizes, no made to measure, and not currently offered, so the
-    disabled action and its explanation are exercised against real photography.
+    Garment B: not currently offered, so the disabled action and its explanation
+    are exercised against real photography.
     No price at all, which exercises the {PRICE_EUR} placeholder path.
   */
   await client.createOrReplace({
@@ -303,7 +328,6 @@ async function seed() {
     referenceCode: "{REF_CODE_B}",
     collection: collectionRef,
     category: "donna",
-    sizes: ["m", "l"],
     currency: "EUR",
     materials: {_type: "localeText", it: "{MATERIALI_IT}", en: "{MATERIALS_EN}"},
     measurements: "{MISURE_CAMPIONE} torace 00 / spalle 00 / lunghezza 00",
@@ -322,7 +346,7 @@ async function seed() {
     },
     orderRank: "0|200000:",
   });
-  console.log(`  garment B   ${GARMENT_B_ID}  (not currently offered, 2 sizes)`);
+  console.log(`  garment B   ${GARMENT_B_ID}  (not currently offered)`);
 
   // The singleton id the studio structure opens (studio/structure.ts).
   await client.createOrReplace({
@@ -330,7 +354,8 @@ async function seed() {
     _type: "siteSettings",
     instagramUrl: "https://www.instagram.com/aleksandercecco/",
     contactEmail: "info@example.com", // placeholder; the site refuses to link it
-    about: {_type: "localeText", it: "{CHI_SIAMO_IT}", en: "{ABOUT_EN}"},
+    about: {_type: "localeText", it: ABOUT_IT, en: ABOUT_EN},
+    aboutIsDraft: true,
     shippingReturns: {_type: "localeText", it: "{SPEDIZIONI_RESI_IT}", en: "{SHIPPING_RETURNS_EN}"},
   });
   console.log("  siteSettings (Instagram real, email placeholder)");

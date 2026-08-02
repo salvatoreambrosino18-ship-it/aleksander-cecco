@@ -124,6 +124,16 @@
   placeholder (standing rule 6): mono register, bracketed, at reduced presence
   but still black or white, never a third color.
 */
+/*
+  Text that is real prose but not yet approved. Unlike a {PLACEHOLDER} token it
+  has to stay readable, because the owner judges it by reading it. So the mark
+  is a rule beside it, in fg, never a colour and never a wash over the words.
+*/
+@utility draft-text {
+  border-left: var(--hairline-w) dashed var(--fg);
+  padding-left: var(--s-u2);
+}
+
 @utility placeholder-mark {
   font-family: var(--ff-mono);
   text-transform: uppercase;

@@ -25,7 +25,8 @@ export const collection = defineType({
       name: 'season',
       title: 'Stagione / Season',
       type: 'string',
-      description: 'Ad esempio SS26. Mostrata in monospazio. / For example SS26. Shown in monospace.',
+      description:
+        "FACOLTATIVO. Il marchio non lavora a stagioni: una collezione puo' essere semplicemente un corpo di lavoro con un nome. Lascia vuoto se non c'e' una data. / OPTIONAL. The brand does not work in seasons: a collection can simply be a named body of work. Leave empty when there is no date.",
     }),
     defineField({
       name: 'statement',

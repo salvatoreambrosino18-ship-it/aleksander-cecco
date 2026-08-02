@@ -1403,3 +1403,67 @@ manual observation disagreed once, the script reporting a timeout for a marker
 this session had already seen live. Trust the live page over the script, and
 report both when they differ.
 
+---
+
+## 17. Sizes removed, and why they must not come back (2026-08-02)
+
+DECIDED by the brand owner. There are no sizes. Every garment is made to
+measure, always, and nothing is produced in advance.
+
+This REVERSES the decision of 2026-08-01 recorded in sections 6 and 11, which
+kept a size list with made-to-measure as one option among several. That reading
+was wrong: made to measure is not an option on this brand, it is the whole
+method. A size field implies stock that exists before someone asks for it, and
+the brand story says outright that no garment exists before it is requested.
+
+What was removed: `garment.sizes`, `studio/schemaTypes/constants/sizes.ts`,
+`src/lib/sizes.ts`, the sizes row in the technical block, and the size strings
+in the interface. The `{AVAILABLE_SIZES}` token is retired.
+
+DO NOT REINTRODUCE SIZES. If a future session finds a garment that seems to need
+one, the answer is a reference measurement on that garment, not a size system.
+The only thing that replaced the row is a constant line saying every piece is
+built to the wearer's measurements, which is a fact about the brand rather than
+a property of a document.
+
+`measurements` survives and is renamed "reference measurements". With no sizes
+it matters MORE, not less: it is the only way a visitor can judge cut and
+proportion from a photograph. It describes the piece that was photographed, and
+never the buyer.
+
+The enquiry, when it is built, collects: contact details, chest, shoulders and
+length in centimetres, and a note. That creates a copy requirement that did not
+exist before, and it is not optional: the site has to explain HOW to take those
+three measurements, or most people will send numbers that mean nothing.
+
+### Seasons are optional, collections are not (2026-08-02)
+
+DECIDED by the brand owner. Collections stay: they are how the brand organises
+its work, and that is not a season question. `collection.season` becomes
+OPTIONAL, so a collection can exist as a named body of work with no date
+attached. It is left empty for now. This keeps the statement, which is where the
+brand voice lives on a page, and keeps the chapter rhythm the inversion moves
+between.
+
+### Alt text policy (2026-08-02)
+
+DECIDED by the brand owner, reversing the both-languages requirement of
+section 11. Italian is required; English is optional and falls back to Italian.
+Drafts are generated from the photographs and flagged `altIsDraft` until a human
+approves them.
+
+The reasoning is worth keeping, because the old rule looked stricter and was
+worse: 69 images at two hand-written languages is 138 strings, and the realistic
+outcome of demanding that is the word "foto" typed 138 times. An accurate
+generated description that a screen reader user can actually use beats a
+technically-compliant string that says nothing. The flag exists so approved text
+can always be told from text nobody has read.
+
+### The brand story is an unapproved draft (2026-08-02)
+
+The story now in site settings was written for the brand, not by it, and the
+brand owner has not seen it. `siteSettings.aboutIsDraft` is ON, and while it is
+on the about page marks the text as a draft in the placeholder register. The
+text stays fully readable, because the owner judges it by reading it on the
+page. Replacing it is: paste the approved text, turn the flag off.
+
