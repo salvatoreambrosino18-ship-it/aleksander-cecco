@@ -178,13 +178,17 @@ export async function measureOverlay(files, {port = 9900} = {}) {
       overlayCaption: worstPaper >= worstInk ? "paper" : "ink",
       captionContrast: Number(captionContrast.toFixed(2)),
       /*
-        WCAG AA for large text is 3:1 and these labels are 11px, so 4.5 is the
-        bar. Below it no polarity is safe across the crops this frame meets, and
-        DESIGN-PLAN rule 11 already says what to do: the picture carries no text.
-        Here that means the caption moves onto the page below the frame, which is
-        the mechanism section 14 added for exactly this.
+        WCAG AA for 11px text is 4.5:1, and the bar here is 6.0. The margin is
+        not timidity, it is the modelling error: this samples a band the width of
+        a caption, and a real caption is a short word sitting somewhere inside
+        it, so the mean under the band and the mean under the word differ. At 4.5
+        that slack left twelve captions failing at desktop; at 6.0 none do.
+
+        Below the bar, DESIGN-PLAN rule 11 already says what to do: the picture
+        carries no text. Here that means the caption moves onto the page below
+        the frame, which is the mechanism section 14 added for exactly this.
       */
-      captionSafeOnImage: captionContrast >= 4.5,
+      captionSafeOnImage: captionContrast >= 6.0,
     });
   }
 
