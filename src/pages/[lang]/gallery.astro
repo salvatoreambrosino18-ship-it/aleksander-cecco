@@ -28,7 +28,7 @@ import Base from "../../layouts/Base.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import {getGallery, isPlaceholderText} from "../../lib/content";
-import {LOCALES, toLocale} from "../../lib/locales";
+import {LOCALES, localePath, toLocale} from "../../lib/locales";
 import {imageUrl} from "../../lib/image";
 import {overlayTheme} from "../../lib/media";
 import {t} from "../../i18n/ui";
@@ -108,8 +108,14 @@ const isLandscape = (media: (typeof frames)[number]["media"]) => {
 
   {
     frames.length === 0 && (
-      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
-        <p class="placeholder-mark self-start">{"{GALLERY_EMPTY}"}</p>
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center gap-u5">
+        <p class="type-statement text-statement">{t(locale, "nothingYet")}</p>
+        <a
+          href={localePath(locale, "creature")}
+          class="type-label text-label self-start hairline-under"
+        >
+          {t(locale, "allCreatures")}
+        </a>
       </TextSurface>
     )
   }

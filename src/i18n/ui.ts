@@ -97,6 +97,8 @@ const ui = {
     note: "Note",
     details: "Scheda tecnica",
     shippingReturns: "Spedizioni e resi",
+    // Empty states. What is true, said plainly, never a token.
+    nothingYet: "Ancora niente qui.",
     notFound: "Niente qui.",
     backHome: "Torna all'inizio",
   },
@@ -159,6 +161,7 @@ const ui = {
     note: "Note",
     details: "Technical details",
     shippingReturns: "Shipping and returns",
+    nothingYet: "Nothing here yet.",
     notFound: "Nothing here.",
     backHome: "Back to the beginning",
   },

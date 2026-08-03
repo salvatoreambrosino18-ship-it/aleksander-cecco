@@ -6,20 +6,27 @@
   including paths with no language in them. It answers in the default language
   and offers both, so a reader who arrived in English is one tap from English.
 
-  The photograph is whatever the owner published first: no separate asset to
-  maintain, and nothing invented.
+  THE PHOTOGRAPH IS THE CURRENT DROP (2026-08-03), not the first collection
+  cover it could find. A 404 is the one page a visitor reaches by accident, so
+  it should show the work the brand is showing now, and it follows the same
+  studio field as the home arrival, which means it is never stale.
+
+  THREE WAYS ON, NOT ONE WAY BACK. "Back to the beginning" assumes the reader
+  came from the beginning; someone arriving on a dead link from Instagram never
+  did. The catalogue and the gallery are the two places they were probably
+  going.
 */
 import Base from "../layouts/Base.astro";
 import MediaSurface from "../components/MediaSurface.astro";
 import TextSurface from "../components/TextSurface.astro";
-import {getCollections} from "../lib/content";
+import {getSiteSettings} from "../lib/content";
 import {DEFAULT_LOCALE, LOCALES, localePath} from "../lib/locales";
 import {overlayTheme} from "../lib/media";
 import {t} from "../i18n/ui";
 
 const locale = DEFAULT_LOCALE;
-const collections = await getCollections();
-const photograph = collections.find((collection) => collection.cover)?.cover ?? null;
+const settings = await getSiteSettings();
+const photograph = settings.openingMedia;
 ---
 
 <Base locale={locale} title="404" chrome={overlayTheme(photograph?.overlay)}>
@@ -34,13 +41,30 @@ const photograph = collections.find((collection) => collection.cover)?.cover ?? 
   <TextSurface class="flex flex-col gap-u5 py-u13">
     {!photograph && <h1 class="type-label text-label">404 / {t(locale, "notFound")}</h1>}
 
-    <nav class="flex flex-col gap-u2" aria-label={t(locale, "backHome")}>
+    {/*
+      The two places a reader on a dead link was probably going, then the two
+      languages. Ordered that way on purpose: someone who arrived from Instagram
+      on a broken URL wants the work, not the front door.
+    */}
+    <nav class="flex flex-col gap-u3" aria-label={t(locale, "backHome")}>
+      <a
+        href={localePath(locale, "creature")}
+        class="type-label text-statement self-start hairline-under"
+      >
+        {t(locale, "allCreatures")}
+      </a>
+      <a
+        href={localePath(locale, "gallery")}
+        class="type-label text-statement self-start hairline-under"
+      >
+        {t(locale, "gallery")}
+      </a>
       {
         LOCALES.map((code) => (
           <a
             href={localePath(code)}
             hreflang={code}
-            class="type-label text-statement self-start hover:underline underline-offset-8"
+            class="type-label text-label self-start hover:underline underline-offset-8"
           >
             {t(code, "backHome")}
           </a>

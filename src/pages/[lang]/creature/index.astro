@@ -146,8 +146,20 @@ const priceOf = (garment: Garment) =>
         ))}
       </div>
     ) : (
-      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
-        <p class="placeholder-mark self-start">{"{NO_CREATURE_PUBLISHED}"}</p>
+      /*
+        THE EMPTY STATE, which nobody ever designs and everybody eventually
+        sees: a dataset mid-import, a filter that matches nothing later. It says
+        what is true and offers the one place that is never empty, rather than
+        printing a token at a visitor.
+      */
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center gap-u5">
+        <p class="type-statement text-statement">{t(locale, "nothingYet")}</p>
+        <a
+          href={localePath(locale, "gallery")}
+          class="type-label text-label self-start hairline-under"
+        >
+          {t(locale, "gallery")}
+        </a>
       </TextSurface>
     )
   }
