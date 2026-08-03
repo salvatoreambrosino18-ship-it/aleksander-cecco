@@ -1,9 +1,153 @@
 # Aleksander Cecco - Design Plan (Approved)
 
+## THE LAUNCH CHECKLIST (2026-08-03)
+
+**Read this first.** Everything standing between this repository and a site the
+public can use, in the order the dependencies actually run. The rest of this
+file is the reasoning behind it; this is the state.
+
+**Where it stands today.** The site is built, deployed and working at
+https://aleksander-cecco.pages.dev, in two languages, with sixteen Creature, a
+gallery, a working enquiry form and a real contact address. It is deliberately
+kept out of search results. **It cannot lawfully accept an enquiry yet**, and
+that single fact governs the order below.
+
+### 1. NEEDS A LAWYER, and it gates everything downstream
+
+Nothing in this group can be written by the owner or by a developer. Until it
+exists, step 3 must not be run.
+
+- [ ] **Privacy notice.** The form collects a name, an email address and three
+      BODY MEASUREMENTS. Under GDPR that needs a named data controller, the
+      legal basis, what is collected, why, how long it is kept, and how to ask
+      for deletion. Body measurements are the kind of data a person expects to
+      be told about.
+- [ ] **Terms of sale and a refund policy.** All four reference sites carry
+      them. This brand sells at four figures, made to measure, internationally.
+- [ ] **Right of withdrawal.** Distance selling in the EU has a statutory
+      cooling-off period, and made-to-measure goods may be exempt from it. Which
+      applies here is a legal question and the answer changes the returns copy
+      already on the site.
+- [ ] **A statement covering the analytics**, even though Cloudflare Web
+      Analytics is cookieless.
+
+### 2. THE OWNER MUST SUPPLY
+
+Ordered by what blocks the most. Nothing here can be invented on his behalf.
+
+**Blocks launch**
+
+- [ ] **Legal entity details**: registered name, address, VAT number. Feeds
+      group 1 and the site currently gives a buyer no way to establish that the
+      business exists.
+- [ ] **The seven unnamed Creature**: `capo-01`, `capo-07`, `capo-08`,
+      `capo-09`, `capo-12`, `capo-13`, `capo-14`. **This is a filing job, not a
+      shoot**: the photographs exist, they are simply not in a folder that says
+      what they are. Renaming them the way he renamed MONUMENTUS, OBLIVION and
+      STYRAX closes it (section 48).
+- [ ] **Compositions** for the twelve Creature still showing `{MATERIALS}`.
+- [ ] **Prices.** Every Creature shows `{PRICE_EUR}`.
+- [ ] **Reference measurements.** Every Creature shows `{MEASUREMENTS}`. With no
+      size system these are the only way to judge cut (section 17).
+- [ ] **Reference codes**, or a decision that the brand does not use them, in
+      which case `{REF_CODE}` is removed rather than filled.
+- [ ] **Which pieces are available now**, by putting their frames in the
+      `Disponibilita immediata` folder. The folder exists and is empty, the
+      import reads it by content, and nothing on the site claims availability
+      until he files something (section 49).
+- [ ] **Approve or replace the copy that is still ours**: the two footer lines,
+      the shipping and returns wording, and the availability explanation. All
+      three are marked on the live site as unapproved, and shipping a launch
+      with visible draft marks is worse than either approving or rewriting them.
+
+**Does not block launch, but the site is weaker without it**
+
+- [ ] **The closer texture frame** for the home arrival, the reason the current
+      one repeats `capo-12`'s only photograph (section 54).
+- [ ] **A real photograph of the hat.** Its only frame is a crop of the designer
+      portrait and is marked provisional on the page (section 46).
+- [ ] **On-model frames** for the eleven Creature that have never been worn in a
+      photograph. This caps the home page's worn band at five.
+- [ ] **One landscape frame for the gallery**, which has none, so the page is a
+      uniform wall of pairs at desktop (section 56).
+- [ ] **His biography**, and the separate decision of whether his name appears
+      in public at all (section 44). `{DESIGNER_BIOGRAPHY}` until then.
+- [ ] **Two weeks: working hours or elapsed?** One question that moves every
+      price in section 32 by a factor of two and a half.
+- [ ] **The customs line**, which he is confirming with his partner and which
+      ships marked unconfirmed until he does.
+- [ ] **The eleven photographs** that vanished with `products/`. The site runs
+      on salvaged copies from Sanity; if the originals are on his phone the
+      salvage lines come out (section 47).
+- [ ] **Four open identifications**: two vests carrying one name, two pale
+      trouser documents carrying two of his names, whether MONUMENTUS is the
+      collection or a product family, and whether the men's/women's folder split
+      is meant to reach the site after Uomo/Donna was removed on his own words.
+
+**Accounts he must open**
+
+- [ ] **The domain**, `aleksandercecco.com`, approved and being bought.
+- [ ] **A Resend account created with aleksandercecco@gmail.com**, and an API
+      key. The address matters: with no verified domain the only permitted
+      sender is `onboarding@resend.dev`, which delivers ONLY to the address that
+      owns the account.
+
+### 3. MINE TO DO
+
+**Blocks launch**
+
+- [ ] **Fix the caption contrast over photography.** Measured 2026-08-03 across
+      every page: eight frames fail WCAG AA, worst 1.36:1, including the
+      collection title "MONUMENTUS: Tenebrae & Lux" at 1.53:1 on desktop, which
+      is unreadable. Cause: the overlay polarity is measured at the TOP band
+      because that is where the fixed chrome sits, and captions sit at the
+      BOTTOM. Fix: measure the caption band too, store it as a second value on
+      the media object, and let the caption use its own polarity while the
+      chrome keeps its own. Needs a schema field, an import change and a
+      re-import.
+- [ ] **Privacy notice page and a consent line on the enquiry form.** Depends
+      entirely on group 1.
+- [ ] **Set the three Resend secrets in Cloudflare and redeploy.** Only after
+      the privacy notice exists (section 36). Functions pick up secrets on a new
+      deployment only.
+- [ ] **The domain switch**, four steps, written out in section 29, once DNS is
+      live. Step 3 of it is the secrets above and carries the same gate.
+- [ ] **Remove the two noindex locks**, LAST, after everything else is true
+      (section 16). One environment variable and two lines in `public/_headers`.
+
+**Should be done, does not block**
+
+- [ ] **Wire the Cloudflare Web Analytics token.** Decided in section 9, still
+      not done, cookieless and free.
+- [ ] **Remove the three Resend values from the local `.env`.** Wrangler reads
+      it, so submitting the form against a local dev server sends REAL email and
+      has already spent three of the daily allowance (section 38).
+- [ ] **Make the check gate catch what it missed.** `npm run check` reported
+      zero errors on a component using an identifier it never imported; only
+      `npm run build` caught it. The gate should include a build.
+- [ ] **Correct the accents in the older Italian interface strings**, which drop
+      them ("e" for "è") while the brand copy carries them properly.
+- [ ] **Decide the footer's shipping line.** His "Free worldwide shipping over
+      500 euro" is better than our "Shipped worldwide.", but `footerCopyIsDraft`
+      marks both footer lines at once, so using his words there would label them
+      our draft. Needs a per-line flag or his approval of the origin line.
+
+### 4. THE ORDER, IN ONE LINE
+
+Legal entity → privacy notice → contrast fix → domain → Resend secrets →
+end-to-end test of a real enquiry → owner approves the marked copy → remove the
+noindex locks.
+
+Everything before "remove the noindex locks" can happen while the site stays
+invisible. Nothing after it can be undone quietly.
+
+---
+
 ## How to use this file
 
 This is the approved design plan and the handoff document for building the
-Aleksander Cecco site. A fresh session, started inside this directory
+Aleksander Cecco site. **The launch checklist above is the current state; this
+file is the reasoning behind it.** A fresh session, started inside this directory
 (`~/aleksander-cecco`), continues from here. This file is the single source of
 truth for direction until the code exists.
 
@@ -4452,3 +4596,84 @@ The gallery's alternating tall and short rhythm at phone scroll speed; the home
 page's seams, where only the arrival is a sealed screen and everything after it
 is 88svh so the next frame always peeks; the worn band's one-frame-cut-by-the-
 edge; and the wordless index at both widths.
+
+---
+
+## 57. The final verification pass (2026-08-03)
+
+Twenty-one pages, both languages, at 390x844 and 1440x900, rendered in headless
+Chrome and audited on things that are objectively true or false in the composited
+page rather than declared in the markup.
+
+### Clean at both widths
+
+| | |
+| --- | --- |
+| headings | one h1 per page, no skipped level, on all 21 |
+| alt text | every image has a real one, none empty |
+| layout shift | every image ships intrinsic `width`/`height`; **CLS 0.000** measured |
+| horizontal overflow | none, at either width |
+| focus | every interactive element takes focus and shows a ring |
+| routes | 21 pages plus the 404, both languages, all correct |
+
+### Performance, production build on Slow 4G with a 4x CPU throttle
+
+1.6 Mbps, 150ms RTT, cold cache. The build ships **no JavaScript bundle at all**,
+20 KB of CSS and 124 KB of subset fonts across 79 pages.
+
+| page | first paint | LCP | CLS | transferred |
+| --- | --- | --- | --- | --- |
+| home | 660ms | 660ms | 0.000 | 576 KB |
+| all Creature | 676ms | 1860ms | 0.000 | 521 KB |
+| gallery | 680ms | 2356ms | 0.000 | 875 KB |
+| about | 664ms | 664ms | 0.000 | 326 KB |
+| a Creature | 676ms | 676ms | 0.000 | 688 KB |
+
+One oddity recorded rather than explained: on the home page Chrome reports the
+LCP element as a 468px text node, not the arrival photograph, which section 24
+designed around being the LCP element. The photograph is served correctly (828px
+AVIF, 42 KB, for a 390px viewport at DPR 2) and its resource finishes in about
+550ms, so the page is fast either way. Why the image never becomes an LCP
+candidate is unexplained, and guessing at it would be worse than saying so.
+
+### The one real defect, and it is mine
+
+**Captions over photography fail contrast.** Eight frames measured below WCAG AA
+at 390 and worse at 1440: "MONUMENTUS: Tenebrae & Lux" at 1.53:1 on the
+collections index, "Ghezard" at 1.36:1, "Monumentus Lux" at 1.42:1, and the
+Creature names over their own first frames at about 1.78:1.
+
+The cause is structural, not a bad value: the overlay polarity is measured at
+the TOP band of a frame, because that is where the fixed chrome sits, and
+captions sit at the BOTTOM. Section 14 named this risk ("the two-band conflict
+is not gone in principle. Nothing in this set trips it now") and the content
+added since then trips it. The fix is a second measured value, and it is item
+one on my part of the launch checklist.
+
+### Two measurement mistakes worth recording
+
+Both produced confident wrong answers before being caught, which is the reason
+this section exists at all.
+
+1. **The first audit reported 21 pages clean with zero contrast issues.** It had
+   measured nothing: the photographs come from the Sanity CDN and a cross-origin
+   image taints a canvas, so every sample threw and was swallowed. A check that
+   cannot fail is not a check.
+2. **The first contrast numbers were sampled from the wrong pixels**, because
+   the mapping from element to image ignored `object-fit: cover`. Corrected, the
+   numbers barely moved, which is luck rather than vindication.
+
+A third, earlier the same day: full-page screenshots of pages nobody had
+scrolled showed empty boxes, because images are lazy and the reveal script hides
+frames until seen. The first read of the Creature index was a black rectangle.
+
+### A gate that was not gating
+
+`npm run check` reported **0 errors, 0 warnings, 0 hints** on a component that
+used `isPlaceholderText` without importing it. `npm run build` caught it
+immediately with a ReferenceError. Astro's checker does not resolve identifiers
+inside template expressions the way it does in TypeScript files.
+
+This is section 13's lesson repeating: a gate that passes has proved nothing
+until it has been seen to fail. The check script should run a build, and that is
+on the checklist.

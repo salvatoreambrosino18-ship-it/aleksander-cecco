@@ -26,7 +26,7 @@
   one scrolls it into view.
 */
 import MediaSurface from "./MediaSurface.astro";
-import type {HomeTile} from "../lib/content";
+import {isPlaceholderText, type HomeTile} from "../lib/content";
 import type {Locale} from "../lib/locales";
 import {localePath} from "../lib/locales";
 
@@ -59,7 +59,16 @@ const {tiles, locale, label} = Astro.props;
             {tile.garment?.slug ? (
               <a href={localePath(locale, `creature/${tile.garment.slug}`)} class="block">
                 <MediaSurface media={tile.media} locale={locale} height="worn" reveal={false}>
-                  <span class="type-label text-label">{tile.garment.name}</span>
+                  {/*
+                    Silent when the Creature has no name yet, on the same rule
+                    the index follows: a placeholder token laid over the owner's
+                    photography is scaffolding, and this band sits on the page
+                    most visitors see. The link still carries the frame's alt
+                    text, so nothing is lost to a screen reader.
+                  */}
+                  {!isPlaceholderText(tile.garment.name) && (
+                    <span class="type-label text-label">{tile.garment.name}</span>
+                  )}
                 </MediaSurface>
               </a>
             ) : (
