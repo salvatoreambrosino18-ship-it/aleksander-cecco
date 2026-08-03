@@ -25,6 +25,27 @@ type Env = {
    * RATE LIMITING block below.
    */
   ENQUIRY_LIMITS?: KVNamespace;
+  /*
+    AN EXPLICIT DRY RUN, added 2026-08-03 after sending a real email by testing
+    the confirmation page locally.
+
+    Wrangler reads `.env`, which on this machine holds the three Resend values,
+    so a VALID local submission sends an actual message to the owner's inbox and
+    spends one of his hundred a day. Section 38 recorded that hazard and it was
+    still walked into, twice, because the only safe local test was "submit
+    something invalid", which cannot exercise the success path at all.
+
+    So: an opt-in flag that skips the send and renders exactly what a real send
+    renders. It is NOT environment sniffing (section 38 rejected that, rightly:
+    detecting localhost fails quietly and in the wrong direction). It does
+    nothing at all unless someone deliberately passes it:
+
+      npx wrangler pages dev dist --binding ENQUIRY_DRY_RUN=1
+
+    In production it is unset, and an unset binding cannot accidentally disable
+    the only sales channel.
+  */
+  ENQUIRY_DRY_RUN?: string;
 };
 
 /* ---------------------------------------------------------- rate limiting */
@@ -252,7 +273,18 @@ const escape = (value: string) =>
  * colours and two registers, with the placeholder marked exactly as it is
  * everywhere else.
  */
-function page(locale: Locale, opts: {heading: string; lines: string[]; placeholder?: string; backHref: string; draft?: boolean}) {
+function page(
+  locale: Locale,
+  opts: {
+    heading: string;
+    lines: string[];
+    placeholder?: string;
+    backHref: string;
+    draft?: boolean;
+    /** What happens next, shown only on the confirmation. */
+    next?: string;
+  },
+) {
   const text = TEXT[locale];
   return `<!doctype html>
 <html lang="${locale}">
@@ -275,15 +307,33 @@ function page(locale: Locale, opts: {heading: string; lines: string[]; placehold
         border-bottom:1px dashed var(--fg);align-self:flex-start;}
   p{margin:0;max-width:60ch;}
   .draft{border-left:1px dashed var(--fg);padding-left:calc(var(--u)*2);}
+  .mark-brand{padding-bottom:calc(var(--u)*2);}
+  hr{border:0;border-top:1px solid var(--fg);width:100%;margin:0;}
+  .next{font-size:clamp(1.125rem,0.95rem + 1.1vw,1.75rem);text-transform:uppercase;
+        font-weight:300;letter-spacing:0.02em;max-width:24ch;}
   a{color:var(--fg);}
   a:focus-visible{outline:2px solid var(--fg);outline-offset:2px;box-shadow:0 0 0 2px var(--bg);}
 </style>
 </head>
 <body>
+  <!--
+    THE LAST THING A BUYER SEES (2026-08-03). This page was a heading, a line
+    and a link back, which is a receipt rather than a moment. It is the end of
+    the only transaction this site has, so it now says the three things a person
+    actually wants at that instant: that it arrived, what happens next and
+    roughly when, and that a human will be at the other end.
+
+    Still one small self-contained document. It cannot import the site's
+    stylesheet, whose filename is content-hashed at build.
+  -->
+  <p class="label mark-brand">Aleksander Cecco</p>
+  <hr>
   <p class="label">${escape(opts.heading)}</p>
   ${opts.draft ? `<p class="mark">${text.draft}</p>` : ""}
   ${opts.lines.map((line) => `<p${opts.draft ? ' class="draft"' : ""}>${escape(line)}</p>`).join("\n  ")}
   ${opts.placeholder ? `<p class="mark">${escape(opts.placeholder)}</p>` : ""}
+  ${opts.next ? `<p class="next">${escape(opts.next)}</p>` : ""}
+  <hr>
   <p class="label"><a href="${escape(opts.backHref)}">${text.back}</a></p>
 </body>
 </html>`;
@@ -416,28 +466,105 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   }
 
   const piece = [fields.garmentName, fields.garmentRef].filter(Boolean).join(" / ") || "(no piece)";
-  const body = [
-    `Piece: ${piece}`,
-    `Language: ${locale}`,
-    "",
-    `Name: ${fields.name}`,
-    `Email: ${fields.email}`,
-    "",
-    // What they are actually asking for, stated before the numbers rather than
-    // left to be inferred from their absence.
-    asIs ? "Wants: this piece as it is, no measurements given" : "Wants: made to these measurements",
-    // Always centimetres. The original is echoed only when it was not, so the
-    // owner can sanity-check a conversion without doing arithmetic himself.
+
+  /*
+    THE EMAIL IS A BRAND ARTEFACT (2026-08-03).
+
+    He reads this every time somebody wants a piece, which makes it one of the
+    few things on this project he sees more often than the site itself. It was
+    plain text: correct, and indistinguishable from a form notification from
+    anywhere.
+
+    It is now the site's own register, with the same constraints and for the
+    same reasons:
+
+    - PAPER, NOT INK. Everywhere else this brand opens in darkness. An email
+      does not: a client that strips styles falls back to black on white, and an
+      ink-on-ink email is an unreadable one. Choosing the polarity that survives
+      being stripped is the same argument as the poster behind a video.
+    - NO WEB FONTS. They do not load in most clients, so the register is carried
+      by case, tracking and weight, which is what section 14 found the
+      references do anyway. Facts are in the client's monospace, the way the
+      site sets facts in JetBrains Mono.
+    - EVERY STYLE INLINE. <style> blocks are stripped by several clients; a
+      brand artefact that only looks right in one inbox is not one.
+    - A PLAIN TEXT ALTERNATIVE, sent alongside, because some clients show it and
+      because it is what lands in a search result inside his mailbox.
+
+    The subject leads with the piece and the price, since those are what he
+    needs to recognise an enquiry in a list of them.
+  */
+  const rows: Array<[string, string]> = [
+    ["Creature", piece],
+    ["Name", fields.name],
+    ["Email", fields.email],
+    ["Wants", asIs ? "This piece as it is" : "Made to measure"],
     ...(asIs
       ? []
-      : [
-          `Chest: ${cm.chest} cm${unit === "in" ? ` (entered ${fields.chest} in)` : ""}`,
-          `Shoulders: ${cm.shoulders} cm${unit === "in" ? ` (entered ${fields.shoulders} in)` : ""}`,
-          `Length: ${cm.length} cm${unit === "in" ? ` (entered ${fields.length} in)` : ""}`,
-        ]),
+      : ([
+          ["Chest", `${cm.chest} cm${unit === "in" ? ` (entered ${fields.chest} in)` : ""}`],
+          ["Shoulders", `${cm.shoulders} cm${unit === "in" ? ` (entered ${fields.shoulders} in)` : ""}`],
+          ["Length", `${cm.length} cm${unit === "in" ? ` (entered ${fields.length} in)` : ""}`],
+        ] as Array<[string, string]>)),
+    ["Language", locale === "it" ? "Italiano" : "English"],
+  ];
+
+  const esc = (value: string) =>
+    value.replace(/[&<>"]/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]!);
+
+  const INK = "#0A0A0A";
+  const PAPER = "#FAFAF8";
+  const label =
+    `font:500 11px/1.4 Helvetica,Arial,sans-serif;letter-spacing:.08em;` +
+    `text-transform:uppercase;color:${INK};`;
+  const mono = `font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;color:${INK};`;
+
+  const html = `<!doctype html><html lang="${locale}"><body style="margin:0;padding:0;background:${PAPER};">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER};">
+<tr><td align="left" style="padding:32px 24px;">
+<table role="presentation" cellpadding="0" cellspacing="0" style="max-width:520px;">
+<tr><td style="${label}padding-bottom:24px;">Aleksander Cecco</td></tr>
+<tr><td style="border-top:1px solid ${INK};font-size:0;line-height:0;">&nbsp;</td></tr>
+<tr><td style="${label}padding:24px 0 16px;">Enquiry</td></tr>
+${rows
+  .map(
+    ([term, value]) => `<tr><td style="padding-bottom:10px;">
+<span style="${label}display:inline-block;min-width:110px;">${esc(term)}</span>
+<span style="${mono}">${esc(value)}</span></td></tr>`,
+  )
+  .join("")}
+${
+  fields.note
+    ? `<tr><td style="border-top:1px solid ${INK};font-size:0;line-height:0;padding-top:16px;">&nbsp;</td></tr>
+<tr><td style="${label}padding:16px 0 8px;">Note</td></tr>
+<tr><td style="font:400 15px/1.6 Helvetica,Arial,sans-serif;color:${INK};white-space:pre-wrap;">${esc(fields.note)}</td></tr>`
+    : ""
+}
+<tr><td style="border-top:1px solid ${INK};font-size:0;line-height:0;padding-top:24px;">&nbsp;</td></tr>
+<tr><td style="${mono}padding-top:12px;">
+Reply to this message and it goes straight to ${esc(fields.email)}.
+</td></tr>
+</table></td></tr></table></body></html>`;
+
+  // The plain alternative. Same facts, same order, no decoration.
+  const body = [
+    "ALEKSANDER CECCO",
+    "ENQUIRY",
+    "",
+    ...rows.map(([term, value]) => `${term}: ${value}`),
     "",
     fields.note ? `Note:\n${fields.note}` : "Note: (none)",
+    "",
+    `Reply to this message and it goes straight to ${fields.email}.`,
   ].join("\n");
+
+  if (env.ENQUIRY_DRY_RUN) {
+    console.warn(`[enquiry] DRY RUN: not sending. Would have mailed "${piece}" (${locale}).`);
+    return new Response(
+      page(locale, {heading: text.title, lines: [text.ok], next: text.replyWindow, backHref}),
+      {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
+    );
+  }
 
   try {
     // One line per attempt, so a live test can be followed in the function log.
@@ -449,8 +576,9 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
         from: env.RESEND_FROM,
         to: [env.ENQUIRY_TO_EMAIL],
         reply_to: fields.email, // a reply goes straight to the person who asked
-        subject: `Richiesta / Enquiry: ${piece}`,
+        subject: `Enquiry: ${piece}`,
         text: body,
+        html,
       }),
     });
 
@@ -486,9 +614,19 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
         MAXIMUM (2026-08-02), so the copy promises no more than that and is a
         line rather than a marked placeholder. {REPLY_WINDOW} is retired.
       */
-      lines: [text.ok, text.replyWindow],
+      /*
+        Three beats: it arrived, a person will answer, and here is the promise
+        with its limit on it. The reply window is a real commitment (one day
+        maximum, Italian time) rather than a placeholder.
+
+        NO DRAFT MARK. The wording is still ours, and it is flagged as
+        `enquiryCopy` in site settings and caught by `npm run launch-check`; a
+        buyer who has just sent their measurements should not be told the brand
+        has not decided what it says (DESIGN-PLAN section 59).
+      */
+      lines: [text.ok],
+      next: text.replyWindow,
       backHref,
-      draft: true, // the wording is still ours, so it stays marked as a draft
     }),
     {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
   );

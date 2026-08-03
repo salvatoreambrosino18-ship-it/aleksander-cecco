@@ -204,7 +204,11 @@ const availabilityNote = pick(garment.availabilityNote, locale);
             <input type="hidden" name="garmentRef" value={garment.referenceCode ?? ""} />
             <input type="hidden" name="renderedAt" value={String(Date.now())} />
 
-            <button type="submit" class="type-label text-label hairline-under self-start">
+            <button
+              type="submit"
+              class="type-label text-label hairline-under self-start"
+              data-sending={t(locale, "sending")}
+            >
               {t(locale, "enquire")}
             </button>
           </form>
@@ -219,4 +223,30 @@ const availabilityNote = pick(garment.availabilityNote, locale);
       )
     }
   </TextSurface>
+
+  {/*
+    THE SENDING STATE, and it is an ENHANCEMENT rather than a dependency.
+
+    The form posts and the browser navigates, so on a slow connection there is a
+    gap where nothing appears to have happened and a person presses the button
+    again. This says what is going on and stops the second press.
+
+    With no JavaScript nothing changes and the form works exactly as before,
+    which is the rule this whole path is built on (section 19). The button is
+    NOT disabled: a disabled control is removed from the accessibility tree
+    mid-action, and `aria-busy` with a changed label says the same thing without
+    taking the control away from anyone reading it.
+  */}
+  <script is:inline>
+    (() => {
+      const form = document.querySelector("form[action='/api/enquiry']");
+      if (!form) return;
+      form.addEventListener("submit", () => {
+        const button = form.querySelector("button[type=submit]");
+        if (!button) return;
+        button.setAttribute("aria-busy", "true");
+        button.textContent = button.dataset.sending;
+      });
+    })();
+  </script>
 </Base>
