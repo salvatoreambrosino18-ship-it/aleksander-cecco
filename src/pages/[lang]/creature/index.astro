@@ -85,6 +85,19 @@ const rowHeight = (index: number): "tall" | "short" =>
   announced to a screen reader by its alt text, which is a real description.
 */
 const allNamed = creature.every((garment) => !isPlaceholderText(garment.name));
+
+/*
+  THE PRICE BELONGS HERE, and only here among the wall views. This is the
+  catalogue screen: a reader is comparing, and a comparison without prices is a
+  mood board. The gallery stays wordless because it is not selling anything.
+*/
+const money = new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
+  style: "currency",
+  currency: "EUR",
+  maximumFractionDigits: 0,
+});
+const priceOf = (garment: Garment) =>
+  typeof garment.price === "number" ? money.format(garment.price) : null;
 ---
 
 <Base
@@ -120,8 +133,14 @@ const allNamed = creature.every((garment) => !isPlaceholderText(garment.name));
               locale={locale}
               height={rowHeight(index)}
               priority={index < 2}
+              hover={garment.media![1]}
             >
-              {allNamed && <h2 class="type-label text-label">{garment.name}</h2>}
+              {allNamed && (
+                <div class="flex flex-col gap-u1">
+                  <h2 class="type-label text-label">{garment.name}</h2>
+                  {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
+                </div>
+              )}
             </MediaSurface>
           </a>
         ))}

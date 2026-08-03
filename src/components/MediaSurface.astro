@@ -44,6 +44,14 @@ interface Props {
   /** The first image on a page is the largest thing it downloads. */
   priority?: boolean;
   /**
+   * A second frame revealed on hover, for the catalogue screen. CSS only: no
+   * script, and it does not exist for a touch reader, who gets the first frame
+   * exactly as before. Under prefers-reduced-motion it swaps with no transition
+   * rather than being removed, because the information is the second view of the
+   * garment and that is not decoration (DESIGN-PLAN section 60).
+   */
+  hover?: MediaItem | null;
+  /**
    * Reveal this frame as it enters (DESIGN-PLAN section 24). Defaults to on,
    * except for a priority image: the arrival must not be faded in, because it
    * is the LCP element and an arrival that arrives late is not an arrival.
@@ -59,6 +67,7 @@ const {
   height = "screen",
   desktopHeight,
   priority = false,
+  hover = null,
   reveal,
   class: className = "",
 } = Astro.props;
@@ -113,6 +122,22 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
           fetchpriority={priority ? "high" : "auto"}
           style={`object-position: ${objectPosition(media.poster)}`}
           class="h-full w-full object-cover"
+        />
+      )
+    }
+
+    {
+      hover?.poster && (
+        <img
+          src={imageUrl(hover.poster, 1440)}
+          srcset={fullBleedSrcSet(hover.poster)}
+          sizes="100vw"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          style={`object-position: ${objectPosition(hover.poster)}`}
+          class="hover-frame absolute inset-0 h-full w-full object-cover"
         />
       )
     }

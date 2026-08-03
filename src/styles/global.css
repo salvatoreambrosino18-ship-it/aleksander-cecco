@@ -195,6 +195,37 @@
     outline: none;
   }
 
+  /*
+    THE SECOND VIEW, on hover, on the catalogue screen only.
+
+    A shop shows another angle when you point at a garment, and this site had no
+    state at all between arriving on a page and leaving it. It is CSS: no script,
+    no bundle, and a touch reader simply never triggers it and loses nothing,
+    because the second frame is on the Creature's own page anyway.
+
+    The fade is 200ms, which is under the threshold at which a swap reads as an
+    animation rather than as a response. Under prefers-reduced-motion it swaps
+    instantly rather than not at all: the second view is information about the
+    garment, and reduced motion asks for less movement, not less information.
+  */
+  .hover-frame {
+    opacity: 0;
+    transition: opacity 200ms var(--ease-reveal);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    a:hover .hover-frame,
+    a:focus-visible .hover-frame {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hover-frame {
+      transition: none;
+    }
+  }
+
   ::selection {
     background: var(--fg);
     color: var(--bg);
