@@ -3704,3 +3704,127 @@ Provisional frames live in the REPOSITORY, not in the Drive, because the Drive
 is the owner's and the import reads it strictly read only.
 
 **Replace it and delete the crop.** The real shot is in the shot list.
+
+---
+
+## 47. The Drive reorganised into product families (surveyed 2026-08-03)
+
+The owner regrouped his photographs into product families. This section is the
+survey of that move, made by measuring every file rather than by reading the
+folder names, and the precedence rule that follows from it.
+
+**The families, in his words:** MONUMENTUS is the men's co-ord sets, split
+across two folders (LUX & TENEBRAE, and TIBIA CUT, the shorts, separated
+deliberately); OBLIVION is the shirts; STYRAX is the tops; SOLVET ET COAGULA is
+the process behind the work. The folder is spelled `SOLVET ET COAUGULA
+(PROCESS)` on disk, and anything resolving a path has to match the disk.
+
+TWO CONTRADICTIONS ARE OPEN WITH THE OWNER and nothing here resolves them. His
+own approved text presents MONUMENTUS as the COLLECTION ("We present MONUMENTUS:
+Tenebrae & Lux"), and MONUMENTUS is now also a product family; both cannot be
+the top level. And organising by men's sets and women's shirts reintroduces the
+gendered division deleted on 2026-08-02 on the strength of his own words about
+Armonyen being "designed for both him and her" (section 26). The taxonomy is not
+changed until he answers.
+
+### What the move cost, and it is not small
+
+**`products/` is gone.** The import resolves frames from four folders
+(`products`, `archive`, `homepage`, `experimental`) and one of them no longer
+exists. Of 64 frame references in the import plan, 22 stopped resolving: 11
+because the file moved into a family folder the resolver does not search, and
+**11 files that exist nowhere on the Drive any more**.
+
+| Creature or use | files gone | left with |
+| --- | --- | --- |
+| `capo-01`, the black leather shirt | `0d454a66…`, `286368a0…` | nothing |
+| `capo-07`, the wide black trousers | `IMG_3691`, `IMG_3692` | nothing |
+| `capo-08`, tube top and snake skirt | `aa52ef49…`, `05b164db…`, `7682a1f5…` | one frame |
+| the MAKING section | `IMG_0206`, `IMG_0208` | nothing |
+| the GALLERY, frame 4 | `IMG_0207` | nothing |
+| the WORN band | `aa52ef49…` | five of six |
+
+The site is UNAFFECTED: those assets are in Sanity and every page still renders.
+What is blocked is `npm run import`, which now throws while resolving, before it
+uploads or writes anything. It fails safe, and it fails completely.
+
+The assets can be recovered from Sanity if the originals are gone for good, but
+that is a different mechanism from the one the import has (it reads the Drive and
+uploads), so it is a decision to take rather than a patch to apply. Ask the owner
+whether those eleven files still exist on his phone first.
+
+### The survey, by measurement
+
+111 files, **80 unique images**. Every cross-folder duplicate is BYTE-IDENTICAL:
+there is not one case where the same photograph exists at two different sizes or
+encodings in two folders, so precedence is only ever about which path we name,
+never about which copy is better.
+
+| folder | files | note |
+| --- | --- | --- |
+| MONUMENTUS LUX & TENEBRAE | 9 | black and pale pieces together |
+| MONUMENTUS TIBIA CUT | 5 | one cut, two finishes |
+| OBLIVION | 14 | the black shirt set and the red one |
+| SOLVET ET COAUGULA (PROCESS) | 8 | five never seen before |
+| STYRAX TOP | 8 | all new |
+| archive, experimental, homepage | 55 | unchanged |
+| (root) | 11 | the OBLIVION shirt set, unfiled |
+
+The root holds `IMG_3451` to `IMG_3458`; OBLIVION holds `3452` to `3457`. So the
+lead frame and one never-used frame of the same shirt are the only members of
+that set left outside the folder. `IMG_3458` shows a hand opening the slit in the
+shirt's upper back, which is the same "oblivion hole" the red shirt has and is
+presumably where the family name comes from.
+
+### The precedence rule (proposed 2026-08-03)
+
+1. **The family folder wins over a legacy folder.** `products/archive/homepage/
+   experimental` were OUR grouping by page role. The family folders are HIS
+   statement of what the object is, and that is the better authority for a key.
+2. **Dedupe by content hash, never by filename.** The obvious rule, "ignore any
+   ` (n)` copy", is wrong here and there is exactly one counter-example:
+   `homepage/HOMEPAGE.HEIC` (4284x5712) and `homepage/homepage (1).HEIC`
+   (3024x4032) are DIFFERENT PHOTOGRAPHS. Every other ` (n)` file is
+   byte-identical to its sibling. A name-based rule silently drops a real frame.
+3. **The root is "unfiled", not a folder.** Do not mint a root category:
+   `IMG_3451` and `IMG_3458` are OBLIVION pending his move.
+4. **A stem in two family folders is a question about the garment, not the
+   file.** Leave it keyed where it is and ask.
+5. **The legacy folders stay** for what only exists there, which is still most of
+   the catalogue.
+
+**Why this is cheap:** the import uploads by sha1 and reuses any asset already in
+the dataset (`import-photos.mjs`), and every cross-folder duplicate is
+byte-identical, so re-keying uploads nothing and changes no image on the site.
+Only the path we resolve by changes.
+
+### What SOLVET ET COAGULA holds, and what it refutes
+
+Eight frames, five of them new: a cardboard pattern weighted with two porous
+stones on a black hide with the cut chalked around it (`IMG_3387`, 4284x5457);
+black trouser panels cut, outlines still on the hide; the 40mm brush on
+freshly blackened cloth (`IMG_2626`); black pieces hung wet and twisted on a bar;
+shearling being pinned and taped onto a mannequin; pale garments on the bench
+with the tape measures. Pattern, cut, dye, dry, build, finish.
+
+**This settles section 27 against the making section.** Its two frames,
+`IMG_0206` and `IMG_0208`, are argued in section 21 as one hide before and after
+construction. Pulled out of Sanity and compared against the new folder, they are
+the SAME OBJECT as the STYRAX TOP flat frames, and the same piece the model
+wears in the forest: a finished Creature, not raw material. No visible copy is
+wrong; the section's reason to exist is. The prepared fix in section 27 is also
+partly wrong, because `experimental/IMG_3406`, nominated there as a replacement
+"offcuts and tools" frame, is the BAG on the bench, which would repeat the
+mistake with a different object.
+
+Replacement, when the making section is next touched: `IMG_3387` then the
+mannequin frame, which is the cut being drawn and the piece taking shape. Note
+that only `IMG_3387` and `IMG_2626` clear the 2000px floor comfortably.
+
+### Resolution, and a pattern worth knowing
+
+Twenty-three files sit below the 2000px long-edge floor, and they cluster: every
+STYRAX TOP frame, both TIBIA CUT on-model frames, `DESIGNER.jpg`, and the
+`IMG_020x` archive set are all exactly 1200x1600. That is the signature of a
+messaging app, not of a camera. **When a file matters and measures 1200x1600, ask
+him for the original before treating it as the best available.**
