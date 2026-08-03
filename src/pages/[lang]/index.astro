@@ -59,6 +59,11 @@ const [collections, settings, creature] = await Promise.all([
 ]);
 
 const opening = settings.openingMedia;
+const instagramFrames = settings.instagramFrames ?? [];
+const instagramUrl = settings.instagramUrl?.trim() || null;
+const instagramHandle = instagramUrl
+  ? `@${instagramUrl.replace(/\/+$/, "").split("/").pop()}`
+  : null;
 
 /*
   WHAT THE ARRIVAL SAYS. His title, his sentence, and one line of ours.
@@ -235,6 +240,73 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     it, good; if not, the page is still a page that inverts once, which is what
     it was before (DESIGN-PLAN section 22).
   */}
+  {/*
+    INSTAGRAM, AND THE LIST. Both sit here, before the wipe, because this is
+    where a reader who has come down the whole page is deciding whether to keep
+    the brand or leave it.
+
+    THE FEED IS NOT A FEED (DESIGN-PLAN section 62): four frames he chooses in
+    the studio, linking to his profile. A live one needs a token that expires
+    every sixty days and empties the section silently; every embed is a
+    third-party script, which rules 4 and 13 forbid.
+
+    THE LIST IS THE BIGGEST GAP nobody had named: his model is drops, two pieces,
+    released and gone, and with no list every drop reaches only whoever opens
+    Instagram that day. The form is here and COLLECTS NOTHING: it posts to the
+    same Function, which answers that sign-up is not open. It sits behind the
+    same legal gate as the enquiry, and that gate has not moved.
+  */}
+  {
+    instagramFrames.length > 0 && (
+      <section class="relative">
+        <TextSurface class="flex flex-col gap-u2 pt-u13 pb-u5">
+          <h2 class="type-label text-label">{t(locale, "instagram")}</h2>
+          {instagramUrl && (
+            <a
+              href={instagramUrl}
+              rel="me noopener"
+              target="_blank"
+              class="type-mono text-mono self-start hover:underline underline-offset-4"
+            >
+              {instagramHandle}
+            </a>
+          )}
+        </TextSurface>
+
+        <ul class="grid grid-cols-2 md:grid-cols-4">
+          {instagramFrames.map((media) => (
+            <li>
+              <a href={instagramUrl ?? "#"} rel="me noopener" target="_blank" class="block">
+                <MediaSurface media={media} locale={locale} height="short" desktopHeight="short" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <TextSurface class="flex flex-col gap-u5 py-u13">
+    <h2 class="type-label text-label">{t(locale, "newsletter")}</h2>
+    <p class="type-body text-body max-w-prose">{t(locale, "newsletterLine")}</p>
+    <form method="POST" action="/api/enquiry" class="flex max-w-prose flex-col gap-u3">
+      <div class="field">
+        <label class="type-label text-label" for="list-email">Email</label>
+        <input id="list-email" name="email" type="email" required maxlength="254" autocomplete="email" />
+      </div>
+      {/* Hidden from people, not from bots, exactly as on the enquiry form. */}
+      <div class="spam-trap" aria-hidden="true">
+        <label for="list-website">Website</label>
+        <input id="list-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="hidden" name="intent" value="newsletter" />
+      <input type="hidden" name="lang" value={locale} />
+      <button type="submit" class="type-label text-label hairline-under self-start">
+        {t(locale, "newsletterAction")}
+      </button>
+    </form>
+  </TextSurface>
+
   <BoundaryWash
     from="dark"
     to="light"

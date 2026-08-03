@@ -699,6 +699,20 @@ const PROCESS = [
   ["process/PHOTO-2026-04-20-19-14-54", "Capi chiari finiti, distesi sul banco accanto al metro e alla riga."],
 ];
 
+/*
+  THE INSTAGRAM SELECTION. His photographs, chosen by US, which is why
+  `instagramFrames` is flagged in inventedCopy: the heading is his handle and
+  the frames link to his profile, so nothing here claims to be a live feed, but
+  WHICH four appear is our editorial and he should replace it with what he
+  actually wants shown.
+*/
+const INSTAGRAM = [
+  ["archive/IMG_0204", "Il top in pelliccia di capra e pelle, indossato, in un bosco di rami spogli."],
+  ["oblivion/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
+  ["tibia/Mnmnts Lux tibia cut", "Uomo con pantaloni corti chiari in pelle, contro un muro bianco."],
+  ["archive/IMG_9592", "La giacca in pelle marrone indossata, vista da dietro, con il collo alto."],
+];
+
 const MAKING = [
   ["process/IMG_3387", "Un cartamodello di cartone appoggiato su una pelle nera, tenuto fermo da due pietre, con il taglio segnato a gesso."],
   ["process/PHOTO-2026-03-12-18-30-03", "Una pelliccia nera montata e spillata su un manichino, durante la lavorazione."],
@@ -1158,6 +1172,7 @@ async function main() {
     ...WORN.map(([f]) => f),
     ...MAKING.map(([f]) => f),
     ...PROCESS.map(([f]) => f),
+    ...INSTAGRAM.map(([f]) => f),
     ABOUT_OPENING[0],
     DESIGNER_PORTRAIT[0],
     ...ABOUT_MEDIA.map(([f]) => f),
@@ -1404,6 +1419,7 @@ async function main() {
       ...(garmentId ? {garment: {_type: "reference", _ref: garmentId}} : {}),
     })),
     makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`, ovc(rel), safe(rel))),
+    instagramFrames: INSTAGRAM.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `g${i}`, ovc(rel), safe(rel))),
     processMedia: PROCESS.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `p${i}`, ovc(rel), safe(rel))),
 
     // His words, in the two places each run belongs.
@@ -1440,6 +1456,7 @@ async function main() {
       "homeLines",
       "enquiryCopy",
       "availabilityCopy",
+      "instagramFrames",
     ],
     footerCopyIsDraft: true,
 

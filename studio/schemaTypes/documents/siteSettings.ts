@@ -274,6 +274,25 @@ export const siteSettings = defineType({
       frames carry no captions, because naming each stage would be our words
       laid over his process.
     */
+    /*
+      INSTAGRAM, CURATED RATHER THAN LIVE (2026-08-03).
+
+      A live feed needs the Graph API, a Business account, an app and a
+      long-lived token that must be refreshed every sixty days: free in money,
+      and it empties itself silently the first time nobody refreshes it. Every
+      embed widget is a third-party script, which standing rules 4 and 13 rule
+      out. So he drops three to six frames here and they link to his profile.
+      Nothing expires, nothing scripts, nothing costs.
+    */
+    defineField({
+      name: 'instagramFrames',
+      title: 'Instagram: le fotografie / Instagram: the frames',
+      type: 'array',
+      of: [{type: 'media'}],
+      description:
+        "Da tre a sei fotografie, che rimandano al profilo. Non e un feed automatico: le scegli tu. / Three to six photographs, linking to the profile. Not an automatic feed: you choose them.",
+      validation: (Rule) => Rule.max(6).warning('More than six stops being a selection.'),
+    }),
     defineField({
       name: 'processMedia',
       title: 'Il processo / The process',
@@ -296,6 +315,7 @@ export const siteSettings = defineType({
           {title: 'Home: le righe di sezione / Home: the section lines', value: 'homeLines'},
           {title: 'Richiesta: i testi / Enquiry: the copy', value: 'enquiryCopy'},
           {title: 'Disponibilita: la spiegazione / Availability: the explanation', value: 'availabilityCopy'},
+          {title: 'Instagram: quali fotografie / Instagram: which frames', value: 'instagramFrames'},
         ],
         layout: 'grid',
       },

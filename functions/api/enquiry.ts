@@ -243,6 +243,7 @@ const TEXT = {
     tooFast: "Riprova: il modulo e stato inviato troppo in fretta.",
     notSent: "Non siamo riusciti a inviare la richiesta. Riprova piu tardi.",
     notConfigured: "L'invio delle richieste non e ancora attivo su questo sito.",
+    listClosed: "Le iscrizioni non sono ancora aperte. Scrivici e ti avvisiamo noi.",
     tooMany: "Troppe richieste da qui. Riprova piu tardi.",
     draft: "Bozza non approvata",
   },
@@ -260,6 +261,7 @@ const TEXT = {
     tooFast: "Please try again: the form was submitted too quickly.",
     notSent: "We could not send your enquiry. Please try again later.",
     notConfigured: "Sending enquiries is not switched on for this site yet.",
+    listClosed: "Sign-up is not open yet. Write to us and we will tell you when it is.",
     tooMany: "Too many enquiries from here. Try again later.",
     draft: "Unapproved draft",
   },
@@ -365,6 +367,26 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
       status: 429,
       headers: {"Content-Type": "text/html; charset=utf-8", "Retry-After": String(retryAfter)},
     });
+  }
+
+  /*
+    THE LIST IS NOT OPEN (2026-08-03). The capture form exists on the home page
+    and this endpoint answers it honestly rather than storing anything.
+
+    Marketing email is a DIFFERENT legal basis from an enquiry, not a smaller
+    one: consent must be separate, unbundled and opt-in; every message needs a
+    working unsubscribe and the sender's identity and postal address; the record
+    of when and how each consent was given has to be kept; and the list itself is
+    personal data with a retention rule. Double opt-in is the defensible EU
+    standard. All of that sits behind the same privacy notice that already
+    blocks the enquiry, so nothing is collected until a lawyer has written one
+    (DESIGN-PLAN section 62 and checklist group 1).
+  */
+  if (get("intent") === "newsletter") {
+    return new Response(
+      page(locale, {heading: text.title, lines: [text.listClosed], backHref}),
+      {status: 503, headers: {"Content-Type": "text/html; charset=utf-8"}},
+    );
   }
 
   const fields = {
