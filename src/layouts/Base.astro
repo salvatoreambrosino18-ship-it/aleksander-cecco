@@ -152,7 +152,7 @@ const shareImage =
       footer and every text section draw their own segment at the same offset,
       so the line reads continuous and breaks exactly where a photograph starts.
     */}
-    <SiteHeader locale={locale} chrome={chrome ?? theme} />
+    <SiteHeader locale={locale} chrome={chrome ?? theme} pageTheme={theme} />
 
     <div class="flex min-h-svh flex-col">
       <main id="content" class="flex-1">

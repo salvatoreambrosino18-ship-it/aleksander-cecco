@@ -10,41 +10,97 @@
   Built on <details>, so it opens, closes and takes keyboard focus with no
   JavaScript at all. When open, the summary becomes the fixed CLOSE control
   above the panel; that is a CSS state change, not motion.
+
+  A DESIGNED MOMENT, not a list of links (2026-08-03). Three things make it one,
+  and each is something the site already owns rather than something new:
+
+  1. IT INVERTS. The panel is the opposite polarity to the page under it, so
+     opening the menu performs the site's one structural idea in miniature: the
+     document has two states. On a paper page the menu is ink, and the reverse.
+     No fade, no slide: the screen simply becomes its opposite, which is the
+     same discipline as the boundary wash.
+  2. THE SPINE RUNS THROUGH IT, because it is a text surface and that is where
+     the spine belongs (section 2). It is the only vertical line on the panel.
+  3. IT ANSWERS THE QUESTION THE MENU IS USUALLY OPENED TO ASK. A reader who
+     opens a menu on a brand site is often looking for how to reach a person,
+     so the address and the Instagram handle are here as mono facts rather than
+     one more destination to tap through to.
+
+  The destinations take the statement register and a hairline under each, which
+  thickens on hover and focus: emphasis by thickening a rule is the one gesture
+  this system has (section 26).
 */
 import Signature from "./Signature.astro";
 import LanguageSwitch from "./LanguageSwitch.astro";
+import Spine from "./Spine.astro";
+import {getSiteSettings, isPlaceholderEmail} from "../lib/content";
 import {localePath, type Locale} from "../lib/locales";
 import {t, MENU_DESTINATIONS} from "../i18n/ui";
 
 interface Props {
   locale: Locale;
+  /** The polarity of the page this menu sits on; the panel takes the other. */
+  theme?: "light" | "dark";
 }
 
-const {locale} = Astro.props;
+const {locale, theme = "light"} = Astro.props;
+const panelTheme = theme === "dark" ? "light" : "dark";
+
+const settings = await getSiteSettings();
+const email = settings.contactEmail?.trim() || null;
+const instagram = settings.instagramUrl?.trim() || null;
+const handle = instagram ? `@${instagram.replace(/\/+$/, "").split("/").pop()}` : null;
 ---
 
 <details class="menu">
   <summary class="type-label text-label menu-toggle" aria-label={t(locale, "menu")}>
     <span class="menu-when-closed">{t(locale, "menu")}</span>
-    <span class="menu-when-open">{t(locale, "close")}</span>
+    {/*
+      The close control sits OVER the inverted panel, so it takes the panel's
+      polarity rather than the page's. Without this it is ink on ink: the label
+      was invisible the first time this was rendered and looked at.
+    */}
+    <span class="menu-when-open text-fg" data-theme={panelTheme}>{t(locale, "close")}</span>
   </summary>
 
-  <div class="menu-panel bg-bg text-fg frame">
-    <nav class="flex flex-col gap-u5" aria-label={t(locale, "menu")}>
+  <div class="menu-panel bg-bg text-fg frame" data-theme={panelTheme}>
+    <Spine />
+
+    <nav class="flex flex-col" aria-label={t(locale, "menu")}>
       {
         MENU_DESTINATIONS.map(({key, path}) => (
-          <a href={localePath(locale, path)} class="type-label text-statement hover:underline underline-offset-8">
+          <a href={localePath(locale, path)} class="menu-destination type-label text-statement">
             {t(locale, key)}
           </a>
         ))
       }
     </nav>
 
-    <div class="flex items-end justify-between gap-u3">
-      <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
-        <Signature class="h-sig-corner" decorative />
-      </a>
-      <LanguageSwitch locale={locale} />
+    <div class="flex flex-col gap-u5">
+      {/*
+        The two ways to reach a person, in the mono register, because they are
+        hard facts rather than navigation. A placeholder address is never
+        rendered as a working link.
+      */}
+      <div class="type-mono text-mono flex flex-col gap-u1">
+        {handle && instagram && (
+          <a href={instagram} rel="me noopener" target="_blank" class="hover:underline underline-offset-4">
+            {handle}
+          </a>
+        )}
+        {email && !isPlaceholderEmail(email) && (
+          <a href={`mailto:${email}`} class="hover:underline underline-offset-4">
+            {email}
+          </a>
+        )}
+      </div>
+
+      <div class="flex items-end justify-between gap-u3">
+        <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
+          <Signature class="h-sig-corner" decorative />
+        </a>
+        <LanguageSwitch locale={locale} />
+      </div>
     </div>
   </div>
 </details>

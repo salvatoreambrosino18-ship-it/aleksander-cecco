@@ -505,6 +505,23 @@
   .menu:not([open]) .menu-panel {
     display: none;
   }
+  /*
+    A destination is a label with a hairline under it, and the hairline thickens
+    on hover and focus. That is the site's ONE emphasis gesture (section 26): the
+    thing you press looks like the things you fill in on the enquiry form.
+  */
+  .menu-destination {
+    display: block;
+    padding-block: var(--s-u3);
+    border-bottom: var(--hairline-w) solid var(--hairline);
+  }
+  .menu-destination:hover,
+  .menu-destination:focus-visible {
+    border-bottom-color: var(--fg);
+    border-bottom-width: calc(var(--hairline-w) * 2);
+    padding-bottom: calc(var(--s-u3) - var(--hairline-w));
+  }
+
   .menu-panel {
     position: fixed;
     inset: 0;
