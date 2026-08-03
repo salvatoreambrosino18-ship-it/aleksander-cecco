@@ -40,7 +40,7 @@ import MediaSurface from "../../components/MediaSurface.astro";
 import Statement from "../../components/Statement.astro";
 import WornBand from "../../components/WornBand.astro";
 import BoundaryWash from "../../components/BoundaryWash.astro";
-import {getCollections, getSiteSettings} from "../../lib/content";
+import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
 import {voiceState} from "../../lib/voice";
@@ -52,9 +52,48 @@ export function getStaticPaths() {
 }
 
 const locale = toLocale(Astro.params.lang);
-const [collections, settings] = await Promise.all([getCollections(), getSiteSettings()]);
+const [collections, settings, creature] = await Promise.all([
+  getCollections(),
+  getSiteSettings(),
+  getGarments(),
+]);
 
 const opening = settings.openingMedia;
+
+/*
+  WHAT THE ARRIVAL SAYS. His title, his sentence, and one line of ours.
+
+  `dropLine` is the FIRST line of his own collection statement, unaltered and in
+  his order, so the opening screen speaks in his voice rather than in ours. The
+  price line is ours and is flagged as `homeLines` in site settings: it names the
+  lowest real price in the catalogue rather than a claim, so it cannot drift out
+  of date while the prices are right.
+*/
+const [drop] = collections;
+void drop;
+const dropStatement = pick(drop?.statement ?? null, locale);
+/*
+  His first TWO lines, which is the Sorcinelli register measured in section 14:
+  two short lines over a full-bleed frame. The first names the drop, so no
+  separate label sits above them; printing the collection name and then his
+  sentence that opens "We present MONUMENTUS" said it twice.
+*/
+const dropLine =
+  dropStatement
+    ?.split(/\n/)
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("\n") ?? null;
+
+const prices = creature.map((c) => c.price).filter((p): p is number => typeof p === "number");
+const priceFrom = prices.length
+  ? `${t(locale, "priceFrom")} ${new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }).format(Math.min(...prices))}  /  ${t(locale, "madeToMeasure")}`
+  : null;
 const worn = settings.homeSequence ?? [];
 const makingMedia = settings.makingMedia ?? [];
 const homeStatement = pick(settings.homeStatement, locale);
@@ -83,7 +122,36 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     opening ? (
       <>
         <h1 class="sr-only">Aleksander Cecco</h1>
-        <MediaSurface media={opening} locale={locale} priority />
+        {/*
+          WORDS ON THE ARRIVAL (2026-08-03). The page used to open on a
+          photograph carrying nothing at all, which read as a screensaver: a
+          visitor arriving from Instagram could not tell what this was, what it
+          cost, or how to get one, and had to scroll to find out. Every reference
+          puts words on its opening image, and the sparse ones are still never
+          silent.
+
+          Four lines and no more. The collection is HIS title, the line under it
+          is HIS sentence from the collection statement, and only the third is
+          ours: the price the work starts at and the fact that everything is made
+          to measure, which are the two questions a first-time visitor actually
+          has. Then one route in.
+        */}
+        <MediaSurface media={opening} locale={locale} priority>
+          <div class="flex flex-col gap-u2">
+            {dropLine && (
+              <p class="type-statement text-statement max-w-prose whitespace-pre-line">
+                {dropLine}
+              </p>
+            )}
+            {priceFrom && <p class="type-mono text-mono">{priceFrom}</p>}
+            <a
+              href={localePath(locale, "creature")}
+              class="type-label text-label hairline-under self-start"
+            >
+              {t(locale, "allCreatures")}
+            </a>
+          </div>
+        </MediaSurface>
       </>
     ) : (
       <TextSurface class="flex min-h-svh flex-col justify-center">
