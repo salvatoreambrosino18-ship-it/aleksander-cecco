@@ -642,30 +642,38 @@ const ABOUT_TEXT = {
   city.
 */
 /*
-  Shipping and returns, written by US in his register: short, declarative, no
-  hedging and no apology. The fact the owner gave is that returns are accepted
-  and the customer pays the return shipping, so that is exactly what it says and
-  nothing more. No window, no conditions, no "please note": none of that has
-  been agreed and inventing it would be inventing policy.
+  SHIPPING, IN THREE PIECES (2026-08-03), because they have three standings.
 
-  The third line, added 2026-08-02, is an EXTENSION of his stated rule rather
-  than a new one: he said the customer pays to send it back, and outside the EU
-  that cost also includes customs. At these prices the difference is material
-  and leaving it unsaid would be the omission, not the honesty.
+  1. FREE SHIPPING is HIS fact and his words: free worldwide shipping over 500
+     euro, always. It carries no mark. The Italian is a translation and is not
+     marked either, on the rule section 40 already set: a composition, a price
+     and a shipping threshold are FACTS like a reference code, not voice, and
+     translating a fact is not putting words in his mouth.
 
-  Ours, so it stays marked as an unapproved draft in BOTH languages.
+  2. RETURNS is his facts in our wording: returns accepted, the customer pays
+     the return shipping. Marked as ours, as it has been from the start. No
+     window, no conditions, no "please note": none of that has been agreed and
+     inventing it would be inventing policy.
+
+  3. CUSTOMS OUTSIDE THE EU is a fact he has NOT confirmed. He says it is
+     normally the customer and is checking with his partner. It ships marked as
+     unconfirmed rather than either stated or withheld: at these prices a
+     surprise customs bill is the kind of thing that ends a sale badly, and
+     "we think, and are checking" is the honest position while it is true.
 */
+const SHIPPING_FREE = {
+  it: "Spedizione gratuita in tutto il mondo sopra i 500 euro.",
+  en: "Free worldwide shipping over 500 euro.",
+};
+
 const SHIPPING_RETURNS = {
-  it: [
-    "Spedito in tutto il mondo.",
-    "Resi accettati. La spedizione di reso è a carico del cliente.",
-    "Fuori dall'Unione Europea, anche eventuali oneri doganali sono a carico del cliente.",
-  ].join("\n"),
-  en: [
-    "Shipped worldwide.",
-    "Returns accepted. The customer pays the return shipping.",
-    "Outside the EU, any customs or import charges are the customer's too.",
-  ].join("\n"),
+  it: "Resi accettati. La spedizione di reso è a carico del cliente.",
+  en: "Returns accepted. The customer pays the return shipping.",
+};
+
+const SHIPPING_CUSTOMS = {
+  it: "Fuori dall'Unione Europea, gli oneri doganali sono normalmente a carico del cliente.",
+  en: "Outside the EU, customs charges are normally paid by the customer.",
 };
 
 const FOOTER_COPY = {
@@ -696,13 +704,28 @@ const ABOUT_OPENING = [
 ];
 
 /*
-  THE DESIGNER. Him at the machine, a hide on the table, in black and white. It
-  is the strongest trust signal on the site (DESIGN-PLAN sections 32, 33, 41)
-  and it does the work no copy can: it shows that one person really makes these.
+  THE DESIGNER. HIS OWN CHOICE of portrait, supplied 2026-08-03 and used on his
+  authority rather than on ours: he is bent over the bench inscribing "SEVERYA /
+  LAMBSKIN / 100%" onto a piece in his own hand.
+
+  It earns the place twice over. It is the strongest trust signal on the site
+  (DESIGN-PLAN sections 32, 33, 41), and what it shows is the very act the
+  Creature page is modelled on: section 26 took that inscription format from his
+  captions, and here he is writing it on the object. The page and the photograph
+  say the same thing without either explaining it.
+
+  It also keeps his face out of the frame, which sits with section 44: whether
+  the maker is named or shown in public is his decision and he has not made it.
+
+  ONE RESERVATION, recorded rather than hidden: at 1200x1600 it is below the
+  2000px floor every other full-bleed frame meets, and it carries the signature
+  of a messaging app rather than a camera. The full-resolution original has been
+  asked for. Chrome contrast measures ink at 6.2, comfortably legible, against
+  9.02 for the portrait it replaces.
 */
 const DESIGNER_PORTRAIT = [
-  "experimental/ciro-designer",
-  "Il fondatore al lavoro alla macchina da cucire, con una pelle intera stesa sul tavolo.",
+  "experimental/DESIGNER",
+  "Le mani di chi fa le Creature mentre scrive a mano il nome e la composizione su un capo in pelle nera.",
 ];
 
 const ABOUT_MEDIA = [
@@ -1187,7 +1210,13 @@ async function main() {
     // Ours, and still drafts in both languages.
     footerShipping: {_type: "localeText", ...FOOTER_COPY.footerShipping},
     footerOrigin: {_type: "localeText", ...FOOTER_COPY.footerOrigin},
+    // His fact, his words, unmarked.
+    shippingFree: {_type: "localeText", ...SHIPPING_FREE},
+    // His facts, our wording, marked as ours.
     shippingReturns: {_type: "localeText", ...SHIPPING_RETURNS},
+    // Ours AND unconfirmed until his partner confirms it.
+    shippingCustoms: {_type: "localeText", ...SHIPPING_CUSTOMS},
+    shippingCustomsIsProvisional: true,
     footerCopyIsDraft: true,
 
     // BOTH now. He wrote the English and authorised the Italian above, so no

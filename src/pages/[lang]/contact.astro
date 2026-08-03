@@ -32,6 +32,16 @@ const shipping = pick(settings.shippingReturns, locale);
 const shippingIsPlaceholder = isPlaceholderText(shipping);
 
 /*
+  Three lines, three standings (DESIGN-PLAN section 51). The free shipping line
+  is HIS fact in HIS words, so it is unmarked. The returns text is his facts in
+  our wording, marked as ours below. The customs line is a fact he has not
+  confirmed yet, which is a third thing and needs a third mark.
+*/
+const free = pick(settings.shippingFree, locale);
+const customs = pick(settings.shippingCustoms, locale);
+const customsIsProvisional = settings.shippingCustomsIsProvisional !== false;
+
+/*
   The shipping and returns text is OURS, not his, so it is a draft in every
   language rather than a translation, and it says so. The two facts in it are
   the owner's (worldwide, customer pays return shipping); the wording is not.
@@ -79,6 +89,14 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
 
     <div class="flex flex-col gap-u2">
       <h2 class="type-label text-label">{t(locale, "shippingReturns")}</h2>
+
+      {/*
+        HIS OWN FACT, in his own words, so it carries no mark at all and it goes
+        first: free shipping over 500 euro is the most useful thing this page
+        says to somebody deciding whether to ask (2026-08-03).
+      */}
+      {free && <p class="type-body text-body max-w-prose whitespace-pre-line">{free}</p>}
+
       {shippingIsMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
       {
         shipping && !shippingIsPlaceholder ? (
@@ -92,6 +110,31 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
           </p>
         ) : (
           <p class="placeholder-mark self-start">{shipping ?? "{SHIPPING_RETURNS}"}</p>
+        )
+      }
+
+      {/*
+        UNCONFIRMED, and marked differently from a draft on purpose. A draft is
+        wording nobody has approved; this is a FACT nobody has confirmed. He says
+        customs outside the EU are normally the customer's and is checking it
+        with his partner, and stating an unconfirmed policy as settled is how a
+        buyer gets a bill nobody warned them about.
+      */}
+      {
+        customs && (
+          <div class="flex flex-col gap-u2 pt-u2">
+            {customsIsProvisional && (
+              <p class="placeholder-mark self-start">{t(locale, "provisionalFact")}</p>
+            )}
+            <p
+              class:list={[
+                "type-body text-body max-w-prose whitespace-pre-line",
+                customsIsProvisional && "draft-text",
+              ]}
+            >
+              {customs}
+            </p>
+          </div>
         )
       }
     </div>

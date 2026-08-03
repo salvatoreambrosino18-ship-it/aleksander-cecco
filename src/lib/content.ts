@@ -58,7 +58,12 @@ export type SiteSettings = {
   about: LocaleField;
   /** True only if the brand story was written by us rather than by the owner. */
   aboutIsDraft: boolean | null;
+  /** His own words and his own fact, so it carries no mark. */
+  shippingFree: LocaleField;
   shippingReturns: LocaleField;
+  /** Ours AND unconfirmed: he is checking it with his partner. */
+  shippingCustoms: LocaleField;
+  shippingCustomsIsProvisional: boolean | null;
   footerShipping: LocaleField;
   footerOrigin: LocaleField;
 };
@@ -84,7 +89,10 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     aboutMedia[]{${MEDIA_PROJECTION}},
     about,
     "aboutIsDraft": coalesce(aboutIsDraft, false),
+    shippingFree,
     shippingReturns,
+    shippingCustoms,
+    "shippingCustomsIsProvisional": coalesce(shippingCustomsIsProvisional, true),
     footerShipping,
     footerOrigin
   }
@@ -107,7 +115,10 @@ const EMPTY_SETTINGS: SiteSettings = {
   aboutMedia: null,
   about: null,
   aboutIsDraft: null,
+  shippingFree: null,
   shippingReturns: null,
+  shippingCustoms: null,
+  shippingCustomsIsProvisional: null,
   footerShipping: null,
   footerOrigin: null,
 };

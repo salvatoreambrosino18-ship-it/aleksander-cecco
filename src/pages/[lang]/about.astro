@@ -28,6 +28,7 @@
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
+import Statement from "../../components/Statement.astro";
 import {getSiteSettings, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
@@ -66,6 +67,16 @@ const paragraphs = (about ?? "")
   .map((p) => p.trim())
   .filter(Boolean);
 const isShort = (p: string) => p.split(/\s+/).length <= 18;
+
+/*
+  THE PERSON, folded in from the former /designer page (2026-08-03). `making`
+  is his own account of how the work is done, which is the one thing he has
+  written that is about him rather than about the brand; `designerText` is his
+  biography when he writes one.
+*/
+const portrait = settings.designerPortrait;
+const designerText = pick(settings.designerText, locale);
+const making = pick(settings.makingStatement, locale);
 ---
 
 <Base
@@ -154,4 +165,47 @@ const isShort = (p: string) => p.split(/\s+/).length <= 18;
   {photographs.slice(paragraphs.length).map((media) => (
     <MediaSurface media={media} locale={locale} height="tall" />
   ))}
+
+  {/*
+    THE PERSON, folded in from the designer page on 2026-08-03 by the owner's
+    instruction. They were two sections telling one story: the brand, then the
+    man who makes it. Read one after the other they are a single descent, and
+    the reason the separate page existed (an international buyer needs to see
+    that one real person makes these, DESIGN-PLAN sections 32 and 33) is served
+    better at the END of the story than on a page nobody was sent to.
+
+    THE PORTRAIT IS LAST, and that ordering is the whole point: the story first,
+    the person at the bottom, so the page arrives at him rather than opening on
+    him. The route is gone and 301s to here; the menu carries one entry.
+  */}
+  {(designerText || portrait) && (
+    <TextSurface theme="dark" class="hairline-h pt-u13">
+      <h2 class="type-label text-label">{t(locale, "designer")}</h2>
+    </TextSurface>
+  )}
+
+  {/*
+    His own account of the work. Approved, so unmarked in the languages he has
+    approved, and the only text here that is not a placeholder.
+  */}
+  <Statement text={making} locale={locale} voice={voice} register="body" theme="dark" />
+
+  {/*
+    Everything a designer page normally carries and this one cannot yet. A
+    marked placeholder, never a plausible sentence: inventing where someone
+    trained is the same offence as inventing what the brand believes. His name
+    is deliberately NOT here (section 44): whether the maker is named in public
+    is his decision and he has not made it.
+  */}
+  {
+    designerText ? (
+      <Statement text={designerText} locale={locale} voice={voice} register="body" theme="dark" />
+    ) : (
+      <TextSurface theme="dark" class="flex flex-col gap-u3 py-u13">
+        <p class="placeholder-mark self-start">{"{DESIGNER_BIOGRAPHY}"}</p>
+      </TextSurface>
+    )
+  }
+
+  {portrait && <MediaSurface media={portrait} locale={locale} height="tall" />}
 </Base>

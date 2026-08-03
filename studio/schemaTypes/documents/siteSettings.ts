@@ -188,10 +188,45 @@ export const siteSettings = defineType({
         "Acceso solo se il testo NON e del titolare. Il sito lo marca come bozza in tutte le lingue. Per la sola questione della traduzione usare invece le lingue approvate. / On only when the text is NOT the owner's. The site then marks it as a draft in every language. For the translation question alone, use the approved languages field instead.",
       initialValue: false,
     }),
+    /*
+      SHIPPING, IN THREE PIECES, because they have three different standings and
+      one field could not tell them apart (2026-08-03).
+
+      1. shippingFree     HIS OWN FACT and his own words. Unmarked.
+      2. shippingReturns  the returns rule: his facts, our wording. Marked as
+                          ours, as it always has been.
+      3. shippingCustoms  who pays customs outside the EU. He says it is
+                          normally the customer and is confirming that with his
+                          partner, so it ships PROVISIONAL and says so. A policy
+                          nobody has confirmed is the one thing worse to invent
+                          than copy.
+    */
+    defineField({
+      name: 'shippingFree',
+      title: 'Spedizione gratuita / Free shipping',
+      type: 'localeText',
+      description:
+        "Parole del titolare. Una riga. / The owner's own words. One line.",
+    }),
     defineField({
       name: 'shippingReturns',
       title: 'Spedizioni e resi / Shipping and returns',
       type: 'localeText',
+    }),
+    defineField({
+      name: 'shippingCustoms',
+      title: 'Dogana fuori dall\'Unione Europea / Customs outside the EU',
+      type: 'localeText',
+      description:
+        "Una riga. Finche' non e confermata il sito la mostra come da confermare. / One line. While it is unconfirmed the site shows it as such.",
+    }),
+    defineField({
+      name: 'shippingCustomsIsProvisional',
+      title: 'La riga sulla dogana e da confermare / The customs line is unconfirmed',
+      type: 'boolean',
+      description:
+        "Acceso finche' il titolare non conferma chi paga la dogana fuori dall'Unione Europea. / On until the owner confirms who pays customs outside the EU.",
+      initialValue: true,
     }),
     /*
       The footer's four blocks. Instagram and the contact address are already

@@ -21,5 +21,15 @@
 /it/archive  /it/gallery  301
 /en/archive  /en/gallery  301
 
+# The designer folded into the end of the about page on 2026-08-03: two
+# sections telling one story, so they are one page now.
+/it/designer  /it/about  301
+/en/designer  /en/about  301
+
+# The red shirt left the catalogue the same day (DESIGN-PLAN section 50). It is
+# a gallery frame now, so its Creature page goes where the piece went.
+/it/creature/rubedo  /it/gallery  301
+/en/creature/rubedo  /en/gallery  301
+
 /it/pieces/*  /it/creature/:splat  301
 /en/pieces/*  /en/creature/:splat  301

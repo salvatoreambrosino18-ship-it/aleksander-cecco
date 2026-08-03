@@ -68,6 +68,8 @@ const ui = {
     madeToMeasureValue: "Costruita sulle tue misure.",
     draftNotice: "Bozza non approvata",
     provisionalPhoto: "Fotografia provvisoria",
+    // Distinct from a draft: the wording is settled, the FACT is not confirmed.
+    provisionalFact: "Da confermare",
     /*
       Distinct from draftNotice on purpose. The brand HAS decided what it says;
       it said it in English. Marking the Italian "unapproved draft" would imply
@@ -135,6 +137,7 @@ const ui = {
     madeToMeasureValue: "Built to your measurements.",
     draftNotice: "Unapproved draft",
     provisionalPhoto: "Provisional photograph",
+    provisionalFact: "Not yet confirmed",
     translationNotice: "Unapproved translation",
     theWork: "The work",
     worn: "Worn",
@@ -171,7 +174,13 @@ export const MENU_DESTINATIONS = [
   {key: "allCreatures", path: "creature"},
   {key: "collections", path: "collections"},
   {key: "gallery", path: "gallery"},
-  {key: "designer", path: "designer"},
+  /*
+    The designer is no longer a destination of its own (2026-08-03). It is the
+    end of the about page: the brand's story, then the person who makes it, so
+    the menu carries one entry where it carried two and the reader arrives at
+    him instead of being sent to him. `designer` survives as the heading of that
+    section, which is why the string stays.
+  */
   {key: "about", path: "about"},
   {key: "contact", path: "contact"},
 ] as const satisfies ReadonlyArray<{key: UIKey; path: string}>;
