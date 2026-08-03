@@ -267,6 +267,21 @@ export const siteSettings = defineType({
       `inventedFields` on a Creature: invisible to a visitor, and the launch
       check refuses while anything is here (DESIGN-PLAN section 59).
     */
+    /*
+      SOLVET ET COAGULA, the process (2026-08-03). His own folder, his own name
+      for it, and the one part of the site that shows the work being done rather
+      than finished. The text is his making lines, already on the site; the
+      frames carry no captions, because naming each stage would be our words
+      laid over his process.
+    */
+    defineField({
+      name: 'processMedia',
+      title: 'Il processo / The process',
+      type: 'array',
+      of: [{type: 'media'}],
+      description:
+        "Le fotografie del lavoro in corso, nell'ordine del processo: cartamodello, taglio, tintura, asciugatura, montaggio. Senza didascalie. / Photographs of the work in progress, in the order of the process: pattern, cut, dye, dry, build. No captions.",
+    }),
     defineField({
       name: 'inventedCopy',
       title: 'Testi scritti da noi, da approvare / Copy we wrote, to be approved',

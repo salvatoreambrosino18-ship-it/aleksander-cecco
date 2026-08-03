@@ -29,6 +29,7 @@ const ui = {
     nextCreature: "Successiva",
     countCreatures: "Creature",
     gallery: "Galleria",
+    process: "Solvet et Coagula",
     designer: "Chi lo fa",
     about: "Chi siamo",
     contact: "Contatti",
@@ -110,6 +111,7 @@ const ui = {
     nextCreature: "Next",
     countCreatures: "Creature",
     gallery: "Gallery",
+    process: "Solvet et Coagula",
     designer: "The designer",
     about: "About",
     contact: "Contact",
@@ -176,6 +178,7 @@ export const MENU_DESTINATIONS = [
   {key: "allCreatures", path: "creature"},
   {key: "collections", path: "collections"},
   {key: "gallery", path: "gallery"},
+  {key: "process", path: "process"},
   /*
     The designer is no longer a destination of its own (2026-08-03). It is the
     end of the about page: the brand's story, then the person who makes it, so

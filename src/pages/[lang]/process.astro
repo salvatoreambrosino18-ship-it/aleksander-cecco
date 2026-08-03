@@ -1,0 +1,93 @@
+---
+/*
+  SOLVET ET COAGULA. The work being done.
+
+  HIS NAME FOR IT, from his own folder: the alchemical operation, dissolve and
+  coagulate, which is the same movement the site's one inversion already makes.
+  Nothing on the page explains that, exactly as nothing explains the wipe.
+
+  WHY IT EXISTS. Section 32 found that the moment a buyer cannot visit the
+  studio, trust replaces mood as the design problem: process photography, the
+  hands, the bench, stop being atmosphere and start being evidence. Eight frames
+  of it existed and two were in use.
+
+  NO CAPTIONS, and that is the whole discipline of the page. Naming each stage
+  (pattern, cut, dye, dry, build) would be OUR words laid over his process, and
+  the sequence says it without help. The only text is his own making lines,
+  once, at the top. So this page invents nothing.
+
+  The order is the order of the work, which is the one arrangement that is a
+  fact rather than a preference.
+*/
+import Base from "../../layouts/Base.astro";
+import MediaSurface from "../../components/MediaSurface.astro";
+import Statement from "../../components/Statement.astro";
+import TextSurface from "../../components/TextSurface.astro";
+import {getSiteSettings} from "../../lib/content";
+import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
+import {overlayTheme} from "../../lib/media";
+import {imageUrl} from "../../lib/image";
+import {voiceState} from "../../lib/voice";
+import {t} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({params: {lang}}));
+}
+
+const locale = toLocale(Astro.params.lang);
+const settings = await getSiteSettings();
+
+const frames = settings.processMedia ?? [];
+const [first] = frames;
+const making = pick(settings.makingStatement, locale);
+const voice = voiceState(settings, locale);
+---
+
+<Base
+  locale={locale}
+  title={t(locale, "process")}
+  description={making ?? undefined}
+  theme="dark"
+  footerTheme="dark"
+  chrome={overlayTheme(first?.overlay)}
+  image={first ? imageUrl(first.poster, 1200) : null}
+>
+  {
+    first ? (
+      <MediaSurface media={first} locale={locale} priority>
+        <h1 class="type-label text-label">{t(locale, "process")}</h1>
+      </MediaSurface>
+    ) : (
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
+        <h1 class="type-label text-label">{t(locale, "process")}</h1>
+      </TextSurface>
+    )
+  }
+
+  {/* His words, once. Approved, so unmarked in the languages he approved. */}
+  <Statement text={making} locale={locale} voice={voice} register="body" theme="dark" />
+
+  {/*
+    The rest of the sequence. Alternating heights so it reads as a descent
+    rather than a contact sheet, the same rhythm the gallery uses, and silent.
+  */}
+  {
+    frames.slice(1).map((media, index) => (
+      <MediaSurface
+        media={media}
+        locale={locale}
+        height={index % 2 === 0 ? "tall" : "short"}
+        desktopHeight="tall"
+      />
+    ))
+  }
+
+  <TextSurface theme="dark" class="hairline-h flex flex-col gap-u3 py-u13">
+    <a
+      href={localePath(locale, "creature")}
+      class="type-label text-label self-start hover:underline underline-offset-8"
+    >
+      {t(locale, "allCreatures")}
+    </a>
+  </TextSurface>
+</Base>

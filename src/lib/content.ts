@@ -50,6 +50,8 @@ export type SiteSettings = {
   /** The worn band: the pieces on people, scrolled sideways. */
   homeSequence: HomeTile[] | null;
   makingMedia: MediaItem[] | null;
+  /** SOLVET ET COAGULA: the work being done, in the order it is done. */
+  processMedia: MediaItem[] | null;
   makingStatement: LocaleField;
   /**
    * The languages whose brand copy is the owner's own words. Anything else is
@@ -87,6 +89,7 @@ const SITE_SETTINGS_QUERY = /* groq */ `
       "garment": garment->{name, "slug": slug.current}
     },
     makingMedia[]{${MEDIA_PROJECTION}},
+    processMedia[]{${MEDIA_PROJECTION}},
     makingStatement,
     "approvedLanguages": coalesce(approvedLanguages, ["en"]),
     "footerCopyIsDraft": coalesce(footerCopyIsDraft, true),
@@ -113,6 +116,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   homeStatement: null,
   homeSequence: null,
   makingMedia: null,
+  processMedia: null,
   makingStatement: null,
   approvedLanguages: null,
   footerCopyIsDraft: null,

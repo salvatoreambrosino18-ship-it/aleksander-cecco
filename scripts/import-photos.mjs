@@ -614,7 +614,7 @@ const ARCHIVE = [
   ["archive/IMG_2244", "Un secondo gilet in pelle nera disteso sul cemento, visto di sbieco."],
   ["oblivion/oblv black lamb (2)", "Dettaglio dell'orlo tagliato a punte, contro il cemento."],
   ["archive/IMG_2229", "Dettaglio di un capo in pelle scura con una zip lunga, disteso."],
-  ["process/f797a2c2-9d6b-4416-b251-6503cdf63e67", "I pezzi del cartamodello in pelle chiara, tagliati e disposti sul banco."],
+  ["experimental/IMG_2894", "Studio ravvicinato di una pelle scura con pieghe profonde."],
   ["archive/IMG_9577", "La giacca in pelle marrone distesa al sole sul cemento, vista da dietro."],
   ["archive/IMG_3643", "Pantaloni chiari e gilet appesi insieme davanti a una serranda."],
   ...(RED_SHIRT_IS_A_CREATURE
@@ -680,6 +680,25 @@ const WORN = [
   weighted down on the hide with the cut chalked around it, then a piece taking
   shape on the stand. Cut, then build. The claim and the photographs now agree.
 */
+/*
+  SOLVET ET COAGULA, in the order of the work: the pattern drawn on the hide,
+  the panels cut from it, the dye going on, the pieces hung to dry, the shape
+  taken on the stand, then the parts and the finished garments on the bench.
+
+  That order is a fact about how the work happens rather than a preference about
+  how it looks, which is why this page needs no captions to be legible.
+*/
+const PROCESS = [
+  ["process/IMG_3387", "Un cartamodello di cartone appoggiato su una pelle nera, tenuto fermo da due pietre, con il taglio segnato a gesso."],
+  ["process/PHOTO-2026-03-02-17-18-45", "I pannelli dei pantaloni tagliati nella pelle nera, con i contorni ancora segnati a gesso."],
+  ["process/IMG_2626", "Pennello largo appoggiato su una pelle appena tinta di scuro."],
+  ["process/41e4e951-3ae6-41d9-ad81-c9bbd8ede7fa", "Capi neri appena tinti, appesi ad asciugare su una barra davanti a un muro chiaro."],
+  ["process/PHOTO-2026-03-12-18-30-03", "Una pelliccia nera montata e spillata su un manichino, durante la lavorazione."],
+  ["process/f797a2c2-9d6b-4416-b251-6503cdf63e67", "I pezzi del cartamodello in pelle chiara, tagliati e disposti sul banco."],
+  ["process/387ba92d-448a-4763-a76b-fba6e046351a", "Due meta di un gilet in pelle chiara, distese aperte sul banco da lavoro."],
+  ["process/PHOTO-2026-04-20-19-14-54", "Capi chiari finiti, distesi sul banco accanto al metro e alla riga."],
+];
+
 const MAKING = [
   ["process/IMG_3387", "Un cartamodello di cartone appoggiato su una pelle nera, tenuto fermo da due pietre, con il taglio segnato a gesso."],
   ["process/PHOTO-2026-03-12-18-30-03", "Una pelliccia nera montata e spillata su un manichino, durante la lavorazione."],
@@ -1138,6 +1157,7 @@ async function main() {
     COLLECTION_COVER[0],
     ...WORN.map(([f]) => f),
     ...MAKING.map(([f]) => f),
+    ...PROCESS.map(([f]) => f),
     ABOUT_OPENING[0],
     DESIGNER_PORTRAIT[0],
     ...ABOUT_MEDIA.map(([f]) => f),
@@ -1384,6 +1404,7 @@ async function main() {
       ...(garmentId ? {garment: {_type: "reference", _ref: garmentId}} : {}),
     })),
     makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`, ovc(rel), safe(rel))),
+    processMedia: PROCESS.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `p${i}`, ovc(rel), safe(rel))),
 
     // His words, in the two places each run belongs.
     homeStatement: {_type: "localeText", it: OWNER_IT.brand, en: OWNER_EN.brand},

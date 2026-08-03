@@ -35,7 +35,16 @@ interface Props {
   footerTheme?: "light" | "dark";
 }
 
-const {locale, title, description, theme = "light", chrome, image, footerTheme} = Astro.props;
+const {locale, title, description: rawDescription, theme = "light", chrome, image, footerTheme} =
+  Astro.props;
+
+/*
+  A description is a single line by the time it reaches a search result or a
+  share card, so collapse it here rather than asking every page to remember.
+  His copy carries meaningful line breaks on the page; they are not meaningful
+  in a meta tag.
+*/
+const description = rawDescription?.replace(/\s+/g, " ").trim() || undefined;
 
 const settings = await getSiteSettings();
 
