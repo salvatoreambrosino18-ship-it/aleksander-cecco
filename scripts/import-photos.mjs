@@ -438,6 +438,13 @@ const GARMENTS = [
       ["archive/IMG_0204", "Il top in pelliccia di capra e pelle, indossato, in un bosco di rami spogli."],
       ["styrax/Stryax black goat ", "Il top in pelliccia di capra disteso sul cemento, con il collo in pelle e i fili di cucitura."],
       ["styrax/Stryax black goat  (1)", "Dettaglio del collo in pelle con bottoni automatici, sulla pelliccia nera."],
+      /*
+        Two more from the same forest shoot, found by the sweep. They are
+        PRODUCT, so they belong to the Creature rather than to the gallery, and
+        section 43 asked for more frames on the pieces that had one or two.
+      */
+      ["styrax/PHOTO-2026-02-17-22-38-43 3", "Il top in pelliccia di capra indossato, di tre quarti, fra i rami."],
+      ["styrax/PHOTO-2026-02-17-22-38-43 4", "Dettaglio del top in pelliccia indossato, con il collo in pelle allacciato."],
     ],
   },
   {
@@ -606,6 +613,21 @@ if (RED_SHIRT_IS_A_CREATURE) GARMENTS.push(RED_SHIRT);
 */
 const ARCHIVE = [
   ["experimental/IMG_2897", "Studio ravvicinato di pieghe profonde in un tessuto scuro, quasi astratto."],
+  /*
+    THE SWEEP (2026-08-03). Every photograph on the Drive was compared BY
+    CONTENT against everything the site uses, which found eighteen genuinely
+    unused. Only two of them are imagery; the rest are product or are not
+    photographs, and the reasons are in DESIGN-PLAN section 64.
+
+    IMG_2378 is the frame that opened the site until the drop replaced it: the
+    darkest thing in the whole set, and it belongs to no Creature, so it opens
+    the gallery's descent into black rather than sitting unused. `homepage (1)`
+    was rejected from this page once for being too close to IMG_2378 while that
+    was the ARRIVAL; with neither on the home page any more, the pair reads as
+    one material studied twice, which is what a gallery is for.
+  */
+  ["homepage/IMG_2378", "Dettaglio ravvicinato della cintura di un capo in pelle grigio chiaro, con passante e zip, contro pelle nera."],
+  ["homepage/homepage (1)", "Dettaglio ravvicinato di pelle chiara piegata, con una cucitura che la attraversa."],
   ["homepage/IMG_3434", "La firma del marchio impressa nella pelle nera, accanto a una zip."],
   ["archive/IMG_2235", "Capo in pelle nera aperto e disteso sul cemento, a forma di mantella."],
   ["salvage/gallery-fur", "Dettaglio della pelliccia nera con la linguetta di pelle e i fili di cucitura."],

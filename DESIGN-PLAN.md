@@ -5044,3 +5044,57 @@ measured nothing (tainted canvas), measured the wrong pixels (ignoring
 `object-fit: cover`), measured captions that were not on the picture at all, and
 flagged an empty alt on a decorative image as a defect. Every one of those was
 found by asking what would make it go red rather than by trusting a green.
+
+---
+
+## 64. The sweep, and the home page left alone (2026-08-03)
+
+### Every unused photograph, accounted for
+
+Every file on the Drive was compared BY CONTENT against everything the site
+uses, rather than by path, which is what made an earlier attempt report
+thirty-four unused when most were the same photograph under an old name.
+Eighteen are genuinely unused. Only two are imagery.
+
+| what | how many | where they belong |
+| --- | --- | --- |
+| **Taken into the gallery** | 2 | `IMG_2378`, the frame that opened the site until the drop replaced it and the darkest thing in the set, and `homepage (1)`, rejected once for being too close to it while that was the arrival. With neither on the home page the pair reads as one material studied twice. |
+| **Taken into Styrax** | 2 | Two more from the same forest shoot. PRODUCT, so they belong to the Creature, and section 43 asked for more frames on the pieces that had one or two. Styrax has five now. |
+| Product, for Creature that do not exist yet | 4 | The Tenebrae and Lux tibia cut, their on-model frame, and the red goat Styrax. These are the undocumented Creature section 48 names; they need a document, not a gallery slot. |
+| Product, alternates | 3 | More Styrax frames than the page needs. |
+| Not a photograph | 1 | `idea behind monunetus drop.PNG` is a screenshot of his own collection text. It must never be imported as a frame. |
+| Redundant | 1 | `IMG_3627` is near-identical to a frame already used on `capo-10`. |
+| Earmarked | 1 | `IMG_3117`, the square texture study, is the arrival's replacement when he shoots the closer frame. |
+| **His face** | 2 | `ciro-designer.jpg` and its crop. NOT swept into anything. Whether the maker is shown in public is his decision and he has not made it (section 44); his own choice of portrait keeps his face out of frame, and putting the earlier one in a gallery would quietly reverse that. |
+
+### The home page is quiet, not thin, and nothing was added
+
+ASKED FOR AND DECLINED, with the reasoning recorded because the request was
+reasonable and the answer is a judgement rather than a fact.
+
+The gap that prompted it was real and is closed: the first screen carried
+nothing at all, and it now carries his own two opening lines, the price the work
+starts at and one route in. What was left was not absence.
+
+Three arguments against adding more:
+
+1. **There is no unplaced approved text.** All ten of his sentences are already
+   on the site: lines 1-2 as "the work", 8-10 as "the making", the collection
+   statement on the arrival and again on the chapters, and all ten whole on the
+   about page. More words means NEW words in his register, which is the most
+   sensitive thing on this site to invent. A price is a number he swaps out; a
+   poetic line over a photograph is his brand's voice ventriloquised on the
+   screen most visitors see first.
+2. **The reference does not support it, on our own measurements.** Section 14
+   measured Rick Owens at 26 text runs for a whole homepage, "most media carries
+   NO caption", "overwhelmingly wordless". Sorcinelli sets two lines over a
+   frame because those two lines are the only text on the page. Layering poetic
+   captions on top of four blocks of his prose is the opposite of what makes
+   either reference sparse.
+3. **An empty field invites his words; a filled one does not.** The Sanity
+   fields exist. Filling them with ours now leaves something that looks finished
+   and therefore never gets replaced.
+
+If the page should carry more, the lever is his: more sentences, or the on-model
+photography that caps the worn band at five frames. Both are already on the
+checklist.
