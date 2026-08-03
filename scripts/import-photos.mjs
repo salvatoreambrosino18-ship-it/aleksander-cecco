@@ -56,126 +56,162 @@ const client = createClient({
 /* ------------------------------------------------------------------ the plan */
 
 /*
-  ============ NAMING THE CREATURE (2026-08-02) ============
+  ============ WHERE THE NAMES CAME FROM ============
 
-  The owner's Instagram gives ten Creature their real names and compositions.
-  What is possible here is matching our imported PHOTOGRAPHS against his written
-  CAPTIONS: the Instagram images themselves are not available, so a match is
-  only made where a caption names a feature that can be SEEN in our frames.
+  2026-08-02: matched against his Instagram captions, which named four Creature
+  and left the rest as marked placeholders. The ambiguity table and the full
+  reasoning are in DESIGN-PLAN section 24.
 
-  RENAMED, because the evidence is decisive:
+  2026-08-03: superseded for MONUMENTUS, OBLIVION and STYRAX by his own
+  filenames, which is what the next comment is about. Where the two disagree the
+  filenames win: they are his, and a caption match was always an inference.
 
-  - Rubedo. His caption: "Red and Black faded colour. 500 handmade scar-stitch.
-    Oblivion hole on the back." Our IMG_3475 is the back view and shows exactly
-    that hole, an almond opening in the upper back, and the sleeves fade from
-    dark to bright red. Nothing else in the set is red. Sold as a private order
-    and 1/1, so it carries no enquiry action.
-
-  NOT RENAMED, and listed for the owner rather than guessed. The full reasoning
-  is in DESIGN-PLAN section 24; briefly, two shirts compete for two names
-  (Armonyen and Corvinus) with nothing in the captions to separate them, two
-  pairs of black trousers compete for Tibia Cut and the Scrap Pants, and one
-  garment document bundles a tube top with a skirt where the caption names only
-  the skirt (Severya).
-
-  MATERIALS. The generic line is dead: "100% Italian leather" named a country
-  and not a composition. Only Rubedo gets a real one, from his own caption. For
-  every unmatched Creature the field is left as a marked {MATERIALS} placeholder
-  ON PURPOSE. Filling them all with "vegetable-tanned" would just be a new
-  generic line, asserted about pieces nobody has verified.
+  STAGE, unchanged in principle. His division is by MATERIAL AND COLOUR:
+  Tenebrae is the black washed veg tan work, Lux the pale pieces. Colour is
+  observable in our frames and tannage is not, so it was always assigned on half
+  the criterion. On the pieces he has now renamed the stage is in HIS filename,
+  so those are no longer our reading of a photograph.
 */
 /*
-  STAGE ASSIGNMENT, and the limit of it. The owner's division is by MATERIAL AND
-  COLOUR: Tenebrae is the black washed veg tan work, Lux the pale pieces.
+  ============ HIS OWN NAMES (2026-08-03) ============
 
-  Colour is directly observable in our frames and every imported Creature except
-  Rubedo is black, so none of them can be Lux under his own definition. Tannage
-  is NOT observable, so "tenebrae" here is assigned on the half of the criterion
-  that can be seen, and he should confirm the other half when he names them.
+  The owner renamed the photographs in MONUMENTUS, MONUMENTUS TIBIA CUT, OBLIVION
+  and STYRAX TOP with the Creature names. That closes the naming gap that has
+  blocked this catalogue from the start, and the names below are HIS, read off
+  his filenames.
 
-  Rubedo is deliberately left UNSET. It is named for a third alchemical stage
-  that the collection title does not include, and forcing it into one of two
-  would be a guess. The gap asks the question.
+  WHAT IS COPIED AND WHAT IS NOT. The name and the composition are taken from
+  the filename; the filename ITSELF is not. His files read "oblv blood red lamb
+  (2)", "Mnmnts. Lux Tibia cut", "Stryax black goat  (1)": working shorthand with
+  abbreviations, duplicate suffixes and two spellings of Styrax. Printing that on
+  a page would be publishing his filing system. So each name is written out once,
+  here, with the file it came from named beside it, and anything his filenames do
+  not settle stays a marked placeholder exactly as before.
 
-  No Lux Creature has been imported yet, which is itself worth knowing: the pale
-  pieces exist in the photography (the arrival frame, the cream trousers on
-  model) but none of them is a garment document.
+  WHAT THE NAMES SETTLE:
+  - The black shirt is OBLIVION, in black lambskin, and the red one is the same
+    shirt in blood red lambskin. "Rubedo" was OUR inference from the alchemical
+    stage: no caption of his ever used it (DESIGN-PLAN section 48).
+  - capo-05 is Monumentus Pants, so a piece described here only as "a draped
+    black garment" is trousers.
+  - Both vests carry the same name, "Monumentus Vest (Tenebrae)". They are
+    plainly two different objects: one is smooth leather with a central silver
+    zip, the other crinkled with snap fasteners. Two documents, one name, and
+    that is his to resolve.
+  - Two pale trouser documents now carry two different names of his, "Monumentus
+    pants (Lux)" and "Monumentus Lux". They may be one Creature. Also his.
+
+  SALVAGE. Some frames were lost when products/ was deleted in the same
+  reorganisation (section 47). Their assets are already in Sanity, so those
+  entries reference the asset directly instead of a file on disk. A salvaged
+  frame is not a decision to stop looking for the original: if the owner still
+  has it, the file comes back and the salvage line goes.
+*/
+const SALVAGED = {
+  "salvage/capo-01-front": {
+    asset: "image-e467af8728269850318fd2b8e98f029cd7541e35-1536x2048-jpg",
+    overlay: "ink",
+  },
+  "salvage/capo-01-close": {
+    asset: "image-5d997ce203981b7f8766d33d6c7c95727841e394-3840x5120-jpg",
+    overlay: "ink",
+  },
+  "salvage/capo-07-front": {
+    asset: "image-573a4373a1ba9502e4e8ea3aa19790ef6f71ab19-2268x4032-jpg",
+    overlay: "ink",
+  },
+  "salvage/capo-07-back": {
+    asset: "image-e55971123e53fd08c80762bbe5e2622e35b157b7-2268x4032-jpg",
+    overlay: "ink",
+  },
+  "salvage/capo-08-shadow": {
+    asset: "image-315fe57966aa901f34afbc9936746d33412befa6-3840x5120-jpg",
+    overlay: "paper",
+  },
+  "salvage/capo-08-light": {
+    asset: "image-4534436fa2124708d879fdde9199b07300a0533b-3840x5120-jpg",
+    overlay: "paper",
+  },
+  "salvage/capo-08-hem": {
+    asset: "image-6fe5b15c27642dc39ef6e81d6a7ac2dc61659a96-3024x4032-jpg",
+    overlay: "paper",
+  },
+  "salvage/gallery-fur": {
+    asset: "image-f9d9191d6a909883f12505377288734e66b80742-1200x1600-jpg",
+    overlay: "ink",
+  },
+};
+
+/*
+  STAGE ASSIGNMENT. The owner's division is by MATERIAL AND COLOUR: Tenebrae is
+  the black washed veg tan work, Lux the pale pieces. His filenames now carry the
+  stage on the pieces he renamed, so those are no longer read off the colour in
+  our frames: they are his own word for it.
 */
 const GARMENTS = [
   {
     id: "piece-camicia-pelle-nera",
     stage: "tenebrae",
     slug: "capo-01",
+    /*
+      NOT NAMED. It is a black leather shirt, so OBLIVION by kind, but no frame
+      of it is in the OBLIVION folder and both its source files went with
+      products/. A name is not inferred from a folder it is absent from.
+    */
     files: [
-      ["products/0d454a66-7c17-4d8d-a6f0-9872225ab82b", "Camicia in pelle nera stropicciata, vista frontale, appesa a un muro di cemento chiaro."],
-      ["products/286368a0-df23-4ae8-b80d-5bc953183102", "La stessa camicia in pelle nera vista piu da vicino, contro il muro di cemento."],
+      ["salvage/capo-01-front", "Camicia in pelle nera stropicciata, vista frontale, appesa a un muro di cemento chiaro."],
+      ["salvage/capo-01-close", "La stessa camicia in pelle nera vista piu da vicino, contro il muro di cemento."],
     ],
   },
   {
     id: "piece-giacca-orlo-smerlato",
     stage: "tenebrae",
     slug: "capo-02",
+    // HIS NAME, from OBLIVION/"Oblivion Black lambskin.WEBP" and its siblings.
+    name: "Oblivion",
+    // HIS COMPOSITION, from the same filenames. Lambskin, and black.
+    materials: {it: "Pelle di agnello nera", en: "Black lambskin"},
     files: [
-      ["products/IMG_3451", "Giacca in pelle nera con orlo a punte, vista frontale, appesa davanti a una serranda metallica."],
-      ["products/IMG_3454", "Fronte della giacca in pelle nera, con la fila di bottoni automatici."],
-      ["products/IMG_3453", "Dettaglio del collo e della chiusura della giacca in pelle nera."],
-      ["products/IMG_3452", "Vista laterale della giacca in pelle nera, con l'orlo tagliato a punte."],
-      ["products/IMG_3455", "Dettaglio dell'orlo a punte della giacca, contro il cemento."],
-      ["products/IMG_3456", "Retro della giacca in pelle nera appesa alla gruccia."],
-      ["products/IMG_3457", "Dettaglio delle cuciture sulle spalle, sul retro della giacca."],
+      ["oblivion/Oblivion Black lambskin", "Camicia in pelle nera con orlo a punte, vista frontale, appesa davanti a una serranda metallica."],
+      ["oblivion/oblv black lamb", "Fronte della camicia in pelle nera, con la fila di bottoni automatici."],
+      ["oblivion/Oblivion black lambskin (3)", "Dettaglio del collo e della chiusura della camicia in pelle nera."],
+      ["oblivion/Oblivion black lambskin (1)", "Vista laterale della camicia in pelle nera, con l'orlo tagliato a punte."],
+      ["oblivion/oblv black lamb (2)", "Dettaglio dell'orlo a punte della camicia, contro il cemento."],
+      ["oblivion/Oblivion black lambskin (2)", "Retro della camicia in pelle nera appesa alla gruccia."],
+      ["oblivion/oblv black lamb (1)", "Dettaglio delle cuciture sulle spalle, sul retro della camicia."],
     ],
   },
   {
     id: "piece-gilet-zip",
     stage: "tenebrae",
     slug: "capo-03",
-    files: [["products/IMG_3465", "Gilet in pelle nera con zip centrale, appeso a una gruccia davanti a una serranda."]],
+    // HIS NAME, from MONUMENTUS/"Monumentus Vest (Tenebrae).JPG".
+    name: "Monumentus Vest",
+    files: [["monumentus/Monumentus Vest (Tenebrae)", "Gilet in pelle nera con zip centrale, appeso a una gruccia davanti a una serranda."]],
   },
   {
     id: "piece-top-leggero",
     stage: "tenebrae",
     slug: "capo-04",
-    files: [["products/IMG_3466", "Top nero leggero e trasparente, tenuto in mano davanti a un muro di cemento."]],
+    /*
+      HIS NAME, from MONUMENTUS/"Monumentus Vest (Tenebrae.WEBP" (his unclosed
+      bracket, not ours). The same name as capo-03 and a different object: this
+      one is crinkled leather with snap fasteners, held up on a hanger, where
+      capo-03 is smooth with a central zip. Recorded, not merged.
+    */
+    name: "Monumentus Vest",
+    files: [["monumentus/Monumentus Vest (Tenebrae", "Gilet in pelle nera stropicciata, con bottoni automatici al collo, tenuto in mano davanti a una serranda."]],
   },
   {
     id: "piece-pelle-drappeggiata",
     stage: "tenebrae",
     slug: "capo-05",
+    // HIS NAME, from MONUMENTUS/"Monumentus Pants (Tenebrae).WEBP". The alt text
+    // called this "a garment"; his filename says it is trousers.
+    name: "Monumentus Pants",
     files: [
-      ["products/IMG_3467", "Capo in pelle nera appeso a una parete di cemento, sotto una croce di metallo."],
-      ["products/IMG_3468", "Dettaglio ravvicinato dello stesso capo in pelle nera, con zip e pieghe profonde."],
-    ],
-  },
-  {
-    id: "piece-giacca-rossa",
-    slug: "rubedo",
-    /*
-      CONFIRMED against the photograph, not inferred: IMG_3475 is the back view
-      and carries the "Oblivion hole" his caption describes.
-    */
-    name: "Rubedo",
-    /*
-      OUTSIDE MONUMENTUS, confirmed by the owner 2026-08-02. It is named for the
-      third alchemical stage, which the collection title does not include, so it
-      belongs to no collection and its page says exactly that.
-    */
-    collection: null,
-    stage: "rubedo",
-    materials: {it: "Pelle di agnello", en: "Lambskin leather"},
-    // His caption, verbatim. Approved copy, so it carries no mark in English.
-    description: {
-      en: "Red and Black faded colour. 500 handmade scar-stitch. Oblivion hole on the back.",
-      it: "Colore rosso e nero sfumato. 500 scar-stitch fatti a mano. Oblivion hole sulla schiena.",
-    },
-    availability: "privateOrder",
-    files: [
-      ["products/IMG_3476", "Modella con giacca in pelle rossa e pantaloni neri lucidi, braccia incrociate, in laboratorio."],
-      ["products/IMG_3475", "La stessa giacca rossa vista di spalle, tra i capi appesi del laboratorio."],
-      ["products/IMG_3477", "Modella a figura intera con la giacca in pelle rossa, nel laboratorio."],
-      ["archive/IMG_3479", "La camicia rossa appesa sotto un crocifisso, vista frontale."],
-      ["archive/IMG_3481", "Il retro della camicia rossa, con l'apertura a mandorla fra le scapole."],
-      ["archive/IMG_3478", "Dettaglio della camicia rossa: la manica lunga e l'orlo tagliato a punte."],
-      ["archive/IMG_3480", "La camicia rossa su un manichino, vista ravvicinata."],
+      ["monumentus/Monumentus Pants (Tenebrae)", "Pantaloni in pelle nera appesi a una parete di cemento, sotto una croce di metallo."],
+      ["monumentus/Monumentus tenebrae", "Dettaglio ravvicinato degli stessi pantaloni in pelle nera, con zip e pieghe profonde."],
     ],
   },
   {
@@ -183,37 +219,27 @@ const GARMENTS = [
     stage: "tenebrae",
     slug: "capo-07",
     files: [
-      ["products/IMG_3691", "Pantaloni ampi in pelle nera, vista frontale, con zip a vista e orlo grezzo."],
-      ["products/IMG_3692", "Gli stessi pantaloni in pelle nera visti da dietro, con due tasche con zip."],
+      ["salvage/capo-07-front", "Pantaloni ampi in pelle nera, vista frontale, con zip a vista e orlo grezzo."],
+      ["salvage/capo-07-back", "Gli stessi pantaloni in pelle nera visti da dietro, con due tasche con zip."],
     ],
   },
   {
     id: "piece-completo-fascia-gonna",
     stage: "tenebrae",
     slug: "capo-08",
+    /*
+      NOT NAMED, still. The SKIRT is Severya: the designer photograph shows him
+      inscribing "SEVERYA / LAMBSKIN / 100%" onto it in his own hand
+      (DESIGN-PLAN section 48). But this document bundles the skirt with a tube
+      top, and naming the pair after one of them, or splitting it, is his call.
+    */
     files: [
-      ["products/aa52ef49-6c71-4a9b-b832-24cb5827376d", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul muro."],
-      ["products/05b164db-ab89-4d66-bebc-98d8a31ec147", "La stessa uscita in piena luce, con stivali alti."],
-      ["products/7682a1f5-5ce2-4527-b02f-d3213bee8af8", "Dettaglio della gonna in pelle nera con orlo a punte, indossata."],
+      ["salvage/capo-08-shadow", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul muro."],
+      ["salvage/capo-08-light", "La stessa uscita in piena luce, con stivali alti."],
+      ["salvage/capo-08-hem", "Dettaglio della gonna in pelle nera con orlo a punte, indossata."],
       ["archive/IMG_0212", "La gonna con la trama di serpente e il top a fascia, in piena luce."],
     ],
   },
-
-  /* ================= ADDED 2026-08-02: the rest of the catalogue =================
-
-     The old site carried sixteen products and eight were imported. These are the
-     rest, found by going back through products/ and archive/ frame by frame.
-
-     NAMED where a caption names something visible in the photograph, and left as
-     a marked placeholder where it does not. The reasoning per piece is in
-     DESIGN-PLAN section 39.
-
-     ENGLISH DESCRIPTIONS ARE HIS CAPTIONS, VERBATIM. The Italian is deliberately
-     LEFT EMPTY rather than translated: he approved the Italian of the brand text
-     he was shown, not translations we invent afterwards, and approvedLanguages is
-     global. An empty field shows as missing (see pick in lib/locales.ts), which is
-     the honest outcome and makes the gap visible instead of forging approval.
-  */
   {
     // CONFIDENT. Leg warmers are unmistakable: two separate tubes, not joined.
     id: "piece-glovyes",
@@ -229,10 +255,9 @@ const GARMENTS = [
   },
   {
     /*
-      CONFIDENT, and the evidence is the setting. His caption reads "The Forest
-      Calling. Name of the creature: Styrax", and this is the only frame in the
-      whole set shot in a forest. The composition also matches the other caption,
-      "Handmade Goat Sherling & Leather Top".
+      CONFIRMED TWICE OVER. His caption named Styrax and the forest frame matched
+      it; now his own filenames say "Stryax black goat" (his spelling) on the two
+      flat frames, which is the same object worn in the forest shot.
     */
     id: "piece-styrax",
     slug: "styrax",
@@ -242,6 +267,8 @@ const GARMENTS = [
     description: {en: "Handmade Goat Sherling & Leather Top."},
     files: [
       ["archive/IMG_0204", "Il top in pelliccia di capra e pelle, indossato, in un bosco di rami spogli."],
+      ["styrax/Stryax black goat ", "Il top in pelliccia di capra disteso sul cemento, con il collo in pelle e i fili di cucitura."],
+      ["styrax/Stryax black goat  (1)", "Dettaglio del collo in pelle con bottoni automatici, sulla pelliccia nera."],
     ],
   },
   {
@@ -277,29 +304,33 @@ const GARMENTS = [
     ],
   },
   {
-    // Pale, so Lux. Cropped and very wide; which of the owner's names it carries
-    // is his to say (section 39).
+    // HIS NAME, from MONUMENTUS/"Monumentus pants (Lux).WEBP".
     id: "piece-chiari-corti",
     slug: "capo-10",
     stage: "lux",
+    name: "Monumentus Pants",
     files: [
       ["archive/IMG_3619", "Pantaloni chiari corti e ampi appesi a una gruccia sotto una croce di ferro."],
       ["archive/IMG_3625", "Il retro degli stessi pantaloni chiari, con due tasche con zip."],
-      ["homepage/IMG_3463", "Pantaloni chiari in pelle appesi dentro una cornice di metallo nero."],
-      ["homepage/IMG_3464", "Dettaglio della cintura e delle tasche con zip sui pantaloni chiari."],
+      ["monumentus/Monumentus pants (Lux)", "Pantaloni chiari in pelle appesi dentro una cornice di metallo nero."],
+      ["monumentus/Monumentus pants (Lux) ", "Dettaglio della cintura e delle tasche con zip sui pantaloni chiari."],
     ],
   },
   {
-    // Pale and full length, a different length from capo-10, so recorded as a
-    // separate piece rather than merged with it.
+    /*
+      HIS NAME, from MONUMENTUS/"Monumentus Lux .HEIC". Recorded separately from
+      capo-10 because the lengths plainly differ, and now because he gave the two
+      different names. If they are one Creature, merge them; that is his to say.
+    */
     id: "piece-chiari-lunghi",
     slug: "capo-11",
     stage: "lux",
+    name: "Monumentus Lux",
     files: [
-      ["archive/IMG_3474", "Uomo a figura intera con maglia trasparente e pantaloni chiari molto ampi."],
+      ["monumentus/Monumentus Lux ", "Uomo a figura intera con maglia trasparente e pantaloni chiari molto ampi."],
       ["archive/IMG_3472", "Gli stessi pantaloni chiari visti di profilo, nel laboratorio."],
       ["archive/IMG_1902", "Gli stessi pantaloni visti da dietro, mentre cammina nella luce."],
-      ["homepage/IMG_1898", "Uomo di spalle con i pantaloni chiari ampi, in laboratorio."],
+      ["monumentus/monumentus lux", "Uomo di spalle con i pantaloni chiari ampi, in laboratorio."],
     ],
   },
   {
@@ -307,7 +338,7 @@ const GARMENTS = [
     slug: "capo-12",
     stage: "tenebrae",
     files: [
-      ["experimental/IMG_3116", "Top in pelle nera con collo alto allacciato, su un manichino, davanti ai cartamodelli."],
+      ["experimental/IMG_3116", "Top in pelle nera stropicciata con collo alto allacciato, su un manichino chiaro, davanti ai cartamodelli."],
     ],
   },
   {
@@ -319,8 +350,8 @@ const GARMENTS = [
       So its only frame is a 900x1200 crop out of that portrait. That is below
       the 2000px standard every other frame meets and it will be soft at full
       screen, and it is still better than a Creature with no photograph at all,
-      which was the alternative. `mediaIsProvisional` marks it in the studio and
-      the shot list carries the request. Replace it and delete the crop.
+      which was the alternative. `isProvisional` marks it in the studio and the
+      shot list carries the request. Replace it and delete the crop.
     */
     id: "piece-cappello",
     slug: "capo-14",
@@ -341,6 +372,49 @@ const GARMENTS = [
 ];
 
 /*
+  ============ THE RED SHIRT LEFT THE CATALOGUE (2026-08-03) ============
+
+  The owner's decision: he cannot source that hide. He searched for a month and
+  goes to Solofra tomorrow to look for something close. A Creature that cannot be
+  made is not something the site can offer, so it becomes a GALLERY frame: work
+  that was made, not work that can be had.
+
+  IT IS ONE FLAG, ON PURPOSE. If he finds a similar leather it comes back, so
+  flip this to true and re-import: the document, its name, its composition, its
+  seven photographs and its place in the worn band all return exactly as they
+  were. Nothing about it has been deleted here.
+
+  His filenames call it "oblv blood red lamb", so its name was never Rubedo:
+  that was our inference from the alchemical stage (DESIGN-PLAN section 48).
+*/
+const RED_SHIRT_IS_A_CREATURE = false;
+
+const RED_SHIRT = {
+  id: "piece-giacca-rossa",
+  slug: "rubedo",
+  name: "Rubedo",
+  collection: null,
+  stage: "rubedo",
+  materials: {it: "Pelle di agnello rosso sangue", en: "Blood red lambskin"},
+  description: {
+    en: "Red and Black faded colour. 500 handmade scar-stitch. Oblivion hole on the back.",
+    it: "Colore rosso e nero sfumato. 500 scar-stitch fatti a mano. Oblivion hole sulla schiena.",
+  },
+  availability: "privateOrder",
+  files: [
+    ["oblivion/oblv blood red lamb.JPG", "Modella con camicia in pelle rossa e pantaloni neri lucidi, braccia incrociate, in laboratorio."],
+    ["oblivion/oblv blood red lamb (2)", "La stessa camicia rossa vista di spalle, tra i capi appesi del laboratorio."],
+    ["oblivion/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
+    ["oblivion/Oblv blood red lamb (1).HEIC", "La camicia rossa appesa sotto un crocifisso, vista frontale."],
+    ["oblivion/Oblivion blood red lamb", "Il retro della camicia rossa, con l'apertura a mandorla fra le scapole."],
+    ["oblivion/oblv blood red lambskin ", "Dettaglio della camicia rossa: la manica lunga e l'orlo tagliato a punte."],
+    ["oblivion/oblv blood red lamb.HEIC", "La camicia rossa su un manichino, vista ravvicinata."],
+  ],
+};
+
+if (RED_SHIRT_IS_A_CREATURE) GARMENTS.push(RED_SHIRT);
+
+/*
   THE GALLERY. Not an archive any more (DESIGN-PLAN section 18, rewritten), so
   the old rule of one frame per distinct piece is gone and the only test left is
   the one the owner set: a frame earns its place by being a good photograph.
@@ -354,82 +428,92 @@ const GARMENTS = [
   ONE RULE KEPT, to stop the gallery becoming the index a second time: NEVER a
   Creature's lead frame. Where a piece recurs here it recurs through a secondary
   photograph, so a reader who has seen the index still meets something new.
+
+  THE RED SHIRT JOINS IT (2026-08-03), one frame, not seven: the back view with
+  the opening between the shoulder blades, which is the piece's whole signature
+  and is the only frame of it that reads as an object rather than as a look. It
+  sits at the end, after the page has turned pale, because it is the one red
+  thing on the site and it is the last word rather than an interruption.
 */
 const ARCHIVE = [
   ["experimental/IMG_2897", "Studio ravvicinato di pieghe profonde in un tessuto scuro, quasi astratto."],
   ["homepage/IMG_3434", "La firma del marchio impressa nella pelle nera, accanto a una zip."],
   ["archive/IMG_2235", "Capo in pelle nera aperto e disteso sul cemento, a forma di mantella."],
-  ["products/IMG_0207", "Dettaglio della pelliccia nera con la linguetta di pelle e i fili di cucitura."],
+  ["salvage/gallery-fur", "Dettaglio della pelliccia nera con la linguetta di pelle e i fili di cucitura."],
   ["archive/IMG_2242", "Gilet smanicato in pelle nera disteso sul cemento."],
-  ["products/IMG_3468", "Dettaglio ravvicinato di un capo in pelle nera, con zip e pieghe profonde."],
+  ["monumentus/Monumentus tenebrae", "Dettaglio ravvicinato di un capo in pelle nera, con zip e pieghe profonde."],
   ["archive/IMG_2244", "Un secondo gilet in pelle nera disteso sul cemento, visto di sbieco."],
-  ["products/IMG_3455", "Dettaglio dell'orlo tagliato a punte, contro il cemento."],
+  ["oblivion/oblv black lamb (2)", "Dettaglio dell'orlo tagliato a punte, contro il cemento."],
   ["archive/IMG_2229", "Dettaglio di un capo in pelle scura con una zip lunga, disteso."],
-  ["experimental/f797a2c2-9d6b-4416-b251-6503cdf63e67", "I pezzi del cartamodello in pelle chiara, tagliati e disposti sul banco."],
+  ["process/f797a2c2-9d6b-4416-b251-6503cdf63e67", "I pezzi del cartamodello in pelle chiara, tagliati e disposti sul banco."],
   ["archive/IMG_9577", "La giacca in pelle marrone distesa al sole sul cemento, vista da dietro."],
   ["archive/IMG_3643", "Pantaloni chiari e gilet appesi insieme davanti a una serranda."],
+  ...(RED_SHIRT_IS_A_CREATURE
+    ? []
+    : [["oblivion/Oblivion blood red lamb", "Il retro della camicia in pelle rosso sangue, con l'apertura a mandorla fra le scapole."]]),
 ];
 /*
-  THE ARRIVAL. One photograph, the whole first screen.
+  THE ARRIVAL, and it is now the DROP (2026-08-03).
 
-  CHANGED 2026-08-02 to a DARK frame, and the reason is structural rather than
-  aesthetic. The page now opens in INK, because the wipe runs nigredo to albedo
-  (section 22). The previous arrival, IMG_3463, is the PALE trousers: a Lux
-  piece, bright, sitting on a black page, so the very first screen contradicted
-  the direction of the site's one inversion. Darkness first, light after, is his
-  own order, and the arrival is where it has to start.
+  The owner wants the home page to open on the texture of the new drop, and he
+  is shooting a closer frame for it. Until that arrives this is the photograph he
+  sent: the black crinkled leather halter top on a pale mannequin, in front of
+  the paper patterns. It is `experimental/IMG_3116`, which is also capo-12's only
+  frame, so the first screen and that Creature show the same object for now.
 
-  IMG_2378 measured darkest among the usable frames in homepage/: overall
-  luminance 0.081 against 0.179 for IMG_3463, and 0.046 in the top-left band
-  where the signature and MENU sit, which is the cleanest chrome contrast in the
-  whole set. Portrait 3024x4032, so it survives the 100svh crop on a phone.
+  Note that `homepage/IMG_3117` is a NEW file, a square 1263x1263 close study of
+  the same crinkled leather. It is the texture frame he describes wanting, and at
+  1263px square it is too small and the wrong shape for a full screen. Recorded
+  rather than used.
 
-  It also rescues the last of the three frames orphaned when the home tile grid
-  was replaced (section 21). IMG_3434 stays orphaned because it is landscape.
-
-  This settles the arrival question in section 34 the free way: no splash
-  screen, no held black, no delayed first paint. The page simply opens out of
-  darkness because the photograph is dark.
+  THIS FIELD BELONGS TO THE OWNER NOW. A brand that drops regularly changes this
+  image often, and it must never need a developer: it is `openingMedia` in site
+  settings, and the import will NOT overwrite a value he has set. See the write
+  step at the end of this file.
 */
 const OPENING = [
-  "homepage/IMG_2378",
-  "Dettaglio ravvicinato della cintura di un capo in pelle grigio chiaro, con passante e zip, contro pelle nera.",
+  "experimental/IMG_3116",
+  "Top in pelle nera stropicciata con collo alto allacciato, su un manichino chiaro, davanti ai cartamodelli.",
 ];
 /*
   WORN: the pieces on people, the horizontal band halfway down the home page.
 
-  REBUILT 2026-08-02. It used to be five frames of TWO garments, which made the
-  brand look smaller on the page most visitors see than it actually is. It now
-  draws one frame from EVERY Creature that has an on-model photograph, which is
-  five of the sixteen, plus the one on-model frame that belongs to no Creature.
-
-  Five garments instead of two. Still not the whole catalogue, because only five
-  Creature have ever been photographed on a body: that is a shoot request, not a
-  code problem, and it is in the shot list.
+  It draws one frame from every Creature that has an on-model photograph. The red
+  shirt's tile is gone with it (2026-08-03): a band of "pieces on people" that
+  links to a piece nobody can have would be an advertisement for a
+  disappointment, and the frame lives on in the gallery instead.
 
   All portrait, because a band frame is a tall crop and a landscape source loses
-  its subject in it. That still rules out IMG_1898.
+  its subject in it.
 */
 const WORN = [
-  ["products/aa52ef49-6c71-4a9b-b832-24cb5827376d", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul cemento.", "piece-completo-fascia-gonna"],
+  ["salvage/capo-08-shadow", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul cemento.", "piece-completo-fascia-gonna"],
   ["archive/IMG_0204", "Il top in pelliccia di capra e pelle indossato, in un bosco di rami spogli.", "piece-styrax"],
-  ["products/IMG_3477", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio.", "piece-giacca-rossa"],
-  ["archive/IMG_3474", "Uomo a figura intera con pantaloni chiari molto ampi, in laboratorio.", "piece-chiari-lunghi"],
+  ...(RED_SHIRT_IS_A_CREATURE
+    ? [["oblivion/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio.", "piece-giacca-rossa"]]
+    : []),
+  ["monumentus/Monumentus Lux ", "Uomo a figura intera con pantaloni chiari molto ampi, in laboratorio.", "piece-chiari-lunghi"],
   ["archive/IMG_9592", "La giacca in pelle marrone indossata, vista da dietro, con il collo alto.", "piece-ghezard"],
-  ["homepage/IMG_3485", "Uomo con gilet in pelle nera e pantaloni corti in pelle, al sole sul cemento.", null],
+  ["tibia/Mnmnts Ten Tibia Cut", "Uomo con gilet in pelle nera e pantaloni corti in pelle, al sole sul cemento.", null],
 ];
-/*
-  THE MAKING. Two frames of the same hide, and the pair is the whole argument:
-  the skin as it arrives, then the same skin with a collar built onto it. The
-  home page claims the work is a transformation a few screens earlier; this is
-  where it is shown rather than asserted.
 
-  Deliberately NOT the experimental/ bench frames, which belong to the about
-  page: the home page should promise that story, not spend it.
+/*
+  THE MAKING, rebuilt 2026-08-03 on frames that are actually the work.
+
+  It ran on two photographs of a black shearling laid on concrete, argued as one
+  hide before and after construction. The owner's own reorganisation refutes
+  that: he filed that object under STYRAX TOP, and the same piece is worn in the
+  forest frames, so it is a finished Creature and the section's claim to be
+  EVIDENCE was false (DESIGN-PLAN sections 27 and 47). Both files also went with
+  products/, so keeping them would have meant salvaging the wrong argument.
+
+  These two are the work itself, from his own process folder: the pattern
+  weighted down on the hide with the cut chalked around it, then a piece taking
+  shape on the stand. Cut, then build. The claim and the photographs now agree.
 */
 const MAKING = [
-  ["products/IMG_0206", "Una pelle nera a pelo lungo distesa sul cemento, con i fili di cucitura ancora attaccati."],
-  ["products/IMG_0208", "La stessa pelle con un collo in pelle gia montato e chiuso da bottoni automatici."],
+  ["process/IMG_3387", "Un cartamodello di cartone appoggiato su una pelle nera, tenuto fermo da due pietre, con il taglio segnato a gesso."],
+  ["process/PHOTO-2026-03-12-18-30-03", "Una pelliccia nera montata e spillata su un manichino, durante la lavorazione."],
 ];
 
 /*
@@ -640,7 +724,55 @@ const TMP = path.join(os.tmpdir(), "aleksander-cecco-import");
   failure you would expect. So: resolve by folder and stem, case-insensitively,
   against what is actually on disk.
 */
+/*
+  THE FOLDERS, and why the plan above does not name them literally.
+
+  On 2026-08-03 the owner regrouped everything into PRODUCT FAMILIES and deleted
+  products/ in the process (DESIGN-PLAN section 47). His folder names carry
+  spaces, an ampersand, a spelling of his own ("COAUGULA"), and they will change
+  again as the brand adds drops. So each family is indexed under BOTH its real
+  name on disk and a short stable ALIAS, and the plan uses the alias. When he
+  renames a folder, one line here changes and no frame reference moves.
+
+  The legacy folders stay because most of the catalogue still only exists there.
+*/
+const FOLDERS = [
+  // alias        folder on disk
+  ["monumentus", "MONUMENTUS LUX & TENEBRAE"],
+  ["tibia", "MONUMENTUS TIBIA CUT"],
+  ["oblivion", "OBLIVION"],
+  ["styrax", "STYRAX TOP"],
+  ["process", "SOLVET ET COAUGULA (PROCESS)"],
+  ["products", "products"],
+  ["archive", "archive"],
+  ["homepage", "homepage"],
+  ["experimental", "experimental"],
+];
+
+/*
+  AVAILABILITY, ANTICIPATED (2026-08-03). The owner is separating pieces that
+  exist and can be had NOW from pieces that are made to order. He has made the
+  first folder, `Disponibilita immediata`, and it is still empty.
+
+  Membership is read by CONTENT, not by filename, because he will copy frames in
+  rather than move them and Drive will name the copies whatever it likes. That
+  is the same rule the survey settled on: hashes, never names (section 47).
+
+  Until a frame appears in one of these folders every Creature keeps the default,
+  made to order, which is what the whole site currently says. Nothing here
+  guesses which piece is ready.
+*/
+const READY_FOLDERS = ["Disponibilita immediata", "Disponibilità immediata", "DISPONIBILITA IMMEDIATA"];
+
+/** Marks a stem that two files share. Resolving one is an error, not a guess. */
+const AMBIGUOUS = Symbol("ambiguous stem");
+
 const index = new Map();
+/** Content hashes of every file the owner has filed as available now. */
+const readyHashes = new Set();
+/** Whether an availability folder exists at all, empty or not. */
+let readyFolderFound = false;
+
 async function buildIndex() {
   /*
     PROVISIONAL frames live in this repository, not in the owner's Drive, which
@@ -649,7 +781,7 @@ async function buildIndex() {
   */
   index.set("provisional/hat-from-portrait", "__repo__/assets/provisional/hat-from-portrait.jpg");
 
-  for (const folder of ["products", "archive", "homepage", "experimental"]) {
+  for (const [alias, folder] of FOLDERS) {
     let entries = [];
     try {
       entries = await fs.readdir(path.join(SOURCE, folder));
@@ -659,14 +791,74 @@ async function buildIndex() {
     for (const name of entries) {
       if (name.startsWith(".")) continue;
       const stem = name.replace(/\.[^.]+$/, "");
-      index.set(`${folder}/${stem}`.toLowerCase(), `${folder}/${name}`);
+      const key = `${alias}/${stem}`.toLowerCase();
+      /*
+        A stem is no longer unique. Section 18 recorded that extensions cannot
+        be hard-coded, because the same batch mixes .JPG, .WEBP and .heic; his
+        2026-08-03 renaming produced the inverse trap, two files with ONE stem
+        and two extensions ("oblv blood red lamb.JPG" and ".HEIC"). Silently
+        keeping the last one read would put the wrong photograph on a page, so
+        an ambiguous stem is poisoned here and the plan must name the extension.
+      */
+      if (index.has(key) && index.get(key) !== `${folder}/${name}`) {
+        index.set(key, AMBIGUOUS);
+      } else {
+        index.set(key, `${folder}/${name}`);
+      }
+      // The full filename always resolves, and is how the plan disambiguates.
+      index.set(`${alias}/${name}`.toLowerCase(), `${folder}/${name}`);
+    }
+  }
+
+  // The Drive folder name carries an accent and, on this machine, a trailing
+  // space. Match loosely rather than demanding he type it exactly.
+  let dirs = [];
+  try {
+    dirs = await fs.readdir(SOURCE, {withFileTypes: true});
+  } catch {
+    dirs = [];
+  }
+  for (const entry of dirs) {
+    if (!entry.isDirectory()) continue;
+    const flat = entry.name.normalize("NFD").replace(/\p{M}/gu, "").trim().toLowerCase();
+    if (!READY_FOLDERS.some((f) => flat === f.normalize("NFD").replace(/\p{M}/gu, "").trim().toLowerCase())) {
+      continue;
+    }
+    readyFolderFound = true;
+    for (const name of await fs.readdir(path.join(SOURCE, entry.name))) {
+      if (name.startsWith(".")) continue;
+      const buffer = await fs.readFile(path.join(SOURCE, entry.name, name));
+      readyHashes.add(createHash("sha1").update(buffer).digest("hex"));
     }
   }
 }
+
+/** Every plan key that named a file no longer on the Drive. Reported together. */
+const missing = [];
+/** Every plan key whose stem two files share. Also fatal, also reported. */
+const ambiguous = [];
+
 function resolveRel(key) {
   const found = index.get(key.toLowerCase());
-  if (!found) throw new Error(`no file for "${key}" in ${SOURCE}`);
+  if (found === AMBIGUOUS) {
+    ambiguous.push(key);
+    return null;
+  }
+  if (!found) {
+    missing.push(key);
+    return null;
+  }
   return found;
+}
+
+/**
+ * Is this frame one the owner has filed as available now? Read by content, so
+ * a copy under any name counts, and cheap: the file is read for upload anyway.
+ */
+async function isReadyNow(file) {
+  if (!readyHashes.size || !file) return false;
+  const buffer = await fs.readFile(file);
+  return readyHashes.has(createHash("sha1").update(buffer).digest("hex"));
 }
 
 /**
@@ -675,7 +867,10 @@ function resolveRel(key) {
  * the repository and never back into the owner's Drive.
  */
 async function usableFile(key) {
+  // A salvaged frame has no file: the asset is already in Sanity (see SALVAGED).
+  if (key in SALVAGED) return null;
   const rel = resolveRel(key);
+  if (rel === null) return null;
   // A provisional frame is already a usable JPEG sitting in this repository.
   if (rel.startsWith("__repo__/")) return path.resolve(rel.replace("__repo__/", ""));
   const src = path.join(SOURCE, rel);
@@ -760,16 +955,78 @@ async function main() {
   let converted = 0;
   for (const key of unique) {
     const file = await usableFile(key);
-    if (file.startsWith(TMP)) converted++;
+    if (file && file.startsWith(TMP)) converted++;
     usable.set(key, file);
   }
-  console.log(`  ${converted} converted, ${unique.length - converted} used as they are\n`);
+
+  /*
+    EVERY missing key, not just the first. The old version threw on the first
+    one, so a reorganisation that moved thirty files took thirty runs to
+    diagnose. It still refuses to write anything: an import that quietly dropped
+    a Creature's photographs would be worse than one that stops.
+  */
+  if (missing.length || ambiguous.length) {
+    if (missing.length) {
+      console.error(`\n${missing.length} frames are not on the Drive under the name the plan uses:\n`);
+      for (const key of missing) console.error(`  ${key}`);
+      console.error(
+        "\nEither the file moved (fix the key, or add its folder to FOLDERS above)" +
+          "\nor it is gone (ask the owner; if it is truly gone, salvage it from Sanity" +
+          "\nlike the entries in SALVAGED).\n",
+      );
+    }
+    if (ambiguous.length) {
+      console.error(`\n${ambiguous.length} keys name a stem that two files share:\n`);
+      for (const key of ambiguous) console.error(`  ${key}`);
+      console.error("\nName the extension too, e.g. oblivion/oblv blood red lamb.JPG\n");
+    }
+    process.exitCode = 1;
+    return;
+  }
+
+  const salvaged = unique.filter((key) => key in SALVAGED);
+  if (salvaged.length) {
+    console.log(`  ${salvaged.length} salvaged from Sanity (source file gone from the Drive)`);
+  }
+  console.log(`  ${converted} converted, ${unique.length - converted - salvaged.length} used as they are\n`);
 
   console.log("Measuring where the chrome sits, to choose paper or ink per photograph:");
-  const overlays = await measureOverlay([...usable.values()]);
+  const files = unique.map((key) => usable.get(key)).filter(Boolean);
+  const overlays = await measureOverlay(files);
   for (const rel of unique) {
+    if (rel in SALVAGED) {
+      console.log(`  ${SALVAGED[rel].overlay.padEnd(5)} recorded      ${rel}`);
+      continue;
+    }
     const m = overlays.get(usable.get(rel));
     console.log(`  ${m.overlay.padEnd(5)} contrast ${String(m.contrast).padStart(5)}  ${rel}`);
+  }
+
+  /*
+    WHICH CREATURE ARE AVAILABLE NOW. Read from the owner's own folder, by
+    content, so a copy of a frame under any name counts (see READY_FOLDERS).
+    A Creature is available now when ANY of its frames is filed there.
+  */
+  const readyCreature = new Set();
+  if (readyHashes.size) {
+    for (const g of GARMENTS) {
+      for (const [key] of g.files) {
+        if (await isReadyNow(usable.get(key))) {
+          readyCreature.add(g.id);
+          break;
+        }
+      }
+    }
+    console.log(
+      `\nAvailable now, from the owner's folder: ${readyCreature.size || "none"}` +
+        (readyCreature.size ? ` (${[...readyCreature].join(", ")})` : ""),
+    );
+  } else {
+    console.log(
+      readyFolderFound
+        ? "\nThe availability folder is empty, so every Creature stays made to order."
+        : "\nNo availability folder on the Drive, so every Creature stays made to order.",
+    );
   }
 
   if (DRY) {
@@ -779,9 +1036,12 @@ async function main() {
 
   console.log("\nUploading:");
   const assets = new Map();
-  for (const rel of unique) assets.set(rel, await uploadOnce(usable.get(rel)));
+  for (const rel of unique) {
+    assets.set(rel, rel in SALVAGED ? SALVAGED[rel].asset : await uploadOnce(usable.get(rel)));
+  }
 
-  const ov = (rel) => overlays.get(usable.get(rel)).overlay;
+  const ov = (rel) =>
+    rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlay;
 
   console.log("\nWriting documents:");
 
@@ -838,10 +1098,19 @@ async function main() {
         ...mediaObject(assets.get(rel), alt, ov(rel), `m${i}`),
         ...(g.provisional ? {isProvisional: true} : {}),
       })),
-      availability: g.availability ?? "madeToOrder",
+      /*
+        Two real states now (DESIGN-PLAN section 49). His folder decides:
+        a Creature filed as available now is `readyNow`, everything else keeps
+        the default. An explicit value in the plan still wins, because "private
+        order" is a fact about a piece rather than a question about stock.
+      */
+      availability: g.availability ?? (readyCreature.has(g.id) ? "readyNow" : "madeToOrder"),
       orderRank: `0|${rank}:`,
     });
-    console.log(`  creature      ${(g.name ?? g.slug).padEnd(22)} ${g.files.length} photographs`);
+    console.log(
+      `  creature      ${(g.name ?? g.slug).padEnd(22)} ${g.files.length} photographs` +
+        (readyCreature.has(g.id) ? "  AVAILABLE NOW" : ""),
+    );
   }
 
   rank = 100000;
@@ -860,11 +1129,31 @@ async function main() {
   }
 
   const settings = (await client.fetch(`*[_id == "siteSettings"][0]`)) || {};
+
+  /*
+    THE ARRIVAL BELONGS TO THE OWNER (2026-08-03).
+
+    The home page opens on the current drop, and a brand that drops regularly
+    changes that image often. It must never need a developer, so it is one field
+    in the studio, and this script will NOT overwrite a choice he has made there.
+    Run with --set-arrival to force the plan's frame in instead.
+
+    Without this the promise would be false in the worst way: he would set the
+    image, someone would run an unrelated import, and it would silently revert.
+  */
+  const forceArrival = process.argv.includes("--set-arrival");
+  const ownerSetArrival = Boolean(settings.openingMedia?.poster?.asset?._ref) && !forceArrival;
+  if (ownerSetArrival) {
+    console.log("  arrival       left as the owner set it (--set-arrival overrides)");
+  }
+
   await client.createOrReplace({
     ...settings,
     _id: "siteSettings",
     _type: "siteSettings",
-    openingMedia: mediaObject(assets.get(OPENING[0]), OPENING[1], ov(OPENING[0]), "opening"),
+    openingMedia: ownerSetArrival
+      ? settings.openingMedia
+      : mediaObject(assets.get(OPENING[0]), OPENING[1], ov(OPENING[0]), "opening"),
     homeSequence: WORN.map(([rel, alt, garmentId], i) => ({
       _type: "homeTile",
       _key: `t${i}`,
