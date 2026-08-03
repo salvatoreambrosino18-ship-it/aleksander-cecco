@@ -3834,9 +3834,12 @@ him for the original before treating it as the best available.**
 ## 48. The photographs carry his names (2026-08-03)
 
 The owner renamed the files in MONUMENTUS LUX & TENEBRAE, MONUMENTUS TIBIA CUT,
-OBLIVION and STYRAX TOP with the Creature names. **This closes the naming gap
-that has blocked the catalogue since the beginning.** Fifteen of sixteen
-Creature carried a `{GARMENT_NAME}` placeholder; the names below are his.
+OBLIVION and STYRAX TOP with the Creature names. **This closes PART of the
+naming gap that has blocked the catalogue since the beginning, and the size of
+the part matters.** Thirteen of the seventeen
+documents then in the dataset carried a `{GARMENT_NAME}` placeholder. Six of
+them could take a name from his filenames, because only six have frames in the
+folders he renamed. See section 55 for the correction and the arithmetic.
 
 Every file was matched to what it already is on the site by content hash, so
 nothing here is a reading of a photograph.
@@ -4266,3 +4269,83 @@ If it should go sooner, there are two moves and both are one field:
 
 The real fix is neither: it is capo-12 getting a name, a composition and a
 second frame, which is his.
+
+---
+
+## 55. Two corrections, and the contact address (2026-08-03)
+
+### THERE IS A CONTACT ADDRESS: aleksandercecco@gmail.com
+
+**Item 1 on the launch checklist comes off** (section 43). The site had no
+working way to reach a human, which made it useless independently of whether it
+was lawful, and it was the top item above legal for exactly that reason.
+
+Done: the address is in site settings and live on the contact page as a working
+mailto. `info@example.com` is gone from the studio, the seed fixtures, the site
+and the import. The guard that refused to link a placeholder STAYS, generalised
+from one string to `@example.com`, which is reserved by RFC 2606 precisely so it
+can be recognised. It is not dead code: it is what stops this recurring, and it
+cost the top slot on the checklist for two days.
+
+The import writes the address only when site settings carry none, the same rule
+the arrival follows: it is his field, and an unrelated import must not walk over
+a change he made in the studio.
+
+### An enquiry still will not arrive, and here is exactly why
+
+Nothing above sends anything. The contact address is what a visitor writes to
+themselves; the FORM posts to the Pages Function, which needs three secrets that
+live in Cloudflare and nowhere else. All three are unset in production.
+
+**In Resend:**
+
+1. Create the account, or sign in, **with aleksandercecco@gmail.com**. This
+   matters more than it looks: with no verified domain the only sender Resend
+   permits is `onboarding@resend.dev`, and it will deliver ONLY to the address
+   that owns the account. If the account is owned by that address, enquiries
+   arrive. If it is owned by any other address, they do not, and the failure is
+   a 403 from Resend rather than anything visible on the site.
+2. Create an API key with send permission. Copy it once; it is not shown again.
+3. When the domain exists (section 29), add and verify it, then change
+   `RESEND_FROM` to an address at that domain. Nothing in the code changes.
+
+**In Cloudflare Pages** (Settings, Environment variables, PRODUCTION branch,
+encrypted), then **redeploy**, because Pages Functions pick up new secrets only
+on a new deployment, which cost a deploy to learn once already:
+
+```
+RESEND_API_KEY    = the key from step 2
+RESEND_FROM       = onboarding@resend.dev      (until the domain is verified)
+ENQUIRY_TO_EMAIL  = aleksandercecco@gmail.com
+```
+
+Until all three are set the form answers 503 and says sending is not switched on
+yet, in the visitor's language, which is deliberate.
+
+**AND THE GATE IN FRONT OF THIS HAS NOT MOVED.** Section 36 stands: the moment
+those secrets are set the site begins receiving names, email addresses and three
+body measurements, and there is still no privacy notice and no named data
+controller. Setting them is therefore step 3 of the domain switch and it is
+gated on legal, which the owner deferred. The address existing does not change
+that; it only means the site is no longer useless while it waits.
+
+Local `.env` still holds all three values, so `wrangler pages dev` sends REAL
+email (section 38). That is unchanged and still recommended against.
+
+### The rename count: six, not fifteen
+
+Recorded because the plan should not carry a wrong number, and because the
+difference is the whole picture of what he still owes.
+
+- Before the import: 17 documents, 4 named (Rubedo, Glovyes, Styrax, Ghezard),
+  **13 carrying `{GARMENT_NAME}`**.
+- His renaming touched four folders. Only SIX documents have frames in them, so
+  only six could take a name: capo-02, capo-03, capo-04, capo-05, capo-10,
+  capo-11.
+- After: 16 documents, **9 named, 7 still placeholders** (capo-01, capo-07,
+  capo-08, capo-09, capo-12, capo-13, capo-14).
+
+The seven are the pieces with no frame in any family folder, which is the same
+list section 48 already gave for a different reason. **Naming them is a filing
+job, not a photography job**: the frames exist, they are just not in a folder
+that says what they are.

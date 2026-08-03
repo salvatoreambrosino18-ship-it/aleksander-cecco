@@ -25,7 +25,7 @@
       code, statement, description, materials, measurement and price. They read
       as {LIKE_THIS} on the page so seeded data can never be mistaken for the
       brand's voice.
-    - The contact email is the studio's own placeholder, info@example.com, which
+    - The contact email is left EMPTY, so the site shows its marked placeholder;
       the site already refuses to render as a working link.
 
   OVERLAY NOTES. The overlay value per image is not a guess. Each file was
@@ -432,7 +432,8 @@ async function seed() {
     _id: "siteSettings",
     _type: "siteSettings",
     instagramUrl: "https://www.instagram.com/aleksandercecco/",
-    contactEmail: "info@example.com", // placeholder; the site refuses to link it
+    // Empty on purpose: fixtures must never carry an address, real or fake.
+    contactEmail: null,
     about: {_type: "localeText", it: ABOUT_IT, en: ABOUT_EN},
     aboutIsDraft: true,
     shippingReturns: {_type: "localeText", it: "{SPEDIZIONI_RESI_IT}", en: "{SHIPPING_RETURNS_EN}"},

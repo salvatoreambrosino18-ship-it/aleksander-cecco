@@ -1164,6 +1164,14 @@ async function main() {
     Without this the promise would be false in the worst way: he would set the
     image, someone would run an unrelated import, and it would silently revert.
   */
+  /*
+    THE CONTACT ADDRESS, supplied by the owner 2026-08-03. It is written only
+    when site settings carry none, for the same reason the arrival is: it is his
+    field to change and an unrelated import must not walk over it. This is what
+    took the top item off the launch checklist.
+  */
+  const CONTACT_EMAIL = "aleksandercecco@gmail.com";
+
   const forceArrival = process.argv.includes("--set-arrival");
   const ownerSetArrival = Boolean(settings.openingMedia?.poster?.asset?._ref) && !forceArrival;
   if (ownerSetArrival) {
@@ -1174,6 +1182,7 @@ async function main() {
     ...settings,
     _id: "siteSettings",
     _type: "siteSettings",
+    contactEmail: settings.contactEmail?.trim() || CONTACT_EMAIL,
     openingMedia: ownerSetArrival
       ? settings.openingMedia
       : mediaObject(assets.get(OPENING[0]), OPENING[1], ov(OPENING[0]), "opening"),

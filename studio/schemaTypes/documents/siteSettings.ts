@@ -17,14 +17,21 @@ export const siteSettings = defineType({
       title: 'Email di contatto / Contact email',
       type: 'string',
       description:
-        'Segnaposto fino al lancio. Sostituire prima di andare online. / Placeholder until launch. Replace before going live.',
-      initialValue: 'info@example.com',
+        "L'indirizzo a cui scrivono i visitatori. Mostrato sul sito. / The address visitors write to. Shown on the site.",
+      // SUPPLIED by the owner 2026-08-03. The placeholder that stood here for
+      // two days is gone; a new project starts empty rather than starting with
+      // a fake address that has to be remembered about.
+      initialValue: 'aleksandercecco@gmail.com',
       validation: (Rule) => [
         Rule.email(),
-        // Warn (not block) so the placeholder cannot ship unnoticed.
+        /*
+          The example.com guard stays, and it is not dead code: it is what makes
+          a placeholder impossible to ship if anyone ever types one in again.
+          It cost the top slot on the launch checklist for two days.
+        */
         Rule.custom((value) =>
-          value === 'info@example.com'
-            ? 'Placeholder email. Replace with the real contact address before launch.'
+          typeof value === 'string' && /@example\.(com|org|net)$/i.test(value.trim())
+            ? 'That is a placeholder address. The site will refuse to link it.'
             : true,
         ).warning(),
       ],

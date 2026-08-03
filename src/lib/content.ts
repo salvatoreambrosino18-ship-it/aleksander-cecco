@@ -6,8 +6,14 @@ import {query} from "./sanity";
 import type {LocaleField} from "./locales";
 import type {MediaItem} from "./media";
 
-/** The placeholder address prefilled in the studio. It must never ship as a link. */
-export const PLACEHOLDER_EMAIL = "info@example.com";
+/*
+  A placeholder address must never ship as a working link. The real address
+  arrived on 2026-08-03 (aleksandercecco@gmail.com), so nothing matches this any
+  more; it stays because the failure it prevents, a live mailto to a fake
+  address, is silent and embarrassing, and because example.com is reserved by
+  RFC 2606 precisely so it can be recognised.
+*/
+const PLACEHOLDER_EMAIL = /@example\.(com|org|net)$/i;
 
 // Selected once and reused: the media object is the same shape everywhere.
 const MEDIA_PROJECTION = /* groq */ `
@@ -133,7 +139,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
  * Placeholders render as marked placeholders, never as working links.
  */
 export function isPlaceholderEmail(email: string | null): boolean {
-  return !email || email.trim().toLowerCase() === PLACEHOLDER_EMAIL;
+  return !email || PLACEHOLDER_EMAIL.test(email.trim());
 }
 
 /**
