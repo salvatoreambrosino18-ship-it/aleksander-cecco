@@ -40,8 +40,15 @@ const copy = enquiryCopy(locale);
   shown for them (DESIGN-PLAN section 24).
 */
 const availability = garment.availability ?? "madeToOrder";
-const canEnquire = availability === "madeToOrder";
+const canEnquire = availability === "madeToOrder" || availability === "readyNow";
+/*
+  A Creature that already exists can be taken as it is or remade, and those are
+  different requests. The form asks which, and the three measurements stop being
+  required when the answer might be "as it is" (DESIGN-PLAN section 49).
+*/
+const isReady = availability === "readyNow";
 const availabilityLabel = {
+  readyNow: t(locale, "availableNow"),
   madeToOrder: t(locale, "madeToOrder"),
   unique: t(locale, "unique"),
   privateOrder: t(locale, "privateOrder"),
@@ -82,11 +89,43 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               <input id="email" name="email" type="email" required maxlength="254" autocomplete="email" />
             </div>
 
+            {/*
+              WHAT IS BEING ASKED FOR, when the piece already exists. Radios and
+              no script, so it works with JavaScript off like everything else on
+              this path, and the fields below stay visible rather than being
+              hidden: a form that hides its own questions cannot explain itself
+              without JavaScript, and the line under them says what to do.
+            */}
+            {
+              isReady && (
+                <fieldset class="flex flex-col gap-u2">
+                  <legend class="type-label text-label">{copy.fulfilmentQuestion}</legend>
+                  {(
+                    [
+                      ["asIs", copy.takeAsIs],
+                      ["remade", copy.haveItRemade],
+                    ] as const
+                  ).map(([value, label], index) => (
+                    <label class="type-label text-label flex items-baseline gap-u2">
+                      <input type="radio" name="fulfilment" value={value} checked={index === 0} />
+                      {label}
+                    </label>
+                  ))}
+                </fieldset>
+              )
+            }
+
             <fieldset class="flex flex-col gap-u3">
               <legend class="flex flex-col gap-u1">
                 <span class="type-label text-label">{t(locale, "yourMeasurements")}</span>
                 <span class="type-label text-label">{copy.measureTitle}</span>
               </legend>
+
+              {isReady && (
+                <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && "draft-text"]}>
+                  {copy.measurementsForRemakeOnly}
+                </p>
+              )}
 
               {/*
                 ONE UNIT FOR ALL THREE, chosen by the person filling the form
@@ -127,7 +166,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
                     type="number"
                     inputmode="decimal"
                     step="any"
-                    required
+                    required={!isReady}
                     aria-describedby={`${key}-how`}
                   />
                   <p

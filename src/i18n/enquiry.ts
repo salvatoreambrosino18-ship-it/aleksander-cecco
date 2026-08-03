@@ -38,6 +38,19 @@ type EnquiryCopy = {
   /** Practical help, because most people measure themselves alone. */
   measureHelp: string;
   confirmation: string;
+  /*
+    A CREATURE THAT ALREADY EXISTS (2026-08-03). It can be taken as it is or
+    remade to the buyer's measurements, and those are different requests, so the
+    form asks which. A radio group and not a script, like the unit chooser above
+    it: the whole path works with no JavaScript, and the server decides what to
+    require from the answer rather than trusting the browser to have hidden the
+    right fields.
+  */
+  fulfilmentQuestion: string;
+  takeAsIs: string;
+  haveItRemade: string;
+  /** Why the three numbers are still on screen when they are not required. */
+  measurementsForRemakeOnly: string;
 };
 
 const copy: Record<Locale, EnquiryCopy> = {
@@ -63,6 +76,11 @@ const copy: Record<Locale, EnquiryCopy> = {
     measureHelp:
       "Se non hai un metro da sarto va bene uno spago: misuralo poi con un metro rigido. Per le spalle fatti aiutare da qualcuno, da solo viene quasi sempre sbagliata. Nel dubbio scrivi la misura che ti sembra piu probabile e diccelo nelle note.",
     confirmation: "Richiesta ricevuta. Ti rispondiamo via email.",
+    fulfilmentQuestion: "Questa Creatura è già fatta. Come la vuoi?",
+    takeAsIs: "La prendo così com'è",
+    haveItRemade: "La voglio sulle mie misure",
+    measurementsForRemakeOnly:
+      "Le misure servono solo se la vuoi rifatta. Se la prendi così com'è, lascia i tre campi vuoti.",
   },
   en: {
     // HIS WORDS, verbatim, from the Armonyen post.
@@ -86,6 +104,11 @@ const copy: Record<Locale, EnquiryCopy> = {
     measureHelp:
       "No tape measure is fine: use a piece of string and measure the string against a ruler. Ask someone to help with the shoulders, because alone it is almost always wrong. If you are unsure, send your best guess and say so in the note.",
     confirmation: "Enquiry received. We will reply by email.",
+    fulfilmentQuestion: "This Creature is already made. How do you want it?",
+    takeAsIs: "I will take this one as it is",
+    haveItRemade: "Remake it to my measurements",
+    measurementsForRemakeOnly:
+      "The measurements are only needed for a remake. If you are taking this one as it is, leave the three fields empty.",
   },
 };
 

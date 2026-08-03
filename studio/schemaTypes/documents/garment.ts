@@ -119,6 +119,18 @@ export const garment = defineType({
       state: nothing sells out when a piece is built on request.
 
       Replaces the old notOffered boolean, which only knew two of the four.
+
+      DISPONIBILE SUBITO added 2026-08-03, and it is a real state rather than a
+      shade of made to order: the owner has pieces that exist and can be had
+      immediately (the black trousers) beside pieces that are sold and would be
+      remade (the pale ones). Section 31 costed exactly this and section 41
+      closed it on the answer he gave then; he has since given a different one,
+      so the fifth value the costing anticipated is here.
+
+      IT CHANGES WHAT THE MEASUREMENTS MEAN, which is the trap section 31 named.
+      On a made to order piece they describe the photographed sample. On a piece
+      available now they describe the object that will arrive. The site follows
+      the label rather than duplicating the field.
     */
     defineField({
       name: 'availability',
@@ -127,6 +139,7 @@ export const garment = defineType({
       initialValue: 'madeToOrder',
       options: {
         list: [
+          {title: 'Disponibile subito / Available now', value: 'readyNow'},
           {title: 'Su ordinazione / Made to order', value: 'madeToOrder'},
           {title: 'Pezzo unico, 1 di 1 / Unique, 1 of 1', value: 'unique'},
           {title: 'Ordine privato / Private order', value: 'privateOrder'},
@@ -135,7 +148,7 @@ export const garment = defineType({
         layout: 'radio',
       },
       description:
-        "Unica e ordine privato restano visibili e leggibili, ma senza pulsante di richiesta: non si possono ordinare di nuovo. / Unique and private order stay visible and readable but carry no enquiry button: they cannot be ordered again.",
+        "Disponibile subito: questa Creatura esiste gia e puo essere presa cosi com'e, oppure rifatta su misura. Unica e ordine privato restano visibili e leggibili, ma senza pulsante di richiesta: non si possono ordinare di nuovo. / Available now: this Creature already exists and can be taken as it is, or remade to measure. Unique and private order stay visible and readable but carry no enquiry button: they cannot be ordered again.",
     }),
     defineField({
       name: 'availabilityNote',

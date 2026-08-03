@@ -6,6 +6,16 @@
 */
 import type {Locale} from "../lib/locales";
 
+/*
+  The two-state availability copy is OURS, written 2026-08-03 and not yet seen
+  by the owner, so every screen that shows it marks it as a draft in the same
+  register as the brand story. The one-word states ("Available now.") are labels
+  like their four siblings; what is marked is the sentence that explains the
+  CHOICE a ready piece gives a buyer, because that sentence makes a promise
+  about how the brand sells and only he can approve one.
+*/
+export const AVAILABILITY_COPY_IS_DRAFT = true;
+
 const ui = {
   it: {
     skipToContent: "Vai al contenuto",
@@ -41,6 +51,16 @@ const ui = {
     // A buyer who cannot try anything on needs a way to use these numbers.
     fitGuidance: "Confrontale con un capo che gia possiedi e che ti veste come vuoi.",
     madeToOrder: "Su ordinazione.",
+    availableNow: "Disponibile subito.",
+    /*
+      OURS, and marked as ours wherever it is shown (AVAILABILITY_COPY_IS_DRAFT).
+      It is the one place the site explains a choice rather than stating a fact,
+      because a piece that already exists gives the buyer two different things
+      and saying only "available now" would hide the second one.
+    */
+    readyExplanation:
+      "Questa Creatura è già fatta. Puoi prenderla così com'è, oppure fartela rifare sulle tue misure.",
+    thisPieceMeasurements: "Misure di questo capo",
     unique: "Unica. 1 di 1.",
     privateOrder: "Ordine privato.",
     notTakingRequests: "Non in lavorazione ora.",
@@ -105,6 +125,10 @@ const ui = {
     outsideCollections: "Outside the collections.",
     fitGuidance: "Compare these with a garment you already own and like the fit of.",
     madeToOrder: "Made to order.",
+    availableNow: "Available now.",
+    readyExplanation:
+      "This Creature is already made. Take it as it is, or have it remade to your measurements.",
+    thisPieceMeasurements: "This piece's measurements",
     unique: "Unique. 1 of 1.",
     privateOrder: "Private order.",
     notTakingRequests: "Not in the making now.",

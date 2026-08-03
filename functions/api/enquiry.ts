@@ -352,7 +352,24 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const unit: "cm" | "in" = get("unit") === "in" ? "in" : "cm";
   const cm: Record<"chest" | "shoulders" | "length", number> = {chest: 0, shoulders: 0, length: 0};
 
-  for (const key of ["chest", "shoulders", "length"] as const) {
+  /*
+    TAKING A PIECE AS IT IS (2026-08-03). Some Creature already exist and can be
+    had immediately, and asking for one of those needs no measurements at all.
+    Requiring them anyway is precisely the defect section 31 costed: a server
+    refusing a legitimate purchase, 422, with nothing in any log to show a sale
+    was lost.
+
+    Default is "remade", so every made to order piece behaves exactly as before
+    and a submission that omits the field entirely is unchanged.
+
+    The server does NOT check that this Creature really is one of the ready
+    ones. It cannot: it has no content database, by design (the site is static).
+    The worst a forged value can do is deliver an enquiry with no measurements
+    in it, which the owner reads and answers like any other.
+  */
+  const asIs = get("fulfilment") === "asIs";
+
+  for (const key of asIs ? ([] as const) : (["chest", "shoulders", "length"] as const)) {
     // A comma is a decimal separator in most of the languages this site meets.
     const entered = Number(fields[key].replace(",", "."));
     const value = unit === "in" ? entered * PER_INCH : entered;
@@ -406,11 +423,18 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     `Name: ${fields.name}`,
     `Email: ${fields.email}`,
     "",
+    // What they are actually asking for, stated before the numbers rather than
+    // left to be inferred from their absence.
+    asIs ? "Wants: this piece as it is, no measurements given" : "Wants: made to these measurements",
     // Always centimetres. The original is echoed only when it was not, so the
     // owner can sanity-check a conversion without doing arithmetic himself.
-    `Chest: ${cm.chest} cm${unit === "in" ? ` (entered ${fields.chest} in)` : ""}`,
-    `Shoulders: ${cm.shoulders} cm${unit === "in" ? ` (entered ${fields.shoulders} in)` : ""}`,
-    `Length: ${cm.length} cm${unit === "in" ? ` (entered ${fields.length} in)` : ""}`,
+    ...(asIs
+      ? []
+      : [
+          `Chest: ${cm.chest} cm${unit === "in" ? ` (entered ${fields.chest} in)` : ""}`,
+          `Shoulders: ${cm.shoulders} cm${unit === "in" ? ` (entered ${fields.shoulders} in)` : ""}`,
+          `Length: ${cm.length} cm${unit === "in" ? ` (entered ${fields.length} in)` : ""}`,
+        ]),
     "",
     fields.note ? `Note:\n${fields.note}` : "Note: (none)",
   ].join("\n");

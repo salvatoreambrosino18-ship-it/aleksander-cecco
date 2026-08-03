@@ -19,7 +19,7 @@ import {getGarments, isPlaceholderText, neighbours, type Garment} from "../../..
 import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
-import {t} from "../../../i18n/ui";
+import {AVAILABILITY_COPY_IS_DRAFT, t} from "../../../i18n/ui";
 
 export async function getStaticPaths() {
   const garments = await getGarments();
@@ -66,8 +66,15 @@ const availabilityNote = pick(garment.availabilityNote, locale);
   rule that has always governed a withdrawn action here.
 */
 const availability = garment.availability ?? "madeToOrder";
-const canEnquire = availability === "madeToOrder";
+/*
+  TWO STATES CAN BE ENQUIRED ABOUT (2026-08-03). A piece available now and a
+  piece made to order are both things a visitor can ask for; what differs is
+  WHAT they are asking for, which the enquiry form goes on to ask.
+*/
+const canEnquire = availability === "madeToOrder" || availability === "readyNow";
+const isReady = availability === "readyNow";
 const availabilityLabel = {
+  readyNow: t(locale, "availableNow"),
   madeToOrder: t(locale, "madeToOrder"),
   unique: t(locale, "unique"),
   privateOrder: t(locale, "privateOrder"),
@@ -132,7 +139,15 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       : null,
   },
   {
-    term: t(locale, "referenceMeasurements"),
+    /*
+      THE LABEL FOLLOWS THE STATE, and this is not cosmetic. On a made to order
+      piece these are the measurements of the photographed sample, offered as
+      context. On a piece that already exists they are the measurements of the
+      object that will arrive, which is a different claim about the same number
+      (DESIGN-PLAN sections 31 and 49). One field, two truthful labels, rather
+      than two fields an owner would have to keep in step.
+    */
+    term: isReady ? t(locale, "thisPieceMeasurements") : t(locale, "referenceMeasurements"),
     value: garment.measurements,
     placeholder: "{MEASUREMENTS}",
   },
@@ -182,6 +197,29 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       }
       <p>{availabilityLabel}</p>
     </div>
+
+    {/*
+      A piece that already exists offers two different things, and saying only
+      "Available now." would hide the second one. Ours, so it carries the same
+      mark the brand story carries when the words are not his.
+    */}
+    {
+      isReady && (
+        <div class="flex flex-col gap-u2">
+          {AVAILABILITY_COPY_IS_DRAFT && (
+            <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
+          )}
+          <p
+            class:list={[
+              "type-body text-body max-w-prose",
+              AVAILABILITY_COPY_IS_DRAFT && "draft-text",
+            ]}
+          >
+            {t(locale, "readyExplanation")}
+          </p>
+        </div>
+      )
+    }
 
     {description && <p class="type-body text-body max-w-prose">{description}</p>}
 
