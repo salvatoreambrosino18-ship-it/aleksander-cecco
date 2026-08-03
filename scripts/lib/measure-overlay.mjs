@@ -109,39 +109,82 @@ export async function measureOverlay(files, {port = 9900} = {}) {
         used at the bottom, and on 2026-08-03 that put eight captions below WCAG
         AA, the worst at 1.36:1 and the collection's own name at 1.53:1.
       */
-      const band = (yFrom, yTo) => {
-        const d = ctx.getImageData(x0, Math.round(H * yFrom), Math.max(1, x1 - x0),
-                                   Math.max(1, Math.round(H * (yTo - yFrom)))).data;
+      const mean = (bx, by, bw, bh) => {
+        const d = ctx.getImageData(Math.round(bx), Math.round(by),
+                                   Math.max(1, Math.round(bw)), Math.max(1, Math.round(bh))).data;
         let sum = 0, n = 0;
         for (let i = 0; i < d.length; i += 4) {
           sum += 0.2126*lin(d[i]) + 0.7152*lin(d[i+1]) + 0.0722*lin(d[i+2]); n++;
         }
         return sum / n;
       };
-      return JSON.stringify({L: band(0.03, 0.09), Lc: band(0.88, 0.97)});
+
+      // The chrome band: fixed at the top of the phone crop, where it really sits.
+      const L = mean(x0, H * 0.03, x1 - x0, H * 0.06);
+
+      /*
+        THE CAPTION BAND, MODELLED RATHER THAN GUESSED.
+
+        A caption is not at a fixed place in the file. object-fit: cover crops
+        the same photograph differently in every container it appears in, so the
+        pixels under a caption move with the container's aspect ratio. The first
+        attempt sampled one rectangle of the file and left eight captions
+        unreadable; the second took the worst cell of the bottom third and was so
+        strict it pushed thirty of forty-three captions off the pictures.
+
+        So simulate the containers this site actually has, and in each one
+        measure the rectangle the caption actually occupies: inset from the left
+        margin, sitting on the bottom edge. The worst of those is the honest
+        answer, because a reader meets exactly one of them.
+      */
+      const CONTAINERS = [
+        390 / 844,   // a phone, full screen
+        390 / 743,   // a phone, an 88svh block
+        390 / 523,   // a phone, a 62svh short row
+        1440 / 790,  // desktop, full width
+        720 / 790,   // desktop, half a row
+      ];
+      const captionMeans = CONTAINERS.map((aspect) => {
+        // What cover keeps of this file at that aspect.
+        let cw = W, ch = W / aspect;
+        if (ch > H) { ch = H; cw = H * aspect; }
+        const cx = (W - cw) / 2, cy = (H - ch) / 2;
+        // Where the caption sits inside it: left inset, on the bottom edge.
+        return mean(cx + cw * 0.05, cy + ch * 0.86, cw * 0.6, ch * 0.11);
+      });
+      return JSON.stringify({L, cells: captionMeans});
     })()`;
     const out = await send("Runtime.evaluate", {expression, awaitPromise: true, returnByValue: true}, sessionId);
     if (typeof out.result.value !== "string") {
       throw new Error(`could not decode ${path.basename(file)}`);
     }
-    const {L, Lc} = JSON.parse(out.result.value);
-    const pick = (lum) => {
-      const paper = ratio(L_PAPER, lum);
-      const ink = ratio(L_INK, lum);
-      return {
-        overlay: paper >= ink ? "paper" : "ink",
-        luminance: Number(lum.toFixed(3)),
-        contrast: Number(Math.max(paper, ink).toFixed(2)),
-      };
-    };
-    const top = pick(L);
-    const bottom = pick(Lc);
+    const {L, cells} = JSON.parse(out.result.value);
+    const paper = ratio(L_PAPER, L);
+    const ink = ratio(L_INK, L);
+
+    /*
+      Worst cell wins. For each polarity take the LOWEST contrast anywhere in the
+      bottom third; the better of those two is the caption's polarity, and its
+      value is what decides whether a caption can sit on the picture at all.
+    */
+    const worstPaper = Math.min(...cells.map((c) => ratio(L_PAPER, c)));
+    const worstInk = Math.min(...cells.map((c) => ratio(L_INK, c)));
+    const captionContrast = Math.max(worstPaper, worstInk);
+
     results.set(file, {
-      ...top,
-      // The band a caption actually sits in, measured separately.
-      overlayCaption: bottom.overlay,
-      captionContrast: bottom.contrast,
-      captionLuminance: bottom.luminance,
+      overlay: paper >= ink ? "paper" : "ink",
+      luminance: Number(L.toFixed(3)),
+      contrast: Number(Math.max(paper, ink).toFixed(2)),
+      overlayCaption: worstPaper >= worstInk ? "paper" : "ink",
+      captionContrast: Number(captionContrast.toFixed(2)),
+      /*
+        WCAG AA for large text is 3:1 and these labels are 11px, so 4.5 is the
+        bar. Below it no polarity is safe across the crops this frame meets, and
+        DESIGN-PLAN rule 11 already says what to do: the picture carries no text.
+        Here that means the caption moves onto the page below the frame, which is
+        the mechanism section 14 added for exactly this.
+      */
+      captionSafeOnImage: captionContrast >= 4.5,
     });
   }
 
