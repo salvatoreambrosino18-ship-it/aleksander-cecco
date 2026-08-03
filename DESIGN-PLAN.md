@@ -65,6 +65,8 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 
 **Does not block launch, but the site is weaker without it**
 
+- [ ] **Choose the four Instagram frames.** The section is live and the four in
+      it are OUR selection of his photographs, flagged as `instagramFrames`.
 - [ ] **The closer texture frame** for the home arrival, the reason the current
       one repeats `capo-12`'s only photograph (section 54).
 - [ ] **A real photograph of the hat.** Its only frame is a crop of the designer
@@ -120,6 +122,12 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 
 **Should be done, does not block**
 
+- [ ] **Open the newsletter, once there is a privacy notice.** The capture form
+      is live on the home page and COLLECTS NOTHING. Switching it on needs, in
+      addition to the notice: separate unbundled opt-in consent, a working
+      unsubscribe in every message, the sender's identity and postal address,
+      a retained record of when and how each consent was given, and double opt-in
+      as the defensible EU standard (section 62).
 - [ ] **Wire the Cloudflare Web Analytics token.** Decided in section 9, still
       not done, cookieless and free.
 - [ ] **Remove the three Resend values from the local `.env`.** Wrangler reads
@@ -4881,3 +4889,158 @@ arrival, which means the card changes when he changes that one studio field.
 Already correct and worth recording as checked rather than assumed: `::selection`
 paints `--fg` on `--bg`, so a selection inverts the page instead of introducing
 the browser's default blue. There is no third colour anywhere in it.
+
+---
+
+## 61. The menu, the email, and the last thing a buyer sees (2026-08-03)
+
+### The menu inverts
+
+It was a flat list of links. Three things make it a moment, and each is
+something the site already owns:
+
+1. **It inverts.** The panel is the opposite polarity to the page under it, so
+   opening the menu performs the site's one structural idea in miniature. No
+   fade, no slide.
+2. **The spine runs through it**, because it is a text surface.
+3. **It answers what a menu is usually opened to ask.** The address and the
+   handle are on it as mono facts, because a reader opening a menu on a brand
+   site is often looking for how to reach a person.
+
+Destinations carry a hairline that thickens on hover and focus, which is this
+system's one emphasis gesture (section 26).
+
+FOUND BY RENDERING IT: the CLOSE control kept the PAGE polarity while the panel
+inverted, so it was ink on ink and invisible. It takes the panel's polarity now,
+measured at 18.94:1 on both.
+
+### The email is a brand artefact
+
+He reads it every time somebody wants a piece, which makes it one of the few
+things on this project he sees more often than the site. It was plain text.
+
+It is the site's register now, with the constraints an inbox imposes and the
+reason for each: **paper, not ink**, because a client that strips styles falls
+back to black on white and an ink-on-ink email is unreadable; **no web fonts**,
+so case, tracking and weight carry the register; **every style inline**, because
+`<style>` blocks get stripped; **a plain text alternative alongside**, because
+some clients show it and it is what lands in a search inside his mailbox.
+
+### The confirmation
+
+It was a heading, a line and a link back, which is a receipt. It is the last
+thing a buyer experiences, so it says the three things a person wants at that
+instant: it arrived, a person will answer, and the promise with its limit on it.
+No draft mark: somebody who has just sent their measurements should not be told
+the brand has not decided what it says.
+
+The form also says it is SENDING. An enhancement, never a dependency: with no
+JavaScript nothing changes. The button is not disabled, because a disabled
+control is removed from the accessibility tree mid-action; `aria-busy` and a
+changed label say the same thing without taking it away from anyone.
+
+### A hazard realised, and the fix
+
+**Testing that confirmation sent a real email to the owner's inbox** and spent
+one of his hundred a day. Section 38 recorded exactly this hazard, twice, and it
+was still walked into, because the only safe local test was "submit something
+invalid", which cannot exercise the success path.
+
+`ENQUIRY_DRY_RUN` now exists: opt-in, does nothing unless passed, and renders
+exactly what a real send renders.
+
+    npx wrangler pages dev dist --binding ENQUIRY_DRY_RUN=1
+
+It is NOT environment sniffing, which section 38 rejected for good reasons. An
+unset binding cannot accidentally disable the only sales channel.
+
+---
+
+## 62. Solvet et Coagula, Instagram, and the list (2026-08-03)
+
+### The process page
+
+Eight frames existed and two were in use. They are a page now, in the order the
+work happens: pattern, cut, dye, dry, build, the parts, the finished garments.
+
+**No captions, and that is the discipline.** Naming each stage would be our words
+laid over his process. The only text is his own making lines, once. The page
+invents nothing. It is also the trust lever section 32 named: the moment a buyer
+cannot visit the studio, process photography stops being atmosphere and becomes
+evidence.
+
+### Instagram: curated, not live
+
+DECIDED, and the reasoning is the cost rather than the money. A live feed needs
+the Graph API, a Business account, an app and a **long-lived token refreshed
+every sixty days**; it is free and it empties the section silently the first time
+nobody refreshes it. Every embed widget is a third-party script, which standing
+rules 4 and 13 forbid.
+
+So: three to six frames he chooses, linking to his profile. Nothing expires,
+nothing scripts, nothing costs. The four in place now are OUR selection of his
+photographs and are flagged as `instagramFrames`.
+
+### The newsletter, built and not switched on
+
+His model is drops: two pieces, released, gone. With no list every drop reaches
+only whoever opens Instagram that day, which is the largest structural gap on
+this project and nobody had named it.
+
+The capture form is on the home page and **collects nothing**: it posts to the
+same Function, which answers 503 and says sign-up is not open.
+
+**WHAT SWITCHING IT ON REQUIRES, beyond what the enquiry already carries.**
+Marketing email is a different legal basis, not a smaller one:
+
+- consent that is **separate and unbundled** from an enquiry, opt-in, unticked;
+- a **working unsubscribe** in every message;
+- the **sender's identity and a postal address** in every message;
+- a **retained record** of when and how each consent was given;
+- **double opt-in**, which is the defensible EU standard;
+- the list itself is personal data, with a **retention rule**.
+
+All of it sits behind the privacy notice that already blocks the enquiry.
+
+### The drop filter, and when it appears
+
+Agreed: a filter with one option is furniture. The grouping is in the ordering
+already. **The control appears when a second drop exists**, which is the same
+condition section 23 flag 5 sets for the collections index.
+
+---
+
+## 63. The 404, the empty states, and the tools that lie
+
+### The pages nobody designs
+
+**The 404 shows the current drop**, not whichever collection cover it found
+first: it follows the same studio field as the home arrival, so it is never
+stale. And it offers three ways ON rather than one way back, because "back to
+the beginning" assumes a reader who came from the beginning, and somebody
+arriving on a dead link from Instagram did not.
+
+**The empty states** printed `{NO_CREATURE_PUBLISHED}` and `{GALLERY_EMPTY}` at
+a visitor. Nobody designs these and everybody eventually sees one, mid-import or
+after a filter that matches nothing. They now say what is true and offer the
+page that is never empty.
+
+### Proving a check can fail
+
+The standing lesson of this project, earned five times in one session: **a check
+that cannot go red is worse than no check**, because it converts ignorance into
+confidence.
+
+So each gate has now been watched failing:
+
+| gate | proven red by | proven green |
+| --- | --- | --- |
+| `npm run check` | removing an import the template uses | restoring it |
+| the page audit | reverting the caption polarity to the chrome's, rebuilding, 10 failures at 1440 | restoring it, 0 |
+| `npm run launch-check` | its current state: 25 items, exit 1 | the `problems.length === 0` branch |
+
+The audit's own history is the argument: it has reported a clean pass having
+measured nothing (tainted canvas), measured the wrong pixels (ignoring
+`object-fit: cover`), measured captions that were not on the picture at all, and
+flagged an empty alt on a decorative image as a defect. Every one of those was
+found by asking what would make it go red rather than by trusting a green.
