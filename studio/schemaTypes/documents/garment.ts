@@ -158,6 +158,40 @@ export const garment = defineType({
         "Una riga, al posto del pulsante di richiesta. Se vuota il sito usa la formula predefinita. / One line, in place of the enquiry button. If empty the site uses its default wording.",
       hidden: ({parent}) => parent?.availability === 'madeToOrder',
     }),
+    /*
+      WHAT ON THIS DOCUMENT WAS INVENTED (2026-08-03).
+
+      The site had to stop showing braces, so names, prices, compositions,
+      measurements and descriptions were written to be plausible and consistent
+      with the owner's voice and with the pricing analysis in DESIGN-PLAN
+      section 32. NONE of it is his.
+
+      Nothing on the page says so, deliberately: a visitor should see a finished
+      product. This field is where it says so instead, and `npm run launch-check`
+      REFUSES to pass while any document still carries one. That is the whole
+      mechanism: invisible to a visitor, impossible to ship past.
+
+      Clear a name from this list the moment the real value replaces it.
+    */
+    defineField({
+      name: 'inventedFields',
+      title: 'Campi inventati, da sostituire / Invented fields, to be replaced',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'Nome / Name', value: 'name'},
+          {title: 'Prezzo / Price', value: 'price'},
+          {title: 'Materiali / Materials', value: 'materials'},
+          {title: 'Misure / Measurements', value: 'measurements'},
+          {title: 'Descrizione / Description', value: 'description'},
+          {title: 'Codice / Reference code', value: 'referenceCode'},
+        ],
+        layout: 'grid',
+      },
+      description:
+        "Ogni voce qui e un valore scritto da noi, plausibile ma non suo. Il sito non lo dice al visitatore; lo dice qui, e il controllo di lancio non passa finche' la lista non e vuota. / Every entry here is a value we wrote: plausible, and not his. The site does not tell a visitor; it says so here, and the launch check does not pass until the list is empty.",
+    }),
     orderRankField({type: 'garment'}),
   ],
   orderings: [orderRankOrdering],
@@ -168,11 +202,15 @@ export const garment = defineType({
       collection: 'collection.name',
       media: 'media.0.poster',
       notOffered: 'notOffered',
+      invented: 'inventedFields',
     },
-    prepare({title, ref, collection, media, notOffered}) {
-      const parts = [ref, collection, notOffered ? 'NON DISPONIBILE / NOT OFFERED' : null].filter(
-        Boolean,
-      )
+    prepare({title, ref, collection, media, notOffered, invented}) {
+      const parts = [
+        ref,
+        collection,
+        notOffered ? 'NON DISPONIBILE / NOT OFFERED' : null,
+        invented?.length ? `INVENTATO: ${invented.join(', ')}` : null,
+      ].filter(Boolean)
       return {title, subtitle: parts.join('  /  '), media}
     },
   },

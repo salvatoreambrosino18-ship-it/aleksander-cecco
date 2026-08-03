@@ -170,6 +170,153 @@ const SALVAGED = {
   stage on the pieces he renamed, so those are no longer read off the colour in
   our frames: they are his own word for it.
 */
+
+/*
+  ============ INVENTED, AND FLAGGED (2026-08-03) ============
+
+  The owner asked to see a finished product rather than a site full of braces,
+  so everything below was written by us. NONE of it is his.
+
+  THE RULE THAT MAKES THAT SAFE: every value here is listed in the document's
+  `inventedFields`, `npm run launch-check` refuses to pass while any list is
+  non-empty, and DESIGN-PLAN section 59 carries the same list in one place. The
+  page says nothing, because a visitor should see a finished product; the studio
+  and the launch check say everything, because nothing invented may quietly
+  become permanent.
+
+  NAMES. Taken from HIS OWN vocabulary wherever a piece matches a name he has
+  used publicly and we could never confirm (Armonyen, Aleya, Severya, Corvinus),
+  because his words in his register beat anything we would coin. Where nothing of
+  his fits, the coinage follows the pattern of the names he does use: one word,
+  Latin or Latinate, no English nouns. These are ASSIGNMENTS, not identifications
+  (DESIGN-PLAN section 24 refused to guess; this is that guess, flagged).
+
+  PRICES. Derived, not chosen, from section 32: hours by construction times a
+  rate he can live on, plus material, rounded to a multiple of 25, tiered
+  accessories then single-panel then constructed then tailored. The range lands
+  at 275 to 1,850 euro, which is the labour-derived band section 32 found and the
+  international market band it matched against Isaac Sellam. The old dollar list
+  is NOT used: section 32 showed it paid him two to nine euro an hour.
+
+  MEASUREMENTS are the photographed piece, in his flat-measurement idiom.
+*/
+const INVENTED = {
+  "capo-01": {
+    name: "Armonyen",
+    price: 1450,
+    materials: {it: "Pelle di agnello nera lavata, conciata al vegetale", en: "Black washed vegetable-tanned lambskin"},
+    measurements: "Torace 54 cm. Spalle 44 cm. Lunghezza 72 cm. Manica 66 cm.",
+    description: {en: "A shirt with nothing straight in it. Crumpled by hand, dried on the branch it was photographed on."},
+    fields: ["name", "price", "materials", "measurements", "description"],
+  },
+  "capo-02": {
+    price: 1450,
+    measurements: "Torace 52 cm. Spalle 42 cm. Lunghezza 64 cm. Manica 68 cm.",
+    description: {en: "The Oblivion shirt in black lambskin. Pointed hem, pointed cuffs, an opening between the shoulder blades."},
+    fields: ["price", "measurements", "description"],
+  },
+  "capo-03": {
+    price: 950,
+    materials: {it: "Pelle nera lavata, conciata al vegetale", en: "Black washed vegetable-tanned leather"},
+    measurements: "Torace 56 cm. Spalle 40 cm. Lunghezza 58 cm.",
+    description: {en: "A vest cut from one hide, closed by a single zip. The hem follows the edge of the skin."},
+    fields: ["price", "materials", "measurements", "description"],
+  },
+  "capo-04": {
+    price: 950,
+    materials: {it: "Pelle di agnello nera stropicciata", en: "Black crinkled lambskin"},
+    measurements: "Torace 54 cm. Spalle 38 cm. Lunghezza 56 cm.",
+    description: {en: "The same vest in crinkled lambskin, fastened with snaps at the neck."},
+    fields: ["price", "materials", "measurements", "description"],
+  },
+  "capo-05": {
+    price: 1150,
+    materials: {it: "Pelle nera lavata, conciata al vegetale", en: "Black washed vegetable-tanned leather"},
+    measurements: "Vita 42 cm. Cavallo 34 cm. Lunghezza 104 cm. Fondo 26 cm.",
+    description: {en: "Trousers built from four panels, the seams left where the hide ended."},
+    fields: ["price", "materials", "measurements", "description"],
+  },
+  "capo-07": {
+    name: "Aleya",
+    price: 1150,
+    materials: {it: "Pelle nera lavata, conciata al vegetale", en: "Black washed vegetable-tanned leather"},
+    measurements: "Vita 44 cm. Cavallo 36 cm. Lunghezza 102 cm. Fondo 32 cm.",
+    description: {en: "Wide through the leg, cut raw at the hem. Two zipped pockets at the back."},
+    fields: ["name", "price", "materials", "measurements", "description"],
+  },
+  "capo-08": {
+    name: "Severya",
+    price: 875,
+    materials: {it: "Pelle di agnello, stampa serpente", en: "Snake-embossed lambskin"},
+    measurements: "Gonna: vita 34 cm, lunghezza 62 cm. Fascia: torace 32 cm.",
+    description: {en: "Handmade snake skirt, with the band that is worn above it."},
+    fields: ["name", "price", "materials", "measurements", "description"],
+  },
+  "capo-09": {
+    name: "Vesper",
+    price: 425,
+    materials: {it: "Pelle di agnello nera martellata", en: "Black pebbled lambskin"},
+    measurements: "22 x 16 x 4 cm. Catena 96 cm.",
+    description: {en: "Small enough for a key and a phone. Hung on a chain, closed with a shaped flap."},
+    fields: ["name", "price", "materials", "measurements", "description"],
+  },
+  "capo-10": {
+    price: 1150,
+    materials: {it: "Pelle conciata al vegetale, non tinta", en: "Undyed vegetable-tanned leather"},
+    measurements: "Vita 44 cm. Cavallo 38 cm. Lunghezza 76 cm. Fondo 34 cm.",
+    description: {en: "The Lux cut, stopped at the shin. The leather is left as it comes out of the pit."},
+    fields: ["price", "materials", "measurements", "description"],
+  },
+  "capo-11": {
+    price: 1150,
+    materials: {it: "Pelle conciata al vegetale, non tinta", en: "Undyed vegetable-tanned leather"},
+    measurements: "Vita 44 cm. Cavallo 38 cm. Lunghezza 108 cm. Fondo 38 cm.",
+    description: {en: "Full length and very wide, pooling at the ankle."},
+    fields: ["price", "materials", "measurements", "description"],
+  },
+  "capo-12": {
+    name: "Corvinus",
+    price: 675,
+    materials: {it: "Pelle di agnello nera stropicciata", en: "Black crinkled lambskin"},
+    measurements: "Torace 34 cm. Lunghezza 52 cm. Collo 36 cm.",
+    description: {en: "A halter cut in one piece, tied at the throat. Your protector in those dark nights."},
+    fields: ["name", "price", "materials", "measurements", "description"],
+  },
+  "capo-13": {
+    name: "Nocte",
+    price: 675,
+    materials: {it: "Pelle conciata al vegetale e lino cerato", en: "Vegetable-tanned leather and waxed linen"},
+    measurements: "Vita 38 cm. Lunghezza 78 cm.",
+    description: {en: "Leather at the waist, linen below it. Hung from a chain because it has no fastening."},
+    fields: ["name", "price", "materials", "measurements", "description"],
+  },
+  "capo-14": {
+    name: "Vertex",
+    price: 275,
+    materials: {it: "Pelle nera conciata al vegetale", en: "Black vegetable-tanned leather"},
+    measurements: "Circonferenza 58 cm. Visiera 7 cm.",
+    description: {en: "Six panels and a stitched brim, made from what the trousers left."},
+    fields: ["name", "price", "materials", "measurements", "description"],
+  },
+  glovyes: {
+    price: 475,
+    materials: {it: "Pelle di agnello nera", en: "Black lambskin"},
+    measurements: "Lunghezza 46 cm. Polpaccio 38 cm.",
+    description: {en: "Two separate tubes, crossed straps, a zip the length of the calf."},
+    fields: ["price", "materials", "measurements", "description"],
+  },
+  styrax: {
+    price: 975,
+    measurements: "Torace 36 cm. Lunghezza 48 cm. Collo 38 cm.",
+    fields: ["price", "measurements"],
+  },
+  ghezard: {
+    price: 1850,
+    measurements: "Torace 58 cm. Spalle 46 cm. Lunghezza 70 cm.",
+    fields: ["price", "measurements"],
+  },
+};
+
 const GARMENTS = [
   {
     id: "piece-camicia-pelle-nera",
@@ -1138,9 +1285,14 @@ async function main() {
       _type: "garment",
       // His name where a caption could be matched to a photograph, a marked
       // placeholder where it could not. Never a guessed name.
-      name: g.name ?? "{GARMENT_NAME}",
+      name: g.name ?? INVENTED[g.slug]?.name ?? "{GARMENT_NAME}",
       slug: {_type: "slug", current: g.slug},
-      referenceCode: "{REF_CODE}",
+      /*
+        No reference codes exist. Rather than invent a numbering system, which
+        would be a fact about how the brand works rather than a plausible value,
+        the field is left EMPTY and the pages simply do not show one.
+      */
+      referenceCode: undefined,
       collection: g.collection === null ? undefined : {_type: "reference", _ref: COLLECTION_ID},
       stage: g.stage ?? null,
       currency: "EUR",
@@ -1150,13 +1302,12 @@ async function main() {
         unmatched piece with "vegetable-tanned" instead would only be a newer
         generic line asserted about pieces nobody has verified.
       */
-      materials: g.materials
-        ? {_type: "localeText", ...g.materials}
-        : {_type: "localeText", it: "{MATERIALI}", en: "{MATERIALS}"},
-      measurements: "{MISURE_DI_RIFERIMENTO}",
-      description: g.description
-        ? {_type: "localeText", ...g.description}
-        : {_type: "localeText", it: "{DESCRIZIONE_IT}", en: "{DESCRIPTION_EN}"},
+      materials: {_type: "localeText", ...(g.materials ?? INVENTED[g.slug]?.materials ?? {})},
+      measurements: INVENTED[g.slug]?.measurements,
+      description: {_type: "localeText", ...(g.description ?? INVENTED[g.slug]?.description ?? {})},
+      price: INVENTED[g.slug]?.price,
+      // Everything on this document that we wrote rather than he did.
+      inventedFields: INVENTED[g.slug]?.fields ?? [],
       media: g.files.map(([rel, alt], i) => ({
         ...mediaObject(assets.get(rel), alt, ov(rel), `m${i}`, ovc(rel), safe(rel)),
         ...(g.provisional ? {isProvisional: true} : {}),
@@ -1256,6 +1407,19 @@ async function main() {
     // Ours AND unconfirmed until his partner confirms it.
     shippingCustoms: {_type: "localeText", ...SHIPPING_CUSTOMS},
     shippingCustomsIsProvisional: true,
+    /*
+      Copy WE wrote, listed rather than shown on the page (DESIGN-PLAN section
+      59). `npm run launch-check` refuses while this is non-empty.
+    */
+    inventedCopy: [
+      "footerShipping",
+      "footerOrigin",
+      "shippingReturns",
+      "shippingCustoms",
+      "homeLines",
+      "enquiryCopy",
+      "availabilityCopy",
+    ],
     footerCopyIsDraft: true,
 
     // BOTH now. He wrote the English and authorised the Italian above, so no

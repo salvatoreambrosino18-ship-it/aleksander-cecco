@@ -35,6 +35,7 @@ import {overlayTheme} from "../../lib/media";
 import {imageUrl} from "../../lib/image";
 import {isMarked, voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
+import {SHOW_UNAPPROVED_MARKS} from "../../lib/marks";
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({params: {lang}}));
@@ -54,7 +55,7 @@ const photographs = settings.aboutMedia ?? [];
   remains is whether this language is one he approved.
 */
 const voice = voiceState(settings, locale, Boolean(settings.aboutIsDraft));
-const marked = isMarked(voice) && Boolean(about) && !aboutIsPlaceholder;
+const marked = SHOW_UNAPPROVED_MARKS && isMarked(voice) && Boolean(about) && !aboutIsPlaceholder;
 const noticeKey = voice === "translation" ? "translationNotice" : "draftNotice";
 
 /*
@@ -183,8 +184,20 @@ const designerText = pick(settings.designerText, locale);
   */}
   {(designerText || portrait) && (
     <TextSurface theme="dark" class="hairline-h flex flex-col gap-u5 py-u13">
+      {/*
+        NO BIOGRAPHY, AND NO PLACEHOLDER WHERE ONE WOULD GO (2026-08-03).
+
+        Everything else missing from this site was invented to make it look
+        finished. This was not, and the distinction is the point: a price is a
+        number somebody will replace, a biography is a person's life, and words
+        put in his mouth are a different kind of object. He says he will write
+        it.
+
+        So the section is designed around the absence instead of advertising it:
+        a heading, and the photograph of him working. A reader who arrives here
+        learns what a biography would tell them anyway, from the picture.
+      */}
       <h2 class="type-label text-label">{t(locale, "designer")}</h2>
-      {!designerText && <p class="placeholder-mark self-start">{"{DESIGNER_BIOGRAPHY}"}</p>}
     </TextSurface>
   )}
 

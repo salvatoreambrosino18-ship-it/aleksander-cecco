@@ -28,6 +28,7 @@ import {isPlaceholderEmail, isPlaceholderText, type SiteSettings} from "../lib/c
 import {pick, type Locale} from "../lib/locales";
 import {isMarked, voiceState} from "../lib/voice";
 import {t} from "../i18n/ui";
+import {SHOW_UNAPPROVED_MARKS} from "../lib/marks";
 
 interface Props {
   locale: Locale;
@@ -54,7 +55,7 @@ const shipping = pick(settings.footerShipping, locale);
 const voice = voiceState(settings, locale, Boolean(settings.footerCopyIsDraft));
 const notice = voice === "translation" ? "translationNotice" : "draftNotice";
 const isMarkedLine = (value: string | null) =>
-  isMarked(voice) && Boolean(value) && !isPlaceholderText(value);
+  SHOW_UNAPPROVED_MARKS && isMarked(voice) && Boolean(value) && !isPlaceholderText(value);
 const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
 ---
 

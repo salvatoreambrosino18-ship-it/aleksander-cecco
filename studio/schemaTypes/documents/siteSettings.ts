@@ -262,6 +262,29 @@ export const siteSettings = defineType({
       browser, or worse, would surprise someone scrolling in public. So it is
       opt-in from a small corner control, off by default.
     */
+    /*
+      Interface and brand copy WE wrote, listed rather than shown. Same rule as
+      `inventedFields` on a Creature: invisible to a visitor, and the launch
+      check refuses while anything is here (DESIGN-PLAN section 59).
+    */
+    defineField({
+      name: 'inventedCopy',
+      title: 'Testi scritti da noi, da approvare / Copy we wrote, to be approved',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'Fondo pagina: spedizioni / Footer: shipping', value: 'footerShipping'},
+          {title: 'Fondo pagina: origine / Footer: origin', value: 'footerOrigin'},
+          {title: 'Spedizioni e resi / Shipping and returns', value: 'shippingReturns'},
+          {title: 'Dogana / Customs', value: 'shippingCustoms'},
+          {title: 'Home: le righe di sezione / Home: the section lines', value: 'homeLines'},
+          {title: 'Richiesta: i testi / Enquiry: the copy', value: 'enquiryCopy'},
+          {title: 'Disponibilita: la spiegazione / Availability: the explanation', value: 'availabilityCopy'},
+        ],
+        layout: 'grid',
+      },
+    }),
     defineField({
       name: 'ambientAudio',
       title: 'Suono ambiente / Ambient sound',

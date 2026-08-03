@@ -20,6 +20,7 @@ import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
 import {AVAILABILITY_COPY_IS_DRAFT, t} from "../../../i18n/ui";
+import {SHOW_UNAPPROVED_MARKS} from "../../../lib/marks";
 
 export async function getStaticPaths() {
   const garments = await getGarments();
@@ -180,7 +181,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
   <TextSurface class="flex flex-col gap-u8 py-u13">
     <h2 class="sr-only">{t(locale, "details")}</h2>
 
-    {hasProvisional && (
+    {hasProvisional && SHOW_UNAPPROVED_MARKS && (
       <p class="placeholder-mark self-start">{t(locale, "provisionalPhoto")}</p>
     )}
 
@@ -206,13 +207,13 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
     {
       isReady && (
         <div class="flex flex-col gap-u2">
-          {AVAILABILITY_COPY_IS_DRAFT && (
+          {AVAILABILITY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && (
             <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
           )}
           <p
             class:list={[
               "type-body text-body max-w-prose",
-              AVAILABILITY_COPY_IS_DRAFT && "draft-text",
+              AVAILABILITY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
             ]}
           >
             {t(locale, "readyExplanation")}

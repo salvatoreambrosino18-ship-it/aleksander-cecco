@@ -12,6 +12,7 @@ import {getSiteSettings, isPlaceholderEmail, isPlaceholderText} from "../../lib/
 import {LOCALES, pick, toLocale} from "../../lib/locales";
 import {isMarked, voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
+import {SHOW_UNAPPROVED_MARKS} from "../../lib/marks";
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({params: {lang}}));
@@ -39,7 +40,8 @@ const shippingIsPlaceholder = isPlaceholderText(shipping);
 */
 const free = pick(settings.shippingFree, locale);
 const customs = pick(settings.shippingCustoms, locale);
-const customsIsProvisional = settings.shippingCustomsIsProvisional !== false;
+const customsIsProvisional =
+  SHOW_UNAPPROVED_MARKS && settings.shippingCustomsIsProvisional !== false;
 
 /*
   The shipping and returns text is OURS, not his, so it is a draft in every
@@ -47,7 +49,8 @@ const customsIsProvisional = settings.shippingCustomsIsProvisional !== false;
   the owner's (worldwide, customer pays return shipping); the wording is not.
 */
 const voice = voiceState(settings, locale, Boolean(settings.footerCopyIsDraft));
-const shippingIsMarked = isMarked(voice) && Boolean(shipping) && !shippingIsPlaceholder;
+const shippingIsMarked =
+  SHOW_UNAPPROVED_MARKS && isMarked(voice) && Boolean(shipping) && !shippingIsPlaceholder;
 const notice = voice === "translation" ? "translationNotice" : "draftNotice";
 ---
 

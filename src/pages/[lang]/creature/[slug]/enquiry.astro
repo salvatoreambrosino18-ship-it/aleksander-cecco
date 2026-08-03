@@ -23,6 +23,7 @@ import {getGarments, type Garment} from "../../../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../../../lib/locales";
 import {enquiryCopy, ENQUIRY_COPY_IS_DRAFT} from "../../../../i18n/enquiry";
 import {t} from "../../../../i18n/ui";
+import {SHOW_UNAPPROVED_MARKS} from "../../../../lib/marks";
 
 export async function getStaticPaths() {
   const garments = await getGarments();
@@ -66,7 +67,9 @@ const availabilityNote = pick(garment.availabilityNote, locale);
       </p>
     </div>
 
-    {ENQUIRY_COPY_IS_DRAFT && <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>}
+    {ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && (
+      <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
+    )}
 
     {
       !canEnquire ? (
@@ -74,7 +77,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
         <p class="type-label text-label max-w-prose">{availabilityNote ?? availabilityLabel}</p>
       ) : (
         <>
-          <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && "draft-text"]}>
+          <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}>
             {copy.intro}
           </p>
 
@@ -122,7 +125,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               </legend>
 
               {isReady && (
-                <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && "draft-text"]}>
+                <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}>
                   {copy.measurementsForRemakeOnly}
                 </p>
               )}
@@ -171,14 +174,14 @@ const availabilityNote = pick(garment.availabilityNote, locale);
                   />
                   <p
                     id={`${key}-how`}
-                    class:list={["type-body text-body", ENQUIRY_COPY_IS_DRAFT && "draft-text"]}
+                    class:list={["type-body text-body", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}
                   >
                     {copy.measures[index].how}
                   </p>
                 </div>
               ))}
 
-              <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && "draft-text"]}>
+              <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}>
                 {copy.measureHelp}
               </p>
 
