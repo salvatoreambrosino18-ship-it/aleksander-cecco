@@ -1101,9 +1101,15 @@ async function main() {
   */
   const ovc = (rel) =>
     rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlayCaption;
-  /** Can a caption sit on this photograph at all, at any crop? */
+  /*
+    Can a caption sit on this photograph at all, at any crop? A SALVAGED frame
+    has no file to measure, and "unmeasurable" defaulted to "yes", which is how
+    capo-01 kept an unreadable caption through three rounds of fixing exactly
+    this. Unmeasurable now means the caption goes below the frame, where it is
+    legible by construction.
+  */
   const safe = (rel) =>
-    rel in SALVAGED ? true : overlays.get(usable.get(rel)).captionSafeOnImage;
+    rel in SALVAGED ? false : overlays.get(usable.get(rel)).captionSafeOnImage;
 
   console.log("\nWriting documents:");
 

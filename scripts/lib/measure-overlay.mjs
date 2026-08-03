@@ -191,17 +191,20 @@ export async function measureOverlay(files, {port = 9900} = {}) {
       overlayCaption: worstPaper >= worstInk ? "paper" : "ink",
       captionContrast: Number(captionContrast.toFixed(2)),
       /*
-        WCAG AA for 11px text is 4.5:1, and the bar here is 6.0. The margin is
-        not timidity, it is the modelling error: this samples a band the width of
-        a caption, and a real caption is a short word sitting somewhere inside
-        it, so the mean under the band and the mean under the word differ. At 4.5
-        that slack left twelve captions failing at desktop; at 6.0 none do.
+        WCAG AA for 11px text is 4.5:1 and the bar here is 8.0, reached by
+        measuring rather than by taste: at 4.5 twelve captions still failed at
+        desktop, at 6.0 six did, and each attempt to model the caption's
+        rectangle more precisely closed some of the gap and not all of it. The
+        model cannot be made exact, because the text's real width depends on the
+        word, the font metrics and the viewport. So the bar carries the residual
+        error instead, and a caption sits on a photograph only where there is no
+        argument about it.
 
         Below the bar, DESIGN-PLAN rule 11 already says what to do: the picture
         carries no text. Here that means the caption moves onto the page below
         the frame, which is the mechanism section 14 added for exactly this.
       */
-      captionSafeOnImage: captionContrast >= 6.0,
+      captionSafeOnImage: captionContrast >= 8.0,
     });
   }
 
