@@ -19,6 +19,12 @@ export type MediaItem = {
    */
   overlay: OverlayPolarity;
   /**
+   * The polarity of the CAPTION band at the bottom of the frame, measured
+   * separately from the chrome band at the top (DESIGN-PLAN section 58). Falls
+   * back to `overlay` in the query when a frame predates it.
+   */
+  overlayCaption: OverlayPolarity;
+  /**
    * Where the label goes. "below" takes the text off a photograph whose
    * caption band is too contrasted for either color to survive.
    */

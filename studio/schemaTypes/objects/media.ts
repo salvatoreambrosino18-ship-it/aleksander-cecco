@@ -90,6 +90,28 @@ export const media = defineType({
       validation: (Rule) => Rule.required(),
     }),
     /*
+      THE SECOND BAND (2026-08-03). `overlay` is the polarity of the fixed chrome
+      at the TOP of the frame; this is the polarity of the CAPTION at the bottom.
+      They are different pixels and they disagree often: measured across the site,
+      one value used at both ends put eight captions below WCAG AA, the worst at
+      1.36:1 and the collection's own name at 1.53:1 (DESIGN-PLAN section 58).
+      Measured by the import, editable here when a human disagrees.
+    */
+    defineField({
+      name: 'overlayCaption',
+      title: 'Testo in basso: bianco o nero / Caption below: white or black',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Bianco / White (paper)', value: 'paper'},
+          {title: 'Nero / Black (ink)', value: 'ink'},
+        ],
+        layout: 'radio',
+      },
+      description:
+        "La polarita del nome o della didascalia in basso sulla fotografia. Se vuoto usa il valore sopra. / The polarity of the name or caption at the bottom of the photograph. Falls back to the value above when empty.",
+    }),
+    /*
       Added 2026-08-02, because real photography demanded it. Three of the nine
       seeded frames are shot against bright concrete with a dark garment in the
       frame, so the band where a caption sits contains both extremes: white text

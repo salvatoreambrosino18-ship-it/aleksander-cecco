@@ -22,6 +22,8 @@ const MEDIA_PROJECTION = /* groq */ `
   "altIsDraft": coalesce(altIsDraft, false),
   "isProvisional": coalesce(isProvisional, false),
   overlay,
+  // Falls back to the chrome band when a frame predates the second measurement.
+  "overlayCaption": coalesce(overlayCaption, overlay),
   "captionPlacement": coalesce(captionPlacement, "over"),
   caption,
   "hasVideo": defined(video.asset),

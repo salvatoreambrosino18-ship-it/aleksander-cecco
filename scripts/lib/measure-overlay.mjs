@@ -8,6 +8,10 @@
   made on 2026-08-02, which put four values in and two of them backwards
   (DESIGN-PLAN section 14).
 
+  TWO BANDS since 2026-08-03. The chrome is at the top and the caption is at the
+  bottom, and a single value measured at the top and used at both ends is what
+  made eight captions unreadable (DESIGN-PLAN section 58).
+
   So: take the centre column a phone would show, take the band where the marks
   sit, and compare the WCAG contrast of paper and ink against it.
 
@@ -97,26 +101,47 @@ export async function measureOverlay(files, {port = 9900} = {}) {
       const cropX = Math.round((W - cropW) / 2);
       const x0 = Math.round(cropX + cropW * 0.06);   // from the margin
       const x1 = Math.round(cropX + cropW * 0.52);   // to about half way
-      const y0 = Math.round(H * 0.03), y1 = Math.round(H * 0.09);
-      const d = ctx.getImageData(x0, y0, Math.max(1, x1-x0), Math.max(1, y1-y0)).data;
-      let sum = 0, n = 0;
-      for (let i = 0; i < d.length; i += 4) {
-        sum += 0.2126*lin(d[i]) + 0.7152*lin(d[i+1]) + 0.0722*lin(d[i+2]); n++;
-      }
-      return JSON.stringify({L: sum / n});
+      /*
+        TWO BANDS, because two different things sit on a photograph and they sit
+        at opposite ends of it. The fixed chrome (signature, MENU) is at the TOP.
+        The caption (a Creature's name, a collection's title) is at the BOTTOM,
+        inset by --caption-inset. One value for both was measured at the top and
+        used at the bottom, and on 2026-08-03 that put eight captions below WCAG
+        AA, the worst at 1.36:1 and the collection's own name at 1.53:1.
+      */
+      const band = (yFrom, yTo) => {
+        const d = ctx.getImageData(x0, Math.round(H * yFrom), Math.max(1, x1 - x0),
+                                   Math.max(1, Math.round(H * (yTo - yFrom)))).data;
+        let sum = 0, n = 0;
+        for (let i = 0; i < d.length; i += 4) {
+          sum += 0.2126*lin(d[i]) + 0.7152*lin(d[i+1]) + 0.0722*lin(d[i+2]); n++;
+        }
+        return sum / n;
+      };
+      return JSON.stringify({L: band(0.03, 0.09), Lc: band(0.88, 0.97)});
     })()`;
     const out = await send("Runtime.evaluate", {expression, awaitPromise: true, returnByValue: true}, sessionId);
     if (typeof out.result.value !== "string") {
       throw new Error(`could not decode ${path.basename(file)}`);
     }
-    const {L} = JSON.parse(out.result.value);
-    const paper = ratio(L_PAPER, L);
-    const ink = ratio(L_INK, L);
-    const overlay = paper >= ink ? "paper" : "ink";
+    const {L, Lc} = JSON.parse(out.result.value);
+    const pick = (lum) => {
+      const paper = ratio(L_PAPER, lum);
+      const ink = ratio(L_INK, lum);
+      return {
+        overlay: paper >= ink ? "paper" : "ink",
+        luminance: Number(lum.toFixed(3)),
+        contrast: Number(Math.max(paper, ink).toFixed(2)),
+      };
+    };
+    const top = pick(L);
+    const bottom = pick(Lc);
     results.set(file, {
-      overlay,
-      luminance: Number(L.toFixed(3)),
-      contrast: Number(Math.max(paper, ink).toFixed(2)),
+      ...top,
+      // The band a caption actually sits in, measured separately.
+      overlayCaption: bottom.overlay,
+      captionContrast: bottom.contrast,
+      captionLuminance: bottom.luminance,
     });
   }
 

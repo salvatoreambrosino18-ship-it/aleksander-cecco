@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check && tsc -p functions --noEmit",
+    "check": "astro check && tsc -p functions --noEmit && astro build",
     "astro": "astro",
     "seed": "node scripts/seed.mjs",
     "import": "node scripts/import-photos.mjs"

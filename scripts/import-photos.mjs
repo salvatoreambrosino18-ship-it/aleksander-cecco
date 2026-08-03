@@ -952,7 +952,7 @@ async function uploadOnce(file) {
   return id;
 }
 
-function mediaObject(assetId, altIt, overlay, key) {
+function mediaObject(assetId, altIt, overlay, key, overlayCaption) {
   return {
     _type: "media",
     _key: key,
@@ -961,6 +961,8 @@ function mediaObject(assetId, altIt, overlay, key) {
     alt: {_type: "localeString", it: altIt},
     altIsDraft: true,
     overlay,
+    // The bottom band, measured separately (DESIGN-PLAN section 58).
+    overlayCaption: overlayCaption ?? overlay,
     captionPlacement: "over",
   };
 }
@@ -1088,6 +1090,12 @@ async function main() {
   const ov = (rel) =>
     OVERLAY_OVERRIDE[rel] ??
     (rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlay);
+  /*
+    The caption band. A salvaged frame has no file to measure, so it keeps the
+    chrome value it already had; everything else is measured at the bottom.
+  */
+  const ovc = (rel) =>
+    rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlayCaption;
 
   console.log("\nWriting documents:");
 
@@ -1102,12 +1110,7 @@ async function main() {
     name: "MONUMENTUS: Tenebrae & Lux",
     slug: {_type: "slug", current: "monumentus"},
     statement: {_type: "localeText", it: OWNER_IT.collection, en: OWNER_EN.collection},
-    cover: mediaObject(
-      assets.get(COLLECTION_COVER[0]),
-      COLLECTION_COVER[1],
-      ov(COLLECTION_COVER[0]),
-      "cover",
-    ),
+    cover: mediaObject(assets.get(COLLECTION_COVER[0]), COLLECTION_COVER[1], ov(COLLECTION_COVER[0]), "cover", ovc(COLLECTION_COVER[0])),
     published: true,
     orderRank: "0|100000:",
   });
@@ -1141,7 +1144,7 @@ async function main() {
         ? {_type: "localeText", ...g.description}
         : {_type: "localeText", it: "{DESCRIZIONE_IT}", en: "{DESCRIPTION_EN}"},
       media: g.files.map(([rel, alt], i) => ({
-        ...mediaObject(assets.get(rel), alt, ov(rel), `m${i}`),
+        ...mediaObject(assets.get(rel), alt, ov(rel), `m${i}`, ovc(rel)),
         ...(g.provisional ? {isProvisional: true} : {}),
       })),
       /*
@@ -1168,7 +1171,7 @@ async function main() {
       _type: "archivePiece",
       title: "{NOME_PEZZO}",
       year: "{ANNO}",
-      media: [mediaObject(assets.get(rel), alt, ov(rel), "m0")],
+      media: [mediaObject(assets.get(rel), alt, ov(rel), "m0", ovc(rel))],
       orderRank: `0|${rank}:`,
     });
     console.log(`  archive       ${id}`);
@@ -1208,32 +1211,22 @@ async function main() {
     contactEmail: settings.contactEmail?.trim() || CONTACT_EMAIL,
     openingMedia: ownerSetArrival
       ? settings.openingMedia
-      : mediaObject(assets.get(OPENING[0]), OPENING[1], ov(OPENING[0]), "opening"),
+      : mediaObject(assets.get(OPENING[0]), OPENING[1], ov(OPENING[0]), "opening", ovc(OPENING[0])),
     homeSequence: WORN.map(([rel, alt, garmentId], i) => ({
       _type: "homeTile",
       _key: `t${i}`,
-      media: mediaObject(assets.get(rel), alt, ov(rel), `tm${i}`),
+      media: mediaObject(assets.get(rel), alt, ov(rel), `tm${i}`, ovc(rel)),
       ...(garmentId ? {garment: {_type: "reference", _ref: garmentId}} : {}),
     })),
-    makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`)),
+    makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`, ovc(rel))),
 
     // His words, in the two places each run belongs.
     homeStatement: {_type: "localeText", it: OWNER_IT.brand, en: OWNER_EN.brand},
     makingStatement: {_type: "localeText", it: OWNER_IT.making, en: OWNER_EN.making},
 
     // The about page: his text complete, unbroken, in his order.
-    designerPortrait: mediaObject(
-      assets.get(DESIGNER_PORTRAIT[0]),
-      DESIGNER_PORTRAIT[1],
-      ov(DESIGNER_PORTRAIT[0]),
-      "designer",
-    ),
-    aboutOpeningMedia: mediaObject(
-      assets.get(ABOUT_OPENING[0]),
-      ABOUT_OPENING[1],
-      ov(ABOUT_OPENING[0]),
-      "aboutOpening",
-    ),
+    designerPortrait: mediaObject(assets.get(DESIGNER_PORTRAIT[0]), DESIGNER_PORTRAIT[1], ov(DESIGNER_PORTRAIT[0]), "designer", ovc(DESIGNER_PORTRAIT[0])),
+    aboutOpeningMedia: mediaObject(assets.get(ABOUT_OPENING[0]), ABOUT_OPENING[1], ov(ABOUT_OPENING[0]), "aboutOpening", ovc(ABOUT_OPENING[0])),
     aboutOpeningLine: {_type: "localeString", it: OWNER_IT.openingLine, en: OWNER_EN.openingLine},
     about: {_type: "localeText", ...ABOUT_TEXT},
     // The story is HIS now, so it is not our draft in any language.

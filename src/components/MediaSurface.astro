@@ -66,6 +66,12 @@ const {
 const revealThis = reveal ?? !priority;
 
 const theme = overlayTheme(media.overlay);
+/*
+  The caption is at the OTHER END of the photograph from the chrome, so it takes
+  its own measured polarity. One value for both was what put eight captions
+  below WCAG AA (DESIGN-PLAN section 58).
+*/
+const captionTheme = overlayTheme(media.overlayCaption ?? media.overlay);
 const alt = pickAlt(media.alt, locale);
 const caption = pick(media.caption, locale);
 const src = imageUrl(media.poster, 1440);
@@ -114,7 +120,7 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
     {
       hasLabel && !below && (
         <figcaption
-          data-theme={theme}
+          data-theme={captionTheme}
           class="text-fg absolute inset-x-0 bottom-0 flex flex-col gap-u1 p-caption"
         >
           <slot />
