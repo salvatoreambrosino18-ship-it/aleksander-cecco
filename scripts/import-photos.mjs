@@ -311,6 +311,26 @@ const GARMENTS = [
     ],
   },
   {
+    /*
+      THE HAT. It is on the price list at EUR 125 and it has never been
+      photographed on its own; it exists in the DESIGNER PORTRAIT, sitting on
+      the bench in the foreground.
+
+      So its only frame is a 900x1200 crop out of that portrait. That is below
+      the 2000px standard every other frame meets and it will be soft at full
+      screen, and it is still better than a Creature with no photograph at all,
+      which was the alternative. `mediaIsProvisional` marks it in the studio and
+      the shot list carries the request. Replace it and delete the crop.
+    */
+    id: "piece-cappello",
+    slug: "capo-14",
+    stage: "tenebrae",
+    provisional: true,
+    files: [
+      ["provisional/hat-from-portrait", "Il cappello in pelle nera appoggiato su una pelle intera, sul banco da lavoro."],
+    ],
+  },
+  {
     id: "piece-gonna-pannelli",
     slug: "capo-13",
     stage: "tenebrae",
@@ -321,24 +341,34 @@ const GARMENTS = [
 ];
 
 /*
-  The archive is a SEQUENCE, one frame per piece, nothing under 2000px on the
-  long edge.
+  THE GALLERY. Not an archive any more (DESIGN-PLAN section 18, rewritten), so
+  the old rule of one frame per distinct piece is gone and the only test left is
+  the one the owner set: a frame earns its place by being a good photograph.
 
-  It SHRANK on 2026-08-02, from nine frames to five, and that is a promotion
-  rather than a loss: Ghezard, the bag, the pale trousers and the red shirt all
-  became Creature with pages of their own, so keeping them here as well would
-  have shown the same object twice under two different ideas of what it is.
+  TWELVE, and the ORDER IS THE DESIGN. It runs dark to light, which is the
+  site's own logic: an abstract study of folds, then the mark, then garments
+  laid out, then details, then the pattern pieces where the work turns pale, and
+  it closes on the one warm frame and the pale trousers in daylight. Nigredo to
+  Albedo again, and nothing says so.
 
-  What remains is what it was always for: work with no page of its own.
+  ONE RULE KEPT, to stop the gallery becoming the index a second time: NEVER a
+  Creature's lead frame. Where a piece recurs here it recurs through a secondary
+  photograph, so a reader who has seen the index still meets something new.
 */
 const ARCHIVE = [
+  ["experimental/IMG_2897", "Studio ravvicinato di pieghe profonde in un tessuto scuro, quasi astratto."],
+  ["homepage/IMG_3434", "La firma del marchio impressa nella pelle nera, accanto a una zip."],
   ["archive/IMG_2235", "Capo in pelle nera aperto e disteso sul cemento, a forma di mantella."],
+  ["products/IMG_0207", "Dettaglio della pelliccia nera con la linguetta di pelle e i fili di cucitura."],
   ["archive/IMG_2242", "Gilet smanicato in pelle nera disteso sul cemento."],
+  ["products/IMG_3468", "Dettaglio ravvicinato di un capo in pelle nera, con zip e pieghe profonde."],
   ["archive/IMG_2244", "Un secondo gilet in pelle nera disteso sul cemento, visto di sbieco."],
+  ["products/IMG_3455", "Dettaglio dell'orlo tagliato a punte, contro il cemento."],
   ["archive/IMG_2229", "Dettaglio di un capo in pelle scura con una zip lunga, disteso."],
+  ["experimental/f797a2c2-9d6b-4416-b251-6503cdf63e67", "I pezzi del cartamodello in pelle chiara, tagliati e disposti sul banco."],
+  ["archive/IMG_9577", "La giacca in pelle marrone distesa al sole sul cemento, vista da dietro."],
   ["archive/IMG_3643", "Pantaloni chiari e gilet appesi insieme davanti a una serranda."],
 ];
-
 /*
   THE ARRIVAL. One photograph, the whole first screen.
 
@@ -612,6 +642,13 @@ const TMP = path.join(os.tmpdir(), "aleksander-cecco-import");
 */
 const index = new Map();
 async function buildIndex() {
+  /*
+    PROVISIONAL frames live in this repository, not in the owner's Drive, which
+    is his and is read only. See assets/provisional/README.md: each one is a
+    request for a real photograph rather than a decision to keep it.
+  */
+  index.set("provisional/hat-from-portrait", "__repo__/assets/provisional/hat-from-portrait.jpg");
+
   for (const folder of ["products", "archive", "homepage", "experimental"]) {
     let entries = [];
     try {
@@ -639,6 +676,8 @@ function resolveRel(key) {
  */
 async function usableFile(key) {
   const rel = resolveRel(key);
+  // A provisional frame is already a usable JPEG sitting in this repository.
+  if (rel.startsWith("__repo__/")) return path.resolve(rel.replace("__repo__/", ""));
   const src = path.join(SOURCE, rel);
   if (!/\.heic$/i.test(rel)) return src;
   await fs.mkdir(TMP, {recursive: true});
@@ -795,7 +834,10 @@ async function main() {
       description: g.description
         ? {_type: "localeText", ...g.description}
         : {_type: "localeText", it: "{DESCRIZIONE_IT}", en: "{DESCRIPTION_EN}"},
-      media: g.files.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `m${i}`)),
+      media: g.files.map(([rel, alt], i) => ({
+        ...mediaObject(assets.get(rel), alt, ov(rel), `m${i}`),
+        ...(g.provisional ? {isProvisional: true} : {}),
+      })),
       availability: g.availability ?? "madeToOrder",
       orderRank: `0|${rank}:`,
     });

@@ -24,6 +24,8 @@ export type MediaItem = {
    */
   captionPlacement: CaptionPlacement;
   caption: LocaleField;
+  /** A stopgap frame: a crop of another photograph, awaiting a real one. */
+  isProvisional: boolean | null;
   hasVideo: boolean;
   dimensions: {width: number; height: number} | null;
 };

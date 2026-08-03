@@ -60,6 +60,19 @@ export const media = defineType({
         'Acceso quando la descrizione e stata generata e non ancora letta da una persona. Spegnilo quando la approvi. / On when the description was generated and no person has read it yet. Turn it off once you approve it.',
       initialValue: false,
     }),
+    /*
+      A frame that is a stopgap: cropped out of another photograph, or otherwise
+      not the finished thing. The hat is the first (assets/provisional). Marking
+      it in the studio is what stops a placeholder quietly becoming permanent.
+    */
+    defineField({
+      name: 'isProvisional',
+      title: 'Fotografia provvisoria / Provisional photograph',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        "Accendere quando l'immagine e un ritaglio o un ripiego, in attesa di una vera fotografia. / Turn on when the image is a crop or a stopgap, waiting for a real photograph.",
+    }),
     defineField({
       name: 'overlay',
       title: 'Testo sopra / Text over this media',

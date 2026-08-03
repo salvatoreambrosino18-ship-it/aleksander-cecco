@@ -3594,3 +3594,113 @@ this makes it useless. A visitor who wants a Creature cannot ask for one.
 - **On-model frames for the other eleven Creature.** Only five have ever been
   worn in a photograph, which caps the worn band at five no matter what the code
   does.
+
+---
+
+## 44. The maker's name (2026-08-03)
+
+**His name is CIRO CECCO. Aleksander Cecco is the BRAND, not the person.**
+
+Recorded so nobody asks again. Question 1 of the six in section 41 is answered
+and should be dropped from what gets sent to him.
+
+**HIS NAME IS NOT ON THE SITE AND MUST NOT BE ADDED.** Whether the maker is
+named in public is HIS decision and not ours, and he has not made it. The
+designer page shows the portrait and his own words about the work, and where a
+name would go there is a `{DESIGNER_BIOGRAPHY}` placeholder. Verified in the
+build: the string "Ciro" appears nowhere in the deployed output, in either
+language.
+
+Add it only when the owner confirms he wants it there.
+
+---
+
+## 45. The gallery, filled (2026-08-03)
+
+Twelve frames, up from five. The old one-frame-per-piece rule went with the
+archive (section 18); the only test left is the owner's own: **a frame earns its
+place by being a good photograph.**
+
+**ONE RULE KEPT**, to stop the gallery quietly becoming the index a second time:
+NEVER a Creature's lead frame. Where a piece recurs here it recurs through a
+SECONDARY photograph, so a reader arriving from the index still meets something
+they have not seen.
+
+### The order, which is the design
+
+It runs dark to light, which is the site's own logic and is never stated:
+
+1. `experimental/IMG_2897`, a near-abstract study of deep folds. Opens in the dark.
+2. `homepage/IMG_3434`, the signature embossed in black leather. LANDSCAPE, and the only one, so it reads as a breath between two tall frames.
+3. `archive/IMG_2235`, the black cape open on concrete.
+4. `products/IMG_0207`, the fur with its trailing threads. Texture, close.
+5. `archive/IMG_2242`, a vest laid out.
+6. `products/IMG_3468`, zip and folds, close.
+7. `archive/IMG_2244`, the second vest, oblique.
+8. `products/IMG_3455`, the pointed hem against concrete.
+9. `archive/IMG_2229`, the long zip.
+10. `experimental/f797a2c2`, the cut pattern pieces on the bench. The turn: pale hide, the work before it is a garment.
+11. `archive/IMG_9577`, the brown jacket flat in sunlight. The one warm frame.
+12. `archive/IMG_3643`, pale trousers and a vest hanging in daylight. Closes in light.
+
+Nigredo to Albedo, again, and nothing says so.
+
+### Rejected, and why
+
+| frame | why not |
+| --- | --- |
+| `archive/IMG_3627`, `homepage/IMG_3627` | near-identical to `IMG_3625`, which is already a frame of `capo-10`. Redundancy, not rhythm. |
+| `homepage/homepage (1)` | good, but very close to `IMG_2378`, which is now the ARRIVAL. It would compete with the first thing a visitor sees. |
+| `homepage/IMG_3463`, `IMG_3464` | now `capo-10`'s lead frames. The gallery does not repeat the index. |
+| every Creature LEAD frame | same rule. |
+| `archive/IMG_3475`, `3476`, `3477`, `IMG_1898` | duplicate stems of frames already used from `products/` and `homepage/`. |
+| all `(1)` files | literal duplicate copies. |
+| `archive/IMG_0209`-`0214`, `IMG_1834`, `IMG_3472`, `3478`-`3481`, `9572`, `9592`, `4d8045b4` | all became Creature frames when the catalogue filled (section 40). |
+
+**The honest limit:** twelve was reached only because the gallery is now allowed
+to use secondary frames of pieces that also have Creature pages. Of the entire
+Drive, only THREE genuinely unused good frames remained (`IMG_2897`, `f797a2c2`,
+`IMG_3434`). A gallery that grows past twelve needs new photography, not better
+curation.
+
+### The route
+
+`/archive` is now `/gallery` in both languages, with 301s from the old paths, so
+the label and the URL say the same thing. The i18n key was renamed too: leaving
+`archive:` as the key for a label reading "Gallery" is exactly the drift that
+confuses a later session.
+
+---
+
+## 46. The hat, on a provisional frame (2026-08-03)
+
+The hat is on the price list at EUR 125, it is one of the two entry-tier pieces
+section 32 called for, and it has never been photographed on its own. It DOES
+appear in the designer portrait, sitting on the bench in the foreground.
+
+So `capo-14` exists, and its only frame is a **900x1200 crop out of
+`experimental/ciro-designer.jpg`**.
+
+**IS THE CROP GOOD ENOUGH? Yes, just.** The cap is sharp, the patchwork panels
+and the stitched brim read clearly, and it sits on a whole hide with the machine
+and his hands behind it, so it looks like a photograph rather than a salvage. It
+is black and white, like the portrait it came from and unlike everything else.
+
+**IS IT UP TO STANDARD? No.** 900x1200 is well below the 2000px floor every
+other frame meets, and at full screen on a large display it will be visibly
+soft. Sanity will not upscale past the source, so the browser does the
+stretching.
+
+It ships because the alternative was a Creature with no photograph at all, and
+it is marked in three places so it cannot quietly become permanent:
+
+- `media.isProvisional` in the studio, on that frame.
+- A **"Provisional photograph"** notice on the Creature page, in the placeholder
+  register, in both languages.
+- `assets/provisional/README.md`, which names the file, says what it is a crop
+  of, and states the condition for deleting it.
+
+Provisional frames live in the REPOSITORY, not in the Drive, because the Drive
+is the owner's and the import reads it strictly read only.
+
+**Replace it and delete the crop.** The real shot is in the shot list.

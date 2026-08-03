@@ -18,7 +18,7 @@ const ui = {
     previousCreature: "Precedente",
     nextCreature: "Successiva",
     countCreatures: "Creature",
-    archive: "Galleria",
+    gallery: "Galleria",
     designer: "Chi lo fa",
     about: "Chi siamo",
     contact: "Contatti",
@@ -47,6 +47,7 @@ const ui = {
     // "Creatura" is the owner's own word for a piece, not ours (2026-08-02).
     madeToMeasureValue: "Costruita sulle tue misure.",
     draftNotice: "Bozza non approvata",
+    provisionalPhoto: "Fotografia provvisoria",
     /*
       Distinct from draftNotice on purpose. The brand HAS decided what it says;
       it said it in English. Marking the Italian "unapproved draft" would imply
@@ -85,7 +86,7 @@ const ui = {
     previousCreature: "Previous",
     nextCreature: "Next",
     countCreatures: "Creature",
-    archive: "Gallery",
+    gallery: "Gallery",
     designer: "The designer",
     about: "About",
     contact: "Contact",
@@ -109,6 +110,7 @@ const ui = {
     notTakingRequests: "Not in the making now.",
     madeToMeasureValue: "Built to your measurements.",
     draftNotice: "Unapproved draft",
+    provisionalPhoto: "Provisional photograph",
     translationNotice: "Unapproved translation",
     theWork: "The work",
     worn: "Worn",
@@ -144,7 +146,7 @@ export function t(locale: Locale, key: UIKey): string {
 export const MENU_DESTINATIONS = [
   {key: "allCreatures", path: "creature"},
   {key: "collections", path: "collections"},
-  {key: "archive", path: "archive"},
+  {key: "gallery", path: "gallery"},
   {key: "designer", path: "designer"},
   {key: "about", path: "about"},
   {key: "contact", path: "contact"},

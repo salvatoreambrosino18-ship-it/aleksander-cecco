@@ -49,13 +49,13 @@ const frames = images.flatMap((image) =>
 
 <Base
   locale={locale}
-  title={t(locale, "archive")}
+  title={t(locale, "gallery")}
   chrome={overlayTheme(first?.overlay)}
   image={first ? imageUrl(first.poster, 1200) : null}
   theme="dark"
   footerTheme="dark"
 >
-  <h1 class="sr-only">{t(locale, "archive")}</h1>
+  <h1 class="sr-only">{t(locale, "gallery")}</h1>
 
   {
     frames.map(({media, title}, index) => (

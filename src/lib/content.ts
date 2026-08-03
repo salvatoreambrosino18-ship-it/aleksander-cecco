@@ -14,6 +14,7 @@ const MEDIA_PROJECTION = /* groq */ `
   poster,
   alt,
   "altIsDraft": coalesce(altIsDraft, false),
+  "isProvisional": coalesce(isProvisional, false),
   overlay,
   "captionPlacement": coalesce(captionPlacement, "over"),
   caption,

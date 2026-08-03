@@ -43,8 +43,16 @@ const locale = toLocale(Astro.params.lang) as Locale;
 */
 const {previous, next} = neighbours(all, garment.slug);
 
+
 const media = garment.media ?? [];
 const [firstMedia] = media;
+
+/*
+  A provisional frame says so on the page, not only in the studio. The hat's
+  only photograph is a crop out of the designer portrait, and an unmarked
+  stopgap is how a stopgap becomes permanent (standing rule 6, in spirit).
+*/
+const hasProvisional = media.some((item) => item.isProvisional);
 
 const description = pick(garment.description, locale);
 const materials = pick(garment.materials, locale);
@@ -156,6 +164,10 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
 
   <TextSurface class="flex flex-col gap-u8 py-u13">
     <h2 class="sr-only">{t(locale, "details")}</h2>
+
+    {hasProvisional && (
+      <p class="placeholder-mark self-start">{t(locale, "provisionalPhoto")}</p>
+    )}
 
     {/* The inscription. One statement, three short lines, no labels. */}
     <div class="type-statement text-statement flex flex-col gap-u1">

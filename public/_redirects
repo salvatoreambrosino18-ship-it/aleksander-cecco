@@ -15,5 +15,11 @@
 # 22), so /pieces/ became /creature/ on 2026-08-02. Nothing had been shared and
 # the site is noindexed, so nothing is known to break; these exist because a URL
 # that once resolved should not start answering 404, and they cost nothing.
+# The archive became a GALLERY on 2026-08-03 (DESIGN-PLAN section 18): it holds
+# the brand's imagery as a sequence, not a dated record, so the label and the
+# path now say the same thing.
+/it/archive  /it/gallery  301
+/en/archive  /en/gallery  301
+
 /it/pieces/*  /it/creature/:splat  301
 /en/pieces/*  /en/creature/:splat  301
