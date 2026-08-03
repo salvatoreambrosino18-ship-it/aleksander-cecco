@@ -55,10 +55,13 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
       `Disponibilita immediata` folder. The folder exists and is empty, the
       import reads it by content, and nothing on the site claims availability
       until he files something (section 49).
-- [ ] **Approve or replace the copy that is still ours**: the two footer lines,
-      the shipping and returns wording, and the availability explanation. All
-      three are marked on the live site as unapproved, and shipping a launch
-      with visible draft marks is worse than either approving or rewriting them.
+- [ ] **REPLACE EVERYTHING INVENTED.** On 2026-08-03 the site stopped showing
+      braces and started showing a finished product: sixteen prices, twelve
+      compositions, sixteen sets of measurements, seven names and thirteen
+      descriptions were WRITTEN BY US. None of it is his. It is invisible to a
+      visitor by design and flagged everywhere it can be acted on, and
+      **`npm run launch-check` refuses while any flag is set, so this checklist
+      cannot be completed until it passes.** The full list is section 59.
 
 **Does not block launch, but the site is weaker without it**
 
@@ -132,7 +135,14 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
       marks both footer lines at once, so using his words there would label them
       our draft. Needs a per-line flag or his approval of the origin line.
 
-### 4. THE ORDER, IN ONE LINE
+### 4. THE GATE
+
+`npm run launch-check` reads the live dataset and exits non-zero while anything
+invented remains. It cannot see the legal group or the service wiring, which are
+human items above, but nothing invented can pass it. **Run it before believing
+this list is finished.**
+
+### 4b. THE ORDER, IN ONE LINE
 
 Legal entity → privacy notice → contrast fix → domain → Resend secrets →
 end-to-end test of a real enquiry → owner approves the marked copy → remove the
@@ -4677,3 +4687,197 @@ inside template expressions the way it does in TypeScript files.
 This is section 13's lesson repeating: a gate that passes has proved nothing
 until it has been seen to fail. The check script should run a build, and that is
 on the checklist.
+
+---
+
+## 58. The caption band, and four wrong answers before the right one
+
+Eight captions were below WCAG AA, the worst at 1.36:1 and the collection's own
+name at 1.53:1, unreadable over dark leather. The cause was structural: a
+photograph carries the fixed chrome at the TOP and a caption at the BOTTOM, and
+one measured polarity served both.
+
+Both bands are measured now. **Twenty of the site's forty-three frames disagree
+between them**, so this was systemic rather than a handful of bad values.
+
+Getting there took four attempts, recorded because each was wrong in a way worth
+knowing:
+
+1. **One rectangle of the file.** A caption is not at a fixed place in the file:
+   `object-fit: cover` crops the same photograph differently in every container.
+2. **The worst cell of the bottom third.** So strict it pushed thirty of
+   forty-three captions off the pictures entirely.
+3. **The rectangle the caption occupies, per container.** Closer, and still
+   wrong at desktop, because it sampled sixty percent of the width while a
+   caption is a short word at the left inset.
+4. **A word-sized window slid across the plausible extent, worst reading wins**,
+   with the bar at 8.0 rather than the AA minimum of 4.5. The margin is not
+   timidity: the text's real width depends on the word, the font metrics and the
+   viewport, and no model of it can be exact, so the bar carries the residual
+   error.
+
+The last holdout was simpler and worse: a SALVAGED frame has no file to measure,
+and "unmeasurable" defaulted to "safe", which is how capo-01 kept an unreadable
+caption through every round of fixing exactly this. Unmeasurable now means the
+caption goes below the frame.
+
+**Where no polarity survives, the caption sits on the page below the photograph**
+rather than on it. That is rule 11 applied literally ("if neither polarity is
+legible on a given photograph, that photograph carries no text") through the
+mechanism section 14 added for it. Twenty-five captions sit below, eighteen on
+the picture.
+
+VERIFIED: 21 pages, both languages, at 390 and 1440, **0 contrast failures**.
+
+**A tension this introduces, recorded rather than hidden:** a caption below a
+frame puts a band of page colour between two touching frames on the catalogue
+screen, which softens the no-gutter density section 39 specified. Legibility won.
+If the density matters more, the answer is photographs with an even band at the
+bottom, which is a shooting note rather than a code change.
+
+### And the audit was wrong twice more
+
+A third and fourth measurement mistake, in the tool rather than the site:
+
+- The audit measured captions placed BELOW a frame against the photograph's
+  pixels, because the element-to-image mapping happily lands a below-caption
+  deep inside a portrait image that overflows its box. That invented a page of
+  failures that did not exist.
+- Before that it reported 21 pages clean having measured nothing at all: the
+  images are cross-origin and tainted the canvas, and every sample threw and was
+  swallowed.
+
+Both are fixed. The lesson is the one section 13 already carries and this
+session earned twice more: **a check that cannot fail has proved nothing.**
+
+---
+
+## 59. What was invented, and how it cannot become permanent (2026-08-03)
+
+The owner asked to see a finished product rather than a site full of braces. So
+the gaps were filled. **None of the values below are his.**
+
+### The bargain
+
+- **Nothing on the page says a value is provisional.** A visitor cannot act on
+  that distinction and it makes a real brand look like a rehearsal. The
+  "Unapproved draft", "Not yet confirmed" and "Provisional photograph" marks are
+  gone from every page (`src/lib/marks.ts`, one switch to bring them back).
+- **Everything provisional is flagged where it can be acted on**: `inventedFields`
+  on each Creature, `inventedCopy` on site settings, this section, and
+  `npm run launch-check`, which **refuses while any flag is set**.
+
+Invisible to a visitor, impossible to ship past.
+
+### The names
+
+Taken from HIS OWN vocabulary where a piece fits a name he has used publicly and
+we could never confirm, because his words in his register beat anything we would
+coin. These are ASSIGNMENTS, not identifications: section 24 refused to guess,
+and this is that guess, flagged.
+
+| Creature | invented name | where it comes from |
+| --- | --- | --- |
+| `capo-01` | **Armonyen** | his shirt name, "designed for both him and her" |
+| `capo-07` | **Aleya** | his "Aleya bootcut pants" |
+| `capo-08` | **Severya** | his snake skirt, and the inscription he wrote on it |
+| `capo-12` | **Corvinus** | his, "your protector in those dark nights" |
+| `capo-09` | **Vesper** | OURS, coined in the pattern of his one-word Latinate names |
+| `capo-13` | **Nocte** | OURS, same |
+| `capo-14` | **Vertex** | OURS, same |
+
+### The prices
+
+Derived from section 32 rather than chosen: hours by construction, a rate he can
+live on, material, rounded to a multiple of 25, tiered accessories then
+single-panel then constructed then tailored. **The old dollar list is NOT used**:
+section 32 showed it paid him two to nine euro an hour.
+
+| | EUR |
+| --- | --- |
+| Vertex (the hat) | 275 |
+| Vesper (the bag) | 425 |
+| Glovyes | 475 |
+| Corvinus, Nocte | 675 |
+| Severya | 875 |
+| Monumentus Vest (both) | 950 |
+| Styrax | 975 |
+| Monumentus Pants, Aleya, Monumentus Lux | 1,150 |
+| Armonyen, Oblivion | 1,450 |
+| Ghezard | 1,850 |
+
+That band, 275 to 1,850, is the labour-derived range section 32 found and the
+international band it matched against Isaac Sellam.
+
+### Also invented
+
+- **Compositions** for twelve Creature, in his material vocabulary.
+- **Reference measurements** for all sixteen, in his flat-measurement idiom.
+- **Descriptions** for thirteen, two lines each, in his register.
+- **The price line on the home arrival**, which names the lowest real price in
+  the catalogue so it cannot drift while the prices are right.
+- **The footer lines, the shipping and returns text, the customs line, the
+  enquiry copy and the availability explanation**, all previously marked on the
+  page and now flagged instead.
+
+### NOT invented, and it will not be
+
+- **His biography.** A price is a number somebody replaces; a life is not, and
+  words put in his mouth are a different kind of object. The about page is
+  designed around the absence: a heading and the photograph of him working,
+  which tells a reader what a biography would anyway. He says he will write it.
+- **Anything legal.** No privacy notice, no terms, no company details. Inventing
+  those would expose him, and they need a lawyer (checklist group 1).
+- **Reference codes.** A numbering system is a fact about how a brand works, not
+  a plausible value, so the field is empty and the pages simply do not show one.
+
+---
+
+## 60. The shop, and what the tab shows (2026-08-03)
+
+### The catalogue screen sells; the gallery does not
+
+The Creature index and the gallery did the same thing at desktop. They are
+different objects now:
+
+- **The index is the shop.** Name and price under every frame, and a second
+  photograph on hover. The price belongs here and only here, because this is
+  where a reader compares and a comparison without prices is a mood board.
+- **The gallery is wordless**, because it is not selling anything.
+
+The hover is CSS: no script, no bundle, and a touch reader loses nothing because
+the second frame is on the Creature's own page. Under `prefers-reduced-motion` it
+swaps with no transition rather than not at all, because a second view of a
+garment is information and reduced motion asks for less movement, not less
+information.
+
+**FILTER BY DROP: built into the ordering, not shown.** There is one drop. A
+filter control offering one option is the furniture this site removes
+everywhere else, and it is the same argument section 23 flag 5 makes about the
+collections index. The grouping is ready; the control appears when a second drop
+exists.
+
+### The mark in the tab
+
+The browser showed a default. It shows a square crop of HIS signature now, in
+both polarities, following the reader's system theme because a tab is drawn on
+the browser's chrome rather than on this page. A crop, never a monogram: section
+9 forbade inventing one, and a 2712x615 script mark shrunk to 16px is a smudge.
+The app icons are rasterised from the same file through the same headless Chrome
+the project already uses, so no new dependency and nothing paid.
+
+### Titles, and the share image
+
+Titles are `Thing / Aleksander Cecco`, narrow to wide, so six open tabs are six
+different words rather than six truncated brand names.
+
+**Every page carries a share image now**, not only the ones that thought to pass
+one. Traffic arrives from Instagram, so a shared link is the first impression,
+and a link with no card is a worse one than any photograph. It falls back to the
+arrival, which means the card changes when he changes that one studio field.
+
+### Text selection
+
+Already correct and worth recording as checked rather than assumed: `::selection`
+paints `--fg` on `--bg`, so a selection inverts the page instead of introducing
+the browser's default blue. There is no third colour anywhere in it.
