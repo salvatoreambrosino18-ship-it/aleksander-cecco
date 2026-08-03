@@ -4178,3 +4178,91 @@ It is left for the owner of this repository to run, because it rewrites his
 production dataset: it deletes the red shirt's document, renames fifteen
 Creature and replaces the making section. `npm run import` does it;
 `npm run import -- --set-arrival` also installs the drop frame as the arrival.
+
+---
+
+## 54. The import run, and what is actually live (2026-08-03)
+
+Run with `--set-arrival` after the owner exported a backup (31 documents, 77
+assets, 158MB). Verified against the DEPLOYED site rather than a local build,
+because a local build proves the code and not the deploy.
+
+The Sanity webhook fired on its own this time, so the publish chain worked
+without a git push. Section 16's standing note is unchanged: that is convenient
+rather than dependable.
+
+### What changed, verified live
+
+| | |
+| --- | --- |
+| Creature | 16, down from 17 |
+| named | 9, up from 3 |
+| gallery | 13 frames, up from 12 |
+| assets | 82, three uploaded (`IMG_3387`, the mannequin frame, `DESIGNER.jpg`) |
+
+**SIX Creature were renamed, not fifteen.** Only documents with frames in the
+folders he renamed could take a name from them: capo-02 (Oblivion), capo-03 and
+capo-04 (both Monumentus Vest), capo-05 and capo-10 (both Monumentus Pants) and
+capo-11 (Monumentus Lux). With Glovyes, Styrax and Ghezard, which were already
+named from his captions, that is nine of sixteen. **Seven still show
+`{GARMENT_NAME}`**: capo-01, capo-07, capo-08, capo-09, capo-12, capo-13 and the
+hat. Materials moved the same way, from one real composition to four.
+
+The red shirt's document is gone, it is absent from the index, `/creature/rubedo`
+301s to the gallery in both languages, and its back view is the gallery's last
+frame. The designer route 301s to about, which now ends on his own portrait.
+Shipping renders in three standings on the contact page: his free-shipping line
+unmarked, returns marked as ours, customs marked "Not yet confirmed".
+
+### The two availability states, verified without publishing anything
+
+No Creature is `readyNow`, because his folder is empty, so nothing on the live
+site claims to be available now and every piece reads exactly as before.
+
+The new state was verified by patching the query LOCALLY for one build and
+reverting it, so no wrong claim was ever published. It renders correctly in both
+languages: "Available now." / "Disponibile subito.", the explanation carrying
+its draft mark, the measurements label switching to "This piece's measurements" /
+"Misure di questo capo", the enquiry action present, and on the form the choice
+between taking it as it is and having it remade. The three measurement inputs
+lose `required` on that piece and keep it on every other, which was checked in
+the built HTML rather than assumed.
+
+### The arrival repeats a Creature's only photograph, and it stays
+
+`IMG_3116` is the arrival AND capo-12's single frame, so the same photograph
+appears twice in one journey. Measured rather than judged by eye:
+
+- On the home page it appears ONCE. The second occurrence in the markup is the
+  Open Graph tag, which means a link shared to Instagram now previews the drop
+  rather than an old detail. That is a daily gain for a brand whose visitors
+  arrive from there.
+- The repeat costs nothing until a reader reaches capo-12, which is the
+  ELEVENTH of sixteen tiles on the index, and it does not appear on the
+  collection page at all.
+- Whole-frame luminance 0.063 against 0.053 for the arrival it replaced, so the
+  page still opens out of darkness (section 34) and the chrome measures 5.88.
+
+WHAT IS GENUINELY WRONG WITH IT, stated plainly: it breaks the rule section 45
+set for the gallery, never a Creature's LEAD frame, and it lands on the weakest
+page in the catalogue. capo-12 has no name, no composition and no second view,
+so a reader who taps it meets the identical full-screen photograph and learns
+nothing. The frame is also a product shot of a finished piece rather than the
+TEXTURE he asked to open on.
+
+KEPT ANYWAY, and the reasoning is that the defect is bounded and temporary: he
+is shooting the closer frame, the swap is one field in the studio, and reverting
+would spend the Open Graph gain to fix a collision most visitors never reach.
+
+If it should go sooner, there are two moves and both are one field:
+
+1. Back to `homepage/IMG_2378`, which belongs to no Creature so it never
+   repeats, and which was chosen on measurement for this exact slot.
+2. Forward to `homepage/IMG_3117`, the square 1263px texture study, which IS
+   what he described and is the darkest of the three at 0.012. The cost is a 2x
+   upscale on a phone, which damages a texture far less than it would damage a
+   silhouette, but it is still below the standard every other full-bleed frame
+   meets.
+
+The real fix is neither: it is capo-12 getting a name, a composition and a
+second frame, which is his.
