@@ -141,7 +141,8 @@ export async function measureOverlay(files, {port = 9900} = {}) {
         390 / 844,   // a phone, full screen
         390 / 743,   // a phone, an 88svh block
         390 / 523,   // a phone, a 62svh short row
-        1440 / 790,  // desktop, full width
+        1440 / 900,  // desktop, a full screen
+        1440 / 790,  // desktop, an 88svh block
         720 / 790,   // desktop, half a row
       ];
       const captionMeans = CONTAINERS.map((aspect) => {
@@ -150,7 +151,12 @@ export async function measureOverlay(files, {port = 9900} = {}) {
         if (ch > H) { ch = H; cw = H * aspect; }
         const cx = (W - cw) / 2, cy = (H - ch) / 2;
         // Where the caption sits inside it: left inset, on the bottom edge.
-        return mean(cx + cw * 0.05, cy + ch * 0.86, cw * 0.6, ch * 0.11);
+        /*
+          A WORD, not a band. The caption is a short name at the left inset, and
+          sampling 60% of the width averaged in bright regions the word never
+          sits on: that is why six captions measured safe and rendered at 2.65.
+        */
+        return mean(cx + cw * 0.04, cy + ch * 0.86, cw * 0.28, ch * 0.1);
       });
       return JSON.stringify({L, cells: captionMeans});
     })()`;
