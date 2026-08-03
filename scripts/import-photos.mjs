@@ -107,6 +107,28 @@ const client = createClient({
   frame is not a decision to stop looking for the original: if the owner still
   has it, the file comes back and the salvage line goes.
 */
+/*
+  OVERLAY OVERRIDES, and why any exist at all.
+
+  The measurement samples the TOP of the frame, because that is where the fixed
+  chrome sits when a photograph is the first thing on a page. That is right for
+  an arrival and wrong for a frame you scroll INTO: the chrome then passes over
+  the whole image, and a value measured from a pale top band goes illegible the
+  moment a dark middle arrives under it.
+
+  Seen on the designer portrait at the end of the about page (2026-08-03): the
+  file measures ink at 6.2 from its pale concrete top, and the reader spends the
+  whole block looking at the chrome sitting over a black hood, where ink is
+  invisible. Paper is right for the frame as it is actually read.
+
+  This is the residual issue section 14 already records. An override is honest
+  here because the alternative, a second measured value per frame, would still
+  be one number for a band that moves.
+*/
+const OVERLAY_OVERRIDE = {
+  "experimental/DESIGNER": "paper",
+};
+
 const SALVAGED = {
   "salvage/capo-01-front": {
     asset: "image-e467af8728269850318fd2b8e98f029cd7541e35-1536x2048-jpg",
@@ -1064,7 +1086,8 @@ async function main() {
   }
 
   const ov = (rel) =>
-    rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlay;
+    OVERLAY_OVERRIDE[rel] ??
+    (rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlay);
 
   console.log("\nWriting documents:");
 

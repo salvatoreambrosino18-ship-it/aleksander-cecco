@@ -27,7 +27,7 @@
 import Base from "../../layouts/Base.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import TextSurface from "../../components/TextSurface.astro";
-import {getGallery} from "../../lib/content";
+import {getGallery, isPlaceholderText} from "../../lib/content";
 import {LOCALES, toLocale} from "../../lib/locales";
 import {imageUrl} from "../../lib/image";
 import {overlayTheme} from "../../lib/media";
@@ -45,6 +45,31 @@ const first = images[0]?.media?.[0] ?? null;
 const frames = images.flatMap((image) =>
   (image.media ?? []).map((media, index) => ({media, title: index === 0 ? image.title : null})),
 );
+
+/*
+  PORTRAIT FRAMES PAIR AT DESKTOP (2026-08-03, after looking at the page at
+  1440). A single full-bleed frame is 1440x790 there, which is a 1.8:1
+  letterbox, and eleven of these twelve photographs are 3:4 portraits. The page
+  was showing horizontal bands cut out of the middle of the owner's photographs:
+  the fur frame stopped reading as an object at all. On a phone the same frames
+  are correct, which is why it survived this long.
+
+  So the SHAPE OF THE PHOTOGRAPH decides, not its position: a landscape frame
+  runs the full width, portraits go two across and touching. That is what the
+  primary reference does at desktop, measured in section 14 (one 1440x900, then
+  pairs of 720x900 side by side, no gutter), and it is why the Creature index
+  already looks right at this width.
+
+  It keeps the gallery distinct from that index, which is the risk section 23
+  flag 5 names: the index is a uniform wall of pairs, and here the one landscape
+  frame breaks the row, which is the rhythm this page is for.
+
+  On a phone nothing changes: one column, alternating tall and short.
+*/
+const isLandscape = (media: (typeof frames)[number]["media"]) => {
+  const d = media.dimensions;
+  return Boolean(d && d.width > d.height);
+};
 ---
 
 <Base
@@ -57,18 +82,29 @@ const frames = images.flatMap((image) =>
 >
   <h1 class="sr-only">{t(locale, "gallery")}</h1>
 
-  {
-    frames.map(({media, title}, index) => (
-      <MediaSurface
-        media={media}
-        locale={locale}
-        height={index % 2 === 0 ? "tall" : "short"}
-        priority={index === 0}
-      >
-        {title && <h2 class="type-label text-label">{title}</h2>}
-      </MediaSurface>
-    ))
-  }
+  <div class="grid grid-cols-1 md:grid-cols-2">
+    {frames.map(({media, title}, index) => (
+      <div class:list={["contents md:block", isLandscape(media) && "md:col-span-2"]}>
+        <MediaSurface
+          media={media}
+          locale={locale}
+          height={index % 2 === 0 ? "tall" : "short"}
+          desktopHeight="tall"
+          priority={index === 0}
+        >
+          {/*
+            SILENT unless the frame has a real name. Section 41 says so outright:
+            in a gallery the name is optional and usually absent, the frame is
+            silent. Every frame was printing {NOME_PEZZO}, in Italian, on the
+            English page too, which is scaffolding laid over the photography.
+          */}
+          {title && !isPlaceholderText(title) && (
+            <h2 class="type-label text-label">{title}</h2>
+          )}
+        </MediaSurface>
+      </div>
+    ))}
+  </div>
 
   {
     frames.length === 0 && (

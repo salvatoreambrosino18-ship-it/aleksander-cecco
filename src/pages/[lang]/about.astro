@@ -69,14 +69,12 @@ const paragraphs = (about ?? "")
 const isShort = (p: string) => p.split(/\s+/).length <= 18;
 
 /*
-  THE PERSON, folded in from the former /designer page (2026-08-03). `making`
-  is his own account of how the work is done, which is the one thing he has
-  written that is about him rather than about the brand; `designerText` is his
-  biography when he writes one.
+  THE PERSON, folded in from the former /designer page (2026-08-03). The
+  portrait, and his biography when he writes one. His making lines are NOT
+  repeated here: they are already on this page, inside his complete text.
 */
 const portrait = settings.designerPortrait;
 const designerText = pick(settings.designerText, locale);
-const making = pick(settings.makingStatement, locale);
 ---
 
 <Base
@@ -178,17 +176,28 @@ const making = pick(settings.makingStatement, locale);
     the person at the bottom, so the page arrives at him rather than opening on
     him. The route is gone and 301s to here; the menu carries one entry.
   */}
+  {/*
+    Heading and placeholder in ONE block, not two. Rendered as two they stacked
+    two lots of vertical padding and read as an empty box waiting for text,
+    which is a different thing from the deliberate emptiness this site uses.
+  */}
   {(designerText || portrait) && (
-    <TextSurface theme="dark" class="hairline-h pt-u13">
+    <TextSurface theme="dark" class="hairline-h flex flex-col gap-u5 py-u13">
       <h2 class="type-label text-label">{t(locale, "designer")}</h2>
+      {!designerText && <p class="placeholder-mark self-start">{"{DESIGNER_BIOGRAPHY}"}</p>}
     </TextSurface>
   )}
 
   {/*
-    His own account of the work. Approved, so unmarked in the languages he has
-    approved, and the only text here that is not a placeholder.
+    NO MAKING TEXT HERE, and that is the correction the merge needed. On its own
+    page this section carried his making lines, because it had no other text.
+    Folded into the story those same sentences are already ON this page, a few
+    screens above, inside his complete text: the page said them twice, which is
+    exactly the kind of seam a merge leaves and a reader notices.
+
+    What belongs to the PERSON rather than to the brand is the portrait and a
+    biography he has not written yet. So that is all this carries.
   */}
-  <Statement text={making} locale={locale} voice={voice} register="body" theme="dark" />
 
   {/*
     Everything a designer page normally carries and this one cannot yet. A
@@ -197,15 +206,14 @@ const making = pick(settings.makingStatement, locale);
     is deliberately NOT here (section 44): whether the maker is named in public
     is his decision and he has not made it.
   */}
-  {
-    designerText ? (
-      <Statement text={designerText} locale={locale} voice={voice} register="body" theme="dark" />
-    ) : (
-      <TextSurface theme="dark" class="flex flex-col gap-u3 py-u13">
-        <p class="placeholder-mark self-start">{"{DESIGNER_BIOGRAPHY}"}</p>
-      </TextSurface>
-    )
-  }
+  {/*
+    His biography when he writes one, in his voice and marked like the rest of
+    it. Until then the heading block above carries the placeholder: a marked
+    gap, never a plausible sentence about where someone trained.
+  */}
+  {designerText && (
+    <Statement text={designerText} locale={locale} voice={voice} register="body" theme="dark" />
+  )}
 
   {portrait && <MediaSurface media={portrait} locale={locale} height="tall" />}
 </Base>

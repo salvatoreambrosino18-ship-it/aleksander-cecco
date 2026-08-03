@@ -23,9 +23,10 @@
   - AN ALTERNATING RHYTHM. Rows alternate tall and short, so scrolling the index
     has a pulse instead of being a conveyor of identical rectangles. That is the
     difference between density and a spreadsheet.
-  - 11px INSCRIPTIONS, over the frame, in the polarity the owner chose per
-    image. Name and reference code, nothing else. No price: this page is for
-    seeing the work, and a price grid is the shop this site is not.
+  - WORDLESS while any Creature is unnamed, and an 11px name over each frame
+    once they all have one. No reference code and no price: this page is for
+    seeing the work, and two lines over every frame is the product grid the
+    brief forbids. The reasoning is at `allNamed` below.
 
   The one-per-screen treatment survives on the collection page, which is the
   narrative. This is where you go to see everything.
@@ -36,7 +37,7 @@
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
-import {byStage, getGarments, type Garment} from "../../../lib/content";
+import {byStage, getGarments, isPlaceholderText, type Garment} from "../../../lib/content";
 import {LOCALES, localePath, toLocale} from "../../../lib/locales";
 import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
@@ -61,6 +62,29 @@ const first = creature[0]?.media?.[0];
 */
 const rowHeight = (index: number): "tall" | "short" =>
   Math.floor(index / 2) % 2 === 0 ? "tall" : "short";
+
+/*
+  THE WALL IS WORDLESS UNTIL THE WORK HAS NAMES (2026-08-03, after looking at
+  the rendered page at 390 and 1440).
+
+  Section 39 specified a name and a reference code over every frame. Rendered
+  against the real catalogue that produced sixteen reference-code placeholders
+  and seven name placeholders: twenty-three pieces of scaffolding laid over the
+  brand's own photography, on the one page a visitor browses. It read as a
+  spreadsheet with the data missing.
+
+  Two changes. The REFERENCE CODE is gone from this page for good: a code is a
+  detail that belongs on the piece's own page, and two lines over every frame is
+  a product grid, which is the thing the brief forbids. The NAME appears only
+  when EVERY Creature has one, because a wall where nine frames are labelled and
+  seven are not reads as a bug rather than as a decision.
+
+  It heals itself: the moment he names the last seven the labels come back, with
+  no code change. Until then the page is what the primary reference actually is,
+  measured in section 14: imagery, overwhelmingly wordless. Each frame is still
+  announced to a screen reader by its alt text, which is a real description.
+*/
+const allNamed = creature.every((garment) => !isPlaceholderText(garment.name));
 ---
 
 <Base
@@ -97,12 +121,7 @@ const rowHeight = (index: number): "tall" | "short" =>
               height={rowHeight(index)}
               priority={index < 2}
             >
-              <div class="flex flex-col gap-u1">
-                <h2 class="type-label text-label">{garment.name}</h2>
-                {garment.referenceCode && (
-                  <span class="type-mono text-mono">{garment.referenceCode}</span>
-                )}
-              </div>
+              {allNamed && <h2 class="type-label text-label">{garment.name}</h2>}
             </MediaSurface>
           </a>
         ))}

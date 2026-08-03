@@ -4349,3 +4349,88 @@ The seven are the pieces with no frame in any family folder, which is the same
 list section 48 already gave for a different reason. **Naming them is a filing
 job, not a photography job**: the frames exist, they are just not in a folder
 that says what they are.
+
+---
+
+## 56. The design pass, rendered and looked at (2026-08-03)
+
+Every page rendered in headless Chrome at 390x844 and 1440x900 and LOOKED AT,
+rather than reasoned about from the markup. Four things were wrong. Three more
+are wrong and are left, with the reason.
+
+A note on the method, because it wasted a pass: a full-page capture of a page
+nobody scrolled is a picture of empty boxes. Images below the fold are lazy and
+the reveal script hides a frame until it has been seen, so the first captures
+showed a black index and a two-frame gallery. The harness now walks the whole
+page, waits for every image to decode, and then captures.
+
+### Fixed
+
+**1. The about page said the same paragraph twice.** Folding the designer page
+into the story (section 51) brought its making lines with it, and those same
+sentences are already on that page inside his complete text a few screens above.
+Removed: what belongs to the PERSON rather than to the brand is the portrait and
+a biography he has not written, so that is all the section carries. Its heading
+and the placeholder are now one block instead of two, which was stacking two
+lots of vertical padding and reading as an empty box waiting for text.
+
+**2. The chrome went invisible over the portrait.** The overlay measurement
+samples the TOP of a frame, because that is where the fixed chrome sits when a
+photograph opens a page. The portrait is at the END of a page: the reader scrolls
+INTO it, and the chrome then sits over a black hood while the value says ink,
+measured from the pale concrete at the top of the file. Overridden to paper,
+with the reasoning recorded at `OVERLAY_OVERRIDE` in the import. This is the
+residual issue section 14 names, in a new place: one number cannot describe a
+band that moves.
+
+**3. The Creature index was scaffolding laid over the photography.** Section 39
+specified a name and a reference code over every frame. Against the real
+catalogue that is sixteen `{REF_CODE}` placeholders and seven `{GARMENT_NAME}`
+placeholders: twenty-three marks on the one page a visitor browses, on top of
+the brand's own photographs. The reference code is gone from that page for good,
+because a code belongs on the piece's own page and two lines over every frame is
+the product grid the brief forbids. The name now appears only when EVERY
+Creature has one, because nine labelled and seven not reads as a bug rather than
+a decision. **It heals itself**: naming the last seven brings the labels back
+with no code change. Until then the page is what the primary reference measurably
+is (section 14): imagery, overwhelmingly wordless.
+
+**4. The gallery destroyed its own photographs at desktop.** A single full-bleed
+frame at 1440 is a 1.8:1 letterbox and eleven of the twelve frames are 3:4
+portraits, so the page was showing horizontal bands cut from the middle of them:
+the fur frame stopped reading as an object at all. On a phone the same frames
+are correct, which is why it survived. Now the SHAPE OF THE PHOTOGRAPH decides:
+a landscape frame runs full width, portraits pair two across and touching, which
+is exactly what the primary reference does at that width (section 14) and why
+the index already looked right. The one landscape frame breaks the row, which
+keeps this page distinct from the index and is the rhythm the gallery is for.
+The page also stopped printing `{NOME_PEZZO}` on every frame, in Italian, on the
+English page too: section 41 says outright that in a gallery the name is optional
+and usually absent and the frame is silent.
+
+### Found and left, with the reason
+
+**The chrome is illegible over the index's first tile at DESKTOP.** The overlay
+value serves the phone crop, which is the primary target (standing rule 4), and
+the desktop crop of that frame puts a black shirt under the marks. Fixing it
+needs either a per-breakpoint value, which doubles a field the owner has to
+think about, or the owner moving the image hotspot, which is one of the three
+levers section 14 already gives him. Not worth a schema field.
+
+**A section heading passes under the MENU label on the home page.** At one scroll
+position "COLLECTIONS" and "MENU" overlap. It is inherent to chrome that floats
+over content without a bar behind it, it lasts one scroll moment, and every fix
+contradicts the direction: an opaque band reintroduces the persistent bar
+section 4 removed, and hiding the chrome on scroll makes the only navigation on
+the site disappear.
+
+**A Creature page can be seven full screens of one garment.** Oblivion has seven
+photographs and each one fills the viewport. That is section 4 working as
+specified, not a defect, and the alternative is thumbnails.
+
+### Confirmed working
+
+The gallery's alternating tall and short rhythm at phone scroll speed; the home
+page's seams, where only the arrival is a sealed screen and everything after it
+is 88svh so the next frame always peeks; the worn band's one-frame-cut-by-the-
+edge; and the wordless index at both widths.

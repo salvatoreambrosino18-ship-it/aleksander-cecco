@@ -34,6 +34,13 @@ interface Props {
    * comes from the flex item around it.
    */
   height?: "screen" | "tall" | "short" | "band" | "worn";
+  /**
+   * A different height from `height` at desktop. It exists for the gallery,
+   * where a phone alternates tall and short down one column and a desktop pairs
+   * portraits two across, and a pair must agree on its height or the row that
+   * has no gutter grows a hole (DESIGN-PLAN section 56).
+   */
+  desktopHeight?: "screen" | "tall" | "short";
   /** The first image on a page is the largest thing it downloads. */
   priority?: boolean;
   /**
@@ -50,6 +57,7 @@ const {
   media,
   locale,
   height = "screen",
+  desktopHeight,
   priority = false,
   reveal,
   class: className = "",
@@ -80,6 +88,9 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
       height === "short" && "h-media-short",
       height === "band" && "h-media-band md:h-media-screen",
       height === "worn" && "h-worn",
+      desktopHeight === "screen" && "md:h-media-screen",
+      desktopHeight === "tall" && "md:h-media-tall",
+      desktopHeight === "short" && "md:h-media-short",
     ]}
   >
     {
