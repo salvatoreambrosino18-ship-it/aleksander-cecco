@@ -152,12 +152,19 @@ export async function measureOverlay(files, {port = 9900} = {}) {
         const cx = (W - cw) / 2, cy = (H - ch) / 2;
         // Where the caption sits inside it: left inset, on the bottom edge.
         /*
-          A WORD, not a band. The caption is a short name at the left inset, and
-          sampling 60% of the width averaged in bright regions the word never
-          sits on: that is why six captions measured safe and rendered at 2.65.
+          A WORD, not a band, and the WORST place that word could fall. Captions
+          differ in length: "Oblivion" and "MONUMENTUS: Tenebrae & Lux" occupy
+          very different widths at the same inset. Sampling one fixed rectangle
+          averaged in regions a short name never touches, which is how six of
+          them measured safe and rendered at 2.65. So slide a word-sized window
+          across the plausible extent and keep the worst reading.
         */
-        return mean(cx + cw * 0.04, cy + ch * 0.86, cw * 0.28, ch * 0.1);
-      });
+        const windows = [];
+        for (let wx = 0.04; wx <= 0.44; wx += 0.06) {
+          windows.push(mean(cx + cw * wx, cy + ch * 0.86, cw * 0.12, ch * 0.1));
+        }
+        return windows;
+      }).flat();
       return JSON.stringify({L, cells: captionMeans});
     })()`;
     const out = await send("Runtime.evaluate", {expression, awaitPromise: true, returnByValue: true}, sessionId);
