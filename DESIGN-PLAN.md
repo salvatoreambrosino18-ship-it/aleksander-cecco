@@ -3631,7 +3631,7 @@ they have not seen.
 It runs dark to light, which is the site's own logic and is never stated:
 
 1. `experimental/IMG_2897`, a near-abstract study of deep folds. Opens in the dark.
-2. `homepage/IMG_3434`, the signature embossed in black leather. LANDSCAPE, and the only one, so it reads as a breath between two tall frames.
+2. `homepage/IMG_3434`, the signature embossed in black leather. Recorded here as LANDSCAPE and it is not: see the correction in section 56.
 3. `archive/IMG_2235`, the black cape open on concrete.
 4. `products/IMG_0207`, the fur with its trailing threads. Texture, close.
 5. `archive/IMG_2242`, a vest laid out.
@@ -4402,11 +4402,29 @@ the fur frame stopped reading as an object at all. On a phone the same frames
 are correct, which is why it survived. Now the SHAPE OF THE PHOTOGRAPH decides:
 a landscape frame runs full width, portraits pair two across and touching, which
 is exactly what the primary reference does at that width (section 14) and why
-the index already looked right. The one landscape frame breaks the row, which
-keeps this page distinct from the index and is the rhythm the gallery is for.
-The page also stopped printing `{NOME_PEZZO}` on every frame, in Italian, on the
+the index already looked right. The page also stopped printing `{NOME_PEZZO}` on every frame, in Italian, on the
 English page too: section 41 says outright that in a gallery the name is optional
 and usually absent and the frame is silent.
+
+### A claim in section 45 that was wrong, and what it costs
+
+Section 45 records `IMG_3434` as "LANDSCAPE, and the only one, so it reads as a
+breath between two tall frames". **It is portrait.** The file measures 5712x4284
+in its raw pixels, which is what that note was written from, and it carries an
+EXIF rotation: converted for upload it becomes 4284x5712 and the site has always
+displayed it upright. Every one of the thirteen gallery frames is portrait.
+
+Two consequences, neither hidden. The "breath" that section describes has never
+existed on the page. And the rule added above, landscape runs full width, finds
+nothing to apply to today: at desktop the gallery is now a uniform wall of pairs,
+which resembles the Creature index more than it should. That is the same
+complaint section 23 flag 5 already carries about the collections index and it
+is now true of a second page.
+
+The rule stays, because it is right and because it will apply the moment a
+landscape frame is added. What it does not do is manufacture a rhythm the
+photography does not contain: the honest fix is a landscape frame in the
+gallery, which is a shooting request, not a layout one.
 
 ### Found and left, with the reason
 
