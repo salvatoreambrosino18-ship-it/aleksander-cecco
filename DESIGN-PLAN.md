@@ -3828,3 +3828,353 @@ STYRAX TOP frame, both TIBIA CUT on-model frames, `DESIGNER.jpg`, and the
 `IMG_020x` archive set are all exactly 1200x1600. That is the signature of a
 messaging app, not of a camera. **When a file matters and measures 1200x1600, ask
 him for the original before treating it as the best available.**
+
+---
+
+## 48. The photographs carry his names (2026-08-03)
+
+The owner renamed the files in MONUMENTUS LUX & TENEBRAE, MONUMENTUS TIBIA CUT,
+OBLIVION and STYRAX TOP with the Creature names. **This closes the naming gap
+that has blocked the catalogue since the beginning.** Fifteen of sixteen
+Creature carried a `{GARMENT_NAME}` placeholder; the names below are his.
+
+Every file was matched to what it already is on the site by content hash, so
+nothing here is a reading of a photograph.
+
+### MONUMENTUS LUX & TENEBRAE
+
+| his filename | was | ours |
+| --- | --- | --- |
+| `Monumentus Vest (Tenebrae).JPG` | IMG_3465 | capo-03 |
+| `Monumentus Vest (Tenebrae.WEBP` | IMG_3466 | capo-04 |
+| `Monumentus Pants (Tenebrae).WEBP` | IMG_3467 | capo-05 |
+| `Monumentus tenebrae.WEBP` | IMG_3468 | capo-05, and gallery frame 6 |
+| `Monumentus pants (Lux).WEBP` | IMG_3463 | capo-10 |
+| `Monumentus pants (Lux) .WEBP` | IMG_3464 | capo-10 |
+| `Monumentus Lux .HEIC` | IMG_3474 | capo-11, and the worn band |
+| `monumentus lux.HEIC` | IMG_1898 | capo-11 |
+| `idea behind monunetus drop.PNG` | NEW | not a photograph, see below |
+
+### MONUMENTUS TIBIA CUT, the shorts, separated deliberately
+
+| his filename | was | ours |
+| --- | --- | --- |
+| `Mnmnts. Lux Tibia cut.WEBP` | IMG_2957 | no document |
+| `Mnmnts Tenebrae Tibia Cut.WEBP` | IMG_2958 | no document |
+| `Mnmnts Lux tibia cut.jpg` | PHOTO-2026-07-14-…-51 | no document |
+| `Mnmnts Ten Tibia Cut.PNG` | IMG_3485 | the worn band frame that belonged to nothing |
+| `PHOTO-2026-07-14-20-39-52.jpg` | unchanged | no document |
+
+**The tibia cut is a Creature we never created**, in both finishes, and the
+worn-band frame nobody could name turns out to be the Tenebrae one.
+
+### OBLIVION
+
+All seven black frames are `Oblivion Black lambskin` or `oblv black lamb` with
+a suffix, and all seven red ones are `oblv blood red lamb` or
+`oblv blood red lambskin`. So: **the black shirt is OBLIVION in black lambskin,
+and the red one is the same shirt in blood red lambskin.**
+
+### STYRAX TOP
+
+`Stryax black goat .jpg` and `Stryax black goat  (1).jpg` (his spelling, two
+spaces) were the two flat frames; `Stryax red goat.jpg` is the red one. **The
+red variant is GOAT, not the fox the old price list implies**, which matters
+because section 30 flagged the identical pricing of "red fox" and "goat
+shearling" as incoherent. On his own naming they are the same material.
+
+### What the names settle, and what they do not
+
+SETTLED: capo-02 is Oblivion, in black lambskin. capo-03 and capo-04 are both
+Monumentus Vest. capo-05 is Monumentus Pants, so a piece our alt text called
+"a draped black garment" is trousers. capo-10 is Monumentus Pants (Lux) and
+capo-11 is Monumentus Lux.
+
+NOT SETTLED, and these are his:
+
+1. **Two vests, one name.** capo-03 is smooth leather with a central silver zip;
+   capo-04 is crinkled with snap fasteners, held on a hanger. Two objects, one
+   filename. Two documents until he separates them.
+2. **Two pale trouser names.** "Monumentus pants (Lux)" and "Monumentus Lux" may
+   be one Creature photographed twice.
+3. **capo-01, capo-07, capo-08, capo-09, capo-12, capo-13, the hat, Glovyes and
+   Ghezard are not in any family folder**, so nine of sixteen are still unnamed
+   or named only from his Instagram.
+
+### Severya is lambskin, and it clears the pricing anomaly
+
+The designer photograph shows him writing **"SEVERYA / LAMBSKIN / 100%"** onto
+the snake-textured piece in silver pen, in his own hand. Read off the file, not
+inferred.
+
+Section 30 listed "Severya python skirt" at EUR 250 and called it incoherent
+that exotic material was priced like ordinary material. **It was never exotic
+material.** The snake is a texture in lambskin, the same hide as the Oblivion
+shirts, and at 250 the piece was priced consistently with the rest of the list
+all along. One of the four internal inconsistencies in that section dissolves;
+the others stand.
+
+The piece is part of `capo-08`, which bundles a tube top with the skirt, so the
+document is still unnamed: naming a pair after one of them, or splitting it, is
+his call and section 24 already asked it.
+
+### Two files that are not photographs of Creature
+
+- `idea behind monunetus drop.PNG` is a screenshot of his own collection text,
+  the one already on the site. Useful as confirmation that our copy is his,
+  verbatim; it must never be imported as a frame. It also reads "handmade in
+  Italy" where his other text says South Italy, which is his to reconcile.
+- `homepage/IMG_3117.HEIC` is new: a square 1263x1263 close study of black
+  crinkled leather. See section 52.
+
+### A trap his renaming created
+
+Section 18 recorded that extensions cannot be hard-coded, because one batch
+mixes .JPG, .WEBP and .heic. His renaming produced the inverse: **two files with
+one stem and two extensions**, `oblv blood red lamb.JPG` and
+`oblv blood red lamb.HEIC`, plus a case-only pair. Resolving by stem would have
+put the wrong photograph on a page silently. An ambiguous stem is now an error
+that names the alternatives, and the plan disambiguates with the extension.
+
+---
+
+## 49. Availability is two states, and the enquiry has to change with it
+
+The owner: the white trousers are sold, so they are made to order; the black
+trousers are available immediately. He is making folders that separate the two,
+and the first, `Disponibilita immediata`, exists and is empty.
+
+**This reopens section 41, which closed the question on his previous answer, and
+section 31 costed exactly this outcome.** The fifth value that costing
+anticipated is now in the schema. Nothing about the earlier reasoning was
+wasted: reading C is what got built, and it cost the half day section 31 said it
+would.
+
+### What is visible on the page
+
+- `readyNow` says "Available now." / "Disponibile subito." in the inscription,
+  beside the four states already there.
+- **The measurements label follows the state.** On a made to order piece they
+  are the reference measurements of the photographed sample. On a piece that
+  already exists they are the measurements of the object that will arrive. Same
+  field, opposite claim, so the LABEL changes and the field does not duplicate.
+  This is the trap section 31 named and it is the whole reason the state cannot
+  be only a badge.
+- One sentence of ours explains the choice, marked as ours.
+
+### What changes in the enquiry, which is the part that matters
+
+Section 31 found the real defect: **the endpoint hard-requires chest, shoulders
+and length, so a buyer of a ready piece cannot complete the form at all.** A 422
+for a legitimate purchase, with nothing in any log to show a sale was lost.
+
+- The form asks what is being requested: take this one as it is, or have it
+  remade. A radio group, not a script, like the unit chooser beside it, because
+  the whole path works with JavaScript off.
+- The three measurements stop being `required` on a ready piece, and the line
+  under them says to leave them empty if taking it as it is. The fields stay
+  VISIBLE: a form that hides its own questions cannot explain itself without
+  JavaScript.
+- The server validates on the answer. Default is "remade", so every made to
+  order piece behaves exactly as before and a submission omitting the field is
+  unchanged.
+- The email says which was asked for, before the numbers rather than left to be
+  inferred from their absence.
+
+The server does NOT verify that the piece really is one of the ready ones. It
+cannot: the site is static and the function has no content database. The worst a
+forged value does is deliver an enquiry with no measurements in it.
+
+Verified against the Workers runtime: as-is with a bad email reports only the
+email; remade with no measurements still reports all three ranges in the chosen
+unit. Neither reached the send step, so nothing was emailed.
+
+### The copy, ours, marked as ours
+
+| | Italian | English |
+| --- | --- | --- |
+| state | Disponibile subito. | Available now. |
+| explanation | Questa Creatura è già fatta. Puoi prenderla così com'è, oppure fartela rifare sulle tue misure. | This Creature is already made. Take it as it is, or have it remade to your measurements. |
+| the question | Questa Creatura è già fatta. Come la vuoi? | This Creature is already made. How do you want it? |
+| choice 1 | La prendo così com'è | I will take this one as it is |
+| choice 2 | La voglio sulle mie misure | Remake it to my measurements |
+| the fields | Le misure servono solo se la vuoi rifatta. Se la prendi così com'è, lascia i tre campi vuoti. | The measurements are only needed for a remake. If you are taking this one as it is, leave the three fields empty. |
+| measurements label | Misure di questo capo | This piece's measurements |
+
+`AVAILABILITY_COPY_IS_DRAFT` marks the explanation on every screen that shows
+it. The one-word states are labels like their four siblings and are unmarked;
+what is marked is the sentence that makes a promise about how the brand sells.
+
+### Which Creature are ready: NOT GUESSED
+
+The folder is empty, so every Creature keeps made to order and nothing on the
+site claims otherwise. The import reads membership by CONTENT hash, so a copy
+under any name counts, which is what he will actually do with a Drive folder.
+
+He said "the black trousers", and there are two candidates: capo-05, which his
+filename calls Monumentus Pants (Tenebrae), and the Tenebrae tibia cut, which
+has no document yet. Filing one frame settles it without anyone asking.
+
+---
+
+## 50. The red shirt leaves the catalogue (2026-08-03)
+
+The owner's decision, and the reason is the material: he cannot source that
+hide. He searched for a month and goes to Solofra tomorrow to look for something
+close.
+
+A Creature that cannot be made is not something the site can offer, so it
+becomes **a gallery frame: work that was made, not work that can be had**. One
+frame, the back view with the opening between the shoulder blades, which is the
+piece's whole signature and the only frame of it that reads as an object rather
+than as a look. It sits last, after the gallery has turned pale, because it is
+the one red thing on the site and it should be the last word rather than an
+interruption.
+
+**REVERSIBLE, and that is a design decision rather than a courtesy.** If he finds
+a similar leather it comes back, so it is one flag,
+`RED_SHIRT_IS_A_CREATURE` in `scripts/import-photos.mjs`. Flip it to true and
+re-import: the document, its name, its composition, its seven photographs and
+its place in the worn band all return. Nothing was deleted from the plan.
+
+WHAT ELSE MOVED WITH IT:
+
+- Its tile leaves the worn band. A band of "pieces on people" that links to
+  something nobody can have would be an advertisement for a disappointment.
+- `/creature/rubedo` 301s to the gallery in both languages.
+- The name is worth correcting while it goes: **his filenames call it "oblv
+  blood red lamb", so it was never Rubedo.** That was our inference from the
+  alchemical stage (section 24 named it from a caption that never used the
+  word). It is an Oblivion in blood red lambskin. The slug stays `rubedo` only
+  because the document is leaving.
+
+---
+
+## 51. About absorbs the designer, and shipping gets his own fact
+
+### One story, one page
+
+The owner: the about page and the designer page are two sections telling one
+story. They are one page now. The story first, then the person who makes it,
+**portrait last, at the bottom**, so the page arrives at him rather than opening
+on him.
+
+The route is gone and 301s to about; the menu carries five entries where it
+carried six. The reason the designer page existed (an international buyer needs
+to see that one real person makes these, sections 32 and 33) is served better at
+the end of the story than on a page nobody was sent to.
+
+### His own choice of portrait
+
+`experimental/DESIGNER.jpg` replaces `ciro-designer.jpg`, on his authority. He is
+bent over the bench inscribing "SEVERYA / LAMBSKIN / 100%" onto a piece in his
+own hand.
+
+It earns the place twice. **What it shows is the very act the Creature page is
+modelled on**: section 26 took that inscription format from his captions, and
+here he is writing it on the object, so the page and the photograph say the same
+thing without either explaining it. And his face is not identifiable in it,
+which sits with section 44: whether the maker is named or shown in public is his
+decision and he has not made it.
+
+Measured rather than assumed: chrome contrast ink 6.2, comfortably legible,
+against 9.02 for the portrait it replaces.
+
+**THE FULL-RESOLUTION ORIGINAL IS BEING ASKED FOR.** At 1200x1600 it is below
+the 2000px floor every other full-bleed frame meets, and 1200x1600 is the
+signature of a messaging app rather than a camera (section 47). It is usable: it
+upscales about 1.6x on a phone and 1.2x at 1440, which is sharper in practice
+than the hat crop already shipping at 900x1200. The original almost certainly
+exists on his phone.
+
+### Shipping, in three pieces
+
+One field could not hold three different standings.
+
+| | what it is | how it is marked |
+| --- | --- | --- |
+| free shipping over 500 euro | HIS fact, HIS words | not marked at all |
+| returns, customer pays return shipping | his facts, our wording | marked as ours |
+| customs outside the EU | a fact he has NOT confirmed | marked unconfirmed |
+
+The third is a new kind of mark and the distinction is real: a draft is wording
+nobody has approved, this is a FACT nobody has confirmed. He says customs
+outside the EU are normally the customer's and is checking with his partner.
+Stating it as settled is how a buyer gets a bill nobody warned them about;
+withholding it entirely is how they get the same bill with no warning at all.
+"We think, and are checking" is the honest position while it is true.
+
+The Italian of the free shipping line is a translation and is NOT marked, on the
+rule section 40 already set: a composition, a price and a shipping threshold are
+FACTS like a reference code, not voice, and translating a fact is not putting
+words in his mouth.
+
+NOT DONE, and worth deciding: the footer still says "Shipped worldwide.", which
+is ours and marked. His line is better and truer, but `footerCopyIsDraft` covers
+both footer lines at once, so putting his words there would mark them as our
+draft. It needs either a per-line flag or his approval of the other line.
+
+---
+
+## 52. The arrival is the drop, and it belongs to the owner
+
+The owner wants the home page to open on the texture of the new drop, and he is
+shooting a closer frame for it.
+
+**The mechanism already existed and it needed one fix.** The arrival has been
+`openingMedia` in site settings since the home page was rebuilt (section 21), so
+changing it is one field in the studio and always was. What was NOT true is the
+promise around it: the import wrote that field on every run, so the owner could
+set the image and an unrelated import would silently revert it. It now leaves a
+value he has set alone, and `--set-arrival` forces the plan's frame in.
+
+That is the difference between "it is a field" and "it is his field".
+
+FOR NOW: `experimental/IMG_3116`, the photograph he sent, the black crinkled
+leather halter top on a pale mannequin in front of the paper patterns. It is
+also capo-12's only frame, so the first screen and that Creature show the same
+object until the closer frame arrives.
+
+RECORDED, NOT USED: `homepage/IMG_3117.HEIC` is new and is a close study of
+exactly that crinkled texture, which is what he describes wanting. It is 1263px
+SQUARE, so it is both below the 2000px floor and the wrong shape: a phone crop
+of a square takes a narrow column of it and a desktop crop takes a letterbox.
+When he shoots the closer frame, **vertical and at least 2000px on the long
+edge** is what makes it usable full screen.
+
+---
+
+## 53. What is still outstanding after 2026-08-03
+
+### Blocked on him
+
+1. **Legal entity and privacy notice.** Unchanged, still the hardest blocker,
+   still gated exactly as section 36 describes.
+2. **The real contact email.** `info@example.com` is still in site settings.
+3. **Names to photographs for STYRAX**, and for the nine Creature that are in no
+   family folder.
+4. **Materials for most pieces.** Four are known now (Oblivion black lambskin,
+   the red one, Styrax goat, Ghezard); the rest are `{MATERIALS}`.
+5. **Real working hours**, the one question that moves every price in section 32
+   by a factor of two and a half.
+6. **His biography.** He says he will write it. `{DESIGNER_BIOGRAPHY}` until he
+   does, and his name stays off the site until he says otherwise (section 44).
+7. **Which pieces are available now**, answered by filing frames rather than by
+   telling anyone.
+8. **The two contradictions in section 47**, MONUMENTUS as both collection and
+   family, and the gendered division the families reintroduce.
+9. **Eleven photographs** that vanished with `products/`. If they are on his
+   phone the salvage lines come out.
+
+### Blocked on us, and it is one thing
+
+**THE IMPORT HAS NOT BEEN RUN.** Everything in sections 48 to 52 is in the code
+and none of it is in the dataset: the site still shows the old names, the red
+shirt in the catalogue, the old portrait, the old making frames and no shipping
+fields. A dry run passes clean (63 frames, 8 salvaged, every overlay above 4.3
+contrast), so the step is ready and deliberate rather than pending.
+
+It is left for the owner of this repository to run, because it rewrites his
+production dataset: it deletes the red shirt's document, renames fifteen
+Creature and replaces the making section. `npm run import` does it;
+`npm run import -- --set-arrival` also installs the drop frame as the arrival.
