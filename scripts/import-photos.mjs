@@ -416,7 +416,9 @@ const GARMENTS = [
     stage: "tenebrae",
     slug: "severya",
     name: "Severya",
-    availability: "readyNow",
+    // A PRIVATE COMMISSION, confirmed by the owner 2026-08-04: made once, to
+    // someone's measurements, bought only as it is. Never offers a remake.
+    availability: "unique",
     files: [
       ["sale/Snake skin mini skirt.JPG", "La minigonna in pelle effetto serpente, appesa davanti alla serranda, con l'orlo tagliato a punte."],
       ["sale/Snake skin mini skirt (1).JPG", "La stessa minigonna vista da vicino, con la zip centrale e la trama a squame."],
@@ -500,9 +502,7 @@ const GARMENTS = [
     slug: "capo-10",
     stage: "lux",
     name: "Monumentus Pants",
-    // HIS FOLDER: ARCHIVE SOLD OUT (2026-08-04). This REVERSES his 2026-08-03
-    // message (sold, so made to order); the folder is newer and wins, and the
-    // reversal is surfaced in the morning report.
+    // HIS FOLDER: ARCHIVE SOLD OUT, CONFIRMED by the owner 2026-08-04.
     availability: "notOffered",
     availabilityNote: {it: "Sold out.", en: "Sold out."},
     files: [
@@ -522,7 +522,7 @@ const GARMENTS = [
     slug: "capo-11",
     stage: "lux",
     name: "Monumentus Lux",
-    // HIS FOLDER: ARCHIVE SOLD OUT. Same reversal as capo-10.
+    // HIS FOLDER: ARCHIVE SOLD OUT, confirmed with capo-10.
     availability: "notOffered",
     availabilityNote: {it: "Sold out.", en: "Sold out."},
     files: [
@@ -580,7 +580,7 @@ const GARMENTS = [
     id: "piece-styrax-red",
     slug: "styrax-red",
     name: "Styrax Red Goat",
-    availability: "readyNow",
+    availability: "unique",
     files: [
       ["sale/STYRAX RED GOAT.JPG", "Il top in pelliccia di capra rossa appeso sotto il crocifisso, contro il muro di cemento."],
       ["sale/STYRAX RED GOAT LINING.JPG", "L'interno del top rosso, con la fodera in pelle e i lacci."],
@@ -856,6 +856,13 @@ const OWNER_EN = {
     "A work of repetition, patience, and precision.",
     "This is what makes every piece similar, but never identical.",
   ].join("\n"),
+  /*
+    THE ORIGIN (supplied and approved 2026-08-04). His fifth passage, and the
+    one that answers {DESIGNER_BIOGRAPHY}: the brand is TWO people and he named
+    them himself, so the names are publishable because he published them.
+    Verbatim, unaltered, in his order like everything else here.
+  */
+  origin: "The project began as an experimental line between the knowledge and vision of the two creators, Ferdinando Palmieri and Ciro Cecco, in collaboration with Ferdressed.",
   /** The shortest complete sentence he wrote. Two words over a photograph. */
   openingLine: "Living textures.",
 };
@@ -891,13 +898,19 @@ const OWNER_IT = {
     "Un lavoro di ripetizione, pazienza e precisione.",
     "È questo che rende ogni pezzo simile, ma mai identico.",
   ].join("\n"),
+  /*
+    OUR TRANSLATION of his origin passage, flagged as `aboutOrigin` in
+    inventedCopy until he approves it. The names and "Ferdressed" are proper
+    nouns and are untouched; only the sentence around them is ours.
+  */
+  origin: "Il progetto nasce come linea sperimentale tra la conoscenza e la visione dei due creatori, Ferdinando Palmieri e Ciro Cecco, in collaborazione con Ferdressed.",
   openingLine: "Texture viventi.",
 };
 
 /** The complete text, his order, nothing cut. The about page shows this. */
 const ABOUT_TEXT = {
-  en: [OWNER_EN.brand, OWNER_EN.creature, OWNER_EN.collection, OWNER_EN.making].join("\n\n"),
-  it: [OWNER_IT.brand, OWNER_IT.creature, OWNER_IT.collection, OWNER_IT.making].join("\n\n"),
+  en: [OWNER_EN.brand, OWNER_EN.creature, OWNER_EN.making, OWNER_EN.origin].join("\n\n"),
+  it: [OWNER_IT.brand, OWNER_IT.creature, OWNER_IT.making, OWNER_IT.origin].join("\n\n"),
 };
 
 /*
@@ -1634,6 +1647,16 @@ async function main() {
       Copy WE wrote, listed rather than shown on the page (DESIGN-PLAN section
       59). `npm run launch-check` refuses while this is non-empty.
     */
+    /*
+      THE BRAND IS TWO PEOPLE (2026-08-04). He named them, so they are named.
+      Ferdressed is his own established shop and it is linked out because an
+      established shop vouching for a young label is the strongest trust signal
+      an international buyer gets (section 32's argument, answered by a fact
+      rather than by copy).
+    */
+    creators: ["Ferdinando Palmieri", "Ciro Cecco"],
+    partnerName: "Ferdressed",
+    partnerUrl: "https://ferdressed.com",
     inventedCopy: [
       "footerShipping",
       "footerOrigin",
@@ -1646,6 +1669,7 @@ async function main() {
       "shopIntro",
       "dropsIntro",
       "contactIntro",
+      "aboutOrigin",
     ],
     footerCopyIsDraft: true,
 

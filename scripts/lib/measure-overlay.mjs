@@ -59,8 +59,21 @@ export async function measureOverlay(files, {port = 9900} = {}) {
     throw new Error("headless Chrome did not start");
   })();
 
+  /*
+    WATCHDOG (2026-08-04). Chrome can die after handing out its debugging URL,
+    and every promise waiting on it then never settles: an import hung for
+    thirty-two minutes with no browser alive and no output, because the whole
+    run is one buffered pipe. Nothing here is allowed to wait forever now.
+  */
+  const deadline = (label, ms) =>
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`measureOverlay: ${label} timed out after ${ms}ms`)), ms));
+
   const ws = new WebSocket(endpoint);
-  await new Promise((r) => (ws.onopen = r));
+  await Promise.race([new Promise((r) => (ws.onopen = r)), deadline("websocket open", 20000)]);
+  ws.onclose = () => {
+    for (const {reject} of pending.values()) reject(new Error("measureOverlay: Chrome closed mid-run"));
+    pending.clear();
+  };
   let id = 0;
   const pending = new Map();
   ws.onmessage = (e) => {
@@ -72,11 +85,14 @@ export async function measureOverlay(files, {port = 9900} = {}) {
     }
   };
   const send = (method, params = {}, sessionId) =>
-    new Promise((resolve, reject) => {
-      const msg = {id: ++id, method, params, ...(sessionId ? {sessionId} : {})};
-      pending.set(msg.id, {resolve, reject});
-      ws.send(JSON.stringify(msg));
-    });
+    Promise.race([
+      new Promise((resolve, reject) => {
+        const msg = {id: ++id, method, params, ...(sessionId ? {sessionId} : {})};
+        pending.set(msg.id, {resolve, reject});
+        ws.send(JSON.stringify(msg));
+      }),
+      deadline(method, 60000),
+    ]);
 
   const {targetId} = await send("Target.createTarget", {url: pathToFileURL(page).href});
   const {sessionId} = await send("Target.attachToTarget", {targetId, flatten: true});

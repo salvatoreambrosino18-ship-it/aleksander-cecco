@@ -38,6 +38,8 @@ const ui = {
     gallery: "Galleria",
     process: "Processo",
     designer: "Chi lo fa",
+    creators: "Chi lo fa",
+    inCollaborationWith: "In collaborazione con",
     about: "Chi siamo",
     contact: "Contatti",
     instagram: "Instagram",
@@ -73,7 +75,14 @@ const ui = {
     */
     readyExplanation: "Già fatta. Prendila così com'è, o falla rifare sulle tue misure.",
     thisPieceMeasurements: "Misure di questo capo",
-    unique: "Unica. 1 di 1.",
+    /*
+      1 OF 1 = PRIVATE COMMISSION (owner, 2026-08-04). Each was made once, to
+      someone's measurements. It can be bought only as it is, so the line says
+      what the piece IS rather than implying it could be repeated.
+    */
+    unique: "Commissione privata. 1 di 1, fatta una volta sola.",
+    uniqueAction: "Acquista questo pezzo",
+    uniqueIntro: "Fatta una volta sola, sulle misure di qualcun altro. Si acquista così com'è.",
     privateOrder: "Ordine privato.",
     notTakingRequests: "Non in lavorazione ora.",
     // "Creatura" is the owner's own word for a piece, not ours (2026-08-02).
@@ -148,6 +157,8 @@ const ui = {
     gallery: "Gallery",
     process: "Process",
     designer: "The designer",
+    creators: "Who makes it",
+    inCollaborationWith: "In collaboration with",
     about: "About",
     contact: "Contact",
     instagram: "Instagram",
@@ -173,7 +184,9 @@ const ui = {
     availableNow: "Available now.",
     readyExplanation: "Already made. Take it as it is, or have it remade to your measurements.",
     thisPieceMeasurements: "This piece's measurements",
-    unique: "Unique. 1 of 1.",
+    unique: "A private commission. 1 of 1, made once.",
+    uniqueAction: "Acquire this piece",
+    uniqueIntro: "Made once, to someone else's measurements. It is bought as it is.",
     privateOrder: "Private order.",
     notTakingRequests: "Not in the making now.",
     madeToMeasureValue: "Built to your measurements.",

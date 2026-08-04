@@ -70,12 +70,13 @@ const paragraphs = (about ?? "")
 const isShort = (p: string) => p.split(/\s+/).length <= 18;
 
 /*
-  THE PERSON, folded in from the former /designer page (2026-08-03). The
-  portrait, and his biography when he writes one. His making lines are NOT
-  repeated here: they are already on this page, inside his complete text.
+  THE PEOPLE. His own text names them (2026-08-04), so the page ends on a
+  partnership: the two creators, the shop they work with, and the portrait.
 */
 const portrait = settings.designerPortrait;
-const designerText = pick(settings.designerText, locale);
+const creators = settings.creators ?? [];
+const partnerName = settings.partnerName?.trim() || null;
+const partnerUrl = settings.partnerUrl?.trim() || null;
 ---
 
 <Base
@@ -166,66 +167,37 @@ const designerText = pick(settings.designerText, locale);
   ))}
 
   {/*
-    THE PERSON, folded in from the designer page on 2026-08-03 by the owner's
-    instruction. They were two sections telling one story: the brand, then the
-    man who makes it. Read one after the other they are a single descent, and
-    the reason the separate page existed (an international buyer needs to see
-    that one real person makes these, DESIGN-PLAN sections 32 and 33) is served
-    better at the END of the story than on a page nobody was sent to.
+    THE TWO CREATORS (2026-08-04). {DESIGNER_BIOGRAPHY} is answered: his own
+    approved text names Ferdinando Palmieri and Ciro Cecco, so the page is
+    built around a PARTNERSHIP rather than around one portrait.
 
-    THE PORTRAIT IS LAST, and that ordering is the whole point: the story first,
-    the person at the bottom, so the page arrives at him rather than opening on
-    him. The route is gone and 301s to here; the menu carries one entry.
+    Nothing here is invented, and nothing needed to be. His origin passage is
+    the last paragraph of the story above; this block only sets the two names
+    out as facts, in the label register, and links Ferdressed, because an
+    established shop vouching for a young label is the strongest trust signal
+    an international buyer gets, and it is a FACT rather than a claim.
+
+    THE PORTRAIT IS STILL LAST. The page arrives at them.
   */}
-  {/*
-    Heading and placeholder in ONE block, not two. Rendered as two they stacked
-    two lots of vertical padding and read as an empty box waiting for text,
-    which is a different thing from the deliberate emptiness this site uses.
-  */}
-  {(designerText || portrait) && (
+  {(creators.length > 0 || partnerName) && (
     <TextSurface theme="dark" class="hairline-h flex flex-col gap-u5 py-u13">
-      {/*
-        NO BIOGRAPHY, AND NO PLACEHOLDER WHERE ONE WOULD GO (2026-08-03).
-
-        Everything else missing from this site was invented to make it look
-        finished. This was not, and the distinction is the point: a price is a
-        number somebody will replace, a biography is a person's life, and words
-        put in his mouth are a different kind of object. He says he will write
-        it.
-
-        So the section is designed around the absence instead of advertising it:
-        a heading, and the photograph of him working. A reader who arrives here
-        learns what a biography would tell them anyway, from the picture.
-      */}
-      <h2 class="type-label text-label">{t(locale, "designer")}</h2>
+      <h2 class="type-label text-label">{t(locale, "creators")}</h2>
+      <ul class="type-display text-display flex flex-col gap-u1">
+        {creators.map((person) => <li>{person}</li>)}
+      </ul>
+      {partnerName && (
+        <p class="type-label text-label">
+          {t(locale, "inCollaborationWith")}{" "}
+          {partnerUrl ? (
+            <a href={partnerUrl} rel="noopener" target="_blank" class="hairline-under">
+              {partnerName}
+            </a>
+          ) : (
+            partnerName
+          )}
+        </p>
+      )}
     </TextSurface>
-  )}
-
-  {/*
-    NO MAKING TEXT HERE, and that is the correction the merge needed. On its own
-    page this section carried his making lines, because it had no other text.
-    Folded into the story those same sentences are already ON this page, a few
-    screens above, inside his complete text: the page said them twice, which is
-    exactly the kind of seam a merge leaves and a reader notices.
-
-    What belongs to the PERSON rather than to the brand is the portrait and a
-    biography he has not written yet. So that is all this carries.
-  */}
-
-  {/*
-    Everything a designer page normally carries and this one cannot yet. A
-    marked placeholder, never a plausible sentence: inventing where someone
-    trained is the same offence as inventing what the brand believes. His name
-    is deliberately NOT here (section 44): whether the maker is named in public
-    is his decision and he has not made it.
-  */}
-  {/*
-    His biography when he writes one, in his voice and marked like the rest of
-    it. Until then the heading block above carries the placeholder: a marked
-    gap, never a plausible sentence about where someone trained.
-  */}
-  {designerText && (
-    <Statement text={designerText} locale={locale} voice={voice} register="body" theme="dark" />
   )}
 
   {portrait && <MediaSurface media={portrait} locale={locale} height="tall" />}

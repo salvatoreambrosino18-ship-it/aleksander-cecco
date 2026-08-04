@@ -143,6 +143,29 @@ export const siteSettings = defineType({
       needs to see that person (DESIGN-PLAN sections 32 and 41). This is not the
       about page: that is the brand's story, this is who makes it.
     */
+    /*
+      THE TWO CREATORS (2026-08-04). The brand is two people and he named them
+      in his own approved text, so {DESIGNER_BIOGRAPHY} is answered and the
+      about page is built around a partnership rather than a single designer.
+    */
+    defineField({
+      name: 'creators',
+      title: 'Chi lo fa / The creators',
+      type: 'array',
+      of: [{type: 'string'}],
+      description:
+        "I nomi, come li ha scritti lui. / The names, as he wrote them.",
+    }),
+    defineField({
+      name: 'partnerName',
+      title: 'In collaborazione con / In collaboration with',
+      type: 'string',
+    }),
+    defineField({
+      name: 'partnerUrl',
+      title: 'Link del partner / Partner link',
+      type: 'url',
+    }),
     defineField({
       name: 'designerPortrait',
       title: 'Ritratto / Portrait',
@@ -319,6 +342,7 @@ export const siteSettings = defineType({
           {title: 'Shop: la riga di apertura / Shop: the intro line', value: 'shopIntro'},
           {title: 'Drops: la riga di apertura / Drops: the intro line', value: 'dropsIntro'},
           {title: 'Contatti: la riga di apertura / Contact: the intro line', value: 'contactIntro'},
+          {title: 'Chi siamo: la traduzione delle origini / About: the origin translation', value: 'aboutOrigin'},
         ],
         layout: 'grid',
       },

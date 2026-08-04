@@ -5327,10 +5327,10 @@ first run; nothing was deleted.
   question): 1 of 1, ready, four frames including the catalogue's first lining
   shot. Invented price 775, flagged with the rest.
 - **capo-10 and capo-11 are SOLD OUT in his own words** — availability
-  notOffered, note "Sold out." This REVERSES his 2026-08-03 message (sold →
-  made to order); the folder is newer and wins. HIS TO CONFIRM.
-- A 1 of 1 arguably cannot offer "remade to your measurements", which the
-  order form still offers on ready pieces. Surfaced, not guessed.
+  notOffered, note "Sold out." CONFIRMED by the owner 2026-08-04.
+- A 1 of 1 cannot offer "remade to your measurements". ANSWERED by the owner
+  2026-08-04: they are private commissions, made once, bought as they are.
+  Implemented in section 67.
 - Seventeen Creature.
 
 ### Drop, invariable; the route stays

@@ -1,0 +1,97 @@
+/*
+  TEXT-ONLY PATCHES, for when the Drive is unavailable.
+
+    npm run patch-text
+
+  The import is the source of truth and stays so: everything here is ALSO in
+  `scripts/import-photos.mjs`, so a later import produces exactly this. What
+  this script buys is independence from the Google Drive mount, which stalled
+  completely on 2026-08-04 (an `ls` of the folder hung for minutes) and took the
+  import down with it, because the import must read every photograph before it
+  can write a single word.
+
+  It touches ONLY fields that carry no photograph: text, names, flags. It never
+  writes media, never deletes a document, and never reads the Drive.
+*/
+import path from "node:path";
+import {fileURLToPath} from "node:url";
+import {createClient} from "@sanity/client";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+process.loadEnvFile(path.join(ROOT, ".env"));
+
+const client = createClient({
+  projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.PUBLIC_SANITY_DATASET,
+  token: process.env.SANITY_WRITE_TOKEN,
+  apiVersion: process.env.PUBLIC_SANITY_API_VERSION || "2026-03-01",
+  useCdn: false,
+});
+
+/* His approved text, verbatim, including the origin passage supplied 2026-08-04. */
+const EN = {
+  brand:
+    "Aleksander Cecco is born to tell what is slowly being forgotten: nature and its unpredictable forms, its textures, its imperfect perfection.\nThe project lives between alchemy, esotericism and the primal link between human being and nature.",
+  creature:
+    'We call our pieces "Creature" because for us they are living.\nLiving textures. Entities with their own breath, born from the earth and worn on the body.',
+  making:
+    "In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy. Every process is Artisan.\nA work of repetition, patience, and precision.\nThis is what makes every piece similar, but never identical.",
+  origin:
+    "The project began as an experimental line between the knowledge and vision of the two creators, Ferdinando Palmieri and Ciro Cecco, in collaboration with Ferdressed.",
+};
+const IT = {
+  brand:
+    "Aleksander Cecco nasce per raccontare ciò che lentamente si sta dimenticando: la natura e le sue forme imprevedibili, le sue texture, la sua perfezione imperfetta.\nIl progetto vive tra alchimia, esoterismo e il legame primordiale tra essere umano e natura.",
+  creature:
+    'Chiamiamo i nostri pezzi "Creature" perché per noi sono vive.\nTexture viventi. Entità con un respiro proprio, nate dalla terra e indossate sul corpo.',
+  making:
+    "In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia. Ogni processo è artigianale.\nUn lavoro di ripetizione, pazienza e precisione.\nÈ questo che rende ogni pezzo simile, ma mai identico.",
+  // OURS, flagged as aboutOrigin. The names and Ferdressed are proper nouns.
+  origin:
+    "Il progetto nasce come linea sperimentale tra la conoscenza e la visione dei due creatori, Ferdinando Palmieri e Ciro Cecco, in collaborazione con Ferdressed.",
+};
+
+const about = {
+  _type: "localeText",
+  en: [EN.brand, EN.creature, EN.making, EN.origin].join("\n\n"),
+  it: [IT.brand, IT.creature, IT.making, IT.origin].join("\n\n"),
+};
+
+const settings = await client.fetch(`*[_id == "siteSettings"][0]{inventedCopy}`);
+const invented = new Set(settings?.inventedCopy ?? []);
+invented.add("aboutOrigin");
+
+await client
+  .patch("siteSettings")
+  .set({
+    about,
+    creators: ["Ferdinando Palmieri", "Ciro Cecco"],
+    partnerName: "Ferdressed",
+    partnerUrl: "https://ferdressed.com",
+    inventedCopy: [...invented],
+  })
+  .commit();
+console.log("site settings: about + creators + partner written");
+
+/*
+  THE 1 OF 1 PIECES ARE PRIVATE COMMISSIONS (owner, 2026-08-04). Each was made
+  once, to someone's measurements. They can be bought only as they are, so the
+  state must not be one that offers a remake.
+*/
+const oneOfOne = ["severya", "styrax-red"];
+for (const slug of oneOfOne) {
+  const doc = await client.fetch(`*[_type == "garment" && slug.current == $slug][0]{_id}`, {slug});
+  if (!doc) continue;
+  await client
+    .patch(doc._id)
+    .set({availability: "unique"})
+    .commit();
+  console.log(`${slug}: availability -> unique`);
+}
+
+const counts = await client.fetch(
+  `{"unique": count(*[_type=="garment" && availability=="unique"]),
+    "sold": count(*[_type=="garment" && availability=="notOffered"]),
+    "creators": count(*[_id=="siteSettings"][0].creators)}`,
+);
+console.log(counts);

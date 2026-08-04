@@ -62,6 +62,10 @@ export type SiteSettings = {
   approvedLanguages: string[] | null;
   /** True while the two footer lines are still ours rather than his. */
   footerCopyIsDraft: boolean | null;
+  /** The two people who make it, named in his own approved text. */
+  creators: string[] | null;
+  partnerName: string | null;
+  partnerUrl: string | null;
   designerPortrait: MediaItem | null;
   designerText: LocaleField;
   aboutOpeningMedia: MediaItem | null;
@@ -96,6 +100,9 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     makingStatement,
     "approvedLanguages": coalesce(approvedLanguages, ["en"]),
     "footerCopyIsDraft": coalesce(footerCopyIsDraft, true),
+    creators,
+    partnerName,
+    partnerUrl,
     designerPortrait{${MEDIA_PROJECTION}},
     designerText,
     aboutOpeningMedia{${MEDIA_PROJECTION}},
@@ -124,6 +131,9 @@ const EMPTY_SETTINGS: SiteSettings = {
   makingStatement: null,
   approvedLanguages: null,
   footerCopyIsDraft: null,
+  creators: null,
+  partnerName: null,
+  partnerUrl: null,
   designerPortrait: null,
   designerText: null,
   aboutOpeningMedia: null,

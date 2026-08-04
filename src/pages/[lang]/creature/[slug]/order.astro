@@ -70,7 +70,14 @@ const shippingLines = [
   shown for them (DESIGN-PLAN section 24).
 */
 const availability = garment.availability ?? "madeToOrder";
-const canEnquire = availability === "madeToOrder" || availability === "readyNow";
+const canEnquire =
+  availability === "madeToOrder" || availability === "readyNow" || availability === "unique";
+/*
+  A private commission is bought as it is: no remake choice, and no measurement
+  fields, because there is nothing to remake TO. The server is told by the same
+  hidden field the ready pieces use.
+*/
+const isUnique = availability === "unique";
 /*
   A Creature that already exists can be taken as it is or remade, and those are
   different requests. The form asks which, and the three measurements stop being
@@ -121,7 +128,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
       ) : (
         <>
           <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}>
-            {copy.intro}
+            {isUnique ? t(locale, "uniqueIntro") : copy.intro}
           </p>
 
           <form method="POST" action="/api/enquiry" class="flex max-w-prose flex-col gap-u5">
@@ -143,7 +150,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               without JavaScript, and the line under them says what to do.
             */}
             {
-              isReady && (
+              isReady && !isUnique && (
                 <fieldset class="flex flex-col gap-u2">
                   <legend class="type-label text-label">{copy.fulfilmentQuestion}</legend>
                   {(
@@ -161,6 +168,9 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               )
             }
 
+            {isUnique && <input type="hidden" name="fulfilment" value="asIs" />}
+
+            {!isUnique && (
             <fieldset class="flex flex-col gap-u3">
               <legend class="flex flex-col gap-u1">
                 <span class="type-label text-label">{t(locale, "yourMeasurements")}</span>
@@ -229,6 +239,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               </p>
 
             </fieldset>
+            )}
 
             <div class="field">
               <label class="type-label text-label" for="note">{t(locale, "note")}</label>

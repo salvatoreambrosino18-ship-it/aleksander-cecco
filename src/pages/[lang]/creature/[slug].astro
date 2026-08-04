@@ -72,8 +72,16 @@ const availability = garment.availability ?? "madeToOrder";
   piece made to order are both things a visitor can ask for; what differs is
   WHAT they are asking for, which the enquiry form goes on to ask.
 */
-const canEnquire = availability === "madeToOrder" || availability === "readyNow";
+/*
+  A 1 OF 1 CAN BE BOUGHT (2026-08-04), which "unique" previously could not: it
+  was grouped with private orders and carried no action at all. The owner has
+  confirmed these are private commissions that exist and are for sale AS THEY
+  ARE, so they take the action and never the remake choice.
+*/
+const canEnquire =
+  availability === "madeToOrder" || availability === "readyNow" || availability === "unique";
 const isReady = availability === "readyNow";
+const isUnique = availability === "unique";
 const availabilityLabel = {
   readyNow: t(locale, "availableNow"),
   madeToOrder: t(locale, "madeToOrder"),
@@ -277,7 +285,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
           href={localePath(locale, `creature/${garment.slug}/order`)}
           class="type-label text-label hairline-under self-start"
         >
-          {t(locale, "acquire")}{price ? ` — ${price}` : ""}
+          {t(locale, isUnique ? "uniqueAction" : "acquire")}{price ? ` — ${price}` : ""}
         </a>
       ) : (
         /*

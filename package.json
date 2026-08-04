@@ -11,7 +11,8 @@
     "astro": "astro",
     "seed": "node scripts/seed.mjs",
     "import": "node scripts/import-photos.mjs",
-    "launch-check": "node scripts/launch-check.mjs"
+    "launch-check": "node scripts/launch-check.mjs",
+    "patch-text": "node scripts/patch-text.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
