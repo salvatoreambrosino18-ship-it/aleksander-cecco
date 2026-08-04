@@ -188,7 +188,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   </Statement>
 
   {/* 3. WORN. The pieces on people, sideways. */}
-  <WornBand tiles={worn} locale={locale} label={t(locale, "worn")} />
+  <WornBand tiles={worn} locale={locale} label={t(locale, "worn")} line={t(locale, "wornLine")} />
 
   {/*
     4. THE MAKING. Section 2 claims the work is a transformation; this is the
@@ -315,6 +315,18 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   />
 
   {/* 5. THE COLLECTIONS, now on paper. */}
+  {/*
+    The chapters get a name and a line, like every other movement: the reader
+    has scrolled four screens by here and deserves to be told what this last
+    sequence is. Ours, flagged as homeLines.
+  */}
+  {collections.length > 0 && (
+    <TextSurface theme="light" class="flex flex-col gap-u1 pt-u13 pb-u5">
+      <h2 class="type-label text-label">{t(locale, "collections")}</h2>
+      <p class="type-body text-body max-w-prose">{t(locale, "dropsHomeLine")}</p>
+    </TextSurface>
+  )}
+
   {
     collections.map((collection) => {
       const statement = pick(collection.statement, locale);

@@ -103,6 +103,19 @@ const ui = {
       flagged as enquiryCopy.
     */
     order: "Ordine",
+    /*
+      INTRO LINES (2026-08-04). A shop needs a sentence where an exhibition
+      needs silence, and with the invented-but-flagged regime there is no
+      reason left for bare pages. All OURS, all counted by inventedCopy
+      (shopIntro, dropsIntro, contactIntro, homeLines), all in his register:
+      short, declarative, subject dropped. Photography still carries no
+      captions; these live between sections and at the tops of pages.
+    */
+    shopIntro: "Ogni pezzo è fatto a mano nel Sud Italia. Disponibile subito, o costruito sulle tue misure.",
+    dropsIntro: "Il lavoro esce a drop. Pochi pezzi alla volta, poi il prossimo.",
+    contactIntro: "Scrivici. Risponde una persona, entro un giorno, ora italiana.",
+    wornLine: "Addosso, alla luce del giorno.",
+    dropsHomeLine: "Il drop in corso, per intero.",
     acquire: "Acquista",
     placeOrder: "Invia l'ordine",
     sending: "Invio in corso",
@@ -175,6 +188,11 @@ const ui = {
     price: "Price",
     priceFrom: "From",
     order: "Order",
+    shopIntro: "Each piece is handmade in South Italy. Ready now, or built to your measurements.",
+    dropsIntro: "The work is released in drops. A few pieces at a time, then the next.",
+    contactIntro: "Write to us. A person replies, within one day, Italian time.",
+    wornLine: "On bodies, in daylight.",
+    dropsHomeLine: "The current drop, in full.",
     acquire: "Acquire",
     placeOrder: "Place the order",
     sending: "Placing the order",

@@ -1479,6 +1479,9 @@ async function main() {
       "enquiryCopy",
       "availabilityCopy",
       "instagramFrames",
+      "shopIntro",
+      "dropsIntro",
+      "contactIntro",
     ],
     footerCopyIsDraft: true,
 

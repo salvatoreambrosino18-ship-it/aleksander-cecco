@@ -32,12 +32,14 @@ import {localePath} from "../lib/locales";
 
 interface Props {
   tiles: HomeTile[];
+  /** One short line under the heading. Ours, flagged as homeLines. */
+  line?: string | null;
   locale: Locale;
   /** Names the region for a screen reader, and titles it on the page. */
   label: string;
 }
 
-const {tiles, locale, label} = Astro.props;
+const {tiles, locale, label, line = null} = Astro.props;
 ---
 
 {
@@ -47,10 +49,11 @@ const {tiles, locale, label} = Astro.props;
         The heading sits inside the margins like any text, and the strip below
         it runs full bleed like any media. Media never takes a margin.
       */}
-      <div class="frame pb-u3">
+      <div class="frame flex flex-col gap-u1 pb-u3">
         <h2 id="worn-heading" class="type-label text-label">
           {label}
         </h2>
+        {line && <p class="type-body text-body max-w-prose">{line}</p>}
       </div>
 
       <ul class="worn" role="region" aria-labelledby="worn-heading" tabindex="0">

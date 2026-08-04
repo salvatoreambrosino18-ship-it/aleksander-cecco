@@ -28,7 +28,10 @@ const first = collections[0]?.cover;
 ---
 
 <Base locale={locale} title={t(locale, "collections")} chrome={overlayTheme(first?.overlay)} image={first ? imageUrl(first.poster, 1200) : null}>
-  <h1 class="sr-only">{t(locale, "collections")}</h1>
+  <TextSurface class="flex flex-col gap-u2 pt-chrome pb-u5">
+    <h1 class="type-label text-label">{t(locale, "collections")}</h1>
+    <p class="type-body text-body max-w-prose">{t(locale, "dropsIntro")}</p>
+  </TextSurface>
 
   {
     collections.map((collection, index) => (
