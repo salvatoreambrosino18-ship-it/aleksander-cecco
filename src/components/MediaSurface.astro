@@ -33,7 +33,7 @@ interface Props {
    * 14), and "worn" is a frame inside the horizontal worn band, whose width
    * comes from the flex item around it.
    */
-  height?: "screen" | "tall" | "short" | "band" | "worn";
+  height?: "screen" | "tall" | "short" | "band" | "worn" | "tile";
   /**
    * A different height from `height` at desktop. It exists for the gallery,
    * where a phone alternates tall and short down one column and a desktop pairs
@@ -103,6 +103,12 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
       height === "short" && "h-media-short",
       height === "band" && "h-media-band md:h-media-screen",
       height === "worn" && "h-worn",
+      /*
+        A CATALOGUE TILE AT EVERY WIDTH: the photograph's own 3:4. Two across on
+        a phone means a viewport-height frame would be a 195px-wide column two
+        screens deep, so the tile keeps its proportion instead of the viewport's.
+      */
+      height === "tile" && "h-auto aspect-[3/4]",
       desktopHeight === "screen" && "md:h-media-screen",
       desktopHeight === "tall" && "md:h-media-tall",
       desktopHeight === "short" && "md:h-media-short",

@@ -545,16 +545,26 @@
   .count {
     display: none;
   }
-  .catalogue:has([name="worn"][value="all"]:checked) .count[data-worn="all"],
-  .catalogue:has([name="worn"][value="men"]:checked) .count[data-worn="men"],
-  .catalogue:has([name="worn"][value="women"]:checked) .count[data-worn="women"] {
+  .catalogue:has([name="worn"][value="all"]:checked) .count[data-drop="all"][data-worn="all"],
+  .catalogue:has([name="worn"][value="men"]:checked) .count[data-drop="all"][data-worn="men"],
+  .catalogue:has([name="worn"][value="women"]:checked) .count[data-drop="all"][data-worn="women"] {
     display: inline;
   }
 
   /*
     Tiles hide when they do not match. An UNSET piece never hides, which is the
     display half of "leave it unset rather than guessing".
+
+    THE TILE'S OWN `display` LIVES HERE, not as a Tailwind `block` utility, and
+    that is not a preference. These rules sit in `@layer components`; utilities
+    are a LATER layer, so `.block` beat every hiding rule below no matter how
+    specific it was, and the filter silently did nothing while the count beside
+    it changed. Whatever a rule here hides must not have its display set by a
+    utility. Same reason `.empty-filter` carries no `flex` class.
   */
+  .tile {
+    display: block;
+  }
   .catalogue:has([name="worn"][value="men"]:checked) .tile[data-worn="women"],
   .catalogue:has([name="worn"][value="women"]:checked) .tile[data-worn="men"] {
     display: none;

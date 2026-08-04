@@ -20,8 +20,10 @@
   garment (section 26). An UNSET piece appears under every filter, which is the
   honest behaviour when nobody has said which.
 
-  Four across at desktop, two on tablet, one on a phone (section 65). Name and
-  price below the frame; second photograph on hover.
+  Four across at desktop, TWO ON A PHONE, as asked. A tile keeps the
+  photograph's own 3:4 at every width rather than a viewport height, because
+  two across a 390px screen is a 195px column and a viewport-tall frame there
+  is a chimney. Name and price below the frame; second photograph on hover.
 */
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
@@ -93,8 +95,15 @@ const matches = (g: Garment, drop: string, worn: string) =>
   (drop === "all" || g.collection?.slug === drop) &&
   (worn === "all" || !g.wornBy || g.wornBy === worn || g.wornBy === "both");
 
+/*
+  Only the combinations that can actually be selected. The drop control is
+  hidden while there is a single drop (a filter with one option is furniture,
+  section 62), so emitting per-drop counts then put two visible counts on the
+  page at once, which is exactly what it looked like: "17 Creature17 Creature".
+*/
+const dropKeys = drops.length > 1 ? ["all", ...drops.map(([slug]) => slug)] : ["all"];
 const countKeys: Array<{drop: string; worn: string; n: number}> = [];
-for (const drop of ["all", ...drops.map(([slug]) => slug)]) {
+for (const drop of dropKeys) {
   for (const worn of ["all", ...WORN]) {
     countKeys.push({drop, worn, n: creature.filter((g) => matches(g, drop, worn)).length});
   }
@@ -166,19 +175,18 @@ for (const drop of ["all", ...drops.map(([slug]) => slug)]) {
               <h2 class="type-label text-label">{movement.label}</h2>
             </TextSurface>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+            <div class="grid grid-cols-2 xl:grid-cols-4">
               {movement.items.map((garment, index) => (
                 <a
                   href={localePath(locale, `creature/${garment.slug}`)}
-                  class="tile block"
+                  class="tile"
                   data-drop={garment.collection?.slug ?? "none"}
                   data-worn={garment.wornBy ?? "unset"}
                 >
                   <MediaSurface
                     media={garment.media![0]}
                     locale={locale}
-                    height={Math.floor(index / 2) % 2 === 0 ? "tall" : "short"}
-                    desktopHeight="tile"
+                    height="tile"
                     priority={index < 2}
                     hover={garment.media![1]}
                   />
@@ -211,7 +219,7 @@ for (const drop of ["all", ...drops.map(([slug]) => slug)]) {
       When a filter matches nothing at all, every movement is hidden and the
       page would end on the control row. This says so and offers the way back.
     */}
-    <TextSurface theme="dark" class="empty-filter flex flex-col gap-u3 py-u13">
+    <TextSurface theme="dark" class="empty-filter flex-col gap-u3 py-u13">
       <p class="type-display text-display">{t(locale, "noneMatch")}</p>
       <p class="type-label text-label">{t(locale, "noneMatchHint")}</p>
     </TextSurface>
