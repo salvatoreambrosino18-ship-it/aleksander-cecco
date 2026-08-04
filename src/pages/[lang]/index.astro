@@ -75,21 +75,21 @@ const instagramHandle = instagramUrl
   of date while the prices are right.
 */
 const [drop] = collections;
-void drop;
 const dropStatement = pick(drop?.statement ?? null, locale);
 /*
-  His first TWO lines, which is the Sorcinelli register measured in section 14:
-  two short lines over a full-bleed frame. The first names the drop, so no
-  separate label sits above them; printing the collection name and then his
-  sentence that opens "We present MONUMENTUS" said it twice.
+  THE ANNOUNCEMENT LEFT THE ARRIVAL (2026-08-04). "We present MONUMENTUS" is
+  his approved sentence, so the words are untouchable; the PLACEMENT was ours,
+  and the owner named it as the thing he dislikes. An announcement lives where
+  the thing is announced: on the drop's own page, which opens with his full
+  statement and always has. The arrival now carries the drop's NAME as a label
+  and his second line, which describes rather than announces.
 */
 const dropLine =
   dropStatement
     ?.split(/\n/)
     .map((l) => l.trim())
     .filter(Boolean)
-    .slice(0, 2)
-    .join("\n") ?? null;
+    .filter((l) => !/^(we present|presentiamo)/i.test(l))[0] ?? null;
 
 const prices = creature.map((c) => c.price).filter((p): p is number => typeof p === "number");
 const priceFrom = prices.length
@@ -143,10 +143,9 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
         */}
         <MediaSurface media={opening} locale={locale} priority>
           <div class="flex flex-col gap-u2">
+            {drop && <p class="type-label text-label">{drop.name}</p>}
             {dropLine && (
-              <p class="type-statement text-statement max-w-prose whitespace-pre-line">
-                {dropLine}
-              </p>
+              <p class="type-statement text-statement max-w-prose">{dropLine}</p>
             )}
             {priceFrom && <p class="type-mono text-mono">{priceFrom}</p>}
             <a

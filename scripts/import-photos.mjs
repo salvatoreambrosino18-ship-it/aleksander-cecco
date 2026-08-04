@@ -1538,6 +1538,8 @@ async function main() {
         order" is a fact about a piece rather than a question about stock.
       */
       availability: g.availability ?? (readyCreature.has(g.id) ? "readyNow" : "madeToOrder"),
+      // "Sold out." on the sold pieces is HIS label, from his own folder name.
+      availabilityNote: g.availabilityNote ? {_type: "localeString", ...g.availabilityNote} : undefined,
       orderRank: `0|${rank}:`,
     });
     console.log(

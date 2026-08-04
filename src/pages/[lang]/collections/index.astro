@@ -9,8 +9,8 @@
 import Base from "../../../layouts/Base.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
 import TextSurface from "../../../components/TextSurface.astro";
-import {getCollections} from "../../../lib/content";
-import {LOCALES, localePath, toLocale} from "../../../lib/locales";
+import {getCollections, getGarments} from "../../../lib/content";
+import {LOCALES, localePath, pick, toLocale} from "../../../lib/locales";
 import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
 import {t} from "../../../i18n/ui";
@@ -23,8 +23,16 @@ const locale = toLocale(Astro.params.lang);
 
 // A collection without a cover has nothing to show on a media-led index, and
 // the schema requires one, so this only guards against a half-filled document.
-const collections = (await getCollections()).filter((collection) => collection.cover);
+const [collectionsAll, garments] = await Promise.all([getCollections(), getGarments()]);
+const collections = collectionsAll.filter((collection) => collection.cover);
 const first = collections[0]?.cover;
+
+/* Pieces per drop: the count is the fact that says a drop is real. */
+const countBySlug = new Map<string, number>();
+for (const g of garments) {
+  const slug = g.collection?.slug;
+  if (slug) countBySlug.set(slug, (countBySlug.get(slug) ?? 0) + 1);
+}
 ---
 
 <Base locale={locale} title={t(locale, "collections")} chrome={overlayTheme(first?.overlay)} image={first ? imageUrl(first.poster, 1200) : null}>
@@ -33,15 +41,38 @@ const first = collections[0]?.cover;
     <p class="type-body text-body max-w-prose">{t(locale, "dropsIntro")}</p>
   </TextSurface>
 
+  {/*
+    A DROP IS AN EVENT, and its card reads like one (2026-08-04): the cover,
+    then his own statement in full, the piece count as a hard fact, and the way
+    in. One photograph with a name on it read as a broken page, not a quiet
+    one. The statement is HIS approved text, which is better than any intro we
+    could write, and this is also where his announcement sentence naturally
+    lives: the drop page announces the drop.
+  */}
   {
-    collections.map((collection, index) => (
-      <MediaSurface media={collection.cover!} locale={locale} priority={index === 0}>
-        <a href={localePath(locale, `collections/${collection.slug}`)} class="flex flex-col gap-u1">
-          <h2 class="type-label text-label">{collection.name}</h2>
-          {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
-        </a>
-      </MediaSurface>
-    ))
+    collections.map((collection, index) => {
+      const statement = pick(collection.statement, locale);
+      const count = countBySlug.get(collection.slug) ?? 0;
+      const href = localePath(locale, `collections/${collection.slug}`);
+      return (
+        <>
+          <MediaSurface media={collection.cover!} locale={locale} height="tall" priority={index === 0}>
+            <a href={href} class="flex flex-col gap-u1">
+              <h2 class="type-label text-label">{collection.name}</h2>
+            </a>
+          </MediaSurface>
+          <TextSurface class="flex flex-col gap-u5 py-u13">
+            {statement && (
+              <p class="type-statement text-statement max-w-prose whitespace-pre-line">{statement}</p>
+            )}
+            <p class="type-mono text-mono">{count} {t(locale, "countCreatures")}</p>
+            <a href={href} class="type-label text-label hairline-under self-start">
+              {t(locale, "enterDrop")}
+            </a>
+          </TextSurface>
+        </>
+      );
+    })
   }
 
   {

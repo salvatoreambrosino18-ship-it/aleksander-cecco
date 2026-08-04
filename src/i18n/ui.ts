@@ -24,7 +24,13 @@ const ui = {
     menu: "Menu",
     close: "Chiudi",
     languageLabel: "Lingua",
-    collections: "Drops",
+    /*
+      DROP, INVARIABLE (2026-08-04). Italian does not pluralise the loanword:
+      one drop, due drop. "Drops" on the Italian side was simply wrong, and the
+      owner writes "drop" in his own messages. English keeps the plural where
+      grammar wants it.
+    */
+    collections: "Drop",
     allCreatures: "Tutte le Creature",
     previousCreature: "Precedente",
     nextCreature: "Successiva",
@@ -113,6 +119,7 @@ const ui = {
     */
     shopIntro: "Ogni pezzo è fatto a mano nel Sud Italia. Disponibile subito, o costruito sulle tue misure.",
     dropsIntro: "Il lavoro esce a drop. Pochi pezzi alla volta, poi il prossimo.",
+    enterDrop: "Vedi il drop",
     contactIntro: "Scrivici. Risponde una persona, entro un giorno, ora italiana.",
     wornLine: "Addosso, alla luce del giorno.",
     dropsHomeLine: "Il drop in corso, per intero.",
@@ -190,6 +197,7 @@ const ui = {
     order: "Order",
     shopIntro: "Each piece is handmade in South Italy. Ready now, or built to your measurements.",
     dropsIntro: "The work is released in drops. A few pieces at a time, then the next.",
+    enterDrop: "See the drop",
     contactIntro: "Write to us. A person replies, within one day, Italian time.",
     wornLine: "On bodies, in daylight.",
     dropsHomeLine: "The current drop, in full.",
