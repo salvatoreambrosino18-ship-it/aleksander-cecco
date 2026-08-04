@@ -169,9 +169,13 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
         {index === 0 && (
           <>
             <h1 class="type-label text-label">{garment.name}</h1>
-            {garment.referenceCode && (
-              <span class="type-mono text-mono">{garment.referenceCode}</span>
-            )}
+            {/*
+              The price answers "what does it cost" on the FIRST screen, not
+              seven screens down at the technical block (2026-08-04). A buyer
+              arriving from Instagram decides whether to keep scrolling on this
+              number; his own shop shows it beside every name.
+            */}
+            {price && <span class="type-mono text-mono">{price}</span>}
           </>
         )}
       </MediaSurface>
@@ -196,7 +200,13 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
           ) : null,
         )
       }
-      <p>{availabilityLabel}</p>
+      {/*
+        The availability line appears only when it says something the constant
+        line above it does not: "Made to order." under "Handmade. Made to
+        measure." was a tautology, found by reading the page as a buyer. The
+        other four states carry real information and stay.
+      */}
+      {availability !== "madeToOrder" && <p>{availabilityLabel}</p>}
     </div>
 
     {/*
