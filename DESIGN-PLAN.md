@@ -1,89 +1,73 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-03
+## HANDOFF, 2026-08-04 (after the overnight shop run)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
 
 ### Where this is
 
-A finished-looking site, live at https://aleksander-cecco.pages.dev, in two
-languages, deliberately kept out of search results. Sixteen Creature with names,
-prices, compositions and measurements; a shop screen; a gallery; a process page;
-an about page ending on the maker; a working enquiry form; a newsletter form
-that collects nothing.
+A SHOP now, not an exhibition: live at https://aleksander-cecco.pages.dev, two
+languages, noindexed. Sixteen Creature four-across at desktop with names and
+prices, a free-shipping banner on every page, an order flow ("Acquire — €X" →
+order page → "Order received"), a process page that is the single home of
+imagery (the gallery is dissolved into it), and a six-entry menu starting at
+Home. The owner's other shop was the model; the references still hold the
+atmosphere. Clarity won on shop pages, atmosphere everywhere else.
 
-**It cannot launch, and the reason is not technical.** Most of what a visitor
-reads was written by us, not by him, and the site does not say so anywhere: it
-is flagged in the studio instead, and `npm run launch-check` refuses while any
-flag is set. It currently reports 26 items. Legal is untouched and gates
-everything downstream.
+**It cannot launch.** `npm run launch-check` reports 29 invented things, all
+invisible to visitors and flagged in the studio. Legal is untouched and gates
+the Resend secrets AND the newsletter. No payment exists; Stripe is the
+recorded future step and it waits for a fiscal position.
 
-Verified from a cold start on 2026-08-03: 23 pages, both languages, at 390 and
-1440, zero issues on headings, alt text, focus, overflow, layout shift and
-contrast; CLS 0.000; no JavaScript bundle; first paint 672-840ms on Slow 4G with
-a 4x CPU throttle.
+### Do first
 
-### Do first, in this order
+1. `npm run launch-check` — the state in one command.
+2. The launch checklist below.
+3. Ask the owner for: the seven-item unblock list (group 2), his choice of the
+   four Instagram frames, and approval or rewrite of the intro lines
+   (shopIntro, dropsIntro, contactIntro, homeLines).
+4. Nothing new until those are answered.
 
-1. **Run `npm run launch-check`.** It is the state of the project in one command.
-2. **Read the launch checklist below.** It is ordered by dependency, split into
-   what needs a lawyer, what the owner owes, and what is ours.
-3. **Ask him for the seven things that unblock the most** (checklist group 2).
-   The catalogue names are a FILING job, not a shoot: the photographs exist,
-   they are simply not in a folder that says what they are.
-4. **Do not start anything new until 1 to 3 are answered.** Everything left is
-   waiting on him or on a lawyer.
+### Do not redo (all previous entries stand, plus)
 
-### Do not redo these
-
-Each cost real time and is settled. Reopening one is how this project loses a
-day.
-
-- **The reference measurements** (section 14). Findings of record, measured
-  live. Do not re-derive them from memory of what those brands "do".
-- **Sizes.** Removed twice, on his word both times (sections 17, 41). A piece
-  that seems to need one needs a reference measurement.
-- **Ready versus remade** (sections 31, 41, 49). Settled and BUILT: two
-  availability states, and the enquiry asks which. The costing is spent.
-- **The caption polarity** (section 58). Four wrong answers before the right
-  one. Two bands are measured per frame; where neither survives, the caption
-  goes below. Do not "simplify" it back to one value.
-- **The Drive survey** (sections 47, 64). Compare photographs BY CONTENT, never
-  by path: the same frame exists under several names and a path-based sweep
-  reports nonsense.
-- **The home page's quietness** (section 64). Asked for and declined, with
-  reasons. All ten of his sentences are already placed; more words means new
-  words in his register on the first screen a visitor sees.
-- **His biography and anything legal.** Never invented. The about page is
-  designed around the absence.
-- **The drop filter.** A filter with one option is furniture. It appears when a
-  second drop exists.
+- Everything in the 2026-08-03 list: reference measurements (s14), sizes (s17,
+  41), ready-versus-remade (s31, 41, 49), caption polarity (s58), Drive survey
+  BY CONTENT (s47, 64), his biography and legal (never), the drop filter
+  condition (s62, 65).
+- **The four-across decision** (s65). Rendered against three, looked at,
+  chosen. Tablet two-across is deliberate (192px tiles are the real thumbnail).
+- **The gallery dissolution** (s65). Imagery lives on /process; do not
+  resurrect a gallery route.
+- **The order framing** (s65). It is an order, not an enquiry; the payment
+  step slots into one return statement in the Function and is Stripe when the
+  owner asks.
+- **The home page's quietness on photography** (s64). Intro lines between
+  sections were added deliberately; captions on home photographs stay off.
 
 ### Traps that have already bitten
 
-- **`wrangler pages dev` sends REAL email.** It reads `.env`, which holds the
-  Resend secrets. A valid local submission reaches his inbox and spends one of
-  his hundred a day; it has happened. Use
-  `npx wrangler pages dev dist --binding ENQUIRY_DRY_RUN=1`.
-- **A green check may be measuring nothing.** This session's audit reported a
-  clean pass having measured nothing at all, measured the wrong pixels, measured
-  captions that were not on the picture, and flagged correct markup as a defect.
-  Section 63 records how each gate was proven able to go red. **Prove it fails
-  before you believe it passes.**
-- **`npm run check` runs a build** for the same reason: it once reported zero
-  errors on a component using an identifier it never imported.
-- **A stale edge** served old HTML for minutes after a deploy more than once.
-  Audit the local build when a result looks impossible.
+- **`wrangler pages dev` sends REAL email** (`.env` holds live Resend keys).
+  Always `--binding ENQUIRY_DRY_RUN=1`, and PROVE the dry run fired by its log
+  line: `--log-level error` silently suppresses it, and a green without that
+  line proves nothing.
+- **Local servers must be tracked background tasks.** A server started with
+  `&` dies when its shell call ends and every later check reports a dead site.
+- **The screenshot harness hardcodes its target origin.** It now refuses to
+  capture when it lands off-path; if it refuses, check the port constant
+  before anything else. An hour was lost to a stale one.
+- **Prove every check can fail before trusting its pass.** The audit has lied
+  four ways historically (s58, 63) and the harness added a fifth (s65).
+- **Stale edge caches** serve old HTML minutes after a deploy; audit the local
+  build when a result looks impossible.
 - **Never set the Resend secrets or open the newsletter before the privacy
-  notice exists** (sections 36, 62). The gate has not moved.
+  notice exists** (s36, 62). Unchanged all night.
 
 ### How the pieces fit
 
-Content lives in Sanity and is written by `npm run import`, which reads his
-Google Drive READ ONLY. Everything invented is in that script, flagged onto the
-documents it writes, and listed in section 59. A push to `main` deploys; a
-publish in Sanity also deploys, intermittently (section 16), and a push is the
-reliable one.
+Sanity holds content; `npm run import` (Drive READ ONLY) writes it and carries
+every invented value, flagged. Push to `main` deploys reliably; Sanity publish
+deploys intermittently (s16). The order flow is one Pages Function; its email,
+confirmation and future payment slot are all in `functions/api/enquiry.ts`.
 
 ---
 
@@ -152,6 +136,8 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 
 **Does not block launch, but the site is weaker without it**
 
+- [ ] **Approve or replace the intro lines** (shop, drops, contact, worn, home
+      chapters) and the ORDER-flow copy, all flagged in inventedCopy.
 - [ ] **Choose the four Instagram frames.** The section is live and the four in
       it are OUR selection of his photographs, flagged as `instagramFrames`.
 - [ ] **The closer texture frame** for the home arrival, the reason the current
@@ -215,6 +201,9 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
       unsubscribe in every message, the sender's identity and postal address,
       a retained record of when and how each consent was given, and double opt-in
       as the defensible EU standard (section 62).
+- [ ] **The payment step, when he has a fiscal position**: Stripe Checkout in
+      the Function's confirmation slot, amount from the dataset. First paid
+      thing on the project; ask before building (section 65).
 - [ ] **Wire the Cloudflare Web Analytics token.** Decided in section 9, still
       not done, cookieless and free.
 - [ ] **Remove the three Resend values from the local `.env`.** Wrangler reads
@@ -5185,3 +5174,120 @@ Three arguments against adding more:
 If the page should carry more, the lever is his: more sentences, or the on-model
 photography that caps the worn band at five frames. Both are already on the
 checklist.
+
+---
+
+## 65. The shop, closed to within reach of his own (overnight, 2026-08-04)
+
+The owner's model: his other shop, same photographer, same concrete-and-shutter
+photography, black page, four across, uppercase names with prices, a thin free-
+shipping banner, everything purchasable, readable as a shop in one second. Ours
+read as an exhibition. The night's brief was to close that distance without
+becoming Shopify, and these decisions were settled in advance by the owner.
+
+### The gallery dissolved
+
+Imagery has ONE home now: the process page weaves the eight making frames with
+the fifteen artistic frames into a single descent, the formula SOLVET ET
+COAGULA as its title inside at chapter size. The menu says Process / Processo,
+because the formula in a menu is illegible to anyone who does not already know
+the brand. /gallery and the old /archive and /creature/rubedo hops all 301
+straight to /process, no chains. Products only ever live in the shop. The weave
+is deterministic: process frames are the spine in work order, artistic frames
+dealt evenly between them in the gallery's dark-to-light order.
+
+### The menu, the banner
+
+Six destinations: Home, Creature, Drops, Process, About, Contact. Home leads
+because the signature-as-home-link is a convention only designers know. Drops
+is his model and his industry's word, both languages.
+
+One thin line tops every page: FREE WORLDWIDE SHIPPING OVER 500 EURO, his real
+policy in his own words (`shippingFree`, unmarked). Static, not fixed: it says
+its one thing at arrival and scrolls away, so it is not the persistent bar
+section 4 removed.
+
+### Section 39 revised again: four across
+
+The two-across ceiling was OURS, set when the catalogue was two seeded
+fixtures. Three and four were both rendered at 1440 and looked at. FOUR wins:
+two full rows in the first screen (the one-second shop read), sixteen pieces as
+a clean four-by-four where three leaves an orphan, and the garments survive
+tiling because the photography is tight on the subject. Tablet gets two across,
+because four at 768px is a 192px tile and that IS the thumbnail the rule
+forbids. Phone untouched. Tiles take the photograph's own 3:4 at desktop, and
+name and price sit BELOW the frame on the page, uniformly: the placement his
+shop uses and the one that can never fail contrast.
+
+### The atelier version of buying
+
+The enquiry became the ORDER. On an available or made-to-order piece the action
+reads "Acquire — €X"; it leads to /creature/[slug]/order (old enquiry URLs
+301), which carries one photograph, the name and price at statement size, the
+shipping terms BEFORE the form, then the buyer's details; made-to-order still
+carries the measurements and his approved line, untouched. The confirmation
+reads as an order placed: "Order received. We confirm it by email within one
+day, Italian time. Payment and delivery are arranged in that reply." The email
+is an order sheet with the price in the subject.
+
+NOT a cart (sixteen one-off pieces cannot fill one) and NO payment (the owner
+has no fiscal position yet). Nothing is collected that the enquiry did not
+already collect: THE LEGAL GATE IS UNCHANGED.
+
+**THE PAYMENT STEP, RECORDED:** the intended future step is STRIPE CHECKOUT,
+slotted into exactly one return statement in `functions/api/enquiry.ts` (the
+comment marks it): create a session for the piece, amount from the DATASET
+never the form, return URL landing on the same confirmation. First paid thing
+on the project, so it is asked about first.
+
+### Words where a shop needs them
+
+Intro lines for the shop, the drops index, contact, the worn band and the home
+chapters. All ours, all his register, all flagged (`shopIntro`, `dropsIntro`,
+`contactIntro`, plus `homeLines`), all counted by launch-check, which rose from
+26 to 29 and is the point: nothing invented can quietly become permanent. The
+process page deliberately gained nothing: the formula and his making lines are
+its whole text. Each drop's own page already opens in his approved statement,
+which is better than any intro we could write.
+
+### The buyer's walk, and what it fixed
+
+Walked as a first-time visitor from Instagram on a phone. The arrival now
+answers all four questions in one screen (what: his two lines; cost: From €275;
+have: Made to measure; next: All Creature). Two failures found and fixed: the
+piece page answered "what does it cost" seven screens down, so the price now
+sits under the name on the FIRST frame; and the inscription said "Made to
+order." directly beneath "Handmade. Made to measure.", a tautology, so the
+availability line now appears only when it says something the constant line
+does not.
+
+### The drop filter, condition restated
+
+Grouping exists in the ordering; the CONTROL appears when a second drop exists.
+A filter offering one option is furniture (unchanged from section 62).
+
+### The night's tool failures, for the record
+
+1. **The screenshot harness reported a 900px page that measured 3405.** It was
+   navigating to a PORT FROM THE PREVIOUS SESSION, and its sanity guard passed
+   vacuously on the error page (zero images = "nothing failed"). It now refuses
+   to capture when it lands anywhere but the requested path, and names where it
+   landed. An hour of "failures" were the tool.
+2. **Servers started with `&` die with their shell.** The preview server must
+   run as a tracked background task; half the "site is down" results were this.
+3. **`--log-level error` suppressed the dry-run warning**, so a test that sent
+   no email was indistinguishable from one that sent a real one. The dry run is
+   now proven by its log line before any success is believed.
+4. The audit was re-proven able to go red tonight (a planted duplicate h1 was
+   caught, then restored) before its greens were trusted.
+
+### Verified overnight
+
+21 pages × two languages × 390 and 1440: zero issues (headings, alt, focus,
+overflow, CLS, contrast). No-JS: wash inert, no hidden frames, both forms
+usable, "Place the order" reachable. Reduced motion exercised on every capture.
+All redirects live on production, one hop each. Cold Slow-4G + 4x CPU: first
+paint 668-792ms, CLS 0.000 everywhere, LCP 712ms-2.4s, and the home LCP is the
+arrival photograph again. Order flow tested against the Workers runtime with
+the dry run proven to fire. `npm run check` went red on a real JSX error
+mid-session and green after the fix; launch-check red at 29, correctly.
