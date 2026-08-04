@@ -200,6 +200,22 @@ const SALVAGED = {
 
   MEASUREMENTS are the photographed piece, in his flat-measurement idiom.
 */
+/*
+  WHO A PIECE IS FOR: a catalogue FILTER, never a route (2026-08-04). Derived
+  from his own 2026-08-03 description of the families ("MONUMENTUS = men's
+  co-ord sets", "OBLIVION = women's shirts") and applied only where the piece
+  still carries that family name. Everything else stays unset and shows under
+  every filter. Flagged, because the folder scheme that said so is superseded.
+*/
+const WORN_BY = {
+  "capo-02": "women",
+  "capo-03": "men",
+  "capo-04": "men",
+  "capo-05": "men",
+  "capo-10": "men",
+  "capo-11": "men",
+};
+
 const INVENTED = {
   "capo-01": {
     name: "Armonyen",
@@ -1539,7 +1555,8 @@ async function main() {
       description: {_type: "localeText", ...(g.description ?? INVENTED[g.slug]?.description ?? {})},
       price: INVENTED[g.slug]?.price,
       // Everything on this document that we wrote rather than he did.
-      inventedFields: INVENTED[g.slug]?.fields ?? [],
+      wornBy: WORN_BY[g.slug],
+      inventedFields: [...(INVENTED[g.slug]?.fields ?? []), ...(WORN_BY[g.slug] ? ["wornBy"] : [])],
       media: g.files.map(([rel, alt], i) => ({
         ...mediaObject(assets.get(rel), alt, ov(rel), `m${i}`, ovc(rel), safe(rel)),
         ...(g.provisional ? {isProvisional: true} : {}),

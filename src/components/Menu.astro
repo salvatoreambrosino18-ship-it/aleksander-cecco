@@ -26,9 +26,10 @@
      so the address and the Instagram handle are here as mono facts rather than
      one more destination to tap through to.
 
-  The destinations take the statement register and a hairline under each, which
-  thickens on hover and focus: emphasis by thickening a rule is the one gesture
-  this system has (section 26).
+  ONE SIZE, NO RULES (2026-08-04). The destinations were at display size with a
+  hairline under each; the reference sets its whole menu at 11px with nothing
+  between the items. Underline on hover is the only state, because a rule per
+  row is six rules a reader has to look past.
 */
 import Signature from "./Signature.astro";
 import LanguageSwitch from "./LanguageSwitch.astro";
@@ -66,40 +67,44 @@ const handle = instagram ? `@${instagram.replace(/\/+$/, "").split("/").pop()}` 
   <div class="menu-panel bg-bg text-fg frame" data-theme={panelTheme}>
     <Spine />
 
-    <nav class="flex flex-col" aria-label={t(locale, "menu")}>
+    {/*
+      GROUP ONE: where a reader can go. Tight leading, so six entries read as
+      one block rather than six decisions.
+    */}
+    <nav class="flex flex-col gap-u2" aria-label={t(locale, "menu")}>
       {
         MENU_DESTINATIONS.map(({key, path}) => (
-          <a href={localePath(locale, path)} class="menu-destination type-label text-display">
+          <a href={localePath(locale, path)} class="type-label text-label hover:underline underline-offset-8">
             {t(locale, key)}
           </a>
         ))
       }
     </nav>
 
-    <div class="flex flex-col gap-u5">
-      {/*
-        The two ways to reach a person, in the mono register, because they are
-        hard facts rather than navigation. A placeholder address is never
-        rendered as a working link.
-      */}
-      <div class="type-mono text-mono flex flex-col gap-u1">
-        {handle && instagram && (
-          <a href={instagram} rel="me noopener" target="_blank" class="hover:underline underline-offset-4">
-            {handle}
+    {/*
+      GROUP TWO: where a reader can go that is not this site, and the language.
+      Separated from group one by whitespace and nothing else. The email left:
+      it is an address, not a destination, and it lives on Contact.
+    */}
+    <div class="flex flex-col gap-u8">
+      <nav class="flex flex-col gap-u2" aria-label={t(locale, "instagram")}>
+        {instagram && (
+          <a
+            href={instagram}
+            rel="me noopener"
+            target="_blank"
+            class="type-label text-label hover:underline underline-offset-8"
+          >
+            {t(locale, "instagram")}
           </a>
         )}
-        {email && !isPlaceholderEmail(email) && (
-          <a href={`mailto:${email}`} class="hover:underline underline-offset-4">
-            {email}
-          </a>
-        )}
-      </div>
+        <LanguageSwitch locale={locale} />
+      </nav>
 
       <div class="flex items-end justify-between gap-u3">
         <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
           <Signature class="h-sig-corner" decorative />
         </a>
-        <LanguageSwitch locale={locale} />
       </div>
     </div>
   </div>

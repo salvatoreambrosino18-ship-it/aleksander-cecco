@@ -189,6 +189,8 @@ export type Garment = {
   referenceCode: string | null;
   /** tenebrae | lux, or null. Drives catalogue ORDER, never a visible label. */
   stage: string | null;
+  /** men | women | both, or null. A catalogue FILTER only, never a route. */
+  wornBy: string | null;
   price: number | null;
   currency: string | null;
   materials: LocaleField;
@@ -206,6 +208,7 @@ const GARMENT_PROJECTION = /* groq */ `
   "slug": slug.current,
   referenceCode,
   stage,
+  wornBy,
   price,
   currency,
   materials,

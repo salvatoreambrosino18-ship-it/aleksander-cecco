@@ -508,20 +508,75 @@
     display: none;
   }
   /*
-    A destination is a label with a hairline under it, and the hairline thickens
-    on hover and focus. That is the site's ONE emphasis gesture (section 26): the
-    thing you press looks like the things you fill in on the enquiry form.
+    THE CATALOGUE FILTER, in CSS (2026-08-04). Radios hold the state, `:has()`
+    reads it, and nothing needs JavaScript, so the catalogue filters with
+    scripts off exactly as the order form submits with them off.
+
+    Every rule matches on the radio's NAME and VALUE rather than on an id, so
+    adding a drop adds no CSS. Each radio sits inside its own label, which is
+    what makes focus visible without a rule per control.
   */
-  .menu-destination {
-    display: block;
-    padding-block: var(--s-u3);
-    border-bottom: var(--hairline-w) solid var(--hairline);
+  .filter-state {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
   }
-  .menu-destination:hover,
-  .menu-destination:focus-visible {
+
+  .filter-label {
+    cursor: pointer;
+    border-bottom: var(--hairline-w) solid transparent;
+  }
+  .filter-label:hover {
+    border-bottom-color: var(--hairline);
+  }
+  /* Active: the rule goes solid. No colour, no fill, no pill. */
+  .filter-label:has(:checked) {
     border-bottom-color: var(--fg);
-    border-bottom-width: calc(var(--hairline-w) * 2);
-    padding-bottom: calc(var(--s-u3) - var(--hairline-w));
+  }
+  /* The label carries the focus ring, because its radio is invisible. */
+  .filter-label:has(:focus-visible) {
+    outline: var(--hairline-w) solid var(--fg);
+    outline-offset: calc(var(--s-u1) / 2);
+  }
+
+  /* Counts: all rendered, one revealed. */
+  .count {
+    display: none;
+  }
+  .catalogue:has([name="worn"][value="all"]:checked) .count[data-worn="all"],
+  .catalogue:has([name="worn"][value="men"]:checked) .count[data-worn="men"],
+  .catalogue:has([name="worn"][value="women"]:checked) .count[data-worn="women"] {
+    display: inline;
+  }
+
+  /*
+    Tiles hide when they do not match. An UNSET piece never hides, which is the
+    display half of "leave it unset rather than guessing".
+  */
+  .catalogue:has([name="worn"][value="men"]:checked) .tile[data-worn="women"],
+  .catalogue:has([name="worn"][value="women"]:checked) .tile[data-worn="men"] {
+    display: none;
+  }
+
+  /*
+    A movement whose every tile is hidden takes its heading with it. Phrased as
+    "has no tile that would survive this filter" rather than by reading computed
+    display, which CSS cannot do.
+  */
+  .catalogue:has([name="worn"][value="men"]:checked) .movement:not(:has(.tile:not([data-worn="women"]))),
+  .catalogue:has([name="worn"][value="women"]:checked) .movement:not(:has(.tile:not([data-worn="men"]))) {
+    display: none;
+  }
+
+  /* And when NOTHING survives, the page says so instead of ending on a filter. */
+  .empty-filter {
+    display: none;
+  }
+  .catalogue:has([name="worn"][value="men"]:checked):not(:has(.tile:not([data-worn="women"]))) .empty-filter,
+  .catalogue:has([name="worn"][value="women"]:checked):not(:has(.tile:not([data-worn="men"]))) .empty-filter {
+    display: flex;
   }
 
   .menu-panel {

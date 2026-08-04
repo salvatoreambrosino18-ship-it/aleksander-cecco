@@ -1,38 +1,27 @@
 ---
 /*
-  THE CREATURE INDEX. Everything, at once.
+  THE CATALOGUE. Everything, on one page (2026-08-04).
 
-  This page exists because a founding rule was revised, openly, on 2026-08-02
-  (DESIGN-PLAN section 39). "No thumbnail grid" was OUR rule, derived from the
-  references before there was a real catalogue. With sixteen Creature the site
-  needs one view where many are visible together, and the primary reference
-  itself pairs tiles two across and touching.
+  A CONTROL ROW, in the manner of the owner's own shop: filter by drop, filter
+  by who a piece is for, and the piece count. All of it CSS: radio inputs and
+  `:has()`, no script and no bundle, so filtering survives JavaScript being off
+  exactly as the order form does. The count is precomputed per combination and
+  the matching one revealed, because CSS cannot count elements.
 
-  WHAT IT IS NOT: a shop grid. No cards, no borders, no gaps, no shadows, no
-  rounded corners, no prices, no filters, no sort control, no "quick view".
+  THREE MOVEMENTS, with visible headings, which is what replaced the idea of
+  menu sub-items: sectioning belongs inside the page, not in the menu.
 
-  WHAT IT IS: designed density.
+    1. AVAILABLE   ready now and made to order, the things a visitor can have
+    2. 1 OF 1      private commissions, made once, bought as they are
+    3. SOLD OUT    marked, at the bottom, carrying no price
 
-  - TWO PER ROW MAXIMUM on desktop, never three. Three across is the point at
-    which a garment becomes a thumbnail, and the brief has forbidden that from
-    the beginning. One per row on a phone, because half of 390px is not a
-    photograph.
-  - TOUCHING. No gutter at all, the way the reference pairs 720x900 frames with
-    nothing between them. The seam between two Creature is a hard edge, which
-    is the same language as the wipe.
-  - AN ALTERNATING RHYTHM. Rows alternate tall and short, so scrolling the index
-    has a pulse instead of being a conveyor of identical rectangles. That is the
-    difference between density and a spreadsheet.
-  - WORDLESS while any Creature is unnamed, and an 11px name over each frame
-    once they all have one. No reference code and no price: this page is for
-    seeing the work, and two lines over every frame is the product grid the
-    brief forbids. The reasoning is at `allNamed` below.
+  GENDER IS A FILTER, NEVER A STRUCTURE. Seventeen pieces do not need halving,
+  and a garment cut to the measurements of the person ordering is that person's
+  garment (section 26). An UNSET piece appears under every filter, which is the
+  honest behaviour when nobody has said which.
 
-  The one-per-screen treatment survives on the collection page, which is the
-  narrative. This is where you go to see everything.
-
-  ORDER: tenebrae, then lux, then unassigned, then his own drag order within
-  each group, exactly as the collection page (section 28). Nothing labels it.
+  Four across at desktop, two on tablet, one on a phone (section 65). Name and
+  price below the frame; second photograph on hover.
 */
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
@@ -54,60 +43,8 @@ const locale = toLocale(Astro.params.lang);
 const creature = byStage(unordered).filter((g) => g.media?.[0]);
 const first = creature[0]?.media?.[0];
 
-/*
-  The rhythm. Rows alternate tall and short, and it is computed per ROW rather
-  than per Creature so a pair always agrees with itself: two frames side by side
-  at different heights would leave a hole, which is the one thing a page with no
-  gaps cannot have.
-*/
-const rowHeight = (index: number): "tall" | "short" =>
-  Math.floor(index / 2) % 2 === 0 ? "tall" : "short";
-
-/*
-  THE WALL IS WORDLESS UNTIL THE WORK HAS NAMES (2026-08-03, after looking at
-  the rendered page at 390 and 1440).
-
-  Section 39 specified a name and a reference code over every frame. Rendered
-  against the real catalogue that produced sixteen reference-code placeholders
-  and seven name placeholders: twenty-three pieces of scaffolding laid over the
-  brand's own photography, on the one page a visitor browses. It read as a
-  spreadsheet with the data missing.
-
-  Two changes. The REFERENCE CODE is gone from this page for good: a code is a
-  detail that belongs on the piece's own page, and two lines over every frame is
-  a product grid, which is the thing the brief forbids. The NAME appears only
-  when EVERY Creature has one, because a wall where nine frames are labelled and
-  seven are not reads as a bug rather than as a decision.
-
-  It heals itself: the moment he names the last seven the labels come back, with
-  no code change. Until then the page is what the primary reference actually is,
-  measured in section 14: imagery, overwhelmingly wordless. Each frame is still
-  announced to a screen reader by its alt text, which is a real description.
-*/
 const allNamed = creature.every((garment) => !isPlaceholderText(garment.name));
 
-/*
-  DESKTOP DENSITY: FOUR ACROSS (2026-08-04), revising section 39's two-across
-  ceiling, which was OURS, set when the catalogue was two seeded fixtures.
-
-  Both three and four were rendered at 1440 and looked at. Four wins on the
-  evidence: two full rows land in the first screen, which is the one-second
-  shop read his own catalogue proves with this exact photography; sixteen
-  pieces make a clean four-by-four where three leaves an orphan; and the
-  garments survive tiling because the photography is tight on the subject, so
-  a 360px tile still shows a garment, not a speck. What section 39 was
-  protecting is intact: no gaps, no cards, no borders, and the name and price
-  sit on the page below the frame, never shrunk onto it.
-
-  Tablet gets two across, because four at 768px is a 192px tile and that IS
-  the thumbnail the rule forbids. Phone stays one across, untouched.
-*/
-
-/*
-  THE PRICE BELONGS HERE, and only here among the wall views. This is the
-  catalogue screen: a reader is comparing, and a comparison without prices is a
-  mood board. The gallery stays wordless because it is not selling anything.
-*/
 const money = new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
   style: "currency",
   currency: "EUR",
@@ -115,6 +52,53 @@ const money = new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
 });
 const priceOf = (garment: Garment) =>
   typeof garment.price === "number" ? money.format(garment.price) : null;
+
+const isSold = (g: Garment) =>
+  g.availability === "notOffered" || g.availability === "privateOrder";
+
+/* The three movements, in the order a buyer cares about them. */
+const MOVEMENTS = [
+  {
+    key: "available",
+    label: t(locale, "movementAvailable"),
+    items: creature.filter(
+      (g) => !g.availability || g.availability === "readyNow" || g.availability === "madeToOrder",
+    ),
+  },
+  {
+    key: "oneOfOne",
+    label: t(locale, "movementOneOfOne"),
+    items: creature.filter((g) => g.availability === "unique"),
+  },
+  {key: "sold", label: t(locale, "movementSold"), items: creature.filter(isSold)},
+].filter((m) => m.items.length > 0);
+
+/* The drops present in the catalogue, for the filter. */
+const drops = [
+  ...new Map(
+    creature
+      .filter((g) => g.collection?.slug)
+      .map((g) => [g.collection!.slug!, g.collection!.name] as const),
+  ).entries(),
+];
+
+const WORN = ["men", "women"] as const;
+
+/*
+  Counts per combination, precomputed. CSS cannot count, so every count is
+  rendered and `:has()` reveals the one matching the current filters. A piece
+  with no `wornBy` counts under every filter, matching how it displays.
+*/
+const matches = (g: Garment, drop: string, worn: string) =>
+  (drop === "all" || g.collection?.slug === drop) &&
+  (worn === "all" || !g.wornBy || g.wornBy === worn || g.wornBy === "both");
+
+const countKeys: Array<{drop: string; worn: string; n: number}> = [];
+for (const drop of ["all", ...drops.map(([slug]) => slug)]) {
+  for (const worn of ["all", ...WORN]) {
+    countKeys.push({drop, worn, n: creature.filter((g) => matches(g, drop, worn)).length});
+  }
+}
 ---
 
 <Base
@@ -125,66 +109,111 @@ const priceOf = (garment: Garment) =>
   theme="dark"
   footerTheme="dark"
 >
-  {/*
-    The heading sits inside the margins like any text; the frames below run
-    full bleed like any media. It is the only text on the page that is not an
-    inscription over a photograph.
-  */}
-  <TextSurface theme="dark" class="flex flex-col gap-u1 pt-chrome pb-u5">
-    <h1 class="type-label text-label">{t(locale, "allCreatures")}</h1>
-    {/*
-      The count, in the mono register because it is a hard fact. It says the
-      catalogue is real: a visitor who has seen four photographs on the home
-      page has no other way to know there are sixteen.
-    */}
-    <p class="type-mono text-mono">{creature.length} {t(locale, "countCreatures")}</p>
-    <p class="type-body text-body max-w-prose pt-u2">{t(locale, "shopIntro")}</p>
-  </TextSurface>
+  <div class="catalogue">
+    <TextSurface theme="dark" class="flex flex-col gap-u3 pt-chrome pb-u5">
+      <h1 class="type-label text-label">{t(locale, "allCreatures")}</h1>
+      <p class="type-body text-body max-w-prose">{t(locale, "shopIntro")}</p>
 
-  {
-    creature.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
-        {creature.map((garment, index) => (
-          <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
-            <MediaSurface
-              media={garment.media![0]}
-              locale={locale}
-              height={rowHeight(index)}
-              desktopHeight="tile"
-              priority={index < 2}
-              hover={garment.media![1]}
-            />
-            {/*
-              Name and price BELOW the frame, on the page, uniformly: the shop
-              read his own catalogue proves, and the one placement that can
-              never fail contrast over photography. The frames still touch;
-              the caption row is the seam between rows.
-            */}
-            {allNamed && (
-              <div class="flex flex-col gap-u1 px-caption py-u2">
-                <h2 class="type-label text-label">{garment.name}</h2>
-                {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
-              </div>
-            )}
-          </a>
-        ))}
+      <div class="flex flex-wrap items-baseline gap-x-u5 gap-y-u2 pt-u2">
+        {/*
+          Each control is a LABEL WRAPPING ITS RADIO, so focus can be styled
+          generically (`label:has(:focus-visible)`) without a rule per id, and a
+          keyboard reader never focuses something invisible.
+        */}
+        {drops.length > 1 && (
+          <div class="flex flex-wrap items-baseline gap-u3">
+            <label class="filter-label type-label text-label">
+              <input class="filter-state" type="radio" name="drop" value="all" checked />
+              {t(locale, "filterAll")}
+            </label>
+            {drops.map(([slug, name]) => (
+              <label class="filter-label type-label text-label">
+                <input class="filter-state" type="radio" name="drop" value={slug} />
+                {name}
+              </label>
+            ))}
+          </div>
+        )}
+
+        <div class="flex flex-wrap items-baseline gap-u3">
+          <label class="filter-label type-label text-label">
+            <input class="filter-state" type="radio" name="worn" value="all" checked />
+            {t(locale, "filterEveryone")}
+          </label>
+          {WORN.map((w) => (
+            <label class="filter-label type-label text-label">
+              <input class="filter-state" type="radio" name="worn" value={w} />
+              {t(locale, w === "men" ? "filterMen" : "filterWomen")}
+            </label>
+          ))}
+        </div>
+
+        <p class="type-mono text-mono">
+          {countKeys.map(({drop, worn, n}) => (
+            <span class="count" data-drop={drop} data-worn={worn}>
+              {n} {t(locale, "countCreatures")}
+            </span>
+          ))}
+        </p>
       </div>
-    ) : (
-      /*
-        THE EMPTY STATE, which nobody ever designs and everybody eventually
-        sees: a dataset mid-import, a filter that matches nothing later. It says
-        what is true and offers the one place that is never empty, rather than
-        printing a token at a visitor.
-      */
-      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center gap-u5">
-        <p class="type-display text-display">{t(locale, "nothingYet")}</p>
-        <a
-          href={localePath(locale, "process")}
-          class="type-label text-label self-start hairline-under"
-        >
-          {t(locale, "process")}
-        </a>
-      </TextSurface>
-    )
-  }
+    </TextSurface>
+
+    {
+      creature.length > 0 ? (
+        MOVEMENTS.map((movement) => (
+          <section class="movement">
+            <TextSurface theme="dark" class="hairline-h flex flex-col gap-u1 pt-u8 pb-u3">
+              <h2 class="type-label text-label">{movement.label}</h2>
+            </TextSurface>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+              {movement.items.map((garment, index) => (
+                <a
+                  href={localePath(locale, `creature/${garment.slug}`)}
+                  class="tile block"
+                  data-drop={garment.collection?.slug ?? "none"}
+                  data-worn={garment.wornBy ?? "unset"}
+                >
+                  <MediaSurface
+                    media={garment.media![0]}
+                    locale={locale}
+                    height={Math.floor(index / 2) % 2 === 0 ? "tall" : "short"}
+                    desktopHeight="tile"
+                    priority={index < 2}
+                    hover={garment.media![1]}
+                  />
+                  {allNamed && (
+                    <div class="flex flex-col gap-u1 px-caption py-u2">
+                      <h3 class="type-label text-label">{garment.name}</h3>
+                      {isSold(garment) ? (
+                        <span class="type-mono text-mono">{t(locale, "soldOut")}</span>
+                      ) : (
+                        priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>
+                      )}
+                    </div>
+                  )}
+                </a>
+              ))}
+            </div>
+          </section>
+        ))
+      ) : (
+        <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center gap-u5">
+          <p class="type-display text-display">{t(locale, "nothingYet")}</p>
+          <a href={localePath(locale, "process")} class="type-label text-label self-start hairline-under">
+            {t(locale, "process")}
+          </a>
+        </TextSurface>
+      )
+    }
+
+    {/*
+      When a filter matches nothing at all, every movement is hidden and the
+      page would end on the control row. This says so and offers the way back.
+    */}
+    <TextSurface theme="dark" class="empty-filter flex flex-col gap-u3 py-u13">
+      <p class="type-display text-display">{t(locale, "noneMatch")}</p>
+      <p class="type-label text-label">{t(locale, "noneMatchHint")}</p>
+    </TextSurface>
+  </div>
 </Base>

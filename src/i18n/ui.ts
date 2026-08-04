@@ -31,6 +31,19 @@ const ui = {
       grammar wants it.
     */
     collections: "Drop",
+    newDrop: "New",
+    otherDrops: "Gli altri drop",
+    /* The catalogue's control row and its three movements. */
+    filterAll: "Tutti",
+    filterEveryone: "Tutti",
+    filterMen: "Uomo",
+    filterWomen: "Donna",
+    movementAvailable: "Disponibili",
+    movementOneOfOne: "1 di 1",
+    movementSold: "Esauriti",
+    soldOut: "Esaurito",
+    noneMatch: "Niente con questi filtri.",
+    noneMatchHint: "Togli il filtro per vedere tutto.",
     allCreatures: "Tutte le Creature",
     previousCreature: "Precedente",
     nextCreature: "Successiva",
@@ -150,6 +163,18 @@ const ui = {
     close: "Close",
     languageLabel: "Language",
     collections: "Drops",
+    newDrop: "New",
+    otherDrops: "The other drops",
+    filterAll: "All",
+    filterEveryone: "Everyone",
+    filterMen: "Men",
+    filterWomen: "Women",
+    movementAvailable: "Available",
+    movementOneOfOne: "1 of 1",
+    movementSold: "Sold out",
+    soldOut: "Sold out",
+    noneMatch: "Nothing matches those filters.",
+    noneMatchHint: "Clear the filter to see everything.",
     allCreatures: "All Creature",
     previousCreature: "Previous",
     nextCreature: "Next",
@@ -234,18 +259,24 @@ export function t(locale: Locale, key: UIKey): string {
   exists: with sixteen Creature the catalogue needs a view of everything, and
   the rule against linking a menu at a page that was never built still holds.
 */
+/*
+  THE MENU, FLAT (2026-08-04), on the primary reference's model as measured in
+  section 14: one typeface, ONE SIZE (the 11px label, not a display size), one
+  weight, uppercase, wide tracking, tight leading, left aligned.
+
+  TWO GROUPS SEPARATED BY WHITESPACE ALONE. No rules, no headings, no
+  sub-items, no dropdowns. Sub-items under Creature were considered and
+  rejected: a menu entry that drops a visitor into the middle of a page is
+  disorienting, and sectioning belongs inside the page, which is exactly what
+  the catalogue's three movements now do.
+
+  DROP IS NOT HERE. The drop index is reached from NEW and from each Creature,
+  and it returns to the menu when there are five or six drops rather than three.
+*/
 export const MENU_DESTINATIONS = [
-  /*
-    SIX DESTINATIONS (2026-08-04). Home leads, because the signature-as-home-link
-    is a convention only designers know. The gallery is gone: its frames live on
-    the process page now (DESIGN-PLAN section 65), so imagery has one home and
-    products only ever live in the shop. "Process" rather than the formula,
-    because SOLVET ET COAGULA in a menu is illegible to anyone who does not
-    already know the brand; the formula is the page's own title, inside.
-  */
   {key: "menuHome", path: ""},
+  {key: "newDrop", path: "new"},
   {key: "creatures", path: "creature"},
-  {key: "collections", path: "collections"},
   {key: "process", path: "process"},
   {key: "about", path: "about"},
   {key: "contact", path: "contact"},

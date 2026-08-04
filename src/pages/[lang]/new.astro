@@ -1,0 +1,136 @@
+---
+/*
+  NEW. The current drop, and it follows him automatically (2026-08-04).
+
+  WHY IT EXISTS AS ITS OWN ROUTE: a drop is the brand's unit of release, so a
+  visitor arriving from Instagram after a launch wants THE NEW THING, not a list
+  of drops to choose from. /new is that, permanently, and it needs no code when
+  the next drop lands: the current drop is simply the FIRST in his own drag
+  order in the studio, so reordering the collections in Sanity is what publishes
+  a new one.
+
+  DROP LEFT THE MENU for the same reason. This page reaches the drop index at
+  its foot, and each Creature reaches its own drop; the index returns to the
+  menu when there are five or six drops rather than three.
+
+  WHAT IT CARRIES: his statement whole (never an excerpt, because this is the
+  page the statement is FOR), then the drop's pieces full bleed with name and
+  price, then the way to the other drops.
+*/
+import Base from "../../layouts/Base.astro";
+import TextSurface from "../../components/TextSurface.astro";
+import MediaSurface from "../../components/MediaSurface.astro";
+import Statement from "../../components/Statement.astro";
+import {
+  byStage,
+  getCollections,
+  getGarmentsInCollection,
+  getSiteSettings,
+  type Collection,
+  type Garment,
+} from "../../lib/content";
+import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
+import {overlayTheme} from "../../lib/media";
+import {voiceState} from "../../lib/voice";
+import {imageUrl} from "../../lib/image";
+import {t} from "../../i18n/ui";
+
+export async function getStaticPaths() {
+  const collections = await getCollections();
+  const current = collections[0] ?? null;
+  const garments = current ? await getGarmentsInCollection(current.slug) : [];
+  const others = collections.length - 1;
+  return LOCALES.map((lang) => ({
+    params: {lang},
+    props: {collection: current, garments, others},
+  }));
+}
+
+const {collection, garments: unordered, others} = Astro.props as {
+  collection: Collection | null;
+  garments: Garment[];
+  others: number;
+};
+const locale = toLocale(Astro.params.lang);
+const settings = await getSiteSettings();
+
+const garments = byStage(unordered).filter((g) => g.media?.[0]);
+const statement = pick(collection?.statement ?? null, locale);
+const voice = voiceState(settings, locale);
+const cover = collection?.cover ?? null;
+
+const money = new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
+  style: "currency",
+  currency: "EUR",
+  maximumFractionDigits: 0,
+});
+const priceOf = (garment: Garment) =>
+  typeof garment.price === "number" ? money.format(garment.price) : null;
+---
+
+<Base
+  locale={locale}
+  title={collection?.name ?? t(locale, "newDrop")}
+  description={statement ?? undefined}
+  theme="dark"
+  footerTheme="dark"
+  chrome={overlayTheme(cover?.overlay)}
+  image={cover ? imageUrl(cover.poster, 1200) : null}
+>
+  {
+    cover ? (
+      <MediaSurface media={cover} locale={locale} priority>
+        <h1 class="type-label text-label">{collection?.name}</h1>
+      </MediaSurface>
+    ) : (
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
+        <h1 class="type-label text-label">{t(locale, "newDrop")}</h1>
+      </TextSurface>
+    )
+  }
+
+  {/*
+    His statement WHOLE. Every other placement on the site is an excerpt we
+    chose; this is the page it was written for.
+  */}
+  <Statement text={statement} locale={locale} voice={voice} theme="dark" />
+
+  {/*
+    The pieces, full bleed, one per screen: this is the drop being looked at,
+    not the catalogue being compared, so it keeps the narrative treatment the
+    dense grid deliberately gave up.
+  */}
+  {
+    garments.map((garment) => (
+      <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
+        <MediaSurface media={garment.media![0]} locale={locale} height="tall">
+          <div class="flex flex-col gap-u1">
+            <h2 class="type-label text-label">{garment.name}</h2>
+            {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
+          </div>
+        </MediaSurface>
+      </a>
+    ))
+  }
+
+  <TextSurface theme="dark" class="hairline-h flex flex-col gap-u3 py-u13">
+    <a
+      href={localePath(locale, "creature")}
+      class="type-label text-label self-start hover:underline underline-offset-8"
+    >
+      {t(locale, "allCreatures")}
+    </a>
+    {/*
+      The drop index lives here rather than in the menu: it is where a reader
+      goes AFTER the current drop, not instead of it.
+    */}
+    {others > 0 && (
+      <a
+        href={localePath(locale, "collections")}
+        class="type-label text-label self-start hover:underline underline-offset-8"
+      >
+        {t(locale, "otherDrops")}
+      </a>
+    )}
+  </TextSurface>
+</Base>

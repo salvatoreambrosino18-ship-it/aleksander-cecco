@@ -65,6 +65,34 @@ export const garment = defineType({
       description:
         "Divide il catalogo per materiale e colore. Lasciare vuoto se la Creatura non appartiene a nessuno dei due. / Divides the catalogue by material and colour. Leave empty when the Creature belongs to neither.",
     }),
+    /*
+      WHO IT IS FOR (2026-08-04). A FILTER, never a route and never a section.
+
+      Every shop studied divides by gender first, and for a catalogue of
+      hundreds that is right. Ours is seventeen, and halving it to eight is not
+      a useful reduction. More importantly it contradicts the product: a shirt
+      cut to the measurements of the person ordering is that person's shirt,
+      which is what the owner said about Armonyen and what removed Uomo/Donna
+      as a taxonomy in section 26.
+
+      LEAVE IT UNSET rather than guessing. An unset piece appears under every
+      filter, which is the honest behaviour when nobody has said.
+    */
+    defineField({
+      name: 'wornBy',
+      title: 'Per chi / Who it is for',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Uomo / Men', value: 'men'},
+          {title: 'Donna / Women', value: 'women'},
+          {title: 'Entrambi / Both', value: 'both'},
+        ],
+        layout: 'radio',
+      },
+      description:
+        "Solo un filtro nel catalogo: non divide il sito e non compare come sezione. Lasciare vuoto se non e stato deciso. / A catalogue filter only: it does not divide the site and never appears as a section. Leave empty when it has not been decided.",
+    }),
     defineField({
       name: 'price',
       title: 'Prezzo / Price (EUR)',
@@ -186,6 +214,7 @@ export const garment = defineType({
           {title: 'Misure / Measurements', value: 'measurements'},
           {title: 'Descrizione / Description', value: 'description'},
           {title: 'Codice / Reference code', value: 'referenceCode'},
+          {title: 'Per chi / Who it is for', value: 'wornBy'},
         ],
         layout: 'grid',
       },

@@ -89,9 +89,45 @@ for (const slug of oneOfOne) {
   console.log(`${slug}: availability -> unique`);
 }
 
+/*
+  WHO A PIECE IS FOR (2026-08-04), a catalogue filter and nothing else.
+
+  THE EVIDENCE IS HIS, AND IT IS SUPERSEDED, which is why every value here is
+  FLAGGED. On 2026-08-03 he described his folders as "MONUMENTUS = men's co-ord
+  sets" and "OBLIVION = women's shirts". Those folders no longer exist: the
+  2026-08-04 reorganisation files by status instead, and nothing in the current
+  structure names a gender. So this applies his statement only where the piece
+  still carries that family NAME, and leaves everything else unset.
+
+  Unset is not a gap to fill later by guessing: an unset piece shows under every
+  filter, which is the honest display when nobody has said.
+*/
+const WORN_BY = {
+  "capo-02": "women", // Oblivion, and OBLIVION was his women's shirts
+  "capo-03": "men", // Monumentus Vest
+  "capo-04": "men", // Monumentus Vest
+  "capo-05": "men", // Monumentus Pants
+  "capo-10": "men", // Monumentus Pants (Lux)
+  "capo-11": "men", // Monumentus Lux
+};
+
+for (const [slug, wornBy] of Object.entries(WORN_BY)) {
+  const doc = await client.fetch(
+    `*[_type == "garment" && slug.current == $slug][0]{_id, inventedFields}`,
+    {slug},
+  );
+  if (!doc) continue;
+  const fields = new Set(doc.inventedFields ?? []);
+  fields.add("wornBy");
+  await client.patch(doc._id).set({wornBy, inventedFields: [...fields]}).commit();
+  console.log(`${slug}: wornBy -> ${wornBy} (flagged)`);
+}
+
 const counts = await client.fetch(
   `{"unique": count(*[_type=="garment" && availability=="unique"]),
     "sold": count(*[_type=="garment" && availability=="notOffered"]),
-    "creators": count(*[_id=="siteSettings"][0].creators)}`,
+    "creators": count(*[_id=="siteSettings"][0].creators),
+    "wornSet": count(*[_type=="garment" && defined(wornBy)]),
+    "wornUnset": count(*[_type=="garment" && !defined(wornBy)])}`,
 );
 console.log(counts);
