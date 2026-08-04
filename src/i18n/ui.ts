@@ -96,7 +96,15 @@ const ui = {
     madeInItaly: "Fatto a mano nel Sud Italia",
     price: "Prezzo",
     priceFrom: "Da",
-    enquire: "Invia richiesta",
+    /*
+      THE ACTION IS AN ORDER (2026-08-04). "Send enquiry" told a buyer they were
+      writing a message; his own shop sells. The label carries the price, which
+      is the one number a person checks before pressing anything. Copy is ours,
+      flagged as enquiryCopy.
+    */
+    order: "Ordine",
+    acquire: "Acquista",
+    placeOrder: "Invia l'ordine",
     sending: "Invio in corso",
     yourName: "Nome",
     yourMeasurements: "Le tue misure",
@@ -166,8 +174,10 @@ const ui = {
     madeInItaly: "Handmade in South Italy",
     price: "Price",
     priceFrom: "From",
-    enquire: "Send enquiry",
-    sending: "Sending",
+    order: "Order",
+    acquire: "Acquire",
+    placeOrder: "Place the order",
+    sending: "Placing the order",
     yourName: "Name",
     yourMeasurements: "Your measurements",
     note: "Note",

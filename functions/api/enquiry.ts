@@ -230,9 +230,9 @@ function shownRange(key: keyof typeof RANGES, unit: "cm" | "in"): [number, numbe
 
 const TEXT = {
   it: {
-    title: "Richiesta",
-    ok: "Richiesta ricevuta. Ti rispondiamo via email.",
-    replyWindow: "Rispondiamo entro un giorno, ora italiana.",
+    title: "Ordine",
+    ok: "Ordine ricevuto.",
+    replyWindow: "Lo confermiamo via email entro un giorno, ora italiana. Pagamento e consegna si definiscono in quella risposta.",
     back: "Torna alla Creatura",
     invalid: "Controlla i dati inseriti.",
     name: "Serve un nome.",
@@ -241,16 +241,16 @@ const TEXT = {
     range: (field: string, min: number, max: number, unit: string) =>
       `${field}: indica un valore tra ${min} e ${max} ${unit}.`,
     tooFast: "Riprova: il modulo e stato inviato troppo in fretta.",
-    notSent: "Non siamo riusciti a inviare la richiesta. Riprova piu tardi.",
-    notConfigured: "L'invio delle richieste non e ancora attivo su questo sito.",
+    notSent: "Non siamo riusciti a inviare l'ordine. Riprova piu tardi.",
+    notConfigured: "L'invio degli ordini non e ancora attivo su questo sito.",
     listClosed: "Le iscrizioni non sono ancora aperte. Scrivici e ti avvisiamo noi.",
     tooMany: "Troppe richieste da qui. Riprova piu tardi.",
     draft: "Bozza non approvata",
   },
   en: {
-    title: "Enquiry",
-    ok: "Enquiry received. We will reply by email.",
-    replyWindow: "We reply within one day, Italian time.",
+    title: "Order",
+    ok: "Order received.",
+    replyWindow: "We confirm it by email within one day, Italian time. Payment and delivery are arranged in that reply.",
     back: "Back to the Creature",
     invalid: "Please check what you entered.",
     name: "A name is needed.",
@@ -260,7 +260,7 @@ const TEXT = {
       `${field}: enter a value between ${min} and ${max} ${unit}.`,
     tooFast: "Please try again: the form was submitted too quickly.",
     notSent: "We could not send your enquiry. Please try again later.",
-    notConfigured: "Sending enquiries is not switched on for this site yet.",
+    notConfigured: "Sending orders is not switched on for this site yet.",
     listClosed: "Sign-up is not open yet. Write to us and we will tell you when it is.",
     tooMany: "Too many enquiries from here. Try again later.",
     draft: "Unapproved draft",
@@ -516,8 +516,18 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     The subject leads with the piece and the price, since those are what he
     needs to recognise an enquiry in a list of them.
   */
+  /*
+    Shown price, for the ORDER SHEET only. It arrives from a hidden field, so a
+    hostile client can forge it; that is acceptable because the sheet is read by
+    the owner, who knows his own prices, and nothing here charges anyone. When
+    the payment step exists the amount comes from the dataset, never from the
+    form.
+  */
+  const shownPrice = get("price").replace(/[^0-9€.,]/g, "").slice(0, 12);
+
   const rows: Array<[string, string]> = [
     ["Creature", piece],
+    ...(shownPrice ? ([["Price", shownPrice]] as Array<[string, string]>) : []),
     ["Name", fields.name],
     ["Email", fields.email],
     ["Wants", asIs ? "This piece as it is" : "Made to measure"],
@@ -547,7 +557,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
 <table role="presentation" cellpadding="0" cellspacing="0" style="max-width:520px;">
 <tr><td style="${label}padding-bottom:24px;">Aleksander Cecco</td></tr>
 <tr><td style="border-top:1px solid ${INK};font-size:0;line-height:0;">&nbsp;</td></tr>
-<tr><td style="${label}padding:24px 0 16px;">Enquiry</td></tr>
+<tr><td style="${label}padding:24px 0 16px;">Order</td></tr>
 ${rows
   .map(
     ([term, value]) => `<tr><td style="padding-bottom:10px;">
@@ -571,7 +581,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
   // The plain alternative. Same facts, same order, no decoration.
   const body = [
     "ALEKSANDER CECCO",
-    "ENQUIRY",
+    "ORDER",
     "",
     ...rows.map(([term, value]) => `${term}: ${value}`),
     "",
@@ -598,7 +608,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
         from: env.RESEND_FROM,
         to: [env.ENQUIRY_TO_EMAIL],
         reply_to: fields.email, // a reply goes straight to the person who asked
-        subject: `Enquiry: ${piece}`,
+        subject: `Order: ${piece}${shownPrice ? ` — ${shownPrice}` : ""}`,
         text: body,
         html,
       }),

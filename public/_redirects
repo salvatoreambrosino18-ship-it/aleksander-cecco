@@ -36,5 +36,9 @@
 /it/creature/rubedo  /it/process  301
 /en/creature/rubedo  /en/process  301
 
+# The enquiry became the order on 2026-08-04: same flow, named for what it is.
+/it/creature/:slug/enquiry  /it/creature/:slug/order  301
+/en/creature/:slug/enquiry  /en/creature/:slug/order  301
+
 /it/pieces/*  /it/creature/:splat  301
 /en/pieces/*  /en/creature/:splat  301

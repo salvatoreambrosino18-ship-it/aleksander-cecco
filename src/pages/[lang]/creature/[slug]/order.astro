@@ -1,6 +1,16 @@
 ---
 /*
-  The enquiry. The reason the site exists.
+  The ORDER page (2026-08-04, formerly the enquiry). The reason the site exists.
+
+  THE ATELIER VERSION OF BUYING: not a cart, because sixteen one-off pieces
+  cannot fill one, and no payment, because that waits on the owner's fiscal
+  position. The page carries the piece, its photograph, its price and the
+  shipping terms, then the buyer's details, and ends in a confirmation that
+  reads like an order placed. The email it produces is an order sheet. It
+  collects NOTHING the enquiry did not already collect, so the legal gate is
+  unchanged. When payment exists it is a Stripe step slotted into the
+  Function's confirmation (see functions/api/enquiry.ts), touching nothing
+  here.
 
   The page is STATIC, like every other page: one is built per garment per
   language at deploy time, with the piece already filled in, so nothing has to
@@ -19,7 +29,8 @@
 */
 import Base from "../../../../layouts/Base.astro";
 import TextSurface from "../../../../components/TextSurface.astro";
-import {getGarments, type Garment} from "../../../../lib/content";
+import {getGarments, getSiteSettings, type Garment} from "../../../../lib/content";
+import MediaSurface from "../../../../components/MediaSurface.astro";
 import {LOCALES, localePath, pick, toLocale} from "../../../../lib/locales";
 import {enquiryCopy, ENQUIRY_COPY_IS_DRAFT} from "../../../../i18n/enquiry";
 import {t} from "../../../../i18n/ui";
@@ -35,6 +46,24 @@ export async function getStaticPaths() {
 const {garment} = Astro.props as {garment: Garment};
 const locale = toLocale(Astro.params.lang);
 const copy = enquiryCopy(locale);
+const settings = await getSiteSettings();
+
+const [firstMedia] = garment.media ?? [];
+const price =
+  typeof garment.price === "number"
+    ? new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
+        style: "currency",
+        currency: garment.currency || "EUR",
+        maximumFractionDigits: 0,
+      }).format(garment.price)
+    : null;
+
+/* The terms, gathered once: his free-shipping fact, then ours. */
+const shippingLines = [
+  pick(settings.shippingFree, locale),
+  pick(settings.shippingReturns, locale),
+  pick(settings.shippingCustoms, locale),
+].filter((line): line is string => Boolean(line));
 /*
   Only a Creature that is made to order can be enquired about. A unique piece
   and a private order are already made and already someone's, so the form is not
@@ -58,13 +87,27 @@ const availabilityLabel = {
 const availabilityNote = pick(garment.availabilityNote, locale);
 ---
 
-<Base locale={locale} title={`${t(locale, "enquire")} / ${garment.name}`}>
-  <TextSurface class="flex min-h-svh flex-col gap-u8 pt-chrome pb-u21">
-    <div class="flex flex-col gap-u1">
-      <h1 class="type-label text-label">{t(locale, "enquire")}</h1>
-      <p class="type-mono text-mono">
-        {[garment.name, garment.referenceCode].filter(Boolean).join("  /  ")}
-      </p>
+<Base locale={locale} title={`${t(locale, "order")} / ${garment.name}`}>
+  {/*
+    The piece, seen at the moment of ordering: one photograph, not a gallery,
+    so the page stays a document rather than a second product page.
+  */}
+  {firstMedia && <MediaSurface media={firstMedia} locale={locale} height="short" priority />}
+
+  <TextSurface class="flex min-h-svh flex-col gap-u8 py-u13">
+    <div class="flex flex-col gap-u2">
+      <p class="type-label text-label">{t(locale, "order")}</p>
+      <h1 class="type-statement text-statement">
+        {garment.name}{price ? `. ${price}.` : "."}
+      </h1>
+      {/*
+        The terms a buyer is agreeing to, before the form rather than after it:
+        his shipping line, the returns rule, and customs. Mono, because they
+        are facts.
+      */}
+      <div class="type-mono text-mono flex flex-col gap-u1 pt-u2">
+        {shippingLines.map((line) => <p>{line}</p>)}
+      </div>
     </div>
 
     {ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && (
@@ -202,6 +245,8 @@ const availabilityNote = pick(garment.availabilityNote, locale);
             <input type="hidden" name="slug" value={garment.slug} />
             <input type="hidden" name="garmentName" value={garment.name} />
             <input type="hidden" name="garmentRef" value={garment.referenceCode ?? ""} />
+            {/* Display-only, for the order sheet; the owner knows his prices. */}
+            <input type="hidden" name="price" value={price ?? ""} />
             <input type="hidden" name="renderedAt" value={String(Date.now())} />
 
             <button
@@ -209,7 +254,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               class="type-label text-label hairline-under self-start"
               data-sending={t(locale, "sending")}
             >
-              {t(locale, "enquire")}
+              {t(locale, "placeOrder")}
             </button>
           </form>
 

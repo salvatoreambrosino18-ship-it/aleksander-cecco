@@ -257,11 +257,17 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
 
     {
       canEnquire ? (
+        /*
+          THE ACTION NAMES THE TRANSACTION (2026-08-04): Acquire, with the
+          price on it, because that is the number a person confirms before
+          pressing anything. It leads to the order page; the enquiry framing is
+          gone. Still one action, still the field language of section 26.
+        */
         <a
-          href={localePath(locale, `creature/${garment.slug}/enquiry`)}
+          href={localePath(locale, `creature/${garment.slug}/order`)}
           class="type-label text-label hairline-under self-start"
         >
-          {t(locale, "enquire")}
+          {t(locale, "acquire")}{price ? ` — ${price}` : ""}
         </a>
       ) : (
         /*
