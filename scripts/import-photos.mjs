@@ -126,7 +126,7 @@ const client = createClient({
   be one number for a band that moves.
 */
 const OVERLAY_OVERRIDE = {
-  "experimental/DESIGNER": "paper",
+  "artisan/DESIGNER": "paper",
 };
 
 const SALVAGED = {
@@ -244,13 +244,12 @@ const INVENTED = {
     description: {en: "Wide through the leg, cut raw at the hem. Two zipped pockets at the back."},
     fields: ["name", "price", "materials", "measurements", "description"],
   },
-  "capo-08": {
-    name: "Severya",
+  severya: {
     price: 875,
     materials: {it: "Pelle di agnello, stampa serpente", en: "Snake-embossed lambskin"},
-    measurements: "Gonna: vita 34 cm, lunghezza 62 cm. Fascia: torace 32 cm.",
-    description: {en: "Handmade snake skirt, with the band that is worn above it."},
-    fields: ["name", "price", "materials", "measurements", "description"],
+    measurements: "Vita 34 cm. Lunghezza 62 cm.",
+    description: {en: "Handmade snake skirt. 1 of 1, from the sample sale."},
+    fields: ["price", "materials", "measurements", "description"],
   },
   "capo-09": {
     name: "Vesper",
@@ -305,6 +304,13 @@ const INVENTED = {
     description: {en: "Two separate tubes, crossed straps, a zip the length of the calf."},
     fields: ["price", "materials", "measurements", "description"],
   },
+  "styrax-red": {
+    price: 775,
+    materials: {it: "Pelliccia di capra rossa e pelle", en: "Red goat shearling and leather"},
+    measurements: "Torace 36 cm. Lunghezza 48 cm. Collo 38 cm.",
+    description: {en: "1 of 1, from the sample sale. The Styrax cut in red goat, leather-lined."},
+    fields: ["price", "materials", "measurements", "description"],
+  },
   styrax: {
     price: 975,
     measurements: "Torace 36 cm. Lunghezza 48 cm. Collo 38 cm.",
@@ -341,13 +347,13 @@ const GARMENTS = [
     // HIS COMPOSITION, from the same filenames. Lambskin, and black.
     materials: {it: "Pelle di agnello nera", en: "Black lambskin"},
     files: [
-      ["oblivion/Oblivion Black lambskin", "Camicia in pelle nera con orlo a punte, vista frontale, appesa davanti a una serranda metallica."],
-      ["oblivion/oblv black lamb", "Fronte della camicia in pelle nera, con la fila di bottoni automatici."],
-      ["oblivion/Oblivion black lambskin (3)", "Dettaglio del collo e della chiusura della camicia in pelle nera."],
-      ["oblivion/Oblivion black lambskin (1)", "Vista laterale della camicia in pelle nera, con l'orlo tagliato a punte."],
-      ["oblivion/oblv black lamb (2)", "Dettaglio dell'orlo a punte della camicia, contro il cemento."],
-      ["oblivion/Oblivion black lambskin (2)", "Retro della camicia in pelle nera appesa alla gruccia."],
-      ["oblivion/oblv black lamb (1)", "Dettaglio delle cuciture sulle spalle, sul retro della camicia."],
+      ["new/Oblivion Black lambskin", "Camicia in pelle nera con orlo a punte, vista frontale, appesa davanti a una serranda metallica."],
+      ["new/oblv black lamb", "Fronte della camicia in pelle nera, con la fila di bottoni automatici."],
+      ["dataset/IMG_3453", "Dettaglio del collo e della chiusura della camicia in pelle nera."],
+      ["new/Oblivion black lambskin (1)", "Vista laterale della camicia in pelle nera, con l'orlo tagliato a punte."],
+      ["dataset/IMG_3455", "Dettaglio dell'orlo a punte della camicia, contro il cemento."],
+      ["new/Oblivion black lambskin (2)", "Retro della camicia in pelle nera appesa alla gruccia."],
+      ["new/oblv black lamb (1)", "Dettaglio delle cuciture sulle spalle, sul retro della camicia."],
     ],
   },
   {
@@ -356,7 +362,7 @@ const GARMENTS = [
     slug: "capo-03",
     // HIS NAME, from MONUMENTUS/"Monumentus Vest (Tenebrae).JPG".
     name: "Monumentus Vest",
-    files: [["monumentus/Monumentus Vest (Tenebrae)", "Gilet in pelle nera con zip centrale, appeso a una gruccia davanti a una serranda."]],
+    files: [["new/Monumentus Vest (Tenebrae)", "Gilet in pelle nera con zip centrale, appeso a una gruccia davanti a una serranda."]],
   },
   {
     id: "piece-top-leggero",
@@ -369,7 +375,7 @@ const GARMENTS = [
       capo-03 is smooth with a central zip. Recorded, not merged.
     */
     name: "Monumentus Vest",
-    files: [["monumentus/Monumentus Vest (Tenebrae", "Gilet in pelle nera stropicciata, con bottoni automatici al collo, tenuto in mano davanti a una serranda."]],
+    files: [["new/Monumentus Vest (Tenebrae", "Gilet in pelle nera stropicciata, con bottoni automatici al collo, tenuto in mano davanti a una serranda."]],
   },
   {
     id: "piece-pelle-drappeggiata",
@@ -379,8 +385,8 @@ const GARMENTS = [
     // called this "a garment"; his filename says it is trousers.
     name: "Monumentus Pants",
     files: [
-      ["monumentus/Monumentus Pants (Tenebrae)", "Pantaloni in pelle nera appesi a una parete di cemento, sotto una croce di metallo."],
-      ["monumentus/Monumentus tenebrae", "Dettaglio ravvicinato degli stessi pantaloni in pelle nera, con zip e pieghe profonde."],
+      ["new/Monumentus Pants (Tenebrae)", "Pantaloni in pelle nera appesi a una parete di cemento, sotto una croce di metallo."],
+      ["new/Monumentus tenebrae", "Dettaglio ravvicinato degli stessi pantaloni in pelle nera, con zip e pieghe profonde."],
     ],
   },
   {
@@ -393,20 +399,29 @@ const GARMENTS = [
     ],
   },
   {
+    /*
+      SEVERYA (2026-08-04). His "1 of 1 Sample sale" folder gives the snake
+      skirt its own life with four new product frames, so this document stops
+      bundling it with the tube top and becomes the skirt: the thing that is
+      actually for sale. The NAME is his, from the inscription photographed in
+      his own hand (SEVERYA / LAMBSKIN / 100%), so it is no longer flagged. The
+      on-model frames stay as evidence of the look worn. Slug changes to
+      /severya; the old /capo-08 URL redirects.
+
+      READY NOW, from his folder. A 1 of 1 arguably cannot be remade, which the
+      order form's "as it is / remade" choice does not yet express; surfaced in
+      the report rather than guessed at.
+    */
     id: "piece-completo-fascia-gonna",
     stage: "tenebrae",
-    slug: "capo-08",
-    /*
-      NOT NAMED, still. The SKIRT is Severya: the designer photograph shows him
-      inscribing "SEVERYA / LAMBSKIN / 100%" onto it in his own hand
-      (DESIGN-PLAN section 48). But this document bundles the skirt with a tube
-      top, and naming the pair after one of them, or splitting it, is his call.
-    */
+    slug: "severya",
+    name: "Severya",
+    availability: "readyNow",
     files: [
-      ["salvage/capo-08-shadow", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul muro."],
-      ["salvage/capo-08-light", "La stessa uscita in piena luce, con stivali alti."],
-      ["salvage/capo-08-hem", "Dettaglio della gonna in pelle nera con orlo a punte, indossata."],
-      ["archive/IMG_0212", "La gonna con la trama di serpente e il top a fascia, in piena luce."],
+      ["sale/Snake skin mini skirt.JPG", "La minigonna in pelle effetto serpente, appesa davanti alla serranda, con l'orlo tagliato a punte."],
+      ["sale/Snake skin mini skirt (1).JPG", "La stessa minigonna vista da vicino, con la zip centrale e la trama a squame."],
+      ["salvage/capo-08-shadow", "Modella in top a fascia e minigonna di pelle nera, con ombre lunghe sul muro."],
+      ["archive/IMG_0212", "La minigonna con la trama di serpente e il top a fascia, in piena luce."],
     ],
   },
   {
@@ -485,11 +500,16 @@ const GARMENTS = [
     slug: "capo-10",
     stage: "lux",
     name: "Monumentus Pants",
+    // HIS FOLDER: ARCHIVE SOLD OUT (2026-08-04). This REVERSES his 2026-08-03
+    // message (sold, so made to order); the folder is newer and wins, and the
+    // reversal is surfaced in the morning report.
+    availability: "notOffered",
+    availabilityNote: {it: "Sold out.", en: "Sold out."},
     files: [
       ["archive/IMG_3619", "Pantaloni chiari corti e ampi appesi a una gruccia sotto una croce di ferro."],
       ["archive/IMG_3625", "Il retro degli stessi pantaloni chiari, con due tasche con zip."],
-      ["monumentus/Monumentus pants (Lux)", "Pantaloni chiari in pelle appesi dentro una cornice di metallo nero."],
-      ["monumentus/Monumentus pants (Lux) ", "Dettaglio della cintura e delle tasche con zip sui pantaloni chiari."],
+      ["sold/Monumentus pants (Lux)", "Pantaloni chiari in pelle appesi dentro una cornice di metallo nero."],
+      ["sold/Monumentus pants (Lux) ", "Dettaglio della cintura e delle tasche con zip sui pantaloni chiari."],
     ],
   },
   {
@@ -502,11 +522,14 @@ const GARMENTS = [
     slug: "capo-11",
     stage: "lux",
     name: "Monumentus Lux",
+    // HIS FOLDER: ARCHIVE SOLD OUT. Same reversal as capo-10.
+    availability: "notOffered",
+    availabilityNote: {it: "Sold out.", en: "Sold out."},
     files: [
-      ["monumentus/Monumentus Lux ", "Uomo a figura intera con maglia trasparente e pantaloni chiari molto ampi."],
+      ["sold/Monumentus Lux ", "Uomo a figura intera con maglia trasparente e pantaloni chiari molto ampi."],
       ["archive/IMG_3472", "Gli stessi pantaloni chiari visti di profilo, nel laboratorio."],
       ["archive/IMG_1902", "Gli stessi pantaloni visti da dietro, mentre cammina nella luce."],
-      ["monumentus/monumentus lux", "Uomo di spalle con i pantaloni chiari ampi, in laboratorio."],
+      ["sold/monumentus lux", "Uomo di spalle con i pantaloni chiari ampi, in laboratorio."],
     ],
   },
   {
@@ -545,6 +568,26 @@ const GARMENTS = [
       ["archive/IMG_1834", "Capo scuro con cintura in pelle e pannelli di tessuto, appeso a una catena."],
     ],
   },
+  {
+    /*
+      STYRAX RED GOAT (2026-08-04), from his "1 of 1 Sample sale" folder, which
+      also settles the old red-variant question: it is its own piece, one of
+      one, for sale, with four frames including the first lining shot in the
+      whole catalogue. Name and colour are his filenames; the rest is invented
+      and flagged. Stage unset: red is neither Tenebrae nor Lux, exactly like
+      the red shirt before it.
+    */
+    id: "piece-styrax-red",
+    slug: "styrax-red",
+    name: "Styrax Red Goat",
+    availability: "readyNow",
+    files: [
+      ["sale/STYRAX RED GOAT.JPG", "Il top in pelliccia di capra rossa appeso sotto il crocifisso, contro il muro di cemento."],
+      ["sale/STYRAX RED GOAT LINING.JPG", "L'interno del top rosso, con la fodera in pelle e i lacci."],
+      ["styrax/STYRAX RED GOAT (1).JPG", "Il top in pelliccia rossa visto da vicino, con il collo in pelle nera."],
+      ["sale/Stryax red goat ON FIT.jpg", "Il top in pelliccia rossa indossato, in un bosco di rami spogli."],
+    ],
+  },
 ];
 
 /*
@@ -580,9 +623,9 @@ const RED_SHIRT = {
   files: [
     ["oblivion/oblv blood red lamb.JPG", "Modella con camicia in pelle rossa e pantaloni neri lucidi, braccia incrociate, in laboratorio."],
     ["oblivion/oblv blood red lamb (2)", "La stessa camicia rossa vista di spalle, tra i capi appesi del laboratorio."],
-    ["oblivion/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
+    ["sold/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
     ["oblivion/Oblv blood red lamb (1).HEIC", "La camicia rossa appesa sotto un crocifisso, vista frontale."],
-    ["oblivion/Oblivion blood red lamb", "Il retro della camicia rossa, con l'apertura a mandorla fra le scapole."],
+    ["sold/Oblivion blood red lamb", "Il retro della camicia rossa, con l'apertura a mandorla fra le scapole."],
     ["oblivion/oblv blood red lambskin ", "Dettaglio della camicia rossa: la manica lunga e l'orlo tagliato a punte."],
     ["oblivion/oblv blood red lamb.HEIC", "La camicia rossa su un manichino, vista ravvicinata."],
   ],
@@ -632,16 +675,16 @@ const ARCHIVE = [
   ["archive/IMG_2235", "Capo in pelle nera aperto e disteso sul cemento, a forma di mantella."],
   ["salvage/gallery-fur", "Dettaglio della pelliccia nera con la linguetta di pelle e i fili di cucitura."],
   ["archive/IMG_2242", "Gilet smanicato in pelle nera disteso sul cemento."],
-  ["monumentus/Monumentus tenebrae", "Dettaglio ravvicinato di un capo in pelle nera, con zip e pieghe profonde."],
+  ["new/Monumentus tenebrae", "Dettaglio ravvicinato di un capo in pelle nera, con zip e pieghe profonde."],
   ["archive/IMG_2244", "Un secondo gilet in pelle nera disteso sul cemento, visto di sbieco."],
-  ["oblivion/oblv black lamb (2)", "Dettaglio dell'orlo tagliato a punte, contro il cemento."],
+  ["dataset/IMG_3455", "Dettaglio dell'orlo tagliato a punte, contro il cemento."],
   ["archive/IMG_2229", "Dettaglio di un capo in pelle scura con una zip lunga, disteso."],
   ["experimental/IMG_2894", "Studio ravvicinato di una pelle scura con pieghe profonde."],
   ["archive/IMG_9577", "La giacca in pelle marrone distesa al sole sul cemento, vista da dietro."],
   ["archive/IMG_3643", "Pantaloni chiari e gilet appesi insieme davanti a una serranda."],
   ...(RED_SHIRT_IS_A_CREATURE
     ? []
-    : [["oblivion/Oblivion blood red lamb", "Il retro della camicia in pelle rosso sangue, con l'apertura a mandorla fra le scapole."]]),
+    : [["sold/Oblivion blood red lamb", "Il retro della camicia in pelle rosso sangue, con l'apertura a mandorla fra le scapole."]]),
 ];
 /*
   THE ARRIVAL, and it is now the DROP (2026-08-03).
@@ -681,9 +724,9 @@ const WORN = [
   ["salvage/capo-08-shadow", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul cemento.", "piece-completo-fascia-gonna"],
   ["archive/IMG_0204", "Il top in pelliccia di capra e pelle indossato, in un bosco di rami spogli.", "piece-styrax"],
   ...(RED_SHIRT_IS_A_CREATURE
-    ? [["oblivion/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio.", "piece-giacca-rossa"]]
+    ? [["sold/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio.", "piece-giacca-rossa"]]
     : []),
-  ["monumentus/Monumentus Lux ", "Uomo a figura intera con pantaloni chiari molto ampi, in laboratorio.", "piece-chiari-lunghi"],
+  ["sold/Monumentus Lux ", "Uomo a figura intera con pantaloni chiari molto ampi, in laboratorio.", "piece-chiari-lunghi"],
   ["archive/IMG_9592", "La giacca in pelle marrone indossata, vista da dietro, con il collo alto.", "piece-ghezard"],
   ["tibia/Mnmnts Ten Tibia Cut", "Uomo con gilet in pelle nera e pantaloni corti in pelle, al sole sul cemento.", null],
 ];
@@ -730,7 +773,7 @@ const PROCESS = [
 */
 const INSTAGRAM = [
   ["archive/IMG_0204", "Il top in pelliccia di capra e pelle, indossato, in un bosco di rami spogli."],
-  ["oblivion/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
+  ["sold/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
   ["tibia/Mnmnts Lux tibia cut", "Uomo con pantaloni corti chiari in pelle, contro un muro bianco."],
   ["archive/IMG_9592", "La giacca in pelle marrone indossata, vista da dietro, con il collo alto."],
 ];
@@ -948,7 +991,7 @@ const ABOUT_OPENING = [
   9.02 for the portrait it replaces.
 */
 const DESIGNER_PORTRAIT = [
-  "experimental/DESIGNER",
+  "artisan/DESIGNER",
   "Le mani di chi fa le Creature mentre scrive a mano il nome e la composizione su un capo in pelle nera.",
 ];
 
@@ -983,16 +1026,28 @@ const TMP = path.join(os.tmpdir(), "aleksander-cecco-import");
 
   The legacy folders stay because most of the catalogue still only exists there.
 */
+/*
+  THE FOLDERS, third reorganisation (2026-08-04). He now files by STATUS, which
+  is his shop's own vocabulary: NEW is the current drop, "1 of 1 Sample sale"
+  is buyable one-offs, "ARCHIVE SOLD OUT" is sold. The dead aliases stay listed
+  so a key that names one fails with a history rather than a mystery; their
+  frames survive in the dataset and are RESCUED by position (see rescueMap).
+*/
 const FOLDERS = [
   // alias        folder on disk
-  ["monumentus", "MONUMENTUS LUX & TENEBRAE"],
+  ["new", "NEW"],
+  ["sale", "1 of 1   Sample sale"],
+  ["sold", "ARCHIVE   SOLD OUT"],
+  ["artisan", "Everything is done artisanally by us"],
   ["tibia", "MONUMENTUS TIBIA CUT"],
-  ["oblivion", "OBLIVION"],
   ["styrax", "STYRAX TOP"],
   ["process", "SOLVET ET COAUGULA (PROCESS)"],
+  ["homepage", "homepage"],
+  // gone from the Drive 2026-08-04; kept so old keys resolve nowhere loudly
+  ["monumentus", "MONUMENTUS LUX & TENEBRAE"],
+  ["oblivion", "OBLIVION"],
   ["products", "products"],
   ["archive", "archive"],
-  ["homepage", "homepage"],
   ["experimental", "experimental"],
 ];
 
@@ -1078,6 +1133,82 @@ async function buildIndex() {
       readyHashes.add(createHash("sha1").update(buffer).digest("hex"));
     }
   }
+}
+
+/*
+  RESCUE MODE (2026-08-04). The third reorganisation deleted 28 images from the
+  Drive that exist only in Sanity now, and the second one nearly cost the
+  catalogue. So the import stops depending on files persisting: a key whose
+  file is gone is matched against the ORIGINAL FILENAME stored on the assets
+  already uploaded, which is order-independent, and its overlay values are
+  taken from wherever that asset currently appears. Every rescue is logged
+  with what it matched. A key missing on disk AND unmatched in the dataset
+  still fails loudly, because that is a photograph nobody has.
+*/
+const assetByFilename = new Map(); // lowercased originalFilename stem -> asset _id
+const overlaysByAsset = new Map(); // asset _id -> {overlay, overlayCaption, captionPlacement}
+const rescuedByKey = new Map();    // plan key -> {asset, overlay, overlayCaption, captionSafe, matched}
+/*
+  A key under the reserved alias `dataset/` names no file at all: it is an
+  explicit statement that this frame lives only in Sanity, matched by the stem
+  the file carried when it was FIRST uploaded (dedupe-by-sha1 keeps the first
+  name forever, so a frame renamed on the Drive after upload is findable only
+  by its original stem).
+*/
+const rescued = [];
+
+async function buildRescueMap() {
+  const assets = await client.fetch(`*[_type == "sanity.imageAsset"]{_id, originalFilename}`);
+  for (const a of assets) {
+    if (!a.originalFilename) continue;
+    const stem = a.originalFilename.replace(/\.[^.]+$/, "").toLowerCase();
+    if (!assetByFilename.has(stem)) assetByFilename.set(stem, a._id);
+  }
+  const uses = await client.fetch(
+    `*[_type in ["garment", "archivePiece", "collection"] || _id == "siteSettings"]{
+      "m": media[]{"a": poster.asset._ref, overlay, overlayCaption, captionPlacement},
+      "c": cover{"a": poster.asset._ref, overlay, overlayCaption, captionPlacement},
+      "s": [openingMedia, designerPortrait, aboutOpeningMedia]{"a": poster.asset._ref, overlay, overlayCaption, captionPlacement},
+      "t": homeSequence[].media{"a": poster.asset._ref, overlay, overlayCaption, captionPlacement},
+      "x": [makingMedia, processMedia, aboutMedia, instagramFrames][]{"a": poster.asset._ref, overlay, overlayCaption, captionPlacement}
+    }`,
+  );
+  for (const doc of uses) {
+    for (const m of [...(doc.m ?? []), doc.c, ...(doc.s ?? []), ...(doc.t ?? []), ...(doc.x ?? []).flat()]) {
+      if (m?.a && !overlaysByAsset.has(m.a)) overlaysByAsset.set(m.a, m);
+    }
+  }
+}
+
+/** Try to rescue a missing key from the dataset. True when it succeeded. */
+function tryRescue(key) {
+  const [folder, ...rest] = key.split("/");
+  const stem = rest.join("/").replace(/\.[^.]+$/, "").toLowerCase();
+  // HEIC conversions were uploaded as folder_stem.jpg; the rest by their own name
+  /*
+    Three shapes a stored filename can take: alias_stem (HEIC converted while
+    the alias matched the disk name), the bare stem (uploaded as-is), or
+    DISKFOLDER_stem where the disk folder was the long original name. The third
+    cannot be reconstructed from the alias, so it is found by suffix.
+  */
+  const candidates = [`${folder}_${stem}`, stem];
+  const bySuffix = [...assetByFilename.keys()].find((k) => k.endsWith(`_${stem}`));
+  if (bySuffix) candidates.push(bySuffix);
+  for (const c of candidates) {
+    const asset = assetByFilename.get(c);
+    if (!asset) continue;
+    const prior = overlaysByAsset.get(asset) ?? {};
+    rescuedByKey.set(key, {
+      asset,
+      overlay: prior.overlay ?? "paper",
+      overlayCaption: prior.overlayCaption ?? prior.overlay ?? "paper",
+      captionSafe: (prior.captionPlacement ?? "over") === "over",
+      matched: c,
+    });
+    rescued.push(`${key}  <-  dataset asset "${c}"`);
+    return true;
+  }
+  return false;
 }
 
 /** Every plan key that named a file no longer on the Drive. Reported together. */
@@ -1221,6 +1352,20 @@ async function main() {
     diagnose. It still refuses to write anything: an import that quietly dropped
     a Creature's photographs would be worse than one that stops.
   */
+  /*
+    RESCUE before refusing: a key whose file left the Drive but whose asset is
+    already in the dataset is reused from there. Only what is truly nowhere
+    aborts the run.
+  */
+  await buildRescueMap();
+  for (const key of [...missing]) {
+    if (tryRescue(key)) missing.splice(missing.indexOf(key), 1);
+  }
+  if (rescued.length) {
+    console.log(`\nRescued from the dataset (file gone from the Drive):`);
+    for (const line of rescued) console.log(`  ${line}`);
+  }
+
   if (missing.length || ambiguous.length) {
     if (missing.length) {
       console.error(`\n${missing.length} frames are not on the Drive under the name the plan uses:\n`);
@@ -1247,11 +1392,18 @@ async function main() {
   console.log(`  ${converted} converted, ${unique.length - converted - salvaged.length} used as they are\n`);
 
   console.log("Measuring where the chrome sits, to choose paper or ink per photograph:");
-  const files = unique.map((key) => usable.get(key)).filter(Boolean);
+  const files = unique
+    .filter((key) => !rescuedByKey.has(key))
+    .map((key) => usable.get(key))
+    .filter(Boolean);
   const overlays = await measureOverlay(files);
   for (const rel of unique) {
     if (rel in SALVAGED) {
       console.log(`  ${SALVAGED[rel].overlay.padEnd(5)} recorded      ${rel}`);
+      continue;
+    }
+    if (rescuedByKey.has(rel)) {
+      console.log(`  ${rescuedByKey.get(rel).overlay.padEnd(5)} rescued       ${rel}`);
       continue;
     }
     const m = overlays.get(usable.get(rel));
@@ -1293,18 +1445,24 @@ async function main() {
   console.log("\nUploading:");
   const assets = new Map();
   for (const rel of unique) {
-    assets.set(rel, rel in SALVAGED ? SALVAGED[rel].asset : await uploadOnce(usable.get(rel)));
+    assets.set(
+      rel,
+      rescuedByKey.get(rel)?.asset ??
+        (rel in SALVAGED ? SALVAGED[rel].asset : await uploadOnce(usable.get(rel))),
+    );
   }
 
   const ov = (rel) =>
     OVERLAY_OVERRIDE[rel] ??
+    rescuedByKey.get(rel)?.overlay ??
     (rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlay);
   /*
     The caption band. A salvaged frame has no file to measure, so it keeps the
     chrome value it already had; everything else is measured at the bottom.
   */
   const ovc = (rel) =>
-    rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlayCaption;
+    rescuedByKey.get(rel)?.overlayCaption ??
+    (rel in SALVAGED ? SALVAGED[rel].overlay : overlays.get(usable.get(rel)).overlayCaption);
   /*
     Can a caption sit on this photograph at all, at any crop? A SALVAGED frame
     has no file to measure, and "unmeasurable" defaulted to "yes", which is how
@@ -1313,7 +1471,11 @@ async function main() {
     legible by construction.
   */
   const safe = (rel) =>
-    rel in SALVAGED ? false : overlays.get(usable.get(rel)).captionSafeOnImage;
+    rescuedByKey.has(rel)
+      ? rescuedByKey.get(rel).captionSafe
+      : rel in SALVAGED
+        ? false
+        : overlays.get(usable.get(rel)).captionSafeOnImage;
 
   console.log("\nWriting documents:");
 
