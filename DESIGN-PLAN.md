@@ -1,5 +1,92 @@
 # Aleksander Cecco - Design Plan (Approved)
 
+## HANDOFF, 2026-08-03
+
+**Read this, then the launch checklist below it. Nothing else, until you need it.**
+
+### Where this is
+
+A finished-looking site, live at https://aleksander-cecco.pages.dev, in two
+languages, deliberately kept out of search results. Sixteen Creature with names,
+prices, compositions and measurements; a shop screen; a gallery; a process page;
+an about page ending on the maker; a working enquiry form; a newsletter form
+that collects nothing.
+
+**It cannot launch, and the reason is not technical.** Most of what a visitor
+reads was written by us, not by him, and the site does not say so anywhere: it
+is flagged in the studio instead, and `npm run launch-check` refuses while any
+flag is set. It currently reports 26 items. Legal is untouched and gates
+everything downstream.
+
+Verified from a cold start on 2026-08-03: 23 pages, both languages, at 390 and
+1440, zero issues on headings, alt text, focus, overflow, layout shift and
+contrast; CLS 0.000; no JavaScript bundle; first paint 672-840ms on Slow 4G with
+a 4x CPU throttle.
+
+### Do first, in this order
+
+1. **Run `npm run launch-check`.** It is the state of the project in one command.
+2. **Read the launch checklist below.** It is ordered by dependency, split into
+   what needs a lawyer, what the owner owes, and what is ours.
+3. **Ask him for the seven things that unblock the most** (checklist group 2).
+   The catalogue names are a FILING job, not a shoot: the photographs exist,
+   they are simply not in a folder that says what they are.
+4. **Do not start anything new until 1 to 3 are answered.** Everything left is
+   waiting on him or on a lawyer.
+
+### Do not redo these
+
+Each cost real time and is settled. Reopening one is how this project loses a
+day.
+
+- **The reference measurements** (section 14). Findings of record, measured
+  live. Do not re-derive them from memory of what those brands "do".
+- **Sizes.** Removed twice, on his word both times (sections 17, 41). A piece
+  that seems to need one needs a reference measurement.
+- **Ready versus remade** (sections 31, 41, 49). Settled and BUILT: two
+  availability states, and the enquiry asks which. The costing is spent.
+- **The caption polarity** (section 58). Four wrong answers before the right
+  one. Two bands are measured per frame; where neither survives, the caption
+  goes below. Do not "simplify" it back to one value.
+- **The Drive survey** (sections 47, 64). Compare photographs BY CONTENT, never
+  by path: the same frame exists under several names and a path-based sweep
+  reports nonsense.
+- **The home page's quietness** (section 64). Asked for and declined, with
+  reasons. All ten of his sentences are already placed; more words means new
+  words in his register on the first screen a visitor sees.
+- **His biography and anything legal.** Never invented. The about page is
+  designed around the absence.
+- **The drop filter.** A filter with one option is furniture. It appears when a
+  second drop exists.
+
+### Traps that have already bitten
+
+- **`wrangler pages dev` sends REAL email.** It reads `.env`, which holds the
+  Resend secrets. A valid local submission reaches his inbox and spends one of
+  his hundred a day; it has happened. Use
+  `npx wrangler pages dev dist --binding ENQUIRY_DRY_RUN=1`.
+- **A green check may be measuring nothing.** This session's audit reported a
+  clean pass having measured nothing at all, measured the wrong pixels, measured
+  captions that were not on the picture, and flagged correct markup as a defect.
+  Section 63 records how each gate was proven able to go red. **Prove it fails
+  before you believe it passes.**
+- **`npm run check` runs a build** for the same reason: it once reported zero
+  errors on a component using an identifier it never imported.
+- **A stale edge** served old HTML for minutes after a deploy more than once.
+  Audit the local build when a result looks impossible.
+- **Never set the Resend secrets or open the newsletter before the privacy
+  notice exists** (sections 36, 62). The gate has not moved.
+
+### How the pieces fit
+
+Content lives in Sanity and is written by `npm run import`, which reads his
+Google Drive READ ONLY. Everything invented is in that script, flagged onto the
+documents it writes, and listed in section 59. A push to `main` deploys; a
+publish in Sanity also deploys, intermittently (section 16), and a push is the
+reliable one.
+
+---
+
 ## THE LAUNCH CHECKLIST (2026-08-03)
 
 **Read this first.** Everything standing between this repository and a site the
