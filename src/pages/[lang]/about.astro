@@ -94,7 +94,7 @@ const designerText = pick(settings.designerText, locale);
   {
     openingMedia ? (
       <MediaSurface media={openingMedia} locale={locale} priority>
-        <h1 class="type-statement text-statement">{openingLine ?? t(locale, "about")}</h1>
+        <h1 class="type-display text-display">{openingLine ?? t(locale, "about")}</h1>
       </MediaSurface>
     ) : (
       <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
@@ -144,7 +144,7 @@ const designerText = pick(settings.designerText, locale);
           <TextSurface theme="dark" class="py-u13">
             <p
               class:list={[
-                isShort(paragraph) ? "type-statement text-statement" : "type-body text-body",
+                isShort(paragraph) ? "type-display text-display" : "type-body text-body",
                 "max-w-prose whitespace-pre-line",
                 marked && "draft-text",
               ]}

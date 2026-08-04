@@ -7,8 +7,7 @@
   descending sequence, so photographs-as-photographs live here and products only
   ever live in the shop. The menu says Process, because the formula is
   illegible to anyone who does not already know the brand; the formula is THIS
-  page's title, inside, at chapter size, which is the largest type standing
-  rule 10 permits.
+  page's title, inside, in the one display size (section 67).
 
   THE WEAVE. The eight process frames are the spine, in the order the work
   happens: pattern, cut, dye, dry, build, the parts, the finished garments.
@@ -84,12 +83,11 @@ const isLandscape = (media: MediaItem) => {
   image={first ? imageUrl(first.poster, 1200) : null}
 >
   {/*
-    The formula, large, inside: the one place it appears, at the chapter size
-    reserved for the rare moment (section 2). Then his own account of the work,
-    once, and then only photographs.
+    The formula, inside, in the site's one display size. Then his own account
+    of the work, once, and then only photographs.
   */}
   <TextSurface theme="dark" class="flex min-h-[50svh] flex-col justify-end gap-u3 pt-chrome pb-u8">
-    <h1 class="type-statement text-chapter">{t(locale, "processTitle")}</h1>
+    <h1 class="type-display text-display">{t(locale, "processTitle")}</h1>
     <p class="type-label text-label">{t(locale, "process")}</p>
   </TextSurface>
 

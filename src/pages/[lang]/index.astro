@@ -145,7 +145,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           <div class="flex flex-col gap-u2">
             {drop && <p class="type-label text-label">{drop.name}</p>}
             {dropLine && (
-              <p class="type-statement text-statement max-w-prose">{dropLine}</p>
+              <p class="type-display text-display max-w-prose">{dropLine}</p>
             )}
             {priceFrom && <p class="type-mono text-mono">{priceFrom}</p>}
             <a
@@ -203,7 +203,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     register="body"
     class="pt-u13 pb-u8"
   >
-    <p class="type-mono text-mono">{t(locale, "madeToMeasureValue")}</p>
+    <p class="type-label text-label">{t(locale, "madeToMeasureValue")}</p>
     {/*
       Two routes out, not one. The index is the shortest path to any Creature:
       one tap to the index and one more to a piece, which is the two-tap depth
@@ -348,7 +348,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 
           {statement && (
             <TextSurface theme="light" class="flex flex-col gap-u5 py-u13">
-              <p class="type-statement text-statement max-w-prose">{statement}</p>
+              <p class="type-display text-display max-w-prose">{statement}</p>
               <a href={href} class="type-label text-label self-start hover:underline underline-offset-8">
                 {collection.name}
               </a>

@@ -97,7 +97,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
   <TextSurface class="flex min-h-svh flex-col gap-u8 py-u13">
     <div class="flex flex-col gap-u2">
       <p class="type-label text-label">{t(locale, "order")}</p>
-      <h1 class="type-statement text-statement">
+      <h1 class="type-display text-display">
         {garment.name}{price ? `. ${price}.` : "."}
       </h1>
       {/*
@@ -105,7 +105,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
         his shipping line, the returns rule, and customs. Mono, because they
         are facts.
       */}
-      <div class="type-mono text-mono flex flex-col gap-u1 pt-u2">
+      <div class="type-body text-body flex flex-col gap-u1 pt-u2">
         {shippingLines.map((line) => <p>{line}</p>)}
       </div>
     </div>

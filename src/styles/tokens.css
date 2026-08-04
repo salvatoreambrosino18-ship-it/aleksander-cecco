@@ -18,7 +18,11 @@
     Revised 2026-08-01: the width axis is texture, never volume. Nothing on this
     site uses the condensed extreme to shout (DESIGN-PLAN sections 1, 2, 14).
   */
-  --wdth-label: 92;
+  /*
+    ONE WIDTH. The label register ran at wdth 92 and everything else at 100,
+    which made the same typeface look like two. Collapsed to 100: the labels
+    got fractionally wider and the site got quieter.
+  */
   --wdth-normal: 100;
   --wght-label: 500;
   --wght-statement: 300;
@@ -34,11 +38,21 @@
     Largest-to-body is now about 3:1. Scale contrast lives in the pictures.
     There is deliberately no display size: do not reintroduce one.
   */
-  --t-label: 0.6875rem; /* 11px. names, seasons, captions, menu */
-  --t-mono: 0.75rem; /* 12px. facts off the garment, nothing else */
-  --t-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); /* running prose only */
-  --t-statement: clamp(1.125rem, 0.95rem + 1.1vw, 1.75rem); /* 18-28px. the poetic line */
-  --t-chapter: clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem); /* 24-36px. rare: wash, 404 */
+  /*
+    FOUR SIZES, ONE FAMILY EACH (2026-08-04). The site had six voices from two
+    typefaces: label, statement, chapter, body, mono, and the width axis making
+    labels a seventh. The primary reference sets an entire homepage in one size
+    of one weight; ours is now four, each with one job.
+
+    --t-display absorbed --t-chapter, which existed for a single heading. The
+    site's largest type therefore SHRANK, which is the direction standing rule
+    10 has always pointed: if a screen feels weak the answer is a photograph,
+    never a bigger word.
+  */
+  --t-label: 0.6875rem; /* 11px. every label, caption, button and nav item */
+  --t-mono: 0.75rem; /* 12px. DATA ONLY: prices, measurements, counts */
+  --t-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); /* prose, his and ours */
+  --t-display: clamp(1.125rem, 0.95rem + 1.1vw, 1.75rem); /* 18-28px. the one large voice */
 
   /* spacing: one rhythm unit, near-Fibonacci multiples */
   --unit: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);

@@ -20,8 +20,7 @@
   --text-label: var(--t-label);
   --text-mono: var(--t-mono);
   --text-body: var(--t-body);
-  --text-statement: var(--t-statement);
-  --text-chapter: var(--t-chapter);
+  --text-display: var(--t-display);
 
   --spacing-u1: var(--s-u1);
   --spacing-u2: var(--s-u2);
@@ -72,12 +71,12 @@
 */
 @utility type-label {
   font-family: var(--ff-display);
-  font-variation-settings: "wght" var(--wght-label), "wdth" var(--wdth-label);
+  font-variation-settings: "wght" var(--wght-label), "wdth" var(--wdth-normal);
   text-transform: uppercase;
   letter-spacing: var(--track-label);
   line-height: 1.2;
 }
-@utility type-statement {
+@utility type-display {
   font-family: var(--ff-display);
   font-variation-settings: "wght" var(--wght-statement), "wdth" var(--wdth-normal);
   text-transform: uppercase;

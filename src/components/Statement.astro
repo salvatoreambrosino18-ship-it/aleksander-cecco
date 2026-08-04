@@ -69,7 +69,7 @@ const noticeKey = voice === "translation" ? "translationNotice" : "draftNotice";
     text && !isPlaceholder && (
       <p
         class:list={[
-          register === "statement" ? "type-statement text-statement" : "type-body text-body",
+          register === "statement" ? "type-display text-display" : "type-body text-body",
           "max-w-prose whitespace-pre-line",
           marked && "draft-text",
         ]}

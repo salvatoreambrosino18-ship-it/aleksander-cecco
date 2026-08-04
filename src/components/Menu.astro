@@ -69,7 +69,7 @@ const handle = instagram ? `@${instagram.replace(/\/+$/, "").split("/").pop()}` 
     <nav class="flex flex-col" aria-label={t(locale, "menu")}>
       {
         MENU_DESTINATIONS.map(({key, path}) => (
-          <a href={localePath(locale, path)} class="menu-destination type-label text-statement">
+          <a href={localePath(locale, path)} class="menu-destination type-label text-display">
             {t(locale, key)}
           </a>
         ))
