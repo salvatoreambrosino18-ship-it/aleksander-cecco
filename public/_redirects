@@ -18,8 +18,13 @@
 # The archive became a GALLERY on 2026-08-03 (DESIGN-PLAN section 18): it holds
 # the brand's imagery as a sequence, not a dated record, so the label and the
 # path now say the same thing.
-/it/archive  /it/gallery  301
-/en/archive  /en/gallery  301
+# The gallery dissolved into the process page on 2026-08-04 (DESIGN-PLAN
+# section 65): imagery has one home now. The old /archive hops point straight
+# at /process so no reader crosses two redirects.
+/it/archive  /it/process  301
+/en/archive  /en/process  301
+/it/gallery  /it/process  301
+/en/gallery  /en/process  301
 
 # The designer folded into the end of the about page on 2026-08-03: two
 # sections telling one story, so they are one page now.
@@ -28,8 +33,8 @@
 
 # The red shirt left the catalogue the same day (DESIGN-PLAN section 50). It is
 # a gallery frame now, so its Creature page goes where the piece went.
-/it/creature/rubedo  /it/gallery  301
-/en/creature/rubedo  /en/gallery  301
+/it/creature/rubedo  /it/process  301
+/en/creature/rubedo  /en/process  301
 
 /it/pieces/*  /it/creature/:splat  301
 /en/pieces/*  /en/creature/:splat  301

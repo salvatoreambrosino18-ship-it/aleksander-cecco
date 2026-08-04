@@ -19,17 +19,18 @@ export const AVAILABILITY_COPY_IS_DRAFT = true;
 const ui = {
   it: {
     skipToContent: "Vai al contenuto",
+    menuHome: "Home",
     home: "Aleksander Cecco, home",
     menu: "Menu",
     close: "Chiudi",
     languageLabel: "Lingua",
-    collections: "Collezioni",
+    collections: "Drops",
     allCreatures: "Tutte le Creature",
     previousCreature: "Precedente",
     nextCreature: "Successiva",
     countCreatures: "Creature",
     gallery: "Galleria",
-    process: "Solvet et Coagula",
+    process: "Processo",
     designer: "Chi lo fa",
     about: "Chi siamo",
     contact: "Contatti",
@@ -50,6 +51,7 @@ const ui = {
     // The inscription on a Creature page, in his own caption format:
     // "Creature: Tomar. Composition: 100% lambskin. Handmade."
     creature: "Creatura",
+    processTitle: "Solvet et Coagula",
     composition: "Composizione",
     handmadeMadeToMeasure: "Fatto a mano. Su misura.",
     outsideCollections: "Fuori dalle collezioni.",
@@ -108,17 +110,18 @@ const ui = {
   },
   en: {
     skipToContent: "Skip to content",
+    menuHome: "Home",
     home: "Aleksander Cecco, home",
     menu: "Menu",
     close: "Close",
     languageLabel: "Language",
-    collections: "Collections",
+    collections: "Drops",
     allCreatures: "All Creature",
     previousCreature: "Previous",
     nextCreature: "Next",
     countCreatures: "Creature",
     gallery: "Gallery",
-    process: "Solvet et Coagula",
+    process: "Process",
     designer: "The designer",
     about: "About",
     contact: "Contact",
@@ -136,6 +139,7 @@ const ui = {
     madeToMeasure: "Made to measure",
     availability: "How it can be had",
     creature: "Creature",
+    processTitle: "Solvet et Coagula",
     composition: "Composition",
     handmadeMadeToMeasure: "Handmade. Made to measure.",
     outsideCollections: "Outside the collections.",
@@ -188,17 +192,18 @@ export function t(locale: Locale, key: UIKey): string {
   the rule against linking a menu at a page that was never built still holds.
 */
 export const MENU_DESTINATIONS = [
-  {key: "allCreatures", path: "creature"},
-  {key: "collections", path: "collections"},
-  {key: "gallery", path: "gallery"},
-  {key: "process", path: "process"},
   /*
-    The designer is no longer a destination of its own (2026-08-03). It is the
-    end of the about page: the brand's story, then the person who makes it, so
-    the menu carries one entry where it carried two and the reader arrives at
-    him instead of being sent to him. `designer` survives as the heading of that
-    section, which is why the string stays.
+    SIX DESTINATIONS (2026-08-04). Home leads, because the signature-as-home-link
+    is a convention only designers know. The gallery is gone: its frames live on
+    the process page now (DESIGN-PLAN section 65), so imagery has one home and
+    products only ever live in the shop. "Process" rather than the formula,
+    because SOLVET ET COAGULA in a menu is illegible to anyone who does not
+    already know the brand; the formula is the page's own title, inside.
   */
+  {key: "menuHome", path: ""},
+  {key: "creatures", path: "creature"},
+  {key: "collections", path: "collections"},
+  {key: "process", path: "process"},
   {key: "about", path: "about"},
   {key: "contact", path: "contact"},
 ] as const satisfies ReadonlyArray<{key: UIKey; path: string}>;

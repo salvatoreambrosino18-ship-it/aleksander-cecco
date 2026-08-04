@@ -11,6 +11,7 @@ import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import {getSiteSettings} from "../lib/content";
+import {pick} from "../lib/locales";
 import {imageUrl} from "../lib/image";
 import {LOCALES, localePath, switchLocalePath, type Locale} from "../lib/locales";
 import {t} from "../i18n/ui";
@@ -69,6 +70,8 @@ const pathname = Astro.url.pathname;
 const canonical = Astro.site ? new URL(pathname, Astro.site) : null;
 
 const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === "true";
+
+const banner = pick(settings.shippingFree, locale);
 
 const shareImage =
   image ?? (settings.openingMedia ? imageUrl(settings.openingMedia.poster, 1200) : null);
@@ -152,6 +155,22 @@ const shareImage =
       footer and every text section draw their own segment at the same offset,
       so the line reads continuous and breaks exactly where a photograph starts.
     */}
+    {/*
+      THE SHIPPING LINE (2026-08-04). One thin line at the top of every page:
+      his real policy, in his own words (`shippingFree`, unmarked because both
+      the fact and the wording are his). His other shop runs exactly this banner
+      over the same photography and it reads as a shop within a second, which is
+      what this site was failing to do.
+
+      STATIC, not fixed: it scrolls away with the page, so it says its one thing
+      at arrival and then leaves the photography alone. It is not the persistent
+      bar section 4 removed, because it does not persist.
+    */}
+    {banner && (
+      <div class="bg-bg text-fg hairline-b frame flex justify-center py-u1">
+        <p class="type-label text-label text-center">{banner}</p>
+      </div>
+    )}
     <SiteHeader locale={locale} chrome={chrome ?? theme} pageTheme={theme} />
 
     <div class="flex min-h-svh flex-col">

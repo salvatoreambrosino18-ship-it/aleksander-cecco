@@ -105,6 +105,9 @@
 @utility hairline-h {
   border-top: var(--hairline-w) solid var(--hairline);
 }
+@utility hairline-b {
+  border-bottom: var(--hairline-w) solid var(--hairline);
+}
 /*
   THE ACTION, revised 2026-08-02. It used to be a closed box, and a box was the
   only closed shape in the whole system: it read as a call-to-action button on a
