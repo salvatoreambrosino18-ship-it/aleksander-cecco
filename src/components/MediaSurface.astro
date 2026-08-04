@@ -40,7 +40,7 @@ interface Props {
    * portraits two across, and a pair must agree on its height or the row that
    * has no gutter grows a hole (DESIGN-PLAN section 56).
    */
-  desktopHeight?: "screen" | "tall" | "short";
+  desktopHeight?: "screen" | "tall" | "short" | "tile";
   /** The first image on a page is the largest thing it downloads. */
   priority?: boolean;
   /**
@@ -106,6 +106,12 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
       desktopHeight === "screen" && "md:h-media-screen",
       desktopHeight === "tall" && "md:h-media-tall",
       desktopHeight === "short" && "md:h-media-short",
+      /*
+        A shop tile: the photograph's own 3:4 at desktop instead of a viewport
+        unit, because a dense grid of viewport-height frames is a wall of
+        letterboxes. Phone keeps whatever `height` says.
+      */
+      desktopHeight === "tile" && "md:h-auto md:aspect-[3/4]",
     ]}
   >
     {

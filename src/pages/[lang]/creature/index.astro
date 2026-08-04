@@ -87,6 +87,23 @@ const rowHeight = (index: number): "tall" | "short" =>
 const allNamed = creature.every((garment) => !isPlaceholderText(garment.name));
 
 /*
+  DESKTOP DENSITY: FOUR ACROSS (2026-08-04), revising section 39's two-across
+  ceiling, which was OURS, set when the catalogue was two seeded fixtures.
+
+  Both three and four were rendered at 1440 and looked at. Four wins on the
+  evidence: two full rows land in the first screen, which is the one-second
+  shop read his own catalogue proves with this exact photography; sixteen
+  pieces make a clean four-by-four where three leaves an orphan; and the
+  garments survive tiling because the photography is tight on the subject, so
+  a 360px tile still shows a garment, not a speck. What section 39 was
+  protecting is intact: no gaps, no cards, no borders, and the name and price
+  sit on the page below the frame, never shrunk onto it.
+
+  Tablet gets two across, because four at 768px is a 192px tile and that IS
+  the thumbnail the rule forbids. Phone stays one across, untouched.
+*/
+
+/*
   THE PRICE BELONGS HERE, and only here among the wall views. This is the
   catalogue screen: a reader is comparing, and a comparison without prices is a
   mood board. The gallery stays wordless because it is not selling anything.
@@ -125,23 +142,29 @@ const priceOf = (garment: Garment) =>
 
   {
     creature.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
         {creature.map((garment, index) => (
           <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
             <MediaSurface
               media={garment.media![0]}
               locale={locale}
               height={rowHeight(index)}
+              desktopHeight="tile"
               priority={index < 2}
               hover={garment.media![1]}
-            >
-              {allNamed && (
-                <div class="flex flex-col gap-u1">
-                  <h2 class="type-label text-label">{garment.name}</h2>
-                  {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
-                </div>
-              )}
-            </MediaSurface>
+            />
+            {/*
+              Name and price BELOW the frame, on the page, uniformly: the shop
+              read his own catalogue proves, and the one placement that can
+              never fail contrast over photography. The frames still touch;
+              the caption row is the seam between rows.
+            */}
+            {allNamed && (
+              <div class="flex flex-col gap-u1 px-caption py-u2">
+                <h2 class="type-label text-label">{garment.name}</h2>
+                {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
+              </div>
+            )}
           </a>
         ))}
       </div>
