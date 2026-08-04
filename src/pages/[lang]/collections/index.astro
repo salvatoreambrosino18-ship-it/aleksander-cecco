@@ -37,8 +37,12 @@ for (const g of garments) {
 
 <Base locale={locale} title={t(locale, "collections")} chrome={overlayTheme(first?.overlay)} image={first ? imageUrl(first.poster, 1200) : null}>
   <TextSurface class="flex flex-col gap-u2 pt-chrome pb-u5">
+    {/*
+      No intro line (2026-08-04): every fetched reference keeps category pages
+      free of editorial, and the drop card below opens with HIS statement,
+      which says more than any line of ours explained.
+    */}
     <h1 class="type-label text-label">{t(locale, "collections")}</h1>
-    <p class="type-body text-body max-w-prose">{t(locale, "dropsIntro")}</p>
   </TextSurface>
 
   {/*

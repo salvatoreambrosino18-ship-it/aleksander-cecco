@@ -42,8 +42,8 @@ const ui = {
     contact: "Contatti",
     instagram: "Instagram",
     newsletter: "Le prossime uscite",
-    newsletterLine: "Ogni Creatura esiste in pochi esemplari. Scrivici e ti diciamo quando esce la prossima.",
-    newsletterAction: "Tienimi aggiornato",
+    newsletterLine: "Pochi pezzi, poche volte l'anno. Scriviamo quando un drop è pronto.",
+    newsletterAction: "Iscriviti",
     newsletterClosed: "Le iscrizioni non sono ancora aperte.",
     email: "Email",
     footerNav: "Collegamenti",
@@ -71,8 +71,7 @@ const ui = {
       because a piece that already exists gives the buyer two different things
       and saying only "available now" would hide the second one.
     */
-    readyExplanation:
-      "Questa Creatura è già fatta. Puoi prenderla così com'è, oppure fartela rifare sulle tue misure.",
+    readyExplanation: "Già fatta. Prendila così com'è, o falla rifare sulle tue misure.",
     thisPieceMeasurements: "Misure di questo capo",
     unique: "Unica. 1 di 1.",
     privateOrder: "Ordine privato.",
@@ -117,12 +116,10 @@ const ui = {
       short, declarative, subject dropped. Photography still carries no
       captions; these live between sections and at the tops of pages.
     */
-    shopIntro: "Ogni pezzo è fatto a mano nel Sud Italia. Disponibile subito, o costruito sulle tue misure.",
-    dropsIntro: "Il lavoro esce a drop. Pochi pezzi alla volta, poi il prossimo.",
+    shopIntro: "Su misura, o disponibile subito. Fatto a mano nel Sud Italia.",
     enterDrop: "Vedi il drop",
-    contactIntro: "Scrivici. Risponde una persona, entro un giorno, ora italiana.",
+    contactIntro: "Risponde una persona. Entro un giorno, ora italiana.",
     wornLine: "Addosso, alla luce del giorno.",
-    dropsHomeLine: "Il drop in corso, per intero.",
     acquire: "Acquista",
     placeOrder: "Invia l'ordine",
     sending: "Invio in corso",
@@ -156,8 +153,8 @@ const ui = {
     instagram: "Instagram",
     email: "Email",
     newsletter: "The next drops",
-    newsletterLine: "Every Creature exists in very small numbers. Leave your address and we will tell you when the next one is made.",
-    newsletterAction: "Keep me posted",
+    newsletterLine: "A few pieces, a few times a year. We write when a drop is ready.",
+    newsletterAction: "Subscribe",
     newsletterClosed: "Sign-up is not open yet.",
     footerNav: "Links",
     collection: "Collection",
@@ -174,8 +171,7 @@ const ui = {
     fitGuidance: "Compare these with a garment you already own and like the fit of.",
     madeToOrder: "Made to order.",
     availableNow: "Available now.",
-    readyExplanation:
-      "This Creature is already made. Take it as it is, or have it remade to your measurements.",
+    readyExplanation: "Already made. Take it as it is, or have it remade to your measurements.",
     thisPieceMeasurements: "This piece's measurements",
     unique: "Unique. 1 of 1.",
     privateOrder: "Private order.",
@@ -195,12 +191,10 @@ const ui = {
     price: "Price",
     priceFrom: "From",
     order: "Order",
-    shopIntro: "Each piece is handmade in South Italy. Ready now, or built to your measurements.",
-    dropsIntro: "The work is released in drops. A few pieces at a time, then the next.",
+    shopIntro: "Made to measure, or ready now. Handmade in South Italy.",
     enterDrop: "See the drop",
-    contactIntro: "Write to us. A person replies, within one day, Italian time.",
+    contactIntro: "A person replies. Within one day, Italian time.",
     wornLine: "On bodies, in daylight.",
-    dropsHomeLine: "The current drop, in full.",
     acquire: "Acquire",
     placeOrder: "Place the order",
     sending: "Placing the order",

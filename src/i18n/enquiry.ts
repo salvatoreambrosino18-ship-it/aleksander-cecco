@@ -76,11 +76,10 @@ const copy: Record<Locale, EnquiryCopy> = {
     measureHelp:
       "Se non hai un metro da sarto va bene uno spago: misuralo poi con un metro rigido. Per le spalle fatti aiutare da qualcuno, da solo viene quasi sempre sbagliata. Nel dubbio scrivi la misura che ti sembra piu probabile e diccelo nelle note.",
     confirmation: "Richiesta ricevuta. Ti rispondiamo via email.",
-    fulfilmentQuestion: "Questa Creatura è già fatta. Come la vuoi?",
-    takeAsIs: "La prendo così com'è",
-    haveItRemade: "La voglio sulle mie misure",
-    measurementsForRemakeOnly:
-      "Le misure servono solo se la vuoi rifatta. Se la prendi così com'è, lascia i tre campi vuoti.",
+    fulfilmentQuestion: "Così com'è, o sulle tue misure?",
+    takeAsIs: "Così com'è",
+    haveItRemade: "Sulle mie misure",
+    measurementsForRemakeOnly: "Le misure servono solo per rifarla. Così com'è, lasciale vuote.",
   },
   en: {
     // HIS WORDS, verbatim, from the Armonyen post.
@@ -104,11 +103,10 @@ const copy: Record<Locale, EnquiryCopy> = {
     measureHelp:
       "No tape measure is fine: use a piece of string and measure the string against a ruler. Ask someone to help with the shoulders, because alone it is almost always wrong. If you are unsure, send your best guess and say so in the note.",
     confirmation: "Enquiry received. We will reply by email.",
-    fulfilmentQuestion: "This Creature is already made. How do you want it?",
-    takeAsIs: "I will take this one as it is",
-    haveItRemade: "Remake it to my measurements",
-    measurementsForRemakeOnly:
-      "The measurements are only needed for a remake. If you are taking this one as it is, leave the three fields empty.",
+    fulfilmentQuestion: "As it is, or to your measurements?",
+    takeAsIs: "As it is",
+    haveItRemade: "To my measurements",
+    measurementsForRemakeOnly: "Measurements are for a remake only. Taking it as it is, leave them empty.",
   },
 };
 

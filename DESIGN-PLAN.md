@@ -7,7 +7,7 @@
 ### Where this is
 
 A SHOP now, not an exhibition: live at https://aleksander-cecco.pages.dev, two
-languages, noindexed. Sixteen Creature four-across at desktop with names and
+languages, noindexed. Seventeen Creature four-across at desktop with names and
 prices, a free-shipping banner on every page, an order flow ("Acquire — €X" →
 order page → "Order received"), a process page that is the single home of
 imagery (the gallery is dissolved into it), and a six-entry menu starting at
@@ -5291,3 +5291,96 @@ paint 668-792ms, CLS 0.000 everywhere, LCP 712ms-2.4s, and the home LCP is the
 arrival photograph again. Order flow tested against the Workers runtime with
 the dry run proven to fire. `npm run check` went red on a real JSX error
 mid-session and green after the fix; launch-check red at 29, correctly.
+
+---
+
+## 66. The third reorganisation, the rescue, and the rewrite (2026-08-04)
+
+### The Drive files by status now
+
+68 files, 61 unique. `NEW` = the current drop's pieces (all frames already in
+the dataset). `1 of 1   Sample sale` = two buyable one-offs with nine
+never-seen frames, hi-res. `ARCHIVE   SOLD OUT` = the red shirt and the pale
+Lux trousers. `Everything is done artisanally by us` = both designer portraits
+plus two video stills with baked black bars (recorded, not imported; the
+folder NAME is his own sentence). Kept: TIBIA CUT, STYRAX TOP, PROCESS,
+homepage. Gone entirely: archive/, experimental/, OBLIVION/, MONUMENTUS L&T/,
+the root files — 28 images that now exist only in Sanity.
+
+### The import no longer depends on files persisting
+
+A missing key is RESCUED from the dataset by the original filename stored on
+its asset (dedupe-by-sha1 keeps the first upload's name forever, so renamed
+files are findable only that way; three stem shapes are tried, including the
+long disk-folder prefix by suffix match). Every rescue is logged with what it
+matched. The reserved `dataset/` alias declares a frame that lives only in
+Sanity. Truly-nowhere still aborts before writing. 29 frames rescued on the
+first run; nothing was deleted.
+
+### What his folders dictated
+
+- **Severya** is the snake skirt alone now: his sample-sale folder gives it
+  four product frames and its own life; the name is his, from the inscription
+  in his own hand, and is no longer flagged. Slug /severya; /capo-08 redirects.
+  READY NOW from his folder.
+- **Styrax Red Goat** is a new Creature (settling the old red-variant
+  question): 1 of 1, ready, four frames including the catalogue's first lining
+  shot. Invented price 775, flagged with the rest.
+- **capo-10 and capo-11 are SOLD OUT in his own words** — availability
+  notOffered, note "Sold out." This REVERSES his 2026-08-03 message (sold →
+  made to order); the folder is newer and wins. HIS TO CONFIRM.
+- A 1 of 1 arguably cannot offer "remade to your measurements", which the
+  order form still offers on ready pieces. Surfaced, not guessed.
+- Seventeen Creature.
+
+### Drop, invariable; the route stays
+
+Italian does not pluralise the loanword: the label is Drop everywhere on the
+Italian side. English keeps Drops. THE ROUTE STAYS /collections: his own
+shop's platform serves a Drops-labelled page from /collections/*, so the
+label/route mismatch is one he already trades in, and a rename buys nothing a
+visitor sees for two more redirect lines.
+
+### The announcement went home
+
+"We present MONUMENTUS: Tenebrae & Lux." is his approved sentence; the words
+never changed. Its PLACEMENT was ours and the owner named it as what he
+disliked. It now lives where an announcement lives: on the drop's pages, which
+open with his full statement. The arrival carries the drop's NAME as a label
+and his second line, which describes rather than announces. The drops index
+became a real page: cover, his statement whole, the piece count, the way in.
+
+### The writing standard, measured from the references
+
+Fetched live: Rick Owens, Isaac Sellam, Sorcinelli, and his own shop. What
+their writing shares: navigation is bare nouns; buttons are one word ("Join",
+"Iscriviti", "View"); facts are stated flat WITH THEIR LIMITS ("every piece is
+unique and Made in France", "Fino a esaurimento scorte e non oltre il 31
+agosto"); poetry is two mirrored fragments, never prose; and NOBODY EXPLAINS
+THE SITE TO THE VISITOR — the only visitor-addressed copy is transactional.
+The weakest line on any of them is chatty ("Join the tribe and be the first to
+know what's going on here!"), which is the register to avoid.
+
+The rewrite, all still flagged:
+
+| string | was | is |
+| --- | --- | --- |
+| shopIntro EN | Each piece is handmade in South Italy. Ready now, or built to your measurements. | Made to measure, or ready now. Handmade in South Italy. |
+| shopIntro IT | Ogni pezzo è fatto a mano... | Su misura, o disponibile subito. Fatto a mano nel Sud Italia. |
+| contactIntro EN | Write to us. A person replies, within one day, Italian time. | A person replies. Within one day, Italian time. |
+| newsletterLine EN | Every Creature exists in very small numbers. Leave your address and we will tell you... | A few pieces, a few times a year. We write when a drop is ready. |
+| newsletterAction | Keep me posted / Tienimi aggiornato | Subscribe / Iscriviti |
+| readyExplanation EN | This Creature is already made. Take it as it is, or... | Already made. Take it as it is, or have it remade to your measurements. |
+| fulfilmentQuestion EN | This Creature is already made. How do you want it? | As it is, or to your measurements? |
+| takeAsIs / haveItRemade | I will take this one as it is / Remake it to my measurements | As it is / To my measurements |
+| measurementsForRemakeOnly EN | The measurements are only needed for a remake. If you are taking... | Measurements are for a remake only. Taking it as it is, leave them empty. |
+| listClosed EN | Sign-up is not open yet. Write to us and we will tell you when it is. | Sign-up is not open yet. |
+| dropsIntro | The work is released in drops. A few pieces at a time, then the next. | CUT: category pages carry no editorial on any reference, and the card opens with his statement |
+| dropsHomeLine | The current drop, in full. | CUT: it explained the page |
+
+Launch-check: 29, including the two new sample-sale pieces' invented values.
+
+### Verified cold
+
+25 pages × two languages × 390 and 1440, zero issues. The audit was proven
+able to go red first (planted duplicate h1, caught, restored).

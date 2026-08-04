@@ -321,8 +321,8 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   */}
   {collections.length > 0 && (
     <TextSurface theme="light" class="flex flex-col gap-u1 pt-u13 pb-u5">
+      {/* The heading alone: "The current drop, in full." explained the page. */}
       <h2 class="type-label text-label">{t(locale, "collections")}</h2>
-      <p class="type-body text-body max-w-prose">{t(locale, "dropsHomeLine")}</p>
     </TextSurface>
   )}
 
