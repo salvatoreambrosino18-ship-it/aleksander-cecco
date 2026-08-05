@@ -1,6 +1,6 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-05 (after the monogram and the Instagram strip, section 71)
+## HANDOFF, 2026-08-05 (after his words arrived, section 72)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
 
@@ -26,6 +26,12 @@ catalogue's image-size regression fixed (tiles were pulling 1440px files).
 Do not re-litigate the display token: 28px sits above every reference's
 measured maximum and the numbers are in s68.
 
+HIS FIRST REAL CONTENT is in (s72): six descriptions verbatim, Oblivion's
+real measurements, the name order approved. Launch-check 30 — the invented
+descriptions left to request are listed in s72. The tab carries the
+EXTRACTED monogram with the A alone (his choice); the catalogue tiles flick
+on touch; navigation crossfades; the order confirmation has its ceremony.
+
 THE MONOGRAM (s71): the tab carries an AC redrawn from the signature's own
 letters — section 9's no-monogram rule was reversed BY THE OWNER. Two
 candidates live in docs/monogram/ with their size matrices; he picks, the
@@ -39,7 +45,7 @@ phone viewport, the signature writes itself once per visit on the home
 arrival, and the creators are CIRO CECCO then Ferdinando Palmieri — flagged
 `aboutNameOrder` until Ciro confirms the reorder of his approved sentence.
 
-**It cannot launch.** `npm run launch-check` reports 31 invented things, all
+**It cannot launch.** `npm run launch-check` reports 30 invented things, all
 invisible to visitors and flagged in the studio. Legal is untouched and gates
 the Resend secrets AND the newsletter. No payment exists; Stripe is the
 recorded future step and it waits for a fiscal position.
@@ -5847,3 +5853,70 @@ regression. Launch-check 31, unchanged: the frames stay flagged
 still awaits Ciro. One build trap found: a JSX comment inside an opening
 tag passes `astro build` but fails `astro check`; the sticky-chrome comment
 moved above its element.
+
+---
+
+## 72. His words arrive, the A alone, the flick, and three motions (2026-08-05)
+
+### The first real content replaced invented, and the number moved
+
+Six pieces carry his approved words verbatim (spelling and rhythm untouched,
+including "costumizable"): the Oblivion shirt — with his REAL measurements,
+free-text field so his Armpit fits with no schema change — the Styrax pair
+(Red 1 of 1 / Black Available), and the Monumentus description on exactly
+the confirmed pieces: capo-05, capo-11 (the long trousers) and capo-10 (the
+tibia cut, "stopped at the shin"). Never the vests. English his and
+approved; the Italian translations are OURS, flagged per piece with the new
+`descriptionIt` option. The name order is APPROVED and cleared.
+
+**Launch-check 31 → 30**: seven flags cleared, six honest translation flags
+added. Still carrying invented descriptions, to ask him for specifically:
+**Armonyen, the two Monumentus Vests, Aleya, Severya, Glovyes, Vesper (the
+bag), Corvinus, Vertex (the hat), Nocte.** Ghezard's description was already
+his.
+
+### The A alone (superseding 71's composition)
+
+He chose the EXTRACTED monogram — his hand over easy legibility — and asked
+for the A without the 'l' remnant. The eye failed twice at guessing the cut;
+a rasterised scanline of the letter region gave the true anatomy (the apex
+at (560,175), the l descending BETWEEN the legs to (445,520)), and the cut
+threads the corridor with ~10 units to spare. Verified against the uncut
+original at identical scale: every kept edge is the pen's, except a few
+fused units where the l physically touched the leg — invisible below 360px,
+recorded here rather than hidden. Favicon and touch icon carry the
+recomposition; the redrawn candidate remains in docs/monogram/.
+
+### Browse without clicking (his request)
+
+On hover-less devices each tile is a flick strip: up to four frames,
+mandatory snap, 94% wide so the next peeks. Pan scrolls, tap navigates —
+the preview cannot trap. Hover devices keep the existing swap; their extra
+frames are display:none and never fetched. Not focusable, on purpose:
+seventeen extra tab stops would be hostile and every frame lives on the
+piece's page. REJECTED: tap-cycling (a tap that does two things is a trap),
+dots (foreign chrome), a mouse strip (hover already serves it). Two honest
+limits: the peek cue is subdued by the gutterless grid (discovery is
+tactile), and headless Chrome cannot emulate `hover` — the branch was
+verified by flipping only the media condition on the shipped rules, which
+caught a real specificity bug (the un-hide lost to the hide) before ship.
+
+### Three motions, each deletable as one block
+
+- **The page turn**: cross-document view transitions, 200ms crossfade,
+  CSS only, `prefers-reduced-motion: no-preference` gated. The element
+  morph was rejected (no reliable pair-naming without JS; 17 named tiles
+  cost phone frames).
+- **The ceremony**: the order confirmation arrives element by element in
+  writing order, the promise last — the emotional peak finally has one.
+  Verified through the real Workers runtime, DRY RUN line seen.
+- **The movement headings** arrive on the reveal's curve.
+- REJECTED: image-load fades (needs per-image JS; the reveal owns that
+  moment), the banner's exit (scroll-linked motion on a logistics line).
+
+### Verified
+
+Audit proven red, 27 pages × both languages × 390 and 1440, zero issues.
+Deployed Slow 4G: home 1692ms, catalogue 1892ms, piece 1000ms, CLS 0.000,
+catalogue transfer unchanged — the flick adds nothing on hover devices and
+only lazy frames on touch. Launch-check 30.
