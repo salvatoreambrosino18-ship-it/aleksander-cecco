@@ -98,6 +98,24 @@
   letter-spacing: var(--track-label);
 }
 
+/*
+  The shipping line is ONE LINE, always (section 70). On a phone the Italian
+  wording wrapped to two rows and collided with the chrome. It shrinks and
+  tightens before it would ever wrap; if a future banner still cannot fit at
+  this size, the banner is too long and gets shortened editorially — wrapping
+  is never the answer. Unlayered, because it must beat the text-label
+  utility's size.
+*/
+.banner-line {
+  white-space: nowrap;
+}
+@media (max-width: 29.99rem) {
+  .banner-line {
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+  }
+}
+
 /* the recurring vertical hairline (the spine) */
 @utility hairline-v {
   border-left: var(--hairline-w) solid var(--hairline);
@@ -484,16 +502,21 @@
   .menu-when-open {
     display: none;
   }
-  .menu[open] > summary {
-    /*
-      Becomes the close control while the panel is open, and stays exactly where
-      the MENU label was: top left, beside the signature. Nothing jumps across
-      the screen between opening and closing.
-    */
-    position: fixed;
-    top: var(--s-u3);
-    left: calc(var(--margin) + var(--sig-corner-w) + var(--s-u3));
-    z-index: 20;
+  /*
+    THE CLOSE CONTROL STAYS IN FLOW (section 70). It used to be repositioned
+    with token arithmetic (margin + signature width + gap) that could only
+    approximate where MENU really was, and it read as floating. The summary
+    simply keeps its place in the header — the same pixels open and closed,
+    at every width, by construction. The header is already above the panel.
+
+    The header's signature link, meanwhile, was ALWAYS invisible over the
+    open panel — the chrome keeps the page's polarity and the panel is its
+    opposite — but it still intercepted taps. While the menu is open it is
+    hidden properly: not painted, not focusable, not a tap target. The panel
+    carries its own signature at its foot.
+  */
+  #site-chrome:has(.menu[open]) > a {
+    visibility: hidden;
   }
   .menu[open] .menu-when-closed {
     display: none;

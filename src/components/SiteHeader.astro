@@ -46,7 +46,16 @@ const {locale, chrome = "light", pageTheme = "light"} = Astro.props;
 <header
   id="site-chrome"
   data-theme={chrome}
-  class="text-fg fixed inset-x-0 top-0 z-30 flex items-center gap-u3 px-margin py-u3"
+  {/*
+    STICKY, NOT FIXED (section 70). Fixed put the marks at y=0 where the
+    static banner also lives, and on a phone the two-line banner ran straight
+    through the signature. Sticky starts the chrome BELOW the banner and
+    pins it to the top the moment the banner scrolls away — the steady state
+    is identical to fixed, and the collision cannot exist. The negative
+    margin gives the chrome zero footprint in the flow, which is what keeps
+    it an overlay rather than a bar.
+  */}
+  class="text-fg sticky inset-x-0 top-0 z-30 -mb-chrome flex h-chrome items-center gap-u3 px-margin"
 >
   <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
     <Signature class="h-sig-corner" decorative />

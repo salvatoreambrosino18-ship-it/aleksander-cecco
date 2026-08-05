@@ -117,7 +117,7 @@ for (const drop of dropKeys) {
   footerTheme="dark"
 >
   <div class="catalogue">
-    <TextSurface theme="dark" arrive class="flex flex-col gap-u3 pt-chrome pb-u5">
+    <TextSurface theme="dark" arrive class="flex flex-col gap-u2 pt-chrome pb-u3 md:gap-u3 md:pb-u5">
       <h1 class="type-display text-display">{t(locale, "allCreatures")}</h1>
       <p class="type-body text-body max-w-prose">{t(locale, "shopIntro")}</p>
 
@@ -169,7 +169,7 @@ for (const drop of dropKeys) {
       creature.length > 0 ? (
         MOVEMENTS.map((movement) => (
           <section class="movement">
-            <TextSurface theme="dark" class="hairline-h flex flex-col gap-u1 pt-u8 pb-u3">
+            <TextSurface theme="dark" class="hairline-h flex flex-col gap-u1 pt-u5 pb-u2 md:pt-u8 md:pb-u3">
               <h2 class="type-display text-display">{movement.label}</h2>
             </TextSurface>
 
