@@ -31,6 +31,7 @@ import Base from "../../../../layouts/Base.astro";
 import TextSurface from "../../../../components/TextSurface.astro";
 import {getGarments, getSiteSettings, type Garment} from "../../../../lib/content";
 import MediaSurface from "../../../../components/MediaSurface.astro";
+import MeasureDiagram from "../../../../components/MeasureDiagram.astro";
 import {LOCALES, localePath, pick, toLocale} from "../../../../lib/locales";
 import {enquiryCopy, ENQUIRY_COPY_IS_DRAFT} from "../../../../i18n/enquiry";
 import {t} from "../../../../i18n/ui";
@@ -182,6 +183,12 @@ const availabilityNote = pick(garment.availabilityNote, locale);
                   {copy.measurementsForRemakeOnly}
                 </p>
               )}
+
+              {/*
+                The diagram (section 73): ours, flagged, plain. It sits before
+                the numbers because a person measures before they type.
+              */}
+              <MeasureDiagram />
 
               {/*
                 ONE UNIT FOR ALL THREE, chosen by the person filling the form

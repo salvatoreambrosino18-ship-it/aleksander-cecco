@@ -501,6 +501,12 @@
     }
   }
 
+  /* The measuring diagram (section 73): small, plain, the page's own ink. */
+  .measure-diagram {
+    width: min(14rem, 60vw);
+    height: auto;
+  }
+
   /*
     The form. There is no colour to reach for, so an invalid field thickens its
     hairline to solid fg and says what is wrong in fg text (standing rule 1).

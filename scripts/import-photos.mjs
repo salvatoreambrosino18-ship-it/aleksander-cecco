@@ -1704,7 +1704,7 @@ async function main() {
       "homeLines",
       "enquiryCopy",
       "availabilityCopy",
-      "instagramFrames",
+      "instagramFrames", "measureDiagram",
       "shopIntro",
       "dropsIntro",
       "contactIntro",

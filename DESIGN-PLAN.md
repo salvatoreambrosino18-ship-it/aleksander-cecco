@@ -1,6 +1,6 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-05 (after his words arrived, section 72)
+## HANDOFF, 2026-08-05 (after the measuring diagram, section 73)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
 
@@ -26,6 +26,13 @@ catalogue's image-size regression fixed (tiles were pulling 1440px files).
 Do not re-litigate the display token: 28px sits above every reference's
 measured maximum and the numbers are in s68.
 
+THE CATALOGUE HAS A NUMBERED BREAKING POINT (s73): pieces > 24 or drops
+> 3 → paginate by drop; drops ≥ 5 → DROP returns to the menu. Test the
+counts, do not re-judge the design. The measuring diagram on the order page
+is ours and flagged `measureDiagram`. The domain move is the OWNER'S task;
+the runbook went to him 2026-08-05 — when it lands, PUBLIC_SITE_URL,
+RESEND_FROM and ENQUIRY_TO_EMAIL are the three values that change here.
+
 HIS FIRST REAL CONTENT is in (s72): six descriptions verbatim, Oblivion's
 real measurements, the name order approved. Launch-check 30 — the invented
 descriptions left to request are listed in s72. The tab carries the
@@ -45,7 +52,7 @@ phone viewport, the signature writes itself once per visit on the home
 arrival, and the creators are CIRO CECCO then Ferdinando Palmieri — flagged
 `aboutNameOrder` until Ciro confirms the reorder of his approved sentence.
 
-**It cannot launch.** `npm run launch-check` reports 30 invented things, all
+**It cannot launch.** `npm run launch-check` reports 31 invented things, all
 invisible to visitors and flagged in the studio. Legal is untouched and gates
 the Resend secrets AND the newsletter. No payment exists; Stripe is the
 recorded future step and it waits for a fiscal position.
@@ -109,6 +116,8 @@ recorded future step and it waits for a fiscal position.
 - **`sizes` lies silently.** An image with sizes="100vw" in a quarter-width
   tile downloads sixteen times the pixels and no tool flags it; the perf
   harness against the RECORDED numbers is what catches it (s69).
+- **A red-proof outside the audit's PATHS list proves nothing** (s73): the
+  plant must land in a page the audit actually visits. Check PATHS first.
 - **Prove every check can fail before trusting its pass.** The audit has lied
   four ways historically (s58, 63) and the harness added a fifth (s65).
 - **Stale edge caches** serve old HTML minutes after a deploy; audit the local
@@ -5920,3 +5929,50 @@ Audit proven red, 27 pages × both languages × 390 and 1440, zero issues.
 Deployed Slow 4G: home 1692ms, catalogue 1892ms, piece 1000ms, CLS 0.000,
 catalogue transfer unchanged — the flick adds nothing on hover devices and
 only lazy frames on touch. Launch-check 30.
+
+---
+
+## 73. The measuring diagram, and the catalogue's breaking point (2026-08-05)
+
+### The diagram (owner-directed, ours until approved)
+
+The order page's measurements fieldset now opens with a hairline drawing:
+a plain sleeveless silhouette — nobody's piece in particular — with three
+tailor's dimension lines in the order the form asks: shoulders across the
+top, chest across the widest point, length down the side. One stroke
+weight, currentColor, no fill, NO TEXT — the written instructions beside it
+stay the source of truth in both languages, so the drawing never needs
+translating. aria-hidden, because it repeats what the words already say.
+It is an INVENTED VISUAL on the page where clarity beats style: flagged
+`measureDiagram` in inventedCopy (launch-check 30 → 31) until the owner
+approves or redraws it. Component: src/components/MeasureDiagram.astro;
+remove by deleting the component, its import, and the flag.
+
+A verification lesson recorded: the first red-proof planted its defect in
+capo-01's order page, which the audit DOES NOT COVER (it audits
+capo-02/order). The green that followed proved nothing. Re-planted in the
+audited page: caught, 2 issues, restored to 0. **When proving the audit can
+go red, plant inside a page in its PATHS list, and check the list first.**
+
+### THE CATALOGUE'S BREAKING POINT, as numbers a session can test
+
+The single-page catalogue with three movements (s67) and the menu without
+DROP (s67) are decisions that are right at seventeen pieces and three
+drops, and stop being right at a measurable size. The thresholds:
+
+- **Pieces > 24, or drops > 3 → the catalogue paginates by drop.** At 24,
+  the desktop grid is six rows (~4.5 viewports with headings — the ceiling
+  of every measured reference: RO home 4.1, Sellam 4.7, Ferdressed 4.0);
+  the phone grid is twelve rows (~7 viewports, one past RO's 6.2). Past
+  either number the page outgrows everything the references pace to.
+- **Drops ≥ 5 → DROP returns to the menu**, which is the owner's own rule
+  from s67 ("when there are five or six drops rather than three"), recorded
+  here as the number 5.
+- The tile flick caps at 4 frames and the drop filter row was built for
+  ≤4 drop controls; both assumptions break at the same thresholds and are
+  part of the same rework.
+
+A future session at the third drop should TEST these counts rather than
+re-judge the design: `count(garments) > 24 || count(collections) > 3`
+means the restructure is due, and it is one session's work, not an
+emergency.
