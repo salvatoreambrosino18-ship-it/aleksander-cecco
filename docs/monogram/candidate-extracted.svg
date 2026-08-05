@@ -1,6 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<style>path { fill: var(--mono-ink, #0A0A0A); }</style>
-<clipPath id="ka"><polygon points="170,140 560,140 535,340 472,560 170,560"/></clipPath>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Aleksander Cecco">
+<title>Aleksander Cecco</title>
+<style>
+  /* The AC monogram, EXTRACTED from the signature itself (section 72): the
+     owner chose his actual hand over the redrawn candidate's easy legibility.
+     The A is cut from the one continuous outline of "Aleksander" along a
+     corridor measured by scanline between its right leg and the crossing 'l';
+     the C of Cecco is its own path, whole. At 16px it reads as his gesture
+     rather than as letters, and he accepted exactly that trade. Ink on the
+     reader's light theme, paper on dark, as everywhere. */
+  path { fill: #0A0A0A; }
+  @media (prefers-color-scheme: dark) { path { fill: #FAFAF8; } }
+</style>
+<clipPath id="ka"><polygon points="586,140 580,180 565,200 555,220 544,240 533,260 524,280 515,300 506,320 497,340 489,360 480,380 470,400 460,420 448,440 435,460 420,480 419,490 418,560 170,560 170,140"/></clipPath>
 <g transform="translate(-133.57142857142856,-100.0) scale(0.7857142857142857)"><g clip-path="url(#ka)"><g transform="translate(0.000000,615.000000) scale(0.100000,-0.100000)"
 fill="currentColor" >
 <path d="M15845 5435 c-52 -14 -156 -50 -315 -110 -52 -20 -104 -39 -115 -42

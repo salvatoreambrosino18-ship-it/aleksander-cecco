@@ -315,6 +315,22 @@ function page(
         font-weight:300;letter-spacing:0.02em;max-width:24ch;}
   a{color:var(--fg);}
   a:focus-visible{outline:2px solid var(--fg);outline-offset:2px;box-shadow:0 0 0 2px var(--bg);}
+  /* THE CEREMONY (section 72). This is the emotional peak of the site: the
+     moment a person has committed to a piece. The page's elements arrive in
+     writing order, each on the site's own reveal curve, the promise last.
+     Inline and dependency-free like everything else on this page; reduced
+     motion never enters the block. Remove by deleting it. */
+  @media (prefers-reduced-motion: no-preference) {
+    body>*{animation:arrive 600ms cubic-bezier(0.16,1,0.3,1) both;}
+    body>*:nth-child(2){animation-delay:90ms;}
+    body>*:nth-child(3){animation-delay:180ms;}
+    body>*:nth-child(4){animation-delay:270ms;}
+    body>*:nth-child(5){animation-delay:360ms;}
+    body>*:nth-child(6){animation-delay:450ms;}
+    body>*:nth-child(7){animation-delay:540ms;}
+    body>*:nth-child(8){animation-delay:630ms;}
+    @keyframes arrive{from{opacity:0;transform:translateY(10px);}}
+  }
 </style>
 </head>
 <body>

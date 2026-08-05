@@ -461,6 +461,47 @@
   }
 
   /*
+    THE TILE FLICK (section 72): browse a piece's frames from the catalogue,
+    his request. Only where hover does not exist — a hover device keeps the
+    hover swap it already has, and its extra frames are display:none, which
+    also means they are never fetched. Frames are 94% wide so the next one
+    peeks: the continuation cue every strip on this site uses. Mandatory snap
+    is right here (unlike the page-level strips) because a tile is small and
+    a half-frame is meaningless; vertical page scroll is untouched.
+  */
+  .tile-flick {
+    display: block;
+  }
+  .tile-flick > :not(:first-child) {
+    display: none;
+  }
+  @media (hover: none) {
+    .tile-flick {
+      display: flex;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .tile-flick::-webkit-scrollbar {
+      display: none;
+    }
+    /*
+      The un-hide must match the hide rule's specificity (0,2,0): a plain
+      `.tile-flick > *` loses to `.tile-flick > :not(:first-child)` and the
+      extra frames stay hidden on the very devices this exists for. Found by
+      exercising the shipped rules with the media condition flipped, because
+      headless Chrome cannot emulate `hover`.
+    */
+    .tile-flick > *,
+    .tile-flick > :not(:first-child) {
+      flex: 0 0 94%;
+      scroll-snap-align: start;
+      display: block;
+    }
+  }
+
+  /*
     The form. There is no colour to reach for, so an invalid field thickens its
     hairline to solid fg and says what is wrong in fg text (standing rule 1).
   */
@@ -756,6 +797,30 @@
 @media (prefers-reduced-motion: reduce) {
   .menu[open] .menu-panel {
     animation: none;
+  }
+}
+
+/*
+  THE PAGE TURN (section 72). Cross-document view transitions: navigating
+  inside the site is a 200ms crossfade instead of a white flash and a jump.
+  Pure CSS, MPA, no JavaScript: browsers without the feature simply navigate
+  as before, and reduced motion never enters the block at all. Catalogue to
+  Creature benefits most — the same photograph sits on both sides of the
+  turn, so the crossfade reads almost as a morph. A true element morph
+  (tile flying to hero) was REJECTED: naming the pair without JavaScript
+  relies on :active/:focus surviving the snapshot, which is unreliable, and
+  seventeen always-named tiles cost phone frames. Remove by deleting this
+  block.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-old(root) {
+    animation-duration: 200ms;
+  }
+  ::view-transition-new(root) {
+    animation-duration: 200ms;
   }
 }
 

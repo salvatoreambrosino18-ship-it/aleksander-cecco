@@ -169,7 +169,14 @@ for (const drop of dropKeys) {
       creature.length > 0 ? (
         MOVEMENTS.map((movement) => (
           <section class="movement">
-            <TextSurface theme="dark" class="hairline-h flex flex-col gap-u1 pt-u5 pb-u2 md:pt-u8 md:pb-u3">
+            {/*
+              The movement heading arrives on the reveal's own curve as it is
+              scrolled to (section 72): the three movements are the page's
+              architecture, and architecture can be walked into. Same system as
+              every arrival — no new mechanism, reduced-motion and no-JS
+              guarantees unchanged. Remove by deleting `arrive`.
+            */}
+            <TextSurface theme="dark" arrive class="hairline-h flex flex-col gap-u1 pt-u5 pb-u2 md:pt-u8 md:pb-u3">
               <h2 class="type-display text-display">{movement.label}</h2>
             </TextSurface>
 
@@ -181,13 +188,32 @@ for (const drop of dropKeys) {
                   data-drop={garment.collection?.slug ?? "none"}
                   data-worn={garment.wornBy ?? "unset"}
                 >
-                  <MediaSurface
-                    media={garment.media![0]}
-                    locale={locale}
-                    height="tile"
-                    priority={index < 2}
-                    hover={garment.media![1]}
-                  />
+                  {/*
+                    BROWSE WITHOUT CLICKING (section 72), his request. On a
+                    device that cannot hover, the tile is a flick strip: up to
+                    four frames, scroll-snap, each frame 94% wide so the next
+                    peeks at the edge — the site's own continuation cue. A pan
+                    scrolls, a tap still navigates (browsers cancel the click
+                    on drag), so the preview can never trap anyone. On hover
+                    devices the strip collapses to today's exact behaviour:
+                    frame one plus the hover swap; display:none frames are
+                    never fetched. No JavaScript, no dots, no counter.
+                    Not focusable on purpose: seventeen extra tab stops would
+                    be hostile, and every frame lives on the piece's own page.
+                    Remove by deleting .tile-flick and this map.
+                  */}
+                  <div class="tile-flick">
+                    {garment.media!.slice(0, 4).map((frame, f) => (
+                      <MediaSurface
+                        media={frame}
+                        locale={locale}
+                        height="tile"
+                        priority={index < 2 && f === 0}
+                        reveal={f === 0 ? undefined : false}
+                        hover={f === 0 ? garment.media![1] : undefined}
+                      />
+                    ))}
+                  </div>
                   {allNamed && (
                     <div class="flex flex-col gap-u1 px-caption py-u2">
                       <h3 class="type-label text-label">{garment.name}</h3>
