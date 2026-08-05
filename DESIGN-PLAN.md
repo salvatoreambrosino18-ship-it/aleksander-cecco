@@ -1,6 +1,6 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-04 (after the deepening, section 69)
+## HANDOFF, 2026-08-04 (after the phone review, section 70)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
 
@@ -26,7 +26,13 @@ catalogue's image-size regression fixed (tiles were pulling 1440px files).
 Do not re-litigate the display token: 28px sits above every reference's
 measured maximum and the numbers are in s68.
 
-**It cannot launch.** `npm run launch-check` reports 30 invented things, all
+THE PHONE REVIEW (s70) is done: chrome sticky under a one-line banner,
+CHIUDI in flow at MENU's own pixels, catalogue shows product in the first
+phone viewport, the signature writes itself once per visit on the home
+arrival, and the creators are CIRO CECCO then Ferdinando Palmieri — flagged
+`aboutNameOrder` until Ciro confirms the reorder of his approved sentence.
+
+**It cannot launch.** `npm run launch-check` reports 31 invented things, all
 invisible to visitors and flagged in the studio. Legal is untouched and gates
 the Resend secrets AND the newsletter. No payment exists; Stripe is the
 recorded future step and it waits for a fiscal position.
@@ -84,6 +90,9 @@ recorded future step and it waits for a fiscal position.
   global.css lost to `.block` on the element and the catalogue filter silently
   did nothing while the count beside it changed (s67). Anything a rule there
   hides must get its `display` from that rule, not from a utility class.
+- **@utility with a nested range media query compiles to NOTHING, silently**
+  (s70). The class sits in the HTML, no rule reaches the CSS. Grep the
+  compiled output for any new rule before trusting it.
 - **`sizes` lies silently.** An image with sizes="100vw" in a quarter-width
   tile downloads sixteen times the pixels and no tool flags it; the perf
   harness against the RECORDED numbers is what catches it (s69).
@@ -5709,3 +5718,73 @@ first run beat it), about 868-940ms, piece 1604-1932ms, process 752ms,
 CLS 0.000 everywhere. Catalogue transfer 1039 KB against 521 KB recorded —
 the denser grid puts twice the frames near the fold; each frame is now
 cheaper than before the fix. Launch-check: 30, unchanged.
+
+---
+
+## 70. Seen on a real phone, and the signature writes itself (2026-08-04)
+
+The owner reviewed the site on an iPhone at 390 and found three things the
+harness never looked at from quite that angle. All three were measured
+before and after; then the one commissioned effect, and two licenses.
+
+### The corrections, with numbers
+
+- **The chrome is STICKY, not fixed.** Fixed put the marks at y=0, where the
+  static banner also lives, and the two-line Italian banner ran straight
+  through the signature (banner 0-44px, marks at y=31, measured). Sticky
+  starts the chrome BELOW the banner and pins it the moment the banner
+  scrolls away; zero-footprint via negative margin so it stays an overlay.
+  After: banner 0-30, chrome 30-97, nothing crosses anything.
+- **The banner never wraps**: one line at every width, 10px and 0.05em below
+  30rem. A longer future banner gets shortened editorially. (First attempt
+  used @utility with a nested range query, which compiled to NOTHING,
+  silently — the class was in the HTML and no rule in the CSS. Rewritten as
+  unlayered plain CSS. Check the compiled output, not the source.)
+- **CHIUDI is MENU's own pixels.** The open summary was repositioned with
+  token arithmetic; it also turned out the header signature beside it was
+  INVISIBLE over the open panel — the chrome keeps the page polarity and the
+  panel is its opposite, always — yet still intercepted taps. The summary
+  now keeps its flow position (122,58 open and closed, measured at 390), and
+  the header signature link is visibility:hidden while the panel is up; the
+  panel's own signature at its foot carries the mark.
+- **The catalogue shows product in the first viewport at 390**: header and
+  movement spacing tighten on the phone only; first pair now starts ~345 CSS
+  px into an 844 viewport. Desktop unchanged.
+
+### The name order, not silently
+
+Ciro Cecco before Ferdinando Palmieri, owner's request: creators list and
+BOTH languages of the approved origin sentence. Because the order sits
+inside an approved sentence, the edit is flagged `aboutNameOrder` (new
+schema option) and launch-check counts it — 31 now — until Ciro confirms.
+`scripts/patch-name-order.mjs` made the patch; patch-text and import-photos
+carry the same order.
+
+### The signature writes itself
+
+Once per visit, on the home arrival: the mark draws stroke by stroke as if
+a hand were writing it, then settles into exactly the static mark. The SVG
+is OUTLINES (traced), not pen strokes; a true centerline redraw was priced
+and NOT done — the outline of a thin script hugs the pen path closely
+enough that tracing it reads as writing. pathLength="1" normalises each
+path; each carries --sig-delay/--sig-dur computed at build from its share
+of the path data (1823/204/373ms of ink, 400ms breath, 140ms lifts, ~500ms
+settle per path). Armed by three lines of inline script + sessionStorage;
+reduced motion, no JavaScript, or a second view this visit and the element
+is display:none — the arrival is what it always was. The corner signature
+never animates. Verified: draws on first view, absent on reload; home LCP
+1552ms and CLS 0.000 after deploy, no regression.
+
+### Licenses (reversible)
+
+- `.tile:active` dims the frame slightly on hover-less devices: the surface
+  answers the finger. No motion, nothing downloaded.
+- The menu's inversion arrives as one 240ms hard top-down edge — the wash's
+  language. Closing stays instant: opening is a ceremony, closing is
+  obedience.
+
+### Verified
+
+Audit proven red (planted h1), then 27 pages × both languages × 390 and
+1440, zero issues. Deployed perf: home 1552ms LCP, catalogue 1424ms, CLS
+0.000, no regression from section 69's numbers.
