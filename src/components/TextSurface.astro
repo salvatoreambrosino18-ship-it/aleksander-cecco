@@ -18,14 +18,24 @@ interface Props {
   theme?: "light" | "dark";
   /** Apply the text margins. Off only when the caller lays out its own padding. */
   framed?: boolean;
+  /*
+    THE ARRIVAL (section 69). Marks this surface with data-reveal so it enters
+    on the same 900ms curve as the photography — the one motion system the site
+    has, not a second one. Set it on the FIRST surface of an interior page and
+    nowhere else: an arrival is a ceremony, and a ceremony that repeats down
+    the page is a tic. All the reveal's guarantees apply unchanged: reduced
+    motion never hides it, no JavaScript never hides it, and it happens once.
+  */
+  arrive?: boolean;
   class?: string;
 }
 
-const {theme, framed = true, class: className = ""} = Astro.props;
+const {theme, framed = true, arrive = false, class: className = ""} = Astro.props;
 ---
 
 <section
   data-theme={theme}
+  data-reveal={arrive ? "" : undefined}
   class:list={["relative", theme && "bg-bg text-fg", framed && "frame", className]}
 >
   <Spine />

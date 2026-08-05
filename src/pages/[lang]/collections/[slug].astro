@@ -116,7 +116,7 @@ const voice = voiceState(settings, locale);
     collection.cover && (
       <MediaSurface media={collection.cover} locale={locale} priority>
         <div class="flex flex-col gap-u1">
-          <h1 class="type-label text-label">{collection.name}</h1>
+          <h1 class="type-display text-display">{collection.name}</h1>
           {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
         </div>
       </MediaSurface>

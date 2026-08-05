@@ -30,7 +30,6 @@ import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
 import {byStage, getGarments, isPlaceholderText, type Garment} from "../../../lib/content";
 import {LOCALES, localePath, toLocale} from "../../../lib/locales";
-import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
 import {t} from "../../../i18n/ui";
 
@@ -113,14 +112,13 @@ for (const drop of dropKeys) {
 <Base
   locale={locale}
   title={t(locale, "allCreatures")}
-  chrome={overlayTheme(first?.overlay)}
   image={first ? imageUrl(first.poster, 1200) : null}
   theme="dark"
   footerTheme="dark"
 >
   <div class="catalogue">
-    <TextSurface theme="dark" class="flex flex-col gap-u3 pt-chrome pb-u5">
-      <h1 class="type-label text-label">{t(locale, "allCreatures")}</h1>
+    <TextSurface theme="dark" arrive class="flex flex-col gap-u3 pt-chrome pb-u5">
+      <h1 class="type-display text-display">{t(locale, "allCreatures")}</h1>
       <p class="type-body text-body max-w-prose">{t(locale, "shopIntro")}</p>
 
       <div class="flex flex-wrap items-baseline gap-x-u5 gap-y-u2 pt-u2">
@@ -172,7 +170,7 @@ for (const drop of dropKeys) {
         MOVEMENTS.map((movement) => (
           <section class="movement">
             <TextSurface theme="dark" class="hairline-h flex flex-col gap-u1 pt-u8 pb-u3">
-              <h2 class="type-label text-label">{movement.label}</h2>
+              <h2 class="type-display text-display">{movement.label}</h2>
             </TextSurface>
 
             <div class="grid grid-cols-2 xl:grid-cols-4">

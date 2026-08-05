@@ -29,6 +29,14 @@ interface Props {
   chrome?: "light" | "dark";
   /** Absolute URL of the sharing image. Always a real photograph, never art. */
   image?: string | null;
+  /*
+    The shipping line is SHOP dress (section 68). It opens every commerce
+    surface, and it leaves the two culture pages: process and about are where
+    a visitor enters the brand's world, and logistics before the first pixel
+    of a world is how the spell breaks. Ferdressed, whose device the banner
+    is, sets it under the wordmark; nobody crowns an about page with it.
+  */
+  shopChrome?: boolean;
   /**
    * The polarity the page ENDS in. On a page that inverts partway down, the
    * footer belongs to the second half, not the first.
@@ -36,7 +44,7 @@ interface Props {
   footerTheme?: "light" | "dark";
 }
 
-const {locale, title, description: rawDescription, theme = "light", chrome, image, footerTheme} =
+const {locale, title, description: rawDescription, theme = "light", chrome, image, footerTheme, shopChrome = true} =
   Astro.props;
 
 /*
@@ -166,7 +174,7 @@ const shareImage =
       at arrival and then leaves the photography alone. It is not the persistent
       bar section 4 removed, because it does not persist.
     */}
-    {banner && (
+    {banner && shopChrome && (
       <div class="bg-bg text-fg hairline-b frame flex justify-center py-u1">
         <p class="type-label text-label text-center">{banner}</p>
       </div>

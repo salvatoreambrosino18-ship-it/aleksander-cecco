@@ -176,7 +176,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       <MediaSurface media={item} locale={locale} priority={index === 0}>
         {index === 0 && (
           <>
-            <h1 class="type-label text-label">{garment.name}</h1>
+            <h1 class="type-display text-display">{garment.name}</h1>
             {/*
               The price answers "what does it cost" on the FIRST screen, not
               seven screens down at the technical block (2026-08-04). A buyer
@@ -283,7 +283,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
         */
         <a
           href={localePath(locale, `creature/${garment.slug}/order`)}
-          class="type-label text-label hairline-under self-start"
+          class="type-label text-body hairline-under self-start"
         >
           {t(locale, isUnique ? "uniqueAction" : "acquire")}{price ? ` — ${price}` : ""}
         </a>

@@ -33,13 +33,13 @@ const photograph = settings.openingMedia;
   {
     photograph && (
       <MediaSurface media={photograph} locale={locale} priority>
-        <h1 class="type-label text-label">404 / {t(locale, "notFound")}</h1>
+        <h1 class="type-display text-display">404 / {t(locale, "notFound")}</h1>
       </MediaSurface>
     )
   }
 
   <TextSurface class="flex flex-col gap-u5 py-u13">
-    {!photograph && <h1 class="type-label text-label">404 / {t(locale, "notFound")}</h1>}
+    {!photograph && <h1 class="type-display text-display">404 / {t(locale, "notFound")}</h1>}
 
     {/*
       The two places a reader on a dead link was probably going, then the two

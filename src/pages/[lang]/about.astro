@@ -79,7 +79,7 @@ const partnerName = settings.partnerName?.trim() || null;
 const partnerUrl = settings.partnerUrl?.trim() || null;
 ---
 
-<Base
+<Base shopChrome={false}
   locale={locale}
   title={t(locale, "about")}
   description={openingLine ?? undefined}
@@ -99,7 +99,7 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
       </MediaSurface>
     ) : (
       <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
-        <h1 class="type-label text-label">{t(locale, "about")}</h1>
+        <h1 class="type-display text-display">{t(locale, "about")}</h1>
         <p class="placeholder-mark self-start">{"{ABOUT_OPENING_PHOTOGRAPH}"}</p>
       </TextSurface>
     )

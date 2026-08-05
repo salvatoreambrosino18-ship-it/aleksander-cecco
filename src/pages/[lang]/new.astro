@@ -80,11 +80,11 @@ const priceOf = (garment: Garment) =>
   {
     cover ? (
       <MediaSurface media={cover} locale={locale} priority>
-        <h1 class="type-label text-label">{collection?.name}</h1>
+        <h1 class="type-display text-display">{collection?.name}</h1>
       </MediaSurface>
     ) : (
       <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
-        <h1 class="type-label text-label">{t(locale, "newDrop")}</h1>
+        <h1 class="type-display text-display">{t(locale, "newDrop")}</h1>
       </TextSurface>
     )
   }

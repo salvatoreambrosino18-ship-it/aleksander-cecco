@@ -76,6 +76,7 @@ const isLandscape = (media: MediaItem) => {
 
 <Base
   locale={locale}
+  shopChrome={false}
   title={t(locale, "process")}
   description={making ?? undefined}
   theme="dark"
@@ -86,7 +87,7 @@ const isLandscape = (media: MediaItem) => {
     The formula, inside, in the site's one display size. Then his own account
     of the work, once, and then only photographs.
   */}
-  <TextSurface theme="dark" class="flex min-h-[50svh] flex-col justify-end gap-u3 pt-chrome pb-u8">
+  <TextSurface theme="dark" arrive class="flex min-h-[50svh] flex-col justify-end gap-u3 pt-chrome pb-u8">
     <h1 class="type-display text-display">{t(locale, "processTitle")}</h1>
     <p class="type-label text-label">{t(locale, "process")}</p>
   </TextSurface>
