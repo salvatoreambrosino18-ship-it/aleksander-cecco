@@ -61,13 +61,15 @@
 }
 
 /*
-  Typographic registers, revised 2026-08-01. There is no display register any
-  more. Case, tracking and position carry the emphasis that size used to.
+  Typographic registers, reduced to four 2026-08-04 (section 67). FOUR IS THE
+  WHOLE SET: one label, one body, one display, and mono for data. Nothing else
+  may be added. Case, tracking and position carry the emphasis that size used
+  to, which is why four sizes are enough to run a whole site.
 
-  type-label     names, seasons, captions, the menu. The workhorse.
-  type-statement the two or three poetic lines on a text surface.
-  type-body      running prose only (about, shipping).
-  type-mono      facts that came off the garment. Nothing decorative, ever.
+  type-label     names, seasons, captions, buttons, the menu. The workhorse.
+  type-body      running prose, his and ours (about, shipping, statements).
+  type-display   the ONE large voice: a poetic line, a page's own title, a 404.
+  type-mono      DATA ONLY. Prices, measurements, counts. Never decorative.
 */
 @utility type-label {
   font-family: var(--ff-display);

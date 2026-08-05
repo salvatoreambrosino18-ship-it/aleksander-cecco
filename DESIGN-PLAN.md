@@ -1,20 +1,25 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-04 (after the overnight shop run)
+## HANDOFF, 2026-08-04 (after the top-down rebuild, section 67)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
 
 ### Where this is
 
 A SHOP now, not an exhibition: live at https://aleksander-cecco.pages.dev, two
-languages, noindexed. Seventeen Creature four-across at desktop with names and
-prices, a free-shipping banner on every page, an order flow ("Acquire — €X" →
-order page → "Order received"), a process page that is the single home of
-imagery (the gallery is dissolved into it), and a six-entry menu starting at
-Home. The owner's other shop was the model; the references still hold the
-atmosphere. Clarity won on shop pages, atmosphere everywhere else.
+languages, noindexed. **The brand is TWO PEOPLE** — Ferdinando Palmieri and
+Ciro Cecco, with Ferdressed — and About is built around that, not around one
+portrait. A FLAT MENU on the Rick Owens model: HOME NEW CREATURE PROCESS ABOUT
+CONTACT, then INSTAGRAM and IT/EN, two groups separated by whitespace alone.
+**/new** is the current drop and follows his own drag order in the studio with
+no code. **One catalogue page** carries all seventeen Creature in three
+movements (available, 1 of 1, sold out) with a CSS-only filter by who a piece
+is for. A free-shipping banner on every page, an order flow ("Acquire — €X" →
+order page → "Order received"), and a process page that is the single home of
+imagery (the gallery is dissolved into it). The owner's other shop was the
+model; the references still hold the atmosphere.
 
-**It cannot launch.** `npm run launch-check` reports 29 invented things, all
+**It cannot launch.** `npm run launch-check` reports 30 invented things, all
 invisible to visitors and flagged in the studio. Legal is untouched and gates
 the Resend secrets AND the newsletter. No payment exists; Stripe is the
 recorded future step and it waits for a fiscal position.
@@ -35,7 +40,20 @@ recorded future step and it waits for a fiscal position.
   BY CONTENT (s47, 64), his biography and legal (never), the drop filter
   condition (s62, 65).
 - **The four-across decision** (s65). Rendered against three, looked at,
-  chosen. Tablet two-across is deliberate (192px tiles are the real thumbnail).
+  chosen. **Two across on a phone** is the owner's call (s67), and a tile keeps
+  the photograph's own 3:4 rather than a viewport height.
+- **The flat menu** (s67). Two groups, whitespace only. Sub-items under
+  Creature were CONSIDERED AND REJECTED by the owner: a menu entry that drops a
+  visitor mid-page is disorienting, and sectioning belongs inside the page.
+  DROP stays out of the menu until there are five or six drops.
+- **Gender is a filter, never a structure** (s67). Never a route, never a
+  section. Unset is a legitimate value and shows under every filter; do not
+  guess the eleven that are unset.
+- **The four type voices** (s67). Label, body, display, mono-for-data-only. A
+  fifth is not to be added; the largest type getting smaller was the price and
+  it was paid deliberately.
+- **1 of 1 pieces carry no remake option** (s67), confirmed by the owner. They
+  are private commissions, bought only as they are.
 - **The gallery dissolution** (s65). Imagery lives on /process; do not
   resurrect a gallery route.
 - **The order framing** (s65). It is an order, not an enquiry; the payment
@@ -55,6 +73,10 @@ recorded future step and it waits for a fiscal position.
 - **The screenshot harness hardcodes its target origin.** It now refuses to
   capture when it lands off-path; if it refuses, check the port constant
   before anything else. An hour was lost to a stale one.
+- **Tailwind utilities beat `@layer components`, always.** A hiding rule in
+  global.css lost to `.block` on the element and the catalogue filter silently
+  did nothing while the count beside it changed (s67). Anything a rule there
+  hides must get its `display` from that rule, not from a utility class.
 - **Prove every check can fail before trusting its pass.** The audit has lied
   four ways historically (s58, 63) and the harness added a fifth (s65).
 - **Stale edge caches** serve old HTML minutes after a deploy; audit the local
@@ -5384,3 +5406,154 @@ Launch-check: 29, including the two new sample-sale pieces' invented values.
 
 25 pages × two languages × 390 and 1440, zero issues. The audit was proven
 able to go red first (planted duplicate h1, caught, restored).
+
+---
+
+## 67. The rebuild from the top: two people, a flat menu, one catalogue (2026-08-04)
+
+Decided by the owner top down and implemented, not re-derived. What follows is
+the record of what changed and, where implementing a decision broke something
+he could not have foreseen, what broke.
+
+### The brand is two people
+
+**{DESIGNER_BIOGRAPHY} is answered.** The project is an experimental line
+between the knowledge and vision of **Ferdinando Palmieri** and **Ciro Cecco**,
+in collaboration with **Ferdressed**. Both names are publishable because they
+wrote them. About is now built around a brand made by two people rather than a
+designer page with one portrait: a creators list in the one display size, and
+the collaboration credited with an outbound link, because an established shop
+vouching for a young label is the strongest trust signal an international buyer
+gets. The Italian is our faithful translation and is flagged as ours
+(`aboutOrigin` in `inventedCopy`) until he approves it.
+
+Three new fields carry it in site settings: `creators`, `partnerName`,
+`partnerUrl`. Adding a third creator is a line in the studio, not a deploy.
+
+### The menu, flat, on the Rick Owens model
+
+Two groups separated by whitespace alone. **No rules, no headings, no
+sub-items, no dropdowns.**
+
+    HOME  NEW  CREATURE  PROCESS  ABOUT  CONTACT
+
+    INSTAGRAM  IT / EN
+
+One typeface, one size, uppercase, wide tracking, tight leading, left aligned.
+The hairlines that used to separate entries are gone; whitespace does that work
+now, which is the whole point of the model. The email left the panel: it lives
+on Contact, which is a menu entry.
+
+**Sub-items under Creature were considered and rejected by the owner**: a menu
+entry that drops a visitor into the middle of a page is disorienting, and
+sectioning belongs inside the page. That is why the catalogue has three visible
+headings instead.
+
+**DROP left the menu.** The drop index is reached from NEW and from each
+Creature. It returns to the menu when there are five or six drops rather than
+three.
+
+### /new follows the current drop with no code
+
+The current drop is the FIRST collection in his own drag order in the studio.
+Reordering the collections in Sanity is what publishes a new drop; nothing in
+this repository changes. The page carries his statement WHOLE (every other
+placement on the site is an excerpt we chose; this is the page it was written
+for), then the pieces full bleed with name and price, then the route to the
+other drops at its foot.
+
+### One catalogue page, and gender is a filter
+
+A control row in the manner of his own shop: filter by who a piece is for, and
+the piece count. All of it CSS — radios plus `:has()`, no script, no bundle —
+so the catalogue filters with JavaScript off exactly as the order form submits
+with it off. The count is precomputed per combination and the matching one
+revealed, because CSS cannot count.
+
+Three movements, with visible headings, in the order a buyer cares about:
+
+1. **AVAILABLE** — ready now and made to order
+2. **1 OF 1** — private commissions, made once, bought as they are
+3. **SOLD OUT** — at the bottom, marked, carrying no price and no order route
+
+A movement whose every tile fails the filter takes its heading with it, phrased
+as "has no tile that would survive this filter" rather than by reading computed
+display, which CSS cannot do.
+
+**Gender is a filter, never a structure.** `wornBy` is a field on the garment,
+surfaced only here. It is never a route and never a section. Where his own
+folders said which, they were used; where they did not, it is UNSET rather than
+guessed, and an unset piece appears under every filter, which is the honest
+behaviour when nobody has said which. **Eleven of seventeen are unset** — the
+list is in the report and in the studio, flagged.
+
+Four across at desktop, **two across on a phone**. A tile keeps the
+photograph's own 3:4 at every width instead of a viewport height: two across a
+390px screen is a 195px column, and a viewport-tall frame there is a chimney.
+
+### The 1 of 1 pieces, confirmed by the owner
+
+They are **private commissions, each made once to someone's measurements. They
+can be bought only as they are.** So: no remake option anywhere on them. The
+order page for a unique piece hides the fulfilment choice AND the entire
+measurements fieldset, and posts `fulfilment=asIs` as a hidden field, with the
+server still deciding what to require rather than trusting the browser to have
+hidden the right thing. The copy says what the piece IS ("A private commission.
+1 of 1, made once.") instead of implying it can be repeated.
+
+capo-10 and capo-11 are **sold out, confirmed**. The awaiting-confirmation flag
+is gone.
+
+### The type voices, six to four
+
+| Voice | Before | After | What moved |
+| --- | --- | --- | --- |
+| label | 11px, `wdth 92` | 11px, `wdth 100` | Unchanged in size. The narrow width axis was a fifth voice hiding inside the first; deleted. |
+| mono | 12px, "facts off the garment" | 12px, **DATA ONLY** | Three things dressed as data stopped being mono: "Built to your measurements." on two pages, and the shipping terms on the order page, which are prose. |
+| body | 15–17px | 15–17px | Unchanged. Now carries his words and ours both. |
+| statement | 18–28px | **renamed display** | Same size. One name for one job. |
+| chapter | 24–36px | **deleted** | Absorbed into display. |
+| — | `--wdth-label: 92` | **deleted** | Left one width axis, `--wdth-normal: 100`. |
+
+**What had to break to get there:** the site's largest type is now smaller. The
+chapter register (24–36px) was the wash line, the 404 and the process title;
+they all sit at 18–28px now. That is a real loss of scale at the top of those
+three pages and it is deliberate — rule 10 has always pointed this direction,
+and case, tracking and position carry the emphasis that size used to. Nothing
+else broke: every call site migrated, and four sizes now run the whole site.
+
+### Three defects found by looking at what shipped
+
+Verification found these; reading the source would not have.
+
+- **The filter did nothing.** Every hiding rule lives in `@layer components`
+  and Tailwind's utilities are a LATER layer, so `.block` on a tile and `.flex`
+  on the empty state beat them outright. The count beside the control changed
+  while the grid below it did not — the page asserted a number it was not
+  showing. **Rule: `display` for anything a rule here hides lives with the
+  rule, never on a utility class.**
+- **The count rendered twice**: per-drop counts were emitted even while the
+  drop control is hidden for a single drop, so the page read "17 Creature17
+  Creature". Only selectable combinations are emitted now.
+- **One across on a phone**, not two as asked. Fixed with the 3:4 tile; the
+  catalogue went from 13807px to 4254px deep at 390.
+
+### What did NOT break, and was checked rather than assumed
+
+Two photographs now sit under the fixed chrome at once on a phone, and they can
+disagree about polarity. Section 14 already answers it: the signature and MENU
+sit together and end at x=158, inside the first column, so one polarity value
+is still always right for both. Measured, not eyeballed — the computed mark
+colour over a light photograph at scroll 500 is `rgb(10, 10, 10)`, ink.
+
+### Verified cold
+
+Deleted `dist` and `.astro`, clean build, 85 pages. 27 pages × two languages ×
+390 and 1440: **zero issues at both widths**. The audit was proven able to go
+red first on this exact build (planted an `img` with no alt, caught as 2
+issues, restored to 0). The filter was proven with **scripting disabled in the
+browser**: 17 tiles and "17 Creature" at rest, 12 and "12 Creature" under
+WOMEN, 16 and "16 Creature" under MEN.
+
+**Launch-check: 30**, up from 29. The six flagged `wornBy` values and
+`aboutOrigin` are new; nothing was cleared.
