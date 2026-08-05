@@ -227,9 +227,12 @@ const INVENTED = {
   },
   "capo-02": {
     price: 1450,
-    measurements: "Torace 52 cm. Spalle 42 cm. Lunghezza 64 cm. Manica 68 cm.",
-    description: {en: "The Oblivion shirt in black lambskin. Pointed hem, pointed cuffs, an opening between the shoulder blades."},
-    fields: ["price", "measurements", "description"],
+    // HIS measurements, verbatim (2026-08-05): the field is free text, so his
+    // Armpit fits without a schema change.
+    measurements: "Sleeves - 73 cm, Length - 56 cm, Shoulders - 40 cm, Armpit - 40 cm",
+    // HIS description, verbatim; the Italian is ours, flagged descriptionIt.
+    description: {en: "Washed lambskin leather shirt, in black faded colour. 500 handmade scar-stitches, and the Oblivion hole on the back.", it: "Camicia in pelle di agnello lavata, in nero sbiadito. 500 punti-cicatrice fatti a mano, e il foro Oblivion sulla schiena."},
+    fields: ["price", "descriptionIt"],
   },
   "capo-03": {
     price: 950,
@@ -249,8 +252,9 @@ const INVENTED = {
     price: 1150,
     materials: {it: "Pelle nera lavata, conciata al vegetale", en: "Black washed vegetable-tanned leather"},
     measurements: "Vita 42 cm. Cavallo 34 cm. Lunghezza 104 cm. Fondo 26 cm.",
-    description: {en: "Trousers built from four panels, the seams left where the hide ended."},
-    fields: ["price", "materials", "measurements", "description"],
+    // HIS Monumentus description (trousers and tibia cut only), verbatim.
+    description: {en: "This piece is made from a Veg - Tanned Sheepskin leather. Assembled with a semicircular raw cut, following natural shapes to be Comfortable and Monumental. Each creation is one of a kind, no two are the same. Made by order. Handmade in Italy.", it: "Questo pezzo è realizzato in pelle di montone conciata al vegetale. Assemblato con un taglio grezzo semicircolare, seguendo le forme naturali per essere Comodo e Monumentale. Ogni creazione è un pezzo unico, non ce ne sono due uguali. Su ordinazione. Fatto a mano in Italia."},
+    fields: ["price", "materials", "measurements", "descriptionIt"],
   },
   "capo-07": {
     name: "Aleya",
@@ -279,15 +283,15 @@ const INVENTED = {
     price: 1150,
     materials: {it: "Pelle conciata al vegetale, non tinta", en: "Undyed vegetable-tanned leather"},
     measurements: "Vita 44 cm. Cavallo 38 cm. Lunghezza 76 cm. Fondo 34 cm.",
-    description: {en: "The Lux cut, stopped at the shin. The leather is left as it comes out of the pit."},
-    fields: ["price", "materials", "measurements", "description"],
+    description: {en: "This piece is made from a Veg - Tanned Sheepskin leather. Assembled with a semicircular raw cut, following natural shapes to be Comfortable and Monumental. Each creation is one of a kind, no two are the same. Made by order. Handmade in Italy.", it: "Questo pezzo è realizzato in pelle di montone conciata al vegetale. Assemblato con un taglio grezzo semicircolare, seguendo le forme naturali per essere Comodo e Monumentale. Ogni creazione è un pezzo unico, non ce ne sono due uguali. Su ordinazione. Fatto a mano in Italia."},
+    fields: ["price", "materials", "measurements", "descriptionIt"],
   },
   "capo-11": {
     price: 1150,
     materials: {it: "Pelle conciata al vegetale, non tinta", en: "Undyed vegetable-tanned leather"},
     measurements: "Vita 44 cm. Cavallo 38 cm. Lunghezza 108 cm. Fondo 38 cm.",
-    description: {en: "Full length and very wide, pooling at the ankle."},
-    fields: ["price", "materials", "measurements", "description"],
+    description: {en: "This piece is made from a Veg - Tanned Sheepskin leather. Assembled with a semicircular raw cut, following natural shapes to be Comfortable and Monumental. Each creation is one of a kind, no two are the same. Made by order. Handmade in Italy.", it: "Questo pezzo è realizzato in pelle di montone conciata al vegetale. Assemblato con un taglio grezzo semicircolare, seguendo le forme naturali per essere Comodo e Monumentale. Ogni creazione è un pezzo unico, non ce ne sono due uguali. Su ordinazione. Fatto a mano in Italia."},
+    fields: ["price", "materials", "measurements", "descriptionIt"],
   },
   "capo-12": {
     name: "Corvinus",
@@ -324,13 +328,15 @@ const INVENTED = {
     price: 775,
     materials: {it: "Pelliccia di capra rossa e pelle", en: "Red goat shearling and leather"},
     measurements: "Torace 36 cm. Lunghezza 48 cm. Collo 38 cm.",
-    description: {en: "1 of 1, from the sample sale. The Styrax cut in red goat, leather-lined."},
-    fields: ["price", "materials", "measurements", "description"],
+    // HIS description (2026-08-05), verbatim including "costumizable"; the
+    // Italian is ours, flagged descriptionIt.
+    description: {en: "This piece is made from a single whole Sheepskin with natural hair. It features an adjustable choker for a secure, costumizable fit plus waxed lacing at the attachment points. It moves like resin slowly, Inevitably you become one Creature with it. One Size. One of One. Color: Red. Handmade piece each one is unique.", it: "Questo pezzo è realizzato da un'unica pelle intera di montone con pelo naturale. Ha un choker regolabile per una vestibilità sicura e personalizzabile, più lacci cerati nei punti di attacco. Si muove come resina, lentamente: inevitabilmente diventi una sola Creatura con lui. Taglia unica. Pezzo unico. Colore: Rosso. Pezzo fatto a mano, ognuno è unico."},
+    fields: ["price", "materials", "measurements", "descriptionIt"],
   },
   styrax: {
     price: 975,
     measurements: "Torace 36 cm. Lunghezza 48 cm. Collo 38 cm.",
-    fields: ["price", "measurements"],
+    fields: ["price", "measurements", "descriptionIt"],
   },
   ghezard: {
     price: 1850,
@@ -466,7 +472,9 @@ const GARMENTS = [
     name: "Styrax",
     stage: "tenebrae",
     materials: {it: "Pelliccia di capra e pelle", en: "Goat shearling and leather"},
-    description: {en: "Handmade Goat Sherling & Leather Top."},
+    // HIS description (2026-08-05) replaced his earlier caption; the Italian
+    // is ours. The garment's INVENTED entry adds descriptionIt to its flags.
+    description: {en: "This piece is made from a single whole Sheepskin with natural hair. It features an adjustable choker for a secure, costumizable fit plus waxed lacing at the attachment points. It moves like resin slowly, Inevitably you become one Creature with it. One Size. Available. Color: Black. Handmade piece each one is unique.", it: "Questo pezzo è realizzato da un'unica pelle intera di montone con pelo naturale. Ha un choker regolabile per una vestibilità sicura e personalizzabile, più lacci cerati nei punti di attacco. Si muove come resina, lentamente: inevitabilmente diventi una sola Creatura con lui. Taglia unica. Disponibile. Colore: Nero. Pezzo fatto a mano, ognuno è unico."},
     files: [
       ["archive/IMG_0204", "Il top in pelliccia di capra e pelle, indossato, in un bosco di rami spogli."],
       ["styrax/Stryax black goat ", "Il top in pelliccia di capra disteso sul cemento, con il collo in pelle e i fili di cucitura."],

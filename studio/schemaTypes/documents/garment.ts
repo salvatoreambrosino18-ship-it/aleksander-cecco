@@ -213,6 +213,7 @@ export const garment = defineType({
           {title: 'Materiali / Materials', value: 'materials'},
           {title: 'Misure / Measurements', value: 'measurements'},
           {title: 'Descrizione / Description', value: 'description'},
+          {title: 'Descrizione: la traduzione italiana e nostra / Description: the Italian translation is ours', value: 'descriptionIt'},
           {title: 'Codice / Reference code', value: 'referenceCode'},
           {title: 'Per chi / Who it is for', value: 'wornBy'},
         ],
