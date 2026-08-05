@@ -5557,3 +5557,70 @@ WOMEN, 16 and "16 Creature" under MEN.
 
 **Launch-check: 30**, up from 29. The six flagged `wornBy` values and
 `aboutOrigin` are new; nothing was cleared.
+
+---
+
+## 68. The four references, re-measured for the deepening (2026-08-04)
+
+STATUS: VERIFIED, NOT REMEMBERED. All four sites rendered in headless Chrome at
+1440x900 and 390x844 on 2026-08-04, overlays REMOVED rather than accepted,
+every number read out of the live DOM with `getComputedStyle`. The harness
+refuses to measure a page whose title says 404, because two sites answered a
+spoofed user agent with a 404 while serving the real headless UA fine — a
+study of an error page poisons everything after it, and it nearly happened.
+Sellam and Ferdressed had never been measured; section 14 covered the others
+and its findings stand.
+
+### Scale: the largest type each site ever shows
+
+| site | largest @1440 | weight / case / tracking | largest @390 | body |
+| --- | --- | --- | --- | --- |
+| Rick Owens | **11px** (menu; nothing larger exists) | 400 / upper / 0.08em | 11px | 11px |
+| Sorcinelli | **22px** home statements, **24px** about lines, 21px page titles | 300 / upper / ~0.027em | 20px | 12px |
+| Isaac Sellam | **18.7px** footer labels, 17.9px prose and product titles | 400–500 / mixed | 16.5px | 17.9px |
+| Ferdressed | **24px** hero line and section heads | 400 / upper / wide | 20px | 16px |
+| **ours** | **28px** display | 300 / upper / 0.02em | **19.5px** | 15–17px |
+
+**The scale question, answered with the numbers.** Our display (28px desktop,
+19.5px phone) sits at or above every reference's measured maximum (24 / 20).
+The register is NOT undersized; the collapse landed it exactly at the
+references' ceiling. What the collapse deleted (36px chapter) would have been
+half again larger than anything any reference shows. Size stays.
+
+**What actually is timid: deployment.** The references title their pages in
+their large voice — Sorcinelli "Perfumes" at 21px, the about lines at 24px,
+Sellam products at 17.9px, Ferdressed sections at 24px. WE title almost every
+page at 11px: catalogue, contact, NEW, the garment's own page, collections,
+404 were all label-sized. The large voice existed and was barely used. That —
+not the token — is what read as timid, and it is what this session changes.
+
+### Rhythm and immersion, measured
+
+- **Sorcinelli's home is ONE viewport. It does not scroll.** A full-screen
+  slideshow with one 22px statement and four nav words: a room, not a page.
+  The single strongest emptiness any reference shows.
+- Rick Owens: 4.1 viewports desktop, 6.2 on the phone, 7 media frames — ALL
+  seven full-bleed on the phone. Repetition of frames, one type size,
+  emptiness by monotony. 52 text runs on the whole home page.
+- Sellam: 4.7 viewports, one 100vw hero then a dense product river; body prose
+  at 17.9px is its voice of confidence.
+- Ferdressed: 4.0 viewports; a black full-bleed video-texture hero carrying
+  one widely-tracked line — OUR arrival vocabulary, on the shop that vouches
+  for us; shipping banner BELOW the wordmark at 10px; section heads 24px over
+  product grids.
+
+### What the study licenses
+
+1. Page titles and the catalogue's three movement headings move into the
+   display voice (the deployment correction above).
+2. The transactional action gets body SIZE with label dress (`type-label
+   text-body`): Sellam and Ferdressed set actions at 15–17px; ours was 11px —
+   identical to the helper text beside it, a caption where a commitment
+   belongs. Four sizes remain the whole set: this composes two existing
+   tokens and coins nothing.
+3. The shipping banner leaves the two culture pages (process, about): it is
+   Ferdressed's device, and even Ferdressed sets it under the wordmark, not
+   as the first pixel of the world. It stays on every commerce surface.
+4. Interior pages join the EXISTING arrival system: first text surface marked
+   `data-reveal`, same 900ms curve, same reduced-motion and no-JS guarantees,
+   no new mechanism.
