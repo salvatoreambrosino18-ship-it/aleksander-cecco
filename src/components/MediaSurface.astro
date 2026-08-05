@@ -43,6 +43,15 @@ interface Props {
   desktopHeight?: "screen" | "tall" | "short" | "tile";
   /** The first image on a page is the largest thing it downloads. */
   priority?: boolean;
+  /*
+    WHAT THE BROWSER IS TOLD ABOUT THE RENDERED WIDTH (section 69). Every
+    frame declared sizes="100vw", including tiles that render at a quarter of
+    it, so a 360px tile downloaded a 1440px source: sixteen times the pixels,
+    and with the hover frame it took the catalogue to 1.8 MB and an 8.7s LCP
+    on Slow 4G. Full bleed stays the default; a tile declares its truth
+    automatically; any caller whose layout differs can say so.
+  */
+  sizes?: string;
   /**
    * A second frame revealed on hover, for the catalogue screen. CSS only: no
    * script, and it does not exist for a touch reader, who gets the first frame
@@ -67,12 +76,17 @@ const {
   height = "screen",
   desktopHeight,
   priority = false,
+  sizes: sizesProp,
   hover = null,
   reveal,
   class: className = "",
 } = Astro.props;
 
 const revealThis = reveal ?? !priority;
+
+/* The tile grid is two across, four from the xl breakpoint (80rem). */
+const isTile = height === "tile" || desktopHeight === "tile";
+const sizes = sizesProp ?? (isTile ? "(min-width: 80rem) 25vw, 50vw" : "100vw");
 
 const theme = overlayTheme(media.overlay);
 /*
@@ -125,7 +139,7 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
         <img
           src={src}
           srcset={srcset}
-          sizes="100vw"
+          sizes={sizes}
           alt={alt}
           width={media.dimensions?.width}
           height={media.dimensions?.height}
@@ -143,7 +157,7 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
         <img
           src={imageUrl(hover.poster, 1440)}
           srcset={fullBleedSrcSet(hover.poster)}
-          sizes="100vw"
+          sizes={sizes}
           alt=""
           aria-hidden="true"
           width={hover.dimensions?.width}

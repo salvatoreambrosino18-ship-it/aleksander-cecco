@@ -104,6 +104,7 @@ const isLandscape = (media: MediaItem) => {
             height={index % 2 === 0 ? "tall" : "short"}
             desktopHeight="tall"
             priority={index === 0}
+            sizes={isLandscape(media) ? "100vw" : "(min-width: 48rem) 50vw, 100vw"}
           />
         </div>
       ))
