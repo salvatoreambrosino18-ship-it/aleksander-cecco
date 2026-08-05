@@ -1,6 +1,6 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-04 (after the phone review, section 70)
+## HANDOFF, 2026-08-05 (after the monogram and the Instagram strip, section 71)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
 
@@ -25,6 +25,13 @@ body size, banner off the culture pages, arrivals on text-led pages, and the
 catalogue's image-size regression fixed (tiles were pulling 1440px files).
 Do not re-litigate the display token: 28px sits above every reference's
 measured maximum and the numbers are in s68.
+
+THE MONOGRAM (s71): the tab carries an AC redrawn from the signature's own
+letters — section 9's no-monogram rule was reversed BY THE OWNER. Two
+candidates live in docs/monogram/ with their size matrices; he picks, the
+swap is one file. Instagram is a strip of hotspot-cropped SQUARES with
+per-post links (postUrl in the studio, profile fallback); the import
+preserves postUrl by key.
 
 THE PHONE REVIEW (s70) is done: chrome sticky under a one-line banner,
 CHIUDI in flow at MENU's own pixels, catalogue shows product in the first
@@ -5788,3 +5795,55 @@ never animates. Verified: draws on first view, absent on reload; home LCP
 Audit proven red (planted h1), then 27 pages × both languages × 390 and
 1440, zero issues. Deployed perf: home 1552ms LCP, catalogue 1424ms, CLS
 0.000, no regression from section 69's numbers.
+
+---
+
+## 71. The monogram from the mark, and Instagram earning its shape (2026-08-05)
+
+### The tab: section 9 reversed, by the owner
+
+The no-monogram rule held until the owner himself called the windowed
+signature crop what it was: an illegible smudge at 16px. The monogram was
+BUILT FROM THE MARK, as asked: the signature SVG dissected (the C of Cecco
+is its own path and lifts out whole; the whole of "Aleksander" is ONE
+continuous outline, so the A needed a polygon clip along its right flank to
+shed the crossing 'l'), composed diagonally, rendered at 16/32/64/180 in
+both polarities, and JUDGED.
+
+**The honest verdict, recorded**: the extracted letterforms are beautiful at
+64 and above, hold at 32, and at 16px read as a calligraphic gesture, not as
+the letters AC. So the favicon ships the fallback the owner named — a
+simplified redraw, the A's entry sweep and written lean (skewX -8), the C as
+one open arc, centerline strokes at width 42 — which reads AC at every size
+including 16. **Both candidates and their size matrices live in
+docs/monogram/ awaiting his pick; swapping is one file** (favicon.svg +
+apple-touch-icon.png). The full signature stays everywhere else.
+
+### Instagram reads as Instagram
+
+- **Squares** (`height="square"`, hotspot-cropped): the recognition signal
+  is the shape, no logo, no feed, no token.
+- **Per-frame post links**: `instagramFrames` migrated from `[media]` to
+  `[{media, postUrl}]` (new `instagramFrame` object; four frames wrapped in
+  place by `scripts/patch-instagram.mjs`). Empty falls back to the profile.
+  The import PRESERVES postUrl by key — it exists only in the studio and an
+  import must not erase his work. The guide teaches: photograph, hotspot,
+  paste the post's address.
+- **The strip, not the grid**: one row of squares with a frame cut by the
+  edge is Instagram's own grammar, the worn band already taught the site
+  this language (mechanics shared: peek, proximity snap, contained
+  overscroll, focusable named region), and at 390 it costs one row where
+  the grid cost three. Handle above it in the display voice. Complete with
+  zero (absent), one, four (fills a desktop row exactly, no scroll) or six
+  (scrolls, cut-frame cue).
+
+### Verified
+
+Audit proven red (planted missing alt beside the strip), then 27 pages ×
+both languages × 390 and 1440, zero issues. Deployed perf: home 1896ms LCP,
+catalogue 1816ms, CLS 0.000 — inside the section-70 noise band, no
+regression. Launch-check 31, unchanged: the frames stay flagged
+`instagramFrames` until he approves the selection, and `aboutNameOrder`
+still awaits Ciro. One build trap found: a JSX comment inside an opening
+tag passes `astro build` but fails `astro check`; the sticky-chrome comment
+moved above its element.
