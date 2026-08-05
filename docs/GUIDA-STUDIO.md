@@ -34,21 +34,74 @@ togliere la spunta corrispondente: come si fa è spiegato in fondo, in
 
 ---
 
-## Come si entra
+## La primissima volta
 
 Lo studio è il pannello dove vivono i contenuti del sito: fotografie, nomi,
-prezzi, testi.
+prezzi, testi. Ci si entra una prima volta, e poi sempre allo stesso modo.
 
-> **DA COMPLETARE — l'indirizzo dello studio non esiste ancora.**
-> Va creato una volta sola da chi ha costruito il sito (un comando solo,
-> `sanity deploy`). Finché non è fatto, non c'è una pagina dove entrare.
-> Quando esiste, l'indirizzo sarà di questa forma:
-> `https://aleksander-cecco.sanity.studio`
+### 1. L'invito che ti arriva per email
+
+Ricevi un'email di invito al progetto. Cercala anche nello spam: arriva da
+Sanity, che è il nome del sistema, non da noi, quindi potresti non riconoscerla.
+
+Aprila e premi il tasto dell'invito (*Accept*, *Join project*).
+
+### 2. Come accedi: scegli un modo e tieni sempre quello
+
+Ti verrà chiesto come vuoi entrare: con Google, o con un altro sistema, o con
+un indirizzo email e una password.
+
+**Due cose, e se qualcosa andrà storto sarà quasi sicuramente una di queste:**
+
+- **Usa lo stesso indirizzo email a cui è arrivato l'invito.** L'invito è legato
+  a quell'indirizzo: entrando con un altro, il sistema ti fa accedere ma non ti
+  dà accesso a niente.
+- **Ricordati quale modo hai scelto** e usa sempre quello. Entrare la prima
+  volta con Google e la seconda con email e password ti fa comparire come due
+  persone diverse, e la seconda non ha accesso a niente.
+
+Se dopo l'accesso vedi una pagina vuota, o "non hai accesso a questo progetto",
+non hai rotto niente: quasi sempre è uno dei due punti qui sopra. Esci, rientra
+con lo stesso indirizzo dell'invito e con lo stesso metodo della prima volta.
+
+### 3. Dove devi andare (non è la pagina dove ti porta l'invito)
+
+Dopo l'invito potresti ritrovarti su una pagina di amministrazione del progetto
+(`sanity.io/manage`). **Non è quella che ti serve**: lì si gestiscono account e
+impostazioni tecniche, non i contenuti. È giusto averla vista una volta, ma non
+è il posto dove lavori.
+
+Il posto dove lavori è lo studio:
+
+> **INDIRIZZO DELLO STUDIO**
+> `<DA COMPLETARE>`
 >
-> Scrivilo qui sopra quando ce l'hai, e mettilo nei preferiti del telefono.
+> Scrivi qui l'indirizzo che ti è stato dato, oppure fattelo mandare in un
+> messaggio così lo hai sempre.
 
-Si entra con la mail. Lo studio funziona anche dal telefono: le liste sono state
-pensate per essere leggibili su uno schermo piccolo.
+Aprilo, accedi come sopra, e sei dentro.
+
+### 4. Mettilo dove lo ritrovi
+
+- **Sul telefono:** apri l'indirizzo nel browser e aggiungilo alla schermata
+  home ("Aggiungi a Home"). Diventa un'icona come un'applicazione.
+- **Sul computer:** salvalo nei preferiti.
+
+Lo studio funziona bene anche dal telefono: le liste sono state pensate per
+essere leggibili su uno schermo piccolo, e caricare le fotografie dal telefono è
+spesso più comodo.
+
+### 5. La prima cosa da fare, per prendere confidenza
+
+Non partire da un capo nuovo. Fai questo:
+
+1. Apri **Capi / Garments** e apri un capo qualsiasi.
+2. Cambia una parola nella **Descrizione**.
+3. Premi **Publish**.
+4. Aspetta un paio di minuti e guarda la pagina di quel capo sul sito.
+
+Quando hai visto la tua parola comparire sul sito, hai capito tutto il
+meccanismo: il resto della guida sono solo campi diversi.
 
 ## Cosa vedi quando entri
 
@@ -318,24 +371,95 @@ pochi minuti se la richiesta è partita e non è arrivata, o se non è mai parti
 
 ---
 
-## Le poche cose da non toccare
+## Dove puoi esplorare tranquillo, e dove no
+
+Aprirai le schede e guarderai cosa c'è: è giusto così, ed è il modo per
+impararlo. Questa sezione dice dove puoi girare senza pensarci e dove conviene
+sapere cosa stai facendo.
+
+Vale sempre una regola prima di tutte: **finché non premi Publish, non è
+successo niente.** Puoi aprire tutto, scrivere, cancellare, e uscire senza
+pubblicare: il sito non se ne accorge. E anche dopo aver pubblicato, ogni scheda
+tiene la sua storia (**History**, in alto) e si torna indietro.
+
+### Verde: cambia quello che vuoi, quando vuoi
+
+Sono testo e fotografie. Se sbagli si vede subito e si corregge subito.
+
+- **Nome** di un capo o di un drop — il nome visibile, non l'indirizzo.
+- **Descrizione**, **Materiali**, **Misure di riferimento**, **Stagione**,
+  **Codice**, **Riga aggiuntiva**.
+- **Testo / Statement** di un drop, e tutti i testi nelle Impostazioni:
+  *Chi siamo*, *Chi siamo in breve*, *la riga di apertura*, *La lavorazione*,
+  **Chi lo fa** (i vostri nomi), *In collaborazione con*.
+- **Testo alternativo** delle fotografie: scrivilo e riscrivilo liberamente,
+  meglio una frase imperfetta che il campo vuoto.
+- **Sostituire una fotografia** con un'altra, e **riordinare** le fotografie
+  dentro un capo.
+
+### Giallo: puoi cambiarli, ma sappi cosa fanno
+
+Non rompono niente, però **cambiano il comportamento del sito**, non solo quello
+che c'è scritto. Cambiali quando lo vuoi davvero, non per vedere che succede.
+
+- **L'ordine della lista Collezioni.** Il primo drop della lista è quello su cui
+  si apre la pagina NEW. Trascinarne un altro in cima cambia la vetrina del sito.
+- **L'ordine della lista Capi.** Decide l'ordine del catalogo **dentro la
+  famiglia** di ogni capo: i Tenebrae vengono sempre prima dei Lux, e i Lux prima
+  del rosso, ma dentro ogni gruppo comandi tu.
+- **Come si ottiene.** Sposta il capo tra *Disponibili*, *1 di 1* ed *Esauriti*,
+  e decide se si può ordinare. È il campo giusto per dire "venduto"; è anche
+  quello che, messo per sbaglio, toglie dalla vendita un capo che c'è.
+- **Collezione** dentro un capo: lo sposta da un drop all'altro, quindi lo fa
+  entrare o uscire dalla pagina NEW.
+- **Pubblicata / Published** su un drop: spenta, il drop sparisce dal sito.
+- **Per chi**: cambia solo il filtro del catalogo (vedi sopra), niente altro.
+- **Prezzo**: compare nel catalogo, sulla pagina del capo e **dentro l'email
+  d'ordine** che ti arriva.
+- **Testo sopra / Text over this media**: bianco o nero. Sbagliarlo non rompe
+  nulla ma rende illeggibile una scritta sopra una fotografia.
+- **Fotografia di apertura** della home e **le quattro di Instagram**: sono la
+  prima impressione del sito, quindi guardale sul telefono dopo averle cambiate.
+- **Email di contatto** e **Instagram** nelle Impostazioni: sono i tuoi recapiti
+  pubblici. Cambiali solo quando cambiano davvero.
+
+### Rosso: non toccare
 
 - **Lo Slug di un capo o di un drop già pubblicato.** È il suo indirizzo: se lo
-  cambi, tutti i link a quella pagina — quelli nei messaggi, quelli nelle storie
-  — portano al vuoto. Il nome visibile si può cambiare quando vuoi; lo slug no.
-- **Il campo Valuta.** È EUR e basta.
+  cambi, tutti i link a quella pagina — quelli nei messaggi, quelli nelle storie,
+  quelli che hai mandato ai clienti — portano al vuoto. Il nome visibile si
+  cambia quando vuoi; lo slug no.
 - **Non cancellare un capo per dire che è venduto.** Usa *Non disponibile ora*.
-- **Le impostazioni che non sono in questa guida.** Se una casella non è scritta
-  qui, non ha bisogno di te.
+  Un capo cancellato porta via anche la sua pagina.
+- **Il campo Valuta.** È EUR e basta.
+- **Le spunte "da approvare"** (*Campi inventati*, *Testi scritti da noi*,
+  *Fotografia provvisoria*, *La riga sulla dogana è da confermare*): si tolgono
+  quando sostituisci il valore vero, mai "per fare ordine". Sono l'elenco di
+  quello che il sito dice e tu non hai ancora detto.
+- **Vision**, la voce con l'icona dell'occhio in alto: è uno strumento da
+  tecnici per interrogare i dati. Guardare non fa danni, ma lì dentro non c'è
+  niente che ti serva.
+- **Le caselle che non sono in questa guida.** Se un campo non è scritto qui,
+  non ha bisogno di te.
 
 ---
 
 ## Se qualcosa va storto
 
-Nello studio quasi niente è irreversibile: ogni documento tiene la sua storia
-(**History**, in alto nella scheda) e si può tornare a una versione precedente.
-Le fotografie caricate non si perdono.
+Come tornare indietro, in ordine di quanto è successo:
+
+1. **Non hai ancora pubblicato.** Non è successo niente. Chiudi e riapri la
+   scheda.
+2. **Hai pubblicato e non ti piace.** Riscrivi e ripubblica: è la via più corta,
+   e sul sito arriva in un minuto e mezzo.
+3. **Hai pubblicato qualcosa che non sai ricostruire.** Apri **History** in cima
+   alla scheda, guarda le versioni precedenti e ripristina quella giusta.
+   Le fotografie caricate non si perdono in nessun caso.
 
 L'unica cosa che non si recupera è il contenuto riscritto dai due comandi
-dell'avvertimento in cima. Per tutto il resto: prova, guarda il sito, e se non
-ti piace torna indietro.
+dell'avvertimento in cima a questa guida. Per tutto il resto: prova, guarda il
+sito, e se non ti piace torna indietro.
+
+Quando scrivi a chi ti segue il sito perché qualcosa non torna, servono tre
+cose e bastano quelle: **cosa hai cambiato**, **a che ora**, e **cosa vedi
+adesso** (meglio una foto dello schermo).
