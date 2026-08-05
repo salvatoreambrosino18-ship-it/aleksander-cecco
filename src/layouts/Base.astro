@@ -8,6 +8,14 @@
   between the two themes anywhere (DESIGN-PLAN section 3).
 */
 import "../styles/global.css";
+/*
+  The icons live in src/, not public/, so the build hashes their filenames
+  (section 74). Anything referencing them — here and the generated manifest —
+  gets the hashed URL, and there is no unhashed copy left at a fixed path to
+  serve a stale version behind everyone's back.
+*/
+import faviconUrl from "../assets/icons/favicon.svg?url";
+import appleTouchIconUrl from "../assets/icons/apple-touch-icon.png?url";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import {getSiteSettings} from "../lib/content";
@@ -104,8 +112,18 @@ const shareImage =
       The SVG follows the reader's system theme; the full signature stays
       everywhere else.
     */}
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {/*
+      CONTENT-HASHED, and that is the point (section 74). These were static
+      files in public/ under fixed names, and a fixed name is a name that can
+      go stale invisibly: the touch icon shipped broken and the manifest's
+      512 icon shipped the OLD mark, through two rebuilds, because nothing
+      downstream had any way to notice the bytes had changed. Imported, they
+      carry Vite's content hash, so changing an icon changes its URL, every
+      cache misses by construction, and an icon that no longer exists breaks
+      the build instead of shipping quietly.
+    */}
+    <link rel="icon" href={faviconUrl} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={appleTouchIconUrl} />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content={theme === "dark" ? "#0A0A0A" : "#FAFAF8"} />
 

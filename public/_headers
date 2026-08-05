@@ -16,3 +16,10 @@
 # filename, and a new subset would be a new file. Safe to cache hard.
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Build output is content-hashed (styles, scripts and, since section 74, the
+# icons), so the bytes behind one of these URLs can never change. Caching them
+# hard is safe precisely BECAUSE the name changes when the content does — the
+# property the icons did not have when a stale one shipped unnoticed.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
