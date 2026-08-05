@@ -153,20 +153,27 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
     }
 
     {
+      /*
+        The hover frame downloads ONLY where hover exists (section 69). A
+        phone can never show it, and seventeen of them were roughly a third
+        of the catalogue's transfer. The <source media="(hover: hover)">
+        carries the real srcset; on touch the <img> falls back to a
+        transparent pixel and fetches nothing else.
+      */
       hover?.poster && (
-        <img
-          src={imageUrl(hover.poster, 1440)}
-          srcset={fullBleedSrcSet(hover.poster)}
-          sizes={sizes}
-          alt=""
-          aria-hidden="true"
-          width={hover.dimensions?.width}
-          height={hover.dimensions?.height}
-          loading="lazy"
-          decoding="async"
-          style={`object-position: ${objectPosition(hover.poster)}`}
-          class="hover-frame absolute inset-0 h-full w-full object-cover"
-        />
+        <picture aria-hidden="true">
+          <source media="(hover: hover)" srcset={fullBleedSrcSet(hover.poster)} sizes={sizes} />
+          <img
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            alt=""
+            width={hover.dimensions?.width}
+            height={hover.dimensions?.height}
+            loading="lazy"
+            decoding="async"
+            style={`object-position: ${objectPosition(hover.poster)}`}
+            class="hover-frame absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
       )
     }
 

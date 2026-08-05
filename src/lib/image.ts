@@ -34,7 +34,12 @@ export type SanityImage = {
 const builder = sanity ? createImageUrlBuilder(sanity) : null;
 
 /** Width ladder for a full-bleed image. Tops out at a 2x desktop screen. */
-export const FULL_BLEED_WIDTHS = [640, 828, 1080, 1440, 1920, 2560] as const;
+/*
+  360 and 480 exist for the tile grid (section 69): the smallest rung was 640,
+  so a 195px-wide tile on a phone still pulled a 640px file. A full-bleed
+  frame never picks below its viewport, so the small rungs cost it nothing.
+*/
+export const FULL_BLEED_WIDTHS = [360, 480, 640, 828, 1080, 1440, 1920, 2560] as const;
 
 export function imageUrl(source: SanityImage, width: number): string | null {
   if (!builder) return null;
