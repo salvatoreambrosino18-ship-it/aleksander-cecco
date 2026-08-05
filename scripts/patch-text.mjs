@@ -37,7 +37,7 @@ const EN = {
   making:
     "In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy. Every process is Artisan.\nA work of repetition, patience, and precision.\nThis is what makes every piece similar, but never identical.",
   origin:
-    "The project began as an experimental line between the knowledge and vision of the two creators, Ferdinando Palmieri and Ciro Cecco, in collaboration with Ferdressed.",
+    "The project began as an experimental line between the knowledge and vision of the two creators, Ciro Cecco and Ferdinando Palmieri, in collaboration with Ferdressed.",
 };
 const IT = {
   brand:
@@ -48,7 +48,7 @@ const IT = {
     "In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia. Ogni processo è artigianale.\nUn lavoro di ripetizione, pazienza e precisione.\nÈ questo che rende ogni pezzo simile, ma mai identico.",
   // OURS, flagged as aboutOrigin. The names and Ferdressed are proper nouns.
   origin:
-    "Il progetto nasce come linea sperimentale tra la conoscenza e la visione dei due creatori, Ferdinando Palmieri e Ciro Cecco, in collaborazione con Ferdressed.",
+    "Il progetto nasce come linea sperimentale tra la conoscenza e la visione dei due creatori, Ciro Cecco e Ferdinando Palmieri, in collaborazione con Ferdressed.",
 };
 
 const about = {
@@ -65,7 +65,7 @@ await client
   .patch("siteSettings")
   .set({
     about,
-    creators: ["Ferdinando Palmieri", "Ciro Cecco"],
+    creators: ["Ciro Cecco", "Ferdinando Palmieri"],
     partnerName: "Ferdressed",
     partnerUrl: "https://ferdressed.com",
     inventedCopy: [...invented],

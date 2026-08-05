@@ -6,6 +6,18 @@
   black on the paper theme and white on the ink theme with no second asset and
   no cross-fade (DESIGN-PLAN section 3). There is no monogram; the mark is the
   full signature at whatever scale the caller sets.
+
+  THE DRAW (section 70). With `draw`, each path is prepared so CSS can write
+  the mark stroke by stroke: pathLength="1" normalises every path, and each
+  one carries its own --sig-delay and --sig-dur, proportional to its length,
+  so the pen spends its time where the ink actually goes. The SVG is
+  OUTLINES, not strokes — traced from the real signature — but a thin script
+  mark's outline hugs the pen's path closely enough that tracing it reads as
+  writing; the fill then arrives as each path completes and the trace fades,
+  leaving exactly the static mark. All timing lives here because it derives
+  from the asset; all appearance lives in global.css. Without the arming
+  attribute on the root (reduced motion, no JavaScript, or already seen this
+  visit) the drawing element is simply not shown.
 */
 import rawSignature from "../../assets/logo/logo-signature.svg?raw";
 
@@ -14,18 +26,45 @@ interface Props {
   class?: string;
   /** Decorative when the mark sits next to a text label that already names the brand. */
   decorative?: boolean;
+  /** Prepare the paths for the one-time writing animation. */
+  draw?: boolean;
 }
 
-const {class: className = "", decorative = false} = Astro.props;
+const {class: className = "", decorative = false, draw = false} = Astro.props;
 
 // The source file carries role="img", an aria-label and a <title>. When the
 // mark is decorative we strip that so it is not announced twice.
-const svg = decorative
+let svg = decorative
   ? rawSignature
       .replace(/\s(role|aria-label)="[^"]*"/g, "")
       .replace(/<title>[\s\S]*?<\/title>/, "")
       .replace("<svg", '<svg aria-hidden="true" focusable="false"')
   : rawSignature;
+
+if (draw) {
+  /*
+    Writing pace: ~2.4s of ink for the whole mark, plus a breath before the
+    pen touches and a lift between paths. Each path's share of the time is
+    its share of the total path data, which tracks drawn length closely
+    enough for pacing.
+  */
+  const TOTAL_MS = 2400;
+  const START_MS = 400;
+  const LIFT_MS = 140;
+  const lengths: number[] = [...svg.matchAll(/<path[^>]*\sd="([^"]*)"/g)].map(
+    (m) => m[1]!.length,
+  );
+  const total = lengths.reduce((a, b) => a + b, 0) || 1;
+  let clock = START_MS;
+  let index = 0;
+  svg = svg.replace(/<path /g, () => {
+    const dur = Math.round((TOTAL_MS * (lengths[index] ?? 0)) / total);
+    const style = `--sig-delay:${clock}ms;--sig-dur:${dur}ms`;
+    clock += dur + LIFT_MS;
+    index += 1;
+    return `<path pathLength="1" style="${style}" `;
+  });
+}
 ---
 
-<span class:list={["signature", className]} set:html={svg} />
+<span class:list={["signature", draw && "sig-draw", className]} set:html={svg} />

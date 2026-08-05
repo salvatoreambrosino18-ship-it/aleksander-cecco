@@ -40,6 +40,7 @@ import MediaSurface from "../../components/MediaSurface.astro";
 import Statement from "../../components/Statement.astro";
 import WornBand from "../../components/WornBand.astro";
 import BoundaryWash from "../../components/BoundaryWash.astro";
+import Signature from "../../components/Signature.astro";
 import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
@@ -141,21 +142,45 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           to measure, which are the two questions a first-time visitor actually
           has. Then one route in.
         */}
-        <MediaSurface media={opening} locale={locale} priority>
-          <div class="flex flex-col gap-u2">
-            {drop && <p class="type-label text-label">{drop.name}</p>}
-            {dropLine && (
-              <p class="type-display text-display max-w-prose">{dropLine}</p>
-            )}
-            {priceFrom && <p class="type-mono text-mono">{priceFrom}</p>}
-            <a
-              href={localePath(locale, "creature")}
-              class="type-label text-label hairline-under self-start"
-            >
-              {t(locale, "allCreatures")}
-            </a>
+        <div class="relative">
+          <MediaSurface media={opening} locale={locale} priority>
+            <div class="flex flex-col gap-u2">
+              {drop && <p class="type-label text-label">{drop.name}</p>}
+              {dropLine && (
+                <p class="type-display text-display max-w-prose">{dropLine}</p>
+              )}
+              {priceFrom && <p class="type-mono text-mono">{priceFrom}</p>}
+              <a
+                href={localePath(locale, "creature")}
+                class="type-label text-label hairline-under self-start"
+              >
+                {t(locale, "allCreatures")}
+              </a>
+            </div>
+          </MediaSurface>
+          {/*
+            THE SIGNATURE WRITES ITSELF (section 70), once per visit, over the
+            arrival. Decorative: the h1 above already carries the name. The
+            wrapper takes the media's own overlay polarity, as the caption does.
+          */}
+          <div
+            class="sig-arrival frame"
+            data-theme={overlayTheme(opening.overlay)}
+            aria-hidden="true"
+          >
+            <Signature draw decorative class="w-sig-hero" />
           </div>
-        </MediaSurface>
+        </div>
+        <script is:inline>
+          (() => {
+            try {
+              if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+              if (sessionStorage.getItem("ac-sig-drawn")) return;
+              sessionStorage.setItem("ac-sig-drawn", "1");
+              document.documentElement.setAttribute("data-sig-live", "");
+            } catch {}
+          })();
+        </script>
       </>
     ) : (
       <TextSurface class="flex min-h-svh flex-col justify-center">

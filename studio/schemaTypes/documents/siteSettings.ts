@@ -343,6 +343,7 @@ export const siteSettings = defineType({
           {title: 'Drops: la riga di apertura / Drops: the intro line', value: 'dropsIntro'},
           {title: 'Contatti: la riga di apertura / Contact: the intro line', value: 'contactIntro'},
           {title: 'Chi siamo: la traduzione delle origini / About: the origin translation', value: 'aboutOrigin'},
+          {title: "Chi siamo: l'ordine dei nomi, modificato dal testo approvato / About: name order, edited from approved text", value: 'aboutNameOrder'},
         ],
         layout: 'grid',
       },

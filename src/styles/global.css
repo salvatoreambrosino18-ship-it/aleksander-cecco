@@ -643,6 +643,100 @@
   }
 }
 
+/*
+  THE SIGNATURE WRITES ITSELF (section 70). Once per visit, on the home
+  arrival, the mark is drawn as if a hand were writing it: each path's
+  outline is traced at hairline weight (pathLength is normalised to 1 in the
+  component, which also sets each path's --sig-delay/--sig-dur from its real
+  length), and as each path completes its ink arrives and the trace fades,
+  leaving exactly the static mark. The element only exists armed: without
+  data-sig-live on the root — reduced motion, no JavaScript, or already seen
+  this visit — it is display:none and the arrival is what it always was.
+  The corner signature never animates; the gesture belongs to the arrival.
+*/
+.sig-draw {
+  display: none;
+}
+[data-sig-live] .sig-draw {
+  display: block;
+}
+.sig-draw svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+[data-sig-live] .sig-draw path {
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation:
+    sig-trace var(--sig-dur) linear var(--sig-delay) forwards,
+    sig-settle 500ms linear calc(var(--sig-delay) + var(--sig-dur)) forwards;
+}
+@keyframes sig-trace {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes sig-settle {
+  to {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sig-draw {
+    display: none !important;
+  }
+}
+
+/* Where the drawn mark sits: over the arrival, centred in the frame's air,
+   letting every tap pass through. The polarity comes from the media's own
+   overlay choice, exactly as the caption's does. */
+.sig-arrival {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  color: var(--fg);
+}
+
+/*
+  LICENSE (section 70): a press acknowledges the touch where hover cannot
+  exist. The second view still lives on the piece's own page; this is only
+  the surface answering the finger, instantly, no motion involved.
+*/
+@media (hover: none) {
+  .tile:active img {
+    opacity: 0.86;
+  }
+}
+
+/*
+  LICENSE (section 70): the menu's inversion arrives as one gesture — a hard
+  top-down edge, the wash's own language, 240ms. Closing stays instant:
+  opening is a ceremony, closing is obedience.
+*/
+.menu[open] .menu-panel {
+  animation: menu-arrive 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes menu-arrive {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu[open] .menu-panel {
+    animation: none;
+  }
+}
+
 /* Motion is opt-in per element; here we guarantee the reduced-motion floor. */
 @media (prefers-reduced-motion: reduce) {
   *,

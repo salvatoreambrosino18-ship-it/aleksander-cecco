@@ -878,7 +878,7 @@ const OWNER_EN = {
     them himself, so the names are publishable because he published them.
     Verbatim, unaltered, in his order like everything else here.
   */
-  origin: "The project began as an experimental line between the knowledge and vision of the two creators, Ferdinando Palmieri and Ciro Cecco, in collaboration with Ferdressed.",
+  origin: "The project began as an experimental line between the knowledge and vision of the two creators, Ciro Cecco and Ferdinando Palmieri, in collaboration with Ferdressed.",
   /** The shortest complete sentence he wrote. Two words over a photograph. */
   openingLine: "Living textures.",
 };
@@ -919,7 +919,7 @@ const OWNER_IT = {
     inventedCopy until he approves it. The names and "Ferdressed" are proper
     nouns and are untouched; only the sentence around them is ours.
   */
-  origin: "Il progetto nasce come linea sperimentale tra la conoscenza e la visione dei due creatori, Ferdinando Palmieri e Ciro Cecco, in collaborazione con Ferdressed.",
+  origin: "Il progetto nasce come linea sperimentale tra la conoscenza e la visione dei due creatori, Ciro Cecco e Ferdinando Palmieri, in collaborazione con Ferdressed.",
   openingLine: "Texture viventi.",
 };
 
@@ -1671,7 +1671,7 @@ async function main() {
       an international buyer gets (section 32's argument, answered by a fact
       rather than by copy).
     */
-    creators: ["Ferdinando Palmieri", "Ciro Cecco"],
+    creators: ["Ciro Cecco", "Ferdinando Palmieri"],
     partnerName: "Ferdressed",
     partnerUrl: "https://ferdressed.com",
     inventedCopy: [
