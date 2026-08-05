@@ -53,7 +53,7 @@ export type SiteSettings = {
   /** SOLVET ET COAGULA: the work being done, in the order it is done. */
   processMedia: MediaItem[] | null;
   /** A chosen handful, not a live feed. See the schema for why. */
-  instagramFrames: MediaItem[] | null;
+  instagramFrames: Array<{media: MediaItem; postUrl: string | null}> | null;
   makingStatement: LocaleField;
   /**
    * The languages whose brand copy is the owner's own words. Anything else is
@@ -96,7 +96,7 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     },
     makingMedia[]{${MEDIA_PROJECTION}},
     processMedia[]{${MEDIA_PROJECTION}},
-    instagramFrames[]{${MEDIA_PROJECTION}},
+    instagramFrames[]{"media": media{${MEDIA_PROJECTION}}, postUrl},
     makingStatement,
     "approvedLanguages": coalesce(approvedLanguages, ["en"]),
     "footerCopyIsDraft": coalesce(footerCopyIsDraft, true),

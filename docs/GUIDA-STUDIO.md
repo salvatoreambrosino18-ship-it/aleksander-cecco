@@ -264,18 +264,27 @@ dopo averla cambiata: il taglio verticale è diverso da quello che vedi qui.
 
 ---
 
-## Cambiare le quattro fotografie di Instagram
+## Cambiare le fotografie di Instagram
 
-**Impostazioni** → **Instagram: le fotografie / Instagram: the frames**.
+**Impostazioni** → **Instagram: i riquadri / Instagram: the frames**.
 
-Sono quattro, scelte da te, e sono normali immagini caricate qui: **non sono
+Fino a sei, scelte da te, e sono normali immagini caricate qui: **non sono
 collegate al tuo profilo**, quindi non cambiano da sole quando pubblichi un post.
 È voluto — così nessuno decide al posto tuo cosa appare sul sito — ma vuol dire
 che quando vuoi aggiornarle devi passare di qui.
 
-Sostituisci le immagini, tieni le migliori quattro, e metti l'**alt text** anche
-qui. Il blocco porta al tuo profilo; il link sta in **Instagram**, in cima alle
-Impostazioni.
+Tre cose per ogni riquadro:
+
+- **La fotografia**, con l'**alt text** come sempre.
+- **Sul sito diventa un QUADRATO**, come su Instagram. Se il taglio quadrato
+  taglia la parte sbagliata, apri la fotografia e sposta il **punto focale**
+  (il cerchietto dell'hotspot): è lui a decidere cosa sopravvive al quadrato.
+- **Link del post / Post link** — apri quel post su Instagram, copia
+  l'indirizzo dalla barra del browser, incollalo qui. Così chi tocca il
+  riquadro arriva **su quel post**. Se lo lasci vuoto, il riquadro porta al
+  profilo: niente si rompe.
+
+Il link del profilo sta in **Instagram**, in cima alle Impostazioni.
 
 ---
 

@@ -309,11 +309,11 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'instagramFrames',
-      title: 'Instagram: le fotografie / Instagram: the frames',
+      title: 'Instagram: i riquadri / Instagram: the frames',
       type: 'array',
-      of: [{type: 'media'}],
+      of: [{type: 'instagramFrame'}],
       description:
-        "Da tre a sei fotografie, che rimandano al profilo. Non e un feed automatico: le scegli tu. / Three to six photographs, linking to the profile. Not an automatic feed: you choose them.",
+        "Fino a sei. Sul sito diventano QUADRATI: sposta il punto focale (hotspot) sulla fotografia per decidere cosa sopravvive al quadrato. Ogni riquadro puo portare al suo post; vuoto, porta al profilo. Non e un feed automatico: le scegli tu. / Up to six. They render SQUARE on the site: set the photograph's hotspot to decide what survives the square. Each frame can link to its own post; empty, it links to the profile. Not an automatic feed: you choose them.",
       validation: (Rule) => Rule.max(6).warning('More than six stops being a selection.'),
     }),
     defineField({

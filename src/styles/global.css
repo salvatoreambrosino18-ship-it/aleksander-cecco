@@ -439,6 +439,28 @@
   }
 
   /*
+    THE INSTAGRAM STRIP (section 71): the worn band's own mechanics — peek
+    cue, proximity snap, contained overscroll, hidden scrollbar with the
+    focusable-region contract — carrying SQUARES, because the square is how
+    Instagram is recognised without a logo. The site now has two horizontal
+    regions and they speak one language.
+  */
+  .square-strip {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .square-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .square-strip > * {
+    flex: 0 0 var(--ig-s);
+    scroll-snap-align: start;
+  }
+
+  /*
     The form. There is no colour to reach for, so an invalid field thickens its
     hairline to solid fg and says what is wrong in fg text (standing rule 1).
   */

@@ -130,6 +130,8 @@
   --sig-corner-h: var(--s-u2);
   /* the mark on a boundary wash: present, not the opening gesture */
   --sig-wash-w: 62vw;
+  /* an Instagram square in the strip: most of a phone, a third of a desktop */
+  --ig-s: min(72vw, 21rem);
   /* the mark's own proportion, 2712/615 from its viewBox, not a guess */
   --sig-corner-w: calc(var(--sig-corner-h) * 4.41);
 

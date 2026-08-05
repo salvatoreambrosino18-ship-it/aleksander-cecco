@@ -1594,6 +1594,13 @@ async function main() {
   }
 
   const settings = (await client.fetch(`*[_id == "siteSettings"][0]`)) || {};
+  // The owner's per-post links survive an import (section 71): they exist
+  // only in the studio, so overwriting them would erase his work.
+  const existingPostUrls = new Map(
+    (settings.instagramFrames ?? [])
+      .filter((f) => f?._type === "instagramFrame" && f.postUrl)
+      .map((f) => [f._key, f.postUrl]),
+  );
 
   /*
     THE ARRIVAL BELONGS TO THE OWNER (2026-08-03).
@@ -1635,7 +1642,14 @@ async function main() {
       ...(garmentId ? {garment: {_type: "reference", _ref: garmentId}} : {}),
     })),
     makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`, ovc(rel), safe(rel))),
-    instagramFrames: INSTAGRAM.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `g${i}`, ovc(rel), safe(rel))),
+    // Each frame wraps its media with a per-post link (section 71). The
+    // owner's own postUrl values are preserved by key, never invented.
+    instagramFrames: INSTAGRAM.map(([rel, alt], i) => ({
+      _type: "instagramFrame",
+      _key: `igf${i}`,
+      media: mediaObject(assets.get(rel), alt, ov(rel), `g${i}`, ovc(rel), safe(rel)),
+      postUrl: existingPostUrls.get(`igf${i}`) ?? null,
+    })),
     processMedia: PROCESS.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `p${i}`, ovc(rel), safe(rel))),
 
     // His words, in the two places each run belongs.

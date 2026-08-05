@@ -33,7 +33,7 @@ interface Props {
    * 14), and "worn" is a frame inside the horizontal worn band, whose width
    * comes from the flex item around it.
    */
-  height?: "screen" | "tall" | "short" | "band" | "worn" | "tile";
+  height?: "screen" | "tall" | "short" | "band" | "worn" | "tile" | "square";
   /**
    * A different height from `height` at desktop. It exists for the gallery,
    * where a phone alternates tall and short down one column and a desktop pairs
@@ -123,6 +123,9 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
         screens deep, so the tile keeps its proportion instead of the viewport's.
       */
       height === "tile" && "h-auto aspect-[3/4]",
+      /* Instagram's native shape (section 71): the recognition signal is the
+         square itself. The hotspot decides what survives it. */
+      height === "square" && "h-auto aspect-square",
       desktopHeight === "screen" && "md:h-media-screen",
       desktopHeight === "tall" && "md:h-media-tall",
       desktopHeight === "short" && "md:h-media-short",

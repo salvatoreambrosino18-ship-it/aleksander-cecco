@@ -280,28 +280,42 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     same Function, which answers that sign-up is not open. It sits behind the
     same legal gate as the enquiry, and that gate has not moved.
   */}
+  {/*
+    INSTAGRAM READS AS INSTAGRAM (section 71): squares, because the square is
+    the recognition signal — no logo, no feed, no token, nothing that
+    expires. The handle sits above the strip in the display voice; each
+    square goes to ITS OWN post when the owner has pasted the link, to the
+    profile otherwise. The strip is the worn band's language: one row, a
+    frame cut by the edge as the cue, and the same focusable-region contract.
+    The section is complete with one frame or six, and absent with none.
+  */}
   {
     instagramFrames.length > 0 && (
-      <section class="relative">
+      <section class="relative" aria-labelledby="ig-heading">
         <TextSurface class="flex flex-col gap-u2 pt-u13 pb-u5">
-          <h2 class="type-label text-label">{t(locale, "instagram")}</h2>
+          <h2 id="ig-heading" class="type-label text-label">{t(locale, "instagram")}</h2>
           {instagramUrl && (
             <a
               href={instagramUrl}
               rel="me noopener"
               target="_blank"
-              class="type-mono text-mono self-start hover:underline underline-offset-4"
+              class="type-display text-display self-start hover:underline underline-offset-8"
             >
               {instagramHandle}
             </a>
           )}
         </TextSurface>
 
-        <ul class="grid grid-cols-2 md:grid-cols-4">
-          {instagramFrames.map((media) => (
+        <ul class="square-strip" role="region" aria-labelledby="ig-heading" tabindex="0">
+          {instagramFrames.map((frame) => (
             <li>
-              <a href={instagramUrl ?? "#"} rel="me noopener" target="_blank" class="block">
-                <MediaSurface media={media} locale={locale} height="short" desktopHeight="short" />
+              <a
+                href={frame.postUrl ?? instagramUrl ?? "#"}
+                rel="me noopener"
+                target="_blank"
+                class="block"
+              >
+                <MediaSurface media={frame.media} locale={locale} height="square" />
               </a>
             </li>
           ))}
