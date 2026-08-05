@@ -1,6 +1,6 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-04 (after the top-down rebuild, section 67)
+## HANDOFF, 2026-08-04 (after the deepening, section 69)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
 
@@ -18,6 +18,13 @@ is for. A free-shipping banner on every page, an order flow ("Acquire — €X" 
 order page → "Order received"), and a process page that is the single home of
 imagery (the gallery is dissolved into it). The owner's other shop was the
 model; the references still hold the atmosphere.
+
+THE DEEPENING (s68-69) is done: reference study re-measured and recorded,
+page titles and movement headings in the display voice, the buy action at
+body size, banner off the culture pages, arrivals on text-led pages, and the
+catalogue's image-size regression fixed (tiles were pulling 1440px files).
+Do not re-litigate the display token: 28px sits above every reference's
+measured maximum and the numbers are in s68.
 
 **It cannot launch.** `npm run launch-check` reports 30 invented things, all
 invisible to visitors and flagged in the studio. Legal is untouched and gates
@@ -77,6 +84,9 @@ recorded future step and it waits for a fiscal position.
   global.css lost to `.block` on the element and the catalogue filter silently
   did nothing while the count beside it changed (s67). Anything a rule there
   hides must get its `display` from that rule, not from a utility class.
+- **`sizes` lies silently.** An image with sizes="100vw" in a quarter-width
+  tile downloads sixteen times the pixels and no tool flags it; the perf
+  harness against the RECORDED numbers is what catches it (s69).
 - **Prove every check can fail before trusting its pass.** The audit has lied
   four ways historically (s58, 63) and the harness added a fifth (s65).
 - **Stale edge caches** serve old HTML minutes after a deploy; audit the local
@@ -5624,3 +5634,78 @@ not the token — is what read as timid, and it is what this session changes.
 4. Interior pages join the EXISTING arrival system: first text surface marked
    `data-reveal`, same 900ms curve, same reduced-motion and no-JS guarantees,
    no new mechanism.
+
+---
+
+## 69. The deepening: scale deployed, the spell kept, the tiles lightened (2026-08-04)
+
+The design-deepening session. Structure untouched; judgement applied page by
+pixel, licensed by the section 68 study. Every change below is reversible and
+none invents content.
+
+### Deepenings
+
+- **Page titles into the display voice.** Catalogue, contact, NEW (both
+  states), the garment's own page, collections index and page, the 404, the
+  about fallback. All were 11px labels; the references title pages at 18-24px.
+  The catalogue's three movement headings joined them, because the movements
+  are the architecture the owner chose over menu sub-items, and architecture
+  at caption size is invisible.
+- **The transactional action** (`Acquire — €X`, `Place the order`) is
+  `type-label text-body`: body size in label dress, 15.2px on a phone against
+  the 11px it shared with the helper text beside it. Sellam and Ferdressed
+  set actions at 15-17px. Four sizes remain the whole set.
+- **The banner left process and about** (`shopChrome={false}`): logistics
+  before the first pixel of a world breaks it. It stays on every commerce
+  surface.
+- **Arrivals on the text-led pages**: process, contact, collections, the
+  catalogue enter on the photography's own 900ms curve via `arrive` on the
+  first TextSurface. No new mechanism; reduced-motion and no-JS guarantees
+  are the reveal's own. Media-led pages already had their ceremony: the
+  priority frame lands instantly, and that stays.
+
+### Corrections (found by looking, not by reading)
+
+- **First-paint chrome polarity** on text-led pages was read off the first
+  TILE's photograph, so the signature and MENU painted ink-on-ink over the
+  catalogue's black opening until the observer met a photograph. The chrome
+  now takes the page's own theme there.
+- **The tile perf regression.** Every frame declared `sizes="100vw"`; a 195px
+  tile pulled a 640px file (the smallest rung), and twelve hover frames rode
+  along on devices that can never hover. Catalogue on Slow 4G: 1812 KB and
+  8.7s LCP against the plan's recorded 521 KB / 1.86s. Fixed three ways:
+  tiles declare `(min-width:80rem) 25vw, 50vw`, rungs 360/480 exist, and the
+  hover frame sits behind `<source media="(hover: hover)">` with a
+  transparent-pixel fallback. The regression arrived with the catalogue
+  rebuild; the recorded baseline simply predated it.
+- **The audit caught my own hover-gate markup** (aria-hidden moved to the
+  <picture>, leaving the img an unflagged empty alt, 24 issues) — fixed in
+  the markup, never in the audit.
+
+### Looked at and deliberately left alone
+
+- **The display token.** 28px desktop / 19.5px phone sits at or above every
+  reference's measured maximum. The "loss of scale" was real but the answer
+  was deployment, not a bigger token.
+- **The menu and every caption at 11px.** Rick Owens runs an entire site at
+  11px; navigation is where severity lives.
+- **The footer, identical everywhere.** A colophon; consistency reads as
+  confidence, and Rick Owens' is identical everywhere too.
+- **The home page** (s64 stands) and **the wash**.
+- **The chrome over scrolled text**: mid-scroll the signature can cross its
+  own ink. Every fix (opaque bar, blend, hiding) was already rejected for
+  better reasons than the collision; recorded, accepted.
+- **The 9:16 stills in 3:4 tiles** (capo-07, capo-10) lose 25% of their
+  height in the INDEX only; the full frame lives on the piece's own page.
+
+### Verified
+
+Audit proven red on this exact build (planted a missing alt; and the hover
+gate's own 24 real issues were caught unprompted, which is the audit earning
+its keep), then 27 pages × both languages × 390 and 1440, zero issues.
+Slow 4G + 4x CPU, deployed origin, cold cache: home LCP 1956ms, catalogue
+median 1964ms over three runs (recorded 1860ms; the band overlaps and the
+first run beat it), about 868-940ms, piece 1604-1932ms, process 752ms,
+CLS 0.000 everywhere. Catalogue transfer 1039 KB against 521 KB recorded —
+the denser grid puts twice the frames near the fold; each frame is now
+cheaper than before the fix. Launch-check: 30, unchanged.

@@ -161,11 +161,12 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
         transparent pixel and fetches nothing else.
       */
       hover?.poster && (
-        <picture aria-hidden="true">
+        <picture>
           <source media="(hover: hover)" srcset={fullBleedSrcSet(hover.poster)} sizes={sizes} />
           <img
             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
             alt=""
+            aria-hidden="true"
             width={hover.dimensions?.width}
             height={hover.dimensions?.height}
             loading="lazy"
