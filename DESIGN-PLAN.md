@@ -6348,3 +6348,101 @@ in the Cloudflare dashboard ends it now.
   Label is for names, seasons, captions, buttons and the menu.
 - **The drop's name appears twice within one screen** in the home page's
   chapters block: on the photograph and again as the link under the statement.
+
+---
+
+## 77. Enter in darkness, buy in light (2026-08-10)
+
+**This is the site's structural argument. Do not undo it by accident.**
+
+### The rule
+
+There are two kinds of page, and which one you are writing decides its polarity.
+Nothing else does. Not taste, not the mood of one photograph, not a preference
+for white.
+
+**INK — THE WORLD.** home (until the wipe), about, process, new, a drop's own
+page. His photography here is atmospheric: dark garments, dim workshops, night
+concrete. On ink the pale passages glow and the dark ones fuse with the ground,
+so the page reads as one material. Rendered on paper — and it WAS rendered, both
+ways, before this was decided — the same frames become heavy blocks punched into
+a page and the pale passages dissolve into it.
+
+**PAPER — THE SHOP.** the catalogue, a Creature's page, the whole order flow,
+contact, the drops index. His product photography here is shot against PALE
+CONCRETE. On ink every tile is a bright rectangle in a black field, and a row
+that does not fill leaves a conspicuous void. On paper the concrete blends into
+the page, the garments read as objects, and an unfilled row reads as air.
+
+**THE WIPE IS THE BOUNDARY BETWEEN THEM.** That is now its whole job, and it is a
+much better job than it had. Before this the wipe happened mid-home-page and
+landed on the collections chapters: a beautiful gesture separating two halves of
+one page, arbitrarily. Now the home page is the only page that contains both
+worlds, so it inverts ONCE, and every link out of its paper half lands on a
+paper page. **Nigredo then Albedo stops being a mood on one screen and becomes
+the shape of the site.** The drop is called Tenebrae & Lux; the site is now
+built the same way.
+
+### What was actually wrong
+
+Only ONE page moved: the catalogue, ink to paper. That single change is the
+whole of it, because the incoherence was never a page — it was a JOIN:
+
+    catalogue (ink) -> tap a piece -> the piece (paper) -> Acquire -> order (paper)
+
+**The most-used path in the shop inverted on the first tap into a product, with
+no wipe and no reason**, and had done for weeks. The drops index (paper) into a
+drop's page (ink) inverted the other way. Nobody chose either; they accumulated,
+because the rule had never been written down. It is now written on the `theme`
+prop in Base.astro, which is where a future session actually decides a new
+page's polarity.
+
+### overlayChrome, and what it does not fix
+
+`overlay` is the polarity of the signature and MENU passing over a photograph.
+It was measured ONCE against a phone crop and used at every width. `object-fit:
+cover` crops differently at every aspect ratio, so at 1440x900 the chrome sits
+over a different part of the file — the same mistake `overlayCaption` was
+invented to fix at the BOTTOM of the frame in s58, one band higher up.
+
+`npm run measure-chrome` borrows that fix's method wholesale: simulate the
+containers the site actually has, measure the rectangle the mark occupies inside
+each, slide a window across it, keep the worst, let the better polarity win.
+
+**29 of 91 photographs disagreed with the phone-measured value.** So the field
+earns its place.
+
+**But 68 of 91 sit under 4.5:1 whichever side is chosen.** The bands genuinely
+hold both extremes — bright concrete beside a near-black garment, in the same
+band, in most of his frames. `overlayChrome` picks the better side; it cannot
+make a mark legible on a photograph that has no legible side. The honest options
+left are the owner's: different opening photographs, or accepting that the
+corner mark is atmosphere rather than signage. **Do not "fix" this by adding a
+scrim.** Standing rule 11 has survived everything else.
+
+### THE INCIDENT: a dotted path destroyed four fields
+
+`measure-chrome` wrote its values with `set: {"openingMedia.overlayChrome": v}`.
+For an ARRAY item addressed by key — `media[_key=="abc"].overlayChrome` — this
+works exactly as documented. **For a plain nested object it REPLACED the whole
+object with the string.** `siteSettings.openingMedia`, `aboutOpeningMedia`,
+`designerPortrait` and `collection-01.cover` each became `"paper"` or `"ink"`:
+poster, alt text, caption placement, all gone. The site then built from
+placeholders, and the home page rendered `{OPENING_PHOTOGRAPH}`.
+
+Recovered in full from Sanity's document history
+(`/data/history/{dataset}/documents/{id}?time=`), which is the only reason this
+cost minutes rather than the owner's content.
+
+**Three things to carry forward:**
+
+1. **Never address a plain nested object by a dotted path in a mutation.** Read
+   the object whole, add the property, write it back whole. It cannot lose a
+   sibling even if the API disagrees with you. `measure-chrome` now does this.
+2. **A build that says "Complete!" is not a build that worked.** The first
+   symptom was `[sanity] query failed, using placeholders` scrolling past above
+   a green exit code. Grep the OUTPUT for content you expect, not the exit code.
+3. **GROQ takes `//` comments only.** A `/* */` block inside a projection is a
+   parse error, the query fails, and every page builds from placeholders. That
+   is how this was found — and it is a second way to ship a placeholder site
+   with a green build.
