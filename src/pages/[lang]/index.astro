@@ -40,6 +40,7 @@ import MediaSurface from "../../components/MediaSurface.astro";
 import Statement from "../../components/Statement.astro";
 import WornBand from "../../components/WornBand.astro";
 import BoundaryWash from "../../components/BoundaryWash.astro";
+import InstagramMark from "../../components/InstagramMark.astro";
 import Signature from "../../components/Signature.astro";
 import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
@@ -299,26 +300,57 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
               href={instagramUrl}
               rel="me noopener"
               target="_blank"
-              class="type-display text-display self-start hover:underline underline-offset-8"
+              class="type-display text-display self-start hover:underline underline-offset-8 flex items-center gap-u2"
             >
+              <InstagramMark />
               {instagramHandle}
             </a>
           )}
         </TextSurface>
 
+        {/*
+          EACH SQUARE GOES TO ITS OWN POST, and says that it leaves the site.
+
+          `rel="me"` belongs to the PROFILE link above and to nothing else: it
+          is a claim that the destination is this brand's own identity, which is
+          true of the profile and false of a post. The squares carry
+          `noopener` alone.
+
+          A frame with neither a post nor a profile is rendered UNLINKED rather
+          than pointed at "#": a link that goes nowhere is worse than a
+          photograph, and the studio allows both fields to be empty.
+        */}
         <ul class="square-strip" role="region" aria-labelledby="ig-heading" tabindex="0">
-          {instagramFrames.map((frame) => (
-            <li>
-              <a
-                href={frame.postUrl ?? instagramUrl ?? "#"}
-                rel="me noopener"
-                target="_blank"
-                class="block"
-              >
-                <MediaSurface media={frame.media} locale={locale} height="square" />
-              </a>
-            </li>
-          ))}
+          {instagramFrames.map((frame) => {
+            const href = frame.postUrl?.trim() || instagramUrl;
+            const square = (
+              <MediaSurface media={frame.media} locale={locale} height="square">
+                {/*
+                  In the caption slot, so the glyph takes the frame's own
+                  measured caption polarity and its clear space from the
+                  caption inset. It is decorative here: the link is named.
+                */}
+                <InstagramMark />
+              </MediaSurface>
+            );
+            return (
+              <li>
+                {href ? (
+                  <a
+                    href={href}
+                    rel="noopener"
+                    target="_blank"
+                    aria-label={t(locale, "instagramOpen")}
+                    class="block"
+                  >
+                    {square}
+                  </a>
+                ) : (
+                  square
+                )}
+              </li>
+            );
+          })}
         </ul>
       </section>
     )

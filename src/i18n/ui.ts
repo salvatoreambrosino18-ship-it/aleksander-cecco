@@ -56,6 +56,13 @@ const ui = {
     about: "Chi siamo",
     contact: "Contatti",
     instagram: "Instagram",
+    /*
+      The name of a square's destination, not a description of its photograph:
+      the alt text already says what is in the frame, and this says where the
+      tap goes. Every other tile on the site leads to a piece, so a square that
+      leaves the site has to say so (2026-08-10).
+    */
+    instagramOpen: "Apri su Instagram",
     newsletter: "Le prossime uscite",
     newsletterLine: "Pochi pezzi, poche volte l'anno. Scriviamo quando un drop è pronto.",
     newsletterAction: "Iscriviti",
@@ -187,6 +194,7 @@ const ui = {
     about: "About",
     contact: "Contact",
     instagram: "Instagram",
+    instagramOpen: "Open on Instagram",
     email: "Email",
     newsletter: "The next drops",
     newsletterLine: "A few pieces, a few times a year. We write when a drop is ready.",

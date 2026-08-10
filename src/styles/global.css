@@ -461,6 +461,21 @@
   }
 
   /*
+    THE GLYPH (2026-08-10). Sized here and nowhere else, so "do not alter the
+    proportions" is enforced by the stylesheet rather than by remembering.
+    aspect-ratio holds it square against any flex or grid parent that would
+    otherwise stretch it; flex-shrink is off for the same reason. Colour is
+    inherited, which is what puts it in the frame's own measured polarity.
+  */
+  .ig-mark {
+    display: block;
+    width: var(--ig-mark);
+    height: var(--ig-mark);
+    aspect-ratio: 1;
+    flex: 0 0 auto;
+  }
+
+  /*
     THE TILE FLICK (section 72): browse a piece's frames from the catalogue,
     his request. Only where hover does not exist — a hover device keeps the
     hover swap it already has, and its extra frames are display:none, which

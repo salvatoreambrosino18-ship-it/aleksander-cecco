@@ -32,12 +32,26 @@ export const homeTile = defineType({
         'Facoltativo. Se collegato, il riquadro porta alla pagina del capo. / Optional. When linked, the tile leads to that garment.',
     }),
   ],
+  /*
+    The subtitle carries the FILENAME (2026-08-10). The band is discussed by
+    filename — that is what a contact sheet lists and what the asset library
+    shows — so a preview that only says "linked" cannot be matched to the frame
+    being talked about. An unlinked tile says so in words, because it is the one
+    fault a tile can have: the band exists to lead into the work, and a tile
+    with no piece behind it leads nowhere.
+  */
   preview: {
-    select: {media: 'media.poster', alt: 'media.alt.it', garment: 'garment.name'},
-    prepare({media, alt, garment}) {
+    select: {
+      media: 'media.poster',
+      alt: 'media.alt.it',
+      garment: 'garment.name',
+      file: 'media.poster.asset.originalFilename',
+    },
+    prepare({media, alt, garment, file}) {
+      const link = garment || 'SENZA CAPO / NO PIECE LINKED'
       return {
         title: garment || alt || '(riquadro / tile)',
-        subtitle: garment ? 'collegato / linked' : 'senza collegamento / no link',
+        subtitle: [file, link].filter(Boolean).join('  /  '),
         media,
       }
     },

@@ -132,6 +132,13 @@
   --sig-wash-w: 62vw;
   /* an Instagram square in the strip: most of a phone, a third of a desktop */
   --ig-s: min(72vw, 21rem);
+  /*
+    The Instagram glyph. OURS, not theirs: their guidelines govern the drawing,
+    not how big this site sets it. The floor is the point — a glyph scaled down
+    into a smudge is a worse breach of "do not alter it" than one set slightly
+    large, so this cannot go below 20px however small its container becomes.
+  */
+  --ig-mark: max(20px, 1.375rem);
   /* the mark's own proportion, 2712/615 from its viewBox, not a guess */
   --sig-corner-w: calc(var(--sig-corner-h) * 4.41);
 

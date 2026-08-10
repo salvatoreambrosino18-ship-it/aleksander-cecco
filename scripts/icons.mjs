@@ -123,60 +123,59 @@ function ihdr(png) {
   correct side of its ground, so a 512 that came out ink-on-paper is caught
   before it is written rather than after it is installed.
 */
-function measure(png, size, {mark, ground}) {
+async function measure(png, size, {mark, ground}) {
   const lum = (c) => 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
   const markIsLighter = lum(mark) > lum(ground);
   const mid = (lum(mark) + lum(ground)) / 2;
-  return sharp(png)
-    .raw()
-    .toBuffer({resolveWithObject: true})
-    .then(({data, info}) => {
-      let marked = 0;
-      let x0 = size, y0 = size, x1 = -1, y1 = -1;
-      for (let y = 0; y < info.height; y++) {
-        for (let x = 0; x < info.width; x++) {
-          const i = (y * info.width + x) * info.channels;
-          const l = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
-          const isMark = markIsLighter ? l > mid : l < mid;
-          if (!isMark) continue;
-          marked++;
-          if (x < x0) x0 = x;
-          if (x > x1) x1 = x;
-          if (y < y0) y0 = y;
-          if (y > y1) y1 = y;
-        }
-      }
-      return {coverage: marked / (size * size), box: {x0, y0, x1, y1}};
-    });
+  const {data, info} = await sharp(png).raw().toBuffer({resolveWithObject: true});
+
+  let marked = 0;
+  let x0 = size, y0 = size, x1 = -1, y1 = -1;
+  for (let y = 0; y < info.height; y++) {
+    for (let x = 0; x < info.width; x++) {
+      const i = (y * info.width + x) * info.channels;
+      const l = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+      const isMark = markIsLighter ? l > mid : l < mid;
+      if (!isMark) continue;
+      marked++;
+      if (x < x0) x0 = x;
+      if (x > x1) x1 = x;
+      if (y < y0) y0 = y;
+      if (y > y1) y1 = y;
+    }
+  }
+  return {coverage: marked / (size * size), box: {x0, y0, x1, y1}};
 }
 
-function proof(target, png) {
+async function proof(target, png) {
   const {size} = target;
   const {width, height} = ihdr(png);
   if (width !== size || height !== size) {
     throw new Error(`${target.file}: IHDR says ${width}x${height}, wanted ${size}x${size}`);
   }
-  return measure(png, size, target).then(({coverage, box}) => {
-    // The extracted monogram covers ~13% of its square. The bounds are wide:
-    // this is a blank-and-inverted check, not a taste check, and a redrawn
-    // candidate with a lighter hand should not have to move them.
-    if (coverage < 0.02) {
-      throw new Error(`${target.file}: only ${(coverage * 100).toFixed(2)}% marked — the square is effectively blank`);
-    }
-    if (coverage > 0.6) {
-      throw new Error(`${target.file}: ${(coverage * 100).toFixed(1)}% marked — the ground and the mark are the wrong way round`);
-    }
-    // The mark should reach most of its square. A corner stamp — section 74's
-    // actual bug — leaves a box far smaller than the icon.
-    const spanX = (box.x1 - box.x0 + 1) / size;
-    const spanY = (box.y1 - box.y0 + 1) / size;
-    if (spanX < 0.5 || spanY < 0.5) {
-      throw new Error(
-        `${target.file}: the mark spans only ${(spanX * 100) | 0}%x${(spanY * 100) | 0}% of the icon — this is the corner-stamp failure`,
-      );
-    }
-    return {coverage, spanX, spanY};
-  });
+
+  const {coverage, box} = await measure(png, size, target);
+
+  // The extracted monogram covers ~6% of its square. The bounds are wide: this
+  // is a blank-and-inverted check, not a taste check, and a redrawn candidate
+  // with a heavier hand should not have to move them.
+  if (coverage < 0.02) {
+    throw new Error(`${target.file}: only ${(coverage * 100).toFixed(2)}% marked — the square is effectively blank`);
+  }
+  if (coverage > 0.6) {
+    throw new Error(`${target.file}: ${(coverage * 100).toFixed(1)}% marked — the ground and the mark are the wrong way round`);
+  }
+
+  // The mark should reach most of its square. A corner stamp — section 74's
+  // actual bug — leaves a box far smaller than the icon.
+  const spanX = (box.x1 - box.x0 + 1) / size;
+  const spanY = (box.y1 - box.y0 + 1) / size;
+  if (spanX < 0.5 || spanY < 0.5) {
+    throw new Error(
+      `${target.file}: the mark spans only ${(spanX * 100) | 0}%x${(spanY * 100) | 0}% of the icon — this is the corner-stamp failure`,
+    );
+  }
+  return {coverage, spanX, spanY};
 }
 
 async function sheet() {

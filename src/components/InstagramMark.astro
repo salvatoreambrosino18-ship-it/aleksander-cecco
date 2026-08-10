@@ -1,0 +1,55 @@
+---
+/*
+  THE INSTAGRAM GLYPH, drawn to their rules and to ours (2026-08-10).
+
+  WHY IT EXISTS. Every other tile on this site leads to a piece. The four
+  squares in the strip lead OFF the site, to a post, and nothing said so: a
+  reader tapping one had no way to know the site was about to hand them to
+  another app. The square shape alone is the recognition signal for what the
+  strip IS (section 71); the glyph is the signal for what a tap DOES.
+
+  THEIR RULES, and how each is met:
+
+  - The glyph is not redrawn, restretched, rotated, or given effects. It sits on
+    a locked square viewBox with `aspect-ratio: 1`, so no parent can squash it.
+  - A SOLID one-colour glyph is the sanctioned substitute where the full-colour
+    gradient cannot be used, and this site has exactly two colours (standing
+    rule 11: text over a photograph is solid paper or solid ink, never a scrim
+    and never a gray). It takes `currentColor`, which is the frame's own measured
+    caption polarity, so it obeys their rule and ours at once.
+  - It is never locked up with the site's own monogram, which would read as a
+    partnership. It appears on the squares and beside the handle, nowhere else.
+  - Clear space is held around it by padding rather than by hope.
+
+  OURS, and marked as ours: the rendered size and the amount of clear space.
+  `--ig-mark` has a floor in px, so the glyph cannot be scaled down into an
+  illegible smudge by a future container.
+
+  Decorative by default: on a square, the link already carries a label naming
+  Instagram, and a second announcement would be noise. `title` turns it into a
+  labelled image for the cases where it stands alone.
+*/
+interface Props {
+  /** An accessible name. Omitted, the glyph is decorative. */
+  title?: string | null;
+  class?: string;
+}
+
+const {title = null, class: className = ""} = Astro.props;
+---
+
+<svg
+  class:list={["ig-mark", className]}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  role={title ? "img" : "presentation"}
+  aria-hidden={title ? undefined : "true"}
+>
+  {title && <title>{title}</title>}
+  {/* the rounded square, the lens, and the dot: the three parts, unaltered */}
+  <rect x="2" y="2" width="20" height="20" rx="5.5" />
+  <circle cx="12" cy="12" r="4.75" />
+  <circle cx="17.6" cy="6.4" r="1.4" fill="currentColor" stroke="none" />
+</svg>

@@ -59,6 +59,29 @@ const isMarkedLine = (value: string | null) =>
 const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
 ---
 
+{/*
+  THE GAP ABOVE THE FOOTER IS PAINTED (2026-08-10), and this wrapper is the
+  whole reason it is.
+
+  `mt-u21` is a MARGIN, and a margin is transparent: it shows the BODY's
+  background, which resolves from `<html data-theme>` — the polarity the page
+  STARTED in. On every page that begins and ends in the same polarity this is
+  invisible, which is why it survived. The home page is the only one that
+  inverts: it starts ink, washes to paper, and ends with a light footer. So the
+  gap between the last light section and the light footer was 21 units of solid
+  INK — 175px on a phone, 252px on a desktop — a black band under the drop
+  statement that nothing in the source mentioned or intended.
+
+  The fix is to make the space belong to a surface that paints. `flow-root`
+  is not decoration: without it the child's top margin COLLAPSES straight
+  through this element and back out to the body, which is the same bug wearing
+  a wrapper.
+
+  The general rule this proves: on a page whose ground can disagree with a
+  section, that section owns its own spacing. A transparent margin is a hole
+  through to a polarity nobody chose.
+*/}
+<div data-theme={theme} class="bg-bg text-fg flow-root">
 <TextSurface theme={theme} class="hairline-h mt-u21 py-u13">
   <footer class="flex flex-col gap-u8">
     <h2 class="sr-only">{t(locale, "footerNav")}</h2>
@@ -106,3 +129,4 @@ const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
     <p class="type-label text-label">Aleksander Cecco</p>
   </footer>
 </TextSurface>
+</div>

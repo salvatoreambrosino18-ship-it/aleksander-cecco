@@ -61,13 +61,25 @@ export const siteSettings = defineType({
       description:
         "Due o tre righe brevi, non un paragrafo. Gli a capo contano: ogni riga va a capo sulla pagina. / Two or three short lines, not a paragraph. Line breaks are meaningful: each line is set on its own line.",
     }),
+    /*
+      THE ORDER OF THE BAND IS THIS LIST, and nothing else (2026-08-10).
+
+      It always was — a Sanity array is dragged into order — but nothing said
+      so, and a sequence whose control is invisible gets changed by asking a
+      developer. That is the failure being fixed here: the owner resequences his
+      own photographs by dragging, and the page follows on the next publish.
+
+      There is deliberately NO separate number field. Two places that both claim
+      to hold the order is how they end up disagreeing, and the drag order is
+      the one the reader actually sees.
+    */
     defineField({
       name: 'homeSequence',
       title: 'Addosso: i capi indossati / Worn: the pieces on people',
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
-        "La fascia orizzontale a meta' home. Fotografie di persone che indossano i capi: si scorre di lato, niente frecce e niente puntini. Da quattro a sei. Collegare ogni fotografia al suo capo, dove esiste. / The horizontal band halfway down the home page. Photographs of people wearing the pieces: it scrolls sideways, with no arrows and no dots. Four to six. Link each frame to its piece where one exists.",
+        "La fascia orizzontale a meta' home. Fotografie di persone che indossano i capi: si scorre di lato, niente frecce e niente puntini. Da quattro a sei. Collegare ogni fotografia al suo capo, dove esiste. L'ORDINE E' QUESTO ELENCO: trascina le fotografie per riordinarle, la prima in alto e' quella piu' a sinistra nella fascia. / The horizontal band halfway down the home page. Photographs of people wearing the pieces: it scrolls sideways, with no arrows and no dots. Four to six. Link each frame to its piece where one exists. THE ORDER IS THIS LIST: drag the photographs to reorder them; the first from the top is the leftmost frame in the band.",
       validation: (Rule) =>
         Rule.max(8).warning('More than eight is a long sideways scroll; four to six reads best.'),
     }),

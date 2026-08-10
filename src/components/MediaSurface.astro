@@ -102,6 +102,24 @@ const srcset = fullBleedSrcSet(media.poster);
 
 const below = media.captionPlacement === "below";
 const hasLabel = Boolean(caption) || Astro.slots.has("default");
+
+/*
+  IS THIS SURFACE THE PAGE'S FULL WIDTH? (2026-08-10)
+
+  A "below" caption sits on the page rather than on the picture, so it takes the
+  page margins — correct for a full-bleed frame, and wrong for a frame that is
+  not the page. Inside the worn band a frame is `--worn-w`, min(32vw, 26rem):
+  at 1440 that is a 416px item, and `frame` was giving its caption 175px of left
+  padding and 115px of right, leaving a garment's name 126px to wrap inside. The
+  Instagram squares are the same shape of container.
+
+  A contained frame takes the caption inset instead, which is the same edge
+  distance an "over" caption already uses on the same photograph. So the two
+  placements agree at the edge, and only the polarity differs — which is the
+  entire point of the choice.
+*/
+const contained =
+  height === "worn" || height === "square" || height === "tile" || desktopHeight === "tile";
 ---
 
 <figure
@@ -196,8 +214,9 @@ const hasLabel = Boolean(caption) || Astro.slots.has("default");
 
   {
     hasLabel && below && (
-      /* On the page, not on the picture: page polarity, inside the margins. */
-      <figcaption class="frame flex flex-col gap-u1 py-u3">
+      /* On the page, not on the picture: page polarity, inside the margins —
+         or inside the caption inset when the frame is not the page's width. */
+      <figcaption class:list={["flex flex-col gap-u1", contained ? "p-caption" : "frame py-u3"]}>
         <slot />
         {caption && <span class="type-label text-label">{caption}</span>}
       </figcaption>
