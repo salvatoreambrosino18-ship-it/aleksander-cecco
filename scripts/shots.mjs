@@ -38,6 +38,14 @@
   WHAT IT SERVES: `dist/`, the real build. Not the dev server, which resolves
   differently, and not a remote origin, which caches (section 74: Cloudflare's
   edge served a stale body minutes after deploy).
+
+  DO NOT BUILD WHILE THIS IS RUNNING. `npm run check` ends in `astro build`, and
+  a build CLEARS dist/ before rewriting it. Running one during a walk made real
+  pages 404 for a window; the harness photographed the site's own 404 page and
+  reported its caption as a fault on four Creature pages that were fine. Every
+  navigation and every reload now asserts what it landed on, so this is a loud
+  refusal rather than four phantom faults buried in a long log — but the simplest
+  answer is still to let the walk finish first.
 */
 import fs from "node:fs";
 import http from "node:http";
@@ -319,6 +327,28 @@ function bandsFromColumn(columns, height, viewportHeight, skip = []) {
 }
 
 /*
+  RELOAD, AND PROVE YOU LANDED (2026-08-11).
+
+  The initial navigation has always refused to capture when it lands off-path.
+  The two pixel checks below each reload the page afterwards to undo the styles
+  they inject — and those reloads had NO such guard. Across a 170-page run one
+  of them came back as the site's own 404 page, and the next check dutifully
+  measured the 404 page's caption and reported it as a fault on four Creature
+  pages that were perfectly fine.
+
+  A harness that silently measures the wrong page is the exact failure the
+  landed-URL check exists to prevent; it was simply only applied to the first
+  navigation. Every reload now asserts its status, so this becomes a refusal
+  with a message instead of four phantom faults in a long log.
+*/
+async function reloadOrRefuse(page) {
+  const res = await page.reload({waitUntil: "networkidle"});
+  if (res && !res.ok()) {
+    throw new Error(`reload of ${page.url()} returned ${res.status()} — refusing to measure the wrong page`);
+  }
+}
+
+/*
   TEXT ON A PHOTOGRAPH, measured in pixels (2026-08-10).
 
   The DOM check above deliberately skips these: an overlay caption has no
@@ -419,7 +449,7 @@ async function overlayContrast(page, sharp, tmpFile) {
       });
     }
   }
-  await page.reload({waitUntil: "networkidle"});
+  await reloadOrRefuse(page);
   return faults;
 }
 
@@ -455,7 +485,7 @@ async function thirdColour(page, sharp, tmpFile) {
       found.set(key, (found.get(key) ?? 0) + 1);
     }
   }
-  await page.reload({waitUntil: "networkidle"});
+  await reloadOrRefuse(page);
   if (!found.size) return [];
   const worst = [...found.entries()].sort((a, b) => b[1] - a[1])[0];
   const total = [...found.values()].reduce((a, b) => a + b, 0);

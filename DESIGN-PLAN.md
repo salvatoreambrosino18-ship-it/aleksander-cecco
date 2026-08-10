@@ -176,7 +176,14 @@ started.
   downloads sixteen times the pixels and nothing flags it.
 - **Prove every check can fail before trusting its pass.** The audit has lied
   five ways historically; the browser harness added a sixth by photographing
-  before the page had settled and inventing a defect that was not there.
+  before the page had settled and inventing a defect that was not there, and a
+  seventh by reloading into a 404 and measuring THAT page's caption.
+- **DO NOT BUILD WHILE THE HARNESS IS RUNNING** (s79). `npm run check` ends in
+  `astro build`, and a build CLEARS dist/ before rewriting it. A walk in flight
+  then serves 404s for real pages and photographs the site's own 404 page —
+  which is what produced four phantom faults on four Creature pages that were
+  fine. Every navigation AND every reload now asserts what it landed on, so it
+  is a loud refusal instead of noise in a long log.
 - **Local servers must be owned by the process that needs them.** One started
   with `&` dies with its shell call.
 
