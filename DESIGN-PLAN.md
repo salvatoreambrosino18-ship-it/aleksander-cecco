@@ -144,6 +144,70 @@ started.
 
 ### 5. Traps that have already bitten
 
+- **A PHOTOGRAPH CAN CHANGE UNDERNEATH A KEY THAT HAS NOT CHANGED, AND NO BUILD
+  CHECK CAN SEE IT** (s80). The most valuable failure this project has produced,
+  because every signal was green and only LOOKING caught it.
+
+  A file called `HOMEPAGE.JPG` appeared in a Drive folder behind a key that had
+  resolved to a 4284x5712 leather detail for a week. It was a **screenshot of
+  the owner's other shop** — two phone frames side by side, menu and cart
+  visible. The import resolved the key to it and made it the drop's cover.
+
+  **Nothing complained, and nothing could have.** It is a valid image at a valid
+  key. The alt text comes from the plan and did not change, so the page went on
+  claiming to show a leather detail. `npm run build` was green. `verify-build`
+  passed — there were plenty of photographs. The browser audit reported nothing,
+  because a screenshot of a website is a perfectly legible photograph with good
+  contrast. Types clean, launch-check clean. It was found by opening the
+  rendered page and seeing another website inside the chapter block.
+
+  **Why no check can catch this in general.** Every automated check here asks
+  whether the OUTPUT is well formed. This is a failure of REFERENCE: the output
+  is exactly what the plan asked for, and the plan asked for the wrong picture.
+  A machine would have to know what the photograph is supposed to depict, and
+  the only record of that is the alt text — which comes from the same plan and
+  is therefore wrong in the same way.
+
+  **What defends against it, and why neither is enough:**
+
+  1. **Pinning.** A frame that matters more than its filename is pinned to its
+     asset id (`SALVAGED`) rather than resolved through a folder. Total for the
+     frames it covers, useless for the rest, and pinning everything would throw
+     away the reason the import exists.
+  2. **The upload list.** Every non-dry import prints what it UPLOADED and asks
+     you to recognise each line. An upload is the exact moment a key starts
+     pointing somewhere new, because a photograph already in the dataset is
+     matched by sha1 and never uploaded twice. A good signal, and still only a
+     signal: it fires on legitimate additions too, it says nothing when a key is
+     re-pointed at a file already in the dataset, and it depends on being read.
+
+  **THE ONLY REAL DEFENCE IS A PERSON LOOKING AT THE RENDERED PAGE AFTER AN
+  IMPORT.** Not the diff, not the log, not the counts — the page. `npm run
+  shots` exists to make that cheap. Budget the five minutes; this cost a drop
+  cover, and it was live.
+
+- **A GATE THAT ASKS THE WRONG QUESTION LOOKS EXACTLY LIKE A GATE THAT WORKS**
+  (s80). For months `launch-check` asked, of every value, *is this ours rather
+  than his?* — and never asked *is this value there at all?*
+
+  Both questions had the same answer for as long as the seed data lasted,
+  because everything seeded had been given a plausible INVENTED value, and an
+  invented value is flagged. So the gate looked complete and was confirmed by
+  every case that existed.
+
+  Rubedo separated them. It returned to the catalogue with no price and no
+  measurements — nothing invented, nothing to flag — and shipped `{PRICE_EUR}`
+  and `{MEASUREMENTS}` onto a live page carrying a buy action, while the gate
+  reported everything accounted for. A visible placeholder is the precise
+  failure the invisible-and-flagged bargain exists to prevent.
+
+  **The general shape, worth more than the fix:** when two questions have the
+  same answer across every case you have, you cannot tell which one your check
+  is actually asking. The gap hides until the first case that separates them
+  arrives — and it arrives as a live page. Write down which question a check
+  asks, then go looking for the case where that differs from the question you
+  meant.
+
 - **A WHOLE SITE BUILT FROM PLACEHOLDERS IS INDISTINGUISHABLE FROM A CORRECT
   BUILD BY EVERY SIGNAL EXCEPT LOOKING AT THE CONTENT** (s78) — not the exit
   code, page count, asset list, file sizes, timings or the wall of green.
@@ -200,6 +264,12 @@ started.
 **Three tools have now died in temporary folders and each death cost a real
 defect.** If you are about to write a renderer or a capturer, add a flag to one
 of these instead. And `--prove` must go red before you believe a green.
+
+**AFTER EVERY IMPORT, LOOK AT THE PAGES.** Not the log, not the counts — the
+rendered pages. A screenshot of another website became the drop's cover with
+every check green, because a photograph can change underneath a key that has
+not changed and no build check can see it. `npm run shots -- --only=/it` is a
+minute. The full trap is in the list below.
 
 ### 7. How the pieces fit
 
