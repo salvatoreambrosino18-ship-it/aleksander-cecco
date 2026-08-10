@@ -110,6 +110,27 @@ started.
   are private commissions, bought only as they are.
 - **The gallery dissolution** (s65). Imagery lives on /process.
 - **The order framing** (s65). It is an order, not an enquiry.
+- **The splash screen, refused three times** (s79) — the third time with numbers.
+  The best version of it was: draw the signature on paper while the arrival
+  photograph decodes, so the ceremony occupies time already being spent. It was
+  measured against the live site rather than argued:
+
+      Slow 4G  400kbps   FCP 1284ms   photo ready 3512ms   window 2228ms
+      Fast 3G  1.6Mbps   FCP  540ms   photo ready 1749ms   window 1209ms
+      unthrottled        FCP  148ms   photo ready  213ms   window   65ms
+
+  The signature's own draw is ~2.9s. So the window is shorter than the ceremony
+  on every connection, and on a normal or repeat visit it is 65ms — anything
+  filling it is manufactured delay. **And the window is not empty:** screenshots
+  at 1400ms and 2200ms on Slow 4G show the photograph already painting, the
+  signature already writing over it, and the drop name, his line, the price and
+  the way in all present. A paper screen would cover working content, not fill a
+  gap. It would also invert the page before the wipe, spending the site's one
+  meaningful inversion at random.
+
+  **He already has the arrival he is describing, on a phone.** Where it fails is
+  the desktop crop, where the mark crosses pale concrete at 1.39:1. That is a
+  photograph problem, not a missing feature.
 - **The display token at 28px** (s68). It sits above every reference's measured
   maximum; the numbers are recorded. Do not re-litigate it.
 - **The catalogue's numbered breaking point** (s73): pieces > 24 or drops > 3 →
