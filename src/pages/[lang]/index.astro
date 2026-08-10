@@ -20,9 +20,10 @@
                  region on the site (see WornBand.astro).
     4. MAKING    the work behind the pieces, and the one route to asking for
                  one. Section 2 makes a claim; this is where it is shown.
-    [ THE WIPE ] the boundary wash. INK above it, paper below, footer included.
-                 Nigredo then Albedo: see the note at the wash itself.
-    5. COLLECTIONS as chapters, on paper.
+    [ THE WIPE ] the boundary wash. PAPER above it, ink below, footer included
+                 (section 80). The shop is entered from the top half; the world
+                 from the bottom. See the note at the Base call.
+    5. COLLECTIONS as chapters, on ink.
 
   HOW THE PULL IS BUILT, since that was the actual complaint. Only the arrival
   is a sealed screen, because an arrival should be. Everything after it is
@@ -125,14 +126,33 @@ const voice = voiceState(settings, locale);
 const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 ---
 
+{/*
+  PAPER ABOVE THE WIPE, INK BELOW (2026-08-11, section 80) — the owner's
+  arrangement, and it is the better one on the site's own measure.
+
+  s77's rule does not change: ink is the world, paper is the shop. What
+  changes is which half of THIS page comes first, and the reason is that the
+  top half is where the shop is entered — the arrival's "all Creature" and the
+  worn band's five tiles, every one landing on a paper page — while the bottom
+  half is the chapters block, whose only link goes into a drop, which is ink.
+  Measured on the page's own outbound links: 6 agree and 2 invert this way
+  round, against 2 and 6 the other.
+
+  THE COST, accepted by the owner and recorded so nobody rediscovers it as a
+  bug: the wipe now runs Albedo into Nigredo, light into darkness, which is
+  backwards from the order named in his own drop statement (s22). The wipe's
+  JOB is unchanged — it is still the one boundary between the world and the
+  shop — only the direction of travel inverts.
+*/}
+
 {/* chrome: the first screen is a photograph now, so the fixed signature and
     MENU take that photograph's overlay polarity on first paint. */}
 <Base
   locale={locale}
   image={shareImage ? imageUrl(shareImage.poster, 1200) : null}
   chrome={overlayTheme(opening?.overlayChrome ?? opening?.overlay)}
-  theme="dark"
-  footerTheme="light"
+  theme="light"
+  footerTheme="dark"
 >
   {/*
     1. ARRIVAL. The one sealed screen on the page, and the only priority image:
@@ -409,8 +429,8 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   </TextSurface>
 
   <BoundaryWash
-    from="dark"
-    to="light"
+    from="light"
+    to="dark"
     label={collections[0]?.name ?? null}
     sublabel={collections[0]?.season ?? null}
   />
@@ -422,7 +442,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     sequence is. Ours, flagged as homeLines.
   */}
   {collections.length > 0 && (
-    <TextSurface theme="light" class="flex flex-col gap-u1 pt-u13 pb-u5">
+    <TextSurface theme="dark" class="flex flex-col gap-u1 pt-u13 pb-u5">
       {/* The heading alone: "The current drop, in full." explained the page. */}
       <h2 class="type-label text-label">{t(locale, "collections")}</h2>
     </TextSurface>
@@ -462,7 +482,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           )}
 
           {line && (
-            <TextSurface theme="light" class="flex flex-col gap-u5 py-u13">
+            <TextSurface theme="dark" class="flex flex-col gap-u5 py-u13">
               <p class="type-display text-display max-w-prose">{line}</p>
               {/*
                 THE WAY IN, NOT THE NAME AGAIN (2026-08-10). This link repeated

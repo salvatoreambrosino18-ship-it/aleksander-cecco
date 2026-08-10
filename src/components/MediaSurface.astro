@@ -86,7 +86,22 @@ const revealThis = reveal ?? !priority;
 
 /* The tile grid is two across, four from the xl breakpoint (80rem). */
 const isTile = height === "tile" || desktopHeight === "tile";
-const sizes = sizesProp ?? (isTile ? "(min-width: 80rem) 25vw, 50vw" : "100vw");
+/*
+  AN INSTAGRAM SQUARE IS NOT FULL BLEED (2026-08-11). It fell through to
+  `100vw` and so declared itself fourteen hundred pixels wide while rendering at
+  most 416 — the section 69 trap exactly, a `sizes` that lies and no tool that
+  flags it. Its real width is --ig-s, min(72vw, 21rem), growing to the 26rem
+  ceiling once the row has room. Declared here so the browser can pick the
+  smallest source that is still sharp, which is also what decides whether a
+  1067px original is enough.
+*/
+const sizes =
+  sizesProp ??
+  (isTile
+    ? "(min-width: 80rem) 25vw, 50vw"
+    : height === "square"
+      ? "(min-width: 48rem) 26rem, 72vw"
+      : "100vw");
 
 /*
   THE CHROME BAND HAS ITS OWN MEASUREMENT (s77). `overlay` was measured against

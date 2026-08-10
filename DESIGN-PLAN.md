@@ -6684,3 +6684,100 @@ is a better fit to it, and it costs one private reading of the wipe.*
 `theme`/`footerTheme` on the home page, the wash's `from`/`to`, and the two
 chapter surfaces below the wipe. The tagline in the handoff becomes wrong and
 would need rewriting; the rule under it does not.
+
+---
+
+## 80. Rubedo returns, the polarity turns over, and a screenshot became the cover (2026-08-11)
+
+### Rubedo is a Creature again
+
+The owner is content having it in the catalogue even though he cannot remake it
+in that hide: it has a name, photographs and a place in the work. It returns as
+**`unique`** — the state built for a piece that EXISTS and CANNOT BE REPEATED.
+That puts it in the "1 of 1" movement, gives it the buy action, and never offers
+a remake (s67). It was `privateOrder` before, which means already somebody
+else's and carries no action at all; that is a different fact.
+
+It came back through the one flag the removal left behind
+(`RED_SHIRT_IS_A_CREATURE`), exactly as s50 promised. **All seven photographs
+returned.** The dry run reported five as missing and none of them was: the
+OBLIVION folder left the Drive on 2026-08-04 and its contents moved into ARCHIVE
+SOLD OUT, so the keys pointed at a dead folder. The tool said *"the file moved
+(fix the key)"* and it was right.
+
+The band's first frame is a photograph OF Rubedo, so with Rubedo back it finally
+links to the piece it shows. The band exists to lead into the work and its first
+tile is the one most likely to be tapped; it led nowhere for as long as Rubedo
+was out.
+
+### The polarity turned over — s77's rule survives intact
+
+The home page is now **paper above the wipe, ink below**. The owner accepts the
+Albedo → Nigredo order as a known cost.
+
+**The rule did not change.** Ink is the world, paper is the shop. What changed is
+which half of the home page comes first, and by the site's own measure — a link
+should not invert into its destination — this is the better arrangement:
+
+    the old way (ink above)      2 links agree, 6 invert
+    this way    (paper above)    6 agree, 2 invert
+
+The top half is where the shop is entered: the arrival's "all Creature" and the
+worn band's five tiles, every one landing on paper. The bottom half is the
+chapters block, whose only link goes into a drop, which is ink. **The reversal
+fits the rule better than the arrangement it replaces.**
+
+### A SCREENSHOT OF ANOTHER WEBSITE BECAME THE DROP'S COVER
+
+The worst thing in this session, and it arrived in complete silence.
+
+The cover's key was `homepage/HOMEPAGE`, which had resolved for a week to a
+4284x5712 detail of pale leather. A **2360x1640 file called HOMEPAGE.JPG** then
+appeared in that folder — **a screenshot of the owner's other shop**, two phone
+frames side by side, menu and cart visible — and the import resolved the key to
+it and made it the drop's cover.
+
+**Nothing complained, and nothing could have.** It is a valid image at a valid
+key. The alt text comes from the plan and did not change, so the page still
+claimed to show a leather detail. The build was green, `verify-build` passed
+(there were plenty of photographs), and the audit reported nothing, because a
+screenshot of a website is a perfectly legible photograph. It was found by
+looking at the rendered page.
+
+**The Drive is READ ONLY to us and it is not under our control.** A key is only
+as stable as the folder behind it, and the owner adds files to his own folders.
+Two things now stand against it:
+
+1. **The cover is pinned to its asset** (`salvage/monumentus-cover`), not
+   resolved by folder. A frame that matters more than its filename should be.
+2. **The import says what it UPLOADED**, every run, and asks you to recognise
+   each one. An upload is the exact moment a key starts pointing somewhere new:
+   a photograph already in the dataset is matched by sha1 and never uploaded
+   twice, so a new upload for an old key IS the event. Three lines of output
+   would have caught this instantly.
+
+The screenshot is still on his Drive at `homepage/HOMEPAGE.JPG` and its asset is
+still in the dataset, unused. **Ask him to take the file off the Drive**; do not
+delete his files.
+
+### The import silently wiped overlayChrome, and now cannot
+
+`createOrReplace` writes what the plan knows and drops what it does not.
+`overlayChrome` (s77) is measured by a different tool with a different model, so
+it is not in the import — and the first import after it existed erased all 91
+values without a word. The site fell back to `overlay`, the wrong band, and
+nothing anywhere would have said so.
+
+`npm run measure-chrome -- --write` is now **chained to the end of every
+non-dry import**. Same class as the stale-document sweep: this script owns the
+shape of these documents, so it owns everything the shape carries.
+
+### Two smaller things
+
+- **The Instagram squares declared `sizes="100vw"`** and so asked for a 1440px
+  source to render at most 416 — the s69 trap exactly, a `sizes` that lies with
+  nothing to flag it. They now declare `(min-width: 48rem) 26rem, 72vw`.
+- **The strip fills its row at any count** (`flex: 1 0`, a 26rem ceiling, and
+  `justify-content: safe center` — `safe` because a centred overflowing flex row
+  can strand its first item out of scroll reach; verified in Chromium and WebKit
+  at 390/768/1440).

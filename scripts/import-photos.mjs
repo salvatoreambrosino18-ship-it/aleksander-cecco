@@ -162,6 +162,22 @@ const SALVAGED = {
     asset: "image-f9d9191d6a909883f12505377288734e66b80742-1200x1600-jpg",
     overlay: "ink",
   },
+  /*
+    THE DROP'S COVER (2026-08-11, section 80). The key was `homepage/HOMEPAGE`
+    and it resolved for a week to a 4284x5712 detail of pale leather. Then a
+    2360x1640 file called HOMEPAGE.JPG appeared in that folder — a SCREENSHOT OF
+    THE OWNER'S OTHER SHOP, two phone frames side by side — and the import
+    silently made it the drop's cover. Nothing complained: it is a valid image
+    at a valid key, the alt text comes from this plan and did not change, and
+    the only visible symptom was a website inside the chapter block.
+
+    The Drive is READ ONLY to us and not under our control, so a key is only as
+    stable as the folder behind it. This frame is pinned to its asset instead.
+  */
+  "salvage/monumentus-cover": {
+    asset: "image-d84f6f53829025e5bbac9fc44196b4cdde1b2d2e-4284x5712-jpg",
+    overlay: "ink",
+  },
 };
 
 /*
@@ -630,7 +646,16 @@ const GARMENTS = [
   His filenames call it "oblv blood red lamb", so its name was never Rubedo:
   that was our inference from the alchemical stage (DESIGN-PLAN section 48).
 */
-const RED_SHIRT_IS_A_CREATURE = false;
+/*
+  FLIPPED 2026-08-11 (section 80). The owner is content having it in the
+  catalogue even though he cannot remake it in that hide: it has a name,
+  photographs and a place in the work. It returns as `unique` — the state built
+  for a piece that EXISTS and CANNOT BE REPEATED, which puts it in the "1 of 1"
+  movement, gives it the buy action, and never offers a remake (section 67).
+  It was `privateOrder` before, which means already somebody else's and carries
+  no action at all; that is a different fact and it is not this one.
+*/
+const RED_SHIRT_IS_A_CREATURE = true;
 
 const RED_SHIRT = {
   id: "piece-giacca-rossa",
@@ -643,15 +668,22 @@ const RED_SHIRT = {
     en: "Red and Black faded colour. 500 handmade scar-stitch. Oblivion hole on the back.",
     it: "Colore rosso e nero sfumato. 500 scar-stitch fatti a mano. Oblivion hole sulla schiena.",
   },
-  availability: "privateOrder",
+  availability: "unique",
+  /*
+    RE-KEYED 2026-08-11. All seven frames were reported missing when this came
+    back, and none of them was: the OBLIVION folder went from the Drive on
+    2026-08-04 and its contents moved into ARCHIVE SOLD OUT. The keys still
+    pointed at the dead folder. Nothing was lost and nothing needed salvaging —
+    the dry run said "the file moved (fix the key)" and it was right.
+  */
   files: [
-    ["oblivion/oblv blood red lamb.JPG", "Modella con camicia in pelle rossa e pantaloni neri lucidi, braccia incrociate, in laboratorio."],
-    ["oblivion/oblv blood red lamb (2)", "La stessa camicia rossa vista di spalle, tra i capi appesi del laboratorio."],
+    ["sold/oblv blood red lamb.JPG", "Modella con camicia in pelle rossa e pantaloni neri lucidi, braccia incrociate, in laboratorio."],
+    ["sold/oblv blood red lamb (2)", "La stessa camicia rossa vista di spalle, tra i capi appesi del laboratorio."],
     ["sold/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
-    ["oblivion/Oblv blood red lamb (1).HEIC", "La camicia rossa appesa sotto un crocifisso, vista frontale."],
+    ["sold/Oblv blood red lamb (1).HEIC", "La camicia rossa appesa sotto un crocifisso, vista frontale."],
     ["sold/Oblivion blood red lamb", "Il retro della camicia rossa, con l'apertura a mandorla fra le scapole."],
-    ["oblivion/oblv blood red lambskin ", "Dettaglio della camicia rossa: la manica lunga e l'orlo tagliato a punte."],
-    ["oblivion/oblv blood red lamb.HEIC", "La camicia rossa su un manichino, vista ravvicinata."],
+    ["sold/oblv blood red lambskin ", "Dettaglio della camicia rossa: la manica lunga e l'orlo tagliato a punte."],
+    ["sold/oblv blood red lamb.HEIC", "La camicia rossa su un manichino, vista ravvicinata."],
   ],
 };
 
@@ -744,15 +776,25 @@ const OPENING = [
   All portrait, because a band frame is a tall crop and a landscape source loses
   its subject in it.
 */
+/*
+  THE BAND, reordered by the owner 2026-08-11 (section 80).
+
+  The red shirt leads. It is a photograph OF Rubedo, so with Rubedo back in the
+  catalogue the band's first frame finally links to the piece it shows — the
+  band exists to lead into the work, and its first tile is the one most likely
+  to be tapped.
+
+  The tibia frame LEFT for the Instagram strip. It carried no garment, so it was
+  the one tile in the band that led nowhere.
+*/
 const WORN = [
-  ["salvage/capo-08-shadow", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul cemento.", "piece-completo-fascia-gonna"],
-  ["archive/IMG_0204", "Il top in pelliccia di capra e pelle indossato, in un bosco di rami spogli.", "piece-styrax"],
   ...(RED_SHIRT_IS_A_CREATURE
     ? [["sold/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio.", "piece-giacca-rossa"]]
     : []),
+  ["salvage/capo-08-shadow", "Modella in top a fascia e gonna di pelle nera, con ombre lunghe sul cemento.", "piece-completo-fascia-gonna"],
+  ["archive/IMG_0204", "Il top in pelliccia di capra e pelle indossato, in un bosco di rami spogli.", "piece-styrax"],
   ["sold/Monumentus Lux ", "Uomo a figura intera con pantaloni chiari molto ampi, in laboratorio.", "piece-chiari-lunghi"],
   ["archive/IMG_9592", "La giacca in pelle marrone indossata, vista da dietro, con il collo alto.", "piece-ghezard"],
-  ["tibia/Mnmnts Ten Tibia Cut", "Uomo con gilet in pelle nera e pantaloni corti in pelle, al sole sul cemento.", null],
 ];
 
 /*
@@ -795,11 +837,33 @@ const PROCESS = [
   WHICH four appear is our editorial and he should replace it with what he
   actually wants shown.
 */
+/*
+  THE STRIP, rebuilt by the owner 2026-08-11 (section 80).
+
+  Three frames left because they are all in the worn band now, and a square that
+  repeats the band two screens above it is not a selection, it is an echo. What
+  is left is what belongs to Instagram: the two frames that are only there, and
+  the two photographs he sent for it.
+
+  THE POST LINKS ARE IN THE PLAN NOW, not only in the studio. They were his to
+  paste and they were preserved by key across imports (section 71); with the
+  strip's contents changing under him, a key-matched value is a link that can
+  silently attach to the wrong photograph. A link travels with its frame here.
+  A frame with none is still legal and falls back to the profile.
+
+  THE THIRD PHOTOGRAPH HE SENT IS NOT HERE. Only a screenshot exists of the man
+  against the shutter, and a screenshot is about 1080px of already-compressed
+  phone display. Four frames that are his beat five where one is soft.
+*/
 const INSTAGRAM = [
-  ["archive/IMG_0204", "Il top in pelliccia di capra e pelle, indossato, in un bosco di rami spogli."],
-  ["sold/oblv blood red lamb (1).JPG", "Modella a figura intera con la camicia in pelle rossa, nel laboratorio."],
-  ["tibia/Mnmnts Lux tibia cut", "Uomo con pantaloni corti chiari in pelle, contro un muro bianco."],
-  ["archive/IMG_9592", "La giacca in pelle marrone indossata, vista da dietro, con il collo alto."],
+  ["tibia/Mnmnts Lux tibia cut", "Uomo con pantaloni corti chiari in pelle, contro un muro bianco.",
+   "https://www.instagram.com/p/DayM6DEkYU1/"],
+  ["tibia/Mnmnts Ten Tibia Cut", "Uomo con gilet in pelle nera e pantaloni corti in pelle, al sole sul cemento.",
+   "https://www.instagram.com/p/DZHvqqXgkHL/"],
+  ["instagram/ig-rock-sea.jpg", "Modella distesa su uno scoglio in giacca di pelle scura, il mare aperto intorno.",
+   "https://www.instagram.com/p/DbJBaqyAvNt/"],
+  ["instagram/ig-shutter-woman.jpg", "Modella con camicia in pelle nera dal collo alto, davanti a una serranda.",
+   "https://www.instagram.com/p/DRCjLyVgsrN/"],
 ];
 
 const MAKING = [
@@ -818,7 +882,8 @@ const MAKING = [
   cover is exactly where a material statement belongs.
 */
 const COLLECTION_COVER = [
-  "homepage/HOMEPAGE",
+  // Pinned, not resolved: see salvage/monumentus-cover above for why.
+  "salvage/monumentus-cover",
   "Dettaglio ravvicinato di una pelle chiara, con pieghe profonde e una cucitura che la attraversa.",
 ];
 
@@ -1080,6 +1145,8 @@ const FOLDERS = [
   ["styrax", "STYRAX TOP"],
   ["process", "SOLVET ET COAUGULA (PROCESS)"],
   ["homepage", "homepage"],
+  // The frames he chooses for the strip, added 2026-08-11 (section 80).
+  ["instagram", "INSTAGRAM"],
   // gone from the Drive 2026-08-04; kept so old keys resolve nowhere loudly
   ["monumentus", "MONUMENTUS LUX & TENEBRAE"],
   ["oblivion", "OBLIVION"],
@@ -1303,6 +1370,8 @@ async function usableFile(key) {
 /* ----------------------------------------------------------------- upload */
 
 const uploaded = new Map();
+// Files this run actually put into Sanity, as opposed to matched by sha1.
+const uploadedThisRun = new Set();
 
 async function uploadOnce(file) {
   if (uploaded.has(file)) return uploaded.get(file);
@@ -1316,6 +1385,7 @@ async function uploadOnce(file) {
   } else {
     const asset = await client.assets.upload("image", buffer, {filename: path.basename(file)});
     id = asset._id;
+    uploadedThisRun.add(file);
     console.log(`  uploaded ${path.basename(file)}  ${(buffer.length / 1024 / 1024).toFixed(1)}MB`);
   }
   uploaded.set(file, id);
@@ -1481,12 +1551,34 @@ async function main() {
 
   console.log("\nUploading:");
   const assets = new Map();
+  const freshKeys = [];
   for (const rel of unique) {
+    const before = uploadedThisRun.size;
     assets.set(
       rel,
       rescuedByKey.get(rel)?.asset ??
         (rel in SALVAGED ? SALVAGED[rel].asset : await uploadOnce(usable.get(rel))),
     );
+    if (uploadedThisRun.size > before) freshKeys.push(rel);
+  }
+
+  /*
+    WHAT WAS NEW THIS RUN, said out loud (2026-08-11, section 80).
+
+    A key that has resolved to the same photograph for a week can resolve to a
+    different one tomorrow, because the Drive belongs to the owner and he adds
+    files to it. When that happens the import uploads a new asset and swaps the
+    picture without a word — which is how a screenshot of another website became
+    the drop's cover.
+
+    An upload is the exact moment that happens. Two or three lines here is the
+    whole check: a human reading them knows which photographs he added, and any
+    line he does not recognise is a frame that just changed underneath the plan.
+  */
+  if (freshKeys.length) {
+    console.log("\nNEW to the dataset this run — recognise every one of these:");
+    for (const rel of freshKeys) console.log(`  uploaded      ${rel}`);
+    console.log("  A key you did not expect here means the Drive changed under the plan.");
   }
 
   const ov = (rel) =>
@@ -1652,11 +1744,13 @@ async function main() {
     makingMedia: MAKING.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `k${i}`, ovc(rel), safe(rel))),
     // Each frame wraps its media with a per-post link (section 71). The
     // owner's own postUrl values are preserved by key, never invented.
-    instagramFrames: INSTAGRAM.map(([rel, alt], i) => ({
+    instagramFrames: INSTAGRAM.map(([rel, alt, postUrl], i) => ({
       _type: "instagramFrame",
       _key: `igf${i}`,
       media: mediaObject(assets.get(rel), alt, ov(rel), `g${i}`, ovc(rel), safe(rel)),
-      postUrl: existingPostUrls.get(`igf${i}`) ?? null,
+      // The plan's link wins where it has one, because it travels with the
+      // photograph. Where it has none, whatever he pasted in the studio stands.
+      postUrl: postUrl ?? existingPostUrls.get(`igf${i}`) ?? null,
     })),
     processMedia: PROCESS.map(([rel, alt], i) => mediaObject(assets.get(rel), alt, ov(rel), `p${i}`, ovc(rel), safe(rel))),
 
@@ -1760,6 +1854,24 @@ async function main() {
     "assets": count(*[_type == "sanity.imageAsset"])
   }`);
   console.log("\nIn the dataset now:", JSON.stringify(counts));
+
+  /*
+    RE-MEASURE THE CHROME BAND, ALWAYS (2026-08-11, section 80).
+
+    createOrReplace writes what this plan knows and silently drops what it does
+    not. `overlayChrome` (section 77) is measured by a different tool with a
+    different model — every container the site has, not a phone's — so it is not
+    in this file, and the first import after it was added wiped all 91 values
+    without a word. The site fell back to `overlay`, which is the wrong band, and
+    nothing anywhere would have said so.
+
+    So it is chained here rather than left to memory. It is the same class of
+    hazard as the stale-document sweep above: this script owns the shape of
+    these documents, so it owns everything the shape carries.
+  */
+  console.log("\nRe-measuring the chrome band, which this file does not know about:");
+  const {execFileSync} = await import("node:child_process");
+  execFileSync("node", [path.join(ROOT, "scripts/measure-chrome.mjs"), "--write"], {stdio: "inherit"});
 }
 
 main().catch((error) => {
