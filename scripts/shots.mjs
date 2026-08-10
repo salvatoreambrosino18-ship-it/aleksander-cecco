@@ -57,6 +57,17 @@ const AUDIT = flag("audit") || flag("prove");
 const PROVE = flag("prove");
 const DARK = flag("dark");
 const ONLY = value("only")?.split(",").map((s) => s.trim()).filter(Boolean) ?? null;
+/*
+  --force=light|dark renders the site as if every PAGE SURFACE were that
+  polarity, for studying an assignment before committing to it (2026-08-10).
+
+  It overrides only the surfaces that carry a page polarity — <html>, the text
+  sections, the footer wrapper and the wash's two layers. It deliberately does
+  NOT touch figcaption, #site-chrome or .sig-arrival: those take a polarity
+  MEASURED against a photograph, and a picture does not become brighter because
+  the page around it did. Flipping them would make the study lie.
+*/
+const FORCE = value("force");
 
 /*
   The two widths the site is designed against (DESIGN-PLAN section 14): a phone
@@ -453,6 +464,20 @@ async function main() {
           const target = origin + route;
           await page.goto(target, {waitUntil: "networkidle"});
 
+          if (FORCE) {
+            const fg = FORCE === "dark" ? "#fafaf8" : "#0a0a0a";
+            const bg = FORCE === "dark" ? "#0a0a0a" : "#fafaf8";
+            const other = FORCE === "dark" ? "light" : "dark";
+            await page.addStyleTag({
+              content:
+                `html[data-theme="${other}"], section[data-theme="${other}"], div[data-theme="${other}"], .wash-layer[data-theme="${other}"] {` +
+                `--fg:${fg}!important;--bg:${bg}!important;` +
+                `--hairline:color-mix(in srgb, ${fg} 20%, transparent)!important;` +
+                `--focus:${fg}!important;color-scheme:${FORCE};}`,
+            });
+            await page.waitForTimeout(120);
+          }
+
           /*
             REFUSE IF WE LANDED SOMEWHERE UNINTENDED. A 404 photographs
             perfectly well and looks like a working page; so does a redirect.
@@ -534,7 +559,7 @@ async function main() {
             return;
           }
 
-          const dir = path.join(OUT, scheme === "dark" ? "dark" : "light", viewport.name);
+          const dir = path.join(OUT, FORCE ? `force-${FORCE}` : scheme === "dark" ? "dark" : "light", viewport.name);
           fs.mkdirSync(dir, {recursive: true});
           const name = (route === "/" ? "root" : route.slice(1).replace(/\//g, "_")) + ".png";
           const file = path.join(dir, name);
