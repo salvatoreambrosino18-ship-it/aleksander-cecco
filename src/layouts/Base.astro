@@ -171,9 +171,10 @@ const shareImage =
     <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
+    {/* Label, not mono: this is a control, and mono is data only (tokens.css). */}
     <a
       href="#content"
-      class="type-mono text-mono sr-only focus:not-sr-only focus:absolute focus:left-content focus:top-u1 focus:z-10 focus:bg-bg focus:p-u1 focus:text-fg"
+      class="type-label text-label sr-only focus:not-sr-only focus:absolute focus:left-content focus:top-u1 focus:z-10 focus:bg-bg focus:p-u1 focus:text-fg"
     >
       {t(locale, "skipToContent")}
     </a>

@@ -43,7 +43,7 @@ import BoundaryWash from "../../components/BoundaryWash.astro";
 import InstagramMark from "../../components/InstagramMark.astro";
 import Signature from "../../components/Signature.astro";
 import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
-import {describingLines, unspentLine} from "../../lib/statement";
+import {describingLines, openingLine, unspentLine} from "../../lib/statement";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
 import {voiceState} from "../../lib/voice";
@@ -109,7 +109,15 @@ const priceFrom = prices.length
 const worn = settings.homeSequence ?? [];
 const makingMedia = settings.makingMedia ?? [];
 const homeStatement = pick(settings.homeStatement, locale);
-const makingStatement = pick(settings.makingStatement, locale);
+/*
+  ONE LINE, because /process is the page this passage is FOR (2026-08-10).
+  `makingStatement` is three lines, and /process printed all three while this
+  block printed all three too — and it is also paragraph three of `about`
+  verbatim, so home → process → about served the same sentences three times.
+  Home makes the claim and points at the evidence; the evidence page keeps the
+  whole passage.
+*/
+const makingStatement = openingLine(pick(settings.makingStatement, locale));
 // Both blocks are the owner's own words now, so the only question left is
 // whether this language is one he approved. See lib/voice.ts.
 const voice = voiceState(settings, locale);
@@ -208,6 +216,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     token={"{HOME_STATEMENT}"}
     voice={voice}
     register="body"
+    class="pt-u13 pb-u5"
   >
     <a
       href={localePath(locale, "about")}
@@ -232,7 +241,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     token={"{MAKING_STATEMENT}"}
     voice={voice}
     register="body"
-    class="pt-u13 pb-u8"
+    class="pt-u13 pb-u5"
   >
     <p class="type-label text-label">{t(locale, "madeToMeasureValue")}</p>
     {/*
@@ -361,7 +370,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     )
   }
 
-  <TextSurface class="flex flex-col gap-u5 py-u13">
+  <TextSurface class="flex flex-col gap-u5 pt-u13 pb-u5">
     <h2 class="type-label text-label">{t(locale, "newsletter")}</h2>
     <p class="type-body text-body max-w-prose">{t(locale, "newsletterLine")}</p>
     <form method="POST" action="/api/enquiry" class="flex max-w-prose flex-col gap-u3">

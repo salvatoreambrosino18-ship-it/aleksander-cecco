@@ -3,6 +3,16 @@
   IT | EN. Always visible, both languages first class, nothing auto-detected.
   The switch preserves the current path, so a reader on a garment page lands on
   the same garment in the other language (DESIGN-PLAN section 5).
+
+  LABEL, NOT MONO (2026-08-10). This was the site's data voice, which the token
+  reserves for prices, measurements and counts and calls "never decorative"
+  (tokens.css). A language switch is a nav item, and the token assigns nav items
+  to the label register in the same sentence.
+
+  It was also visible: this sits at the foot of a menu whose every other item is
+  label, and whose whole argument is two groups separated by whitespace alone
+  (section 67). A second typeface at a third size made it a third group, and the
+  one thing separating the groups was supposed to be the space.
 */
 import {LOCALES, switchLocalePath, type Locale} from "../lib/locales";
 import {t} from "../i18n/ui";
@@ -15,7 +25,7 @@ const {locale} = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 
-<nav class="type-mono text-mono flex items-baseline gap-u1" aria-label={t(locale, "languageLabel")}>
+<nav class="type-label text-label flex items-baseline gap-u1" aria-label={t(locale, "languageLabel")}>
   {
     LOCALES.map((code, index) => (
       <>

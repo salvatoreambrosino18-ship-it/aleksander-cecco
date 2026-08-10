@@ -28,9 +28,21 @@ interface Props {
   decorative?: boolean;
   /** Prepare the paths for the one-time writing animation. */
   draw?: boolean;
+  /*
+    THE SAME WRITING, SCRUBBED (2026-08-10). Prepares the paths to be written by
+    a number rather than by a clock: each one gets the SHARE OF THE PROGRESS it
+    owns, --sig-from to --sig-to, and the stylesheet turns a 0..1 progress into
+    that path's dash offset. The pen therefore moves at the reader's own speed
+    and stops when they stop, which no timed animation can do.
+
+    Used on the boundary wash, whose edge is already a scroll-driven number.
+    Same pacing as `draw`, from the same measurement, so the two readings of the
+    mark are the same reading.
+  */
+  scrub?: boolean;
 }
 
-const {class: className = "", decorative = false, draw = false} = Astro.props;
+const {class: className = "", decorative = false, draw = false, scrub = false} = Astro.props;
 
 // The source file carries role="img", an aria-label and a <title>. When the
 // mark is decorative we strip that so it is not announced twice.
@@ -40,6 +52,43 @@ let svg = decorative
       .replace(/<title>[\s\S]*?<\/title>/, "")
       .replace("<svg", '<svg aria-hidden="true" focusable="false"')
   : rawSignature;
+
+/*
+  Both modes pace from the same measurement: each path's share of the total path
+  DATA, which tracks drawn length closely enough for pacing. Measured once here
+  so `draw` and `scrub` can never drift apart.
+*/
+const pathShares = (source: string) => {
+  const lengths = [...source.matchAll(/<path[^>]*\sd="([^"]*)"/g)].map((m) => m[1]!.length);
+  const total = lengths.reduce((a, b) => a + b, 0) || 1;
+  return {lengths, total};
+};
+
+if (scrub) {
+  const {lengths, total} = pathShares(svg);
+  /*
+    A LIFT BETWEEN PATHS, as in `draw`, expressed as a share of the travel
+    rather than as milliseconds: the pen leaves the paper briefly between the
+    strokes. The shares are cumulative and the last path's --sig-to is exactly
+    1, so at the end of the wash the mark is complete and completely filled —
+    which matters, because what is left on screen when the edge finishes is the
+    static mark and nothing else.
+  */
+  const LIFT = 0.04;
+  const span = 1 - LIFT * Math.max(lengths.length - 1, 0);
+  let cursor = 0;
+  let index = 0;
+  svg = svg.replace(/<path /g, () => {
+    const share = (span * (lengths[index] ?? 0)) / total;
+    const from = cursor;
+    // Rounding, then clamping the last one to exactly 1: a mark that stops at
+    // 0.998 never fills, and nobody would find that by reading the source.
+    const to = index === lengths.length - 1 ? 1 : from + share;
+    cursor = to + LIFT;
+    index += 1;
+    return `<path pathLength="1" style="--sig-from:${from.toFixed(4)};--sig-to:${to.toFixed(4)}" `;
+  });
+}
 
 if (draw) {
   /*
@@ -51,10 +100,7 @@ if (draw) {
   const TOTAL_MS = 2400;
   const START_MS = 400;
   const LIFT_MS = 140;
-  const lengths: number[] = [...svg.matchAll(/<path[^>]*\sd="([^"]*)"/g)].map(
-    (m) => m[1]!.length,
-  );
-  const total = lengths.reduce((a, b) => a + b, 0) || 1;
+  const {lengths, total} = pathShares(svg);
   let clock = START_MS;
   let index = 0;
   svg = svg.replace(/<path /g, () => {
@@ -67,4 +113,7 @@ if (draw) {
 }
 ---
 
-<span class:list={["signature", draw && "sig-draw", className]} set:html={svg} />
+<span
+  class:list={["signature", draw && "sig-draw", scrub && "sig-scrub", className]}
+  set:html={svg}
+/>

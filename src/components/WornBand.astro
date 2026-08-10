@@ -26,6 +26,7 @@
   one scrolls it into view.
 */
 import MediaSurface from "./MediaSurface.astro";
+import TextSurface from "./TextSurface.astro";
 import {isPlaceholderText, type HomeTile} from "../lib/content";
 import type {Locale} from "../lib/locales";
 import {localePath} from "../lib/locales";
@@ -48,13 +49,22 @@ const {tiles, locale, label, line = null} = Astro.props;
       {/*
         The heading sits inside the margins like any text, and the strip below
         it runs full bleed like any media. Media never takes a margin.
+
+        A TEXT SURFACE, not a bare frame (2026-08-10). This was the only text
+        block on the home page that was not one, which meant it was the only
+        movement heading the SPINE did not pass through — and the spine is how
+        this site says "this is text" (section 2). It also carried no space of
+        its own above it, so it began wherever the previous movement's padding
+        happened to end. Both are now the same as every other movement: u13
+        above the heading, and u3 below it because media sits closer to its
+        label than prose does.
       */}
-      <div class="frame flex flex-col gap-u1 pb-u3">
+      <TextSurface class="flex flex-col gap-u1 pt-u13 pb-u3">
         <h2 id="worn-heading" class="type-label text-label">
           {label}
         </h2>
         {line && <p class="type-body text-body max-w-prose">{line}</p>}
-      </div>
+      </TextSurface>
 
       <ul class="worn" role="region" aria-labelledby="worn-heading" tabindex="0">
         {tiles.map((tile) => (

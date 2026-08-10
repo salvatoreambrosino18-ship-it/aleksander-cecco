@@ -60,7 +60,19 @@ const {from, to, label, sublabel} = Astro.props;
       <Spine />
       <div class="wash-content" aria-hidden="true">
         <div class="w-sig-wash">
-          <Signature decorative />
+          {/*
+            THE MARK IS WRITTEN BY THE READER (2026-08-10). The outgoing layer
+            below carries the finished signature; this one, the polarity the
+            page is arriving in, writes itself as the edge travels. Same pen,
+            same pacing and same order of strokes as the arrival's drawing —
+            the difference is that the clock is the reader's own scroll, so it
+            slows when they slow and stops when they stop.
+
+            It belongs HERE and not somewhere new: the wash is already the
+            site's one large gesture, it already holds the mark, and it already
+            computes the number this needs. Nothing is added to the page.
+          */}
+          <Signature decorative scrub />
         </div>
         {label && <p class="type-label text-label">{label}</p>}
         {sublabel && <p class="type-mono text-mono">{sublabel}</p>}
@@ -92,18 +104,30 @@ const {from, to, label, sublabel} = Astro.props;
       for (const wash of washes) {
         const rect = wash.getBoundingClientRect();
         // Off screen entirely: leave it at whichever end it belongs.
+        /*
+          Two properties, one number. `--edge` is the percentage the clip-path
+          wants; `--edge-n` is the same progress as a bare 0..1, because the
+          signature's dash offsets are unitless and a percentage cannot be
+          divided back into one inside calc(). Written together, always, so the
+          edge and the pen can never disagree about where the reader is.
+        */
+        const set = (progress: number) => {
+          wash.style.setProperty("--edge", `${(progress * 100).toFixed(2)}%`);
+          wash.style.setProperty("--edge-n", progress.toFixed(4));
+        };
+
         if (rect.bottom < 0) {
-          wash.style.setProperty("--edge", "100%");
+          set(1);
           continue;
         }
         if (rect.top > window.innerHeight) {
-          wash.style.setProperty("--edge", "0%");
+          set(0);
           continue;
         }
         // How far through the pinned distance the reader has scrolled.
         const travel = rect.height - window.innerHeight;
         const progress = travel > 0 ? Math.min(Math.max(-rect.top / travel, 0), 1) : 0;
-        wash.style.setProperty("--edge", `${(progress * 100).toFixed(2)}%`);
+        set(progress);
       }
     };
 

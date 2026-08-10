@@ -10,6 +10,7 @@ import Base from "../../../layouts/Base.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import {getCollections, getGarments} from "../../../lib/content";
+import {announcementLine, describingLines} from "../../../lib/statement";
 import {LOCALES, localePath, pick, toLocale} from "../../../lib/locales";
 import {imageUrl} from "../../../lib/image";
 import {t} from "../../../i18n/ui";
@@ -46,15 +47,24 @@ for (const g of garments) {
 
   {/*
     A DROP IS AN EVENT, and its card reads like one (2026-08-04): the cover,
-    then his own statement in full, the piece count as a hard fact, and the way
-    in. One photograph with a name on it read as a broken page, not a quiet
-    one. The statement is HIS approved text, which is better than any intro we
-    could write, and this is also where his announcement sentence naturally
-    lives: the drop page announces the drop.
+    then his own words, the piece count as a hard fact, and the way in. One
+    photograph with a name on it read as a broken page, not a quiet one. The
+    words are HIS approved text, which is better than any intro we could write.
+
+    HIS ANNOUNCEMENT, AND ONLY THAT (2026-08-10). The line above already said
+    where the announcement sentence naturally lives — "the drop page announces
+    the drop" — but the card was printing the statement WHOLE, so all three of
+    his lines appeared here, on /new, and on the drop's own page, and two of
+    them appeared on the home page as well. A card in a list of drops wants the
+    sentence that declares the drop and nothing else; that is what makes it a
+    card rather than a second copy of the page it links to. The whole statement
+    stays where it is read rather than scanned.
   */}
   {
     collections.map((collection, index) => {
-      const statement = pick(collection.statement, locale);
+      const statement =
+        announcementLine(pick(collection.statement, locale)) ??
+        describingLines(pick(collection.statement, locale))[0];
       const count = countBySlug.get(collection.slug) ?? 0;
       const href = localePath(locale, `collections/${collection.slug}`);
       return (
@@ -62,6 +72,16 @@ for (const g of garments) {
           <MediaSurface media={collection.cover!} locale={locale} height="tall" priority={index === 0}>
             <a href={href} class="flex flex-col gap-u1">
               <h2 class="type-label text-label">{collection.name}</h2>
+              {/*
+                The season, which this card never carried (2026-08-10). Trading
+                his three statement lines for one announcement made the card
+                scannable and made the page thin, and a list of drops wants FACTS
+                to tell its entries apart rather than more prose: the name, when
+                it was, how many pieces. Two of those three were already here.
+                Home's chapter covers have set name-over-season since s21; this
+                is the same pair on the page whose whole job is comparing drops.
+              */}
+              {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
             </a>
           </MediaSurface>
           <TextSurface class="flex flex-col gap-u5 py-u13">

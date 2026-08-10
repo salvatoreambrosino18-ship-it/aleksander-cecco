@@ -143,18 +143,47 @@
   mechanism. No fill, no colour, no second weight, nothing that closes.
 */
 @utility hairline-under {
+  position: relative;
   border-bottom: var(--hairline-w) solid var(--fg);
   padding-bottom: var(--s-u1);
-  transition: border-bottom-width 120ms linear;
+}
+
+/*
+  THE UNDERLINE IS DRAWN, NOT SWITCHED (2026-08-10).
+
+  It used to answer a pointer by growing its border from one pixel to two over
+  120ms, which is a state change wearing a transition: nothing travels, the line
+  simply becomes a thicker line. This is the same acknowledgement said in the
+  brand's own hand — a second hairline PULLED across from the left, the way the
+  signature and the wash's mark are drawn rather than faded in.
+
+  It rides on top of the resting hairline rather than replacing it, so the
+  control's height never changes and nothing reflows under a pointer.
+
+  Under reduced motion the transition is dropped, not the line: the reader still
+  gets the full underline the moment they hover or focus, with no travel. The
+  feedback is not motion, it is feedback; only the way it arrives is motion.
+*/
+.hairline-under::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--hairline-w) * -1);
+  height: var(--hairline-w);
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-stroke) var(--ease-reveal);
+}
+.hairline-under:hover::after,
+.hairline-under:focus-visible::after {
+  transform: scaleX(1);
 }
 @media (prefers-reduced-motion: reduce) {
-  .hairline-under {
+  .hairline-under::after {
     transition: none;
   }
-}
-.hairline-under:hover,
-.hairline-under:focus-visible {
-  border-bottom-width: calc(var(--hairline-w) * 2);
 }
 
 /*
@@ -774,6 +803,51 @@
   .sig-draw {
     display: none !important;
   }
+}
+
+/*
+  THE WASH'S MARK, WRITTEN BY THE READER (2026-08-10).
+
+  The same pen as the arrival's drawing, driven by a number instead of a clock:
+  --edge-n is the wash's own scroll progress, 0 to 1, and each path knows the
+  share of that progress it owns (--sig-from to --sig-to, set in Signature).
+
+  The offset maths, once, because it is not obvious: with pathLength="1" and
+  dasharray 1, a dash offset of 1 is an unwritten path and 0 is a written one.
+  So a path is undrawn until the progress reaches its share, writes across it,
+  and is finished after. clamp() does the three cases in one expression and
+  needs no branch.
+
+  The fill arrives on the same schedule the trace does, which is what the
+  arrival's sig-settle does with a delay — here it simply follows the same
+  number, so the mark is exactly the static signature at progress 1. That
+  matters: what is left on screen when the edge lands is the finished mark.
+
+  The whole thing hangs off [data-wash-live], which the wash's own script sets
+  only when it runs AND reduced motion is off. So with no JavaScript, or with
+  reduced motion, these rules never apply and the signature is the plain filled
+  mark the file already draws. There is no state where the reader gets a blank
+  space where the signature should be.
+*/
+[data-wash-live] .sig-scrub path {
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: clamp(
+    0,
+    calc((var(--sig-to) - var(--edge-n, 0)) / (var(--sig-to) - var(--sig-from))),
+    1
+  );
+  fill-opacity: clamp(
+    0,
+    calc((var(--edge-n, 0) - var(--sig-from)) / (var(--sig-to) - var(--sig-from))),
+    1
+  );
+  stroke-opacity: clamp(
+    0,
+    calc((var(--sig-to) - var(--edge-n, 0)) / (var(--sig-to) - var(--sig-from))),
+    1
+  );
 }
 
 /*

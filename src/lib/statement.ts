@@ -59,6 +59,22 @@ export function announcementLine(statement: string | null): string | null {
 }
 
 /**
+ * The first line of a passage of his.
+ *
+ * The site's rule, set for the drop statement in s.new.astro and generalised
+ * here on 2026-08-10: a passage is printed WHOLE on the page it is FOR, and
+ * every other placement is an excerpt. `makingStatement` is three lines about
+ * how the work is done; /process is the page it is for, and the home page — which
+ * makes the claim and then sends the reader there — takes the first line only.
+ * Before this, both printed all three, and a reader who went home → process →
+ * about met the same sentence three times, because `makingStatement` is also
+ * paragraph three of `about` verbatim.
+ */
+export function openingLine(text: string | null): string | null {
+  return statementLines(text)[0] ?? null;
+}
+
+/**
  * One line of his, chosen so a single page never prints the same line twice.
  *
  * `spent` is the lines that page has already used. The arrival takes the first

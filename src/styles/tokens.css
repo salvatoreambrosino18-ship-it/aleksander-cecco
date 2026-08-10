@@ -155,6 +155,13 @@
   --reveal-shift: 24px;
   --wipe-pin: 100vh;
   --dur-reveal: 900ms;
+  /*
+    A stroke drawn by a pointer rather than by the page: the underline under an
+    action. Shorter than the reveal because it answers a gesture and has to keep
+    up with one, long enough to read as a line being PULLED rather than a border
+    being switched on. Same easing as everything else that moves here.
+  */
+  --dur-stroke: 420ms;
   --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-inversion: cubic-bezier(0.76, 0, 0.24, 1);
 
