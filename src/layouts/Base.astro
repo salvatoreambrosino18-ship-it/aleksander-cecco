@@ -304,6 +304,38 @@ const shareImage =
     </script>
 
     {/*
+      THE LOOPS (2026-08-11, section 83). Marked live only when JavaScript runs
+      AND reduced motion is off, exactly as the reveal and the wash are, so the
+      still is what a reader gets in every other case.
+
+      Each loop plays only while it is on screen. A page carrying several would
+      otherwise hold several decoders open on a phone, which is the cost that
+      makes video expensive rather than the file size.
+    */}
+    <script is:inline>
+      (() => {
+        const loops = document.querySelectorAll("video.video-loop");
+        if (!loops.length) return;
+        if (!("IntersectionObserver" in window)) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        document.documentElement.setAttribute("data-loops-live", "");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              const video = entry.target;
+              if (entry.isIntersecting) video.play().catch(() => {});
+              else video.pause();
+            }
+          },
+          {rootMargin: "10% 0px"},
+        );
+        loops.forEach((video) => observer.observe(video));
+      })();
+    </script>
+
+    {/*
       THE PHOTOGRAPHY REVEAL (DESIGN-PLAN section 24). A presence arriving: the
       frame rises a little and resolves, once, and is never touched again.
 

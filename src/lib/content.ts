@@ -32,6 +32,9 @@ const MEDIA_PROJECTION = /* groq */ `
   "captionPlacement": coalesce(captionPlacement, "over"),
   caption,
   "hasVideo": defined(video.asset),
+  // The file itself, so a loop can actually play (section 83). It was projected
+  // as a boolean for a year and nothing could ever render it.
+  "videoUrl": video.asset->url,
   "dimensions": poster.asset->metadata.dimensions
 `;
 

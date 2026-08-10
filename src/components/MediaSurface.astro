@@ -179,6 +179,44 @@ const contained =
       desktopHeight === "tile" && "md:h-auto md:aspect-[3/4]",
     ]}
   >
+    {/*
+      THE LOOP, WHEN ONE EXISTS (2026-08-11, section 83).
+
+      The schema has carried an optional muted loop since the beginning and the
+      query has projected `hasVideo` as a boolean the whole time — so nothing
+      could ever play it, and "video drops in without a rebuild" was not true.
+      It is now.
+
+      Every guarantee is on the POSTER, not on the video:
+
+      - the poster is the `poster` attribute AND the img below is what a reader
+        sees until a frame decodes, so a failed or blocked video is invisible;
+      - `preload="none"` because asset bandwidth is the one thing capable of
+        straining the free plan (standing rule 12). It fetches when it plays;
+      - it plays only while on screen and pauses when it leaves, so a page of
+        loops is never a page of decoders;
+      - REDUCED MOTION GETS THE STILL. Not a paused video, no element at all:
+        a loop is motion by definition and there is no reduced version of it.
+      - no controls, muted, playsinline, loop: it is a moving photograph, not a
+        player, and it must never take over an iPhone's screen.
+    */}
+    {
+      media.videoUrl && (
+        <video
+          class="video-loop absolute inset-0 h-full w-full object-cover"
+          src={media.videoUrl}
+          poster={src ?? undefined}
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-hidden="true"
+          tabindex="-1"
+          style={`object-position: ${objectPosition(media.poster)}`}
+        />
+      )
+    }
+
     {
       src && (
         <img

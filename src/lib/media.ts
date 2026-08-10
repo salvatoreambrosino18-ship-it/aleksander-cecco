@@ -39,6 +39,8 @@ export type MediaItem = {
   /** A stopgap frame: a crop of another photograph, awaiting a real one. */
   isProvisional: boolean | null;
   hasVideo: boolean;
+  /** The loop's own URL. Null until he shoots one; the poster carries the frame. */
+  videoUrl: string | null;
   dimensions: {width: number; height: number} | null;
 };
 

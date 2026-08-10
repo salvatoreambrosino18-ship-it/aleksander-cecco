@@ -395,6 +395,23 @@
     }
   }
 
+  /*
+    A loop sits over its own poster; nothing else on the page changes when one
+    exists. Hidden entirely under reduced motion, so the img beneath is what a
+    reader gets — a still, not a stopped video.
+  */
+  .video-loop {
+    display: none;
+  }
+  [data-loops-live] .video-loop {
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .video-loop {
+      display: none !important;
+    }
+  }
+
   .wash-content {
     display: flex;
     flex-direction: column;
