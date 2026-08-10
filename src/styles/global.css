@@ -776,14 +776,26 @@
   }
 }
 
-/* Where the drawn mark sits: over the arrival, centred in the frame's air,
-   letting every tap pass through. The polarity comes from the media's own
-   overlay choice, exactly as the caption's does. */
+/*
+  Where the drawn mark sits: over the arrival, CENTRED, letting every tap pass
+  through. The polarity comes from the media's own overlay choice, exactly as
+  the caption's does.
+
+  Centred on both axes as of 2026-08-10. It had said "centred" since it was
+  written and only ever centred vertically: `justify-content` was missing, so
+  the mark sat at flex-start. It also carried `frame`, which is the RUNNING TEXT
+  margin — asymmetric by design, --content-x on the left against --margin on the
+  right — so at 1440 the mark started 175px in and left 228px of air on its
+  right. A signature over a photograph is not running text: media takes no
+  margin (section 2), and the inset the mark does want is already inside
+  --sig-hero-w, which is 92vw on a phone precisely so 4vw is left either side.
+*/
 .sig-arrival {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
   pointer-events: none;
   color: var(--fg);
 }

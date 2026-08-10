@@ -1,12 +1,47 @@
 ---
 /*
-  Contact. Instagram and the email address as mono facts, on the spine.
+  CONTACT, rebuilt 2026-08-10 as the calmest page on the site.
+
+  WHAT WAS WRONG. Four facts, five typographic registers, and the hierarchy
+  upside down. It ran display for the word "Contatti", body for the intro,
+  label for three headings, mono for the two addresses, and two more mark
+  treatments on top. The two things a reader comes here to get — the handle and
+  the email — were the SMALLEST type on the page at 12px, sitting under 11px
+  labels that named what the strings already said, while the page's largest
+  voice was spent on a word repeated from the menu the reader just used.
+
+  THREE CHANGES, and each removes something rather than adding:
+
+  1. MONO IS GONE. The token says what it is for: DATA ONLY, prices,
+     measurements, counts (tokens.css). An email address is not a measurement.
+     It was mono because it looks technical, which is the opposite of a reason.
+     Both addresses are body register now — the register for things a person
+     reads — and they are the largest readable type on the page as a result.
+
+  2. THE DEFINITION LIST IS GONE, and with it the two labels above it. A line
+     reading "@aleksandercecco" does not need a heading that says Instagram,
+     and one reading "aleksandercecco@gmail.com" does not need a heading that
+     says Email; the strings are self-identifying, and the glyph beside the
+     handle names it for a screen reader. The footer settled this argument
+     already: it is an inscription, not headed cells (section 26), and this
+     page is the same four facts.
+
+  3. SEPARATION IS WHITESPACE, not a rule. The menu separates its two groups
+     by whitespace alone (section 67) and this page borrows that: one wide gap
+     between the two ways to reach the brand and the terms of buying from it.
+     No hairline, no second device. The spine is already drawing the only line
+     this surface gets.
+
+  What is left is display once, label once, body for everything else. Marks
+  stay exactly as they were: they are the honesty contract, not decoration, and
+  three facts here have three different standings.
 
   The address is the brand's own from 2026-08-03. The placeholder guard stays:
   anything at example.com is NEVER rendered as a working mailto link, because a
   live link to a fake address is worse than no link at all.
 */
 import Base from "../../layouts/Base.astro";
+import InstagramMark from "../../components/InstagramMark.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import {getSiteSettings, isPlaceholderEmail, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
@@ -55,43 +90,47 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
 ---
 
 <Base locale={locale} title={t(locale, "contact")}>
-  <TextSurface arrive class="flex min-h-svh flex-col gap-u8 pt-chrome pb-u21">
+  <TextSurface arrive class="flex min-h-svh flex-col gap-u5 pt-chrome pb-u21">
     <h1 class="type-display text-display">{t(locale, "contact")}</h1>
     <p class="type-body text-body max-w-prose">{t(locale, "contactIntro")}</p>
 
-    <dl class="flex flex-col gap-u3">
-      <div class="flex flex-col gap-u1">
-        <dt class="type-label text-label">{t(locale, "instagram")}</dt>
-        <dd class="type-mono text-mono">
-          {
-            instagramUrl ? (
-              <a href={instagramUrl} rel="me noopener" target="_blank" class="hover:underline underline-offset-4">
-                {instagramHandle}
-              </a>
-            ) : (
-              <span class="placeholder-mark">{"{INSTAGRAM_URL}"}</span>
-            )
-          }
-        </dd>
-      </div>
+    {/*
+      THE TWO WAYS IN. Body register, tight together, and nothing above them:
+      these are the page's subject, so they are the largest readable thing on
+      it. The glyph carries the word Instagram for a screen reader, which is
+      what the deleted <dt> was for; sighted readers had the handle's own @ and
+      never needed it.
+    */}
+    <div class="type-body text-body flex flex-col gap-u2 pt-u3">
+      {
+        instagramUrl ? (
+          <a
+            href={instagramUrl}
+            rel="me noopener"
+            target="_blank"
+            class="flex items-center gap-u2 self-start hover:underline underline-offset-8"
+          >
+            <InstagramMark title={t(locale, "instagram")} />
+            {instagramHandle}
+          </a>
+        ) : (
+          <span class="placeholder-mark self-start">{"{INSTAGRAM_URL}"}</span>
+        )
+      }
 
-      <div class="flex flex-col gap-u1">
-        <dt class="type-label text-label">{t(locale, "email")}</dt>
-        <dd class="type-mono text-mono">
-          {
-            emailIsPlaceholder ? (
-              <span class="placeholder-mark">{"{CONTACT_EMAIL}"}</span>
-            ) : (
-              <a href={`mailto:${email}`} class="hover:underline underline-offset-4">
-                {email}
-              </a>
-            )
-          }
-        </dd>
-      </div>
-    </dl>
+      {
+        emailIsPlaceholder ? (
+          <span class="placeholder-mark self-start">{"{CONTACT_EMAIL}"}</span>
+        ) : (
+          <a href={`mailto:${email}`} class="self-start hover:underline underline-offset-8">
+            {email}
+          </a>
+        )
+      }
+    </div>
 
-    <div class="flex flex-col gap-u2">
+    {/* The one wide gap: the ways in above it, the terms of buying below. */}
+    <div class="flex flex-col gap-u2 pt-u13">
       <h2 class="type-label text-label">{t(locale, "shippingReturns")}</h2>
 
       {/*

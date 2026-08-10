@@ -43,6 +43,7 @@ import BoundaryWash from "../../components/BoundaryWash.astro";
 import InstagramMark from "../../components/InstagramMark.astro";
 import Signature from "../../components/Signature.astro";
 import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
+import {describingLines, unspentLine} from "../../lib/statement";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
 import {voiceState} from "../../lib/voice";
@@ -86,12 +87,16 @@ const dropStatement = pick(drop?.statement ?? null, locale);
   statement and always has. The arrival now carries the drop's NAME as a label
   and his second line, which describes rather than announces.
 */
-const dropLine =
-  dropStatement
-    ?.split(/\n/)
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .filter((l) => !/^(we present|presentiamo)/i.test(l))[0] ?? null;
+const dropLine = describingLines(dropStatement)[0] ?? null;
+/*
+  WHAT THIS PAGE HAS ALREADY SAID IN HIS VOICE. The chapters block at the foot
+  of the page asks lib/statement for a line this list does not hold, so the
+  reader who scrolls the whole way is given a second sentence rather than the
+  first one again. For MONUMENTUS that resolves to the alchemical-entities
+  line, which is the right one to open a chapter with anyway: it says what the
+  garments ARE, where the arrival's line names the two stages they move between.
+*/
+const spentLines = dropLine ? [dropLine] : [];
 
 const prices = creature.map((c) => c.price).filter((p): p is number => typeof p === "number");
 const priceFrom = prices.length
@@ -165,7 +170,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
             wrapper takes the media's own overlay polarity, as the caption does.
           */}
           <div
-            class="sig-arrival frame"
+            class="sig-arrival"
             data-theme={overlayTheme(opening.overlay)}
             aria-hidden="true"
           >
@@ -399,7 +404,20 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 
   {
     collections.map((collection) => {
-      const statement = pick(collection.statement, locale);
+      /*
+        ONE LINE, NOT THE STATEMENT (2026-08-10). This block printed his drop
+        statement WHOLE — announcement included — four screens after the arrival
+        had deliberately stripped that same announcement and shown the line
+        underneath it. One page, two rules, and the reader met "Presentiamo
+        MONUMENTUS" on a screen that already has the drop's name on the
+        photograph above it.
+
+        His statement whole belongs to the two pages that are FOR it: /new and
+        the drop's own page. Here the chapter takes one line, in the same
+        register the arrival uses, and never a line this page has already spent.
+      */
+      const line = unspentLine(pick(collection.statement, locale), spentLines);
+      if (line) spentLines.push(line);
       const href = localePath(locale, `collections/${collection.slug}`);
       return (
         <>
@@ -417,9 +435,9 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
             </MediaSurface>
           )}
 
-          {statement && (
+          {line && (
             <TextSurface theme="light" class="flex flex-col gap-u5 py-u13">
-              <p class="type-display text-display max-w-prose">{statement}</p>
+              <p class="type-display text-display max-w-prose">{line}</p>
               <a href={href} class="type-label text-label self-start hover:underline underline-offset-8">
                 {collection.name}
               </a>
