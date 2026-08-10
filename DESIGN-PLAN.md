@@ -2,10 +2,19 @@
 
 ## HANDOFF — read this page, then the launch checklist under it
 
-Written 2026-08-10, when the code was finished. **Everything remaining belongs
-to the owner.** This page is meant to stand alone: nothing below assumes you
-were here before, and the numbered sections it points at are depth, not
-prerequisites.
+Written 2026-08-10 when the code was finished, and **rewritten 2026-08-11 after
+the owner made every page paper** — which the first version of this page went on
+contradicting for a day (section 84). **Everything remaining belongs to the
+owner.** This page is meant to stand alone: nothing below assumes you were here
+before, and the numbered sections it points at are depth, not prerequisites.
+
+**If you are looking for what is still undecided, it is THE OPEN LIST at the
+foot of this page, and it is the only place such a thing may live.** A proposal
+in a session report, a commit body or a chat message is a proposal this project
+will lose; four of them nearly were.
+
+**If a comment in the code and this page disagree, one of them is out of date
+and the answer is to LOOK AT THE SITE.** A wrong comment compiles.
 
 ### 1. What this is
 
@@ -36,42 +45,53 @@ The shape, which is settled:
 
 Two typefaces, **four type voices and no fifth**: label, body, display, and mono
 for DATA ONLY (prices, measurements, counts). Two colours, **ink `#0a0a0a` and
-paper `#fafaf8`**, and nothing else — no gray, no scrim, no accent.
+paper `#fafaf8`**, and nothing else — no gray, no scrim, no accent. Every page's
+ground is paper (section 2); ink is what text and marks are set in, and the
+polarity of anything sitting ON a photograph is measured per image.
 
-### 2. The one structural argument: ENTER IN DARKNESS, BUY IN LIGHT
+### 2. EVERY PAGE IS PAPER, and the boundary is written by the reader
 
-**This is the site's spine. Do not undo it by accident.**
+**The owner decided this (s82), having been told what it costs. It is the
+newest structural decision on the site and the one most likely to be undone by
+a session reading older pages of this file.**
 
-Polarity is structure, not taste. There are two kinds of page, and which one you
-are writing decides it:
+There is one ground: paper, `#fafaf8`, on every page, in both languages, at
+every width. No page passes a `theme`. The only inversion left anywhere is the
+menu panel, which inverts against the page it covers.
 
-- **INK — THE WORLD.** home (until the wipe), about, process, new, the drops
-  index, a drop's own page. His photography here is atmospheric: dark garments,
-  dim workshops, night concrete. On ink the pale passages glow and the dark ones
-  fuse with the ground, so the page reads as one material.
-- **PAPER — THE SHOP.** the catalogue, a Creature's page, the whole order flow,
-  contact. His product photography here is shot against PALE CONCRETE. On ink
-  every tile is a bright rectangle in a black field and an unfilled row leaves a
-  conspicuous void; on paper the concrete meets the page and the garments read
-  as objects.
+**The home page still has its structural moment, and it is now his hand.** The
+wash is one held screen at the same boundary as before, and crossing it means
+**writing the brand's name with your own scroll**: the signature is traced by
+the reader's own scroll progress, stroke by stroke, in the order a pen would
+take. The mark used to be decorative on top of a colour inversion; it is the
+whole event now. With JavaScript off or motion reduced it is simply the
+finished mark on a held screen, which still reads.
 
-**The boundary-wash is the border between them**, and that is its whole job. The
-home page is the only page containing both worlds, so it inverts ONCE — Nigredo
-then Albedo, the two stages his drop is named for. Every link out of its paper
-half lands on a paper page.
+**What was removed, so nobody rebuilds it by accident:** twenty-five
+`theme="dark"` declarations across six pages, the wash's two stacked layers,
+its clip-path, its polarity props, and `--ease-inversion`, the curve the
+inversion travelled on.
 
-Both readings were rendered and looked at before this was chosen; the rule is
-argued in full on the `theme` prop in `src/layouts/Base.astro`, which is where
-you will be standing when you decide a new page. **Never flip one page to taste
-— ask which of the two things it is.** Flipping in isolation is how the
-catalogue came to be ink while a Creature's page was paper, so the most-used
-path in the shop inverted on the first tap, for weeks, unnoticed.
+**What was paid, and it should be said plainly rather than explained away:** ink
+and paper are no longer two halves of an argument, and Tenebrae and Lux are now
+words in his statement rather than something the site performs. Sections 77 to
+80 contain the argument for the other arrangement — ENTER IN DARKNESS, BUY IN
+LIGHT — and it was a good one. It is closed. Read it as history, not as a rule.
+
+**What survived and is NOT the same thing: polarity over photography.** A
+caption, the fixed chrome and any mark on a frame take the measured polarity of
+the pixels they sit on (`overlay`, `overlayChrome`, `overlayCaption` per image).
+That is legibility, it is load-bearing, and it is untouched by any of the above.
+Do not tidy it away while removing page polarity.
 
 ### 3. The state: it cannot launch, and that is correct
 
 `npm run launch-check` reads the live dataset and **refuses** while anything
-invented is still in it. Today: **31 invented values**, plus 49 images whose alt
-text no human has approved.
+invented is still in it. On 2026-08-11: **34 invented values**, plus 56 images
+whose alt text no human has approved. **Run the command rather than trusting
+these two numbers** — they were 31 and 49 a day earlier, they move whenever he
+files photographs or we write a line on his behalf, and a number in a document
+is a number going stale.
 
 Everything invented is deliberately **invisible to a visitor** — braces and
 "unapproved draft" marks make a real brand look like a rehearsal — so the whole
@@ -93,8 +113,19 @@ Each of these was decided, usually against a rendered alternative, and several
 were decided by the OWNER. Reopening one costs a session and lands where it
 started.
 
-- **The polarity assignment** above (s77, amended s78). The drops index is INK
-  with the drop it lists; the catalogue is PAPER with the shop.
+- **One polarity** (s82, the OWNER's call, made against a rendered alternative
+  and against the whole of s77–s80). Every page is paper. The argument for two
+  is closed, not paused.
+- **Prose is COMPOSED with a photograph, never sequenced between it** (s82). The
+  four references were re-measured for running prose specifically and **a column
+  of words alone on flat ground appears in none of them.** Which passages may
+  hold a screen is decided by REGISTER, not by taste: `register="body"` must be
+  paired; `register="statement"` — a short held line at display size — may hold
+  a screen alone, which is why `/new` and a drop's page were left alone.
+- **The spine is a margin rule and does not travel** (s82). A hairline in the
+  middle of an empty screen is a divider between two dead zones. It is dropped
+  only where a composition already has a real edge: the seam of a paired
+  surface, at desktop, where that seam exists.
 - **The four-across catalogue grid** (s65), rendered against three and chosen.
   **Two across on a phone** is the owner's call (s67); a tile keeps the
   photograph's own 3:4, never a viewport height.
@@ -208,6 +239,29 @@ started.
   asks, then go looking for the case where that differs from the question you
   meant.
 
+- **A DECISION THAT LIVES ONLY IN A SESSION REPORT IS A DECISION THE PROJECT
+  WILL LOSE** (s84, and it is the reason THE OPEN LIST exists). Four open
+  proposals were carried in a chat message and nowhere else; a fresh session
+  reading this file could not find them, because they were never in it. The
+  same failure in slower motion is a COMMENT THAT OUTLIVES ITS DECISION: after
+  s82 removed page polarity, the handoff's own front page, the `theme` prop the
+  handoff points at, and three comments on the home page all went on arguing
+  ENTER IN DARKNESS, BUY IN LIGHT to whoever read them next. Every check was
+  green, because a wrong comment compiles. **When a decision changes, the same
+  commit must change every place that argues the old one** — and the place to
+  look is whatever the handoff tells a stranger to read.
+
+- **`Astro.slots.has("default")` ANSWERS A DIFFERENT QUESTION THAN THE ONE YOU
+  MEAN** (s84). It is true when children were PASSED, not when they render
+  anything. A Creature page passes `{index === 0 && (...)}` to every frame, so
+  every frame after the first rendered an empty `<figcaption>` — and in the
+  "below" placement that is `frame py-u3`, about 50–70px of blank paper opening
+  between two full-bleed photographs on the shop's most important page. Thirty
+  three of them in the English build alone. Valid markup, no content, no check
+  that could see it: it is section 80's shape again, a question whose answer
+  matched the one you wanted until the first case that separated them. Render
+  the slot and ask whether it produced anything.
+
 - **A WHOLE SITE BUILT FROM PLACEHOLDERS IS INDISTINGUISHABLE FROM A CORRECT
   BUILD BY EVERY SIGNAL EXCEPT LOOKING AT THE CONTENT** (s78) — not the exit
   code, page count, asset list, file sizes, timings or the wall of green.
@@ -290,9 +344,80 @@ OWNER's task; when it lands, `PUBLIC_SITE_URL`, `RESEND_FROM` and
   it.
 - His `about` field **repeats `homeStatement` and `makingStatement` verbatim**,
   so one sentence meets a reader on three pages. Ask him. Do not invent copy.
+  (Also item 2 on THE OPEN LIST, because it needs a decision and not only a
+  photograph or a price. Everything else in this section is material he owes.)
 - The **opening photograph** cannot carry legible white text: every overlay on
   the first screen measures under 2:1, and the corner mark is under 3:1 on most
   pages. This is photographic, not technical — **do not reach for a scrim.**
+
+### OPEN, AWAITING A DECISION — THE OPEN LIST
+
+*(Deliberately unnumbered: the numbered sections of this file run to 84 and
+"section 9" already means one of them. Refer to this as THE OPEN LIST.)*
+
+**Every question this project is holding open, in one place. Nothing that needs
+a decision may live anywhere else** — not in a session report, not in a chat
+message, not in a commit body. A proposal that is not written here does not
+exist, and four of them nearly did not: they were carried in a message and a
+fresh session could not find them (see the first trap in section 5).
+
+The rule for this list: **an item leaves it only by being decided**, and the
+decision is written INTO it, with where the argument lives. Nothing is deleted
+for going quiet.
+
+**The six carried over from before this session**
+
+1. **The footer's shipping line.** His "Free worldwide shipping over 500 euro"
+   is better than our "Shipped worldwide.", but `footerCopyIsDraft` marks BOTH
+   footer lines at once, so using his words there would label them our draft.
+   Needs either a per-line flag (small, mine) or his approval of the origin
+   line (free, his). Until then the weaker line ships.
+2. **`about` repeats `homeStatement` and `makingStatement` verbatim**, so one
+   sentence meets a reader on three pages. Home was cut to a single line and
+   /process keeps the whole passage (s81), which reduced it but did not settle
+   it. **His to settle; do not rewrite his words to remove a repetition.**
+3. **Reference codes: used, or abandoned?** Every Creature shows `{REF_CODE}`.
+   If the brand does not use them the token is REMOVED rather than filled, and
+   `referenceCode` comes out of the inscription.
+4. **Two weeks: working hours or elapsed?** One answer moves every price in
+   section 32 by a factor of two and a half. It blocks nothing on the site and
+   governs what a price means.
+5. **Four open identifications** (section 48): two vests carrying one name, two
+   pale trouser documents carrying two of his names, whether MONUMENTUS is the
+   collection or a product family, and whether the men's/women's folder split is
+   meant to reach the site after Uomo/Donna was removed on his own words.
+6. **Two marks left for his eye.** The signature's weight at hero scale
+   (section 9 — the mark is a filled path, so its strokes thicken as it grows,
+   and the cap in `--sig-hero-w` is a guess nobody has judged), and the home
+   sequence's order (section 14, deferred 2026-08-02 — the worn band is a studio
+   drag order and frame 5 still has no linked piece).
+
+**The four brought to this session (2026-08-11), and what became of them**
+
+7. **Detail points on the photography — REFUSED, and it was asked for.** A
+   Mammut-style interactive point on a garment, tapped for its construction.
+   The need is real and named repeatedly in this file: his photographs are
+   atmosphere, not evidence, and a buyer sending three body measurements for a
+   four-figure made-to-measure piece cannot see the cut. The FORM is what fails
+   here. Argued in full in section 84.
+8. **Photographs that expand as they enter — NOT BUILT, and he wants it.** The
+   one place it could mean something is a Creature's arrival, and that is
+   exactly the frame that must never animate: it is the LCP element (s24, s69).
+   Every other frame on that page is a continuation, and a continuation cannot
+   arrive. Argued in section 84. **This is the one refusal here that is against
+   the owner's stated wish, so it is his to overturn, not a future session's.**
+9. **The process page as a scroll-driven sequence — REFUSED as scroll-driving,
+   but it found a real fault and THAT IS OPEN.** The eight making frames are a
+   narrative (pattern, cut, dye, dry, build) and the page deals up to two
+   unrelated artistic frames BETWEEN each of them, so the sequence exists in the
+   data and is invisible on the page. Undoing the weave is reopening s65 and is
+   **the owner's decision**, costed in section 84.
+10. **Video — SPECIFIED, and the player already shipped.** Nothing is shot yet.
+    The three places it belongs, what each needs in length and framing, what it
+    must not be used for, and the one trap that will silently break the chrome,
+    are all in **section 83**. Zero `<video>` elements are in the build today, and
+    the moment he uploads a file into any media object, a loop plays there with
+    no code change and no rebuild of anything but the site.
 
 ---
 
@@ -7057,3 +7182,293 @@ What is lost, and should be said plainly rather than explained away: ink and
 paper are no longer two halves of an argument, and Tenebrae and Lux are now
 words in his statement rather than something the site performs. That was the
 price, he was told it, and he paid it.
+
+## 83. The loop that can play, and what to shoot (2026-08-11)
+
+### The claim that was not true
+
+The media object has carried an optional muted loop since the schema was
+written, and this plan has said since section 6 that **video drops in without a
+rebuild**. It could not. The query projected `"hasVideo": defined(video.asset)`
+— a BOOLEAN — so the file's URL never reached the page and nothing could ever
+render it. A year of a promise resting on a field that answered the wrong
+question, which is section 80's shape once more.
+
+The URL is projected now and `MediaSurface` renders the loop over its own
+poster. The boolean is gone rather than kept alongside: two ways to ask the same
+question is how the answers drift apart.
+
+### Every guarantee sits on the poster, not on the video
+
+- The poster is both the `poster` attribute AND the `<img>` beneath, so a
+  failed, blocked or still-loading video is invisible rather than a black box.
+- `preload="none"`. Asset bandwidth is the one thing capable of straining the
+  free plan (standing rule 12); a loop fetches when it plays and not before.
+- It plays only while on screen and pauses when it leaves. A page of loops must
+  never be a page of open decoders on a phone.
+- **Reduced motion gets the STILL, not a paused video.** The element is
+  `display: none` and the `<img>` beneath is what a reader sees. A loop is
+  motion by definition; there is no reduced version of one.
+- Muted, looped, `playsinline`, no controls, `aria-hidden`, out of the tab
+  order. It is a moving photograph, not a player, and it must never take over an
+  iPhone's screen.
+
+Zero `<video>` elements are in the build today. The moment a file is uploaded
+into any media object, that frame becomes a loop with no code change.
+
+### THE THREE PLACES IT BELONGS
+
+Ordered by how much the motion earns. Nothing else on the site should carry one.
+
+1. **THE ARRIVAL** (`openingMedia`, the home page's first screen).
+   **6–10 seconds, seamless, locked off.** What it must show is the MATERIAL
+   alive: leather turning under light, a garment breathing on a body, not a
+   camera move. First and last frame identical or the loop announces itself.
+   This is the one place a loop competes with the largest image on the site, so
+   it is also the one with the hardest ceiling: **under 2 MB.** The still stays
+   the LCP element and must remain a complete arrival on its own.
+2. **/process, THE MAKING** (`processMedia`). **4–8 seconds each, at most TWO on
+   the page.** This is where motion carries the most meaning on this site: the
+   needle pulled through, dye entering leather, the brush. Close framing, no
+   camera movement, one continuous action, no cuts. "Handmade" is a claim the
+   site currently asks a reader to take on faith; a hand working is the only
+   evidence for it that a still cannot give.
+3. **A CREATURE'S SECOND FRAME** — never the first, which is the LCP element.
+   **4–6 seconds, one per piece at most.** What it must show is DRAPE AND
+   WEIGHT: how the piece moves on a body. That is precisely the question a buyer
+   sending three body measurements cannot answer from a still, and it is the
+   same gap section 84 refuses to fill with interface.
+
+**Where video must NOT go, and each is a cost, not a taste:**
+
+- **The catalogue tiles.** Seventeen loops on one screen is the transfer that
+  produced a 1.8 MB catalogue and an 8.7s LCP on Slow 4G in section 69, with
+  decoders instead of images.
+- **The Instagram squares.** They are a recognition mark, not a feed, and a
+  moving one imitates the embed this site refused (section 62).
+- **The worn band.** A horizontal drag region playing video is the phone frame
+  budget spent on the one gesture that must stay smooth.
+- **The order flow.** A person entering body measurements needs no motion.
+
+### The encoding, exactly
+
+    MP4, h.264, yuv420p, no audio track at all (not merely muted)
+    <= 1920 on the long edge, CRF ~23, under 3 MB, 4-10 seconds
+    first frame IDENTICAL to the poster image
+
+No audio track is not fussiness: it is bytes nobody hears, and an absent track
+is one less thing an autoplay policy can object to.
+
+### THE TRAP NOBODY WILL SEE COMING
+
+**The overlay polarities are measured on the POSTER, and the loop is what a
+reader is looking at.** `overlay`, `overlayChrome` and `overlayCaption` decide
+whether the signature, the MENU and the caption are black or white over that
+frame, and `npm run measure-chrome` measures a still. If the loop drifts — a
+dark garment moving out of the top band, a light crossing pale concrete — the
+brand's own name can go invisible for four of the ten seconds, on a frame whose
+measured value is correct and whose audit is green.
+
+So: **the loop must keep the same luminance under the top band and the caption
+band as its poster does, for its whole length.** That is a shooting constraint,
+which is why it is written here rather than left to a check. There is no check
+that can catch it, for the same reason section 5's first trap has none.
+
+### The bandwidth, said plainly
+
+Sanity's free tier serves these assets. One 3 MB loop on the arrival, watched by
+a thousand visitors, is 3 GB. Three loops on a page a visitor scrolls all of is
+the same page weight as roughly thirty photographs. That is the whole reason for
+the ceilings above, and it is standing rule 12 in practice.
+
+## 84. Four proposals judged, and what the site was hiding (2026-08-11)
+
+### The failure that opened the session, and the fix that outlives it
+
+Four open proposals existed only in a chat message. A fresh session read the
+handoff, found no proposals in it, and was right — they had never been written
+down. **Section 9 exists so that cannot happen again**, and every decision
+below is recorded there rather than here.
+
+The same disease in slower motion: section 82 removed page polarity, and the
+handoff's front page, the `theme` prop the handoff points a new session at, and
+three comments on the home page all went on arguing ENTER IN DARKNESS, BUY IN
+LIGHT to whoever read them next. All rewritten. **A wrong comment compiles**,
+which is why nothing caught it.
+
+### 1. DETAIL POINTS ON THE PHOTOGRAPHY — refused, and the need is real
+
+The proposal: Mammut's interactive construction points, tapped on a product
+photograph. The need it answers is named repeatedly in this file and is the
+single most valuable observation in the request — **his photographs are
+atmosphere, and a buyer cannot see the cut.** The evidence exists in his own
+words: five hundred handmade scar-stitches, Oblivion's hole in the back, the
+semicircular raw cut, the choker's waxed lacing.
+
+**Four reasons the FORM fails on this site.**
+
+1. **It is interface on his photography, which is the one thing this site has
+   never allowed.** Three things may sit on a frame — a caption, the fixed
+   chrome, and the Instagram glyph — and each takes a polarity MEASURED for that
+   frame. A point cannot: it must be legible against pixels nobody measured, at
+   a coordinate nobody measured. The worn band's brief says it in four words:
+   **no arrows and no dots.**
+2. **The constraints collapse it into something else.** No JavaScript and no
+   hover leaves a checkbox toggling a panel through `:has()`, with 44px tap
+   targets scattered across a garment. That is not a detail point; it is a
+   widget wearing one, and it is exactly the decoration the request forbids.
+3. **It bills the owner for the launch he is already blocking.** Each point is a
+   coordinate pair and a sentence, in two languages, per frame, across seventeen
+   Creature — from the person who has not yet supplied prices, compositions or
+   measurements. If we write them instead, they are invented copy, they must be
+   flagged, and `launch-check` refuses while any flag is set. It would make the
+   gate HARDER to pass in exchange for evidence he can give in one line.
+4. **The site already has the mechanism, and it has never once been used.**
+   Every media object carries a `caption`, rendered in the frame's own measured
+   polarity, placed over the photograph or under it by his own per-image choice.
+   Counted in the live dataset on 2026-08-11: **fifty-six Creature frames, ZERO
+   captions. Every process frame, ZERO captions.** (The five labels a reader
+   sees on the home page are garment NAMES the worn band passes in, not
+   captions.) The thing being asked for exists, ships, and is empty.
+
+**So the answer is not a feature, it is three photographs.** Three or four
+detail frames per piece — the stitch, the hole, the raw cut, the lacing — each
+carrying one line of HIS words in the caption field. It renders today with no
+code, in his voice, in the register the site already reads in, with nothing laid
+on top of the picture. It is on THE OPEN LIST as content he owes, not as a build.
+
+One note on the reference, because it matters: Mammut sells technical equipment
+where a seam IS a specification. This brand's claim is the opposite of a
+specification — it is a hand. A hand is shown, not annotated.
+
+### 2. PHOTOGRAPHS THAT EXPAND AS THEY ENTER — not built, against the owner's wish
+
+He wants it, and the instinct that it belongs on a Creature's page is the right
+instinct. It still cannot go there, for a reason that is mechanical rather than
+aesthetic.
+
+**The moment that matters on a Creature's page is the first frame, and the first
+frame is the one image on the page that must never animate.** It is the LCP
+element; the reveal has excluded it since section 24 because *an arrival that
+arrives late is not an arrival*. Every frame after it is the SAME PIECE
+CONTINUING. Expanding those says "arriving" about something that already
+arrived, three to six times down one page — which is the definition of the tic
+the request was worried about, on the page with the most frames on the site.
+
+Two smaller costs, recorded so the case is complete: scale on a full-bleed
+photograph animates the largest paint on the page, which is the frame budget the
+24px rise deliberately avoids; and section 24 already refused it in one line
+that has not aged — **scaling a photograph is a zoom, and a zoom is a
+slideshow.**
+
+**What he actually likes about it, he already has**: a presence arriving, once,
+on one curve — and the site's one true performed arrival, the signature written
+by his reader's own scroll at the boundary. If a Creature's page needs more
+arrival, the answer is a detail frame, not a bigger movement.
+
+**This is the one refusal here that runs against the owner's stated wish, so it
+stays on THE OPEN LIST as his to overturn rather than closed.**
+
+### 3. /PROCESS AS A SCROLL-DRIVEN SEQUENCE — refused, and it found a real fault
+
+Scroll-driving is refused for the reason section 79 refused the splash screen,
+and the argument is the same one with different numbers: **the reader's scroll
+is not ours to spend.** Pinning eight frames holds decoded full-bleed images in
+composited layers on a page that already carries twenty-three photographs, on a
+phone, for a gesture that adds no information.
+
+**But the observation underneath it is correct, and the page IS hiding its
+narrative.** The eight process frames are a sequence — pattern, cut, dye, dry,
+build — and section 65's weave deals up to two unrelated artistic frames BETWEEN
+each of them. So the order exists in the data and is unreadable on the page:
+pattern, two artistic frames, cut, two artistic frames, dye.
+
+Two ways to make it legible, both cheap, and **both reopen section 65, so both
+are the owner's**:
+
+- **(a) Unweave.** The eight making frames run consecutively; the artistic
+  frames follow as a coda. The narrative becomes readable by ORDER alone — no
+  captions, no words, no motion, nothing added. About ten lines in
+  `process.astro`, reversible in one commit. Nothing is removed: every artistic
+  frame still appears.
+- **(b) Name the stages.** Five words in the caption field, one per stage frame.
+  This makes the narrative explicit rather than merely readable — and it puts
+  words on the one page that has refused captions since it was built, and they
+  would be OURS until he approves them, which means flagged and blocking the
+  launch gate.
+
+**Recommended: (a) alone, if he wants it.** It costs nothing and takes nothing
+away. It is item 9 on THE OPEN LIST.
+
+### 4. VIDEO — specified in section 83
+
+Three places, three lengths, the encoding, what it must never go on, and the
+trap where a drifting loop makes the brand's own name invisible under a chrome
+polarity measured from a still. The player itself already shipped; the plan had
+claimed for a year that it had.
+
+### WHAT THE SITE WAS HIDING, found while judging the four
+
+**An empty caption was opening a hole between photographs on the shop's most
+important page.** `Astro.slots.has("default")` is true when children were
+PASSED, not when they render anything, and a Creature page passes
+`{index === 0 && (...)}` to every frame. So every frame after the first rendered
+an empty `<figcaption>` — in the "below" placement, `frame py-u3`, roughly 50 to
+70px of blank paper between two full-bleed photographs. **Thirty-three of them
+in the English build alone**, valid markup, no content, no check that could ever
+see it. Fixed by rendering the slot and asking whether it produced anything;
+verified at zero in the build and by looking at the page.
+
+**The prose on a phone had lost the spine.** Section 82 correctly stopped
+drawing it beside a paired surface, because the seam where the photograph meets
+the passage is already a real edge. Below 64rem there IS no seam — the passage
+stacks under the photograph at full width — so on a phone the about page's
+entire story, and both of home's passages, were the only text on the site with
+no spine, while the newsletter and the chapter headings below them kept it. A
+line that stops and starts for no reason a reader can see. Drawn at the stack,
+dropped at the seam. A passage with NO photograph had none at either width; it
+has one now.
+
+**Mono is on the hero, and the comment said it was not.** The home arrival
+prints `priceFrom` in mono and every Creature page prints its price in mono over
+the opening photograph, so the 37KB mono file is fetched during the arrival on
+the two most-entered pages. Deliberately still not preloaded: on the Slow 4G
+profile the photograph is the long pole at 3512ms, `font-display: swap` costs
+one re-set of a short line, and a second preload would put 37KB in front of the
+only image that must not be delayed. Recorded here so the next session measures
+rather than guesses.
+
+**Two things that outlived their decision were deleted**: `--ease-inversion`,
+the curve the page inversion travelled on, and `hasVideo`, the boolean that
+could not render a video. **Two were kept and flagged rather than deleted**:
+`footerTheme`, unused since every page became paper, and `height="band"` with
+its `--media-h-band` token, unused since the home page was rebuilt. Both are
+noted at their definitions with the instruction to delete them if they are still
+unused when the next hand passes through.
+
+### Judged against what wins in this category
+
+The request named three things: art direction where the static frames look
+deliberate, motion that carries meaning rather than existing, and performance on
+real devices.
+
+- **Art direction.** The frames are deliberate — polarity measured per band per
+  image, the tile at the photograph's own 3:4 rather than a viewport height, the
+  paired composition of section 82. The weakness is not the layout and cannot be
+  fixed in the layout: it is that the photography is atmosphere rather than
+  evidence. That is item 7 on THE OPEN LIST, and it is content.
+- **Motion.** Three gestures, all on one curve, each happening once: the
+  photograph's reveal, a line drawn by a pointer, and the signature written by
+  the reader at the boundary. Nothing loops, nothing repeats, nothing bounces,
+  and every one of them degrades to nothing under reduced motion or with
+  JavaScript off. **The risk in this category is adding a fourth**, which is
+  what proposal 2 would have been.
+- **Performance.** Measured on this build: **zero JavaScript bundles** — no
+  framework runtime at all — one 27KB stylesheet (6.9KB gzipped) shared by every
+  page, and 4KB of inline script on the heaviest page. A Creature page is 13.5KB
+  of gzipped HTML. What remains is the two fonts and the photographs, which is
+  the right place for the weight to be.
+
+The fifteen contrast faults the harness reports are the known caption-polarity
+defect, unchanged: it is the first item under MINE TO DO in the checklist and
+needs a schema field, an import change and a re-import.
