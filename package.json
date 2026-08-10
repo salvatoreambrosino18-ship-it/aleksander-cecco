@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "rm -f .sanity-failures.log && astro build && node scripts/verify-build.mjs",
     "preview": "astro preview",
     "check": "astro check && tsc -p functions --noEmit && astro build",
     "astro": "astro",
@@ -15,7 +15,8 @@
     "patch-text": "node scripts/patch-text.mjs",
     "icons": "node scripts/icons.mjs",
     "shots": "node scripts/shots.mjs",
-    "measure-chrome": "node scripts/measure-chrome.mjs"
+    "measure-chrome": "node scripts/measure-chrome.mjs",
+    "verify-build": "node scripts/verify-build.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

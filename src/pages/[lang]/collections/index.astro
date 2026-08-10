@@ -35,8 +35,27 @@ for (const g of garments) {
 }
 ---
 
-<Base locale={locale} title={t(locale, "collections")} image={first ? imageUrl(first.poster, 1200) : null}>
-  <TextSurface arrive class="flex flex-col gap-u2 pt-chrome pb-u5">
+{/*
+  INK, amended 2026-08-10 (section 78). The approved assignment in s77 put this
+  page on paper with the shop, and walking the site showed that was wrong by
+  s77's OWN rule: the drops index inverted into a drop's page on a tap, which is
+  the exact fault the catalogue move had just fixed on the other side.
+
+  Asked properly — which of the two things is this page? — a drops index is a
+  TABLE OF CONTENTS FOR THE WORLD. Its cards carry his announcement and lead
+  into a chapter; nobody buys here. The piece count is the only shop-shaped fact
+  on it, and a count is a fact about a chapter as much as about a shelf.
+
+  So: index (ink) -> a drop (ink), and the boundary stays where the wipe is.
+*/}
+<Base
+  locale={locale}
+  title={t(locale, "collections")}
+  image={first ? imageUrl(first.poster, 1200) : null}
+  theme="dark"
+  footerTheme="dark"
+>
+  <TextSurface theme="dark" arrive class="flex flex-col gap-u2 pt-chrome pb-u5">
     {/*
       No intro line (2026-08-04): every fetched reference keeps category pages
       free of editorial, and the drop card below opens with HIS statement,
@@ -84,7 +103,7 @@ for (const g of garments) {
               {collection.season && <span class="type-mono text-mono">{collection.season}</span>}
             </a>
           </MediaSurface>
-          <TextSurface class="flex flex-col gap-u5 py-u13">
+          <TextSurface theme="dark" class="flex flex-col gap-u5 py-u13">
             {statement && (
               <p class="type-display text-display max-w-prose whitespace-pre-line">{statement}</p>
             )}
@@ -100,7 +119,7 @@ for (const g of garments) {
 
   {
     collections.length === 0 && (
-      <TextSurface class="flex min-h-svh flex-col justify-center">
+      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
         <p class="placeholder-mark">{"{NO_COLLECTIONS_PUBLISHED}"}</p>
       </TextSurface>
     )

@@ -154,6 +154,26 @@ const shareImage =
       cache misses by construction, and an icon that no longer exists breaks
       the build instead of shipping quietly.
     */}
+    {/*
+      TWO SHAPES, DELIBERATELY (section 78).
+
+      The hashed URLs are what this document DECLARES, and they keep every
+      property section 74 bought: change an icon and its URL changes, so no
+      cache anywhere can serve the old bytes.
+
+      `/favicon.ico` is here because a hashed SVG is not enough in practice.
+      iOS Safari does not use an SVG `rel=icon` for a tab, and a browser with no
+      usable declared icon falls back to the root path — which was answering
+      with the site's own 404 page, 49,969 bytes of HTML. The ICO is listed
+      FIRST and the SVG second: anything that understands SVG prefers it on
+      type, and anything that does not now has a real file to find.
+
+      The other conventional paths (/apple-touch-icon.png and its precomposed
+      twin, /icon-512.png, /favicon.svg) are shipped in public/ without being
+      declared here, because the software that wants them does not read this
+      head at all.
+    */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href={faviconUrl} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={appleTouchIconUrl} />
     <link rel="manifest" href="/site.webmanifest" />

@@ -167,6 +167,30 @@ recorded future step and it waits for a fiscal position.
 - **@utility with a nested range media query compiles to NOTHING, silently**
   (s70). The class sits in the HTML, no rule reaches the CSS. Grep the
   compiled output for any new rule before trusting it.
+- **A WHOLE SITE BUILT FROM PLACEHOLDERS IS INDISTINGUISHABLE FROM A CORRECT
+  BUILD BY EVERY SIGNAL EXCEPT LOOKING AT THE CONTENT** (s78). Not the exit
+  code. Not the page count. Not the asset list, the file sizes, the timings, or
+  the wall of green. `query()` is written never to fail a build — deliberately —
+  so when every query threw, all 85 pages rendered from placeholders, the log
+  said `Complete!`, and the process exited zero. It was caught by grepping the
+  output for content that should have been there, hours later.
+  **`npm run build` now refuses**: `query()` records any thrown query to
+  `.sanity-failures.log`, and `scripts/verify-build.mjs` fails on that OR on a
+  `dist/` in which not one page references a photograph on the CDN. Proven red
+  against the original defect before being believed. Do not delete the log to
+  make a build pass.
+- **GROQ takes `//` comments only.** A block comment inside a projection is a
+  parse error and triggers exactly the failure above. The same character
+  sequence closed a JavaScript block comment early, twice, in the two files
+  written to describe this trap. It is not exotic.
+- **An unhashed path outlives its deletion by the edge's TTL** (s78). Deleting
+  the fixed-path icons in s74 was right about caches and wrong about browsers:
+  Cloudflare kept serving the old files at those paths for a week
+  (`cf-cache-status: HIT`, `age: 423368`) while the origin returned 404, so a
+  first-time visitor in a private window with no cache of their own got the OLD
+  BROKEN touch icon. **Both shapes now ship** — hashed for the document, fixed
+  paths for the software that asks by name — from one source, with `npm run
+  icons -- --check` verifying both. Do not delete the fixed paths again.
 - **`sizes` lies silently.** An image with sizes="100vw" in a quarter-width
   tile downloads sixteen times the pixels and no tool flags it; the perf
   harness against the RECORDED numbers is what catches it (s69).
@@ -6498,3 +6522,86 @@ after the change: the mark is still white on pale concrete on the pages that
 failed worst. **Nothing in code will fix that.** The options are the owner's:
 different opening frames, or accepting the corner mark as atmosphere rather than
 signage. Do not reach for a scrim.
+
+---
+
+## 78. What a first-time iPhone visitor actually got (2026-08-10)
+
+The owner kept seeing the old icon **in a private window on iOS Safari**, which
+has no cache of its own to blame. The deployed HTML was verified correct in s76,
+so something in the chain was untrue in practice. It was.
+
+### Verified as a browser resolves it, not as a fetch does
+
+WebKit (the real Safari engine) and Chromium, cold profiles, against the live
+deployment, both languages and `/`:
+
+- **The heads are identical and correct** in `it` and `en`: a hashed SVG
+  `rel=icon`, a hashed `apple-touch-icon`, and the manifest.
+- **No unhashed icon reference exists anywhere** — not in the live pages, not in
+  any of the 85 built pages.
+- **The manifest is correct** and both of its icon URLs resolve 200.
+- Headless engines do not fetch tab favicons, so the displayed icon could not be
+  observed directly. That is stated rather than glossed.
+
+### What the conventional paths were actually serving
+
+    /favicon.ico                      404, content-type: text/html, 49,969 bytes
+    /favicon.svg                      200  cf-cache-status: HIT  age: 423368
+    /apple-touch-icon.png             200  cf-cache-status: HIT  age: 423368
+    /icon-512.png                     200  cf-cache-status: HIT  age: 423368
+    /apple-touch-icon-precomposed.png 404
+
+With a query cache-buster **all of them 404** — the origin is correct. So:
+**Cloudflare's edge was serving files deleted in s74**, under a seven-day
+`s-maxage`, 4.9 days into it. The bytes at `/apple-touch-icon.png` were fetched
+and looked at: **the broken corner-stamped icon from before the s74 fix** — a
+tiny AC in the top-left of a white square.
+
+**That is what the owner was seeing, and it is not his cache.** The edge sits
+upstream of his device; a private window changes nothing about it. And
+`/favicon.ico` — the one path every browser has always probed — was answering
+with 50KB of the site's own 404 page.
+
+### The judgement, which is the part worth keeping
+
+**Deleting the conventional paths was right for correctness and wrong for how
+browsers behave.** s74's fear was real: a fixed path can go stale invisibly. But
+deleting it does not remove the URL from the internet — it hands that URL to
+whatever cache still holds it, which is strictly worse than serving a correct
+file there.
+
+So the site now ships **both shapes, from one source**:
+
+    src/assets/icons/*   imported, content-hashed — what the document declares
+    public/*             favicon.ico, favicon.svg, apple-touch-icon.png,
+                         apple-touch-icon-precomposed.png, icon-512.png
+
+`npm run icons` writes both and `--check` compares both, so the fixed paths
+**cannot** go stale invisibly — which was the only real objection to them.
+`/favicon.ico` is a genuine ICO (16/32/48, PNG payloads, container written in
+the script rather than adding a dependency) and is declared FIRST, before the
+SVG, so anything that understands SVG still prefers it on type and anything that
+does not now has a real file to find. `public/_headers` gives every unhashed
+icon path a **one-hour** shared cache instead of the host's default week: long
+enough to cost nothing, short enough that a mistake at a fixed path is an hour's
+problem rather than a week's.
+
+**Do not delete these again.** The reason to delete them is correct and the
+consequence is worse.
+
+### Amendment to section 77: the drops index is INK
+
+s77's approved assignment put `/collections` on paper with the shop. Walking the
+site showed that was wrong **by s77's own rule**: the drops index inverted into a
+drop's page on a tap, which is precisely the fault the catalogue move had just
+fixed on the other side.
+
+Asked properly — which of the two things is this page? — **a drops index is a
+table of contents for the world.** Its cards carry his announcement and lead
+into a chapter; nobody buys there. The piece count is the only shop-shaped fact
+on it, and a count describes a chapter as readily as a shelf.
+
+So it is ink, index and drop agree, and the boundary stays where the wipe is.
+This is an amendment with a reason, not drift: the rule did not change, one
+page's answer to it did.

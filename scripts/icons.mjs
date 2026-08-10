@@ -57,6 +57,33 @@ const TARGETS = [
   {file: "icon-512.png", size: 512, mark: PAPER, ground: INK},
 ];
 
+/*
+  THE CONVENTIONAL PATHS, restored 2026-08-10 (section 78) after they were
+  deleted in section 74 for a reason that was correct and incomplete.
+
+  s74 deleted every fixed-path icon so that no URL could serve a stale byte.
+  That is right about CACHES and wrong about BROWSERS. iOS Safari does not use
+  an SVG `rel=icon` for a tab, and a great deal of software — Safari's own
+  surfaces, link-preview bots, feed readers — asks for /apple-touch-icon.png and
+  /favicon.ico at the ROOT whatever the document says.
+
+  And deleting them made it worse than absent, not better. Cloudflare's edge had
+  those paths cached with a seven-day s-maxage, so for a week after the deploy
+  the origin returned 404 and the EDGE returned the old files: measured at
+  `age: 423368` — 4.9 days — serving the broken corner-stamped touch icon from
+  before the s74 fix, to a first-time visitor in a private window with no cache
+  of their own. That is exactly what the owner kept seeing.
+
+  So both shapes are written from the SAME SVG by this one script:
+
+    src/assets/icons/*   imported, content-hashed, what the document declares
+    public/*             fixed paths, what software asks for regardless
+
+  The fixed paths cannot go stale invisibly — which was s74's real fear —
+  because `--check` regenerates both and compares both, and a drift fails.
+*/
+const PUBLIC = path.join(ROOT, "public");
+
 const SHEET = path.join(ROOT, "docs/monogram/icons-at-sizes.png");
 const SHEET_SIZES = [180, 64, 32, 16];
 
@@ -99,6 +126,44 @@ async function renderIcon({size, mark, ground}) {
   return sharp(out, {raw: {width: size, height: size, channels: 3}})
     .png({compressionLevel: 9})
     .toBuffer();
+}
+
+/*
+  A REAL .ico, because /favicon.ico is the one path every browser has always
+  asked for and it was answering with the site's 404 page: 49,969 bytes of HTML
+  with `content-type: text/html`, on every cold visit that probed it.
+
+  The container is trivial and worth writing rather than adding a dependency:
+  a 6-byte header, one 16-byte directory entry per image, then the images. PNG
+  payloads inside an ICO are understood by everything current, and the three
+  sizes are the ones tabs, bookmarks and pinned shortcuts actually use.
+*/
+async function ico(sizes, target) {
+  const pngs = [];
+  for (const size of sizes) pngs.push(await renderIcon({...target, size}));
+
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // 1 = icon
+  header.writeUInt16LE(pngs.length, 4);
+
+  const directory = Buffer.alloc(16 * pngs.length);
+  let offset = header.length + directory.length;
+  pngs.forEach((png, i) => {
+    const at = i * 16;
+    // 0 means 256 in this field; none of our sizes reach it, but be exact.
+    directory[at] = sizes[i] >= 256 ? 0 : sizes[i];
+    directory[at + 1] = sizes[i] >= 256 ? 0 : sizes[i];
+    directory[at + 2] = 0; // palette size
+    directory[at + 3] = 0; // reserved
+    directory.writeUInt16LE(1, at + 4); // colour planes
+    directory.writeUInt16LE(32, at + 6); // bits per pixel
+    directory.writeUInt32LE(png.length, at + 8);
+    directory.writeUInt32LE(offset, at + 12);
+    offset += png.length;
+  });
+
+  return Buffer.concat([header, directory, ...pngs]);
 }
 
 /*
@@ -243,6 +308,34 @@ async function main() {
     const same = onDisk.equals(png);
     if (!same) drift = true;
     console.log(`  ${same ? "same  " : "DIFFERS"} ${target.file.padEnd(22)} ${measured}`);
+  }
+
+  /*
+    THE FIXED PATHS, from the same renders. Written and checked in the same
+    loop as the hashed ones so the two shapes cannot describe different marks.
+    `precomposed` is the same bytes under the other name iOS has always probed.
+  */
+  const touch = TARGETS.find((t) => t.file === "apple-touch-icon.png");
+  const large = TARGETS.find((t) => t.file === "icon-512.png");
+  const fixed = [
+    {file: "favicon.svg", bytes: fs.readFileSync(SOURCE), note: "the source SVG, verbatim"},
+    {file: "favicon.ico", bytes: await ico([16, 32, 48], touch), note: "16/32/48, ink on paper"},
+    {file: "apple-touch-icon.png", bytes: await renderIcon(touch), note: "180, ink on paper"},
+    {file: "apple-touch-icon-precomposed.png", bytes: await renderIcon(touch), note: "180, the name iOS also probes"},
+    {file: "icon-512.png", bytes: await renderIcon(large), note: "512, paper on ink"},
+  ];
+
+  for (const item of fixed) {
+    const dest = path.join(PUBLIC, item.file);
+    if (!check) {
+      fs.writeFileSync(dest, item.bytes);
+      console.log(`  wrote  public/${item.file.padEnd(31)} ${item.note}`);
+      continue;
+    }
+    const onDisk = fs.existsSync(dest) ? fs.readFileSync(dest) : null;
+    const same = onDisk?.equals(item.bytes) ?? false;
+    if (!same) drift = true;
+    console.log(`  ${same ? "same  " : "DIFFERS"} public/${item.file.padEnd(31)} ${item.note}`);
   }
 
   if (!check) {

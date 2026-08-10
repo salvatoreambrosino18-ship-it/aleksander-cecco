@@ -43,3 +43,6 @@ coverage/
 
 # screenshots from scripts/shots.mjs: look at them, never commit them
 shots/
+
+# evidence that a build query failed; scripts/verify-build.mjs reads it
+.sanity-failures.log
