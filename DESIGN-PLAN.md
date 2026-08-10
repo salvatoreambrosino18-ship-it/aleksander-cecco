@@ -1,234 +1,215 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-10 (after the polarity decision, section 77)
+## HANDOFF — read this page, then the launch checklist under it
 
-**Read this, then the launch checklist below it. Nothing else, until you need it.**
+Written 2026-08-10, when the code was finished. **Everything remaining belongs
+to the owner.** This page is meant to stand alone: nothing below assumes you
+were here before, and the numbered sections it points at are depth, not
+prerequisites.
 
-### THE ONE THING TO KNOW FIRST (section 77)
+### 1. What this is
 
-**ENTER IN DARKNESS, BUY IN LIGHT.** Polarity is the site's structure, not a
-page's taste. INK is the world — home until the wipe, about, process, new, a
-drop's page. PAPER is the shop — the catalogue, a Creature's page, the order
-flow, contact, the drops index. **The wipe is the boundary between them**, and
-the home page is the only page that contains both, which is why it inverts once.
+A SHOP for **Aleksander Cecco**, a leather atelier in South Italy. Live at
+https://aleksander-cecco.pages.dev, two languages (Italian and English, both
+first class), deliberately kept out of search results until it can lawfully
+sell. Astro + Sanity + Cloudflare Pages; content in Sanity, one Pages Function
+for the order flow, no other services.
 
-Do not flip a page to taste. Ask which of the two things it is. The full argument
-is on the `theme` prop in `src/layouts/Base.astro`, where you will actually be
-standing when you decide.
+**The brand is TWO PEOPLE** — Ciro Cecco and Ferdinando Palmieri, in
+collaboration with Ferdressed. About is built around that, not around one
+portrait. The pieces are called **Creature**, his word, and the site uses it as
+a noun everywhere.
 
-### Tools, and the rule about them
+The shape, which is settled:
 
-- `npm run shots [--audit|--prove|--only=|--force=light|dark]` — a real browser.
-  **Use it. Three tools have now died in temporary folders.** `--prove` must go
-  red before you believe a green.
-- `npm run icons`, `npm run measure-chrome`, `npm run launch-check`.
-- **A green build is not a working build.** `[sanity] query failed, using
-  placeholders` scrolls past above a zero exit code. Grep the output for content
-  you expect. GROQ takes `//` comments only; a `/* */` block in a projection
-  builds the whole site from placeholders.
-- **Never address a plain nested object by a dotted path in a Sanity mutation.**
-  It replaced four media objects with a string. Read whole, write whole.
+- **A flat menu**: HOME NEW CREATURE PROCESS ABOUT CONTACT, then INSTAGRAM and
+  IT/EN — two groups separated by whitespace alone, no rules, no sub-items.
+- **/new** is the current drop, in his own drag order in the studio.
+- **One catalogue page** carries all seventeen Creature in three movements
+  (available, 1 of 1, sold out) with a CSS-only filter by who a piece is for.
+- **A piece → order flow**: "Acquire — €X" → an order page that takes three body
+  measurements → "Order received". Email via Resend from one Function. **No
+  payment exists**; Stripe slots into one return statement in that Function when
+  he has a fiscal position.
+- **/process** is the single home of imagery. There is no gallery route.
+- A free-shipping banner on every commerce page; not on the culture pages.
 
-### Newest first (2026-08-10, section 75)
+Two typefaces, **four type voices and no fifth**: label, body, display, and mono
+for DATA ONLY (prices, measurements, counts). Two colours, **ink `#0a0a0a` and
+paper `#fafaf8`**, and nothing else — no gray, no scrim, no accent.
 
-- **The worn band is FIVE frames and holds neither the red shirt nor the raised
-  finger** — both are in the INSTAGRAM strip. The full contents are tabulated in
-  s75. **A real order from the owner is still outstanding**; the band's order is
-  a studio field (drag `homeSequence`, first from the top is leftmost) and no
-  longer needs a developer.
-- **Frame 5 (`IMG_3485.PNG`) has no linked piece.** One field fixes it. Looks
-  like the Monumentus Vest.
-- **A transparent margin is a hole through to a polarity nobody chose.** The
-  footer's `mt-u21` showed the BODY ground, which is the polarity the page
-  STARTED in — 252px of ink under the home page's light footer. Fixed, and the
-  rule generalises: a section on an inverting page owns its own spacing.
-- `npm run icons` exists and is committed. **Do not write a tool the handoff
-  points at into a scratchpad** — s74's addendum is about exactly that.
-- **STILL THE OWNER'S:** his `about` field repeats `homeStatement` and
-  `makingStatement` word for word, so one sentence meets a reader on three
-  pages. Ask him; do not invent copy to fix it. `collection.season` is empty and
-  the `/collections` card renders it the moment he sets it.
-- **NOTHING IN s75 HAS BEEN SEEN IN A BROWSER.** There is none here. Structure,
-  compiled CSS and types were verified; the motion and the spacing were not
-  watched. Look before treating them as settled.
+### 2. The one structural argument: ENTER IN DARKNESS, BUY IN LIGHT
 
-### Where this is
+**This is the site's spine. Do not undo it by accident.**
 
-A SHOP now, not an exhibition: live at https://aleksander-cecco.pages.dev, two
-languages, noindexed. **The brand is TWO PEOPLE** — Ferdinando Palmieri and
-Ciro Cecco, with Ferdressed — and About is built around that, not around one
-portrait. A FLAT MENU on the Rick Owens model: HOME NEW CREATURE PROCESS ABOUT
-CONTACT, then INSTAGRAM and IT/EN, two groups separated by whitespace alone.
-**/new** is the current drop and follows his own drag order in the studio with
-no code. **One catalogue page** carries all seventeen Creature in three
-movements (available, 1 of 1, sold out) with a CSS-only filter by who a piece
-is for. A free-shipping banner on every page, an order flow ("Acquire — €X" →
-order page → "Order received"), and a process page that is the single home of
-imagery (the gallery is dissolved into it). The owner's other shop was the
-model; the references still hold the atmosphere.
+Polarity is structure, not taste. There are two kinds of page, and which one you
+are writing decides it:
 
-THE DEEPENING (s68-69) is done: reference study re-measured and recorded,
-page titles and movement headings in the display voice, the buy action at
-body size, banner off the culture pages, arrivals on text-led pages, and the
-catalogue's image-size regression fixed (tiles were pulling 1440px files).
-Do not re-litigate the display token: 28px sits above every reference's
-measured maximum and the numbers are in s68.
+- **INK — THE WORLD.** home (until the wipe), about, process, new, the drops
+  index, a drop's own page. His photography here is atmospheric: dark garments,
+  dim workshops, night concrete. On ink the pale passages glow and the dark ones
+  fuse with the ground, so the page reads as one material.
+- **PAPER — THE SHOP.** the catalogue, a Creature's page, the whole order flow,
+  contact. His product photography here is shot against PALE CONCRETE. On ink
+  every tile is a bright rectangle in a black field and an unfilled row leaves a
+  conspicuous void; on paper the concrete meets the page and the garments read
+  as objects.
 
-ICONS ARE CONTENT-HASHED (s74) and live in src/assets/icons; the manifest is
-a generated endpoint. There is no /favicon.svg at a fixed path any more, by
-design. Regenerate PNGs with `npm run icons`, which proves the pixel size and
-writes docs/monogram/icons-at-sizes.png — LOOK at it. `npm run icons -- --check`
-compares disk against a fresh render without writing.
+**The boundary-wash is the border between them**, and that is its whole job. The
+home page is the only page containing both worlds, so it inverts ONCE — Nigredo
+then Albedo, the two stages his drop is named for. Every link out of its paper
+half lands on a paper page.
 
-THE CATALOGUE HAS A NUMBERED BREAKING POINT (s73): pieces > 24 or drops
-> 3 → paginate by drop; drops ≥ 5 → DROP returns to the menu. Test the
-counts, do not re-judge the design. The measuring diagram on the order page
-is ours and flagged `measureDiagram`. The domain move is the OWNER'S task;
-the runbook went to him 2026-08-05 — when it lands, PUBLIC_SITE_URL,
-RESEND_FROM and ENQUIRY_TO_EMAIL are the three values that change here.
+Both readings were rendered and looked at before this was chosen; the rule is
+argued in full on the `theme` prop in `src/layouts/Base.astro`, which is where
+you will be standing when you decide a new page. **Never flip one page to taste
+— ask which of the two things it is.** Flipping in isolation is how the
+catalogue came to be ink while a Creature's page was paper, so the most-used
+path in the shop inverted on the first tap, for weeks, unnoticed.
 
-HIS FIRST REAL CONTENT is in (s72): six descriptions verbatim, Oblivion's
-real measurements, the name order approved. Launch-check 30 — the invented
-descriptions left to request are listed in s72. The tab carries the
-EXTRACTED monogram with the A alone (his choice); the catalogue tiles flick
-on touch; navigation crossfades; the order confirmation has its ceremony.
+### 3. The state: it cannot launch, and that is correct
 
-THE MONOGRAM (s71): the tab carries an AC redrawn from the signature's own
-letters — section 9's no-monogram rule was reversed BY THE OWNER. Two
-candidates live in docs/monogram/ with their size matrices; he picks, the
-swap is one file. Instagram is a strip of hotspot-cropped SQUARES with
-per-post links (postUrl in the studio, profile fallback); the import
-preserves postUrl by key.
+`npm run launch-check` reads the live dataset and **refuses** while anything
+invented is still in it. Today: **31 invented values**, plus 49 images whose alt
+text no human has approved.
 
-THE PHONE REVIEW (s70) is done: chrome sticky under a one-line banner,
-CHIUDI in flow at MENU's own pixels, catalogue shows product in the first
-phone viewport, the signature writes itself once per visit on the home
-arrival, and the creators are CIRO CECCO then Ferdinando Palmieri — flagged
-`aboutNameOrder` until Ciro confirms the reorder of his approved sentence.
+Everything invented is deliberately **invisible to a visitor** — braces and
+"unapproved draft" marks make a real brand look like a rehearsal — so the whole
+bargain rests on that command refusing. Every flag lives in the studio, on
+`inventedFields` per Creature and `inventedCopy` on site settings.
 
-**It cannot launch.** `npm run launch-check` reports 31 invented things, all
-invisible to visitors and flagged in the studio. Legal is untouched and gates
-the Resend secrets AND the newsletter. No payment exists; Stripe is the
-recorded future step and it waits for a fiscal position.
+Three things gate launch and none of them is code:
 
-### Do first
+1. **Legal.** Untouched. It gates the Resend secrets AND the newsletter. The
+   order form takes three BODY MEASUREMENTS; that needs a real privacy notice
+   with a named controller.
+2. **His content.** Prices, compositions, measurements, seven unnamed Creature,
+   descriptions. Listed exactly in the checklist below.
+3. **A fiscal position**, before payment can exist at all.
 
-1. `npm run launch-check` — the state in one command.
-2. The launch checklist below.
-3. Ask the owner for: the seven-item unblock list (group 2), his choice of the
-   four Instagram frames, and approval or rewrite of the intro lines
-   (shopIntro, dropsIntro, contactIntro, homeLines).
-4. Nothing new until those are answered.
+### 4. What must not be redone
 
-### Do not redo (all previous entries stand, plus)
+Each of these was decided, usually against a rendered alternative, and several
+were decided by the OWNER. Reopening one costs a session and lands where it
+started.
 
-- Everything in the 2026-08-03 list: reference measurements (s14), sizes (s17,
-  41), ready-versus-remade (s31, 41, 49), caption polarity (s58), Drive survey
-  BY CONTENT (s47, 64), his biography and legal (never), the drop filter
-  condition (s62, 65).
-- **The four-across decision** (s65). Rendered against three, looked at,
-  chosen. **Two across on a phone** is the owner's call (s67), and a tile keeps
-  the photograph's own 3:4 rather than a viewport height.
-- **The flat menu** (s67). Two groups, whitespace only. Sub-items under
-  Creature were CONSIDERED AND REJECTED by the owner: a menu entry that drops a
-  visitor mid-page is disorienting, and sectioning belongs inside the page.
-  DROP stays out of the menu until there are five or six drops.
+- **The polarity assignment** above (s77, amended s78). The drops index is INK
+  with the drop it lists; the catalogue is PAPER with the shop.
+- **The four-across catalogue grid** (s65), rendered against three and chosen.
+  **Two across on a phone** is the owner's call (s67); a tile keeps the
+  photograph's own 3:4, never a viewport height.
+- **The flat menu** (s67). Sub-items under Creature were CONSIDERED AND REJECTED
+  by the owner: a menu entry that drops a visitor mid-page is disorienting. DROP
+  returns to the menu only at five or six drops.
 - **Gender is a filter, never a structure** (s67). Never a route, never a
-  section. Unset is a legitimate value and shows under every filter; do not
-  guess the eleven that are unset.
-- **The four type voices** (s67). Label, body, display, mono-for-data-only. A
-  fifth is not to be added; the largest type getting smaller was the price and
-  it was paid deliberately.
-- **1 of 1 pieces carry no remake option** (s67), confirmed by the owner. They
+  section. Unset is legitimate and shows under every filter; do not guess the
+  eleven that are unset.
+- **The four type voices** (s67). A fifth is not to be added. The largest type
+  getting smaller was the price, and it was paid deliberately.
+- **1 of 1 pieces carry no remake option** (s67), confirmed by the owner: they
   are private commissions, bought only as they are.
-- **The gallery dissolution** (s65). Imagery lives on /process; do not
-  resurrect a gallery route.
-- **The order framing** (s65). It is an order, not an enquiry; the payment
-  step slots into one return statement in the Function and is Stripe when the
-  owner asks.
-- **The home page's quietness on photography** (s64). Intro lines between
-  sections were added deliberately; captions on home photographs stay off.
+- **The gallery dissolution** (s65). Imagery lives on /process.
+- **The order framing** (s65). It is an order, not an enquiry.
+- **The display token at 28px** (s68). It sits above every reference's measured
+  maximum; the numbers are recorded. Do not re-litigate it.
+- **The catalogue's numbered breaking point** (s73): pieces > 24 or drops > 3 →
+  paginate by drop; drops ≥ 5 → DROP returns to the menu. **Test the counts, do
+  not re-judge the design.**
+- **The fixed-path icons** (s78). Deleting them is correct-sounding and wrong;
+  see the traps.
+- Reference measurements (s14), sizes (s17, 41), ready-versus-remade (s31, 41,
+  49), caption polarity (s58), the Drive survey BY CONTENT (s47, 64), the drop
+  filter condition (s62, 65), **his biography and the legal text (never ours)**.
 
-### Traps that have already bitten
+### 5. Traps that have already bitten
 
-- **`wrangler pages dev` sends REAL email** (`.env` holds live Resend keys).
-  Always `--binding ENQUIRY_DRY_RUN=1`, and PROVE the dry run fired by its log
-  line: `--log-level error` silently suppresses it, and a green without that
-  line proves nothing.
-- **Local servers must be tracked background tasks.** A server started with
-  `&` dies when its shell call ends and every later check reports a dead site.
-- **The screenshot harness hardcodes its target origin.** It now refuses to
-  capture when it lands off-path; if it refuses, check the port constant
-  before anything else. An hour was lost to a stale one.
-- **Tailwind utilities beat `@layer components`, always.** A hiding rule in
-  global.css lost to `.block` on the element and the catalogue filter silently
-  did nothing while the count beside it changed (s67). Anything a rule there
-  hides must get its `display` from that rule, not from a utility class.
-- **@utility with a nested range media query compiles to NOTHING, silently**
-  (s70). The class sits in the HTML, no rule reaches the CSS. Grep the
-  compiled output for any new rule before trusting it.
 - **A WHOLE SITE BUILT FROM PLACEHOLDERS IS INDISTINGUISHABLE FROM A CORRECT
-  BUILD BY EVERY SIGNAL EXCEPT LOOKING AT THE CONTENT** (s78). Not the exit
-  code. Not the page count. Not the asset list, the file sizes, the timings, or
-  the wall of green. `query()` is written never to fail a build — deliberately —
-  so when every query threw, all 85 pages rendered from placeholders, the log
-  said `Complete!`, and the process exited zero. It was caught by grepping the
-  output for content that should have been there, hours later.
-  **`npm run build` now refuses**: `query()` records any thrown query to
-  `.sanity-failures.log`, and `scripts/verify-build.mjs` fails on that OR on a
-  `dist/` in which not one page references a photograph on the CDN. Proven red
-  against the original defect before being believed. Do not delete the log to
+  BUILD BY EVERY SIGNAL EXCEPT LOOKING AT THE CONTENT** (s78) — not the exit
+  code, page count, asset list, file sizes, timings or the wall of green.
+  `npm run build` now refuses on it. Do not delete `.sanity-failures.log` to
   make a build pass.
-- **GROQ takes `//` comments only.** A block comment inside a projection is a
-  parse error and triggers exactly the failure above. The same character
-  sequence closed a JavaScript block comment early, twice, in the two files
-  written to describe this trap. It is not exotic.
-- **An unhashed path outlives its deletion by the edge's TTL** (s78). Deleting
-  the fixed-path icons in s74 was right about caches and wrong about browsers:
-  Cloudflare kept serving the old files at those paths for a week
-  (`cf-cache-status: HIT`, `age: 423368`) while the origin returned 404, so a
-  first-time visitor in a private window with no cache of their own got the OLD
-  BROKEN touch icon. **Both shapes now ship** — hashed for the document, fixed
-  paths for the software that asks by name — from one source, with `npm run
-  icons -- --check` verifying both. Do not delete the fixed paths again.
-- **`sizes` lies silently.** An image with sizes="100vw" in a quarter-width
-  tile downloads sixteen times the pixels and no tool flags it; the perf
-  harness against the RECORDED numbers is what catches it (s69).
-- **A fetch from the origin is NOT proof of what was deployed** (s74).
-  Cloudflare's edge served a stale `/site.webmanifest` for minutes after a
-  successful deploy, despite `max-age=0, must-revalidate`. Always add a
-  cache-buster query when checking an unhashed path.
-- **Verify GENERATED BINARIES by looking at them, not at their source**
-  (s74): a correct SVG says nothing about the PNG rendered from it, and a
-  shared renderer with a mutable viewport will silently produce garbage.
-- **A red-proof outside the audit's PATHS list proves nothing** (s73): the
-  plant must land in a page the audit actually visits. Check PATHS first.
-- **Prove every check can fail before trusting its pass.** The audit has lied
-  four ways historically (s58, 63) and the harness added a fifth (s65).
-- **Stale edge caches** serve old HTML minutes after a deploy; audit the local
-  build when a result looks impossible.
+- **GROQ takes `//` comments only.** A block comment in a projection triggers
+  exactly the failure above.
+- **Never address a plain nested object by a dotted path in a Sanity mutation**
+  (s78). It replaced four media objects with a bare string. Read whole, write
+  whole. Document history is what saved it.
+- **An unhashed path outlives its deletion by the edge's TTL** (s78). Deleting a
+  URL does not remove it from the internet; it hands it to whatever cache still
+  holds it. Cloudflare served the old broken touch icon for 4.9 days after the
+  origin began 404ing it.
+- **A fetch from the origin is NOT proof of what was deployed** (s74). Always add
+  a cache-buster query when checking an unhashed path; `Cache-Control: no-cache`
+  on the request does not defeat the edge.
+- **Verify generated binaries by LOOKING at them** (s74). A correct SVG says
+  nothing about the PNG rendered from it.
+- **`wrangler pages dev` sends REAL email** — `.env` holds live Resend keys.
+  Always `--binding ENQUIRY_DRY_RUN=1`, and prove the dry run fired by its log
+  line; `--log-level error` silently suppresses it.
 - **Never set the Resend secrets or open the newsletter before the privacy
-  notice exists** (s36, 62). Unchanged all night.
+  notice exists** (s36, 62).
+- **Tailwind utilities beat `@layer components`, always** (s67). Anything a rule
+  there hides must get its `display` from that rule.
+- **`@utility` with a nested range media query compiles to NOTHING, silently**
+  (s70). Grep the compiled CSS for any new rule before trusting it.
+- **`sizes` lies silently** (s69): a quarter-width tile declaring `100vw`
+  downloads sixteen times the pixels and nothing flags it.
+- **Prove every check can fail before trusting its pass.** The audit has lied
+  five ways historically; the browser harness added a sixth by photographing
+  before the page had settled and inventing a defect that was not there.
+- **Local servers must be owned by the process that needs them.** One started
+  with `&` dies with its shell call.
 
-### How the pieces fit
+### 6. The tools, and the rule about them
 
-Sanity holds content; `npm run import` (Drive READ ONLY) writes it and carries
-every invented value, flagged. Push to `main` deploys reliably; Sanity publish
-deploys intermittently (s16). The order flow is one Pages Function; its email,
-confirmation and future payment slot are all in `functions/api/enquiry.ts`.
+    npm run build          builds AND refuses a placeholder build
+    npm run check          types, then a build
+    npm run launch-check   the state of the content, in one command
+    npm run shots          a real browser: --audit --prove --only= --force=light|dark
+    npm run icons          both icon shapes from one SVG: --check compares them
+    npm run measure-chrome the chrome band's polarity, per photograph
+    npm run import         Drive → Sanity, READ ONLY, flags every invented value
+
+**Three tools have now died in temporary folders and each death cost a real
+defect.** If you are about to write a renderer or a capturer, add a flag to one
+of these instead. And `--prove` must go red before you believe a green.
+
+### 7. How the pieces fit
+
+Sanity holds content. Push to `main` deploys reliably; publishing in Sanity
+deploys intermittently (s16). The order flow — its email, its confirmation and
+the slot where payment will go — is entirely in `functions/api/enquiry.ts`. The
+photographs live in Sanity, never in the repository. The domain move is the
+OWNER's task; when it lands, `PUBLIC_SITE_URL`, `RESEND_FROM` and
+`ENQUIRY_TO_EMAIL` are the three values that change here.
+
+### 8. Outstanding, and all of it is his
+
+- The **worn band's order** (five frames; it is a studio field — drag
+  `homeSequence`, first from the top is leftmost). Frame 5 has no linked piece.
+- His **Instagram post links** — four frames, none carries a `postUrl`, so every
+  square currently falls back to the profile.
+- **`collection.season`** is empty; the drops card renders it the moment he sets
+  it.
+- His `about` field **repeats `homeStatement` and `makingStatement` verbatim**,
+  so one sentence meets a reader on three pages. Ask him. Do not invent copy.
+- The **opening photograph** cannot carry legible white text: every overlay on
+  the first screen measures under 2:1, and the corner mark is under 3:1 on most
+  pages. This is photographic, not technical — **do not reach for a scrim.**
 
 ---
 
 ## THE LAUNCH CHECKLIST (2026-08-03)
 
-**Read this first.** Everything standing between this repository and a site the
-public can use, in the order the dependencies actually run. The rest of this
-file is the reasoning behind it; this is the state.
+**Everything standing between this repository and a site the public can use**,
+in the order the dependencies actually run. The rest of this file is the
+reasoning behind it; this is the state.
 
-**Where it stands today.** The site is built, deployed and working at
-https://aleksander-cecco.pages.dev, in two languages, with sixteen Creature, a
-gallery, a working enquiry form and a real contact address. It is deliberately
-kept out of search results. **It cannot lawfully accept an enquiry yet**, and
+**Where it stands (2026-08-10).** Built, deployed and working at
+https://aleksander-cecco.pages.dev, in two languages, with **seventeen
+Creature**, a working order flow and a real contact address, deliberately kept
+out of search results. The gallery route was dissolved into /process (s65); the
+count and the route above are the current ones. **The code is finished.** What
+remains is the owner's, and **the site cannot lawfully accept an order yet** —
 that single fact governs the order below.
 
 ### 1. NEEDS A LAWYER, and it gates everything downstream
