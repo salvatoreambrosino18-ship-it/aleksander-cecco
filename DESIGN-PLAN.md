@@ -1,8 +1,31 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-05 (after the icon fix, section 74)
+## HANDOFF, 2026-08-10 (after the design and communication pass, section 75)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
+
+### Newest first (2026-08-10, section 75)
+
+- **The worn band is FIVE frames and holds neither the red shirt nor the raised
+  finger** — both are in the INSTAGRAM strip. The full contents are tabulated in
+  s75. **A real order from the owner is still outstanding**; the band's order is
+  a studio field (drag `homeSequence`, first from the top is leftmost) and no
+  longer needs a developer.
+- **Frame 5 (`IMG_3485.PNG`) has no linked piece.** One field fixes it. Looks
+  like the Monumentus Vest.
+- **A transparent margin is a hole through to a polarity nobody chose.** The
+  footer's `mt-u21` showed the BODY ground, which is the polarity the page
+  STARTED in — 252px of ink under the home page's light footer. Fixed, and the
+  rule generalises: a section on an inverting page owns its own spacing.
+- `npm run icons` exists and is committed. **Do not write a tool the handoff
+  points at into a scratchpad** — s74's addendum is about exactly that.
+- **STILL THE OWNER'S:** his `about` field repeats `homeStatement` and
+  `makingStatement` word for word, so one sentence meets a reader on three
+  pages. Ask him; do not invent copy to fix it. `collection.season` is empty and
+  the `/collections` card renders it the moment he sets it.
+- **NOTHING IN s75 HAS BEEN SEEN IN A BROWSER.** There is none here. Structure,
+  compiled CSS and types were verified; the motion and the spacing were not
+  watched. Look before treating them as settled.
 
 ### Where this is
 
@@ -6084,3 +6107,152 @@ output by antialiasing alone (mean delta 0.48/255 at 180, 0.17 at 512; visually
 identical side by side). They were replaced deliberately rather than left
 alone: a `--check` that always reports drift is an alarm nobody will read, and
 the icons are now exactly what the committed script produces.
+
+---
+
+## 75. The band's real contents, the black band, and a page going quiet (2026-08-10)
+
+### The worn band was not what anyone thought it was
+
+A sequence was given for the band that named a red shirt and a man with a
+raised finger. **The band holds neither.** Both photographs exist — they are in
+the INSTAGRAM strip (`instagramFrames`), a different field rendered as squares
+further down the same page. `IMG_3477.JPG` is the red leather shirt;
+`Mnmnts Lux tibia cut.jpg` is the man in profile with his index finger raised.
+
+The band (`homeSequence`) holds five frames, in this order:
+
+| # | file | piece | what it shows |
+| --- | --- | --- | --- |
+| 1 | `aa52ef49-…-24cb5827376d.jpg` | Severya | woman, full length, hard low sun on concrete, black leather bandeau and slit skirt |
+| 2 | `IMG_0204.jpg` | Styrax | woman in bare woodland, goat-fur halter, one arm raised behind her head |
+| 3 | `archive_IMG_3474.jpg` | Monumentus Lux | man in the studio, sheer white top, very wide sand crushed-leather trousers |
+| 4 | `archive_IMG_9592.jpg` | Ghezard | man from behind, brown leather jacket, tall hooked collar. **The only ink overlay** |
+| 5 | `IMG_3485.PNG` | **none linked** | man cropped at the chin, black waistcoat and long leather shorts, raw hem |
+
+Frame 2's raised ARM is the likeliest source of the remembered finger. Frame 5
+has no garment attached, which makes it the one tile in a band whose whole
+purpose is leading into the work that leads nowhere; it looks like the
+Monumentus Vest.
+
+**The order was always a studio field** — a Sanity array is dragged — but
+nothing said so, and a sequence whose control is invisible gets changed by
+asking a developer. The field now says it, in both languages, and names the
+mapping: first from the top is leftmost in the band. There is deliberately NO
+second number field: two places claiming to hold one order is how they come to
+disagree. The tile preview carries the FILENAME, because that is how the band
+is discussed.
+
+### The black band was a margin
+
+`SiteFooter` separated itself with `mt-u21`, and **a margin is transparent**: it
+shows the BODY background, which resolves from `<html data-theme>` — the
+polarity the page STARTED in. Every page that begins and ends in one polarity
+hid this for as long as it existed. The home page is the only one that inverts,
+so between its light drop statement and its light footer sat 21 units of solid
+ink: **175px on a phone, 252px on a desktop**, explained nowhere.
+
+The footer now paints the gap it owns, inside a `flow-root` wrapper —
+load-bearing, because without it the child's top margin collapses straight back
+out to the body and the bug returns wearing a wrapper.
+
+**The general rule, worth more than the fix:** on a page whose ground can
+disagree with a section, that section owns its own spacing. A transparent margin
+is a hole through to a polarity nobody chose.
+
+The same class of bug sat next to it. A `captionPlacement: "below"` caption took
+the PAGE margins even inside a strip frame: in the worn band that gave a 416px
+frame 175px of left padding and 115px of right, leaving a garment's name 126px
+to wrap inside. Contained frames now take the caption inset, the same edge an
+"over" caption already uses on the same photograph.
+
+### One page, two rules, his voice twice
+
+The home page stripped "Presentiamo" from the arrival in s72 and then printed
+the whole statement — announcement included — four screens below, along with the
+arrival's own line a second time. `src/lib/statement.ts` now holds the rule in
+one place, because two callers doing their own regex is exactly how the two
+halves of one page came to disagree:
+
+- The announcement belongs to the pages that are FOR it (`/new`, the drop's own
+  page) and to the drop CARD on `/collections`, which announces.
+- No page prints a line it has already spent.
+
+The chapters block takes the strongest line left, which for MONUMENTUS is the
+alchemical-entities sentence: it says what the garments ARE, where the arrival's
+line names the stages they move between.
+
+### The audit, and what it found
+
+The visible text of all 43 Italian pages, extracted and compared. Two real
+repetitions, both structural:
+
+1. **`about` CONTAINS `homeStatement` and `makingStatement` verbatim** —
+   paragraphs 1 and 3 of his brand story. With /process printing
+   `makingStatement` whole and home printing it whole too, a reader going
+   home → process → about met the same three sentences three times. Home now
+   makes the claim in one line and points at /process, which is the page the
+   passage is for.
+2. **The drop statement appeared whole on four pages.** Now: whole on `/new` and
+   the drop's page, the announcement alone on the index, one unspent line on
+   home.
+
+**STILL OPEN, and it is the owner's to settle:** one sentence still meets a
+reader on three pages, because his `about` field repeats the other two fields
+word for word. Nothing here can fix that without inventing copy. Either he is
+content with it, or `homeStatement`/`makingStatement` want their own wording.
+
+**`/collections` is now the thinnest page on the site** (15 words). That is a
+list of one drop, not a copy failure, and it fills as drops accumulate. Its
+`season` is empty in the studio; the card renders it the moment he sets it.
+
+### Separation, registers, and two strokes
+
+**Separation was never about the size of the gaps** — they were already u13
+everywhere. What differed was where the space was attached and whether a
+movement was a text surface at all. The worn band's heading was the one text
+block on the home page that was not one, so the SPINE did not pass through it
+and it began wherever the previous block's padding ended. Every movement now
+opens the same way: u13 above the heading, a small space below, the spine
+through it.
+
+**The registers were misused, not miscounted.** Mono is DATA ONLY by its own
+token. The language switch was mono, at the foot of a menu whose every other
+item is label and whose whole argument is two groups separated by whitespace
+alone — a second typeface at a third size made it a third group. The skip link
+was mono. Both are controls. The contact page was the worst case and was rebuilt
+around it: four facts had been carrying five registers with the hierarchy
+inverted, the handle and the email set at 12px mono under 11px labels that named
+what the strings already said. Mono, the definition list and both labels are
+gone; separation is whitespace, as the menu's is.
+
+**`soldOut` stays mono deliberately.** It is not a count, but it occupies the
+same slot as a price on the same tile, and changing register inside one slot
+would read worse than the rule it bends.
+
+**Two moments of motion, both strokes rather than fades:**
+
+- **The wash's mark is written by the reader.** Same pen, pacing and stroke
+  order as the arrival's signature, driven by the wash's own scroll progress
+  instead of a clock, so it slows when they slow and stops when they stop.
+  Nothing was added to the page: the wash already held the mark and already
+  computed the number. `--edge-n` exists because the dash offsets are unitless
+  and a percentage cannot be divided back into one inside `calc()`.
+- **The underline under an action is pulled across from the left** instead of
+  thickening from one pixel to two, which was a state change wearing a
+  transition. It rides over the resting hairline, so nothing reflows under a
+  pointer.
+
+Both are gated so that no-JS and reduced-motion readers get the finished mark
+and the full underline, with no travel. The feedback is not the motion; only
+the way it arrives is.
+
+### Not verified by eye
+
+There is no browser in this environment and no screenshot harness — the one
+section 74 mentions was itself a scratchpad casualty. Everything above was
+verified structurally: built HTML inspected, compiled CSS grepped for every new
+rule (the s70 trap), registers counted per page, `npm run check` clean. **The
+motion and the spacing have not been watched.** A session with a browser should
+look at the wash being scrubbed, the underline being pulled, and the home page's
+movement boundaries before treating them as settled.
