@@ -6471,3 +6471,30 @@ cost minutes rather than the owner's content.
    parse error, the query fails, and every page builds from placeholders. That
    is how this was found — and it is a second way to ship a placeholder site
    with a green build.
+
+### What overlayChrome actually achieved, measured
+
+Measured with the browser, worst-case contrast of the corner mark, before and
+after, across every page at both widths:
+
+    before   n=100   under 1.5:1 = 48   under 3:1 = 88   median 1.57
+    after    n=116   under 1.5:1 = 48   under 3:1 = 98   median 1.82
+
+**The median improved and the count got worse.** That is not a contradiction and
+it is not a bug: the field picks the polarity with the best WORST case across
+every container the site has, and the harness samples one container — the top of
+the page. Optimising for the worst case across six containers can be worse in
+the one you happen to look at.
+
+**So it is not a fix, and it should not be recorded as one.** What it is:
+
+- a correct MODEL where there was a wrong one (measured at every width instead
+  of at a phone's, which was simply an error),
+- 29 photographs moved off a demonstrably wrong side,
+- and a per-frame control the owner can override in the studio.
+
+The residual is photographic, not technical. Looked at with my own eyes at 390
+after the change: the mark is still white on pale concrete on the pages that
+failed worst. **Nothing in code will fix that.** The options are the owner's:
+different opening frames, or accepting the corner mark as atmosphere rather than
+signage. Do not reach for a scrim.
