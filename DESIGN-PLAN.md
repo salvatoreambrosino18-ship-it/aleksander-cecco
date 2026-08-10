@@ -6607,3 +6607,73 @@ on it, and a count describes a chapter as readily as a shelf.
 So it is ink, index and drop agree, and the boundary stays where the wipe is.
 This is an amendment with a reason, not drift: the rule did not change, one
 page's answer to it did.
+
+---
+
+## 79. The polarity, put the other way round — EVALUATED, NOT APPLIED (2026-08-11)
+
+The owner asked for the home page to open **white and turn black below** — the
+opposite of s77's arrangement. This section records the evaluation. **Nothing
+was applied.** The site as committed is still s77: home ink, wipe, paper below.
+
+### It does not touch the rule at all
+
+This is the first thing to understand, and it is why the request is not the
+reversal it looks like. s77's rule is **ink is the world, paper is the shop.**
+His request changes only **which half of the home page comes first**. Under it:
+
+    home top (arrival, the work, worn, the making, Instagram, list) -> PAPER
+    the wipe                                                        -> paper into ink
+    home bottom (the drop chapters)                                 -> INK
+    everything else on the site                                     -> UNCHANGED
+
+The shop stays paper. The world stays ink. Nothing else moves.
+
+### And by the measure that justified the catalogue move, HIS IS BETTER
+
+s77's argument for moving the catalogue was that a link should not invert into
+its destination. Applying the same test to the home page's own outbound links:
+
+    CURRENT (ink above the wipe)      2 agree, 6 invert
+    HIS     (paper above the wipe)    6 agree, 2 invert
+
+Exactly the mirror. The reason is structural: the home page's top half is where
+almost all the SHOP links are — the arrival's "all Creature" and the worn band's
+four tiles, every one of them landing on a paper page — while the bottom half is
+the chapters block, whose only link is into a drop, which is ink. **The top of
+the home page is where a reader enters the shop and the bottom is where they
+enter the world**, and his arrangement puts each on its own ground.
+
+Rendered both ways at 390 and looked at. His reads well: the white ground under
+the arrival is clean, the text blocks are black on white, and the making
+photographs — dark hide, cardboard, fur on a mannequin — hold their edges
+because they all contain pale concrete. This was the outcome I expected to argue
+against and did not find.
+
+### What it costs, exactly
+
+**One thing, and it is his to spend.** The wipe would run Albedo → Nigredo:
+light into darkness, backwards from the order named in his own drop statement
+(Nigredo the blackening, then Albedo the whitening — s22 set the wipe's
+direction from that text). The boundary meaning survives untouched; only the
+sequence inverts.
+
+It is worth weighing that s22 also recorded the resonance as private: *"Nothing
+is added and nothing says so. If a reader feels it, good; if not, the page is
+still a page that inverts once."* Nobody is ever told the order. So the cost is
+a private alignment, against a measurable gain in link coherence.
+
+### The reading
+
+**His arrangement is coherent, it is compatible with s77's rule, and on the one
+measurable criterion it is better than what is committed.** It should be adopted
+if he is content to reverse the alchemical order in his own symbolism — which is
+his to decide, exactly as reversing s9's no-monogram rule was.
+
+The honest summary for him: *this is not a preference against the structure, it
+is a better fit to it, and it costs one private reading of the wipe.*
+
+**If it is adopted**, four things change and nothing else:
+`theme`/`footerTheme` on the home page, the wash's `from`/`to`, and the two
+chapter surfaces below the wipe. The tagline in the handoff becomes wrong and
+would need rewriting; the rule under it does not.
