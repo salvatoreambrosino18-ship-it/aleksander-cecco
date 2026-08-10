@@ -29,6 +29,38 @@ interface Props {
   /** Page title, without the brand name; the brand is appended here. */
   title?: string;
   description?: string;
+  /*
+    POLARITY IS THE SITE'S STRUCTURE, NOT A PAGE'S TASTE (2026-08-10, s77).
+
+    ENTER IN DARKNESS, BUY IN LIGHT.
+
+    Two kinds of page, and which one you are writing decides this prop:
+
+      INK  — THE WORLD. home (until the wipe), about, process, new, a drop's
+             own page. His photography here is atmospheric: dark garments, dim
+             workshops, night concrete. On ink the pale passages glow and the
+             dark ones fuse with the ground, so the page reads as one material.
+             On paper the same frames become heavy blocks punched into a page
+             and the pale passages dissolve into it.
+
+      PAPER — THE SHOP. the catalogue, a Creature's page, the whole order flow,
+             contact, the drops index. His product photography here is shot
+             against PALE CONCRETE. On ink every tile is a bright rectangle in a
+             black field and a row that does not fill leaves a conspicuous void.
+             On paper the concrete blends into the page, the garments read as
+             objects, and an unfilled row reads as air.
+
+    THE WIPE IS THE BOUNDARY BETWEEN THEM, and that is now its whole job. The
+    home page is the only page containing both, so it inverts ONCE and every
+    link out of its paper half lands on a paper page. Nigredo then Albedo stops
+    being a mood on one screen and becomes the shape of the site.
+
+    So: DO NOT flip a page's polarity to taste. Ask which of the two things the
+    page is. Flipping one page in isolation is how the catalogue came to be ink
+    while a Creature's page was paper — the most-used path in the shop inverted
+    on the first tap, with no wipe and no reason, for weeks, because nobody had
+    ever written the rule down.
+  */
   theme?: "light" | "dark";
   /**
    * Polarity of the fixed chrome on first paint, before any observer runs.

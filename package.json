@@ -14,7 +14,8 @@
     "launch-check": "node scripts/launch-check.mjs",
     "patch-text": "node scripts/patch-text.mjs",
     "icons": "node scripts/icons.mjs",
-    "shots": "node scripts/shots.mjs"
+    "shots": "node scripts/shots.mjs",
+    "measure-chrome": "node scripts/measure-chrome.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

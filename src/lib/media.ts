@@ -19,6 +19,12 @@ export type MediaItem = {
    */
   overlay: OverlayPolarity;
   /**
+   * The polarity of the fixed chrome — signature and MENU — as it passes over
+   * this frame, measured at EVERY width rather than at a phone's (s77). Falls
+   * back to `overlay` in the query when a frame predates it.
+   */
+  overlayChrome: OverlayPolarity;
+  /**
    * The polarity of the CAPTION band at the bottom of the frame, measured
    * separately from the chrome band at the top (DESIGN-PLAN section 58). Falls
    * back to `overlay` in the query when a frame predates it.

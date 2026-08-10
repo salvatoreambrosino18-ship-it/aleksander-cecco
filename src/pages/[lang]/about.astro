@@ -85,7 +85,7 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
   description={openingLine ?? undefined}
   theme="dark"
   footerTheme="dark"
-  chrome={overlayTheme(openingMedia?.overlay)}
+  chrome={overlayTheme(openingMedia?.overlayChrome ?? openingMedia?.overlay)}
   image={openingMedia ? imageUrl(openingMedia.poster, 1200) : null}
 >
   {/*

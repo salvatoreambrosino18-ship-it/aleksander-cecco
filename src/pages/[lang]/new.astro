@@ -74,7 +74,7 @@ const priceOf = (garment: Garment) =>
   description={statement ?? undefined}
   theme="dark"
   footerTheme="dark"
-  chrome={overlayTheme(cover?.overlay)}
+  chrome={overlayTheme(cover?.overlayChrome ?? cover?.overlay)}
   image={cover ? imageUrl(cover.poster, 1200) : null}
 >
   {

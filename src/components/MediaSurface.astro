@@ -88,7 +88,14 @@ const revealThis = reveal ?? !priority;
 const isTile = height === "tile" || desktopHeight === "tile";
 const sizes = sizesProp ?? (isTile ? "(min-width: 80rem) 25vw, 50vw" : "100vw");
 
-const theme = overlayTheme(media.overlay);
+/*
+  THE CHROME BAND HAS ITS OWN MEASUREMENT (s77). `overlay` was measured against
+  a phone crop and used at every width, so at desktop the signature and MENU sat
+  over a different part of the file entirely — below 1.5:1 on 48 page/width
+  combinations. This is the same correction `overlayCaption` made at the bottom
+  of the frame, applied to the band carrying the brand's own name.
+*/
+const theme = overlayTheme(media.overlayChrome ?? media.overlay);
 /*
   The caption is at the OTHER END of the photograph from the chrome, so it takes
   its own measured polarity. One value for both was what put eight captions

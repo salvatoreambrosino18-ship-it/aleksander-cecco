@@ -130,7 +130,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 <Base
   locale={locale}
   image={shareImage ? imageUrl(shareImage.poster, 1200) : null}
-  chrome={overlayTheme(opening?.overlay)}
+  chrome={overlayTheme(opening?.overlayChrome ?? opening?.overlay)}
   theme="dark"
   footerTheme="light"
 >
@@ -464,8 +464,17 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           {line && (
             <TextSurface theme="light" class="flex flex-col gap-u5 py-u13">
               <p class="type-display text-display max-w-prose">{line}</p>
+              {/*
+                THE WAY IN, NOT THE NAME AGAIN (2026-08-10). This link repeated
+                the drop's name, which the photograph directly above it already
+                carries as its caption — the same words twice inside one screen,
+                the second time as the only thing asking to be clicked. A link
+                under a statement is an action, so it says the action. `enterDrop`
+                is the same word the drops index uses for the same journey, so
+                the two routes into a drop now sound like one site.
+              */}
               <a href={href} class="type-label text-label self-start hover:underline underline-offset-8">
-                {collection.name}
+                {t(locale, "enterDrop")}
               </a>
             </TextSurface>
           )}

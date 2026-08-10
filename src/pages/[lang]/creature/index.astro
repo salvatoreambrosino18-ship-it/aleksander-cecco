@@ -113,11 +113,9 @@ for (const drop of dropKeys) {
   locale={locale}
   title={t(locale, "allCreatures")}
   image={first ? imageUrl(first.poster, 1200) : null}
-  theme="dark"
-  footerTheme="dark"
 >
   <div class="catalogue">
-    <TextSurface theme="dark" arrive class="flex flex-col gap-u2 pt-chrome pb-u3 md:gap-u3 md:pb-u5">
+    <TextSurface arrive class="flex flex-col gap-u2 pt-chrome pb-u3 md:gap-u3 md:pb-u5">
       <h1 class="type-display text-display">{t(locale, "allCreatures")}</h1>
       <p class="type-body text-body max-w-prose">{t(locale, "shopIntro")}</p>
 
@@ -176,7 +174,7 @@ for (const drop of dropKeys) {
               every arrival — no new mechanism, reduced-motion and no-JS
               guarantees unchanged. Remove by deleting `arrive`.
             */}
-            <TextSurface theme="dark" arrive class="hairline-h flex flex-col gap-u1 pt-u5 pb-u2 md:pt-u8 md:pb-u3">
+            <TextSurface arrive class="hairline-h flex flex-col gap-u1 pt-u5 pb-u2 md:pt-u8 md:pb-u3">
               <h2 class="type-display text-display">{movement.label}</h2>
             </TextSurface>
 
@@ -230,7 +228,7 @@ for (const drop of dropKeys) {
           </section>
         ))
       ) : (
-        <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center gap-u5">
+        <TextSurface class="flex min-h-svh flex-col justify-center gap-u5">
           <p class="type-display text-display">{t(locale, "nothingYet")}</p>
           <a href={localePath(locale, "process")} class="type-label text-label self-start hairline-under">
             {t(locale, "process")}
@@ -243,7 +241,7 @@ for (const drop of dropKeys) {
       When a filter matches nothing at all, every movement is hidden and the
       page would end on the control row. This says so and offers the way back.
     */}
-    <TextSurface theme="dark" class="empty-filter flex-col gap-u3 py-u13">
+    <TextSurface class="empty-filter flex-col gap-u3 py-u13">
       <p class="type-display text-display">{t(locale, "noneMatch")}</p>
       <p class="type-label text-label">{t(locale, "noneMatchHint")}</p>
     </TextSurface>

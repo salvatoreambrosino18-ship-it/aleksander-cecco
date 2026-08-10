@@ -90,6 +90,35 @@ export const media = defineType({
       validation: (Rule) => Rule.required(),
     }),
     /*
+      THE THIRD BAND (2026-08-10). `overlay` was measured for ONE viewport — a
+      phone — and used at every width. `object-fit: cover` crops a photograph
+      differently at every aspect ratio, so at 1440x900 the pixels under the
+      signature and MENU are a different part of the file entirely, and measuring
+      one and using both is the same mistake `overlayCaption` was invented to fix
+      at the other end of the frame.
+
+      Measured with a browser: the corner mark reads below 1.5:1 on 48
+      page/width combinations and below 3:1 on 88, worst 1.00:1 — a white
+      signature on pale concrete, verified by eye. It is the brand's own name,
+      invisible on roughly half the site.
+
+      Empty falls back to `overlay`, so nothing changes until it is measured.
+    */
+    defineField({
+      name: 'overlayChrome',
+      title: 'Firma e MENU in alto: bianco o nero / Signature and MENU above: white or black',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Bianco / White (paper)', value: 'paper'},
+          {title: 'Nero / Black (ink)', value: 'ink'},
+        ],
+        layout: 'radio',
+      },
+      description:
+        "La polarita della firma e del MENU quando passano sopra questa fotografia, misurata a tutte le larghezze. Se vuoto usa il valore qui sopra. / The polarity of the signature and MENU as they pass over this photograph, measured at every width. Falls back to the value above when empty.",
+    }),
+    /*
       THE SECOND BAND (2026-08-03). `overlay` is the polarity of the fixed chrome
       at the TOP of the frame; this is the polarity of the CAPTION at the bottom.
       They are different pixels and they disagree often: measured across the site,

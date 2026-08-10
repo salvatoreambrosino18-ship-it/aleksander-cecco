@@ -29,7 +29,7 @@ const settings = await getSiteSettings();
 const photograph = settings.openingMedia;
 ---
 
-<Base locale={locale} title="404" chrome={overlayTheme(photograph?.overlay)}>
+<Base locale={locale} title="404" chrome={overlayTheme(photograph?.overlayChrome ?? photograph?.overlay)}>
   {
     photograph && (
       <MediaSurface media={photograph} locale={locale} priority>

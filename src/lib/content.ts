@@ -22,7 +22,12 @@ const MEDIA_PROJECTION = /* groq */ `
   "altIsDraft": coalesce(altIsDraft, false),
   "isProvisional": coalesce(isProvisional, false),
   overlay,
-  // Falls back to the chrome band when a frame predates the second measurement.
+  // Three bands, three values, each falling back to the one before it (s77).
+  // The overlay value was measured against a phone crop and used at every
+  // width; the chrome band at 1440 is a different part of the file entirely.
+  // GROQ takes // comments only: a /* */ block here parses as an error, the
+  // query fails, and the whole site builds from placeholders. It did, once.
+  "overlayChrome": coalesce(overlayChrome, overlay),
   "overlayCaption": coalesce(overlayCaption, overlay),
   "captionPlacement": coalesce(captionPlacement, "over"),
   caption,

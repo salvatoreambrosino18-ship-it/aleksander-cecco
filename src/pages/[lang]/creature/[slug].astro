@@ -168,7 +168,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
   locale={locale}
   title={garment.name}
   description={description ?? undefined}
-  chrome={overlayTheme(firstMedia?.overlay)}
+  chrome={overlayTheme(firstMedia?.overlayChrome ?? firstMedia?.overlay)}
   image={firstMedia ? imageUrl(firstMedia.poster, 1200) : null}
 >
   {
@@ -271,7 +271,16 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       these are the measurements of the photographed sample or of the object
       that will arrive.
     */}
-    {garment.measurements && <p class="type-label text-label max-w-prose">{t(locale, "fitGuidance")}</p>}
+    {/*
+      BODY, NOT LABEL (2026-08-10). This is a SENTENCE of advice — "compare it
+      against a garment you already own that fits the way you want" — and it was
+      set in the label register: uppercase, tracked at 0.08em, 11px. That made
+      the single most useful piece of guidance on the page the hardest thing on
+      it to read, and it is the clearest case of the registers being misused
+      rather than being wrong. Label is for names, seasons, captions, buttons
+      and the menu. A sentence a person has to act on is body.
+    */}
+    {garment.measurements && <p class="type-body text-body max-w-prose">{t(locale, "fitGuidance")}</p>}
 
     {
       canEnquire ? (
