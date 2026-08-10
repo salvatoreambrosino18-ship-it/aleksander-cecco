@@ -519,8 +519,42 @@
   .square-strip::-webkit-scrollbar {
     display: none;
   }
+  /*
+    THE ROW FILLS, AT EVERY COUNT (2026-08-11).
+
+    `flex: 0 0` pinned each square to --ig-s, so four frames at 1440 occupied
+    1344px of a 1440px row and left 96px of bare page at the right edge — a
+    visibly empty slot, which reads as a missing photograph rather than as a
+    margin. The count is going to keep changing, so the row has to be right for
+    any of them rather than tuned for four.
+
+    `1 0` is the whole fix, and it keeps BOTH behaviours:
+
+      too few to overflow -> they grow and share the row exactly. The inner
+                             frame is aspect-square, so growing keeps them
+                             square; they simply get larger.
+      enough to overflow  -> flex-shrink is 0, so they keep --ig-s, the strip
+                             scrolls, and one is cut by the right edge. That cut
+                             is the discoverability cue (section 71) and it is
+                             needed only when there is something to scroll to.
+  */
+  .square-strip {
+    /*
+      `safe` matters: a centred flex container whose content overflows can put
+      the first item out of reach of the scroll. `safe center` falls back to
+      flex-start the moment there is overflow, which is every case where the
+      strip actually scrolls.
+    */
+    justify-content: safe center;
+  }
   .square-strip > * {
-    flex: 0 0 var(--ig-s);
+    flex: 1 0 var(--ig-s);
+    /*
+      The ceiling is the catalogue tile's own desktop width. Without it, two
+      frames at 1440 grew to 720px each — half the screen per Instagram square,
+      which is not a strip, it is a slideshow.
+    */
+    max-width: 26rem;
     scroll-snap-align: start;
   }
 
