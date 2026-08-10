@@ -33,6 +33,10 @@ const query = /* groq */ `{
   "copy": *[_id == "siteSettings"][0].inventedCopy,
   "provisional": *[_type == "garment" && count(media[isProvisional == true]) > 0]{"slug": slug.current},
   "draftAlt": count(*[_type == "garment"].media[altIsDraft == true]),
+  // A piece whose price or measurements are ABSENT rather than invented. See
+  // the note below: the gate counted what we made up and not what is missing.
+  "hollow": *[_type == "garment" && defined(slug.current) && count(media) > 0
+              && (!defined(price) || !defined(measurements))]{"slug": slug.current, name},
   "contact": *[_id == "siteSettings"][0].contactEmail,
   "customs": *[_id == "siteSettings"][0].shippingCustomsIsProvisional
 }`;
@@ -50,6 +54,24 @@ for (const key of result.copy ?? []) {
 }
 for (const p of result.provisional ?? []) {
   problems.push(`${p.slug.padEnd(20)} still using a provisional photograph`);
+}
+/*
+  MISSING IS NOT THE SAME AS INVENTED, and this gate only counted one of them
+  (2026-08-11, section 80).
+
+  Every check above asks "is this value ours rather than his?". None of them
+  asked "is this value there at all?" — because everything seeded had been given
+  a plausible invented value, so the two questions had the same answer for
+  months. Rubedo broke that: it returned to the catalogue with no price and no
+  measurements, nothing to flag as invented, and shipped `{PRICE_EUR}` and
+  `{MEASUREMENTS}` onto a live page that carries a buy action, while this
+  command said everything was accounted for.
+
+  A visible placeholder is the exact failure the whole invisible-and-flagged
+  bargain exists to prevent, so it belongs here rather than in a comment.
+*/
+for (const g of result.hollow ?? []) {
+  problems.push(`${(g.name ?? g.slug).padEnd(20)} has no price or no measurements — the page shows a placeholder`);
 }
 if (result.customs !== false) {
   problems.push("site settings         the customs line is still unconfirmed");
