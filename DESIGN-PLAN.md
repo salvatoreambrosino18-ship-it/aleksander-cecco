@@ -6992,6 +6992,27 @@ Two things it forced:
   Process now anchors on frames home does not use; the mosaic still shows
   everything.
 
+### WHICH PASSAGES MUST BE COMPOSED, AND WHICH MAY HOLD A SCREEN
+
+The rule, and it is already encoded in the register a passage is set in:
+
+- **`register="body"` — running prose.** Must be composed with a photograph.
+  This is the case with no precedent anywhere in the references, and the one
+  that produced the dead screens.
+- **`register="statement"` — a short held line, uppercase, at the display size.**
+  May hold a screen on its own. **Sorcinelli's entire home page is this**: one
+  22px statement and four nav words, and the study called it the single
+  strongest emptiness any reference shows.
+
+So `/new` and a drop's own page are left alone deliberately: their drop
+statement is three short declamatory lines in the statement register, directly
+under a full-bleed cover. That is the held moment, not the dead screen, and the
+difference is not a judgement call — it is which register the passage is in.
+
+If a future session sets a long discursive passage in the statement register to
+make it "hold" a screen, it will be shouting rather than holding; section 22
+settled that and it has not changed.
+
 ### The spine is a margin rule, and that is now a decision
 
 It sits at the margin, at every width, and **it does not travel**. Making it
