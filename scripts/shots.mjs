@@ -540,16 +540,46 @@ async function main() {
             continue;
           }
 
-          // Photographs reveal on intersection; scroll the page so every frame
-          // has been seen before the full-page capture, then return to the top.
+          /*
+            SETTLE THE PAGE BEFORE PHOTOGRAPHING IT.
+
+            Photographs reveal on intersection and load lazily, so the page has
+            to be walked before it can be captured. Walking it is not enough:
+            the first version scrolled in viewport steps with a 30ms pause and
+            then shot immediately, and an IntersectionObserver does not
+            necessarily fire for every element at that speed. A frame that never
+            got `data-revealed` stays at opacity 0, the page ground shows
+            through the empty media box, and the band check reports 792px of
+            flat ink between two papers — which it did, on the home page, once.
+            A flaky harness that invents defects is worse than no harness.
+
+            So: walk, then WAIT for the two things that make a frame visible —
+            every image decoded, and every [data-reveal] actually marked. Both
+            are polled with a ceiling, because a genuinely broken image must
+            still be photographed rather than hang the run.
+          */
           await page.evaluate(async () => {
             const step = window.innerHeight;
             for (let y = 0; y < document.body.scrollHeight; y += step) {
               window.scrollTo(0, y);
-              await new Promise((r) => setTimeout(r, 30));
+              await new Promise((r) => setTimeout(r, 60));
             }
             window.scrollTo(0, 0);
-            await new Promise((r) => setTimeout(r, 120));
+
+            const settled = () => {
+              const images = [...document.images].every((i) => i.complete);
+              const frames = [...document.querySelectorAll("[data-reveal]")];
+              const revealed =
+                !document.documentElement.hasAttribute("data-reveal-live") ||
+                frames.every((f) => f.hasAttribute("data-revealed"));
+              return images && revealed;
+            };
+            const deadline = Date.now() + 6000;
+            while (!settled() && Date.now() < deadline) {
+              await new Promise((r) => setTimeout(r, 100));
+            }
+            // one more frame for the reveal transition itself
+            await new Promise((r) => setTimeout(r, 950));
           });
 
           if (PROVE) {

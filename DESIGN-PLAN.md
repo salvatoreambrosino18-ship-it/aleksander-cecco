@@ -1,8 +1,33 @@
 # Aleksander Cecco - Design Plan (Approved)
 
-## HANDOFF, 2026-08-10 (after the design and communication pass, section 75)
+## HANDOFF, 2026-08-10 (after the polarity decision, section 77)
 
 **Read this, then the launch checklist below it. Nothing else, until you need it.**
+
+### THE ONE THING TO KNOW FIRST (section 77)
+
+**ENTER IN DARKNESS, BUY IN LIGHT.** Polarity is the site's structure, not a
+page's taste. INK is the world — home until the wipe, about, process, new, a
+drop's page. PAPER is the shop — the catalogue, a Creature's page, the order
+flow, contact, the drops index. **The wipe is the boundary between them**, and
+the home page is the only page that contains both, which is why it inverts once.
+
+Do not flip a page to taste. Ask which of the two things it is. The full argument
+is on the `theme` prop in `src/layouts/Base.astro`, where you will actually be
+standing when you decide.
+
+### Tools, and the rule about them
+
+- `npm run shots [--audit|--prove|--only=|--force=light|dark]` — a real browser.
+  **Use it. Three tools have now died in temporary folders.** `--prove` must go
+  red before you believe a green.
+- `npm run icons`, `npm run measure-chrome`, `npm run launch-check`.
+- **A green build is not a working build.** `[sanity] query failed, using
+  placeholders` scrolls past above a zero exit code. Grep the output for content
+  you expect. GROQ takes `//` comments only; a `/* */` block in a projection
+  builds the whole site from placeholders.
+- **Never address a plain nested object by a dotted path in a Sanity mutation.**
+  It replaced four media objects with a string. Read whole, write whole.
 
 ### Newest first (2026-08-10, section 75)
 
