@@ -39,6 +39,14 @@ interface Props {
   voice?: VoiceState;
   register?: "statement" | "body";
   theme?: "light" | "dark";
+  /*
+    Emit the contents WITHOUT a text surface around them (2026-08-11). Inside a
+    PairedSurface the passage already has its half, its padding and its measure;
+    wrapping it in a second surface would apply the page margin inside a 720px
+    column and squeeze the prose to a few words a line, which is exactly what it
+    did the first time.
+  */
+  bare?: boolean;
   class?: string;
 }
 
@@ -50,6 +58,7 @@ const {
   voice = "approved",
   register = "statement",
   theme,
+  bare = false,
   class: className = "",
 } = Astro.props;
 
@@ -58,7 +67,33 @@ const marked = isMarked(voice) && Boolean(text) && !isPlaceholder;
 const noticeKey = voice === "translation" ? "translationNotice" : "draftNotice";
 ---
 
-<TextSurface theme={theme} class:list={["flex flex-col gap-u5 py-u13", className]}>
+{
+  bare ? (
+    <>
+      {heading && <h2 class="type-label text-label">{heading}</h2>}
+
+      {marked && <p class="placeholder-mark self-start">{t(locale, noticeKey)}</p>}
+
+      {!text && token && <p class="placeholder-mark self-start">{token}</p>}
+      {text && isPlaceholder && <p class="placeholder-mark self-start">{text}</p>}
+      {
+        text && !isPlaceholder && (
+          <p
+            class:list={[
+              register === "statement" ? "type-display text-display" : "type-body text-body",
+              "max-w-prose whitespace-pre-line",
+              marked && "draft-text",
+            ]}
+          >
+            {text}
+          </p>
+        )
+      }
+
+      <slot />
+</>
+  ) : (
+    <TextSurface theme={theme} class:list={["flex flex-col gap-u5 py-u13", className]}>
   {heading && <h2 class="type-label text-label">{heading}</h2>}
 
   {marked && <p class="placeholder-mark self-start">{t(locale, noticeKey)}</p>}
@@ -81,3 +116,5 @@ const noticeKey = voice === "translation" ? "translationNotice" : "draftNotice";
 
   <slot />
 </TextSurface>
+  )
+}
