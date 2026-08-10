@@ -6256,3 +6256,95 @@ rule (the s70 trap), registers counted per page, `npm run check` clean. **The
 motion and the spacing have not been watched.** A session with a browser should
 look at the wash being scrubbed, the underline being pulled, and the home page's
 movement boundaries before treating them as settled.
+
+---
+
+## 76. A browser, at last — and what it showed (2026-08-10)
+
+Playwright is a devDependency and `scripts/shots.mjs` is committed. **Two tools
+had already died in temporary folders and each death cost a real defect**; this
+one lives in `scripts/` for that reason. `npm run shots [--audit|--prove|
+--only=|--force=light|dark|--dark]`.
+
+The port trap is fixed at the ROOT rather than patched: there is no port
+constant to go stale, because the harness starts its own static server on port 0
+and reads the assigned port off the socket. It still refuses to capture when it
+lands off-path, and it did on its first run — catching that `/` redirects to
+`/en`.
+
+`--prove` injects one of each fault into a real page and requires all of them to
+be caught before any green is believed.
+
+### What it found, in order of severity
+
+1. **A THIRD COLOUR ON THE ORDER PAGE.** The radio buttons rendered in the
+   system accent, `rgb(0,117,255)`, on the page where money changes hands. No
+   stylesheet mentioned `accent-color`, so nothing could grep for it, the markup
+   was correct and the contrast was fine. **Fixed.** The harness now hides the
+   photography and treats any remaining off-axis pixel as a fault.
+
+2. **THE CORNER MARK IS ILLEGIBLE ON ROUGHLY HALF THE SITE.** The persistent
+   signature and MENU measure **below 1.5:1 on 48 page/width combinations and
+   below 3:1 on 88**, worst 1.00:1. Verified by eye on capo-09 and capo-13: a
+   white mark on pale concrete. **Not fixed — it needs a content-model change,
+   see the proposal below.**
+
+3. **Every overlay on the home page's first screen is under 2:1**: the drop
+   label 1.57, his line 1.60, the price 1.76, the corner mark 1.44, the drawn
+   mark 1.39. The opening photograph has bright stone and a near-black garment
+   in one frame, so no single polarity survives it.
+
+4. **The Instagram glyphs were orphans.** Passed through the caption slot to
+   honour the per-image placement — and every frame is set to "below", so four
+   glyphs sat in a strip of bare ink UNDER the squares, detached from the
+   photographs. The DOM was right and the page was wrong. **Fixed:** the glyph
+   sits on the square, still in the frame's measured polarity.
+
+5. **The scrubbed signature faded in instead of writing.** It ramped fill across
+   each path's whole span, so at 10% progress the mark was already 14% filled
+   under a crawling trace. **Fixed:** trace at full stroke, then settle.
+
+6. **The footer's black band is gone**, confirmed. The wash's own 900px of ink
+   in a full-page capture is a CAPTURE ARTEFACT, not a defect — verified by
+   scrolling the wash at five positions: sticky keeps the layer over the
+   viewport throughout and unpins exactly as its bottom meets the section's.
+
+### The favicon, settled
+
+The deployment is **correct**. The live HTML declares only hashed icons and
+those files are byte-identical to a local build (sha1 match). A first-time
+visitor with no cache gets the current monogram.
+
+**But the old icons are still being served** — by Cloudflare's edge, at the
+three deleted fixed paths:
+
+    /apple-touch-icon.png   200, 2447 bytes   the OLD corner-stamped icon
+    /icon-512.png           200, 21186 bytes  the OLD stale signature crop
+    /favicon.svg            200, 22944 bytes  correct (this file never changed)
+
+    cf-cache-status: HIT    age: 414901 (4.8 days)    s-maxage: 604800 (7 days)
+
+With a query cache-buster all three correctly 404. **This extends section 74's
+trap:** `Cache-Control: no-cache` on the REQUEST does not defeat the edge — only
+a changed URL does. And the new lesson: **an unhashed path outlives its deletion
+by the edge TTL.** Nothing in the current site points at those paths, so a page
+visit never fetches them; they are reachable only by something that already
+knows the old URL — a home-screen icon installed before s74, an old bookmark, a
+cached favicon entry, or a preview bot that probes by convention.
+
+So: the owner is seeing a cache, but "just clear your browser" is not the whole
+answer. It self-heals ~2 days after this was measured; purging those three paths
+in the Cloudflare dashboard ends it now.
+
+### Proposed, not applied
+
+- **`overlayChrome`, a third measured polarity.** `overlay` is one value for a
+  whole photograph, and `overlayCaption` was added in s58 because the caption
+  band at the BOTTOM disagreed with it. The top-left corner is a third band and
+  has never had its own value. This is the same fix, applied to the band that
+  carries the brand's own name.
+- **The sizing advice on a Creature's page** is a full sentence set in the LABEL
+  register — tracked uppercase at 11px, the hardest thing on the page to read.
+  Label is for names, seasons, captions, buttons and the menu.
+- **The drop's name appears twice within one screen** in the home page's
+  chapters block: on the photograph and again as the link under the statement.
