@@ -30,36 +30,34 @@ interface Props {
   title?: string;
   description?: string;
   /*
-    POLARITY IS THE SITE'S STRUCTURE, NOT A PAGE'S TASTE (2026-08-10, s77).
+    EVERY PAGE IS PAPER (2026-08-11, section 82). The OWNER decided it, having
+    been told what it costs, and no page passes this prop any more.
 
-    ENTER IN DARKNESS, BUY IN LIGHT.
+    WHAT IT WAS, so nobody rebuilds it by accident. Sections 77 to 80 argued
+    ENTER IN DARKNESS, BUY IN LIGHT: ink was the world (home, about, process,
+    new, a drop's page), paper was the shop (the catalogue, a Creature, the
+    order flow, contact), and the wash was the border between them, performed
+    once on the only page that held both. It was a good argument and it is
+    finished. Twenty-five theme="dark" declarations came out across six pages;
+    the wash's two layers, its clip-path and its polarity props came out with
+    them, because an edge travelling down a screen that looks identical on both
+    sides of it is not a quiet gesture, it is nothing.
 
-    Two kinds of page, and which one you are writing decides this prop:
+    WHAT THE BOUNDARY IS NOW: the same held screen at the same place, crossed by
+    WRITING THE BRAND'S NAME with your own scroll. The mark was decorative on
+    top of the inversion; it is the whole event now, and it speaks in his hand
+    rather than in the site's voice. See BoundaryWash.
 
-      INK  — THE WORLD. home (until the wipe), about, process, new, a drop's
-             own page. His photography here is atmospheric: dark garments, dim
-             workshops, night concrete. On ink the pale passages glow and the
-             dark ones fuse with the ground, so the page reads as one material.
-             On paper the same frames become heavy blocks punched into a page
-             and the pale passages dissolve into it.
+    WHAT SURVIVED, and it is not the same thing: POLARITY OVER PHOTOGRAPHY. A
+    caption, the fixed chrome and a mark on a frame each take the measured
+    polarity of the pixels they sit on — overlay, overlayChrome, overlayCaption
+    on the media object. That has nothing to do with a page's own ground and is
+    load-bearing for legibility; do not touch it while tidying this away.
 
-      PAPER — THE SHOP. the catalogue, a Creature's page, the whole order flow,
-             contact, the drops index. His product photography here is shot
-             against PALE CONCRETE. On ink every tile is a bright rectangle in a
-             black field and a row that does not fill leaves a conspicuous void.
-             On paper the concrete blends into the page, the garments read as
-             objects, and an unfilled row reads as air.
-
-    THE WIPE IS THE BOUNDARY BETWEEN THEM, and that is now its whole job. The
-    home page is the only page containing both, so it inverts ONCE and every
-    link out of its paper half lands on a paper page. Nigredo then Albedo stops
-    being a mood on one screen and becomes the shape of the site.
-
-    So: DO NOT flip a page's polarity to taste. Ask which of the two things the
-    page is. Flipping one page in isolation is how the catalogue came to be ink
-    while a Creature's page was paper — the most-used path in the shop inverted
-    on the first tap, with no wipe and no reason, for weeks, because nobody had
-    ever written the rule down.
+    SO WHAT IS THIS PROP FOR. A local inversion, and there is exactly one on the
+    site: the menu panel, which inverts against the page it covers. If you are
+    about to set it on a PAGE, you are reopening an owner's decision — take it
+    to him rather than to this file.
   */
   theme?: "light" | "dark";
   /**
@@ -78,8 +76,10 @@ interface Props {
   */
   shopChrome?: boolean;
   /**
-   * The polarity the page ENDS in. On a page that inverts partway down, the
-   * footer belongs to the second half, not the first.
+   * The polarity the page ENDS in. Written for the home page, which used to
+   * invert partway down; UNUSED since section 82 made every page paper, and
+   * kept only because a local inversion is still a thing this shell can express.
+   * If it is still unused when the next hand passes through here, delete it.
    */
   footerTheme?: "light" | "dark";
 }
@@ -219,7 +219,24 @@ const shareImage =
     {shareImage && <meta name="twitter:card" content="summary_large_image" />}
     {shareImage && <meta name="twitter:image" content={shareImage} />}
     <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
-    {/* Preload only the first-screen typeface (Archivo). Mono is not on the hero. */}
+    {/*
+      ONE PRELOAD, AND THE SECOND FONT IS A KNOWN TRADE (corrected 2026-08-11,
+      section 84). This said "Mono is not on the hero" and that has been false
+      since the price moved onto the first screen: the home arrival prints
+      `priceFrom` in mono and every Creature page prints its price in mono over
+      the opening photograph. Mono is on the LCP screen of the two most-entered
+      pages in the site.
+
+      It is deliberately still not preloaded. The file is 37KB against Archivo's
+      89KB, and on the Slow 4G profile the arrival photograph is already the
+      long pole (photo ready 3512ms, section 79). `font-display: swap` means the
+      price paints immediately in the system monospace and re-sets when the file
+      lands — a short line, one shift, no blank text — where a second preload
+      would put 37KB in front of the only image that must not be delayed.
+
+      What must NOT happen is this comment going stale again: if a third
+      register reaches a first screen, measure before adding a link.
+    */}
     <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>

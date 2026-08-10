@@ -104,6 +104,12 @@
   --media-h-screen: 100svh; /* a chapter: one photograph, one screen */
   --media-h-tall: 88svh; /* one in a sequence, so the next one shows */
   /*
+    UNUSED since the home page was rebuilt as a sequence: nothing passes
+    height="band" today (checked 2026-08-11, section 84). Kept because it is a
+    measured value rather than a guess, and measured values are expensive to
+    recover. If it is still unused when the next hand passes through here,
+    delete it and the branch in MediaSurface with it.
+
     A tile in the home sequence. Measured off the primary reference: Rick Owens
     stacks 390x844 then 390x488 on a phone, which is 58% of the viewport, and
     pairs 720x900 side by side on desktop, which is half the width at full
@@ -180,8 +186,14 @@
     being switched on. Same easing as everything else that moves here.
   */
   --dur-stroke: 420ms;
+  /*
+    ONE CURVE. Everything that moves on this site moves on this one: the
+    reveal, the drawn underline, the spine, the menu's arrival, the signature.
+    --ease-inversion was removed 2026-08-11 (section 84): it was the curve the
+    page inversion travelled on, the inversion went with section 82, and a token
+    named after a gesture the site no longer has is an invitation to rebuild it.
+  */
   --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-inversion: cubic-bezier(0.76, 0, 0.24, 1);
 
   /* default polarity = light, so tokens resolve even before a theme is set */
   --fg: var(--ink);

@@ -31,12 +31,21 @@
   is a surface under it, exactly the stack that already worked. This is a
   desktop composition, not a new layout.
 
-  THE SEAM IS THE STRUCTURE. Where the photograph meets the text is a real edge
-  in the composition, which is why the spine is not drawn here: a hairline
-  floating beside a photograph's edge would be two lines saying one thing. See
-  the note on Spine for what the spine is now.
+  THE SEAM IS THE STRUCTURE — AT DESKTOP, WHERE THERE IS A SEAM. Where the
+  photograph meets the text is a real edge in the composition, so the spine is
+  not drawn beside it: two lines saying one thing is one line too many.
+
+  BELOW 64rem THERE IS NO SEAM (corrected 2026-08-11, section 84). A phone
+  stacks the passage UNDER the photograph at the page's own full width, which is
+  a text surface in every respect — and it was the only text on the site with no
+  spine. On the about page that is the whole story; on home it is both passages.
+  So a reader on a phone got the site's recurring structural mark on the
+  newsletter and the chapter headings and nowhere in the prose between them, a
+  line that stops and starts for no reason a reader could see. It is drawn at
+  the stack, and only at the stack.
 */
 import MediaSurface from "./MediaSurface.astro";
+import Spine from "./Spine.astro";
 import type {MediaItem} from "../lib/media";
 import type {Locale} from "../lib/locales";
 
@@ -58,14 +67,21 @@ const {media, locale, side = "left", class: className = ""} = Astro.props;
         <MediaSurface media={media} locale={locale} height="paired" sizes="(min-width: 64rem) 50vw, 100vw" />
       </div>
       <div class="paired-text">
+        {/* Drawn at the stack, dropped at the seam. See the note above. */}
+        <Spine />
         <div class="paired-inner">
           <slot />
         </div>
       </div>
     </section>
   ) : (
-    /* No photograph: the passage stands on its own surface exactly as before. */
-    <section class="paired paired-alone frame">
+    /*
+      No photograph: the passage stands on its own surface exactly as before —
+      which means it is a text surface at every width, and takes the spine at
+      every width. It had none at all until section 84.
+    */
+    <section class="paired paired-alone frame relative">
+      <Spine />
       <div class="paired-inner">
         <slot />
       </div>

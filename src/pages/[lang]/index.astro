@@ -20,10 +20,11 @@
                  region on the site (see WornBand.astro).
     4. MAKING    the work behind the pieces, and the one route to asking for
                  one. Section 2 makes a claim; this is where it is shown.
-    [ THE WIPE ] the boundary wash. PAPER above it, ink below, footer included
-                 (section 80). The shop is entered from the top half; the world
-                 from the bottom. See the note at the Base call.
-    5. COLLECTIONS as chapters, on ink.
+    [ THE WASH ] the held screen where the reader WRITES the brand's name with
+                 their own scroll (section 82). It used to invert the page here;
+                 every page is paper now, so the mark is the whole event and
+                 this is still the page's one structural moment.
+    5. COLLECTIONS as chapters.
 
   HOW THE PULL IS BUILT, since that was the actual complaint. Only the arrival
   is a sealed screen, because an arrival should be. Everything after it is
@@ -42,6 +43,7 @@ import WornBand from "../../components/WornBand.astro";
 import BoundaryWash from "../../components/BoundaryWash.astro";
 import InstagramMark from "../../components/InstagramMark.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
+import Statement from "../../components/Statement.astro";
 import Signature from "../../components/Signature.astro";
 import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
 import {describingLines, openingLine, unspentLine} from "../../lib/statement";
@@ -127,22 +129,14 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
 ---
 
 {/*
-  PAPER ABOVE THE WIPE, INK BELOW (2026-08-11, section 80) — the owner's
-  arrangement, and it is the better one on the site's own measure.
+  NO INVERSION ON THIS PAGE, OR ANY PAGE (2026-08-11, section 82).
 
-  s77's rule does not change: ink is the world, paper is the shop. What
-  changes is which half of THIS page comes first, and the reason is that the
-  top half is where the shop is entered — the arrival's "all Creature" and the
-  worn band's five tiles, every one landing on a paper page — while the bottom
-  half is the chapters block, whose only link goes into a drop, which is ink.
-  Measured on the page's own outbound links: 6 agree and 2 invert this way
-  round, against 2 and 6 the other.
-
-  THE COST, accepted by the owner and recorded so nobody rediscovers it as a
-  bug: the wipe now runs Albedo into Nigredo, light into darkness, which is
-  backwards from the order named in his own drop statement (s22). The wipe's
-  JOB is unchanged — it is still the one boundary between the world and the
-  shop — only the direction of travel inverts.
+  What stood here was the argument for which half of this page was ink and
+  which was paper, settled by counting outbound links (6 agreed and 2 inverted
+  one way round, against 2 and 6 the other). The owner has since decided every
+  page is paper, so there is no half to assign and no direction of travel to
+  get backwards. The history is in sections 77 to 82; what is left on this page
+  is the wash, and what happens there is his signature being written.
 */}
 
 {/* chrome: the first screen is a photograph now, so the fixed signature and
@@ -235,14 +229,28 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     making frame, so the passage is never alone and its measure comes from the
     half it sits in rather than from a cap.
   */}
+  {/*
+    THROUGH `Statement`, NOT BY HAND (2026-08-11, section 84). This page printed
+    his words in a raw <p> and computed `voice` without ever using it — so the
+    home page was the one place his brand copy appeared outside the system that
+    decides whether words are his, our translation, or our draft. It cost
+    nothing today, because every language is approved; it would have cost the
+    home page its notice the moment one was not, which is precisely when it
+    matters. Same register, same markup, one fewer thing to remember.
+  */}
   <PairedSurface media={makingMedia[0] ?? null} locale={locale} side="left">
-    <h2 class="type-label text-label">{t(locale, "theWork")}</h2>
-    {homeStatement && (
-      <p class="type-body text-body whitespace-pre-line">{homeStatement}</p>
-    )}
-    <a href={localePath(locale, "about")} class="type-label text-label self-start hairline-under">
-      {t(locale, "about")}
-    </a>
+    <Statement
+      text={homeStatement}
+      locale={locale}
+      heading={t(locale, "theWork")}
+      voice={voice}
+      register="body"
+      bare
+    >
+      <a href={localePath(locale, "about")} class="type-label text-label self-start hairline-under">
+        {t(locale, "about")}
+      </a>
+    </Statement>
   </PairedSurface>
 
   {/* 3. WORN. The pieces on people, sideways. */}
@@ -254,35 +262,32 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     actually got. The frames are "tall", so the wash below is already showing.
   */}
   <PairedSurface media={makingMedia[1] ?? null} locale={locale} side="right">
-    <h2 class="type-label text-label">{t(locale, "theMaking")}</h2>
-    {makingStatement && (
-      <p class="type-body text-body whitespace-pre-line">{makingStatement}</p>
-    )}
-    <p class="type-label text-label">{t(locale, "madeToMeasureValue")}</p>
-    <a href={localePath(locale, "creature")} class="type-label text-label self-start hairline-under">
-      {t(locale, "allCreatures")}
-    </a>
-    <a href={localePath(locale, "collections")} class="type-label text-label self-start hairline-under">
-      {t(locale, "collections")}
-    </a>
+    <Statement
+      text={makingStatement}
+      locale={locale}
+      heading={t(locale, "theMaking")}
+      voice={voice}
+      register="body"
+      bare
+    >
+      <p class="type-label text-label">{t(locale, "madeToMeasureValue")}</p>
+      <a href={localePath(locale, "creature")} class="type-label text-label self-start hairline-under">
+        {t(locale, "allCreatures")}
+      </a>
+      <a href={localePath(locale, "collections")} class="type-label text-label self-start hairline-under">
+        {t(locale, "collections")}
+      </a>
+    </Statement>
   </PairedSurface>
 
   {/* Any making frame beyond the two now composed above simply continues. */}
   {makingMedia.slice(2).map((media) => <MediaSurface media={media} locale={locale} height="tall" />)}
 
   {/*
-    THE BOUNDARY, reversed 2026-08-02. The page has been INK since the arrival;
-    from here it is paper.
-
-    It used to run the other way, and the direction is no longer arbitrary. The
-    collection is MONUMENTUS: Tenebrae & Lux, and the owner's text names the two
-    alchemical stages in order: Nigredo, the blackening, then Albedo, the
-    whitening. Darkness, then light. A wipe that travelled from white into black
-    ran the sequence backwards.
-
-    Nothing is added and nothing says so. Two props changed. If a reader feels
-    it, good; if not, the page is still a page that inverts once, which is what
-    it was before (DESIGN-PLAN section 22).
+    THE BOUNDARY. One held screen, and crossing it means writing the brand's
+    name with your own scroll (section 82). Nigredo and Albedo are words in his
+    drop statement now rather than something the page performs; that was the
+    price of one polarity and he was told it before he paid it.
   */}
   {/*
     INSTAGRAM, AND THE LIST. Both sit here, before the wipe, because this is
@@ -418,7 +423,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     sublabel={collections[0]?.season ?? null}
   />
 
-  {/* 5. THE COLLECTIONS, now on paper. */}
+  {/* 5. THE COLLECTIONS. */}
   {/*
     The chapters get a name and a line, like every other movement: the reader
     has scrolled four screens by here and deserves to be told what this last

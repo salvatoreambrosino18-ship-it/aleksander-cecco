@@ -38,8 +38,11 @@ export type MediaItem = {
   caption: LocaleField;
   /** A stopgap frame: a crop of another photograph, awaiting a real one. */
   isProvisional: boolean | null;
-  hasVideo: boolean;
-  /** The loop's own URL. Null until he shoots one; the poster carries the frame. */
+  /**
+   * The loop's own URL, and the only thing that decides whether one renders.
+   * Null until he shoots one, which is the case for every frame today; the
+   * poster carries the frame either way. See section 83 for what to shoot.
+   */
   videoUrl: string | null;
   dimensions: {width: number; height: number} | null;
 };

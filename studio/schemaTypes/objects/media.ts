@@ -169,7 +169,7 @@ export const media = defineType({
       title: 'Video (facoltativo / optional)',
       type: 'file',
       description:
-        'Loop breve, muto, sotto i 15 secondi. MP4 (h.264) o WebM. La riproduzione arriva piu avanti; per ora conta lo schema. / Short muted loop, under 15 seconds. MP4 (h.264) or WebM. Playback comes later; for now what matters is the schema.',
+        "Loop breve e muto: 4-10 secondi, MP4 (h.264), meno di 3 MB, SENZA traccia audio, stesso taglio della fotografia qui sopra. Il sito lo riproduce sopra la fotografia, solo quando e' sullo schermo. La fotografia resta cio' che vedono chi ha il risparmio dati e chi ha ridotto le animazioni. / Short muted loop: 4-10 seconds, MP4 (h.264), under 3 MB, with NO audio track at all, framed the same as the photograph above. The site plays it over the photograph, only while it is on screen. The photograph stays what a reader gets under reduced motion or when the video cannot play.",
       options: {accept: 'video/mp4,video/webm'},
     }),
     defineField({

@@ -16,8 +16,11 @@
   because the fixed signature and MENU still pass over the picture and still
   have to stay legible.
 
-  Video: the schema carries an optional muted loop and this renders its poster.
-  The player is deliberately not built yet.
+  Video: the schema carries an optional muted loop, and since 2026-08-11
+  (section 83) this renders the loop itself over its own poster. Nothing changes
+  until a file exists — there are zero <video> elements in the build today — and
+  every guarantee sits on the poster rather than on the video. See the note at
+  the element below, and the shooting spec in section 83.
 */
 import {fullBleedSrcSet, imageUrl, objectPosition} from "../lib/image";
 import {overlayTheme, type MediaItem} from "../lib/media";
@@ -123,7 +126,25 @@ const src = imageUrl(media.poster, 1440);
 const srcset = fullBleedSrcSet(media.poster);
 
 const below = media.captionPlacement === "below";
-const hasLabel = Boolean(caption) || Astro.slots.has("default");
+/*
+  AN EMPTY CAPTION IS NOT A CAPTION (2026-08-11, section 84).
+
+  `Astro.slots.has("default")` answers "were children passed", not "do they
+  render anything". A Creature page maps over its frames and writes the name and
+  price only for the first — `{index === 0 && (...)}` — which is still a child
+  expression on every other frame. So every frame after the first rendered an
+  EMPTY <figcaption>, and for the "below" placement that is `frame py-u3`: two
+  units of page padding, about 50 to 70px of blank paper, opening between two
+  full-bleed photographs on the shop's most important page. Thirty-three of them
+  across the English Creature pages alone, in the built HTML, invisible to every
+  check because the markup is valid and the gap is only space.
+
+  Rendering the slot and asking whether it produced anything is the only honest
+  test; `has()` cannot see through a false branch.
+*/
+const slotHtml = Astro.slots.has("default") ? await Astro.slots.render("default") : "";
+const hasSlot = slotHtml.trim() !== "";
+const hasLabel = Boolean(caption) || hasSlot;
 
 /*
   IS THIS SURFACE THE PAGE'S FULL WIDTH? (2026-08-10)
@@ -267,7 +288,7 @@ const contained =
           data-theme={captionTheme}
           class="text-fg absolute inset-x-0 bottom-0 flex flex-col gap-u1 p-caption"
         >
-          <slot />
+          {hasSlot && <Fragment set:html={slotHtml} />}
           {caption && <span class="type-label text-label">{caption}</span>}
         </figcaption>
       )
@@ -279,7 +300,7 @@ const contained =
       /* On the page, not on the picture: page polarity, inside the margins —
          or inside the caption inset when the frame is not the page's width. */
       <figcaption class:list={["flex flex-col gap-u1", contained ? "p-caption" : "frame py-u3"]}>
-        <slot />
+        {hasSlot && <Fragment set:html={slotHtml} />}
         {caption && <span class="type-label text-label">{caption}</span>}
       </figcaption>
     )

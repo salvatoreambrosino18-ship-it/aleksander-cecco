@@ -360,6 +360,8 @@
       words a line.
     */
     padding: var(--s-u13) var(--content-x);
+    /* the spine inside it is absolute; this is what it resolves against */
+    position: relative;
   }
   @media (min-width: 64rem) {
     /* The photograph fills its cell: figure and its box both stretch. */
@@ -392,6 +394,16 @@
     }
     .paired-alone {
       display: block;
+    }
+    /*
+      THE SEAM REPLACES THE LINE, and only where there is a seam (section 84).
+      Above 64rem the passage sits against the photograph's edge, which is a real
+      edge; the hairline would be a second line saying the same thing. Below it
+      the passage is a plain text surface and keeps the spine every other text
+      surface on the site has.
+    */
+    .paired-text > .hairline-v {
+      display: none;
     }
   }
 

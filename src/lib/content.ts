@@ -31,9 +31,11 @@ const MEDIA_PROJECTION = /* groq */ `
   "overlayCaption": coalesce(overlayCaption, overlay),
   "captionPlacement": coalesce(captionPlacement, "over"),
   caption,
-  "hasVideo": defined(video.asset),
-  // The file itself, so a loop can actually play (section 83). It was projected
-  // as a boolean for a year and nothing could ever render it.
+  // THE FILE ITSELF, so a loop can actually play (section 83). This was
+  // "hasVideo": defined(video.asset) for a year — a boolean nothing could
+  // render, while the plan claimed film would drop in without a rebuild. The
+  // boolean is gone rather than kept beside the URL: two ways to ask the same
+  // question is how the answers drift apart (section 84).
   "videoUrl": video.asset->url,
   "dimensions": poster.asset->metadata.dimensions
 `;
