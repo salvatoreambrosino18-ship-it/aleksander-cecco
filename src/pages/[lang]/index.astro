@@ -337,15 +337,32 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
         <ul class="square-strip" role="region" aria-labelledby="ig-heading" tabindex="0">
           {instagramFrames.map((frame) => {
             const href = frame.postUrl?.trim() || instagramUrl;
+            /*
+              THE GLYPH SITS ON THE SQUARE (corrected 2026-08-10, after looking).
+
+              It was passed through MediaSurface's caption slot so it would take
+              the owner's per-image placement. Every one of these frames is set
+              to "below", so on the page four glyphs ended up in a strip of bare
+              ink UNDER the squares, detached from the photographs they belong
+              to and reading as debris rather than as an affordance. The DOM was
+              correct and the page was wrong, which is the whole argument for
+              having a browser.
+
+              A caption is words about a photograph and may sit off it. This is
+              not a caption: it marks what a TAP does, so it belongs on the
+              thing being tapped. It still takes the frame's own measured
+              polarity, so the site's one rule about marks on photography holds.
+            */
             const square = (
-              <MediaSurface media={frame.media} locale={locale} height="square">
-                {/*
-                  In the caption slot, so the glyph takes the frame's own
-                  measured caption polarity and its clear space from the
-                  caption inset. It is decorative here: the link is named.
-                */}
-                <InstagramMark />
-              </MediaSurface>
+              <div class="relative">
+                <MediaSurface media={frame.media} locale={locale} height="square" />
+                <span
+                  class="ig-badge"
+                  data-theme={overlayTheme(frame.media.overlayCaption ?? frame.media.overlay)}
+                >
+                  <InstagramMark />
+                </span>
+              </div>
             );
             return (
               <li>

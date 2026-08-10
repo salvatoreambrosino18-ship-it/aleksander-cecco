@@ -307,6 +307,111 @@ function bandsFromColumn(columns, height, viewportHeight, skip = []) {
   return {runs, faults};
 }
 
+/*
+  TEXT ON A PHOTOGRAPH, measured in pixels (2026-08-10).
+
+  The DOM check above deliberately skips these: an overlay caption has no
+  computable background, and the earlier note here said a machine could not
+  second-guess the owner's per-image choice. That was wrong — a machine can do
+  exactly this, and doing it found that every overlay on the home page's first
+  screen sits under 2:1.
+
+  THE METHOD, which is the whole trick: hide every overlay, photograph the bare
+  picture, and measure the ground inside each overlay's box. Measuring the
+  normal capture measures the caption's own glyphs and reports a confident
+  1.00:1 for everything, which is what the first attempt did.
+
+  THE MEASURE IS WORST-CASE: the ratio against whichever extreme inside the box
+  is closest to the text colour. A caption crossing a photograph that is bright
+  at one end and dark at the other fails here even when most of it is fine —
+  which is correct, because the reader reads the whole line, and it is the same
+  measure section 58 used when it found eight captions below AA.
+*/
+async function overlayContrast(page, sharp, tmpFile) {
+  const boxes = await page.evaluate(() => {
+    const out = [];
+    const push = (el, label) => {
+      const r = el.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) return;
+      out.push({
+        label,
+        color: getComputedStyle(el).color,
+        x: Math.round(r.x),
+        y: Math.round(r.y + window.scrollY),
+        w: Math.round(r.width),
+        h: Math.round(r.height),
+      });
+    };
+    for (const cap of document.querySelectorAll("figcaption")) {
+      if (getComputedStyle(cap).position !== "absolute") continue;
+      for (const el of cap.querySelectorAll("*")) {
+        const text = [...el.childNodes]
+          .filter((n) => n.nodeType === 3 && n.textContent.trim())
+          .map((n) => n.textContent.trim())
+          .join(" ");
+        if (text) push(el, text.slice(0, 44));
+      }
+    }
+    // The fixed chrome and the drawn mark also pass over photography.
+    for (const [sel, label] of [
+      ["#site-chrome .signature", "[the corner mark]"],
+      [".sig-arrival .sig-draw", "[the drawn mark]"],
+    ]) {
+      const el = document.querySelector(sel);
+      if (el) push(el, label);
+    }
+    return out;
+  });
+  if (!boxes.length) return [];
+
+  await page.addStyleTag({
+    content:
+      "figcaption{visibility:hidden!important}#site-chrome{visibility:hidden!important}.sig-arrival{visibility:hidden!important}",
+  });
+  await page.waitForTimeout(120);
+  await page.screenshot({path: tmpFile, fullPage: true});
+
+  const meta = await sharp(tmpFile).metadata();
+  const channel = (v) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  const lum = (r, g, b) => 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+  const ratio = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+
+  const faults = [];
+  for (const box of boxes) {
+    const left = Math.max(0, box.x);
+    const top = Math.max(0, box.y);
+    const width = Math.min(box.w, meta.width - left);
+    const height = Math.min(box.h, meta.height - top);
+    if (width < 2 || height < 2) continue;
+    const {data, info} = await sharp(tmpFile)
+      .extract({left, top, width, height})
+      .removeAlpha()
+      .raw()
+      .toBuffer({resolveWithObject: true});
+    let lo = 1;
+    let hi = 0;
+    for (let i = 0; i < data.length; i += info.channels) {
+      const l = lum(data[i], data[i + 1], data[i + 2]);
+      if (l < lo) lo = l;
+      if (l > hi) hi = l;
+    }
+    const rgb = box.color.match(/\d+/g)?.map(Number) ?? [0, 0, 0];
+    const fg = lum(rgb[0], rgb[1], rgb[2]);
+    const worst = Math.min(ratio(fg, lo), ratio(fg, hi));
+    if (worst < 4.5) {
+      faults.push({
+        kind: "on-photo",
+        detail: `${worst.toFixed(2)}:1 worst case — "${box.label}"`,
+      });
+    }
+  }
+  await page.reload({waitUntil: "networkidle"});
+  return faults;
+}
+
 /* ------------------------------------------------------------------- shots */
 
 async function main() {
@@ -464,7 +569,11 @@ async function main() {
             );
             const {faults: bandFaults} = bandsFromColumn(cols, meta.height, viewport.height, washRanges);
 
-            const all = [...faults, ...bandFaults];
+            // Runs LAST: it hides the overlays and reloads, so nothing after it
+            // may depend on the page's state.
+            const photoFaults = await overlayContrast(page, sharp, path.join(OUT, ".bare.png"));
+
+            const all = [...faults, ...bandFaults, ...photoFaults];
             if (all.length) {
               failures += all.length;
               line += `   ${all.length} FAULT${all.length > 1 ? "S" : ""}`;

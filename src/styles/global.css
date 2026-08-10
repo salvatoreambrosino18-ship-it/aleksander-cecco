@@ -505,6 +505,19 @@
   }
 
   /*
+    The glyph ON the square, at the same inset a caption would take on the same
+    photograph, in the frame's own measured polarity. `color` is what the mark
+    inherits, and data-theme on this element is what resolves --fg.
+  */
+  .ig-badge {
+    position: absolute;
+    left: var(--caption-inset);
+    bottom: var(--caption-inset);
+    color: var(--fg);
+    pointer-events: none;
+  }
+
+  /*
     THE TILE FLICK (section 72): browse a piece's frames from the catalogue,
     his request. Only where hover does not exist — a hover device keeps the
     hover swap it already has, and its extra frames are display:none, which
