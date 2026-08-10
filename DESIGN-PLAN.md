@@ -6935,3 +6935,104 @@ off.
 **One paragraph, deliberately.** Four short lines tells a reader what they are
 looking at; a line per photograph would be a caption gallery, which is what this
 page has always refused to be.
+
+---
+
+## 82. Composed with the photography, not sequenced between it (2026-08-11)
+
+### The finding that made the fix obvious
+
+The desktop text pages were wrong twice: pinned left they read as an
+afterthought, and centred — the previous session's attempt — they put a
+hairline in the middle of an empty screen with a dead zone either side. Both
+attempts were spacing values. The problem was not spacing.
+
+**The four references were re-measured for RUNNING PROSE specifically**, in a
+browser, at 1440, counting every text run over 120 characters:
+
+    Rick Owens    NO brand prose on the home page. Its only long run is the
+                  cookie banner.
+    Sorcinelli    the same. Its long runs are the cookie banner. One 22px
+                  statement, over a full-screen slideshow.
+    Sellam        ONE block: 396 characters, 17.9px, CENTRED, tucked directly
+                  under a full-bleed photograph with about 60px of air.
+    Ferdressed    NO brand prose. Its long runs are shipping and returns policy.
+
+**A column of words alone on flat ground appears nowhere in any of them.** Text
+is over a photograph, hard against one, or a single short line holding a screen.
+This site is the only one of the five with screens of prose, because the owner
+writes discursive paragraphs and the others write labels.
+
+So the sections were **sequenced between photographs when they should have been
+composed with them**.
+
+### The paired surface
+
+`PairedSurface` gives a photograph one half of a full screen and the passage the
+other, alternating sides down a page. On a phone **nothing changes**: the
+photograph is a frame and the text is a surface under it, the stack that always
+worked. This is a desktop composition, not a new layout.
+
+The measure comes for free: half of 1440 less its padding is about 560px, inside
+the readable band with no cap. And the passage is never alone.
+
+Applied to the three pages that had screens of text: **about** (each paragraph
+with its photograph — they already alternated, they were merely stacked),
+**home** (THE WORK and THE MAKING, with the two making frames), **process** (his
+making statement and the stages text).
+
+Two things it forced:
+
+- **`Statement` gained a `bare` mode.** Inside a pairing the passage already has
+  its half, its padding and its measure; wrapping it in a second text surface
+  applied the page margin inside a 720px column and squeezed the prose to three
+  words a line. It did exactly that on the first attempt.
+- **`makingMedia` is a SUBSET of `processMedia`**, so pairing on the first
+  frames put the same photograph at the head of a composition on two pages.
+  Process now anchors on frames home does not use; the mosaic still shows
+  everything.
+
+### The spine is a margin rule, and that is now a decision
+
+It sits at the margin, at every width, and **it does not travel**. Making it
+move toward the centre was wrong in a way worth recording: a hairline in the
+middle of an empty screen is neither a margin nor a structure, it is a divider
+between two dead zones. **A line means something only as the edge of
+something.** On a paired surface it is not drawn at all — the seam where the
+photograph meets the passage is already a real edge, and two lines saying one
+thing is one line too many.
+
+### The vertical rhythm fixed itself
+
+Measured after, at 1440: **the about page has no blank run over 420px anywhere**,
+and the home page's screen-and-a-half between ABOUT and WORN is gone. Not a
+spacing value — the composition closed it, which is the right kind of fix.
+
+The one long blank left in a full-page capture is the passage's sticky
+remainder, which a reader never sees.
+
+### EVERY PAGE IS PAPER, and what happened to the wipe
+
+The owner decided it, having read what it costs. Twenty-five `theme="dark"`
+declarations gone across six pages.
+
+**The inversion is gone, not disabled.** An edge travelling down a screen that
+looks the same on both sides of it is not a quiet gesture, it is nothing, and a
+gesture that no longer means anything is worse than no gesture. The two stacked
+layers, the clip-path and the polarity props are all removed.
+
+**What the home page's structural moment is now:** the same held screen at the
+same boundary, and crossing it means **writing the brand's name with your own
+scroll**. The mark was decorative on top of the inversion; it is now the whole
+event.
+
+That is a better fit for this site than the inversion was. The colour change
+said *you are somewhere else now* in the site's voice. The writing says it in
+HIS — it is his signature, his hand, the one thing on the site that is literally
+him, and it is the effect he likes most. **The boundary did not lose its
+meaning; it changed who speaks at it.**
+
+What is lost, and should be said plainly rather than explained away: ink and
+paper are no longer two halves of an argument, and Tenebrae and Lux are now
+words in his statement rather than something the site performs. That was the
+price, he was told it, and he paid it.
