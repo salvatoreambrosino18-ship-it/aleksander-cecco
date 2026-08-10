@@ -818,10 +818,14 @@
   and is finished after. clamp() does the three cases in one expression and
   needs no branch.
 
-  The fill arrives on the same schedule the trace does, which is what the
-  arrival's sig-settle does with a delay — here it simply follows the same
-  number, so the mark is exactly the static signature at progress 1. That
-  matters: what is left on screen when the edge lands is the finished mark.
+  THREE NUMBERS, NOT TWO (corrected 2026-08-10, after watching it). A path
+  traces from --sig-from to --sig-trace-to with full stroke and NO fill, and
+  only then settles to --sig-to, where the fill arrives and the stroke leaves.
+  The first version ramped fill across the whole span, so the mark faded in
+  under a crawling trace instead of being written — which is the one thing the
+  arrival's drawing gets right and the reason the owner likes it. At progress 1
+  every path is filled and unstroked, so what is left when the edge lands is
+  exactly the static mark.
 
   The whole thing hangs off [data-wash-live], which the wash's own script sets
   only when it runs AND reduced motion is off. So with no JavaScript, or with
@@ -833,19 +837,21 @@
   stroke: currentColor;
   stroke-width: 5;
   stroke-dasharray: 1;
+  /* traced across --sig-from .. --sig-trace-to */
   stroke-dashoffset: clamp(
     0,
-    calc((var(--sig-to) - var(--edge-n, 0)) / (var(--sig-to) - var(--sig-from))),
+    calc((var(--sig-trace-to) - var(--edge-n, 0)) / (var(--sig-trace-to) - var(--sig-from))),
     1
   );
+  /* filled across --sig-trace-to .. --sig-to, and not one moment before */
   fill-opacity: clamp(
     0,
-    calc((var(--edge-n, 0) - var(--sig-from)) / (var(--sig-to) - var(--sig-from))),
+    calc((var(--edge-n, 0) - var(--sig-trace-to)) / (var(--sig-to) - var(--sig-trace-to))),
     1
   );
   stroke-opacity: clamp(
     0,
-    calc((var(--sig-to) - var(--edge-n, 0)) / (var(--sig-to) - var(--sig-from))),
+    calc((var(--sig-to) - var(--edge-n, 0)) / (var(--sig-to) - var(--sig-trace-to))),
     1
   );
 }

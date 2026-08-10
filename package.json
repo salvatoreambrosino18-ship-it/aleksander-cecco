@@ -13,7 +13,8 @@
     "import": "node scripts/import-photos.mjs",
     "launch-check": "node scripts/launch-check.mjs",
     "patch-text": "node scripts/patch-text.mjs",
-    "icons": "node scripts/icons.mjs"
+    "icons": "node scripts/icons.mjs",
+    "shots": "node scripts/shots.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
@@ -29,6 +30,7 @@
     "@astrojs/check": "^0.9.10",
     "@cloudflare/workers-types": "^5.20260801.1",
     "@types/node": "^26.1.2",
+    "playwright": "^1.62.1",
     "sharp": "^0.35.3",
     "typescript": "^6.0.3",
     "wrangler": "^4.118.0"

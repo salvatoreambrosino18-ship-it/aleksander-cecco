@@ -75,6 +75,23 @@ if (scrub) {
     static mark and nothing else.
   */
   const LIFT = 0.04;
+  /*
+    THE SETTLE, and why it is a separate span (fixed 2026-08-10, seen in a
+    browser for the first time).
+
+    The arrival's drawing traces a path at full stroke and then, ONCE THE PATH
+    IS FINISHED, spends 500ms swapping stroke for fill. The first scrub version
+    ramped the fill linearly across the whole path instead, so at 10% progress
+    the entire mark was already 14% filled: it FADED IN with a trace crawling
+    over it, rather than being written. That is precisely the character the
+    owner likes about the arrival, and it was lost.
+
+    So each path now owns three numbers. It traces from --sig-from to
+    --sig-trace-to at full stroke and no fill, then settles to --sig-to, where
+    the fill arrives and the stroke leaves. The settle is a small fixed share of
+    the whole travel, capped so a very short path cannot be all settle.
+  */
+  const SETTLE = 0.05;
   const span = 1 - LIFT * Math.max(lengths.length - 1, 0);
   let cursor = 0;
   let index = 0;
@@ -84,9 +101,11 @@ if (scrub) {
     // Rounding, then clamping the last one to exactly 1: a mark that stops at
     // 0.998 never fills, and nobody would find that by reading the source.
     const to = index === lengths.length - 1 ? 1 : from + share;
+    const settle = Math.min(SETTLE, (to - from) * 0.4);
+    const traceTo = to - settle;
     cursor = to + LIFT;
     index += 1;
-    return `<path pathLength="1" style="--sig-from:${from.toFixed(4)};--sig-to:${to.toFixed(4)}" `;
+    return `<path pathLength="1" style="--sig-from:${from.toFixed(4)};--sig-trace-to:${traceTo.toFixed(4)};--sig-to:${to.toFixed(4)}" `;
   });
 }
 

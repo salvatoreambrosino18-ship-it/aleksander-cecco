@@ -40,3 +40,6 @@ seed-photos/
 # misc
 .cache/
 coverage/
+
+# screenshots from scripts/shots.mjs: look at them, never commit them
+shots/
