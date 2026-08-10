@@ -192,13 +192,7 @@
 */
 @utility frame {
   padding-left: var(--content-x);
-  /*
-    The spine, not the page edge (section 81). Below ~900px these are the same
-    number so nothing changes; above it the column is placed rather than pinned,
-    and its right side has to travel with its left or the text is centred on one
-    side only.
-  */
-  padding-right: var(--spine-x);
+  padding-right: var(--margin);
 }
 
 /*
@@ -304,7 +298,12 @@
     distance and the edge travels. Native sticky, no library.
   */
   .wash {
-    --edge: 0%;
+    /*
+      One polarity, so no edge and no second layer (section 82). What remains is
+      a held screen the reader writes the mark across; --edge-n is set by the
+      wash's own script and read by .sig-scrub.
+    */
+    --edge-n: 0;
     position: relative;
     /*
       One screen by default. The pinned distance is added ONLY once the script
@@ -339,14 +338,63 @@
     downward from the top of the screen. No interpolation, no blur, no gradient:
     at every frame each pixel is either paper or ink.
   */
-  .wash-layer-in {
-    /* Hidden until the script drives it, so no-JS sees a clean discrete flip. */
-    display: none;
-  }
-  [data-wash-live] .wash-layer-in {
+  /*
+    THE PAIRED SURFACE (section 82): a photograph and a passage sharing a screen
+    at desktop, and the plain stack a phone already had below that.
+
+    64rem is where two halves are each wide enough to hold a readable measure:
+    below it, half a screen is a column too narrow for prose and the stack is
+    the right answer. There is no in-between state to tune.
+  */
+  .paired-inner {
     display: flex;
-    clip-path: inset(0 0 calc(100% - var(--edge)) 0);
+    flex-direction: column;
+    gap: var(--s-u5);
+    max-width: 34rem;
   }
+  .paired-text {
+    /*
+      Its own padding, never `frame`. The page margin exists to hold a column off
+      the edge of a SCREEN; this column is held off a photograph. Applying both
+      left 400px of padding inside a 720px half and squeezed the prose to three
+      words a line.
+    */
+    padding: var(--s-u13) var(--content-x);
+  }
+  @media (min-width: 64rem) {
+    /* The photograph fills its cell: figure and its box both stretch. */
+    .paired-media,
+    .paired-media > figure,
+    .paired-media > figure > div {
+      height: 100%;
+    }
+    .paired {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      min-height: 100svh;
+    }
+    .paired-flip .paired-media {
+      order: 2;
+    }
+    .paired-text {
+      display: flex;
+      align-items: center;
+      /*
+        The text half carries its own margins rather than the page's: the page
+        margin exists to hold a column off the left edge of a SCREEN, and this
+        column is held off a photograph instead. --s-u13 either side is the same
+        air the vertical rhythm uses, so the passage sits in its half the way a
+        caption sits in a frame.
+      */
+      padding-left: var(--s-u8);
+      padding-right: var(--s-u8);
+    }
+    .paired-alone {
+      display: block;
+    }
+  }
+
   .wash-content {
     display: flex;
     flex-direction: column;
@@ -364,9 +412,6 @@
     }
     [data-wash-live] .wash-sticky {
       position: relative;
-    }
-    [data-wash-live] .wash-layer-in {
-      display: none;
     }
   }
 

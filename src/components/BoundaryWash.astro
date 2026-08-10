@@ -1,76 +1,62 @@
 ---
 /*
-  THE INVERSION, built as a wipe. The thing the whole design was built around
-  (DESIGN-PLAN section 3).
+  THE PASSAGE. What the boundary wash became when the site went to one polarity
+  (2026-08-11, section 82).
 
-  Two stacked full-viewport layers, pixel aligned, holding the same content. The
-  bottom layer is the outgoing polarity, the top layer the incoming one. A hard
-  horizontal edge travels down the viewport, scrubbed to scroll, revealing the
-  top layer. Each layer is a single flat theme, so the page is only ever pure
-  paper or pure ink and no gray state can exist anywhere in between. That was
-  the whole reason the original cross-fade was thrown out.
+  WHAT IT WAS. Two stacked full-viewport layers holding the same content, the
+  bottom one the polarity being left and the top one the polarity being entered,
+  with a hard edge scrubbed down the screen by scroll. It was the site's one
+  structural gesture: the border between the world and the shop, performed.
 
-  It is confined to this screen, which carries the signature, a label and the
-  spine, and never a photograph. No image is ever sliced by the edge.
+  WHY IT COULD NOT STAY. The owner has decided every page is paper. An inversion
+  between two identical colours is not a quiet inversion, it is nothing: the
+  edge would travel down a screen that looks the same on both sides of it. A
+  gesture that no longer means anything is worse than no gesture, so the
+  INVERSION IS GONE — the two layers, the clip-path, the polarity props, all of
+  it.
 
-  HOW IT IS PINNED. The section is one viewport plus --wipe-pin tall, and holds
-  a position:sticky child. Native sticky, not a library: it is what mobile
-  browsers are built to do smoothly, and it costs nothing to download on a site
-  whose argument is that photographs load fast.
+  WHAT REPLACED IT, AND WHY IT IS NOT A CONSOLATION PRIZE. The mark, written by
+  the reader. The wash already carried the signature and already computed the
+  scroll progress; what was decorative on top of the inversion is now the whole
+  event. One held screen at the site's one boundary, and crossing it means
+  writing the brand's name with your own scroll before the shop begins.
 
-  WITH NO JAVASCRIPT, or under prefers-reduced-motion: the edge never moves, the
-  section collapses to a single screen, and the polarity flips discretely at the
-  boundary instead. The page stays coherent, which is the test the plan set.
+  That is a better fit for what this site is than the inversion ever was. The
+  colour change said "you are somewhere else now" in the site's voice; the
+  writing says it in HIS — it is his signature, his hand, the one thing on the
+  site that is literally him, and it is the effect he likes most. The boundary
+  did not lose its meaning; it changed who speaks at it.
+
+  HOW IT IS PINNED, unchanged: the section is one viewport plus --wipe-pin tall
+  and holds a position:sticky child, so the screen is held while the reader
+  scrolls the pinned distance and the mark writes across it.
+
+  WITH NO JAVASCRIPT, or under prefers-reduced-motion: the section collapses to
+  a single screen and the signature is simply the finished mark. Nothing is
+  hidden, nothing is waiting, and the page still reads as a held moment.
 */
 import Spine from "./Spine.astro";
 import Signature from "./Signature.astro";
 
 interface Props {
-  /** The polarity the page is leaving. */
-  from: "light" | "dark";
-  /** The polarity the page continues in after the edge completes. */
-  to: "light" | "dark";
   label?: string | null;
   sublabel?: string | null;
 }
 
-const {from, to, label, sublabel} = Astro.props;
+const {label, sublabel} = Astro.props;
 ---
 
 <section class="wash" data-wash>
   <div class="wash-sticky">
-    {/* OUTGOING: the polarity the reader arrived in. */}
-    <div class="wash-layer frame" data-theme={from}>
+    <div class="wash-layer frame">
       <Spine />
       <div class="wash-content">
         <div class="w-sig-wash">
-          <Signature decorative />
-        </div>
-        {label && <p class="type-label text-label">{label}</p>}
-        {sublabel && <p class="type-mono text-mono">{sublabel}</p>}
-      </div>
-    </div>
-
-    {/*
-      INCOMING: identical content, opposite polarity, clipped by the edge. It
-      declares the chrome polarity too, so the signature and MENU flip with the
-      field rather than a moment later.
-    */}
-    <div class="wash-layer wash-layer-in frame" data-theme={to} data-chrome-polarity={to}>
-      <Spine />
-      <div class="wash-content" aria-hidden="true">
-        <div class="w-sig-wash">
           {/*
-            THE MARK IS WRITTEN BY THE READER (2026-08-10). The outgoing layer
-            below carries the finished signature; this one, the polarity the
-            page is arriving in, writes itself as the edge travels. Same pen,
-            same pacing and same order of strokes as the arrival's drawing —
-            the difference is that the clock is the reader's own scroll, so it
-            slows when they slow and stops when they stop.
-
-            It belongs HERE and not somewhere new: the wash is already the
-            site's one large gesture, it already holds the mark, and it already
-            computes the number this needs. Nothing is added to the page.
+            THE MARK IS WRITTEN BY THE READER. Same pen, pacing and stroke order
+            as the arrival's drawing; the clock is the reader's own scroll, so it
+            slows when they slow and stops when they stop. `scrub` degrades to
+            the plain filled mark whenever the wash is not live.
           */}
           <Signature decorative scrub />
         </div>
@@ -83,19 +69,18 @@ const {from, to, label, sublabel} = Astro.props;
 
 <script>
   /*
-    Drive the edge from scroll. One listener, one rAF, one custom property.
+    Drive the mark from scroll. One listener, one rAF, one custom property.
 
-    The edge is a percentage of the viewport, written to --edge on the incoming
-    layer, which clips itself with inset(). Nothing else changes: no layout, no
-    element moves, and the layers never repaint anything but flat colour and a
-    little type.
+    `--edge-n` is the progress as a bare 0..1, which is what the signature's
+    unitless dash offsets divide by. `--edge` went with the clip-path when the
+    inversion did.
   */
   const washes = document.querySelectorAll<HTMLElement>("[data-wash]");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (washes.length && !reduced.matches) {
-    // Tells the stylesheet the edge is under control: only then does the
-    // section take its pinned height and the incoming layer appear.
+    // Tells the stylesheet the scroll is under control: only then does the
+    // section take its pinned height.
     document.documentElement.setAttribute("data-wash-live", "");
     let ticking = false;
 
@@ -103,19 +88,8 @@ const {from, to, label, sublabel} = Astro.props;
       ticking = false;
       for (const wash of washes) {
         const rect = wash.getBoundingClientRect();
+        const set = (progress: number) => wash.style.setProperty("--edge-n", progress.toFixed(4));
         // Off screen entirely: leave it at whichever end it belongs.
-        /*
-          Two properties, one number. `--edge` is the percentage the clip-path
-          wants; `--edge-n` is the same progress as a bare 0..1, because the
-          signature's dash offsets are unitless and a percentage cannot be
-          divided back into one inside calc(). Written together, always, so the
-          edge and the pen can never disagree about where the reader is.
-        */
-        const set = (progress: number) => {
-          wash.style.setProperty("--edge", `${(progress * 100).toFixed(2)}%`);
-          wash.style.setProperty("--edge-n", progress.toFixed(4));
-        };
-
         if (rect.bottom < 0) {
           set(1);
           continue;
@@ -144,7 +118,7 @@ const {from, to, label, sublabel} = Astro.props;
       A SET, not a counter. An IntersectionObserver fires once per observed
       element on setup, including when it is NOT intersecting, so counting
       +1/-1 starts at minus one and the listener never attaches. That is exactly
-      what happened the first time, and the edge sat at zero for the whole
+      what happened the first time, and the mark sat unwritten for the whole
       pinned distance.
     */
     const onScreen = new Set<Element>();

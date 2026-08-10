@@ -38,10 +38,10 @@
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
-import Statement from "../../components/Statement.astro";
 import WornBand from "../../components/WornBand.astro";
 import BoundaryWash from "../../components/BoundaryWash.astro";
 import InstagramMark from "../../components/InstagramMark.astro";
+import PairedSurface from "../../components/PairedSurface.astro";
 import Signature from "../../components/Signature.astro";
 import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
 import {describingLines, openingLine, unspentLine} from "../../lib/statement";
@@ -151,8 +151,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   locale={locale}
   image={shareImage ? imageUrl(shareImage.poster, 1200) : null}
   chrome={overlayTheme(opening?.overlayChrome ?? opening?.overlay)}
-  theme="light"
-  footerTheme="dark"
+ 
 >
   {/*
     1. ARRIVAL. The one sealed screen on the page, and the only priority image:
@@ -229,22 +228,22 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     statement register: he writes long discursive prose, and uppercasing it at
     statement size turns a manifesto into shouting (DESIGN-PLAN section 22).
   */}
-  <Statement
-    text={homeStatement}
-    locale={locale}
-    heading={t(locale, "theWork")}
-    token={"{HOME_STATEMENT}"}
-    voice={voice}
-    register="body"
-    class="pt-u13 pb-u5"
-  >
-    <a
-      href={localePath(locale, "about")}
-      class="type-label text-label self-start hairline-under"
-    >
+  {/*
+    COMPOSED WITH A PHOTOGRAPH (2026-08-11, section 82). This was a screen of
+    text between two screens of photography, which at 1440 meant a 640px column
+    with the rest of the width empty. It now shares a screen with the first
+    making frame, so the passage is never alone and its measure comes from the
+    half it sits in rather than from a cap.
+  */}
+  <PairedSurface media={makingMedia[0] ?? null} locale={locale} side="left">
+    <h2 class="type-label text-label">{t(locale, "theWork")}</h2>
+    {homeStatement && (
+      <p class="type-body text-body whitespace-pre-line">{homeStatement}</p>
+    )}
+    <a href={localePath(locale, "about")} class="type-label text-label self-start hairline-under">
       {t(locale, "about")}
     </a>
-  </Statement>
+  </PairedSurface>
 
   {/* 3. WORN. The pieces on people, sideways. */}
   <WornBand tiles={worn} locale={locale} label={t(locale, "worn")} line={t(locale, "wornLine")} />
@@ -254,36 +253,22 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     evidence for it, and it is the only place the home page says how a piece is
     actually got. The frames are "tall", so the wash below is already showing.
   */}
-  <Statement
-    text={makingStatement}
-    locale={locale}
-    heading={t(locale, "theMaking")}
-    token={"{MAKING_STATEMENT}"}
-    voice={voice}
-    register="body"
-    class="pt-u13 pb-u5"
-  >
+  <PairedSurface media={makingMedia[1] ?? null} locale={locale} side="right">
+    <h2 class="type-label text-label">{t(locale, "theMaking")}</h2>
+    {makingStatement && (
+      <p class="type-body text-body whitespace-pre-line">{makingStatement}</p>
+    )}
     <p class="type-label text-label">{t(locale, "madeToMeasureValue")}</p>
-    {/*
-      Two routes out, not one. The index is the shortest path to any Creature:
-      one tap to the index and one more to a piece, which is the two-tap depth
-      the old Shopify site had and this one had lost.
-    */}
-    <a
-      href={localePath(locale, "creature")}
-      class="type-label text-label self-start hairline-under"
-    >
+    <a href={localePath(locale, "creature")} class="type-label text-label self-start hairline-under">
       {t(locale, "allCreatures")}
     </a>
-    <a
-      href={localePath(locale, "collections")}
-      class="type-label text-label self-start hairline-under"
-    >
+    <a href={localePath(locale, "collections")} class="type-label text-label self-start hairline-under">
       {t(locale, "collections")}
     </a>
-  </Statement>
+  </PairedSurface>
 
-  {makingMedia.map((media) => <MediaSurface media={media} locale={locale} height="tall" />)}
+  {/* Any making frame beyond the two now composed above simply continues. */}
+  {makingMedia.slice(2).map((media) => <MediaSurface media={media} locale={locale} height="tall" />)}
 
   {/*
     THE BOUNDARY, reversed 2026-08-02. The page has been INK since the arrival;
@@ -429,8 +414,6 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   </TextSurface>
 
   <BoundaryWash
-    from="light"
-    to="dark"
     label={collections[0]?.name ?? null}
     sublabel={collections[0]?.season ?? null}
   />
@@ -442,7 +425,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     sequence is. Ours, flagged as homeLines.
   */}
   {collections.length > 0 && (
-    <TextSurface theme="dark" class="flex flex-col gap-u1 pt-u13 pb-u5">
+    <TextSurface class="flex flex-col gap-u1 pt-u13 pb-u5">
       {/* The heading alone: "The current drop, in full." explained the page. */}
       <h2 class="type-label text-label">{t(locale, "collections")}</h2>
     </TextSurface>
@@ -482,7 +465,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           )}
 
           {line && (
-            <TextSurface theme="dark" class="flex flex-col gap-u5 py-u13">
+            <TextSurface class="flex flex-col gap-u5 py-u13">
               <p class="type-display text-display max-w-prose">{line}</p>
               {/*
                 THE WAY IN, NOT THE NAME AGAIN (2026-08-10). This link repeated

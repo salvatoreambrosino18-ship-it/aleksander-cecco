@@ -33,7 +33,7 @@ interface Props {
    * 14), and "worn" is a frame inside the horizontal worn band, whose width
    * comes from the flex item around it.
    */
-  height?: "screen" | "tall" | "short" | "band" | "worn" | "tile" | "square";
+  height?: "screen" | "tall" | "short" | "band" | "worn" | "tile" | "square" | "paired";
   /**
    * A different height from `height` at desktop. It exists for the gallery,
    * where a phone alternates tall and short down one column and a desktop pairs
@@ -166,6 +166,8 @@ const contained =
       /* Instagram's native shape (section 71): the recognition signal is the
          square itself. The hotspot decides what survives it. */
       height === "square" && "h-auto aspect-square",
+      /* Half of a paired screen: a phone stacks it at 62svh, desktop fills. */
+      height === "paired" && "h-media-short lg:h-full",
       desktopHeight === "screen" && "md:h-media-screen",
       desktopHeight === "tall" && "md:h-media-tall",
       desktopHeight === "short" && "md:h-media-short",

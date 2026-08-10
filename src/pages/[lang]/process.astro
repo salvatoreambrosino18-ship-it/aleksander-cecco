@@ -88,20 +88,18 @@ const isLandscape = (media: MediaItem) => {
   shopChrome={false}
   title={t(locale, "process")}
   description={making ?? undefined}
-  theme="dark"
-  footerTheme="dark"
   image={first ? imageUrl(first.poster, 1200) : null}
 >
   {/*
     The formula, inside, in the site's one display size. Then his own account
     of the work, once, and then only photographs.
   */}
-  <TextSurface theme="dark" arrive class="flex min-h-[50svh] flex-col justify-end gap-u3 pt-chrome pb-u8">
+  <TextSurface arrive class="flex min-h-[50svh] flex-col justify-end gap-u3 pt-chrome pb-u8">
     <h1 class="type-display text-display">{t(locale, "processTitle")}</h1>
     <p class="type-label text-label">{t(locale, "process")}</p>
   </TextSurface>
 
-  <Statement text={making} locale={locale} voice={voice} register="body" theme="dark" />
+  <Statement text={making} locale={locale} voice={voice} register="body" />
 
   {/*
     THE STAGES (2026-08-11, section 81). The page carried the formula, his three
@@ -118,7 +116,7 @@ const isLandscape = (media: MediaItem) => {
     what this page has always refused to be.
   */}
   {processText && (
-    <TextSurface theme="dark" class="flex flex-col gap-u3 pb-u13">
+    <TextSurface class="flex flex-col gap-u3 pb-u13">
       {processIsMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
       <p class:list={["type-body text-body max-w-prose whitespace-pre-line", processIsMarked && "draft-text"]}>
         {processText}
@@ -143,7 +141,7 @@ const isLandscape = (media: MediaItem) => {
     }
   </div>
 
-  <TextSurface theme="dark" class="hairline-h flex flex-col gap-u3 py-u13">
+  <TextSurface class="hairline-h flex flex-col gap-u3 py-u13">
     <a
       href={localePath(locale, "creature")}
       class="type-label text-label self-start hairline-under"

@@ -72,8 +72,6 @@ const priceOf = (garment: Garment) =>
   locale={locale}
   title={collection?.name ?? t(locale, "newDrop")}
   description={statement ?? undefined}
-  theme="dark"
-  footerTheme="dark"
   chrome={overlayTheme(cover?.overlayChrome ?? cover?.overlay)}
   image={cover ? imageUrl(cover.poster, 1200) : null}
 >
@@ -83,7 +81,7 @@ const priceOf = (garment: Garment) =>
         <h1 class="type-display text-display">{collection?.name}</h1>
       </MediaSurface>
     ) : (
-      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
+      <TextSurface class="flex min-h-svh flex-col justify-center">
         <h1 class="type-display text-display">{t(locale, "newDrop")}</h1>
       </TextSurface>
     )
@@ -93,7 +91,7 @@ const priceOf = (garment: Garment) =>
     His statement WHOLE. Every other placement on the site is an excerpt we
     chose; this is the page it was written for.
   */}
-  <Statement text={statement} locale={locale} voice={voice} theme="dark" />
+  <Statement text={statement} locale={locale} voice={voice} />
 
   {/*
     The pieces, full bleed, one per screen: this is the drop being looked at,
@@ -113,7 +111,7 @@ const priceOf = (garment: Garment) =>
     ))
   }
 
-  <TextSurface theme="dark" class="hairline-h flex flex-col gap-u3 py-u13">
+  <TextSurface class="hairline-h flex flex-col gap-u3 py-u13">
     <a
       href={localePath(locale, "creature")}
       class="type-label text-label self-start hairline-under"

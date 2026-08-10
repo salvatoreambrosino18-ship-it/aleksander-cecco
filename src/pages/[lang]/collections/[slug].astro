@@ -109,8 +109,6 @@ const voice = voiceState(settings, locale);
   description={statement ?? undefined}
   chrome={overlayTheme(collection.cover?.overlayChrome ?? collection.cover?.overlay)}
   image={collection.cover ? imageUrl(collection.cover.poster, 1200) : null}
-  theme="dark"
-  footerTheme="dark"
 >
   {
     collection.cover && (
@@ -124,7 +122,7 @@ const voice = voiceState(settings, locale);
   }
 
   {/* The owner's own words. Marked only where the language is our translation. */}
-  <Statement text={statement} locale={locale} voice={voice} theme="dark" token={"{COLLECTION_STATEMENT}"} />
+  <Statement text={statement} locale={locale} voice={voice} token={"{COLLECTION_STATEMENT}"} />
 
   {/*
     THE CHAPTER. A few Creature, one per screen, full bleed. This is the one
@@ -157,7 +155,7 @@ const voice = voiceState(settings, locale);
     one route: how a Creature is got. No invented promise, and the material line
     comes off the Creature itself, never from here.
   */}
-  <TextSurface theme="dark" class="flex flex-col gap-u3 py-u13">
+  <TextSurface class="flex flex-col gap-u3 py-u13">
     {/* Say what is not on this page, then lead to it. */}
     {remaining > 0 && (
       <p class="type-mono text-mono">

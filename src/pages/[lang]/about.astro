@@ -28,6 +28,7 @@
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
+import PairedSurface from "../../components/PairedSurface.astro";
 import Statement from "../../components/Statement.astro";
 import {getSiteSettings, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
@@ -83,8 +84,6 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
   locale={locale}
   title={t(locale, "about")}
   description={openingLine ?? undefined}
-  theme="dark"
-  footerTheme="dark"
   chrome={overlayTheme(openingMedia?.overlayChrome ?? openingMedia?.overlay)}
   image={openingMedia ? imageUrl(openingMedia.poster, 1200) : null}
 >
@@ -98,7 +97,7 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
         <h1 class="type-display text-display">{openingLine ?? t(locale, "about")}</h1>
       </MediaSurface>
     ) : (
-      <TextSurface theme="dark" class="flex min-h-svh flex-col justify-center">
+      <TextSurface class="flex min-h-svh flex-col justify-center">
         <h1 class="type-display text-display">{t(locale, "about")}</h1>
         <p class="placeholder-mark self-start">{"{ABOUT_OPENING_PHOTOGRAPH}"}</p>
       </TextSurface>
@@ -111,21 +110,21 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
   */}
   {
     marked && (
-      <TextSurface theme="dark" class="pt-u8">
+      <TextSurface class="pt-u8">
         <p class="placeholder-mark self-start">{t(locale, noticeKey)}</p>
       </TextSurface>
     )
   }
 
   {!about && (
-    <TextSurface theme="dark" class="py-u13">
+    <TextSurface class="py-u13">
       <p class="placeholder-mark self-start">{"{ABOUT}"}</p>
     </TextSurface>
   )}
 
   {
     about && aboutIsPlaceholder && (
-      <TextSurface theme="dark" class="py-u13">
+      <TextSurface class="py-u13">
         <p class="placeholder-mark self-start">{about}</p>
       </TextSurface>
     )
@@ -140,24 +139,34 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
   {
     about &&
       !aboutIsPlaceholder &&
-      paragraphs.map((paragraph, index) => (
-        <>
-          <TextSurface theme="dark" class="py-u13">
-            <p
-              class:list={[
-                isShort(paragraph) ? "type-display text-display" : "type-body text-body",
-                "max-w-prose whitespace-pre-line",
-                marked && "draft-text",
-              ]}
-            >
-              {paragraph}
-            </p>
-          </TextSurface>
+      /*
+        COMPOSED, NOT SEQUENCED (2026-08-11, section 82). The page already
+        alternated a paragraph and a photograph; they were simply stacked, so at
+        desktop each paragraph got a screen to itself with the rest of the width
+        empty. They now SHARE a screen, alternating which side the photograph
+        takes so the page has a rhythm rather than a stutter. On a phone the
+        stack is unchanged, because a stack was always right there.
 
-          {photographs[index] && (
-            <MediaSurface media={photographs[index]} locale={locale} height="tall" />
-          )}
-        </>
+        A paragraph with no photograph left falls back to a plain surface, which
+        is what `PairedSurface` does with a null media: the page still degrades
+        to prose if he writes more than he shoots.
+      */
+      paragraphs.map((paragraph, index) => (
+        <PairedSurface
+          media={photographs[index] ?? null}
+          locale={locale}
+          side={index % 2 === 0 ? "left" : "right"}
+        >
+          <p
+            class:list={[
+              isShort(paragraph) ? "type-display text-display" : "type-body text-body",
+              "whitespace-pre-line",
+              marked && "draft-text",
+            ]}
+          >
+            {paragraph}
+          </p>
+        </PairedSurface>
       ))
   }
 
@@ -180,7 +189,7 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
     THE PORTRAIT IS STILL LAST. The page arrives at them.
   */}
   {(creators.length > 0 || partnerName) && (
-    <TextSurface theme="dark" class="hairline-h flex flex-col gap-u5 py-u13">
+    <TextSurface class="hairline-h flex flex-col gap-u5 py-u13">
       <h2 class="type-label text-label">{t(locale, "creators")}</h2>
       <ul class="type-display text-display flex flex-col gap-u1">
         {creators.map((person) => <li>{person}</li>)}

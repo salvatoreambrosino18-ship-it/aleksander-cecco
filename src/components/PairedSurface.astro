@@ -1,0 +1,74 @@
+---
+/*
+  A PHOTOGRAPH AND A PASSAGE, SHARING ONE SCREEN (2026-08-11, section 82).
+
+  WHY THIS EXISTS. The site had screens of pure text, and at 1440 a paragraph
+  sat in a 640px column with the rest of the screen empty. Both attempts to fix
+  it by spacing failed: pinned left it read as an afterthought, and centred it
+  put the spine in the middle of an empty screen with dead space either side.
+
+  Then the four references were re-measured for RUNNING PROSE specifically, and
+  the answer was not a spacing value:
+
+    Rick Owens    no brand prose on the home page at all. The only 120+
+                  character run is the cookie banner.
+    Sorcinelli    the same. One 22px statement, over a full-screen slideshow.
+    Sellam        ONE block, 396 characters, 17.9px, CENTRED, tucked directly
+                  under a full-bleed photograph with ~60px of air.
+    Ferdressed    no brand prose. The long runs are shipping and returns policy.
+
+  **A column of words alone on flat ground appears nowhere in any of them.**
+  Text is over a photograph, or hard against one, or it is a single short line
+  holding a screen. So the fault was never the margin: it was that these
+  sections were SEQUENCED between photographs instead of COMPOSED with them.
+
+  WHAT THIS DOES. At desktop the photograph takes one half of a full screen and
+  the passage takes the other, so neither is ever alone and the text gets a
+  measure by construction — half of 1440 less its padding is about 560px, inside
+  the readable band without any capping.
+
+  On a phone NOTHING CHANGES: the photograph is a full-bleed frame and the text
+  is a surface under it, exactly the stack that already worked. This is a
+  desktop composition, not a new layout.
+
+  THE SEAM IS THE STRUCTURE. Where the photograph meets the text is a real edge
+  in the composition, which is why the spine is not drawn here: a hairline
+  floating beside a photograph's edge would be two lines saying one thing. See
+  the note on Spine for what the spine is now.
+*/
+import MediaSurface from "./MediaSurface.astro";
+import type {MediaItem} from "../lib/media";
+import type {Locale} from "../lib/locales";
+
+interface Props {
+  media: MediaItem | null;
+  locale: Locale;
+  /** Which side the photograph takes at desktop. Alternate down a page. */
+  side?: "left" | "right";
+  class?: string;
+}
+
+const {media, locale, side = "left", class: className = ""} = Astro.props;
+---
+
+{
+  media ? (
+    <section class:list={["paired", side === "right" && "paired-flip", className]}>
+      <div class="paired-media">
+        <MediaSurface media={media} locale={locale} height="paired" sizes="(min-width: 64rem) 50vw, 100vw" />
+      </div>
+      <div class="paired-text">
+        <div class="paired-inner">
+          <slot />
+        </div>
+      </div>
+    </section>
+  ) : (
+    /* No photograph: the passage stands on its own surface exactly as before. */
+    <section class="paired paired-alone frame">
+      <div class="paired-inner">
+        <slot />
+      </div>
+    </section>
+  )
+}
