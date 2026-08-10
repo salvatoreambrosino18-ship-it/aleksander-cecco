@@ -116,7 +116,7 @@ const priceOf = (garment: Garment) =>
   <TextSurface theme="dark" class="hairline-h flex flex-col gap-u3 py-u13">
     <a
       href={localePath(locale, "creature")}
-      class="type-label text-label self-start hover:underline underline-offset-8"
+      class="type-label text-label self-start hairline-under"
     >
       {t(locale, "allCreatures")}
     </a>
@@ -127,7 +127,7 @@ const priceOf = (garment: Garment) =>
     {others > 0 && (
       <a
         href={localePath(locale, "collections")}
-        class="type-label text-label self-start hover:underline underline-offset-8"
+        class="type-label text-label self-start hairline-under"
       >
         {t(locale, "otherDrops")}
       </a>

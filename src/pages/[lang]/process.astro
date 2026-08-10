@@ -32,6 +32,7 @@ import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {imageUrl} from "../../lib/image";
 import {voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
+import {SHOW_UNAPPROVED_MARKS} from "../../lib/marks";
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({params: {lang}}));
@@ -66,6 +67,14 @@ const woven: MediaItem[] = [];
 
 const [first] = woven;
 const making = pick(settings.makingStatement, locale);
+/*
+  The stages text is OURS in every language, so it is a draft rather than a
+  translation and says so wherever marks are shown.
+*/
+const processText = pick(settings.processText, locale);
+const processIsMarked = SHOW_UNAPPROVED_MARKS && Boolean(processText);
+const notice = "draftNotice";
+
 const voice = voiceState(settings, locale);
 
 const isLandscape = (media: MediaItem) => {
@@ -94,6 +103,29 @@ const isLandscape = (media: MediaItem) => {
 
   <Statement text={making} locale={locale} voice={voice} register="body" theme="dark" />
 
+  {/*
+    THE STAGES (2026-08-11, section 81). The page carried the formula, his three
+    lines, and then eight photographs — a reader was shown the work and never
+    told what they were looking at.
+
+    OURS, and flagged as `processText`, so it counts against launch-check like
+    every other sentence we wrote on his behalf. It names the five stages the
+    photographs actually show and claims nothing he has not said; when he writes
+    his own account it replaces this and the flag comes off.
+
+    ONE PARAGRAPH, deliberately. Four short lines is a page telling you what you
+    are looking at; a line per photograph would be a caption gallery, which is
+    what this page has always refused to be.
+  */}
+  {processText && (
+    <TextSurface theme="dark" class="flex flex-col gap-u3 pb-u13">
+      {processIsMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
+      <p class:list={["type-body text-body max-w-prose whitespace-pre-line", processIsMarked && "draft-text"]}>
+        {processText}
+      </p>
+    </TextSurface>
+  )}
+
   <div class="grid grid-cols-1 md:grid-cols-2">
     {
       woven.map((media, index) => (
@@ -114,7 +146,7 @@ const isLandscape = (media: MediaItem) => {
   <TextSurface theme="dark" class="hairline-h flex flex-col gap-u3 py-u13">
     <a
       href={localePath(locale, "creature")}
-      class="type-label text-label self-start hover:underline underline-offset-8"
+      class="type-label text-label self-start hairline-under"
     >
       {t(locale, "allCreatures")}
     </a>

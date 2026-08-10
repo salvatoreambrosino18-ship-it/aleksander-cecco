@@ -6851,3 +6851,87 @@ shape of these documents, so it owns everything the shape carries.
   `justify-content: safe center` — `safe` because a centred overflowing flex row
   can strand its first item out of scroll reach; verified in Chromium and WebKit
   at 390/768/1440).
+
+---
+
+## 81. The desktop nobody had composed, and what a link looks like (2026-08-11)
+
+### The text column was pinned to the left edge
+
+`--margin` grows at 8vw while a line of prose stays at its measure, so past
+about 900px the column stopped moving and every extra pixel of screen landed on
+the right. **At 1920 a paragraph occupied x=214..847 and the remaining 56% of
+the screen was dead.** The site had been composed on a phone and desktop had
+never been looked at.
+
+**Widening the column is not the answer.** 40rem is already the top of a
+readable measure; more characters per line is worse prose, and a larger size
+would add a fifth type voice. So **the column moves instead**:
+
+    --spine-x: max(var(--margin), calc((100vw - 40rem) / 2 - var(--s-u5)))
+
+`max()` keeps today's behaviour wherever the margin is the larger number — every
+width below roughly 900px — and there is no breakpoint to snap at, because the
+two expressions cross over smoothly.
+
+**The spine travels with it**, because `--spine-x` is what `--content-x` is
+built from and what `Spine` draws at. That is why this works rather than merely
+centring something: the identity is *text hangs off a vertical line*, not *text
+sits at the left edge*, so carrying the line along keeps the composition intact
+while placing it. `frame`'s right padding moved from `--margin` to `--spine-x`
+for the same reason — a column whose left travels and whose right does not is
+centred on one side only.
+
+**The chrome does not follow.** Rendered both ways at 1920: the signature adrift
+on the text's axis reads as a mistake, and in the corner it reads as chrome. It
+is corner furniture (s21) and stays at `--margin`. They are different things and
+may sit at different places.
+
+    1440   spine 115 -> 340    prose 400..1040,  400 either side
+    1920   spine 154 -> 580    prose 640..1280,  640 either side
+    2560   spine 160 -> 900    prose 960..1600,  960 either side
+
+**What the references say.** Three of the four barely have running prose at all
+— Rick Owens is labels, Sorcinelli is one statement on one viewport, Ferdressed
+is one tracked line over a hero. Only Sellam has a prose block and it CENTRES
+it. So there was no reference for a left-pinned column at desktop; there never
+had been.
+
+### Nothing showed what was a link
+
+`THE WORK`, `ABOUT`, `WORN`, `ALL CREATURE`, `DROPS` were set identically —
+`type-label`, uppercase, same size — and some were section headings while others
+were navigation. The only difference was a hover underline, which does not exist
+on a phone. **A reader could not tell which words did anything.** That is a
+functional failure, not a stylistic one.
+
+**The rule now: a link on a TEXT SURFACE carries the resting hairline; a heading
+never does.** `hairline-under` already existed for the buy action — the site's
+one mark, a rule under a thing you can act on — so this coins nothing and simply
+extends what an action already looks like to everything that acts.
+
+Two exclusions, and they are the whole defence against a page of decorated
+words:
+
+- **The menu.** Everything in it is a link, so there is nothing to
+  disambiguate, and ruling every item would make it a list.
+- **Media captions.** The frame is the link there; a photograph you can tap is
+  already understood, and a rule on his photography is a rule on his
+  photography.
+
+### The process page had no words
+
+It carried the formula, his three lines about the making, and then eight
+photographs. A reader was shown the work and never told what they were looking
+at.
+
+`processText` is a new site-settings field, **ours and flagged**, so it counts
+against `launch-check` like every other sentence written on his behalf (now 34).
+It names the five stages his own studio field already lists — cartamodello,
+taglio, tintura, asciugatura, montaggio — in his register, and claims nothing he
+has not said. When he writes his own account it replaces this and the flag comes
+off.
+
+**One paragraph, deliberately.** Four short lines tells a reader what they are
+looking at; a line per photograph would be a caption gallery, which is what this
+page has always refused to be.

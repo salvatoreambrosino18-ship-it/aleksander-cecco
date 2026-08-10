@@ -108,7 +108,7 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
             href={instagramUrl}
             rel="me noopener"
             target="_blank"
-            class="flex items-center gap-u2 self-start hover:underline underline-offset-8"
+            class="flex items-center gap-u2 self-start hairline-under"
           >
             <InstagramMark title={t(locale, "instagram")} />
             {instagramHandle}
@@ -122,7 +122,7 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
         emailIsPlaceholder ? (
           <span class="placeholder-mark self-start">{"{CONTACT_EMAIL}"}</span>
         ) : (
-          <a href={`mailto:${email}`} class="self-start hover:underline underline-offset-8">
+          <a href={`mailto:${email}`} class="self-start hairline-under">
             {email}
           </a>
         )

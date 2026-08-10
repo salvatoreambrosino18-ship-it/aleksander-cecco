@@ -192,7 +192,13 @@
 */
 @utility frame {
   padding-left: var(--content-x);
-  padding-right: var(--margin);
+  /*
+    The spine, not the page edge (section 81). Below ~900px these are the same
+    number so nothing changes; above it the column is placed rather than pinned,
+    and its right side has to travel with its left or the text is centred on one
+    side only.
+  */
+  padding-right: var(--spine-x);
 }
 
 /*

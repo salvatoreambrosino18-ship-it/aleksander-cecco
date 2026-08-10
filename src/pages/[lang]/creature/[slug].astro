@@ -317,7 +317,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
         {previous ? (
           <a
             href={localePath(locale, `creature/${previous.slug}`)}
-            class="type-label text-label hover:underline underline-offset-8"
+            class="type-label text-label hairline-under"
           >
             {t(locale, "previousCreature")}
           </a>
@@ -326,14 +326,14 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
         )}
         <a
           href={localePath(locale, "creature")}
-          class="type-label text-label hover:underline underline-offset-8"
+          class="type-label text-label hairline-under"
         >
           {t(locale, "allCreatures")}
         </a>
         {next ? (
           <a
             href={localePath(locale, `creature/${next.slug}`)}
-            class="type-label text-label hover:underline underline-offset-8"
+            class="type-label text-label hairline-under"
           >
             {t(locale, "nextCreature")}
           </a>

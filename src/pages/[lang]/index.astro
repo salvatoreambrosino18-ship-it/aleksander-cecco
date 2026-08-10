@@ -240,7 +240,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   >
     <a
       href={localePath(locale, "about")}
-      class="type-label text-label self-start hover:underline underline-offset-8"
+      class="type-label text-label self-start hairline-under"
     >
       {t(locale, "about")}
     </a>
@@ -271,13 +271,13 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     */}
     <a
       href={localePath(locale, "creature")}
-      class="type-label text-label self-start hover:underline underline-offset-8"
+      class="type-label text-label self-start hairline-under"
     >
       {t(locale, "allCreatures")}
     </a>
     <a
       href={localePath(locale, "collections")}
-      class="type-label text-label self-start hover:underline underline-offset-8"
+      class="type-label text-label self-start hairline-under"
     >
       {t(locale, "collections")}
     </a>
@@ -334,7 +334,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
               href={instagramUrl}
               rel="me noopener"
               target="_blank"
-              class="type-display text-display self-start hover:underline underline-offset-8 flex items-center gap-u2"
+              class="type-display text-display self-start hairline-under flex items-center gap-u2"
             >
               <InstagramMark />
               {instagramHandle}
@@ -493,7 +493,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
                 is the same word the drops index uses for the same journey, so
                 the two routes into a drop now sound like one site.
               */}
-              <a href={href} class="type-label text-label self-start hover:underline underline-offset-8">
+              <a href={href} class="type-label text-label self-start hairline-under">
                 {t(locale, "enterDrop")}
               </a>
             </TextSurface>

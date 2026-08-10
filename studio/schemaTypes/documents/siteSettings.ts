@@ -328,6 +328,22 @@ export const siteSettings = defineType({
         "Fino a sei. Sul sito diventano QUADRATI: sposta il punto focale (hotspot) sulla fotografia per decidere cosa sopravvive al quadrato. Ogni riquadro puo portare al suo post; vuoto, porta al profilo. Non e un feed automatico: le scegli tu. / Up to six. They render SQUARE on the site: set the photograph's hotspot to decide what survives the square. Each frame can link to its own post; empty, it links to the profile. Not an automatic feed: you choose them.",
       validation: (Rule) => Rule.max(6).warning('More than six stops being a selection.'),
     }),
+    /*
+      THE PROCESS PAGE HAD NO WORDS (2026-08-11, section 81). It carried the
+      formula, his three lines about the making, and then eight photographs.
+      A reader was shown the work and never told what they were looking at.
+
+      This is OURS and flagged: it names the stages the photographs actually
+      show, in his register, and claims nothing he has not said. When he writes
+      his own account of the process it replaces this and the flag comes off.
+    */
+    defineField({
+      name: 'processText',
+      title: 'Il processo, il testo / The process, the text',
+      type: 'localeText',
+      description:
+        "Che cosa succede, per fasi, nell'ordine del lavoro. Poche righe brevi: le fotografie fanno il resto. / What happens, stage by stage, in the order of the work. A few short lines: the photographs do the rest.",
+    }),
     defineField({
       name: 'processMedia',
       title: 'Il processo / The process',
@@ -352,6 +368,7 @@ export const siteSettings = defineType({
           {title: 'Disponibilita: la spiegazione / Availability: the explanation', value: 'availabilityCopy'},
           {title: 'Instagram: quali fotografie / Instagram: which frames', value: 'instagramFrames'},
           {title: 'Ordine: il disegno delle misure / Order: the measuring diagram', value: 'measureDiagram'},
+          {title: 'Processo: il testo delle fasi / Process: the stages text', value: 'processText'},
           {title: 'Shop: la riga di apertura / Shop: the intro line', value: 'shopIntro'},
           {title: 'Drops: la riga di apertura / Drops: the intro line', value: 'dropsIntro'},
           {title: 'Contatti: la riga di apertura / Contact: the intro line', value: 'contactIntro'},

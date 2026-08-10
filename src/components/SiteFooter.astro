@@ -105,7 +105,7 @@ const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
             href={instagramUrl}
             rel="me noopener"
             target="_blank"
-            class="self-start hover:underline underline-offset-8"
+            class="self-start hairline-under"
           >
             {instagramHandle}
           </a>
@@ -117,7 +117,7 @@ const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
         emailIsPlaceholder ? (
           <span class="placeholder-mark self-start">{"{CONTACT_EMAIL}"}</span>
         ) : (
-          <a href={`mailto:${email}`} class="self-start hover:underline underline-offset-8">
+          <a href={`mailto:${email}`} class="self-start hairline-under">
             {email}
           </a>
         )

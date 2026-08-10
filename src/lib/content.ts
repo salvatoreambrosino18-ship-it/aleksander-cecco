@@ -57,6 +57,8 @@ export type SiteSettings = {
   makingMedia: MediaItem[] | null;
   /** SOLVET ET COAGULA: the work being done, in the order it is done. */
   processMedia: MediaItem[] | null;
+  /** The stages, in the order of the work. OURS, flagged as processText. */
+  processText: LocaleField;
   /** A chosen handful, not a live feed. See the schema for why. */
   instagramFrames: Array<{media: MediaItem; postUrl: string | null}> | null;
   makingStatement: LocaleField;
@@ -101,6 +103,7 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     },
     makingMedia[]{${MEDIA_PROJECTION}},
     processMedia[]{${MEDIA_PROJECTION}},
+    processText,
     instagramFrames[]{"media": media{${MEDIA_PROJECTION}}, postUrl},
     makingStatement,
     "approvedLanguages": coalesce(approvedLanguages, ["en"]),
@@ -132,6 +135,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   homeSequence: null,
   makingMedia: null,
   processMedia: null,
+  processText: null,
   instagramFrames: null,
   makingStatement: null,
   approvedLanguages: null,
