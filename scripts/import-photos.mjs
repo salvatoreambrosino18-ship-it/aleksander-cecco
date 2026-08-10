@@ -1392,11 +1392,36 @@ async function uploadOnce(file) {
   return id;
 }
 
-function mediaObject(assetId, altIt, overlay, key, overlayCaption, captionSafe = true) {
+/*
+  HOTSPOTS LIVE IN THE PLAN (2026-08-11, section 82).
+
+  A hotspot decides what survives a square crop, and the Instagram frames are
+  the only place the site crops to a square. The values were first set by a
+  script in a scratchpad — which is how three tools have already been lost here
+  — and would have been silently reverted by the next import, because
+  createOrReplace writes what this file knows and drops what it does not.
+
+  So they are here, next to the frame they belong to, and an import re-applies
+  them. A frame with no entry keeps Sanity's default, which is the centre.
+*/
+const HOTSPOT = {
+  // 1200x1600. 0.32 started the square at row 128, exactly where her hair
+  // begins; 0.12 leaves about 80px of air above her head. Checked as rendered.
+  "instagram/ig-shutter-woman.jpg": {x: 0.5, y: 0.12},
+  // 1067x1600. She sits high and right; centring pushed her into the top edge.
+  "instagram/ig-rock-sea.jpg": {x: 0.55, y: 0.33},
+};
+
+function mediaObject(assetId, altIt, overlay, key, overlayCaption, captionSafe = true, rel) {
+  const spot = rel ? HOTSPOT[rel] : undefined;
   return {
     _type: "media",
     _key: key,
-    poster: {_type: "image", asset: {_type: "reference", _ref: assetId}},
+    poster: {
+      _type: "image",
+      asset: {_type: "reference", _ref: assetId},
+      ...(spot ? {hotspot: {_type: "sanity.imageHotspot", ...spot, width: 0.6, height: 0.6}} : {}),
+    },
     // Italian only: English falls back to it until a human writes one.
     alt: {_type: "localeString", it: altIt},
     altIsDraft: true,
@@ -1747,7 +1772,7 @@ async function main() {
     instagramFrames: INSTAGRAM.map(([rel, alt, postUrl], i) => ({
       _type: "instagramFrame",
       _key: `igf${i}`,
-      media: mediaObject(assets.get(rel), alt, ov(rel), `g${i}`, ovc(rel), safe(rel)),
+      media: mediaObject(assets.get(rel), alt, ov(rel), `g${i}`, ovc(rel), safe(rel), rel),
       // The plan's link wins where it has one, because it travels with the
       // photograph. Where it has none, whatever he pasted in the studio stands.
       postUrl: postUrl ?? existingPostUrls.get(`igf${i}`) ?? null,
