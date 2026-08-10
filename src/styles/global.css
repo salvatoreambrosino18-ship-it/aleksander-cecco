@@ -399,11 +399,46 @@
     will-change: auto;
   }
   /*
+    THE SPINE DRAWS ITSELF, once, on a page's arrival (2026-08-10).
+
+    The third stroke in the brand's own hand, after the signature on the home
+    arrival and the mark the reader writes on the wash. The spine is this site's
+    recurring structural mark — one hairline offset into the left margin — and
+    it was simply present. Now it is PULLED down the first surface of a page,
+    the way a pen is pulled, on the same curve everything else here moves on.
+
+    WHY ONLY HERE, and why it is not a tic: it rides on `arrive`, the flag
+    TextSurface already uses for the FIRST surface of an interior page and
+    nowhere else, for exactly this reason — "an arrival is a ceremony, and a
+    ceremony that repeats down the page is a tic". Every other spine segment on
+    the page is untouched, so the line still reads continuous the moment it has
+    landed.
+
+    It costs nothing anyone can see going wrong: the transform is on a
+    decorative, aria-hidden hairline, gated behind data-reveal-live, which is
+    only ever set when JavaScript runs AND reduced motion is off. With either
+    absent the spine is simply drawn, as it always was.
+  */
+  [data-reveal-live] section[data-reveal] > .hairline-v {
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+  [data-reveal-live] section[data-reveal][data-revealed] > .hairline-v {
+    transform: scaleY(1);
+    transition: transform var(--dur-reveal) var(--ease-reveal);
+  }
+
+  /*
     Motion off: nothing hides and nothing moves. The script does not even mark
     the root, so this is belt and braces for the case where the preference
     changes after load.
   */
   @media (prefers-reduced-motion: reduce) {
+    [data-reveal-live] section[data-reveal] > .hairline-v,
+    [data-reveal-live] section[data-reveal][data-revealed] > .hairline-v {
+      transform: none;
+      transition: none;
+    }
     [data-reveal-live] [data-reveal],
     [data-reveal-live] [data-reveal][data-revealed] {
       opacity: 1;
@@ -568,6 +603,33 @@
     The form. There is no colour to reach for, so an invalid field thickens its
     hairline to solid fg and says what is wrong in fg text (standing rule 1).
   */
+  /*
+    A THIRD COLOUR, ON THE ORDER PAGE (fixed 2026-08-10, seen in a browser).
+
+    Standing rule 11 is that this site is solid ink and solid paper and nothing
+    else. The radio buttons on the order form were rendering in the operating
+    system's own accent — rgb(0, 117, 255) — because nothing had ever told them
+    otherwise, and no stylesheet on this site mentioned accent-color at all. So
+    the ONE page where money changes hands carried a colour the brand does not
+    have, on the control that chooses centimetres or inches.
+
+    It was invisible to every check the project had: the markup is correct, the
+    contrast is fine, and a UA default paints no CSS anybody can grep. It took
+    scanning a screenshot for pixels off the greyscale axis, which the harness
+    now does on every page (see scripts/shots.mjs).
+
+    Set on every control at once rather than on the two that happen to exist
+    today, so a checkbox added later cannot bring the blue back.
+  */
+  input,
+  textarea,
+  select,
+  button,
+  progress,
+  meter {
+    accent-color: var(--fg);
+  }
+
   .field {
     display: flex;
     flex-direction: column;

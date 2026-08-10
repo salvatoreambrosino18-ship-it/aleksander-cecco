@@ -423,6 +423,45 @@ async function overlayContrast(page, sharp, tmpFile) {
   return faults;
 }
 
+/*
+  A THIRD COLOUR (2026-08-10).
+
+  Standing rule 11: this site is solid ink and solid paper, never a gray and
+  never a hue. The one thing that can break it without appearing in any
+  stylesheet is a browser DEFAULT — the order form's radio buttons were
+  painting themselves in the operating system's accent blue, rgb(0,117,255), on
+  the page where money changes hands, and no check the project had could see
+  it: the markup was right, the contrast was fine, and a UA default is not in
+  the CSS to grep for.
+
+  Same trick as the overlay check: hide the photography, then any pixel left
+  that is off the greyscale axis is a colour the brand does not have. The
+  threshold is generous — antialiasing and JPEG ringing produce small channel
+  spreads, and 45 is comfortably above them and far below any real hue.
+*/
+async function thirdColour(page, sharp, tmpFile) {
+  await page.addStyleTag({content: "img,picture,video,svg{visibility:hidden!important}"});
+  await page.waitForTimeout(120);
+  await page.screenshot({path: tmpFile, fullPage: true});
+  const {data, info} = await sharp(tmpFile).removeAlpha().raw().toBuffer({resolveWithObject: true});
+  const found = new Map();
+  for (let i = 0; i < data.length; i += info.channels) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const spread = Math.max(r, g, b) - Math.min(r, g, b);
+    if (spread > 45) {
+      const key = `rgb(${r}, ${g}, ${b})`;
+      found.set(key, (found.get(key) ?? 0) + 1);
+    }
+  }
+  await page.reload({waitUntil: "networkidle"});
+  if (!found.size) return [];
+  const worst = [...found.entries()].sort((a, b) => b[1] - a[1])[0];
+  const total = [...found.values()].reduce((a, b) => a + b, 0);
+  return [{kind: "colour", detail: `${total} pixels off the greyscale axis, mostly ${worst[0]}`}];
+}
+
 /* ------------------------------------------------------------------- shots */
 
 async function main() {
@@ -597,8 +636,9 @@ async function main() {
             // Runs LAST: it hides the overlays and reloads, so nothing after it
             // may depend on the page's state.
             const photoFaults = await overlayContrast(page, sharp, path.join(OUT, ".bare.png"));
+            const colourFaults = await thirdColour(page, sharp, path.join(OUT, ".nomedia.png"));
 
-            const all = [...faults, ...bandFaults, ...photoFaults];
+            const all = [...faults, ...bandFaults, ...photoFaults, ...colourFaults];
             if (all.length) {
               failures += all.length;
               line += `   ${all.length} FAULT${all.length > 1 ? "S" : ""}`;
