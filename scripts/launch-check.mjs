@@ -32,6 +32,18 @@ const query = /* groq */ `{
   },
   "copy": *[_id == "siteSettings"][0].inventedCopy,
   "provisional": *[_type == "garment" && count(media[isProvisional == true]) > 0]{"slug": slug.current},
+  // The same flag, on the site's own media rather than a garment's. The one
+  // video on /process is a 464px messaging-app copy shipped provisionally
+  // (section 93), and this gate is where "replace it before launch" has to
+  // live: a note in a plan is a note, and this refuses.
+  "provisionalSite": *[_id == "siteSettings"][0]{
+    "where": [
+      {"slot": "processMedia", "n": count(processMedia[isProvisional == true])},
+      {"slot": "makingMedia", "n": count(makingMedia[isProvisional == true])},
+      {"slot": "aboutMedia", "n": count(aboutMedia[isProvisional == true])},
+      {"slot": "openingMedia", "n": select(openingMedia.isProvisional == true => 1, 0)}
+    ]
+  },
   "draftAlt": count(*[_type == "garment"].media[altIsDraft == true]),
   // Detail crops imported with the caption left empty on purpose (section 88).
   // The picture is ours to cut; the sentence under it is his to write.
@@ -59,6 +71,11 @@ for (const key of result.copy ?? []) {
 }
 for (const p of result.provisional ?? []) {
   problems.push(`${p.slug.padEnd(20)} still using a provisional photograph`);
+}
+for (const {slot, n} of result.provisionalSite?.where ?? []) {
+  if (n > 0) {
+    problems.push(`site settings         ${n} provisional frame(s) in ${slot} — replace before launch`);
+  }
 }
 /*
   MISSING IS NOT THE SAME AS INVENTED, and this gate only counted one of them

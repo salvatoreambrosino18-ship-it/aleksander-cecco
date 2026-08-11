@@ -8181,8 +8181,12 @@ the work, not a step inside it. `isProvisional` is on.
 That is the trade the owner took with his eyes open: motion on the making page
 tonight, at the cost of the sharpest page on the site having one soft frame.
 
-**IT MUST BE REPLACED BEFORE LAUNCH.** The camera original is 1080x1920 and one
-message away; `docs/SCATTI-DETTAGLIO.md` section 3 is the ask, in Italian. When
+**IT MUST BE REPLACED BEFORE LAUNCH, and the GATE now says so rather than this
+page.** `launch-check` only ever looked for provisional frames on a garment, so
+the one thing on the site marked provisional was invisible to the command whose
+job is to refuse provisional things — a note in a plan is a note. It reads
+`site settings  1 provisional frame(s) in processMedia` until the file is
+swapped. The camera original is 1080x1920 and one message away; `docs/SCATTI-DETTAGLIO.md` section 3 is the ask, in Italian. When
 it lands, re-encode the same window and swap the asset — the media object, the
 poster rule and the placement all stay.
 
