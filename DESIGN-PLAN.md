@@ -8218,3 +8218,49 @@ one place in this site where silence is expensive.
 - **The catalogue's tiles** already reveal as they enter. What was missing was
   not entrance but ANSWER — which is what items 2 and 3 are.
 - **Anything on a photograph.** Still nothing.
+
+## 95. The catalogue was never 994 KB (2026-08-12)
+
+Section 91 measured the catalogue at 994 KB on a 390px viewport and set a 1 MB
+threshold against it. **Both numbers were measured on the wrong device.**
+
+The harness runs desktop Chromium at 390 wide, which reports `hover: hover`. The
+tile strip — four frames per piece, section 72 — is `display:none` on hover
+devices and therefore never fetched, and the hover swap frame is fetched
+instead. **On an actual phone, which reports `hover: none`, the whole strip is
+real.** Measured with touch emulation at DPR 2:
+
+    2315 KB, 55 photographs
+
+Two and a third times the threshold, on the page a buyer from Instagram lands
+on, and the threshold had been written against a number that device never sees.
+
+### What it costs to fix, measured at each step
+
+    2315 KB   as it was
+    1524 KB   the flick strip cut from four frames to two
+    1230 KB   tile quality 80 -> 62
+     849 KB   tile quality -> 55, and the CDN serving webp rather than the
+              original jpeg once its cache is warm
+
+**849 KB, 35 photographs, 564 KB of which are the photographs**, the rest being
+the 125 KB of fonts and 27 KB of stylesheet every page carries.
+
+**Nothing was removed that a reader uses.** The strip keeps its gesture, its peek
+and its second view; frames three and four were a piece's detail crops, which
+belong on the piece's own page one tap away. Quality 55 applies ONLY to tiles —
+195 CSS pixels wide on a phone, thirty-six of them — and never to a full-bleed
+frame, which is the whole screen and is the work.
+
+### The measurement itself is now the finding
+
+**A number measured on the wrong device is worse than no number**, because it
+becomes a threshold. The 994 KB figure was quoted in a plan section as a limit
+one night and would have been quoted as a baseline forever.
+
+The lesson is narrow and worth keeping: **`hover` and `pointer` media queries
+make the phone a different document, not a narrower one.** Anything measured in
+a desktop browser at a phone's width has not been measured on a phone. The
+harness's own screenshots have the same blind spot — it photographs the hover
+variant of every tile — which is why the flick strip has never appeared in any
+capture in this repository.

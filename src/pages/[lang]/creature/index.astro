@@ -201,8 +201,17 @@ for (const drop of dropKeys) {
                     be hostile, and every frame lives on the piece's own page.
                     Remove by deleting .tile-flick and this map.
                   */}
+                  {/*
+                    TWO FRAMES, NOT FOUR (2026-08-12, section 95). Measured on a
+                    real phone — touch, so no hover, so the whole strip is
+                    fetched — this page was 2315 KB and 55 photographs. The
+                    strip was four frames per piece and it is the reason. Two
+                    keeps the gesture, the peek and the second view; the rest of
+                    a piece is one tap away on its own page, which is where the
+                    detail crops belong anyway.
+                  */}
                   <div class="tile-flick">
-                    {garment.media!.slice(0, 4).map((frame, f) => (
+                    {garment.media!.slice(0, 2).map((frame, f) => (
                       <MediaSurface
                         media={frame}
                         locale={locale}

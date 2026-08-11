@@ -41,14 +41,22 @@ const builder = sanity ? createImageUrlBuilder(sanity) : null;
 */
 export const FULL_BLEED_WIDTHS = [360, 480, 640, 828, 1080, 1440, 1920, 2560] as const;
 
-export function imageUrl(source: SanityImage, width: number): string | null {
+/*
+  QUALITY IS A PARAMETER NOW, AND ONLY THE CATALOGUE USES IT (2026-08-12,
+  section 95). Eighty is the site's number and stays the default for every
+  full-bleed frame, where a photograph is the whole screen. A catalogue tile is
+  195 CSS pixels wide on a phone and there are thirty-six of them; at that size
+  the difference between 80 and 62 is invisible and the difference in bytes is
+  not.
+*/
+export function imageUrl(source: SanityImage, width: number, quality = 80): string | null {
   if (!builder) return null;
-  return builder.image(source).width(width).auto("format").quality(80).url();
+  return builder.image(source).width(width).auto("format").quality(quality).url();
 }
 
-export function fullBleedSrcSet(source: SanityImage): string | null {
+export function fullBleedSrcSet(source: SanityImage, quality = 80): string | null {
   if (!builder) return null;
-  return FULL_BLEED_WIDTHS.map((w) => `${imageUrl(source, w)} ${w}w`).join(", ");
+  return FULL_BLEED_WIDTHS.map((w) => `${imageUrl(source, w, quality)} ${w}w`).join(", ");
 }
 
 /**

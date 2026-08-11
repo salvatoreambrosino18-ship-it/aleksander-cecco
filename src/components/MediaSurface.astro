@@ -121,8 +121,18 @@ const sizes =
 const captionTheme = overlayTheme(media.overlayCaption ?? media.overlay);
 const alt = pickAlt(media.alt, locale);
 const caption = pick(media.caption, locale);
-const src = imageUrl(media.poster, 1440);
-const srcset = fullBleedSrcSet(media.poster);
+/*
+  A TILE IS 195 PIXELS WIDE ON A PHONE AND THERE ARE THIRTY-SIX OF THEM
+  (section 95). Fifty-five there, eighty everywhere else. Measured on a real
+  phone, this line took the catalogue from 1524 KB to 1180; the flick strip
+  going from four frames to two took it from 2315 to 1524. Neither is visible at
+  that size and both are worth 200 KB on the page a buyer lands on.
+
+  A FULL-BLEED FRAME KEEPS 80: it is the whole screen and it is the work.
+*/
+const quality = isTile ? 55 : 80;
+const src = imageUrl(media.poster, 1440, quality);
+const srcset = fullBleedSrcSet(media.poster, quality);
 
 const below = media.captionPlacement === "below";
 /*
@@ -264,7 +274,7 @@ const contained =
       */
       hover?.poster && (
         <picture>
-          <source media="(hover: hover)" srcset={fullBleedSrcSet(hover.poster)} sizes={sizes} />
+          <source media="(hover: hover)" srcset={fullBleedSrcSet(hover.poster, quality)} sizes={sizes} />
           <img
             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
             alt=""
