@@ -45,6 +45,7 @@ import InstagramMark from "../../components/InstagramMark.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
 import Statement from "../../components/Statement.astro";
 import Signature from "../../components/Signature.astro";
+import Spine from "../../components/Spine.astro";
 import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
 import {describingLines, openingLine, unspentLine} from "../../lib/statement";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
@@ -196,18 +197,38 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
               </a>
             </div>
           </MediaSurface>
+        </div>
+
+        {/*
+          THE HAND SIGNS ON PAPER (2026-08-12, section 96).
+
+          The ceremony used to happen ON the arrival photograph, and it was the
+          last defect on the site: measured 1.49:1 and 1.69:1, four faults, on
+          the first screen. Tuning it to this photograph was refused — a
+          ceremony tuned to one picture breaks the day the picture changes — so
+          it moved to ground no photograph can reach.
+
+          It writes itself at hero scale on the paper directly under the
+          picture, where his four lines already sit since section 89. Ink on
+          paper is 19.6:1 tonight, on his next photograph, and on every
+          photograph after that. Nothing is measured, nothing can drift, and the
+          gesture is unchanged: same pen, same stroke order, same once a visit.
+
+          It reads BETTER here than it did over the picture, which is the part
+          worth saying: a signature belongs at the foot of a thing, not across
+          it, and there was never a photograph in this dataset it did not fight.
+        */}
+        <div class="frame relative pt-u5 pb-u3" aria-hidden="true">
+          <Spine />
           {/*
-            THE SIGNATURE WRITES ITSELF (section 70), once per visit, over the
-            arrival. Decorative: the h1 above already carries the name. The
-            wrapper takes the media's own overlay polarity, as the caption does.
+            FULL WIDTH OF THE MEASURE, not 92vw. `--sig-hero-w` is sized for a
+            FULL-BLEED context — 92vw on a phone, with the 4vw either side doing
+            the work of a margin. Inside a framed block the page margin is
+            already there, so the two insets add up and the mark hangs 17px off
+            the right edge of a 390px screen, which the audit caught as an
+            overflow the moment it moved here.
           */}
-          <div
-            class="sig-arrival"
-            data-theme={overlayTheme(opening.overlay)}
-            aria-hidden="true"
-          >
-            <Signature draw decorative class="w-sig-hero" />
-          </div>
+          <Signature draw decorative class="w-full" />
         </div>
         <script is:inline>
           (() => {

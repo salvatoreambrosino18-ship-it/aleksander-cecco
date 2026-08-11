@@ -76,7 +76,7 @@ const ONLY = value("only")?.split(",").map((s) => s.trim()).filter(Boolean) ?? n
 
   It overrides only the surfaces that carry a page polarity — <html>, the text
   sections, the footer wrapper and the wash's two layers. It deliberately does
-  NOT touch figcaption, #site-chrome or .sig-arrival: those take a polarity
+  NOT touch figcaption, #site-chrome or the drawn mark: those take a polarity
   MEASURED against a photograph, and a picture does not become brighter because
   the page around it did. Flipping them would make the study lie.
 */
@@ -454,7 +454,7 @@ async function overlayContrast(page, sharp, tmpFile) {
     // The fixed chrome and the drawn mark also pass over photography.
     for (const [sel, label] of [
       ["#site-chrome .signature", "[the corner mark]"],
-      [".sig-arrival .sig-draw", "[the drawn mark]"],
+      [".sig-draw", "[the drawn mark]"],
     ]) {
       const el = document.querySelector(sel);
       if (el) push(el, label);
@@ -502,7 +502,7 @@ async function overlayContrast(page, sharp, tmpFile) {
     content:
       `figcaption, figcaption *{${HIDE_MARKS}}` +
       `#site-chrome, #site-chrome *{${HIDE_MARKS}}` +
-      `.sig-arrival, .sig-arrival *{${HIDE_MARKS}}`,
+      `.sig-draw, .sig-draw *{${HIDE_MARKS}}`,
   });
   await page.waitForTimeout(120);
   await page.screenshot({path: tmpFile, fullPage: true});

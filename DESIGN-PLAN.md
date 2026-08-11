@@ -8264,3 +8264,51 @@ a desktop browser at a phone's width has not been measured on a phone. The
 harness's own screenshots have the same blind spot — it photographs the hover
 variant of every tile — which is why the flick strip has never appeared in any
 capture in this repository.
+
+## 96. The hand signs on paper, and the last fault is gone (2026-08-12)
+
+**The site audits clean.** Zero faults, both languages, both widths.
+
+### What the fault was, and why tuning was refused
+
+The drawn signature — the once-per-visit ceremony, his own hand — was positioned
+absolutely over the opening photograph and took that photograph's overlay
+polarity. It measured 1.49:1 and 1.69:1: four faults, the last on the site, on
+the first screen a visitor sees.
+
+No per-image value could fix it. The mark spans 92vw, and **every photograph in
+this dataset is bright at one end of that span and dark at the other** — the
+same finding as the chrome band in section 87, at a different scale. Tuning the
+ceremony to the current opening frame was refused twice, because a ceremony
+tuned to one picture becomes a bug the day the picture changes, and that picture
+is his to change.
+
+### The fix, which survives any photograph by construction
+
+**It moved off the photograph onto the paper directly beneath it**, where his
+four arrival lines already sit since section 89. Ink on paper: 19.6:1 tonight,
+on his next photograph, and on every photograph after it. Nothing is measured,
+nothing can drift, and the gesture is untouched — same pen, same stroke order,
+same once per visit, same degradation to a plain filled mark with no JavaScript
+or reduced motion.
+
+**It reads better there**, which is the part worth saying rather than defending:
+a signature belongs at the foot of a thing rather than across it. Looked at, the
+arrival is now his photograph, then his drop title, his sentence, the price, the
+way in — and then his name, written. That is a page signing itself.
+
+`.sig-arrival` and its absolute positioning are gone. The harness now looks for
+`.sig-draw` wherever it is, so the check does not depend on where the mark
+lives.
+
+### One thing the move broke, caught by the audit in the same minute
+
+`--sig-hero-w` is 92vw on a phone, sized for a FULL-BLEED context where the 4vw
+either side does a margin's work. Inside a framed block the page margin is
+already there, the two insets add up, and the mark hung 17px off the right edge
+of a 390px screen. The audit reported it as an overflow AND a spill immediately.
+It takes the measure's full width instead.
+
+**That is the second time tonight a fix landed and its own side effect was found
+by the check rather than by a person** — which is the argument for having run
+the audit before writing this section rather than after.

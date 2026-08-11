@@ -1066,28 +1066,21 @@
 }
 
 /*
-  Where the drawn mark sits: over the arrival, CENTRED, letting every tap pass
-  through. The polarity comes from the media's own overlay choice, exactly as
-  the caption's does.
+  THE DRAWN MARK IS NOT ON A PHOTOGRAPH ANY MORE (2026-08-12, section 96).
 
-  Centred on both axes as of 2026-08-10. It had said "centred" since it was
-  written and only ever centred vertically: `justify-content` was missing, so
-  the mark sat at flex-start. It also carried `frame`, which is the RUNNING TEXT
-  margin — asymmetric by design, --content-x on the left against --margin on the
-  right — so at 1440 the mark started 175px in and left 228px of air on its
-  right. A signature over a photograph is not running text: media takes no
-  margin (section 2), and the inset the mark does want is already inside
-  --sig-hero-w, which is 92vw on a phone precisely so 4vw is left either side.
+  `.sig-arrival` positioned it absolutely over the opening frame, centred on
+  both axes, taking that photograph's own overlay polarity. It was the last
+  defect on the site — 1.49:1 and 1.69:1, four faults, on the first screen — and
+  no value of any per-image field could fix it, because the mark spans 92vw and
+  every photograph in this dataset is bright at one end of that span and dark at
+  the other.
+
+  It now writes itself on the paper directly under the picture and needs no rule
+  here at all: page ground, ink on paper, 19.6:1 tonight and on every photograph
+  he ever shoots. The absolute positioning, the centring and the per-image
+  polarity are gone with it.
 */
-.sig-arrival {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  color: var(--fg);
-}
+
 
 /*
   LICENSE (section 70): a press acknowledges the touch where hover cannot
