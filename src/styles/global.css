@@ -389,11 +389,51 @@
     .paired-media > figure > div {
       height: 100%;
     }
+    /*
+      THE PHOTOGRAPH WAS SETTING THE ROOM (2026-08-13, section 105).
+
+      `height: 100%` inside a row of automatic height resolves to auto, so the
+      row took the picture's own 3:4: a 720px half is 960px tall at 1440 and a
+      960px half is 1280px tall at 1920. Every paired section was therefore a
+      screen and a bit, whatever it contained, and a two-sentence passage sat in
+      the middle of it — 70% and 78% air, measured.
+
+      Capped, the photograph crops to about 1.3:1 rather than stretching the
+      section. That is a long way from the 2.9:1 letterbox section 56 refused,
+      and it is the picture giving up a little room rather than the reader
+      scrolling through an empty one.
+
+      A LONGER PASSAGE STILL MAKES ITS OWN ROOM: the cap is on the media, not on
+      the section, so the three reasons push the row past it and the photograph
+      grows back to fill.
+    */
+    .paired-media > figure > div {
+      max-height: clamp(26rem, 62svh, 40rem);
+    }
     .paired {
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: stretch;
-      min-height: 100svh;
+      /*
+        A SECTION TAKES THE ROOM ITS CONTENT NEEDS (2026-08-13, section 105).
+
+        This was `min-height: 100svh`, and at desktop the photograph's own 3:4
+        filled it: a 720px half is 960px tall at 1440 and 1280px at 1920. THE
+        PROJECT is two sentences — 287px of text — so it floated in the middle
+        of that column with 673px of air at 1440 and 993px at 1920. Measured:
+        70% and 78% of the text half was nothing.
+
+        The owner looked at the deployed site and said the text sections were
+        empty. He was right, and no check here could have told him: air is not a
+        contrast fault, an overflow or a spill. `npm run shots -- --rhythm`
+        exists now so it is a number rather than an argument.
+
+        56svh is a FLOOR, not a height: a passage longer than that (the three
+        reasons) makes its own room, and the photograph beside it grows to
+        match. Below the floor the photograph would crop toward a letterbox,
+        which section 56 measured and refused.
+      */
+      min-height: 56svh;
     }
     .paired-flip .paired-media {
       order: 2;
@@ -401,6 +441,13 @@
     .paired-text {
       display: flex;
       align-items: center;
+      /*
+        u8 rather than u13 (section 105). Thirteen units either side is the
+        rhythm of a section that carries a screen of prose; on a two-sentence
+        passage it added 200px of air to a column that already had too much.
+      */
+      padding-top: var(--s-u8);
+      padding-bottom: var(--s-u8);
       /*
         The text half carries its own margins rather than the page's: the page
         margin exists to hold a column off the left edge of a SCREEN, and this

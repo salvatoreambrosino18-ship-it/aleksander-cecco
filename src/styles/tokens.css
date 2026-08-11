@@ -172,7 +172,21 @@
     photograph is a zoom, and a zoom is a slideshow.
   */
   --reveal-shift: 24px;
-  --wipe-pin: 100vh;
+  /*
+    HOW LONG THE BOUNDARY IS HELD (2026-08-13, section 105).
+
+    100vh meant the wash was two screens tall: one screen of held content and
+    one screen of scrolling during which the mark writes itself. That was right
+    when crossing it INVERTED the page — the reader was paying for a change of
+    world. Since section 82 there is no inversion, and the owner, looking at the
+    deployed site, named this screen as empty white space. He is describing two
+    screens of scrolling to watch a small mark appear.
+
+    60svh keeps the gesture — the mark is still written by the reader's own
+    scroll, at the reader's own speed — and stops charging a screen and a half
+    of scrolling for it.
+  */
+  --wipe-pin: 60svh;
   --dur-reveal: 900ms;
   /*
     A stroke drawn by a pointer rather than by the page: the underline under an
@@ -210,7 +224,13 @@
       at full desktop bleed. Open question in DESIGN-PLAN section 9.
     */
     --sig-hero-w: min(64vw, 60rem);
-    --sig-wash-w: min(34vw, 32rem);
+    /*
+      THE MARK TAKES THE SCREEN IT IS HELD ON (section 105). At min(34vw, 32rem)
+      it was a 490px signature centred in a 1440x900 screen with nothing else on
+      it, which reads as an empty room rather than as a held moment. Larger, it
+      is the reason the screen exists.
+    */
+    --sig-wash-w: min(48vw, 40rem);
     /*
       Desktop keeps the same rule: never a whole number of frames across. At
       32vw two and a half fit, so one is always cut by the right edge and the

@@ -352,7 +352,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   {
     instagramFrames.length > 0 && (
       <section class="relative" aria-labelledby="ig-heading">
-        <TextSurface class="flex flex-col gap-u2 pt-u13 pb-u5">
+        <TextSurface class="flex flex-col gap-u2 pt-u8 pb-u3">
           <h2 id="ig-heading" class="type-label text-label">{t(locale, "instagram")}</h2>
           {instagramUrl && (
             <a
@@ -432,7 +432,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     )
   }
 
-  <TextSurface class="flex flex-col gap-u5 pt-u13 pb-u5">
+  <TextSurface class="flex flex-col gap-u5 pt-u8 pb-u5">
     <h2 class="type-label text-label">{t(locale, "newsletter")}</h2>
     <p class="type-body text-body max-w-prose">{t(locale, "newsletterLine")}</p>
     <form method="POST" action="/api/enquiry" class="flex max-w-prose flex-col gap-u3">
@@ -465,8 +465,12 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     sequence is. Ours, flagged as homeLines.
   */}
   {collections.length > 0 && (
-    <TextSurface class="flex flex-col gap-u1 pt-u13 pb-u5">
-      {/* The heading alone: "The current drop, in full." explained the page. */}
+    <TextSurface class="flex flex-col gap-u1 pt-u8 pb-u3">
+      {/*
+        The heading alone: "The current drop, in full." explained the page.
+        u8/u3 rather than u13/u5 (section 105): one label in a 229px box was
+        94% air, measured.
+      */}
       <h2 class="type-label text-label">{t(locale, "collections")}</h2>
     </TextSurface>
   )}
@@ -505,7 +509,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           )}
 
           {line && (
-            <TextSurface class="flex flex-col gap-u5 py-u13">
+            <TextSurface class="flex flex-col gap-u5 py-u8">
               <p class="type-display text-display max-w-prose">{line}</p>
               {/*
                 THE WAY IN, NOT THE NAME AGAIN (2026-08-10). This link repeated

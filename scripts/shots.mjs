@@ -133,6 +133,22 @@ const CHROME = value("chrome");
   that latency and are the honest number a visitor pays rather than a local one.
 */
 const WEIGH = flag("weigh");
+
+/*
+  --rhythm MEASURES THE EMPTINESS OF EVERY SECTION (2026-08-13, section 105).
+
+  The owner looked at the deployed site at desktop width and said the text
+  sections were empty. He was right, and nothing in this harness could have told
+  anyone: the audit checks contrast, overflow, spill and flat BANDS between two
+  painted grounds, and a section that is mostly air is none of those. It is
+  valid, legible, and wrong.
+
+  So this walks the page's own top-level sections and reports, for each: how
+  tall it is, how tall the content inside it actually is, and the difference.
+  A section whose content is 120px inside a 900px box is the complaint, stated
+  as a number, and it can be re-measured after a fix rather than argued about.
+*/
+const RHYTHM = flag("rhythm");
 const SLOW_4G = {download: (400 * 1024) / 8, upload: (400 * 1024) / 8, latency: 400};
 
 /*
@@ -140,10 +156,17 @@ const SLOW_4G = {download: (400 * 1024) / 8, upload: (400 * 1024) / 8, latency: 
   at 390 and a desktop at 1440. Not a sweep — these are the two the references
   were measured at, and a number nobody measured is a number nobody can judge.
 */
-const VIEWPORTS = [
-  {name: "390", width: 390, height: 844},
-  {name: "1440", width: 1440, height: 900},
-];
+const VIEWPORTS = (
+  value("viewports")?.split(",").map((v) => v.trim()).filter(Boolean) ?? ["390", "1440"]
+).map((name) => {
+  /*
+    The two the references were measured at stay the default (section 14). The
+    owner reads the site at 1920, so a width can be named on the command line
+    rather than being unmeasurable: `--viewports=1440,1920`.
+  */
+  const preset = {"390": {width: 390, height: 844}, "1440": {width: 1440, height: 900}, "1920": {width: 1920, height: 1080}};
+  return {name, ...(preset[name] ?? {width: Number(name), height: 900})};
+});
 
 /* ------------------------------------------------------------------ server */
 
@@ -935,6 +958,53 @@ async function main() {
               ` images ${kb(weigh.kinds.get("images") ?? 0)}` +
               ` js ${kb(weigh.kinds.get("js") ?? 0)}` +
               `\n        FCP ${paint.fcp}ms   LCP ${paint.lcp}ms   (400 kbps, 400ms RTT)`;
+          }
+
+          if (RHYTHM) {
+            const sections = await page.evaluate(() => {
+              const out = [];
+              for (const el of document.querySelectorAll("main > *")) {
+                const box = el.getBoundingClientRect();
+                if (box.height < 40) continue;
+                /*
+                  The content's own extent: the union of every leaf that paints
+                  something — text, a photograph, a rule. Padding and empty
+                  flex space fall outside it, which is exactly what is being
+                  measured.
+                */
+                let top = Infinity;
+                let bottom = -Infinity;
+                for (const node of el.querySelectorAll("p, h1, h2, h3, a, span, img, video, li, input, button, textarea, label")) {
+                  const r = node.getBoundingClientRect();
+                  if (r.height < 2 || r.width < 2) continue;
+                  top = Math.min(top, r.top);
+                  bottom = Math.max(bottom, r.bottom);
+                }
+                const content = bottom > top ? bottom - top : 0;
+                const label = (el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 34) || el.className.slice(0, 34);
+                out.push({label, height: Math.round(box.height), content: Math.round(content)});
+              }
+              return out;
+            });
+            let air = 0;
+            let tall = 0;
+            const lines = [];
+            for (const s of sections) {
+              const empty = Math.max(0, s.height - s.content);
+              air += empty;
+              tall += s.height;
+              const share = s.height > 0 ? empty / s.height : 0;
+              lines.push(
+                `        ${String(s.height).padStart(5)}px  content ${String(s.content).padStart(5)}px` +
+                  `  empty ${String(empty).padStart(5)}px (${(share * 100).toFixed(0)}%)  ${s.label}`,
+              );
+            }
+            console.log(`  ${viewport.name.padStart(4)}  ${route}`);
+            for (const l of lines) console.log(l);
+            console.log(
+              `        TOTAL ${tall}px, ${air}px empty = ${((air / Math.max(tall, 1)) * 100).toFixed(0)}%` +
+                `, ${(air / viewport.height).toFixed(1)} screens\n`,
+            );
           }
 
           if (AUDIT) {

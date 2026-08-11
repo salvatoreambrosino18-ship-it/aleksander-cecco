@@ -8745,3 +8745,70 @@ real loss and it is the reason the line existed. It is accepted because the
 warning was unconfirmed by the person who would have to honour it, and because
 the terms of sale — where it belongs — are one of the documents the lawyer is
 writing anyway.
+
+## 105. The empty rooms, measured and closed (2026-08-13)
+
+The owner looked at the deployed site at desktop width and said the text
+sections were empty. **He was right, and nothing in this repository could have
+told anyone**: the audit checks contrast, overflow, spill and flat bands between
+two painted grounds, and a section that is mostly air is none of those. It is
+valid, legible, and wrong.
+
+`npm run shots -- --rhythm --viewports=1440,1920` now measures it — per section,
+how tall it is, how tall its content is, and the difference — so this is a
+number rather than an argument, before and after.
+
+### What was actually wrong: the photograph was setting the room
+
+`.paired` carried `min-height: 100svh`, and inside it the media's `height: 100%`
+resolved to auto, so **the picture's own 3:4 set the section height**: a 720px
+half is 960px tall at 1440, a 960px half is 1280px at 1920. Every paired section
+was a screen and a bit whatever it held, and THE PROJECT — two sentences, 287px
+of type — floated in the middle of it.
+
+    THE PROJECT, text half        before          after
+    1440                          960px tall      558px tall
+                                  673px air 70%   271px air 49%
+    1920                         1280px tall      640px tall
+                                  993px air 78%   353px air 55%
+
+The cap is on the MEDIA, not the section, so a longer passage still makes its own
+room: the three reasons push the row past the cap and the photograph grows back
+to fill it. The photograph crops to about 1.3:1, a long way from the 2.9:1
+letterbox section 56 refused.
+
+### The other rooms
+
+- **The boundary wash was two screens**: `--wipe-pin: 100vh` on top of a held
+  screen. That was right when crossing it INVERTED the page and the reader was
+  paying for a change of world; since section 82 there is no inversion, and the
+  owner named this screen as empty white space. **60svh**, and the mark grew
+  from `min(34vw, 32rem)` to `min(48vw, 40rem)` so the screen is held for
+  something rather than around nothing.
+- **Blocks whose padding was written for a screen of prose**: the chapters
+  heading (94% air), the chapter line (72%), the newsletter, the Instagram
+  heading and the footer all went from `u13`/`u21` to `u8`/`u3`.
+
+### The whole page, before and after
+
+    1440    9006px -> 8603px      empty 2864px -> ~2000px
+    1920   10413px -> 8725px      the page lost a screen and a half
+
+**Read as one scroll it now reads as deliberate**: photograph, his words,
+photograph and passage, the band, the three reasons beside their photograph. The
+one screen that still measures 87% empty is the wash, and that is the held
+moment — a reader scrolling meets a screen with his signature being written
+across it, not a void.
+
+### The unnamed tile in BODY OF LIGHT
+
+The first frame is Ferdinando, identified this week, and it links to no Creature
+because he is not a piece. But every other tile carries a name, so an unlabelled
+one reads as a mistake rather than as a person.
+
+**Three options were considered.** Labelling it with the piece he is wearing was
+refused: nobody has said which piece that is, and guessing is the thing this
+project does not do. Moving it out of the band was refused: the owner put it
+there deliberately, replacing the red shirt. **It carries his name** — the same
+label register as the garment names beside it, in a band called BODY OF LIGHT,
+where a body is exactly what it shows.
