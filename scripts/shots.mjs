@@ -11,6 +11,11 @@
                                  one (section 86)
     npm run shots -- --weigh     what each route costs on 400 kbps / 400ms:
                                  transfer bytes by kind, FCP and LCP (section 91)
+    npm run shots -- --slice=8   also cut each capture into 8 strips you can
+                                 actually look at (section 108). A 20,000px page
+                                 opened whole is a thumbnail, and a judgement
+                                 made from a thumbnail is a judgement about a
+                                 thumbnail.
 
   WHY THIS FILE EXISTS AT ALL, and why it is committed.
 
@@ -149,6 +154,9 @@ const WEIGH = flag("weigh");
   as a number, and it can be re-measured after a fix rather than argued about.
 */
 const RHYTHM = flag("rhythm");
+/* How many strips to cut each capture into, for looking at it. See the note at
+   the capture below; 0 or 1 means the whole page and nothing else. */
+const SLICE = Number(value("slice") ?? 0);
 const SLOW_4G = {download: (400 * 1024) / 8, upload: (400 * 1024) / 8, latency: 400};
 
 /*
@@ -940,6 +948,43 @@ async function main() {
           const name = (route === "/" ? "root" : route.slice(1).replace(/\//g, "_")) + ".png";
           const file = path.join(dir, name);
           await page.screenshot({path: file, fullPage: true});
+
+          /*
+            --slice=N CUTS A CAPTURE INTO SCREENS YOU CAN ACTUALLY LOOK AT
+            (2026-08-13, section 108).
+
+            A full-page capture of /new at 1920 is 20,826 pixels tall. Opened or
+            pasted whole it is downscaled to a thumbnail, and every judgement
+            made from it is a judgement about a thumbnail — which is how a
+            design pass gets "verified" without anyone seeing the page. Slicing
+            it into N strips at a readable width is the difference between
+            reading the site and glancing at it.
+
+            IT IS A FLAG ON THIS TOOL RATHER THAN A SCRIPT BESIDE IT because
+            three looking-tools have now died in temporary folders and each
+            death cost a real defect (see the header). The fourth was written in
+            this session, at the repository root, and was folded in here rather
+            than left to be deleted by the next tidy-up.
+          */
+          if (SLICE > 1) {
+            const {default: sharp} = await import("sharp");
+            const meta = await sharp(file).metadata();
+            const step = Math.floor(meta.height / SLICE);
+            const outDir = path.join(dir, name.replace(/\.png$/, ""));
+            fs.mkdirSync(outDir, {recursive: true});
+            for (let i = 0; i < SLICE; i++) {
+              const top = i * step;
+              await sharp(file)
+                .extract({
+                  left: 0,
+                  top,
+                  width: meta.width,
+                  height: i === SLICE - 1 ? meta.height - top : step,
+                })
+                .resize({width: 820})
+                .toFile(path.join(outDir, `${String(i).padStart(2, "0")}.png`));
+            }
+          }
 
           let line = `  ${viewport.name.padStart(4)}  ${route}`;
 
