@@ -21,7 +21,6 @@ import MediaSurface from "../components/MediaSurface.astro";
 import TextSurface from "../components/TextSurface.astro";
 import {getSiteSettings} from "../lib/content";
 import {DEFAULT_LOCALE, LOCALES, localePath} from "../lib/locales";
-import {overlayTheme} from "../lib/media";
 import {t} from "../i18n/ui";
 
 const locale = DEFAULT_LOCALE;
@@ -29,7 +28,7 @@ const settings = await getSiteSettings();
 const photograph = settings.openingMedia;
 ---
 
-<Base locale={locale} title="404" chrome={overlayTheme(photograph?.overlayChrome ?? photograph?.overlay)}>
+<Base locale={locale} title="404">
   {
     photograph && (
       <MediaSurface media={photograph} locale={locale} priority>

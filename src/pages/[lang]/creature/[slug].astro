@@ -16,7 +16,6 @@ import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
 import {getGarments, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
-import {overlayTheme} from "../../../lib/media";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
 import {AVAILABILITY_COPY_IS_DRAFT, t} from "../../../i18n/ui";
@@ -168,7 +167,6 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
   locale={locale}
   title={garment.name}
   description={description ?? undefined}
-  chrome={overlayTheme(firstMedia?.overlayChrome ?? firstMedia?.overlay)}
   image={firstMedia ? imageUrl(firstMedia.poster, 1200) : null}
 >
   {

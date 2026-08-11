@@ -48,7 +48,6 @@ import {
   type Garment,
 } from "../../../lib/content";
 import {LOCALES, localePath, pick, toLocale} from "../../../lib/locales";
-import {overlayTheme} from "../../../lib/media";
 import {voiceState} from "../../../lib/voice";
 import {imageUrl} from "../../../lib/image";
 import {t} from "../../../i18n/ui";
@@ -107,7 +106,6 @@ const voice = voiceState(settings, locale);
   locale={locale}
   title={collection.name}
   description={statement ?? undefined}
-  chrome={overlayTheme(collection.cover?.overlayChrome ?? collection.cover?.overlay)}
   image={collection.cover ? imageUrl(collection.cover.poster, 1200) : null}
 >
   {

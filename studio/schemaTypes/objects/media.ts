@@ -90,34 +90,15 @@ export const media = defineType({
       validation: (Rule) => Rule.required(),
     }),
     /*
-      THE THIRD BAND (2026-08-10). `overlay` was measured for ONE viewport — a
-      phone — and used at every width. `object-fit: cover` crops a photograph
-      differently at every aspect ratio, so at 1440x900 the pixels under the
-      signature and MENU are a different part of the file entirely, and measuring
-      one and using both is the same mistake `overlayCaption` was invented to fix
-      at the other end of the frame.
+      overlayChrome IS GONE (2026-08-11, section 87). It held the polarity of
+      the signature and MENU while they floated over this photograph. They no
+      longer float: the chrome takes its own height in page ground above the
+      picture, so there is nothing to measure and nothing to keep in step. 97
+      measurements and a whole import step went with it.
 
-      Measured with a browser: the corner mark reads below 1.5:1 on 48
-      page/width combinations and below 3:1 on 88, worst 1.00:1 — a white
-      signature on pale concrete, verified by eye. It is the brand's own name,
-      invisible on roughly half the site.
-
-      Empty falls back to `overlay`, so nothing changes until it is measured.
+      The value below is the CAPTION's, at the other end of the frame, and it is
+      still needed for exactly the reason it was added.
     */
-    defineField({
-      name: 'overlayChrome',
-      title: 'Firma e MENU in alto: bianco o nero / Signature and MENU above: white or black',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Bianco / White (paper)', value: 'paper'},
-          {title: 'Nero / Black (ink)', value: 'ink'},
-        ],
-        layout: 'radio',
-      },
-      description:
-        "La polarita della firma e del MENU quando passano sopra questa fotografia, misurata a tutte le larghezze. Se vuoto usa il valore qui sopra. / The polarity of the signature and MENU as they pass over this photograph, measured at every width. Falls back to the value above when empty.",
-    }),
     /*
       THE SECOND BAND (2026-08-03). `overlay` is the polarity of the fixed chrome
       at the TOP of the frame; this is the polarity of the CAPTION at the bottom.
@@ -163,6 +144,27 @@ export const media = defineType({
       },
       initialValue: 'over',
       validation: (Rule) => Rule.required(),
+    }),
+    /*
+      A DETAIL FRAME WAITING FOR HIS SENTENCE (2026-08-11, section 88).
+
+      The construction crops were cut from his own high-resolution files and
+      imported with the caption DELIBERATELY EMPTY, because the caption is the
+      part only he can write: "500 punti cicatrice, cuciti a mano" is a fact he
+      knows and we do not.
+
+      An empty caption is indistinguishable from a caption nobody wanted — most
+      frames on this site correctly have none — so the waiting is recorded here
+      rather than in a message, and `npm run launch-check` counts it. Turn it off
+      when the sentence is written; the gate stops naming that frame.
+    */
+    defineField({
+      name: 'needsCaption',
+      title: 'Dettaglio in attesa di una riga / Detail awaiting a caption',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        "Acceso su un ritaglio di dettaglio importato senza didascalia: la riga sotto la fotografia la scrivi tu. Spegnilo quando l'hai scritta. / On for an imported detail crop with no caption: the line under the photograph is yours to write. Turn it off once you have written it.",
     }),
     defineField({
       name: 'video',

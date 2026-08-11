@@ -31,7 +31,6 @@ import MediaSurface from "../../components/MediaSurface.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
 import {getSiteSettings, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
-import {overlayTheme} from "../../lib/media";
 import {imageUrl} from "../../lib/image";
 import {isMarked, voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
@@ -83,7 +82,6 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
   locale={locale}
   title={t(locale, "about")}
   description={openingLine ?? undefined}
-  chrome={overlayTheme(openingMedia?.overlayChrome ?? openingMedia?.overlay)}
   image={openingMedia ? imageUrl(openingMedia.poster, 1200) : null}
 >
   {/*

@@ -16,12 +16,31 @@
   full-screen image. A brand hiding its own name on every page except home is
   not restraint.
 
-  Polarity. The chrome floats over photography, so it cannot have a fixed color.
-  It carries its own data-theme, which the page sets from the media underneath
-  it (each media item's overlay polarity is the owner's choice in the studio).
-  With JavaScript off it keeps the page's declared chrome polarity; with it on,
-  a small observer updates it as media passes beneath. No blend mode, because
-  blending over a color photograph would produce a third color.
+  THE CHROME STOPPED FLOATING (2026-08-11, section 87). THE OWNER'S CALL.
+
+  It used to sit ON the photography and take a polarity measured per image
+  (`overlayChrome`), swapped by an observer as frames passed beneath. Measured
+  across the site, that arrangement put the brand's own name under 4.5:1 on 118
+  of 152 audit faults, and 71 of 97 photograph placements had NO legible side —
+  no value of that field could have fixed them, because the band held both
+  extremes at once.
+
+  Now it takes its own height in the flow, in page ground, and the photograph
+  begins underneath it. The mark is ink on paper at 19.6:1, everywhere, at every
+  width, on every photograph he will ever shoot, and there is nothing left to
+  measure or to keep in step.
+
+  WHAT THIS COST, said plainly: a full-bleed photograph no longer touches the
+  top edge of the screen. On the shop pages the band simply continues the paper
+  shipping line that was already there; on about and process it is a new strip.
+  That was the trade and the owner took it, against rendered alternatives.
+
+  THE NO-SCRIM RULE SURVIVES INTACT (standing rule 11). This is not a scrim and
+  it is not a compromise version of one: nothing is laid over the photograph,
+  nothing is faded, and no value between ink and paper is painted anywhere. A
+  later session must not "restore" a veil under the marks believing it is
+  putting something back — there was never a veil, and the alternative that used
+  one was rendered, measured and rejected (section 86).
 */
 import Signature from "./Signature.astro";
 import Menu from "./Menu.astro";
@@ -30,35 +49,31 @@ import {t} from "../i18n/ui";
 
 interface Props {
   /**
-   * The polarity of the PAGE, which is not the polarity of the marks over the
-   * media. The menu panel inverts against it, so opening the menu performs the
-   * site's own two-state idea (DESIGN-PLAN section 61).
+   * The polarity of the PAGE. The menu panel inverts against it, so opening the
+   * menu performs the site's own two-state idea (DESIGN-PLAN section 61).
    */
   pageTheme?: "light" | "dark";
   locale: Locale;
-  /** Polarity of the chrome itself: "light" paints ink, "dark" paints paper. */
-  chrome?: "light" | "dark";
 }
 
-const {locale, chrome = "light", pageTheme = "light"} = Astro.props;
+const {locale, pageTheme = "light"} = Astro.props;
 ---
 
 {/*
-  STICKY, NOT FIXED (section 70). Fixed put the marks at y=0 where the
-  static banner also lives, and on a phone the two-line banner ran straight
-  through the signature. Sticky starts the chrome BELOW the banner and pins
-  it to the top the moment the banner scrolls away — the steady state is
-  identical to fixed, and the collision cannot exist. The negative margin
-  gives the chrome zero footprint in the flow, which is what keeps it an
-  overlay rather than a bar.
+  STICKY, AND NOW WITH ITS OWN FOOTPRINT (section 87). Sticky is unchanged and
+  still right: it starts below the shipping line and pins to the top the moment
+  that line scrolls away, so the two can never collide (section 70). What went
+  is `-mb-chrome`, the negative margin that gave the band zero height in the
+  flow and made it an overlay. It has its height now, and `bg-bg` paints it in
+  the page's own ground — which is paper, on every page (section 82).
 */}
 <header
   id="site-chrome"
-  data-theme={chrome}
-  class="text-fg sticky inset-x-0 top-0 z-30 -mb-chrome flex h-chrome items-center gap-u3 px-margin"
+  class="bg-bg text-fg sticky inset-x-0 top-0 z-30 flex h-chrome items-center gap-u3 px-margin"
 >
   <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
     <Signature class="h-sig-corner" decorative />
   </a>
   <Menu locale={locale} theme={pageTheme} />
+
 </header>

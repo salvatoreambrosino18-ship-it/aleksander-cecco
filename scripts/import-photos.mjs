@@ -1881,22 +1881,20 @@ async function main() {
   console.log("\nIn the dataset now:", JSON.stringify(counts));
 
   /*
-    RE-MEASURE THE CHROME BAND, ALWAYS (2026-08-11, section 80).
+    THE CHROME BAND NO LONGER EXISTS (2026-08-11, section 87).
 
-    createOrReplace writes what this plan knows and silently drops what it does
-    not. `overlayChrome` (section 77) is measured by a different tool with a
-    different model — every container the site has, not a phone's — so it is not
-    in this file, and the first import after it was added wiped all 91 values
-    without a word. The site fell back to `overlay`, which is the wrong band, and
-    nothing anywhere would have said so.
+    This used to chain `measure-chrome --write` after every import, because
+    createOrReplace silently dropped `overlayChrome` — a field this file does not
+    know about — and the first import after that field was added wiped all 91
+    values without a word.
 
-    So it is chained here rather than left to memory. It is the same class of
-    hazard as the stale-document sweep above: this script owns the shape of
-    these documents, so it owns everything the shape carries.
+    The field is gone: the signature and MENU stopped floating over photography
+    and sit in page ground, so there is no band to measure. The hazard it guarded
+    against has not gone anywhere, though, and it is worth leaving the shape of
+    it here: THIS SCRIPT OWNS THESE DOCUMENTS, so it owns everything they carry.
+    Anything added to the media object that this file does not write is a value
+    the next import will silently delete.
   */
-  console.log("\nRe-measuring the chrome band, which this file does not know about:");
-  const {execFileSync} = await import("node:child_process");
-  execFileSync("node", [path.join(ROOT, "scripts/measure-chrome.mjs"), "--write"], {stdio: "inherit"});
 }
 
 main().catch((error) => {

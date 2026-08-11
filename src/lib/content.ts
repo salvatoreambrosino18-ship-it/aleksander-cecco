@@ -22,12 +22,14 @@ const MEDIA_PROJECTION = /* groq */ `
   "altIsDraft": coalesce(altIsDraft, false),
   "isProvisional": coalesce(isProvisional, false),
   overlay,
-  // Three bands, three values, each falling back to the one before it (s77).
-  // The overlay value was measured against a phone crop and used at every
-  // width; the chrome band at 1440 is a different part of the file entirely.
+  // TWO bands now, not three (section 87): the chrome stopped crossing the
+  // photograph, so overlayChrome is gone from the schema and from here. The
+  // caption's own value stays and still falls back to the value above.
   // GROQ takes // comments only: a /* */ block here parses as an error, the
   // query fails, and the whole site builds from placeholders. It did, once.
-  "overlayChrome": coalesce(overlayChrome, overlay),
+  // AND NO BACKTICKS: this whole projection is a template literal, so one
+  // backtick in a comment ends the string and the file stops parsing. The
+  // typechecker caught exactly that, here, on 2026-08-11.
   "overlayCaption": coalesce(overlayCaption, overlay),
   "captionPlacement": coalesce(captionPlacement, "over"),
   caption,

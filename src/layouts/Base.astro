@@ -60,11 +60,13 @@ interface Props {
     to him rather than to this file.
   */
   theme?: "light" | "dark";
-  /**
-   * Polarity of the fixed chrome on first paint, before any observer runs.
-   * On a media-led page this is the first media item's overlay polarity.
-   */
-  chrome?: "light" | "dark";
+  /*
+    `chrome` IS GONE (2026-08-11, section 87). It carried the polarity of the
+    signature and MENU while they floated over a photograph. They no longer
+    float: the band takes its own height in page ground and the mark is ink on
+    paper at 19.6:1 everywhere. There is no per-page value to pass, no observer
+    to run, and no `overlayChrome` to keep in step.
+  */
   /** Absolute URL of the sharing image. Always a real photograph, never art. */
   image?: string | null;
   /*
@@ -84,7 +86,7 @@ interface Props {
   footerTheme?: "light" | "dark";
 }
 
-const {locale, title, description: rawDescription, theme = "light", chrome, image, footerTheme, shopChrome = true} =
+const {locale, title, description: rawDescription, theme = "light", image, footerTheme, shopChrome = true} =
   Astro.props;
 
 /*
@@ -270,7 +272,7 @@ const shareImage =
         <p class="type-label text-label banner-line text-center">{banner}</p>
       </div>
     )}
-    <SiteHeader locale={locale} chrome={chrome ?? theme} pageTheme={theme} />
+    <SiteHeader locale={locale} pageTheme={theme} />
 
     <div class="flex min-h-svh flex-col">
       <main id="content" class="flex-1">
@@ -280,45 +282,15 @@ const shareImage =
     </div>
 
     {/*
-      Chrome polarity. Each media surface declares the polarity its overlay text
-      needs (the owner's per-image choice in the studio). As one passes under
-      the fixed chrome, the chrome takes the same polarity, so the signature and
-      MENU stay legible over any photograph without a scrim, a blend mode, or a
-      third color. This is a state swap, not motion: nothing animates, and with
-      JavaScript off the chrome simply keeps the polarity the page declared.
+      THE CHROME OBSERVER IS GONE (2026-08-11, section 87), and this is the
+      cheapest thing the band bought. It watched every media surface pass under
+      the fixed marks and swapped their polarity to whichever value had been
+      measured for that photograph. It was correct, it was cheap, it ran on
+      every page — and it could not solve the problem, because 71 of 97
+      placements had no legible side to swap TO. The band removed the question
+      instead of answering it: the marks sit on paper and never cross a
+      photograph at all.
     */}
-    <script is:inline>
-      (() => {
-        const chrome = document.getElementById("site-chrome");
-        const zones = document.querySelectorAll("[data-chrome-polarity]");
-        if (!chrome || !zones.length || !("IntersectionObserver" in window)) return;
-
-        const fallback = chrome.getAttribute("data-theme") || "light";
-        let active = [];
-
-        const apply = () => {
-          const top = active
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-          const polarity = top ? top.target.getAttribute("data-chrome-polarity") : fallback;
-          chrome.setAttribute("data-theme", polarity || fallback);
-        };
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              active = active.filter((e) => e.target !== entry.target).concat(entry);
-            }
-            apply();
-          },
-          // a thin band across the very top of the viewport: whatever is under
-          // the chrome right now is what the chrome must be legible against
-          {rootMargin: "0px 0px -95% 0px", threshold: 0},
-        );
-
-        zones.forEach((zone) => observer.observe(zone));
-      })();
-    </script>
 
     {/*
       THE LOOPS (2026-08-11, section 83). Marked live only when JavaScript runs

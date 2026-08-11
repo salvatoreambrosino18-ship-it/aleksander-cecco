@@ -139,14 +139,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   is the wash, and what happens there is his signature being written.
 */}
 
-{/* chrome: the first screen is a photograph now, so the fixed signature and
-    MENU take that photograph's overlay polarity on first paint. */}
-<Base
-  locale={locale}
-  image={shareImage ? imageUrl(shareImage.poster, 1200) : null}
-  chrome={overlayTheme(opening?.overlayChrome ?? opening?.overlay)}
- 
->
+<Base locale={locale} image={shareImage ? imageUrl(shareImage.poster, 1200) : null}>
   {/*
     1. ARRIVAL. The one sealed screen on the page, and the only priority image:
     it is the largest thing the site downloads and the first thing seen.

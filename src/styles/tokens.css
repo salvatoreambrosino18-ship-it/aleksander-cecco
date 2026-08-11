@@ -101,7 +101,15 @@
     Media. A screen is a photograph, so these are the only sizes it needs.
     svh, not vh: mobile browser chrome must not push the bottom edge off screen.
   */
-  --media-h-screen: 100svh; /* a chapter: one photograph, one screen */
+  /*
+    ONE SCREEN IS NOW ONE SCREEN LESS THE BAND (2026-08-11, section 87). The
+    chrome stopped floating and takes its own height at the top of every page,
+    sticky, opaque, always there — so the tallest a photograph can be and still
+    be SEEN whole is the viewport minus that band. Left at 100svh, the site's one
+    sealed screen, the home arrival, ran a band's worth past the fold and stopped
+    being sealed.
+  */
+  --media-h-screen: calc(100svh - var(--chrome-h));
   --media-h-tall: 88svh; /* one in a sequence, so the next one shows */
   /*
     UNUSED since the home page was rebuilt as a sequence: nothing passes

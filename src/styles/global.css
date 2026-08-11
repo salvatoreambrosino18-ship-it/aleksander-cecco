@@ -315,14 +315,19 @@
   [data-wash-live] .wash {
     height: calc(100svh + var(--wipe-pin));
   }
+  /*
+    Held under the band, not behind it (section 87): the chrome is sticky and
+    opaque now, so a screen pinned at top:0 would spend its first band-height
+    underneath it and the mark being written would sit off-centre.
+  */
   .wash-sticky {
     position: relative;
-    height: 100svh;
+    height: calc(100svh - var(--chrome-h));
     overflow: hidden;
   }
   [data-wash-live] .wash-sticky {
     position: sticky;
-    top: 0;
+    top: var(--chrome-h);
   }
   .wash-layer {
     position: absolute;

@@ -12,9 +12,9 @@
     shot against bright concrete with a dark garment in frame, so the caption
     band holds both extremes and neither text color survives it.
 
-  Either way the image publishes its overlay polarity as data-chrome-polarity,
-  because the fixed signature and MENU still pass over the picture and still
-  have to stay legible.
+  The fixed signature and MENU no longer pass over the picture at all (section
+  87), so this surface publishes nothing for them and the caption's own measured
+  polarity is the only overlay value left that matters.
 
   Video: the schema carries an optional muted loop, and since 2026-08-11
   (section 83) this renders the loop itself over its own poster. Nothing changes
@@ -107,13 +107,12 @@ const sizes =
       : "100vw");
 
 /*
-  THE CHROME BAND HAS ITS OWN MEASUREMENT (s77). `overlay` was measured against
-  a phone crop and used at every width, so at desktop the signature and MENU sat
-  over a different part of the file entirely — below 1.5:1 on 48 page/width
-  combinations. This is the same correction `overlayCaption` made at the bottom
-  of the frame, applied to the band carrying the brand's own name.
+  THE CHROME BAND NO LONGER CROSSES THIS FRAME (2026-08-11, section 87). The
+  signature and MENU sit in page ground above the photograph, so `overlayChrome`
+  and the polarity this surface used to publish are both gone. What remains is
+  the CAPTION's own measured value, below, which is a different band with a
+  different answer and is still load-bearing.
 */
-const theme = overlayTheme(media.overlayChrome ?? media.overlay);
 /*
   The caption is at the OTHER END of the photograph from the chrome, so it takes
   its own measured polarity. One value for both was what put eight captions
@@ -166,7 +165,6 @@ const contained =
 ---
 
 <figure
-  data-chrome-polarity={theme}
   data-reveal={revealThis ? "" : undefined}
   class:list={["relative w-full", className]}
 >
