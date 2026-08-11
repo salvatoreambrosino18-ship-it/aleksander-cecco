@@ -452,8 +452,11 @@ for going quiet.
    decided to unweave it**: eight making frames consecutive in work order, the
    artistic frames as a coda. It partly reopens s65 and section 85 records
    exactly which part. Nothing was added — no captions, no words, no motion.
-10. **VIDEO — one file exists, and it was surveyed and REFUSED (2026-08-12,
-    section 90).** `video aleksander cecco.mp4`: 26s, **464 x 832**, 30fps, with
+10. **VIDEO — refused (section 90) and then SHIPPED PROVISIONALLY on the
+    owner's call (section 93). It is live on /process now and must come off
+    before launch.** At 1440 it is plainly the weakest frame on the site; at 390
+    it passes. The replacement is one message: the camera original.
+    The survey that refused it: `video aleksander cecco.mp4`: 26s, **464 x 832**, 30fps, with
     an audio track, 4.29 MB. It shows the right thing — one continuous take of a
     garment being hung, his own work — and it cannot go on the site: its long
     edge is 832 against a 1200 floor, so at the size a phone actually paints it
@@ -8129,3 +8132,35 @@ they had audited one language. The site did not get worse tonight; the
 measurement got honest. There is one defect, on two language pages, at two
 widths, and it clears the day the opening photograph has a quiet band —
 item 13 on THE OPEN LIST.
+
+## 93. The loop is on /process, provisionally (2026-08-12)
+
+Section 90 refused this clip. The owner has shipped it anyway, **provisionally**,
+the way the hat's crop ships: visible on the page, marked in the studio, named
+here as something to replace.
+
+**What went up:** 1.5s–7.5s, the steadiest window in the take, re-encoded to
+6.03s at 458 KB — h264 High, yuv420p, faststart, **no audio track at all**. Its
+poster is its own first frame, extracted at the same timestamp the encode starts
+from, so the swap from still to motion is invisible. Appended after the eight
+making frames, because it shows the garment being hung and that is the end of
+the work, not a step inside it. `isProvisional` is on.
+
+**How bad it looks, honestly, having looked:**
+
+- **At 390 it passes.** In the vertical column it reads as a slightly soft frame
+  — the wall shows compression mottling and the glove has no texture — but a
+  reader scrolling would call it a photograph, and it moves, which nothing else
+  on the page does.
+- **At 1440 it is plainly the weakest frame on the site.** The mosaic pairs it
+  beside a pattern piece whose linen weave is razor sharp, and the difference is
+  not subtle: the glove is a blur, the wall is mush. Anyone comparing the two
+  sees it.
+
+That is the trade the owner took with his eyes open: motion on the making page
+tonight, at the cost of the sharpest page on the site having one soft frame.
+
+**IT MUST BE REPLACED BEFORE LAUNCH.** The camera original is 1080x1920 and one
+message away; `docs/SCATTI-DETTAGLIO.md` section 3 is the ask, in Italian. When
+it lands, re-encode the same window and swap the asset — the media object, the
+poster rule and the placement all stay.
