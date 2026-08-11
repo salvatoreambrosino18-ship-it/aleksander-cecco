@@ -185,6 +185,7 @@ for (const drop of dropKeys) {
                   class="tile"
                   data-drop={garment.collection?.slug ?? "none"}
                   data-worn={garment.wornBy ?? "unset"}
+                  data-piece
                 >
                   {/*
                     BROWSE WITHOUT CLICKING (section 72), his request. On a
@@ -246,4 +247,40 @@ for (const drop of dropKeys) {
       <p class="type-label text-label">{t(locale, "noneMatchHint")}</p>
     </TextSurface>
   </div>
+
+  {/*
+    NAME THE TILE THAT WAS TAPPED, AND ONLY THAT ONE (section 94).
+
+    The photograph is the same on both sides of this navigation, so the browser
+    can carry it across instead of dissolving it — but only if both documents
+    give the same element the same `view-transition-name`, and a name that
+    appears twice in one document disables the transition entirely.
+
+    So the name is applied to exactly one tile, at the moment a finger lands on
+    it, and removed if the reader comes back. `pointerdown` rather than `click`
+    because it fires before the navigation and before any scroll-cancellation,
+    which is what a flick on the tile strip produces.
+
+    Everything here is optional. No script, no view transitions, or reduced
+    motion: the navigation is the plain crossfade it has always been.
+  */}
+  <script is:inline>
+    (() => {
+      if (!document.startViewTransition) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const clear = () => document.querySelectorAll("[data-vt]").forEach((el) => el.removeAttribute("data-vt"));
+      for (const tile of document.querySelectorAll("a.tile[data-piece]")) {
+        tile.addEventListener(
+          "pointerdown",
+          () => {
+            clear();
+            tile.setAttribute("data-vt", "");
+          },
+          {passive: true},
+        );
+      }
+      // Coming back through history must not leave a second element named.
+      window.addEventListener("pageshow", clear);
+    })();
+  </script>
 </Base>

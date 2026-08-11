@@ -180,6 +180,21 @@
 .hairline-under:focus-visible::after {
   transform: scaleX(1);
 }
+/*
+  AND A FINGER GETS THE SAME ANSWER (2026-08-12, section 94).
+
+  This line was drawn by hover and by keyboard focus, which between them cover
+  every reader except the one who matters most here: the buyer on a phone. On a
+  touch device the site's one commercial action — "Acquire — €975" — did
+  nothing at all when pressed, and then the page changed. `:active` fires on
+  press, so the same stroke, on the same curve, now acknowledges the tap before
+  the navigation happens.
+
+  It is the cheapest possible fix to the one place where silence is expensive.
+*/
+.hairline-under:active::after {
+  transform: scaleX(1);
+}
 @media (prefers-reduced-motion: reduce) {
   .hairline-under::after {
     transition: none;
@@ -1128,6 +1143,61 @@
   }
   ::view-transition-new(root) {
     animation-duration: 200ms;
+  }
+
+  /*
+    THE TILE BECOMES THE PIECE (2026-08-12, section 94).
+
+    The most repeated journey on the site is catalogue to Creature, and the same
+    photograph is on both sides of it. Until tonight that was a 200ms crossfade
+    between two whole pages: the picture you tapped dissolved and an identical
+    picture faded up somewhere else on the screen.
+
+    Section 72 REJECTED a true morph, and the reasons were right for the design
+    it was judging: naming a pair without JavaScript means relying on :active or
+    :focus surviving the snapshot, which is unreliable, and seventeen
+    permanently-named tiles cost phone frames on a page that is already the
+    heaviest on the site.
+
+    Neither cost applies to naming ONE element at the moment it is tapped. The
+    hero on the destination carries the name always — it is a single element on
+    a page that has one — and the tile carries it for the length of one
+    navigation. Seventeen tiles are named zero times until a finger lands.
+
+    If the browser has no view transitions, or the script does not run, the
+    navigation is exactly what it was. Reduced motion never enters this block.
+  */
+  .piece-hero img:first-of-type,
+  .tile[data-vt] .tile-flick > :first-child img:first-of-type {
+    view-transition-name: piece;
+  }
+  ::view-transition-group(piece) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /*
+    THE GRID SETTLES WHEN THE FILTER CHANGES (2026-08-12, section 94).
+
+    Choosing a filter used to be instant in the worst sense: half the tiles
+    vanished between one frame and the next, and nothing told a reader that the
+    page had answered them rather than broken. The surviving tiles now settle,
+    once, on the site's own curve.
+
+    It is CSS with no state of its own: the rule matches only while a filter is
+    chosen, so it runs when the radio changes and never on load — "all" is the
+    default and carries no animation, which is also correct, because returning
+    to everything is a release rather than an act.
+  */
+  .catalogue:has([name="worn"][value="men"]:checked) .tile:not([data-worn="women"]),
+  .catalogue:has([name="worn"][value="women"]:checked) .tile:not([data-worn="men"]) {
+    animation: tile-settle 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes tile-settle {
+    from {
+      opacity: 0.3;
+      transform: translateY(8px);
+    }
   }
 }
 

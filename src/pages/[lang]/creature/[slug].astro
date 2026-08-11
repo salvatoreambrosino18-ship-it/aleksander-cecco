@@ -171,7 +171,12 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
 >
   {
     media.map((item, index) => (
-      <MediaSurface media={item} locale={locale} priority={index === 0}>
+      <MediaSurface
+        media={item}
+        locale={locale}
+        priority={index === 0}
+        class={index === 0 ? "piece-hero" : undefined}
+      >
         {index === 0 && (
           <>
             <h1 class="type-display text-display">{garment.name}</h1>

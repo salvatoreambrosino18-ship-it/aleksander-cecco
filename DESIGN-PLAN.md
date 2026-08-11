@@ -8164,3 +8164,57 @@ tonight, at the cost of the sharpest page on the site having one soft frame.
 message away; `docs/SCATTI-DETTAGLIO.md` section 3 is the ask, in Italian. When
 it lands, re-encode the same window and swap the asset — the media object, the
 poster rule and the placement all stay.
+
+## 94. Three things move that did not (2026-08-12)
+
+The site's motion was judged again now that something on it actually moves, and
+three things were built. The two standing rules held: nothing competes with a
+photograph, and nothing that must be read moves.
+
+### 1. THE TILE BECOMES THE PIECE
+
+Catalogue to Creature is the most repeated journey here and the same photograph
+is on both sides of it. It was a 200ms crossfade between two whole pages: the
+picture you tapped dissolved, and an identical picture faded up somewhere else
+on the screen. Now the browser carries it across.
+
+**Section 72 rejected a morph and was right about the design it judged.** Naming
+a pair without JavaScript means relying on `:active` or `:focus` surviving the
+snapshot, which is unreliable; and seventeen permanently-named tiles cost phone
+frames on the heaviest page on the site. **Neither cost applies to naming ONE
+element at the moment it is tapped.** The destination hero carries the name
+always — one element on a page that has one — and a tile carries it for the
+length of one navigation, applied on `pointerdown`, cleared on `pageshow` so
+history never leaves two elements sharing a name.
+
+Verified in a browser rather than reasoned about: before a tap no tile resolves
+a `view-transition-name`; after one, exactly the tapped tile resolves `piece`,
+and so does the hero on the piece's own page.
+
+### 2. THE GRID SETTLES WHEN A FILTER CHANGES
+
+Choosing a filter was instant in the worst sense — half the tiles vanished
+between one frame and the next, and nothing said the page had answered rather
+than broken. The surviving tiles settle once, 260ms, on the site's own curve.
+
+CSS with no state of its own: the rule matches only while a filter is chosen, so
+it runs on the change and never on load. **"All" carries no animation on
+purpose** — returning to everything is a release, not an act.
+
+### 3. THE BUY ACTION ANSWERS A FINGER
+
+The drawn underline was triggered by hover and by keyboard focus, which between
+them cover every reader except the one who matters most: the buyer on a phone.
+Pressing "Acquire — €975" did nothing at all, and then the page changed.
+`:active` now draws the same stroke on the same curve. One line of CSS, on the
+one place in this site where silence is expensive.
+
+### What was considered and left alone
+
+- **The order confirmation** already stages its arrival in writing order
+  (section 72). It is the emotional peak and it already moves; adding to it
+  would be decorating a moment that works.
+- **The menu** already arrives on a hard top-down edge, the wash's own language.
+- **The catalogue's tiles** already reveal as they enter. What was missing was
+  not entrance but ANSWER — which is what items 2 and 3 are.
+- **Anything on a photograph.** Still nothing.
