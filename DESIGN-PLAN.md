@@ -566,6 +566,13 @@ for going quiet.
     rather than assuming either answer. **It governs returns copy that is
     already live on every piece page.**
 
+20. **A LOCKED-OFF CLIP FOR THE ARRIVAL, if he wants film on the home page.**
+    The answer changed on 2026-08-13 (section 106): the argument that killed it
+    was contrast over the photograph, and there is no longer any text over that
+    photograph to break. What remains is that nothing in the take he sent loops,
+    which no resolution fixes. **Ask for: 6-10 seconds, camera still, one
+    material moving, first and last frame identical, no audio, camera original.**
+
 ---
 
 ## THE LAUNCH CHECKLIST (2026-08-03)
@@ -8812,3 +8819,78 @@ project does not do. Moving it out of the band was refused: the owner put it
 there deliberately, replacing the red shirt. **It carries his name** — the same
 label register as the garment names beside it, in a band called BODY OF LIGHT,
 where a body is exactly what it shows.
+
+## 106. Is the site under-animated? No. It was under-composed (2026-08-13)
+
+Asked plainly, and answered plainly, because the owner has asked for more motion
+for two days and most of it has been refused.
+
+### The reading
+
+**He is not describing a lack of motion. He is describing air, and the air was
+real.** Two things say so.
+
+**What he actually named**: "the section under the drawn signature", "three
+short lines in a screenful of paper". Those are places, not moments. A person
+who wants motion says the site feels dead; a person looking at 70% air says it
+looks empty, and he said empty.
+
+**And the measurements agreed with him.** THE PROJECT held 287px of type in a
+960px column at 1440 and a 1280px one at 1920. The wash was two screens tall.
+The page carried a screen and a half of nothing. Section 105 removed it, and it
+was removed by composition — a cap on a photograph, four padding values and a
+shorter hold — not by adding a single frame of animation.
+
+**A site with three gestures and a film loop is not under-animated.** What it
+was, at desktop, was under-composed: rules tuned when these sections were
+full-bleed photographs with a caption, never re-judged when they became prose.
+
+### So there is no fourth gesture, and that is the recommendation
+
+Nothing was built here. The site already has, each happening once and all on one
+curve: a photograph arriving, a tile becoming the piece it opens, the grid
+settling when a filter changes, a line drawn under anything pointed at or
+pressed, his signature written on the arrival, his signature written again by
+the reader at the boundary, and a film loop on /process.
+
+**A fourth would be decoration.** The honest test — does it carry meaning the
+page cannot carry otherwise — is failed by everything left: there is no journey
+without an answer, no state change without feedback, and no moment without a
+gesture. Adding one would be answering a complaint that was about something
+else, and the complaint has been fixed.
+
+### What to say to him
+
+That the emptiness he saw was real, that it is measured and gone — a screen and
+a half of it — and that it was never a missing effect. If it still reads as
+static after this, the next thing to change is the PHOTOGRAPHY on the two text
+pages, not the animation: motion cannot fill a room, it can only cross one.
+
+### THE VIDEO AS THE ARRIVAL: the answer has changed, but not because of
+resolution
+
+Section 90 refused this clip for the arrival on four counts. Three of them have
+moved:
+
+1. **Resolution** — 464px against a 1200px floor. **The camera original fixes
+   this.** It is the only objection the original fixes.
+2. **The luminance drift under the caption band** — this objection has largely
+   DISSOLVED, and not because of the video. The arrival's words moved onto paper
+   (section 89) and the drawn signature moved with them (section 96), so there
+   is no longer any text over that photograph whose contrast a moving image can
+   break. **What was the strongest argument against video on the arrival is
+   mostly gone.**
+3. **The first frame is a different picture from the poster** — solvable by
+   using the loop's own first frame as the arrival's poster, which is what
+   section 83 already requires.
+4. **NOTHING IN THAT TAKE LOOPS.** First frame against last differs by 84.7 of
+   255; the steadiest six-second window still ends 33.9 away. **The camera
+   original does not fix this, because it is the content, not the encode.**
+
+**So: yes, video on the arrival is now possible in a way it was not on 2026-08-11
+— but not with this take at any resolution.** What it needs is a different
+clip, and the spec is already in section 83: 6 to 10 seconds, camera locked off,
+one material moving, first and last frame identical, no audio track, sent as the
+camera original rather than through WhatsApp.
+
+**That is the thing to ask him for.** If it arrives, the arrival can carry it.
