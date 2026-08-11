@@ -8516,3 +8516,67 @@ that. **Ask him; do not fix.**
 English; the Italian on the page is our translation of it and marks itself as an
 unapproved translation until he reads it. That flag was set to both languages
 when the Italian was his, and it is not any more.
+
+## 100. HOW A PIECE IS SIZED: three answers in ten days (2026-08-12)
+
+The owner has now answered this question three times, and the answers contradict
+each other. **All three are recorded here, with dates and with what each one
+cost to build and to unbuild**, because the pattern is more useful than any one
+of them: this is the question this project keeps reopening, and the next session
+should recognise it on sight rather than treating answer four as new.
+
+### Answer 1 — NO SIZES AT ALL (2026-08-02, section 17)
+
+*"There are no sizes. Every garment is made to measure, always, and nothing is
+produced in advance."*
+
+It reversed a size list decided on 2026-08-01, and it was argued hard: a size
+field implies stock that exists before someone asks for it. **Built:** `sizes`
+deleted from the schema, `studio/schemaTypes/constants/sizes.ts` and
+`src/lib/sizes.ts` deleted, the sizes row removed from the piece page, the size
+strings removed from the interface, `{AVAILABLE_SIZES}` retired. Section 17
+closes with **"DO NOT REINTRODUCE SIZES"** in capitals.
+
+What replaced them: reference measurements per piece, and the measuring flow —
+three body measurements, a diagram, a unit chooser.
+
+### Answer 2 — NO MADE TO MEASURE, BUY WHAT EXISTS (2026-08-12, section 98)
+
+*"Remove made to measure, everything becomes available."*
+
+**Built:** the measurement fieldset, the diagram, the unit chooser, the
+as-is-or-remade question and the `madeToOrder` state all deleted; thirteen
+Creature moved to `readyNow`; body measurements removed from the Function
+entirely; `launch-check` made to REFUSE any purchasable piece without published
+measurements, because if a buyer receives the object in the photograph then its
+numbers are the only fit information that exists.
+
+It lasted **one working session**.
+
+### Answer 3 — THE BUYER CHOOSES A SIZE (2026-08-12, section 101)
+
+*"The buyer chooses a size, the owner makes the piece in that size, and the site
+presents it simply as available."*
+
+**Built:** a size choice per piece, sizes back in the schema — reversing section
+17's capitals — the measurement gate removed again, and the fifteen invented
+measurement sets deleted rather than left flagged.
+
+### WHAT THE PATTERN SAYS, and this is the part worth keeping
+
+Read together, the three answers are not random. Each one moves the WORK the
+buyer does closer to zero: measure yourself and send three numbers → nothing,
+buy what exists → choose a size. The owner is not changing his mind about the
+product; he is converging on an ordinary shop, and each answer arrived after he
+looked at what the site was asking a stranger to do.
+
+**So the thing to hold loosely is the MECHANISM, and the thing to hold firmly is
+the direction.** The next question that sounds like sizing — a fit guide, a
+measurement chart, a size calculator — should be judged against "does this add
+work for the buyer", and probably answered before he has to ask.
+
+**And the practical lesson: build the mechanism thin.** Answer 2's gate was
+written to be strict and correct and was deleted eight hours later, having never
+guarded anything real. Answer 3's size field is deliberately one array on one
+document, with no constants file, no library and no derived state — so that
+answer four, whatever it is, costs an afternoon rather than a session.
