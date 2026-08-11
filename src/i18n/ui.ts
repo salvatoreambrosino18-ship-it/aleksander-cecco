@@ -87,7 +87,7 @@ const ui = {
     handmade: "Fatto a mano nel Sud Italia.",
     outsideCollections: "Fuori dalle collezioni.",
     // A buyer who cannot try anything on needs a way to use these numbers.
-    fitGuidance: "Confrontale con un capo che gia possiedi e che ti veste come vuoi.",
+    fitGuidance: "Confrontale con un capo che già possiedi e che ti veste come vuoi.",
     /* OURS, flagged as madeToMeasureLine: made to measure is not a flow any
        more, it is an invitation to write (section 98). */
     madeToMeasureLine: "Su misura, solo su richiesta: scrivici e ne parliamo.",
@@ -98,7 +98,7 @@ const ui = {
     oneSize: "Taglia unica.",
     chooseSize: "Scegli la taglia",
     /* OURS, flagged as deliveryLine: his number, our sentence (section 102). */
-    deliveryLine: "Ogni pezzo e fatto dopo l'ordine: massimo due settimane prima della spedizione.",
+    deliveryLine: "Ogni pezzo è fatto dopo l'ordine: massimo due settimane prima della spedizione.",
     /*
       1 OF 1 = PRIVATE COMMISSION (owner, 2026-08-04). Each was made once, to
       someone's measurements. It can be bought only as it is, so the line says

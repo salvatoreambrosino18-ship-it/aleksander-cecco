@@ -109,7 +109,15 @@ const priceOf = (garment: Garment) =>
     ))
   }
 
-  <TextSurface class="hairline-h flex flex-col gap-u3 py-u13">
+  {/*
+    u8, not u13 (2026-08-13, section 108). Thirteen units above and below a
+    closing block of one or two 12px lines measured 313px at 1920 for 26px of
+    content — 92% air around the one thing on the page asking to be clicked.
+    Same correction section 105 made to the home page's headings and section
+    108 made to /process; the tails were missed because nobody scrolls past the
+    end of a page to look at it.
+  */}
+  <TextSurface class="hairline-h flex flex-col gap-u3 py-u8">
     <a
       href={localePath(locale, "creature")}
       class="type-label text-label self-start hairline-under"

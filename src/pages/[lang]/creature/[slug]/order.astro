@@ -109,7 +109,19 @@ const sizes = (garment.sizes ?? []).filter((size) => size !== "ONE");
   */}
   {firstMedia && <MediaSurface media={firstMedia} locale={locale} height="short" priority />}
 
-  <TextSurface class="flex min-h-svh flex-col gap-u8 py-u13">
+  {/*
+    NO `min-h-svh` (2026-08-13, section 108). This block was written around a
+    form, and a form fills a screen: on Rubedo it is 1109px of content in a
+    1421px box at 1920, which is right. **A SOLD-OUT PIECE HAS NO FORM**, and
+    the same rule then held a full 1080px screen open around six short lines and
+    the words SOLD OUT — 295px of content, 785px of paper, 73% air on a
+    dead-end page. Measured on capo-10 and capo-11.
+
+    The floor was doing no work in the case it was written for and all the
+    damage in the case nobody checked. The block takes the room its content
+    needs; `py-u13` still gives the page its rhythm.
+  */}
+  <TextSurface class="flex flex-col gap-u8 py-u13">
     <div class="flex flex-col gap-u2">
       <p class="type-label text-label">{t(locale, "order")}</p>
       <h1 class="type-display text-display">

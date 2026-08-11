@@ -54,10 +54,25 @@ interface Props {
   locale: Locale;
   /** Which side the photograph takes at desktop. Alternate down a page. */
   side?: "left" | "right";
+  /*
+    THE FIRST PHOTOGRAPH A READER MEETS ON /process IS THIS ONE (2026-08-13,
+    section 108, and it was on the checklist as mine since section 85).
+
+    That page opens on a title block and then a composition anchor, so its own
+    opening image was `loading="lazy"` at low fetch priority while the browser
+    was told nothing about it — the LCP element of the page, deferred by
+    default. Home and about are unaffected: their first frame is the arrival,
+    which is already priority.
+
+    It is a prop rather than "the first paired surface is always priority",
+    because on home and about the first paired surface is the SECOND thing on
+    the page and marking it priority would compete with a real arrival.
+  */
+  priority?: boolean;
   class?: string;
 }
 
-const {media, locale, side = "left", class: className = ""} = Astro.props;
+const {media, locale, side = "left", priority = false, class: className = ""} = Astro.props;
 ---
 
 {
@@ -84,6 +99,7 @@ const {media, locale, side = "left", class: className = ""} = Astro.props;
           locale={locale}
           height="paired"
           sizes="(min-width: 64rem) 50vw, 100vw"
+          priority={priority}
           class="lg:absolute lg:inset-0"
         />
       </div>

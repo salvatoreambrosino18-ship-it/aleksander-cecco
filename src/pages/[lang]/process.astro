@@ -183,7 +183,7 @@ const isLandscape = (media: MediaItem) => {
     photograph would be the caption gallery this page has always refused to be.
     It still sits directly above the eight frames it describes (section 85).
   */}
-  <PairedSurface media={pairA ?? null} locale={locale} side="left">
+  <PairedSurface media={pairA ?? null} locale={locale} side="left" priority>
     <div class="flex flex-col gap-u5">
       <Statement text={making} locale={locale} voice={voice} register="body" bare />
       {processText && (
@@ -197,6 +197,12 @@ const isLandscape = (media: MediaItem) => {
     </div>
   </PairedSurface>
 
+  {/*
+    NO `priority` IN THIS GRID ANY MORE (2026-08-13, section 108). The anchor
+    above is this page's first photograph and now carries it; two images
+    declaring high fetch priority is two images competing for the same
+    connection, and the one that wins is not the one on the screen.
+  */}
   <div class="grid grid-cols-1 md:grid-cols-2">
     {
       mosaic.map((media, index) => (
@@ -206,7 +212,6 @@ const isLandscape = (media: MediaItem) => {
             locale={locale}
             height={index % 2 === 0 ? "tall" : "short"}
             desktopHeight="tall"
-            priority={index === 0}
             sizes={isLandscape(media) ? "100vw" : "(min-width: 48rem) 50vw, 100vw"}
           />
         </div>

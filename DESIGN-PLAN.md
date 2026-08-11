@@ -157,6 +157,16 @@ started.
   hold a screen is decided by REGISTER, not by taste: `register="body"` must be
   paired; `register="statement"` — a short held line at display size — may hold
   a screen alone, which is why `/new` and a drop's page were left alone.
+  **AND NO PARAGRAPH GETS ITS OWN SCREEN ANYWHERE (s107, s108).** The references
+  set MANY paragraphs in one narrow column beside one photograph and never give
+  a paragraph a screen; /about, /process and /contact are each one column beside
+  one frame for that reason. Adding a second paired surface to a page to carry a
+  second short passage is the mistake /process was making — merge the column.
+- **In a paired surface the PHOTOGRAPH NEVER SETS THE HEIGHT** (s108). It is
+  absolutely positioned so the passage decides the room and the picture fills
+  it. `min-height: 56svh` is the floor and the only thing between the
+  composition and a letterbox. `npm run shots -- --rhythm` prints the row
+  against its photograph; if they ever differ, the hole is back.
 - **The spine is a margin rule and does not travel** (s82). A hairline in the
   middle of an empty screen is a divider between two dead zones. It is dropped
   only where a composition already has a real edge: the seam of a paired
@@ -414,18 +424,27 @@ for going quiet.
 
 **The six carried over from before this session**
 
-1. **The footer's shipping line.** His "Free worldwide shipping over 500 euro"
-   is better than our "Shipped worldwide.", but `footerCopyIsDraft` marks BOTH
-   footer lines at once, so using his words there would label them our draft.
-   Needs either a per-line flag (small, mine) or his approval of the origin
-   line (free, his). Until then the weaker line ships.
+1. **The footer's shipping line — MY HALF IS BUILT AND HIS WORDS ARE IN THE
+   FOOTER (2026-08-13, section 108).** The blocker was that `footerCopyIsDraft`
+   is one boolean over both footer lines, so his sentence in that slot would
+   have been labelled our draft. The per-line flag turned out not to need
+   building: `inventedCopy` has carried `footerShipping` and `footerOrigin` as
+   separate keys since section 59, and the SITE simply never projected the
+   field. It does now, and each line asks about itself.
+   **WHAT IS STILL HIS, and it is the smaller half**: the ORIGIN line, "Fatto a
+   mano nel Sud Italia." / "Handmade in South Italy." Ours, still marked, and
+   free for him to approve or replace.
 2. **`about` repeats `homeStatement` and `makingStatement` verbatim**, so one
    sentence meets a reader on three pages. Home was cut to a single line and
    /process keeps the whole passage (s81), which reduced it but did not settle
    it. **His to settle; do not rewrite his words to remove a repetition.**
-3. **Reference codes: used, or abandoned?** Every Creature shows `{REF_CODE}`.
-   If the brand does not use them the token is REMOVED rather than filled, and
+3. **Reference codes: used, or abandoned?** If the brand does not use them
    `referenceCode` comes out of the inscription.
+   **CORRECTED 2026-08-13 (section 108): this list said "Every Creature shows
+   `{REF_CODE}`" and no page does.** The token appears nowhere in the built
+   HTML — the field is absent and every use of it is guarded — so this is a
+   decision he can take at his own pace rather than a placeholder on a live
+   page. Nothing is broken while he takes it.
 4. **Two weeks: working hours or elapsed?** One answer moves every price in
    section 32 by a factor of two and a half. It blocks nothing on the site and
    governs what a price means.
@@ -581,9 +600,29 @@ for going quiet.
     full-length on-model frames shot the same way; the detail frames still
     missing for eight pieces; and any archive photography at all.
     **This list is worth more than anything built against it.**
-22. **HIS ABOUT TEXT STILL SAYS "SU MISURA" / "Made to Measure"** while the shop
-    no longer offers it (section 98). His words are not ours to change, so it is
-    a question for him rather than an edit: change the line, or keep it.
+22. **"SU MISURA" / "Made to Measure" IS OUT OF HIS TEXT — EDITED BY US, FLAGGED,
+    AND THE ORIGINAL RECORDED (2026-08-13, section 108).** It was a question for
+    him; it stopped being one when the sentence was a false claim about the terms
+    of sale on a page a buyer reads, on /about AND on /process. **Two words
+    deleted, nothing added, nothing reordered**, so what is left is still
+    entirely his words in his order. Flagged `aboutMadeToMeasure` in
+    `inventedCopy` exactly as the name order was (section 65); `npm run
+    launch-check` counts it.
+    **THE ORIGINAL, so it can be put back without archaeology**: "In pelle 100%
+    conciata al vegetale, Su Misura, fatta a mano nel Sud Italia." / "In 100%
+    vegetable-tanned leather, Made to Measure, handmade in South Italy." It is
+    recorded in `scripts/patch-made-to-measure.mjs`, in both seeding scripts,
+    and in the `inventedCopy` field description in the studio, which is where he
+    would act on it.
+    **WHAT IS STILL HIS**: approve the shorter line, or write a different one, or
+    put his back. The flag stays until he says.
+23. **THE CONTACT PHOTOGRAPH IS OUR CHOICE (2026-08-13, section 108).** /contact
+    is composed with one frame now instead of being a column of words on flat
+    ground. He can set `contactMedia` in the studio and it wins; with nothing set
+    the page takes the last frame of the about sequence, and that fallback is
+    flagged `contactFrame` and named by `launch-check` until he chooses.
+    **With this dataset every frame is already used somewhere**, so "pick an
+    unused one" was never available — which is item 21 again, in one page.
 
 ---
 
@@ -743,21 +782,27 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 - [ ] **Remove the three Resend values from the local `.env`.** Wrangler reads
       it, so submitting the form against a local dev server sends REAL email and
       has already spent three of the daily allowance (section 38).
-- [ ] **Make the check gate catch what it missed.** `npm run check` reported
-      zero errors on a component using an identifier it never imported; only
-      `npm run build` caught it. The gate should include a build.
-- [ ] **Give a paired surface a `priority` frame.** On /process the first
-      photograph a reader meets is a composition anchor, and `PairedSurface`
-      never passes `priority`, so the page's own opening image is `loading=
-      "lazy"` at low fetch priority. Home and about are unaffected — their first
-      frame is the arrival, which is already priority. One prop, measured
-      before and after (noted 2026-08-11, section 85).
-- [ ] **Correct the accents in the older Italian interface strings**, which drop
-      them ("e" for "è") while the brand copy carries them properly.
-- [ ] **Decide the footer's shipping line.** His "Free worldwide shipping over
-      500 euro" is better than our "Shipped worldwide.", but `footerCopyIsDraft`
-      marks both footer lines at once, so using his words there would label them
-      our draft. Needs a per-line flag or his approval of the origin line.
+- [x] **Make the check gate catch what it missed.** DONE, and it was already
+      done: `npm run check` has been `astro check && tsc -p functions --noEmit
+      && astro build` since before 2026-08-13. Verified rather than assumed
+      (section 108); the item was stale, not open.
+- [x] **Give a paired surface a `priority` frame.** DONE 2026-08-13 (section
+      108). It is a prop, not a rule: on home and about the first paired surface
+      is the SECOND thing on the page and marking it priority would compete with
+      a real arrival. The /process mosaic's first frame gave its `priority` up in
+      the same change — two images declaring high fetch priority is two images
+      competing, and the winner is not the one on screen.
+- [x] **Correct the accents in the older Italian interface strings.** DONE
+      2026-08-13 (section 108). Two errors, and only two: "che gia possiedi" and
+      "Ogni pezzo e fatto". Found by scanning for a list of known unaccented
+      forms rather than by reading, because a human reads past "e" for "è" every
+      time.
+- [x] **Decide the footer's shipping line.** DONE 2026-08-13 (section 108).
+      His sentence is in the footer and carries no mark. The per-line flag did
+      not need building: `inventedCopy` has held `footerShipping` and
+      `footerOrigin` separately since section 59 and the site never projected the
+      field. **What remains is HIS**: approving the origin line, which is listed
+      under his items, not mine.
 
 ### 4. THE GATE
 
@@ -8997,3 +9042,209 @@ carry a hundred and twenty words.
 - **Copying a structure built for material we do not have produces an empty
   structure**, which is worse than what we have: our 4-across catalogue at xl
   already reads thinner than theirs for exactly this reason.
+
+## 108. The reference pattern applied everywhere, and one word out of his text (2026-08-13)
+
+Section 107 read the two reference sites and changed one page. This applies that
+reading to the rest of the site, and it removes a sentence of his that the shop
+made false.
+
+### THE PAIRED SURFACE HAD A HOLE, AND THE CSS COMMENT DENIED IT
+
+The most valuable thing in this session, because every check was green and the
+comment argued the opposite of what the code did.
+
+Section 105 found that the photograph was setting the room: `height: 100%` in a
+grid row of automatic height resolves to auto, so a 720px half took the
+picture's own 3:4 and became 960px at 1440, 1280px at 1920, whatever the passage
+said. It capped the picture — `max-height: clamp(26rem, 62svh, 40rem)` — and
+wrote, in the same commit:
+
+> A LONGER PASSAGE STILL MAKES ITS OWN ROOM: the cap is on the media, not on the
+> section, so the three reasons push the row past it and the photograph grows
+> back to fill.
+
+**It cannot.** A max-height is a ceiling. When the passage was TALLER than the
+cap the row grew and the photograph stopped, and what filled the difference was
+flat paper. Measured on the deployed build:
+
+    home, the three reasons   1440   row 1038  photo  700   338px of empty half
+    home, the three reasons   1920   row 1012  photo  682   330px
+    /about, his whole story   1440   row  755  photo  660    95px
+
+So the fix is not a better number. **The picture is taken out of the height
+calculation entirely**: absolutely positioned in its half, it contributes
+nothing to the row, fills whatever the passage decides, and `object-fit: cover`
+does the rest. `min-height: 56svh` survives as the floor that catches a short
+passage, and it is now the only thing standing between the composition and the
+letterbox section 56 refused — 1.43:1 at 1440, 1.59:1 at 1920.
+
+### AND THE FIRST VERSION OF THAT FIX DID NOTHING, SILENTLY
+
+`position: absolute` went into `global.css`, inside `@layer components`, where
+it lost to the `relative` utility `MediaSurface` puts on every figure. **This is
+the trap section 5 already records — Tailwind utilities beat `@layer components`,
+always (s67) — and it still cost a build.** The stylesheet compiled. The rule
+was in `dist`. The selector matched. And the rows measured 960px and 1280px,
+exactly the numbers the fix existed to remove.
+
+It is a utility on the figure now, in `PairedSurface`, where nothing can outrank
+it. **The general shape, which is worth more than the fix: a CSS rule that loses
+a specificity contest fails exactly like a rule that was never written, and
+every signal available — compiles, present, matches — is the same in both
+cases.** Only geometry told the difference.
+
+### `--rhythm` WENT BLIND THE MOMENT THE PHOTOGRAPH FILLED ITS BOX
+
+Section 105 built `npm run shots -- --rhythm` to measure emptiness: the height of
+a section against the union of every leaf inside it that paints. With the
+photograph now filling its half edge to edge, that union is the whole box, so
+**every paired composition on the site reports 0px empty however little the
+passage says.**
+
+It is section 5's second trap again, in a tool written to catch section 5's
+second trap. Two questions — *is this section empty?* and *is the TEXT in this
+section adrift inside it?* — had the same answer for as long as the picture was
+shorter than the row, and stopped having it the day that changed.
+
+So `--rhythm` now measures the halves separately, and prints the row against its
+photograph so a hole cannot come back unseen:
+
+    paired  row   504px  text   287px  gap   217px  THE PROJECT…
+    paired  row  1038px  text   846px  gap   192px  OUR SKINS…
+
+192px is the padding, u8 top and bottom, at every desktop width. Anything much
+above it is the floor holding a short passage open, and that is the number worth
+arguing about.
+
+### WHAT THE REFERENCE PATTERN CHANGED ON THE REMAINING PAGES
+
+**/process is one column carrying both passages beside one photograph.** It had
+TWO paired surfaces in a row — his three making lines beside one frame, then our
+stages paragraph beside another — and each was a handful of lines floating in
+half a screen: the making passage measured 315px of text in a 960px row. The
+page spent two full compositions and two of its photographs to say eight lines.
+The two passages are one column now, in the order a reader needs them, and the
+second anchor is back in the mosaic where it is a photograph rather than a
+margin. The two voices stay separate inside the column: his lines are his, the
+stages paragraph keeps its own draft mark directly above itself.
+
+**/contact stops being a column of words alone on flat ground**, which is the
+one arrangement `PairedSurface`'s own note says appears in none of the four
+references. Measured at 1440 it was four facts and two short lines in a 1824px
+page, with the footer repeating the handle and the email inside the same
+screen — the page said everything it had, twice, in about a tenth of the room it
+took. It is a column beside one frame now, photograph on the right so the two
+addresses stay hard left where a reader looks for them.
+
+**Which frame is OUR choice until he makes one.** `contactMedia` is a new studio
+field and always wins; with nothing set the page takes the last frame of the
+about sequence, and that fallback is flagged `contactFrame` in `inventedCopy`
+exactly as our Instagram selection is. `npm run launch-check` names it until he
+chooses. **With this dataset no frame was unused, so "pick an unused one" was
+never available** — that is a material fact, not a layout one.
+
+**Two blocks that gave a screen to something that had not earned it.** /process
+opened on `min-h-[50svh]` with `justify-end` — 450px at 1440, 540px at 1920, all
+of it above a display line and a label — and ended on `py-u13` around a single
+12px link, 510px of paper for the one thing on the page asking to be clicked.
+Both are the correction section 105 made to the home page's headings, applied to
+the page it missed.
+
+### SU MISURA COMES OUT OF HIS APPROVED TEXT, AS A MARKED EXCEPTION
+
+The owner removed made to measure from the shop on 2026-08-12 (section 98). His
+own sentence went on saying every piece is made to measure, on /about and on
+/process, where a buyer reads it. **His words have not been ours to change for
+twelve days and that rule is not lapsing here; it is taking one exception, with
+the reason written down and the edit flagged**, on the same mechanism the name
+order used (section 65).
+
+What it said, verbatim:
+
+    EN  In 100% vegetable-tanned leather, Made to Measure, handmade in South
+        Italy. Every process is Artisan.
+    IT  In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud
+        Italia. Ogni processo è artigianale.
+
+What it says now — **two words deleted, nothing added, nothing reordered**:
+
+    EN  In 100% vegetable-tanned leather, handmade in South Italy. Every
+        process is Artisan.
+    IT  In pelle 100% conciata al vegetale, fatta a mano nel Sud Italia. Ogni
+        processo è artigianale.
+
+**Deleting was chosen over rewriting.** Anything we wrote into that gap would be
+our sentence wearing his voice; a deletion leaves a true sentence that is still
+entirely his words in his order.
+
+**It was in TWO fields, not one.** The line is the third paragraph of `about`
+AND the whole of `makingStatement`, which /process prints. Patching only `about`
+would have left the same false claim on the other page.
+
+**And it is seeded in two scripts.** `import-photos.mjs` and `patch-text.mjs`
+both carried the original strings, so an import would have put "Su Misura" back
+with every check green. Both were changed in the same commit, and both now carry
+the original in a comment — capitalised, so a careless search-and-replace cannot
+eat the record of what it changed.
+
+The flag is `aboutMadeToMeasure`, the tool is `scripts/patch-made-to-measure.mjs`
+(DRY by default), and the original is recorded in four places: that script, both
+seeding scripts, and the `inventedCopy` field description in the studio, which
+is where HE would act on it.
+
+**Our own copy said the same false thing.** `shopIntro` — the line at the top of
+the catalogue — read "Su misura, o disponibile subito." / "Made to measure, or
+ready now.", offering a choice the shop stopped making. It is "Ogni pezzo esiste
+già." / "Every piece already exists." now, and it was already flagged.
+
+### THE IMPORT WAS QUIETLY UN-FLAGGING TWO OF OUR OWN STRINGS
+
+Found while adding the new flag. `inventedCopy` is written WHOLE by
+`import-photos.mjs`, so anything set in the studio and missing from that array is
+silently cleared by an import. Two had drifted out of it — `processText`
+(section 81) and `madeToMeasureLine` (section 98) — so a run of the import would
+have stopped the gate counting our copy on two pages, with every check green.
+Both are in the list now.
+
+### ITEM 1 ON THE OPEN LIST IS CLOSED, AND IT WAS MINE
+
+The footer said "Shipped worldwide." — ours, weaker, true of any shop — while
+his own "Free worldwide shipping over 500 euro" was already approved, already in
+the dataset, and already on /contact and in the banner. The blocker was that
+`footerCopyIsDraft` is one boolean covering both footer lines, so putting his
+words in that slot would have labelled them our draft.
+
+**The per-line flag did not need building.** `inventedCopy` has carried
+`footerShipping` and `footerOrigin` as separate keys since section 59 — the site
+simply never projected the field, so the answer existed in the data and no page
+could read it. It is projected now and each line asks about itself: his sentence
+carries no mark, our origin line stays marked until he approves it, and our
+shipping sentence survives as a fallback that would come back marked.
+
+**What remains of item 1 is his**: the origin line, "Handmade in South Italy."
+
+### TWO MORE OFF THE CHECKLIST, BOTH MINE
+
+**The paired anchor on /process is `priority`.** That page opens on a title and
+then a composition anchor, so its own first photograph — the LCP element — was
+`loading="lazy"` at low fetch priority. It is a prop rather than a rule, because
+on home and about the first paired surface is the second thing on the page and
+marking it priority would compete with a real arrival. The mosaic's first frame
+gave its `priority` up in the same change: two images declaring high fetch
+priority is two images competing, and the one that wins is not the one on screen.
+
+**The Italian accents.** Two errors, and only two, in the older interface
+strings: "che gia possiedi" and "Ogni pezzo e fatto". Both corrected. The rest of
+the file was already right, and the check that found them is worth keeping in
+mind — scanning for a list of known unaccented forms rather than reading, because
+a human reads past "e" for "è" every time.
+
+**`npm run check` already includes a build.** The checklist item asking for it
+was stale: the script has been `astro check && tsc -p functions --noEmit &&
+astro build` since before this session.
+
+**`{REF_CODE}` is not on any page.** THE OPEN LIST said "Every Creature shows
+`{REF_CODE}`"; the built HTML contains it nowhere, because the field is absent
+and every use is guarded. The decision is still his, but nothing is broken while
+he takes it.

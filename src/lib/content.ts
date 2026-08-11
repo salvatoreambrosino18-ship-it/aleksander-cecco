@@ -102,6 +102,13 @@ export type SiteSettings = {
   shippingReturns: LocaleField;
   footerShipping: LocaleField;
   footerOrigin: LocaleField;
+  /**
+   * The keys of every string on the site we wrote rather than he did. It has
+   * existed in the dataset since section 59 and the SITE could not see it until
+   * 2026-08-13 (section 108) — so the footer marked both its lines with one
+   * boolean while the per-line answer was sitting in the data unread.
+   */
+  inventedCopy: string[] | null;
 };
 
 const SITE_SETTINGS_QUERY = /* groq */ `
@@ -137,7 +144,8 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     shippingFree,
     shippingReturns,
     footerShipping,
-    footerOrigin
+    footerOrigin,
+    inventedCopy
   }
 `;
 
@@ -171,6 +179,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   shippingReturns: null,
   footerShipping: null,
   footerOrigin: null,
+  inventedCopy: null,
 };
 
 export async function getSiteSettings(): Promise<SiteSettings> {

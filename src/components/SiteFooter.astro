@@ -18,10 +18,15 @@
   inscription at 390px that turns into four columns at 1440px was never an
   inscription, it was a responsive shop footer waiting for room.
 
-  WHOSE WORDS: the two written lines are still ours and stay marked as drafts in
-  both languages. The handle and the address are facts from site settings and
-  carry no mark. Where the owner has supplied nothing, the placeholder shows as
-  a placeholder and never as a working link (standing rule 6).
+  WHOSE WORDS, and it is no longer one answer for both (2026-08-13, section
+  108). The SHIPPING line is HIS — "Free worldwide shipping over 500 euro" —
+  and carries no mark. The ORIGIN line is still ours and still marked in both
+  languages until he approves it; that half is the part of item 1 on THE OPEN
+  LIST that remains his. Our own shipping sentence survives as a fallback and
+  would come back marked if he ever cleared his. The handle and the address are
+  facts from site settings and carry no mark. Where the owner has supplied
+  nothing, the placeholder shows as a placeholder and never as a working link
+  (standing rule 6).
 */
 import TextSurface from "./TextSurface.astro";
 import {isPlaceholderEmail, isPlaceholderText, type SiteSettings} from "../lib/content";
@@ -56,14 +61,51 @@ const email = settings.contactEmail?.trim() || null;
 const emailIsPlaceholder = isPlaceholderEmail(email);
 
 const origin = pick(settings.footerOrigin, locale);
-const shipping = pick(settings.footerShipping, locale);
 
-/* Our two lines, so drafts in every language rather than translations. */
+/*
+  HIS SHIPPING LINE, IN THE FOOTER (2026-08-13, section 108). Item 1 on THE OPEN
+  LIST, and it was mine to build rather than his to answer.
+
+  The footer said "Shipped worldwide." — ours, weaker, and true of any shop —
+  while HIS OWN sentence, "Free worldwide shipping over 500 euro", was already
+  in the dataset, already approved, already on /contact and in the banner above
+  every commerce page. The reason it was not here was not editorial: putting his
+  words in this slot would have LABELLED THEM OUR DRAFT, because
+  `footerCopyIsDraft` is one boolean covering both footer lines.
+
+  THE PER-LINE FLAG DID NOT NEED BUILDING. `inventedCopy` has carried
+  `footerShipping` and `footerOrigin` as separate keys since section 59; the
+  site simply never projected the field, so a per-line answer existed in the
+  data and no page could read it. It is projected now, and each line asks about
+  ITSELF.
+
+  So: his sentence when he has one, ours only as a fallback, and the mark
+  follows whichever is actually shown.
+*/
+const free = pick(settings.shippingFree, locale);
+const ours = pick(settings.footerShipping, locale);
+const shipping = free ?? ours;
+const shippingIsHis = Boolean(free);
+
+/* Our lines are drafts in every language rather than translations. */
 const voice = voiceState(settings, locale, Boolean(settings.footerCopyIsDraft));
 const notice = voice === "translation" ? "translationNotice" : "draftNotice";
-const isMarkedLine = (value: string | null) =>
-  SHOW_UNAPPROVED_MARKS && isMarked(voice) && Boolean(value) && !isPlaceholderText(value);
-const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
+const flags = settings.inventedCopy ?? [];
+/*
+  A line is marked when it is OURS and its own key is still flagged. `isMarked`
+  keeps the language question — an approved sentence in an unapproved language
+  is a translation notice, not a draft one — and the key answers the authorship
+  question, which is the half the single boolean could not express.
+*/
+const isMarkedLine = (value: string | null, key: string) =>
+  SHOW_UNAPPROVED_MARKS &&
+  isMarked(voice) &&
+  flags.includes(key) &&
+  Boolean(value) &&
+  !isPlaceholderText(value);
+const originMarked = isMarkedLine(origin, "footerOrigin");
+const shippingMarked = !shippingIsHis && isMarkedLine(shipping, "footerShipping");
+const anyMarked = originMarked || shippingMarked;
 ---
 
 {/*
@@ -99,10 +141,10 @@ const anyMarked = isMarkedLine(origin) || isMarkedLine(shipping);
     */}
     <div class="type-label text-label flex flex-col gap-u2">
       {!origin && <span class="placeholder-mark self-start">{"{FOOTER_ORIGIN}"}</span>}
-      {origin && <p class:list={[isMarkedLine(origin) && "draft-text"]}>{origin}</p>}
+      {origin && <p class:list={[originMarked && "draft-text"]}>{origin}</p>}
 
       {!shipping && <span class="placeholder-mark self-start">{"{FOOTER_SHIPPING}"}</span>}
-      {shipping && <p class:list={[isMarkedLine(shipping) && "draft-text"]}>{shipping}</p>}
+      {shipping && <p class:list={[shippingMarked && "draft-text"]}>{shipping}</p>}
     </div>
 
     <div class="type-label text-label flex flex-col gap-u2">
