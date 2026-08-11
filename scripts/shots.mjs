@@ -9,6 +9,8 @@
     npm run shots -- --chrome=gradient|plate|band   render a treatment for the
                                  corner mark over photography, WITHOUT shipping
                                  one (section 86)
+    npm run shots -- --weigh     what each route costs on 400 kbps / 400ms:
+                                 transfer bytes by kind, FCP and LCP (section 91)
 
   WHY THIS FILE EXISTS AT ALL, and why it is committed.
 
@@ -109,6 +111,29 @@ const FORCE = value("force");
   different measured value, and mixing the two would make the study lie.
 */
 const CHROME = value("chrome");
+
+/*
+  --weigh RENDERS EACH ROUTE ON A THROTTLED CONNECTION AND REPORTS WHAT IT COST
+  (2026-08-12, section 91).
+
+  Section 79 refused the splash screen on Slow 4G numbers, and section 69 found
+  a 1.8 MB catalogue the same way — both times measured in a session and by a
+  tool that did not survive it, so every later session has had to take those
+  numbers on trust or guess. This is that measurement, committed, so a claim
+  about weight can be re-made instead of remembered.
+
+  THE PROFILE IS THE ONE THIS PROJECT HAS ALWAYS QUOTED: 400 kbps down, 400ms
+  round trip. Chrome's own "Slow 4G" preset has moved over the years; the number
+  in section 79 is 400 kbps and comparisons are worthless if the profile drifts,
+  so it is pinned here rather than taken from a preset name.
+
+  It reports TRANSFER bytes — what actually crossed the wire, compressed — split
+  by kind, plus first contentful paint and largest contentful paint. Photographs
+  come from Sanity's CDN over the real internet, so the image figures include
+  that latency and are the honest number a visitor pays rather than a local one.
+*/
+const WEIGH = flag("weigh");
+const SLOW_4G = {download: (400 * 1024) / 8, upload: (400 * 1024) / 8, latency: 400};
 
 /*
   The two widths the site is designed against (DESIGN-PLAN section 14): a phone
@@ -599,9 +624,71 @@ async function main() {
         });
         const page = await context.newPage();
 
+        /*
+          THE THROTTLE AND THE TAPE MEASURE (section 91). One CDP session for
+          the page, kept for the whole run: `Network.emulateNetworkConditions`
+          is what DevTools itself uses, and `encodedDataLength` on a finished
+          response is the compressed bytes that actually crossed the wire —
+          which is the number a visitor pays and the one `Content-Length` lies
+          about for anything gzipped.
+        */
+        let weigh = null;
+        if (WEIGH) {
+          /*
+            LCP HAS TO BE OBSERVED, NOT ASKED FOR. `getEntriesByType` returns
+            largest-contentful-paint entries only to a page that registered a
+            buffered observer; asked cold it answers zero, which is what the
+            first run of this reported for every route — a measurement that
+            looked like an answer and was an empty list.
+          */
+          await context.addInitScript(() => {
+            window.__lcp = 0;
+            new PerformanceObserver((list) => {
+              window.__lcp = Math.round(list.getEntries().at(-1).startTime);
+            }).observe({type: "largest-contentful-paint", buffered: true});
+          });
+          const cdp = await context.newCDPSession(page);
+          await cdp.send("Network.enable");
+          await cdp.send("Network.emulateNetworkConditions", {
+            offline: false,
+            downloadThroughput: SLOW_4G.download,
+            uploadThroughput: SLOW_4G.upload,
+            latency: SLOW_4G.latency,
+          });
+          const kinds = new Map();
+          weigh = {kinds, reset: () => kinds.clear()};
+          cdp.on("Network.responseReceived", (e) => {
+            weigh.typeOf ??= new Map();
+            weigh.typeOf.set(e.requestId, {type: e.type, url: e.response.url});
+          });
+          cdp.on("Network.loadingFinished", (e) => {
+            const meta = weigh.typeOf?.get(e.requestId);
+            if (!meta) return;
+            const kind =
+              meta.type === "Image"
+                ? "images"
+                : meta.type === "Font"
+                  ? "fonts"
+                  : meta.type === "Document"
+                    ? "html"
+                    : meta.type === "Stylesheet"
+                      ? "css"
+                      : meta.type === "Script"
+                        ? "js"
+                        : "other";
+            kinds.set(kind, (kinds.get(kind) ?? 0) + e.encodedDataLength);
+          });
+        }
+
         for (const route of list) {
           const target = origin + route;
-          await page.goto(target, {waitUntil: "networkidle"});
+          if (weigh) weigh.reset();
+          /*
+            A throttled load is not a fast one: 400 kbps against a megabyte of
+            photographs is minutes, not seconds, and the default 30s navigation
+            timeout turned the first weighing run into a crash three routes in.
+          */
+          await page.goto(target, {waitUntil: "networkidle", timeout: WEIGH ? 240000 : 30000});
 
           if (FORCE) {
             const fg = FORCE === "dark" ? "#fafaf8" : "#0a0a0a";
@@ -807,6 +894,23 @@ async function main() {
           await page.screenshot({path: file, fullPage: true});
 
           let line = `  ${viewport.name.padStart(4)}  ${route}`;
+
+          if (weigh) {
+            const paint = await page.evaluate(() => ({
+              fcp: Math.round(performance.getEntriesByName("first-contentful-paint")[0]?.startTime ?? 0),
+              lcp: window.__lcp ?? 0,
+            }));
+            const kb = (n) => (n / 1024).toFixed(0).padStart(5);
+            const total = [...weigh.kinds.values()].reduce((a, b) => a + b, 0);
+            line +=
+              `\n        ${kb(total)} KB total —` +
+              ` html ${kb(weigh.kinds.get("html") ?? 0)}` +
+              ` css ${kb(weigh.kinds.get("css") ?? 0)}` +
+              ` fonts ${kb(weigh.kinds.get("fonts") ?? 0)}` +
+              ` images ${kb(weigh.kinds.get("images") ?? 0)}` +
+              ` js ${kb(weigh.kinds.get("js") ?? 0)}` +
+              `\n        FCP ${paint.fcp}ms   LCP ${paint.lcp}ms   (400 kbps, 400ms RTT)`;
+          }
 
           if (AUDIT) {
             const faults = await page.evaluate(AUDIT_SCRIPT);

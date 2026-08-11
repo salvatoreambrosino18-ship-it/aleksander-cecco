@@ -8024,3 +8024,61 @@ shoot rather than a thing to cut.
 
 This is item 10 on THE OPEN LIST, and it is now specific: one file, one window,
 one thing to ask for.
+
+## 91. What each page actually costs, measured rather than remembered (2026-08-12)
+
+Section 79 refused the splash screen on Slow 4G numbers and section 69 found a
+1.8 MB catalogue the same way. **Both measurements were made by tools that did
+not survive their session**, so every session since has quoted them on trust.
+`npm run shots -- --weigh` is that measurement, committed.
+
+The profile is pinned in the file rather than taken from a preset name — 400
+kbps down, 400ms round trip, which is the number section 79 quotes — because
+Chrome's own "Slow 4G" preset has moved over the years and comparisons are
+worthless if the profile drifts under them. Bytes are TRANSFER bytes, compressed,
+as they crossed the wire; photographs come from Sanity's CDN over the real
+internet, so their figures carry real latency rather than a local read.
+
+### The site tonight, from a cold build
+
+    390   /it                    597 KB   images 328   FCP 2.5s   LCP  4.0s
+    390   /it/creature           994 KB   images 677   FCP 2.5s   LCP  4.9s
+    390   /it/creature/rubedo    519 KB   images 301   FCP 2.5s   LCP 12.9s
+    390   /it/process            438 KB   images 238   FCP 2.5s   LCP 15.6s
+
+    1440  /it                   1742 KB   images 1473  FCP 2.5s   LCP 13.2s
+    1440  /it/creature           994 KB   images 677   FCP 2.5s   LCP 28.7s
+    1440  /it/creature/rubedo   1434 KB   images 1216  FCP 2.5s   LCP 37.5s
+    1440  /it/process            601 KB   images 401   FCP 2.7s   LCP 21.2s
+
+**Read these correctly, and the caveat matters more than the numbers.** The
+harness waits for `networkidle`, so every lazy photograph on a long page has
+loaded by the time LCP is read. On a page that is twenty full-bleed frames tall
+that number is "how long until nothing is still arriving", not what a reader
+waits for — a reader sees the first screen and scrolls. **FCP is the honest
+figure for arrival and it is 2.5 seconds on every route**, which is the HTML,
+the stylesheet and the first font at 400 kbps and nothing else.
+
+What the totals are good for is COMPARISON — between routes, and between today
+and whatever a later session does to them.
+
+### What is worth noticing in them
+
+- **The constant floor is 152 KB**: 27 KB of stylesheet, 125 KB of fonts, on
+  every route, and no JavaScript bundle at all on any page. The framework
+  contributes nothing to the wire.
+- **The catalogue is the heaviest phone page at 994 KB**, all of it photographs.
+  Section 69 left it at 1.8 MB with an 8.7s LCP; it is roughly half that now.
+- **A Creature page grew when the detail crops landed** (section 88). Rubedo
+  carries eleven frames now. They are lazy and below the fold, so the arrival is
+  unaffected, but the page total is a real cost of the crops and is recorded
+  here rather than discovered later.
+- **1440 is where the weight is**, because full-bleed frames ask for wider
+  sources. The phone, which is where his readers are, is the lighter case.
+
+### The threshold this establishes
+
+**No change may take the catalogue at 390 above 1 MB, or FCP above 3 seconds,
+without being argued in this file.** Those are the two numbers that decide
+whether the site is usable on the connection his buyers actually have, and they
+now have a command that produces them in a minute.
