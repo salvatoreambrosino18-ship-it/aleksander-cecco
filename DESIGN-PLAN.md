@@ -8698,3 +8698,47 @@ flat ground — exactly what section 82 forbids for a body-register passage.
 They share one screen now, his photograph on one side and the three passages on
 the other. They are one thought in three parts and his titles are the
 punctuation between them, which is also what he called them.
+
+## 104. The returns copy made silent (2026-08-12)
+
+**The owner's instruction, and the reasoning is his:** do not try to make it
+correct, because neither of us knows what correct is. Make it silent. **A site
+that says less is not exposed; a site that says the wrong thing is.**
+
+### What the site said, and why it could not stay
+
+    "Returns accepted. The customer pays the return shipping."
+    "Outside the EU, customs charges are normally paid by the customer."
+
+Both are TERMS OF SALE. Both were written when the shop worked differently —
+twice differently, in two days: made to measure with body measurements, then buy
+what exists, then choose a size and he makes it. The first sentence implies a
+returns regime; the second states who bears a cost. **Neither has been checked
+by anyone since the shop changed**, and the customs line had carried our own
+unconfirmed flag for a fortnight.
+
+The withdrawal question is now the first item in the lawyer brief precisely
+because nobody knows the answer (section 103). Copy that presumes one was live
+on every piece page and on contact while the question was open.
+
+### What it says now, and it is only what is certainly true
+
+    Free worldwide shipping over 500 euro.     his fact, his words, unmarked
+    For a return, write to us and we will      his fact, our wording, marked
+    arrange it.
+    Shipped worldwide. Handmade in South       the footer, unchanged
+    Italy.
+
+**No claim about withdrawal rights, no conditions, no duties.** The customs
+field, its provisional flag, its studio control, its projection and its gate
+check are all deleted rather than left empty — a field that exists invites
+someone to fill it, and the next person to write that line should have to think
+about it rather than complete it.
+
+### What this costs, said plainly
+
+A buyer outside the EU is no longer warned that duties may be theirs. That is a
+real loss and it is the reason the line existed. It is accepted because the
+warning was unconfirmed by the person who would have to honour it, and because
+the terms of sale — where it belongs — are one of the documents the lawyer is
+writing anyway.

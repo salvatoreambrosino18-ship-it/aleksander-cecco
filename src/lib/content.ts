@@ -95,9 +95,6 @@ export type SiteSettings = {
   /** His own words and his own fact, so it carries no mark. */
   shippingFree: LocaleField;
   shippingReturns: LocaleField;
-  /** Ours AND unconfirmed: he is checking it with his partner. */
-  shippingCustoms: LocaleField;
-  shippingCustomsIsProvisional: boolean | null;
   footerShipping: LocaleField;
   footerOrigin: LocaleField;
 };
@@ -133,8 +130,6 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     "aboutIsDraft": coalesce(aboutIsDraft, false),
     shippingFree,
     shippingReturns,
-    shippingCustoms,
-    "shippingCustomsIsProvisional": coalesce(shippingCustomsIsProvisional, true),
     footerShipping,
     footerOrigin
   }
@@ -167,8 +162,6 @@ const EMPTY_SETTINGS: SiteSettings = {
   aboutIsDraft: null,
   shippingFree: null,
   shippingReturns: null,
-  shippingCustoms: null,
-  shippingCustomsIsProvisional: null,
   footerShipping: null,
   footerOrigin: null,
 };

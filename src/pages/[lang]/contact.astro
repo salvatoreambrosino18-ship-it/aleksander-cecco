@@ -68,15 +68,16 @@ const shipping = pick(settings.shippingReturns, locale);
 const shippingIsPlaceholder = isPlaceholderText(shipping);
 
 /*
-  Three lines, three standings (DESIGN-PLAN section 51). The free shipping line
-  is HIS fact in HIS words, so it is unmarked. The returns text is his facts in
-  our wording, marked as ours below. The customs line is a fact he has not
-  confirmed yet, which is a third thing and needs a third mark.
+  TWO LINES NOW, NOT THREE (2026-08-12, section 104). The free-shipping line is
+  HIS fact in HIS words and is unmarked. The returns line is his fact in our
+  wording and is marked as ours.
+
+  The customs line is GONE — it said who normally pays duties outside the EU,
+  which is a condition of sale, which is exactly the kind of claim nobody has
+  checked since the shop changed twice this week. It was also flagged
+  unconfirmed by us for a fortnight. Silence is not exposure; a wrong term is.
 */
 const free = pick(settings.shippingFree, locale);
-const customs = pick(settings.shippingCustoms, locale);
-const customsIsProvisional =
-  SHOW_UNAPPROVED_MARKS && settings.shippingCustomsIsProvisional !== false;
 
 /*
   The shipping and returns text is OURS, not his, so it is a draft in every
@@ -156,30 +157,6 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
         )
       }
 
-      {/*
-        UNCONFIRMED, and marked differently from a draft on purpose. A draft is
-        wording nobody has approved; this is a FACT nobody has confirmed. He says
-        customs outside the EU are normally the customer's and is checking it
-        with his partner, and stating an unconfirmed policy as settled is how a
-        buyer gets a bill nobody warned them about.
-      */}
-      {
-        customs && (
-          <div class="flex flex-col gap-u2 pt-u2">
-            {customsIsProvisional && (
-              <p class="placeholder-mark self-start">{t(locale, "provisionalFact")}</p>
-            )}
-            <p
-              class:list={[
-                "type-body text-body max-w-prose whitespace-pre-line",
-                customsIsProvisional && "draft-text",
-              ]}
-            >
-              {customs}
-            </p>
-          </div>
-        )
-      }
     </div>
   </TextSurface>
 </Base>

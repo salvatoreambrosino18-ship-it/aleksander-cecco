@@ -58,11 +58,22 @@ const price =
       }).format(garment.price)
     : null;
 
-/* The terms, gathered once: his free-shipping fact, then ours. */
+/*
+  WHAT IS CERTAINLY TRUE, AND NOTHING ELSE (2026-08-12, section 104).
+
+  These lines are the only terms a buyer reads before ordering, and they were
+  written when the shop worked differently — twice differently, in two days.
+  The customs line went entirely and the returns line was reduced to an
+  invitation to write, because **a site that says less is not exposed and a site
+  that says the wrong thing is**, and nobody knows yet which of the two is on
+  the other side of the lawyer's answer (brief, question 1).
+
+  What remains: he ships worldwide, shipping over 500 euro is free, and a return
+  is arranged by writing to him. All three are his own facts.
+*/
 const shippingLines = [
   pick(settings.shippingFree, locale),
   pick(settings.shippingReturns, locale),
-  pick(settings.shippingCustoms, locale),
 ].filter((line): line is string => Boolean(line));
 /*
   EVERY PIECE IS BOUGHT AS IT EXISTS (2026-08-12, section 98). The OWNER removed

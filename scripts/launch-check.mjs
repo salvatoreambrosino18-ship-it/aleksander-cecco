@@ -62,7 +62,6 @@ const query = /* groq */ `{
                && count(coalesce(sizes, [])) == 0]
               | order(orderRank asc){"slug": slug.current, name},
   "contact": *[_id == "siteSettings"][0].contactEmail,
-  "customs": *[_id == "siteSettings"][0].shippingCustomsIsProvisional
 }`;
 
 const url = `https://${project}.api.sanity.io/v${api}/data/query/${dataset}?query=${encodeURIComponent(query)}`;

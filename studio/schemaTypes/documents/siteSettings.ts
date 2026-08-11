@@ -275,10 +275,9 @@ export const siteSettings = defineType({
       1. shippingFree     HIS OWN FACT and his own words. Unmarked.
       2. shippingReturns  the returns rule: his facts, our wording. Marked as
                           ours, as it always has been.
-      3. shippingCustoms  who pays customs outside the EU. He says it is
-                          normally the customer and is confirming that with his
-                          partner, so it ships PROVISIONAL and says so. A policy
-                          nobody has confirmed is the one thing worse to invent
+      3. (deleted 2026-08-12, section 104: the customs line said who pays
+                          duties outside the EU, which is a term of sale nobody
+                          has checked since the shop changed twice)
                           than copy.
     */
     defineField({
@@ -293,25 +292,18 @@ export const siteSettings = defineType({
       title: 'Spedizioni e resi / Shipping and returns',
       type: 'localeText',
     }),
-    defineField({
-      name: 'shippingCustoms',
-      title: 'Dogana fuori dall\'Unione Europea / Customs outside the EU',
-      type: 'localeText',
-      description:
-        "Una riga. Finche' non e confermata il sito la mostra come da confermare. / One line. While it is unconfirmed the site shows it as such.",
-    }),
-    defineField({
-      name: 'shippingCustomsIsProvisional',
-      title: 'La riga sulla dogana e da confermare / The customs line is unconfirmed',
-      type: 'boolean',
-      description:
-        "Acceso finche' il titolare non conferma chi paga la dogana fuori dall'Unione Europea. / On until the owner confirms who pays customs outside the EU.",
-      initialValue: true,
-    }),
     /*
-      The footer's four blocks. Instagram and the contact address are already
-      fields above; these two carry the remaining pair. They are one short line
-      each, not a policy: the full shipping text lives in shippingReturns.
+      THE CUSTOMS LINE WAS DELETED ON 2026-08-12 (section 104), not confirmed.
+
+      It said who normally pays duties outside the EU. That is a CONDITION OF
+      SALE, it carried an unconfirmed flag for a fortnight, and the shop changed
+      twice in two days underneath it. The site now states only what is
+      certainly true — worldwide shipping, free over 500 euro, and a return
+      arranged by writing — and says nothing about duties or withdrawal until
+      the lawyer answers question 1 of the brief.
+
+      If it comes back it comes back as a NEW fact with a new flag, and it
+      belongs in the terms of sale rather than on a contact page.
     */
     defineField({
       name: 'footerShipping',
@@ -400,7 +392,6 @@ export const siteSettings = defineType({
           {title: 'Fondo pagina: spedizioni / Footer: shipping', value: 'footerShipping'},
           {title: 'Fondo pagina: origine / Footer: origin', value: 'footerOrigin'},
           {title: 'Spedizioni e resi / Shipping and returns', value: 'shippingReturns'},
-          {title: 'Dogana / Customs', value: 'shippingCustoms'},
           {title: 'Home: le righe di sezione / Home: the section lines', value: 'homeLines'},
           {title: 'Richiesta: i testi / Enquiry: the copy', value: 'enquiryCopy'},
           {title: 'Disponibilita: la spiegazione / Availability: the explanation', value: 'availabilityCopy'},
