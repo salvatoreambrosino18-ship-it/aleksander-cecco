@@ -8430,3 +8430,58 @@ flagged; Rubedo has none at all and is the one the new check catches on its own.
 7. **The catalogue's first movement** is now everything that is not sold or
    private, which is most of the site. Its heading still reads AVAILABLE, which
    is right, but it no longer distinguishes anything.
+
+## 99. His homepage copy, verbatim (2026-08-12)
+
+From a document he sent this morning. **Approved, and in the dataset exactly as
+he wrote it** — his words, his spelling, his line breaks.
+
+### What it replaced
+
+- **The arrival's four lines.** They were assembled by us: the drop's name as a
+  label, the first describing line of its statement, and an invented price line
+  ("From €275 / Made to measure"). His three lines were written FOR that screen:
+  *Meet our "Creatures" / entities with their own breath, / born from the earth
+  and worn on the body.* The price line's `homeLines` flag is retired with it.
+- **THE WORK became THE PROJECT**, his title, carrying his two sentences.
+- **WORN became BODY OF LIGHT**, his name. Its subtitle — ours — is gone: he
+  named the section and wrote no line under it, and ours beneath his title would
+  be the site explaining his own words back to him.
+- **THE MAKING is replaced entirely** by his three reasons: OUR SKINS, REASONS,
+  REBORN. Each is composed with a making frame, because a body-register passage
+  is never alone here (section 82).
+
+### The heading question he asked
+
+He was unsure whether the three reasons want a heading, and suggested
+PHILOSOPHY. **They do not, and no heading was added.** Each reason already
+carries his own title, and a heading above three headings is a label on a label.
+This site names a section when the section has no voice of its own — BODY OF
+LIGHT, THE PROJECT — and this one speaks for itself three times.
+
+### His titles are not translated, and that is a decision
+
+OUR SKINS, REASONS and REBORN are single strings with no Italian: he wrote them
+as titles, not as sentences. **So THE PROJECT and BODY OF LIGHT stay in his
+English on the Italian page too.** Translating two of his five titles and not the
+other three would be the site speaking in two voices about one document.
+
+### HIS ENGLISH IS NOT OURS TO CORRECT — a question for him, not a fix
+
+Three small errors are in the text as he wrote it and are **shipped unaltered**:
+
+    "Our leathers is tanned by plants"      -> are
+    "It marks, it change, it scars"         -> changes
+    "To respect the Mother Nature"          -> Mother Nature
+
+The rule that protects his voice protects his mistakes until he chooses. Two of
+these could also be read as deliberate — "the Mother Nature" is how a native
+Italian speaker writes it, and this brand's English has always sounded like
+that. **Ask him; do not fix.**
+
+### The Italian is ours again
+
+`approvedLanguages` drops from ["en", "it"] back to ["en"]. His new document is
+English; the Italian on the page is our translation of it and marks itself as an
+unapproved translation until he reads it. That flag was set to both languages
+when the Italian was his, and it is not any more.

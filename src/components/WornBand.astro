@@ -33,14 +33,18 @@ import {localePath} from "../lib/locales";
 
 interface Props {
   tiles: HomeTile[];
-  /** One short line under the heading. Ours, flagged as homeLines. */
-  line?: string | null;
+  /*
+    The short line under the heading is GONE (2026-08-12, section 99). The owner
+    named this band himself — BODY OF LIGHT — and did not write a subtitle for
+    it. Ours under his title would be the site explaining his own words back to
+    him, which is what every other block on this page stopped doing tonight.
+  */
   locale: Locale;
   /** Names the region for a screen reader, and titles it on the page. */
   label: string;
 }
 
-const {tiles, locale, label, line = null} = Astro.props;
+const {tiles, locale, label} = Astro.props;
 ---
 
 {
@@ -63,7 +67,6 @@ const {tiles, locale, label, line = null} = Astro.props;
         <h2 id="worn-heading" class="type-label text-label">
           {label}
         </h2>
-        {line && <p class="type-body text-body max-w-prose">{line}</p>}
       </TextSurface>
 
       <ul class="worn" role="region" aria-labelledby="worn-heading" tabindex="0">
