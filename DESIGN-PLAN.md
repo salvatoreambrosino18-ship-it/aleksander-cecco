@@ -96,9 +96,9 @@ restoring something.
 ### 3. The state: it cannot launch, and that is correct
 
 `npm run launch-check` reads the live dataset and **refuses** while anything
-invented is still in it. On 2026-08-11: **34 invented values**, plus 56 images
-whose alt text no human has approved. **Run the command rather than trusting
-these two numbers** — they were 31 and 49 a day earlier, they move whenever he
+invented is still in it. On 2026-08-11, after the detail crops: **47 invented
+values**, plus 69 images whose alt text no human has approved. **Run the command
+rather than trusting these two numbers** — they were 31 and 49 two days earlier, they move whenever he
 files photographs or we write a line on his behalf, and a number in a document
 is a number going stale.
 
@@ -322,6 +322,7 @@ started.
     npm run shots          a real browser: --audit --prove --only= --force=light|dark
     npm run icons          both icon shapes from one SVG: --check compares them
     npm run detail-crops   construction crops from his own frames: DRY by default
+    npm run measure-captions  the caption band's polarity and placement, per frame
     npm run import         Drive → Sanity, READ ONLY, flags every invented value
 
 `npm run measure-chrome` was DELETED on 2026-08-11 (section 87): the chrome
@@ -358,9 +359,14 @@ OWNER's task; when it lands, `PUBLIC_SITE_URL`, `RESEND_FROM` and
   so one sentence meets a reader on three pages. Ask him. Do not invent copy.
   (Also item 2 on THE OPEN LIST, because it needs a decision and not only a
   photograph or a price. Everything else in this section is material he owes.)
-- The **opening photograph** cannot carry legible white text: every overlay on
-  the first screen measures under 2:1, and the corner mark is under 3:1 on most
-  pages. This is photographic, not technical — **do not reach for a scrim.**
+- The **opening photograph** cannot carry legible text of either colour: its
+  caption band measures 1.5:1 worst case. The site stopped asking it to — the
+  arrival's four lines sit on paper under the picture now (section 89) and the
+  corner mark sits in the band above it (section 87). **What is still his**: a
+  frame with a quiet band would let the words go back onto the photograph, and
+  it is the only thing that clears the last two faults on the site, the drawn
+  signature over the arrival at 1.49:1. This is photographic, not technical —
+  **do not reach for a scrim.**
 
 ### OPEN, AWAITING A DECISION — THE OPEN LIST
 
@@ -451,6 +457,17 @@ for going quiet.
     no code change and no rebuild of anything but the site.
 
 **Opened 2026-08-11**
+
+13. **THE OPENING PHOTOGRAPH, and it is the last thing standing between this
+    site and a clean audit.** Its caption band measures 1.5:1 worst case, so the
+    arrival's words moved onto paper beneath it (section 89) and the corner mark
+    moved into the band above it (section 87). What neither move reaches is the
+    DRAWN SIGNATURE, the once-per-visit ceremony over the arrival, which
+    measures 1.49:1 and 1.74:1 and is the only fault left on the site.
+    **A single photograph fixes it**: an opening frame with a quiet band — even
+    quiet in one half — carries a white mark. Tuning the ceremony to the current
+    photograph was refused, because a ceremony tuned to one picture becomes a
+    bug the day the picture changes. His to shoot or to choose.
 
 11. **THE MARK OVER HIS PHOTOGRAPHY — DECIDED AND BUILT (2026-08-11, section
     87).** 118 of 152 audit faults were the brand's own mark; 71 of 97
@@ -594,15 +611,13 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 
 **Blocks launch**
 
-- [ ] **Fix the caption contrast over photography.** Measured 2026-08-03 across
-      every page: eight frames fail WCAG AA, worst 1.36:1, including the
-      collection title "MONUMENTUS: Tenebrae & Lux" at 1.53:1 on desktop, which
-      is unreadable. Cause: the overlay polarity is measured at the TOP band
-      because that is where the fixed chrome sits, and captions sit at the
-      BOTTOM. Fix: measure the caption band too, store it as a second value on
-      the media object, and let the caption use its own polarity while the
-      chrome keeps its own. Needs a schema field, an import change and a
-      re-import.
+- [x] **Fix the caption contrast over photography.** DONE 2026-08-11 (sections
+      87 and 89). The chrome left the photograph entirely; the caption band was
+      measured per frame by `npm run measure-captions`, nine frames changed, six
+      moved onto the page, and the arrival's four lines came off the picture
+      with the frame shortened to 88svh so they still meet a reader on the first
+      screen. **The site audits at 2 faults, down from 152**, and both are the
+      decorative drawn signature over the arrival — photographic, and his.
 - [ ] **Privacy notice page and a consent line on the enquiry form.** Depends
       entirely on group 1.
 - [ ] **Set the three Resend secrets in Cloudflare and redeploy.** Only after
@@ -7840,3 +7855,78 @@ severya, capo-09, capo-07, capo-04 and the hat — and `docs/SCATTI-DETTAGLIO.md
 now names the exact detail each one is missing rather than asking for three
 photographs of everything. Ghezard needs nothing shot: one of its frames is
 already a close-up of the zip and the fur collar. It needs the line.
+
+## 89. The caption band, measured, and the arrival's words moved (2026-08-11)
+
+The last code item on the checklist, closed. **The site now audits at two faults,
+down from 152 this morning.**
+
+### The 40 were itemised before anything was touched, and the inference was wrong
+
+The previous report inferred the remaining faults were "the arrival's overlay
+text and the drawn signature". Re-run and counted, they were **36**, and the
+composition was different:
+
+    12x  Monumentus Vest        worst 1.75:1   capo-04's first frame, on three routes
+     8x  the price, both forms  worst 1.75:1   the same frame
+     4x  MONUMENTUS: Tenebrae   worst 1.55:1   the drop name on the home arrival
+     6x  the arrival's other three lines
+     2x  Vertex                 worst 4.35:1   the hat
+     0x  the corner mark, the drawn mark
+
+**The drawn mark was not in the list at all**, and two frames — capo-04's first
+and the home arrival — accounted for thirty of the thirty-six. An inference that
+sounded right named the wrong elements and would have sent the fix at the wrong
+frames. Count before fixing.
+
+### What was wrong, and it was not the polarity
+
+`overlayCaption` and `captionPlacement` have existed since section 58, and 62 of
+69 garment frames were already `below` because their caption band has no legible
+side. **The frames that were still `over` had simply never been measured.** The
+home arrival carried no `overlayCaption` at all and fell back to `overlay`,
+which is the value for the top of the frame.
+
+`npm run measure-captions` is the surviving half of the deleted `measure-chrome`
+pair: it slides a caption-sized window along the bottom band at every container
+shape the site renders and takes the worst position any word could land in. Nine
+frames changed. Six moved off the picture.
+
+**It only measures frames that are still ON the picture.** The first dry run
+wanted to rewrite `overlayCaption` on thirty-odd frames already set to `below`,
+where the value is inert — churn over values the studio explicitly invites a
+human to disagree with.
+
+### THE BROWSER BEATS THE MODEL, and one frame proved it
+
+Vertex, the hat, measured 16.89:1 in the model and **4.35:1 in the browser**. Its
+only photograph is a 900px crop, and a luminance mean cannot model where a word
+actually falls — which is the same failure section 58 recorded the first time.
+
+The audit measures the pixels inside the real rendered text box, so it is the
+authority, and the tool now carries a `BROWSER_OVERRIDES` list of frames the
+audit contradicts it on. **Add to it from an audit run, never from an opinion.**
+
+### The arrival: the words came off the photograph, and the frame got shorter
+
+The arrival's caption band measures **1.5:1 worst case**. No text colour survives
+it, so the four lines — his drop title, his sentence, the price, the way in —
+now sit on paper directly under the picture at 19.6:1.
+
+**And the frame became `tall` rather than `screen`, which is the other half of
+the fix.** Under a full-height photograph the block would begin exactly at the
+fold, and a first-time visitor would meet a silent screen: the screensaver
+section 21 was written to end. At 88svh the drop's name and the start of his
+sentence are on the first screen at both widths, verified by looking.
+
+What no code can fix is the photograph. A frame with a quiet band at the bottom
+would let the words go back onto the picture, and that is his to shoot.
+
+### What is left, and it is two faults
+
+The **drawn signature** over the arrival, 1.49:1 and 1.74:1. It is decorative,
+`aria-hidden`, drawn once per visit, and the `h1` beside it carries the name in
+text. It is the same photographic problem in the same place: it clears when the
+opening frame does. It is on THE OPEN LIST rather than in the code, because
+tuning a ceremony to one photograph is how a ceremony becomes a bug when the
+photograph changes.

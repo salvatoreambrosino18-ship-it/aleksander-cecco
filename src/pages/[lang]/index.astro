@@ -161,9 +161,27 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           ours: the price the work starts at and the fact that everything is made
           to measure, which are the two questions a first-time visitor actually
           has. Then one route in.
+
+          THE WORDS CAME OFF THE PHOTOGRAPH (2026-08-11, section 89). Measured,
+          the caption band of the arrival is 1.5:1 WORST CASE — no text colour
+          survives it, which is what `captionPlacement: below` exists for
+          (section 58). So the four lines now sit on paper directly under the
+          picture, at 19.6:1, and they are the same four lines in the same order.
+
+          AND THE FRAME IS "tall", NOT "screen", which is the other half of that
+          fix and is not cosmetic. Below a full-height photograph the block would
+          begin exactly at the fold and a first-time visitor would meet a silent
+          screen — the screensaver this section was written to end. At 88svh the
+          drop's name and the start of his sentence are ON the first screen,
+          legible, and the peek is the same device every other sequence on this
+          site uses to pull a reader down.
+
+          What this cannot fix is the photograph: a frame with a quiet band at
+          the bottom would let the words go back on the picture. That is his to
+          shoot, and it is on the open list.
         */}
         <div class="relative">
-          <MediaSurface media={opening} locale={locale} priority>
+          <MediaSurface media={opening} locale={locale} priority height="tall">
             <div class="flex flex-col gap-u2">
               {drop && <p class="type-label text-label">{drop.name}</p>}
               {dropLine && (

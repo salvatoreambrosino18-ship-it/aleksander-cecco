@@ -13,6 +13,7 @@
     "import": "node scripts/import-photos.mjs",
     "launch-check": "node scripts/launch-check.mjs",
     "detail-crops": "node scripts/detail-crops.mjs",
+    "measure-captions": "node scripts/measure-captions.mjs",
     "patch-text": "node scripts/patch-text.mjs",
     "icons": "node scripts/icons.mjs",
     "shots": "node scripts/shots.mjs",
