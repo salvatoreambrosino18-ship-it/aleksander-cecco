@@ -40,12 +40,13 @@ The shape, which is settled:
   AND AN EMAIL → "Order received". Email via Resend from one Function. **No
   payment exists**; Stripe slots into one return statement in that Function when
   he has a fiscal position.
-- **EVERY CREATURE IS BOUGHT AS IT EXISTS** (section 98, the owner's call of
-  2026-08-12). Made to measure was removed from the shop and survives as one
-  line on each piece inviting an email. There is no measurement flow, no
-  as-is-or-remade question and no remake anywhere. **Every purchasable piece
-  must therefore publish its own measurements, and the gate refuses without
-  them.**
+- **THE BUYER CHOOSES A SIZE AND HE MAKES THE PIECE IN IT** (section 101, and
+  section 100 records the THREE answers this question has had in ten days —
+  read that before touching it). XS to XL, plus ONE SIZE as an explicit tick
+  rather than an empty list. Made to measure survives as one line on each piece
+  inviting an email. **The wait is stated as a maximum — two weeks — where a
+  person decides and where they confirm.** Published measurements are no longer
+  fit information; only Oblivion's survive, as reference.
 - **/process** is the single home of imagery. There is no gallery route.
 - A free-shipping banner on every commerce page; not on the culture pages.
 
@@ -538,23 +539,29 @@ for going quiet.
     `docs/SCATTI-DETTAGLIO.md` section 3 is the ask in Italian. **This is the
     only thing on the site marked to be replaced before launch.**
 
-15. **HIS MEASUREMENTS, FIFTEEN PIECES.** Created by his own decision to remove
-    made to measure (section 98): every Creature is now the object that arrives,
-    so its measurements are the only way a buyer knows whether it fits, and the
-    gate refuses without them. Only **Oblivion** has his. Fourteen carry ours,
-    flagged; **Rubedo has none at all**. The list to send him is in section 98.
+15. **THE SIZES, SIXTEEN PIECES, and it is sixteen ticks.** Every purchasable
+    Creature needs XS-to-XL chosen or ONE SIZE ticked, and `launch-check`
+    refuses until each is answered (section 101). **An empty list is not One
+    Size**: it is nobody having decided, and the two are deliberately different
+    states.
 16. **THREE ERRORS IN HIS OWN ENGLISH, shipped unaltered (section 99).** "Our
     leathers is tanned", "it change", "the Mother Nature". They are his, they
     are on the home page, and the rule that protects his voice protects his
     mistakes until he chooses. **Ask him; do not fix.** Two of the three read
     like the way this brand has always sounded.
-17. **THE PHOTOGRAPH OF FERDINANDO** that replaces the red shirt in BODY OF
-    LIGHT. He said the frame comes out and it has; the band runs at four frames
-    until his replacement arrives. **The file is not on this machine.**
-18. **THE FOUR PHOTOGRAPHS IN HIS DOCUMENT.** He sent them at full resolution
-    and they are probably already in the dataset — but the document did not
-    reach this machine, so nobody has checked. **If any is new it is the first
-    new photography in weeks and belongs in the import.**
+17. **CLOSED 2026-08-12 (section 103): the photograph of Ferdinando** is
+    `IMG_3485.PNG`, which was already in the dataset as the worn band's
+    unidentified frame 5. It is first in BODY OF LIGHT now, linked to no
+    Creature, because it is a person rather than a piece.
+18. **CLOSED 2026-08-12 (section 103): his four photographs** were compared
+    against every asset by picture rather than by hash. Three were already here;
+    `hp4-our-skins` was new, is uploaded, and is composed with the three
+    reasons.
+19. **THE WITHDRAWAL RIGHT, now the first question in the lawyer brief.** A
+    piece made after the order in the size the buyer chose sits between
+    made-to-measure and off-the-shelf, and the brief asks it as a question
+    rather than assuming either answer. **It governs returns copy that is
+    already live on every piece page.**
 
 ---
 
@@ -610,12 +617,12 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
       STYRAX closes it (section 48).
 - [ ] **Compositions** for the twelve Creature still showing `{MATERIALS}`.
 - [ ] **Prices.** Every Creature shows `{PRICE_EUR}`.
-- [ ] **MEASUREMENTS, FOR FIFTEEN OF SIXTEEN PURCHASABLE PIECES.** This became
-      the hardest blocker on the list on 2026-08-12 (section 98): with made to
-      measure gone, a piece's numbers describe the object that will arrive, and
-      with no sizes they are the ONLY fit information a buyer has. `launch-check`
-      refuses without them. **Only Oblivion's are his.** Fourteen carry
-      measurements we invented; Rubedo has none at all.
+- [ ] **THE SIZES HE MAKES EACH PIECE IN.** Sixteen purchasable Creature have
+      none chosen and `launch-check` refuses on every one. It is sixteen ticks
+      in the studio: XS to XL, or ONE SIZE for anything that fits everyone.
+      **This replaced the measurements blocker** — with a size choice deciding
+      fit, the fifteen invented measurement sets were deleted rather than left
+      flagged, and only Oblivion's own numbers remain, as reference.
 - [ ] **Reference codes**, or a decision that the brand does not use them, in
       which case `{REF_CODE}` is removed rather than filled.
 - [ ] **Which pieces are available now**, by putting their frames in the
