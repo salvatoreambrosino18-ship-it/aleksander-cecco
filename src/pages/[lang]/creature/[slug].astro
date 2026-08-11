@@ -154,7 +154,23 @@ const inscription: Array<{text: string | null; token: string}> = [
 
   Price STAYS: the owner confirmed prices are visible on the site.
 */
+const sizes = garment.sizes ?? [];
+
 const subordinate: Array<{term: string; value: string | null; placeholder?: string}> = [
+  {
+    /*
+      THE SIZES HE MAKES THIS PIECE IN (section 101), or One Size when the list
+      is empty — which is a fact about the object rather than a missing value,
+      so it prints rather than showing a placeholder.
+    */
+    term: t(locale, "sizeQuestion"),
+    value: sizes.includes("ONE")
+      ? t(locale, "oneSize")
+      : sizes.length > 0
+        ? sizes.join("  /  ")
+        : null,
+    placeholder: "{SIZES}",
+  },
   {
     term: t(locale, "collection"),
     value: garment.collection
@@ -176,9 +192,16 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       piece's on a ready one — and there is only one state now: the object that
       will arrive is the object in the photograph.
     */
+    /*
+      MEASUREMENTS ARE REFERENCE INFORMATION NOW, NOT FIT INFORMATION (section
+      101). The buyer chooses a size and he makes the piece in it, so nobody has
+      to reason from a number to know whether it fits. Oblivion's numbers are
+      HIS and stay, because a person who wants to know how long a sleeve is
+      should be able to find out — but a missing set is no longer a hole, so
+      there is no placeholder and the row simply does not appear.
+    */
     term: t(locale, "thisPieceMeasurements"),
     value: garment.measurements,
-    placeholder: "{MEASUREMENTS}",
   },
   {term: t(locale, "price"), value: price, placeholder: "{PRICE_EUR}"},
 ];
@@ -262,6 +285,14 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
           MADE_TO_MEASURE_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
         ]}
       >
+        {t(locale, "deliveryLine")}{" "}
+      </p>
+      <p
+        class:list={[
+          "type-body text-body max-w-prose",
+          MADE_TO_MEASURE_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
+        ]}
+      >
         {t(locale, "madeToMeasureLine")}{" "}
         {contactEmail && (
           <a href={`mailto:${contactEmail}`} class="hairline-under">{contactEmail}</a>
@@ -308,6 +339,10 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       it to read, and it is the clearest case of the registers being misused
       rather than being wrong. Label is for names, seasons, captions, buttons
       and the menu. A sentence a person has to act on is body.
+    */}
+    {/*
+      Only where his own numbers exist, and only as reference: the size choice
+      is what decides fit now (section 101).
     */}
     {garment.measurements && <p class="type-body text-body max-w-prose">{t(locale, "fitGuidance")}</p>}
 

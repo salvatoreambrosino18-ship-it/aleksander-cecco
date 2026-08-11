@@ -83,6 +83,12 @@ const availabilityLabel = {
   notOffered: t(locale, "notTakingRequests"),
 }[availability] ?? t(locale, "availableNow");
 const availabilityNote = pick(garment.availabilityNote, locale);
+/*
+  ONE SIZE is a value he ticks, not an empty list (section 101): empty means
+  nobody has decided, and the launch check refuses on it. Either way the form
+  asks nothing, because there is nothing to choose.
+*/
+const sizes = (garment.sizes ?? []).filter((size) => size !== "ONE");
 ---
 
 <Base locale={locale} title={`${t(locale, "order")} / ${garment.name}`}>
@@ -132,6 +138,45 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               <label class="type-label text-label" for="email">Email</label>
               <input id="email" name="email" type="email" required maxlength="254" autocomplete="email" />
             </div>
+
+            {/*
+              THE SIZE, AND ONLY WHEN THERE IS A CHOICE (2026-08-12, section
+              101). Radios rather than a select: the whole path works with no
+              JavaScript, the options are five at most, and a radio group shows
+              every option at once the way the catalogue's filter does.
+
+              A piece with no sizes is ONE SIZE. It carries no control and no
+              hidden field — the order simply does not mention size, because
+              there was nothing to choose and a form that asks a question with
+              one answer is furniture.
+            */}
+            {sizes.length > 0 && (
+              <fieldset class="flex flex-col gap-u2">
+                <legend class="type-label text-label">{t(locale, "chooseSize")}</legend>
+                <div class="flex flex-wrap gap-u3">
+                  {sizes.map((size, index) => (
+                    <label class="type-label text-label flex items-baseline gap-u1">
+                      <input type="radio" name="size" value={size} required checked={index === 0} />
+                      {size}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            )}
+
+            {/*
+              HOW LONG THEY WAIT (section 102). His number — two weeks maximum —
+              in our sentence, marked, where a person is committing rather than
+              only where they are browsing.
+            */}
+            <p
+              class:list={[
+                "type-body text-body max-w-prose",
+                ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
+              ]}
+            >
+              {t(locale, "deliveryLine")}
+            </p>
 
             <div class="field">
               <label class="type-label text-label" for="note">{t(locale, "note")}</label>

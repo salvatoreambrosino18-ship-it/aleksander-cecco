@@ -214,6 +214,12 @@ const TEXT = {
     title: "Ordine",
     ok: "Ordine ricevuto.",
     replyWindow: "Lo confermiamo via email entro un giorno, ora italiana. Pagamento e consegna si definiscono in quella risposta.",
+    /*
+      HOW LONG THEY WAIT, at the moment they have committed (section 102). His
+      number, our sentence, phrased as a MAXIMUM: the piece is made after the
+      order, so this is the one fact a buyer needs and nobody else can give.
+    */
+    delivery: "Il pezzo viene fatto dopo l'ordine: massimo due settimane prima della spedizione.",
     back: "Torna alla Creatura",
     invalid: "Controlla i dati inseriti.",
     name: "Serve un nome.",
@@ -229,6 +235,7 @@ const TEXT = {
     title: "Order",
     ok: "Order received.",
     replyWindow: "We confirm it by email within one day, Italian time. Payment and delivery are arranged in that reply.",
+    delivery: "Your piece is made after the order: two weeks at most before it ships.",
     back: "Back to the Creature",
     invalid: "Please check what you entered.",
     name: "A name is needed.",
@@ -383,6 +390,15 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const fields = {
     name: get("name"),
     email: get("email"),
+    /*
+      THE CHOSEN SIZE (2026-08-12, section 101). Absent for a one-size piece,
+      which sends no field at all, so an empty value is a fact rather than a
+      failure. Clamped to what the studio offers: a forged value would otherwise
+      arrive in his inbox as an order for a size he does not cut.
+    */
+    size: (["XS", "S", "M", "L", "XL"] as const).includes(get("size") as never)
+      ? get("size")
+      : "",
     note: get("note").slice(0, 2000),
     garmentName: get("garmentName"),
     garmentRef: get("garmentRef"),
@@ -479,6 +495,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     ...(shownPrice ? ([["Price", shownPrice]] as Array<[string, string]>) : []),
     ["Name", fields.name],
     ["Email", fields.email],
+    ...(fields.size ? ([["Size", fields.size]] as Array<[string, string]>) : []),
     ["Language", locale === "it" ? "Italiano" : "English"],
   ];
 
@@ -534,7 +551,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
   if (env.ENQUIRY_DRY_RUN) {
     console.warn(`[enquiry] DRY RUN: not sending. Would have mailed "${piece}" (${locale}).`);
     return new Response(
-      page(locale, {heading: text.title, lines: [text.ok], next: text.replyWindow, backHref}),
+      page(locale, {heading: text.title, lines: [text.ok, text.delivery], next: text.replyWindow, backHref}),
       {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }

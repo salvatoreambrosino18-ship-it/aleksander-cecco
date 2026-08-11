@@ -93,6 +93,51 @@ export const garment = defineType({
       description:
         "Solo un filtro nel catalogo: non divide il sito e non compare come sezione. Lasciare vuoto se non e stato deciso. / A catalogue filter only: it does not divide the site and never appears as a section. Leave empty when it has not been decided.",
     }),
+    /*
+      THE SIZES THIS PIECE IS MADE IN (2026-08-12, section 101).
+
+      Section 17 deleted sizes on 2026-08-02 and closed with DO NOT REINTRODUCE
+      SIZES. This reintroduces them, on the owner's third answer to the same
+      question (section 100 records all three): the buyer chooses a size, he
+      makes the piece in that size, and the site presents it the way an ordinary
+      shop does.
+
+      FIVE VALUES AND NO MORE. XS to XL is what a small atelier can cut and what
+      a European buyer reads without a chart; numeric sizing (44, 46, 48) is
+      country-specific and would need one, and half-sizes on a hand-cut leather
+      garment are a promise nobody can keep.
+
+      ONE SIZE IS A VALUE, NOT AN EMPTY LIST. His own words describe pieces with
+      an adjustable choker as One Size, and that is a decision he made — while an
+      empty list is a decision nobody has made yet. Left as the same state, the
+      site could not tell "this piece is one size" from "nobody has said", which
+      is precisely the shape of gap this project keeps discovering late
+      (section 80). So: tick ONE SIZE and the page says so and the order asks
+      nothing; leave it empty and `launch-check` refuses until someone chooses.
+
+      THIN ON PURPOSE (section 100). One array on one document. No constants
+      file, no library, no derived state, because this question has changed
+      three times in ten days and will change again.
+    */
+    defineField({
+      name: 'sizes',
+      title: 'Taglie / Sizes',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'XS', value: 'XS'},
+          {title: 'S', value: 'S'},
+          {title: 'M', value: 'M'},
+          {title: 'L', value: 'L'},
+          {title: 'XL', value: 'XL'},
+          {title: 'Taglia unica / One size', value: 'ONE'},
+        ],
+        layout: 'grid',
+      },
+      description:
+        "Le taglie in cui fai questo pezzo. Se il pezzo e uno solo per tutti (per esempio con il collo regolabile) spunta TAGLIA UNICA. Vuoto vuol dire che non l'hai ancora deciso, e il sito non parte. / The sizes you make this piece in. If it fits everyone (an adjustable choker, say) tick ONE SIZE. Empty means undecided, and the launch check refuses.",
+    }),
     defineField({
       name: 'price',
       title: 'Prezzo / Price (EUR)',

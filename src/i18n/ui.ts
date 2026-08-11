@@ -93,6 +93,12 @@ const ui = {
     madeToMeasureLine: "Su misura, solo su richiesta: scrivici e ne parliamo.",
     availableNow: "Disponibile subito.",
     thisPieceMeasurements: "Misure di questo capo",
+    /* SIZES, back on his third answer (sections 100 and 101). */
+    sizeQuestion: "Taglia",
+    oneSize: "Taglia unica.",
+    chooseSize: "Scegli la taglia",
+    /* OURS, flagged as deliveryLine: his number, our sentence (section 102). */
+    deliveryLine: "Ogni pezzo e fatto dopo l'ordine: massimo due settimane prima della spedizione.",
     /*
       1 OF 1 = PRIVATE COMMISSION (owner, 2026-08-04). Each was made once, to
       someone's measurements. It can be bought only as it is, so the line says
@@ -221,6 +227,10 @@ const ui = {
     availableNow: "Available now.",
 
     thisPieceMeasurements: "This piece's measurements",
+    sizeQuestion: "Size",
+    oneSize: "One size.",
+    chooseSize: "Choose a size",
+    deliveryLine: "Each piece is made after the order: two weeks at most before it ships.",
     unique: "A private commission. 1 of 1, made once.",
     uniqueAction: "Acquire this piece",
     privateOrder: "Private order.",

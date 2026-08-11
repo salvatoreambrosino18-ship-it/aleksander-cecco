@@ -215,6 +215,8 @@ export type Garment = {
   stage: string | null;
   /** men | women | both, or null. A catalogue FILTER only, never a route. */
   wornBy: string | null;
+  /** XS..XL, in his order. EMPTY means one size and no choice (section 101). */
+  sizes: string[] | null;
   price: number | null;
   currency: string | null;
   materials: LocaleField;
@@ -233,6 +235,7 @@ const GARMENT_PROJECTION = /* groq */ `
   referenceCode,
   stage,
   wornBy,
+  sizes,
   price,
   currency,
   materials,

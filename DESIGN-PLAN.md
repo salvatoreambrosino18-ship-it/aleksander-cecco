@@ -8580,3 +8580,73 @@ written to be strict and correct and was deleted eight hours later, having never
 guarded anything real. Answer 3's size field is deliberately one array on one
 document, with no constants file, no library and no derived state — so that
 answer four, whatever it is, costs an afternoon rather than a session.
+
+## 101. The buyer chooses a size (2026-08-12)
+
+**Answer three, and section 100 records all three with dates.** The buyer picks
+a size, he makes the piece in it, and the site presents it the way an ordinary
+shop does. Published measurements are not needed for fit.
+
+### The range, and why these five
+
+**XS, S, M, L, XL, and a sixth value: ONE SIZE.**
+
+- **Letters, not numbers.** 44/46/48 is country-specific and would need a
+  conversion chart on the page — which is work for the buyer, and section 100's
+  reading of his three answers is that every one of them moved that work toward
+  zero.
+- **Five steps, no half sizes.** A hand-cut leather garment made one at a time
+  cannot honour an M/L, and offering one would be a promise nobody can keep.
+- **No numeric fallback and no chart.** If a buyer wants to reason from
+  centimetres, Oblivion's own measurements are on its page and the made-to-
+  measure line invites the email. That is the escape hatch, and it is his.
+
+### ONE SIZE IS A VALUE, NOT AN EMPTY LIST
+
+His own words describe pieces with an adjustable choker as One Size, so the
+schema must allow a piece with no size choice — but "this piece is one size" and
+"nobody has decided yet" are different facts, and an empty array said both.
+
+That is the exact shape of the gap section 80 was written about: two questions
+with one answer, indistinguishable until the case that separates them arrives as
+a live page. So ONE SIZE is a tick in the same list. Empty now means undecided,
+and **`launch-check` refuses on it**: sixteen purchasable pieces currently have
+no sizes chosen, and that is the honest state rather than a silent default.
+
+### The measurement gate is gone, and so are the invented sets
+
+Section 98's gate refused any purchasable piece without published measurements.
+It was correct for the eight hours in which a buyer received the object in the
+photograph, and it never guarded anything real. Removed.
+
+**Sixteen invented measurement sets were deleted rather than left flagged.**
+They were plausible numbers we wrote; with fit decided by a size choice they are
+not reference information either, they are fiction about an object.
+
+**One set stays, and it is the only one that was ever real: Oblivion's.**
+*Sleeves 73 cm, Length 56 cm, Shoulders 40 cm, Armpit 40 cm* — his own numbers,
+about a garment he made. They stay as REFERENCE rather than as fit information,
+because a person who wants to know how long a sleeve is should be able to find
+out. The row simply does not appear on a piece that has none; there is no
+placeholder, because a missing set is no longer a hole.
+
+### The order
+
+Contact details and the chosen size. A one-size piece carries no radio and no
+hidden field: the order does not mention size, because there was nothing to
+choose and a question with one answer is furniture. The Function clamps the
+value to the six the studio offers, so a forged field cannot put a size he does
+not cut into his inbox.
+
+## 102. Two weeks, at most (2026-08-12)
+
+His decision makes it necessary: the piece is made after the order, so the wait
+is a fact the buyer must have and only he could give. **His number, our
+sentence, flagged as ours.**
+
+    Each piece is made after the order: two weeks at most before it ships.
+
+It appears in **both places a person needs it**: on the piece, where they are
+deciding, and on the confirmation, where they have committed and the question
+becomes "what now". It is phrased as a MAXIMUM rather than a promise of speed —
+"two weeks at most" cannot be missed by being early, and "in two weeks" can.

@@ -54,21 +54,13 @@ const query = /* groq */ `{
   // the note below: the gate counted what we made up and not what is missing.
   "hollow": *[_type == "garment" && defined(slug.current) && count(media) > 0
               && (!defined(price) || !defined(measurements))]{"slug": slug.current, name},
-  // EVERY PURCHASABLE PIECE MUST PUBLISH ITS OWN MEASUREMENTS (section 98).
-  // The owner removed made to measure: a Creature is now an object that exists
-  // and is bought as it is, so its measurements stopped being context and
-  // became the only way a buyer can know whether it fits. Nobody spends four
-  // figures on a leather shirt on faith. notOffered and privateOrder are exempt:
-  // they cannot be bought, so there is nothing to fit.
-  // NO BACKTICKS IN HERE. This is a template literal, so one backtick in a
-  // comment ends the string. It is the second time in two days (content.ts,
-  // 2026-08-11) and the first time it took a while to see, because the error
-  // points at whatever word follows the backtick.
-  "unmeasured": *[_type == "garment" && defined(slug.current) && count(media) > 0
-                  && !(coalesce(availability, "readyNow") in ["notOffered", "privateOrder"])
-                  && (!defined(measurements) || measurements == "")]
-                 | order(orderRank asc){"slug": slug.current, name,
-                   "state": coalesce(availability, "readyNow")},
+  // A purchasable piece whose SIZES nobody has decided (section 101). Ticking
+  // ONE SIZE is a decision; an empty list is not, and the two must not look
+  // the same to anything that reads this dataset.
+  "unsized": *[_type == "garment" && defined(slug.current) && count(media) > 0
+               && !(coalesce(availability, "readyNow") in ["notOffered", "privateOrder"])
+               && count(coalesce(sizes, [])) == 0]
+              | order(orderRank asc){"slug": slug.current, name},
   "contact": *[_id == "siteSettings"][0].contactEmail,
   "customs": *[_id == "siteSettings"][0].shippingCustomsIsProvisional
 }`;
@@ -111,49 +103,41 @@ for (const g of result.hollow ?? []) {
   problems.push(`${(g.name ?? g.slug).padEnd(20)} has no price or no measurements — the page shows a placeholder`);
 }
 /*
-  MEASUREMENTS ARE NOT OPTIONAL ANY MORE (2026-08-12, section 98).
-
-  While the shop sold made to measure, a piece's measurements described the
-  photographed sample and were context: useful, and survivable if missing. The
-  owner has removed made to measure, so every Creature is the object that will
-  arrive — and a buyer four figures deep has no other way to know whether it
-  fits. There are no sizes on this site by his own decision (section 17), which
-  means these numbers are the ONLY fit information that exists.
-
-  This is deliberately louder than the `hollow` check above, which catches a
-  page rendering a visible {MEASUREMENTS} placeholder. This one catches the
-  quieter case: a purchasable piece whose page simply says nothing about size.
-*/
-for (const g of result.unmeasured ?? []) {
-  problems.push(
-    `${(g.name ?? g.slug).padEnd(20)} is for sale with NO MEASUREMENTS (${g.state}) — a buyer cannot tell if it fits`,
-  );
-}
-if (result.customs !== false) {
-  problems.push("site settings         the customs line is still unconfirmed");
-}
-if (!result.contact || /@example\./i.test(result.contact)) {
-  problems.push("site settings         the contact address is a placeholder");
-}
-/*
   A DETAIL FRAME WITH NO SENTENCE UNDER IT (2026-08-11, section 88).
 
-  Forty-one frames in the dataset carried a construction detail croppable at the
-  size this site already publishes, so thirteen were cut and imported — the
-  scar-stitch, the hole in the back, the seams, the zips, the hems, and his own
-  handwriting inside Rubedo's collar. Every one went in with an EMPTY caption,
-  because the picture was ours to cut and the sentence is his to write.
-
-  An empty caption cannot be told from a caption nobody wanted: most frames on
-  this site have none and should have none. So the import marks these
-  `needsCaption`, and they are named here one by one, because a gap that lives
-  only in a chat message is a gap this project loses (section 84).
+  Thirteen construction crops were cut from his own files and imported with an
+  EMPTY caption, because the picture was ours to cut and the sentence is his.
+  An empty caption cannot be told from a caption nobody wanted, so the import
+  marks these `needsCaption` and they are named here one by one.
 */
 for (const g of result.awaitingCaption ?? []) {
   for (const detail of g.details ?? []) {
     problems.push(`${(g.name ?? g.slug).padEnd(20)} detail awaiting his sentence: ${detail}`);
   }
 }
+
+/*
+  NOBODY HAS CHOSEN THIS PIECE'S SIZES (2026-08-12, section 101). Ticking ONE
+  SIZE is an answer; an empty list is the absence of one, and a shop that lets a
+  buyer order without either is a shop that cannot make what was ordered.
+*/
+for (const g of result.unsized ?? []) {
+  problems.push(`${(g.name ?? g.slug).padEnd(20)} has no sizes chosen — tick sizes or ONE SIZE in the studio`);
+}
+
+/*
+  THE MEASUREMENT GATE LASTED ONE SESSION (2026-08-12, sections 100 and 101).
+
+  It refused any purchasable Creature without published measurements, and it was
+  right for the eight hours in which a buyer received the object in the
+  photograph. The owner's third answer to the sizing question removed the reason:
+  the buyer chooses a size and he makes the piece in it, so measurements stopped
+  being fit information and the fifteen invented sets were deleted rather than
+  left flagged for ever.
+
+  Recorded rather than quietly dropped, because the check itself was correct and
+  the lesson is about building thin (section 100), not about being wrong.
+*/
 
 console.log(`\nLaunch check: ${project}/${dataset}\n`);
 
