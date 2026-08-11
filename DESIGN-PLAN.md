@@ -8894,3 +8894,94 @@ one material moving, first and last frame identical, no audio track, sent as the
 camera original rather than through WhatsApp.
 
 **That is the thing to ask him for.** If it arrives, the arrival can carry it.
+
+## 107. Seen rather than measured: Rick Owens and Vivienne Westwood (2026-08-13)
+
+Seventy-seven screenshots of the two reference sites, looked at page by page.
+This project has measured these sites for a fortnight — type sizes, tracking,
+the 19%-of-viewport signature — and had never SEEN them. What follows is what
+the pictures show.
+
+### Composition
+
+**Rick Owens divides a screen in two, vertically, and lets each half be a whole
+picture.** Not a photograph with a caption: two unrelated pictures at full
+height, a portrait against white beside a portrait in acid green, each with one
+word on it (EYEWEAR, BAGS). His editorial pages abandon that entirely for an
+ASYMMETRIC MOSAIC: images at a third, a half, two thirds of the width, on white,
+at different aspect ratios, with irregular white space around them. **Very
+little of their photography is full-bleed.** It sits ON the page, framed by
+white, which is what makes the white read as paper rather than as a gap.
+
+**Vivienne Westwood composes in rows**: a full-bleed hero with centred type, then
+a horizontal product carousel, then two half-width category tiles, then an
+editorial row. More conventional, and denser per screen.
+
+### Sequence
+
+Rick Owens: full-bleed atmosphere → 2-up split → product grid → a long editorial
+run that alternates text column and image cluster → full-bleed atmosphere again.
+**The rhythm is not full-bleed / pair / full-bleed. It is one dense mosaic
+sustained for many screens, bracketed by two atmospheric images.**
+
+Vivienne Westwood: hero → carousel → category pair → heritage story → lookbook
+grid → a large multi-column footer.
+
+### Density
+
+This is where the gap is widest and it is not a layout gap.
+
+**Rick Owens puts two to four elements on every screen** of an editorial page: a
+narrow text column, a process photograph, a product on white, an archival image.
+**Vivienne Westwood's lookbook is a four-across grid** — eight full-length looks
+visible at once, edge to edge, uncaptioned.
+
+**Both can do this because every photograph in the run was shot the same way.**
+The lookbook grid works because all thirty images share a ground, a distance and
+a light. Ours cannot: our frames are concrete, studio, forest, night, at
+different distances, in different light. Four of ours across a screen is a
+contact sheet of different shoots.
+
+### Product pages
+
+**Neither folder contains one.** Fifty and twenty-eight screenshots, and not a
+single product detail page in either — home, listings, editorial and lookbooks
+only. **So the comparison he asked for cannot be made from this material**, and
+guessing at it from a listing page would be inventing evidence.
+
+What the listings do show: product on pale ground, three or four across, name
+and price under, sizes and a QUICK BUY revealed on hover, a sticky FILTERS/SORT
+bar. **Ours already matches that**, four across at xl and two on a phone.
+
+### Text pages, which is our weakness
+
+Their answer is the same on both sites and it is the opposite of ours.
+
+**A narrow column — a third of the viewport at Rick Owens, closer to a half at
+Westwood — carrying MANY paragraphs, beside a photograph.** Rick Owens sets an
+entire show note, eight or ten paragraphs, in one column at about 11px uppercase
+with tight leading. Westwood stacks five or six sentence-case serif paragraphs
+against one image. **Neither ever gives a paragraph its own screen.**
+
+Ours gave every paragraph its own screen. On /about that was four screens to
+carry a hundred and twenty words.
+
+### What was adopted tonight
+
+- **/about is one column carrying his whole story** beside one photograph, in
+  his order, unbroken — which is also what section 22 asks of that page — with
+  the freed frames running below as a two-across mosaic. Four paired screens
+  became one column and a mosaic.
+
+### What cannot be adopted, and the owner's reading is right
+
+- **The light is in the photograph, not the layout.** Their product grids read
+  as light because every item is on white seamless under studio lighting. No
+  arrangement of ours reproduces it; the same grid filled with our frames reads
+  as a contact sheet.
+- **Their density is made of material.** Dozens of video clips, thirty
+  consistent lookbook frames, archival photography going back to 1971. We have
+  one clip that cannot loop and no archive.
+- **Copying a structure built for material we do not have produces an empty
+  structure**, which is worse than what we have: our 4-across catalogue at xl
+  already reads thinner than theirs for exactly this reason.

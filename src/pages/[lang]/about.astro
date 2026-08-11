@@ -133,27 +133,27 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
     simply continue: the page degrades to plain prose, or to a sequence of
     photographs, without a rewrite.
   */}
-  {
-    about &&
-      !aboutIsPlaceholder &&
-      /*
-        COMPOSED, NOT SEQUENCED (2026-08-11, section 82). The page already
-        alternated a paragraph and a photograph; they were simply stacked, so at
-        desktop each paragraph got a screen to itself with the rest of the width
-        empty. They now SHARE a screen, alternating which side the photograph
-        takes so the page has a rhythm rather than a stutter. On a phone the
-        stack is unchanged, because a stack was always right there.
+  {/*
+    HIS WHOLE STORY IN ONE COLUMN, BESIDE ONE PHOTOGRAPH (2026-08-13, section
+    107), which is what both references do and what this page did not.
 
-        A paragraph with no photograph left falls back to a plain surface, which
-        is what `PairedSurface` does with a null media: the page still degrades
-        to prose if he writes more than he shoots.
-      */
-      paragraphs.map((paragraph, index) => (
-        <PairedSurface
-          media={photographs[index] ?? null}
-          locale={locale}
-          side={index % 2 === 0 ? "left" : "right"}
-        >
+    It gave each paragraph its own paired surface: four screens to carry a
+    hundred and twenty words, one 30-word paragraph floating beside a
+    photograph at a time. Rick Owens sets an entire show note — eight or ten
+    paragraphs — in a single narrow column with the photography beside and below
+    it; Vivienne Westwood's heritage pages stack five or six paragraphs against
+    one image. Neither ever gives a paragraph a screen.
+
+    So the passage is one column now, in his order, unbroken, which is also what
+    section 22 asks of this page: it is the one place his text appears COMPLETE.
+    The frames that were carrying a paragraph each are freed and run below as a
+    mosaic, which is where the density the owner is asking for actually comes
+    from — more photographs visible at once, not more space between them.
+  */}
+  {about && !aboutIsPlaceholder && (
+    <PairedSurface media={photographs[0] ?? null} locale={locale} side="left">
+      <div class="flex flex-col gap-u5">
+        {paragraphs.map((paragraph) => (
           <p
             class:list={[
               isShort(paragraph) ? "type-display text-display" : "type-body text-body",
@@ -163,14 +163,28 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
           >
             {paragraph}
           </p>
-        </PairedSurface>
-      ))
-  }
+        ))}
+      </div>
+    </PairedSurface>
+  )}
 
-  {/* Any frames left over after the text simply continue the sequence. */}
-  {photographs.slice(paragraphs.length).map((media) => (
-    <MediaSurface media={media} locale={locale} height="tall" />
-  ))}
+  {/*
+    THE REST OF THE PHOTOGRAPHY, AS A MOSAIC (section 107). Two across at
+    desktop, alternating tall and short on a phone, the same arrangement
+    /process uses — so the page ends in pictures rather than in a column of
+    single frames each sealing its own screen.
+  */}
+  <div class="grid grid-cols-1 md:grid-cols-2">
+    {photographs.slice(1).map((media, index) => (
+      <MediaSurface
+        media={media}
+        locale={locale}
+        height={index % 2 === 0 ? "tall" : "short"}
+        desktopHeight="tall"
+        sizes="(min-width: 48rem) 50vw, 100vw"
+      />
+    ))}
+  </div>
 
   {/*
     THE TWO CREATORS (2026-08-04). {DESIGNER_BIOGRAPHY} is answered: his own
