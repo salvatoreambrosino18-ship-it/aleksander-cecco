@@ -156,7 +156,14 @@ const ui = {
       short, declarative, subject dropped. Photography still carries no
       captions; these live between sections and at the tops of pages.
     */
-    shopIntro: "Su misura, o disponibile subito. Fatto a mano nel Sud Italia.",
+    /*
+      CORRETTA 13/08/2026 (sezione 108). Diceva "Su misura, o disponibile
+      subito", una scelta che non esiste piu dal 12/08: ogni Creatura esiste,
+      e fotografata, e si compra com'e. La riga vendeva un flusso rimosso, in
+      cima al catalogo. / Corrected 2026-08-13: it offered a choice the shop
+      stopped making on 2026-08-12.
+    */
+    shopIntro: "Ogni pezzo esiste già. Fatto a mano nel Sud Italia.",
     enterDrop: "Vedi il drop",
     contactIntro: "Risponde una persona. Entro un giorno, ora italiana.",
     wornLine: "Addosso, alla luce del giorno.",
@@ -251,7 +258,9 @@ const ui = {
     price: "Price",
     priceFrom: "From",
     order: "Order",
-    shopIntro: "Made to measure, or ready now. Handmade in South Italy.",
+    // See the Italian above (section 108): the choice this line offered was
+    // removed from the shop on 2026-08-12.
+    shopIntro: "Every piece already exists. Handmade in South Italy.",
     enterDrop: "See the drop",
     contactIntro: "A person replies. Within one day, Italian time.",
     wornLine: "On bodies, in daylight.",

@@ -28,14 +28,33 @@ const client = createClient({
   useCdn: false,
 });
 
-/* His approved text, verbatim, including the origin passage supplied 2026-08-04. */
+/*
+  His approved text, verbatim, including the origin passage supplied 2026-08-04.
+
+  WITH ONE MARKED EXCEPTION (2026-08-13, section 108): "Made to Measure, " /
+  "Su Misura, " was DELETED from the making line, because the shop stopped
+  selling made to measure on 2026-08-12 (section 98) and the sentence was false
+  on a page a buyer reads. The originals were:
+
+    In 100% vegetable-tanned leather, MADE TO MEASURE, handmade in South Italy.
+    In pelle 100% conciata al vegetale, SU MISURA, fatta a mano nel Sud Italia.
+
+  (Capitalised here only so a search-and-replace over this file cannot quietly
+  eat the record of what it changed. He wrote them "Made to Measure" and
+  "Su Misura".)
+
+  The edit is flagged `aboutMadeToMeasure` in inventedCopy below, exactly as the
+  name order was, and launch-check counts it until he approves the shorter line.
+  If this file goes back to the original strings, an import silently republishes
+  the false claim.
+*/
 const EN = {
   brand:
     "Aleksander Cecco is born to tell what is slowly being forgotten: nature and its unpredictable forms, its textures, its imperfect perfection.\nThe project lives between alchemy, esotericism and the primal link between human being and nature.",
   creature:
     'We call our pieces "Creature" because for us they are living.\nLiving textures. Entities with their own breath, born from the earth and worn on the body.',
   making:
-    "In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy. Every process is Artisan.\nA work of repetition, patience, and precision.\nThis is what makes every piece similar, but never identical.",
+    "In 100% vegetable-tanned leather, handmade in South Italy. Every process is Artisan.\nA work of repetition, patience, and precision.\nThis is what makes every piece similar, but never identical.",
   origin:
     "The project began as an experimental line between the knowledge and vision of the two creators, Ciro Cecco and Ferdinando Palmieri, in collaboration with Ferdressed.",
 };
@@ -45,7 +64,7 @@ const IT = {
   creature:
     'Chiamiamo i nostri pezzi "Creature" perché per noi sono vive.\nTexture viventi. Entità con un respiro proprio, nate dalla terra e indossate sul corpo.',
   making:
-    "In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia. Ogni processo è artigianale.\nUn lavoro di ripetizione, pazienza e precisione.\nÈ questo che rende ogni pezzo simile, ma mai identico.",
+    "In pelle 100% conciata al vegetale, fatta a mano nel Sud Italia. Ogni processo è artigianale.\nUn lavoro di ripetizione, pazienza e precisione.\nÈ questo che rende ogni pezzo simile, ma mai identico.",
   // OURS, flagged as aboutOrigin. The names and Ferdressed are proper nouns.
   origin:
     "Il progetto nasce come linea sperimentale tra la conoscenza e la visione dei due creatori, Ciro Cecco e Ferdinando Palmieri, in collaborazione con Ferdressed.",
@@ -60,6 +79,10 @@ const about = {
 const settings = await client.fetch(`*[_id == "siteSettings"][0]{inventedCopy}`);
 const invented = new Set(settings?.inventedCopy ?? []);
 invented.add("aboutOrigin");
+// The one edit we have made to his own sentence (section 108). It stays flagged
+// until he approves the shorter line, and this script writes `about`, so it has
+// to carry the flag or a run of it would launder the edit.
+invented.add("aboutMadeToMeasure");
 
 await client
   .patch("siteSettings")

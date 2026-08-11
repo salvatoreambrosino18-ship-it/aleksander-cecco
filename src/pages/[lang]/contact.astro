@@ -42,7 +42,7 @@
 */
 import Base from "../../layouts/Base.astro";
 import InstagramMark from "../../components/InstagramMark.astro";
-import TextSurface from "../../components/TextSurface.astro";
+import PairedSurface from "../../components/PairedSurface.astro";
 import {getSiteSettings, isPlaceholderEmail, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
 import {isMarked, voiceState} from "../../lib/voice";
@@ -88,10 +88,52 @@ const voice = voiceState(settings, locale, Boolean(settings.footerCopyIsDraft));
 const shippingIsMarked =
   SHOW_UNAPPROVED_MARKS && isMarked(voice) && Boolean(shipping) && !shippingIsPlaceholder;
 const notice = voice === "translation" ? "translationNotice" : "draftNotice";
+
+/*
+  THE ONE PHOTOGRAPH (2026-08-13, section 108).
+
+  This was the last page on the site that was a COLUMN OF WORDS ALONE ON FLAT
+  GROUND, which the four references were re-measured for and which appears in
+  none of them (PairedSurface's own note). Measured at 1440: four facts and two
+  short lines in a 1824px page, with the footer repeating the handle and the
+  email inside the same screen — the page said everything it had, twice, in
+  about a tenth of the room it took.
+
+  So it is composed the way /about and /process are: one column beside one
+  frame, photograph on the RIGHT so the two addresses stay exactly where they
+  were, hard left, which is where a reader who came here for them will look.
+
+  WHICH FRAME IS A CHOICE, AND THE CHOICE IS OURS UNTIL HE MAKES IT. He can set
+  `contactMedia` in the studio and that wins. With nothing set the page takes
+  the LAST frame of the about sequence — last because it is the head of no other
+  composition on the site, and because with this dataset every frame is used
+  somewhere, so "unused" was never available. That fallback is flagged
+  `contactFrame` in inventedCopy exactly as our Instagram selection is, and
+  `npm run launch-check` names it until he chooses.
+
+  It falls all the way through to nothing: with no photographs at all the page
+  renders as the plain column it used to be rather than failing.
+*/
+const aboutFrames = settings.aboutMedia ?? [];
+const processFrames = settings.processMedia ?? [];
+const contactFrame =
+  settings.contactMedia ??
+  aboutFrames.at(-1) ??
+  processFrames.at(-1) ??
+  settings.openingMedia ??
+  null;
 ---
 
 <Base locale={locale} title={t(locale, "contact")}>
-  <TextSurface arrive class="flex min-h-svh flex-col gap-u5 pt-u8 pb-u21">
+  {/*
+    THE COLUMN'S OWN HEIGHT, NOT THE VIEWPORT'S. `min-h-svh` and `pb-u21` were
+    written when this page was a full screen of its own; inside a paired surface
+    the floor is the composition's (56svh) and the padding is the surface's, and
+    keeping both would put a screen of padding inside a screen.
+  */}
+  {/* `paired-inner` is already a u5 column at a 34rem measure, so the page adds
+      no wrapper of its own. */}
+  <PairedSurface media={contactFrame} locale={locale} side="right">
     <h1 class="type-display text-display">{t(locale, "contact")}</h1>
     <p class="type-body text-body max-w-prose">{t(locale, "contactIntro")}</p>
 
@@ -130,8 +172,13 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
       }
     </div>
 
-    {/* The one wide gap: the ways in above it, the terms of buying below. */}
-    <div class="flex flex-col gap-u2 pt-u13">
+    {/*
+      The one wide gap: the ways in above it, the terms of buying below. u8
+      rather than u13 since section 108 — the gap exists to separate two things,
+      and inside a half-width column thirteen units separated them by most of a
+      screen.
+    */}
+    <div class="flex flex-col gap-u2 pt-u8">
       <h2 class="type-label text-label">{t(locale, "shippingReturns")}</h2>
 
       {/*
@@ -158,5 +205,5 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
       }
 
     </div>
-  </TextSurface>
+  </PairedSurface>
 </Base>

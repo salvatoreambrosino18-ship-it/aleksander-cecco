@@ -64,7 +64,28 @@ const {media, locale, side = "left", class: className = ""} = Astro.props;
   media ? (
     <section class:list={["paired", side === "right" && "paired-flip", className]}>
       <div class="paired-media">
-        <MediaSurface media={media} locale={locale} height="paired" sizes="(min-width: 64rem) 50vw, 100vw" />
+        {/*
+          THE PHOTOGRAPH IS TAKEN OUT OF THE ROW'S HEIGHT (2026-08-13, section
+          108), so the passage decides how tall the composition is and the
+          picture fills whatever that turns out to be.
+
+          IT IS A UTILITY AND NOT A RULE IN global.css BECAUSE OF THE TRAP THIS
+          PROJECT ALREADY WROTE DOWN: Tailwind utilities beat `@layer
+          components`, always (section 67). The first version of this fix put
+          `position: absolute` on `.paired-media > figure` in the stylesheet,
+          where it lost silently to the `relative` utility MediaSurface puts on
+          every figure — the CSS compiled, the class was in the build, and the
+          photograph went on setting the room exactly as before. Measured, not
+          noticed: 960px rows at 1440 and 1280px at 1920, identical to the
+          numbers the fix was meant to remove.
+        */}
+        <MediaSurface
+          media={media}
+          locale={locale}
+          height="paired"
+          sizes="(min-width: 64rem) 50vw, 100vw"
+          class="lg:absolute lg:inset-0"
+        />
       </div>
       <div class="paired-text">
         {/* Drawn at the stack, dropped at the seam. See the note above. */}

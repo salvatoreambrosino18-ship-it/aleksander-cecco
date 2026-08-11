@@ -238,6 +238,13 @@ export const siteSettings = defineType({
         "La prima schermata della pagina, a tutto schermo, con una sola riga sopra. / The first screen of the page, full bleed, with a single line over it.",
     }),
     defineField({
+      name: 'contactMedia',
+      title: 'Contatti: la fotografia / Contact: the photograph',
+      type: 'media',
+      description:
+        "Una sola fotografia, accanto ai contatti. Se resta vuota il sito ne sceglie una da solo e la scelta resta segnata come nostra (contactFrame). / One photograph, beside the contact details. Left empty, the site picks one itself and the choice stays flagged as ours (contactFrame).",
+    }),
+    defineField({
       name: 'aboutOpeningLine',
       title: 'Chi siamo: la riga di apertura / About: the opening line',
       type: 'localeString',
@@ -387,6 +394,18 @@ export const siteSettings = defineType({
       title: 'Testi scritti da noi, da approvare / Copy we wrote, to be approved',
       type: 'array',
       of: [{type: 'string'}],
+      /*
+        UNA SOLA VOCE QUI NON È UN TESTO NOSTRO: è una MODIFICA al suo.
+        Registrata per intero perché possa essere rimessa com'era senza cercare
+        altrove. / One entry here is not copy of ours: it is an EDIT to his.
+        Recorded in full so it can be put back without hunting for it.
+      */
+      description:
+        '«Su Misura» / «Made to Measure» è stato TOLTO dal testo approvato il 13/08/2026, perché dal 12/08 il negozio non vende più su misura e la frase era falsa. ' +
+        'Diceva: «In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia.» e «In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy.» ' +
+        'Due parole tolte, nulla aggiunto. Togli la spunta a «aboutMadeToMeasure» quando approvi la frase più corta, o rimettila com\'era. / ' +
+        '"Su Misura" / "Made to Measure" was REMOVED from the approved text on 2026-08-13, because the shop stopped selling made to measure on 2026-08-12 and the sentence was false. ' +
+        'Two words deleted, nothing added. Untick "aboutMadeToMeasure" when you approve the shorter line, or put it back.',
       options: {
         list: [
           {title: 'Fondo pagina: spedizioni / Footer: shipping', value: 'footerShipping'},
@@ -401,8 +420,15 @@ export const siteSettings = defineType({
           {title: 'Shop: la riga di apertura / Shop: the intro line', value: 'shopIntro'},
           {title: 'Drops: la riga di apertura / Drops: the intro line', value: 'dropsIntro'},
           {title: 'Contatti: la riga di apertura / Contact: the intro line', value: 'contactIntro'},
+          {title: 'Contatti: quale fotografia / Contact: which photograph', value: 'contactFrame'},
           {title: 'Chi siamo: la traduzione delle origini / About: the origin translation', value: 'aboutOrigin'},
           {title: "Chi siamo: l'ordine dei nomi, modificato dal testo approvato / About: name order, edited from approved text", value: 'aboutNameOrder'},
+          {title: "Pagina prodotto: la riga sul su misura / Piece page: the made-to-measure line", value: 'madeToMeasureLine'},
+          {
+            title:
+              'Chi siamo e Processo: «Su Misura» tolto dal testo approvato / About and Process: "Made to Measure" removed from approved text',
+            value: 'aboutMadeToMeasure',
+          },
         ],
         layout: 'grid',
       },

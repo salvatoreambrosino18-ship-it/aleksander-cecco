@@ -89,6 +89,12 @@ const sequence: MediaItem[] = [...process, ...artistic];
 
   Falls back to any frame home does not use, and then to the sequence itself, so
   a dataset with no artistic frames still renders a composed page.
+
+  IT IS ONE ANCHOR NOW, NOT TWO (2026-08-13, section 108). The page's two
+  passages became one column, so it lifts one photograph out of the descent
+  instead of two — and the frame that used to sit beside the stages paragraph is
+  back in the mosaic, at full bleed, where it is a photograph rather than a
+  margin.
 */
 const homeRefs = new Set(
   (settings.makingMedia ?? []).map((m) => m.poster?.asset?._ref).filter(Boolean),
@@ -97,10 +103,8 @@ const unusedByHome = (items: MediaItem[]) =>
   items.filter((m) => !homeRefs.has(m.poster?.asset?._ref));
 const anchors = unusedByHome(artistic);
 const fallback = unusedByHome(sequence);
-const [pairA, pairB] =
-  anchors.length >= 2 ? anchors : fallback.length >= 2 ? fallback : sequence;
-const pairedRefs = new Set([pairA, pairB].map((m) => m?.poster?.asset?._ref).filter(Boolean));
-const mosaic = sequence.filter((m) => !pairedRefs.has(m.poster?.asset?._ref));
+const [pairA] = anchors.length >= 1 ? anchors : fallback.length >= 1 ? fallback : sequence;
+const mosaic = sequence.filter((m) => m.poster?.asset?._ref !== pairA?.poster?.asset?._ref);
 
 const [first] = sequence;
 const making = pick(settings.makingStatement, locale);
@@ -131,7 +135,14 @@ const isLandscape = (media: MediaItem) => {
     The formula, inside, in the site's one display size. Then his own account
     of the work, once, and then only photographs.
   */}
-  <TextSurface arrive class="flex min-h-[50svh] flex-col justify-end gap-u3 pt-u8 pb-u8">
+  {/*
+    THE TITLE TAKES THE ROOM TWO LINES NEED (2026-08-13, section 108). It held
+    50svh — 450px at 1440, 540px at 1920 — for a display line and a label, and
+    `justify-end` put all of that above them, so the page opened on a third of a
+    screen of nothing. Same correction section 105 made to the home page's
+    headings, applied to the one page it missed.
+  */}
+  <TextSurface arrive class="flex flex-col gap-u3 pt-u13 pb-u8">
     <h1 class="type-display text-display">{t(locale, "processTitle")}</h1>
     <p class="type-label text-label">{t(locale, "process")}</p>
   </TextSurface>
@@ -145,37 +156,46 @@ const isLandscape = (media: MediaItem) => {
     (section 85): an anchor is lifted out of the descent below, and the eight
     frames of the work must stay whole and in order.
   */}
-  <PairedSurface media={pairA ?? null} locale={locale} side="left">
-    <Statement text={making} locale={locale} voice={voice} register="body" bare />
-  </PairedSurface>
-
   {/*
-    THE STAGES (2026-08-11, section 81). The page carried the formula, his three
-    lines, and then eight photographs — a reader was shown the work and never
-    told what they were looking at.
+    ONE COLUMN, BOTH PASSAGES, ONE PHOTOGRAPH (2026-08-13, section 108), which
+    is what /about was rebuilt into on 2026-08-13 and what both references do.
 
-    OURS, and flagged as `processText`, so it counts against launch-check like
-    every other sentence we wrote on his behalf. It names the five stages the
-    photographs actually show and claims nothing he has not said; when he writes
-    his own account it replaces this and the flag comes off.
+    This page had TWO paired surfaces in a row: his three making lines beside
+    one frame, then our stages paragraph beside another. Looked at rather than
+    reasoned about, each was a handful of lines floating in half a screen —
+    the making passage measured about 96px of text in a 561px row, four fifths
+    of its half empty — and the page spent two full compositions and two of its
+    photographs saying eight lines.
 
-    ONE PARAGRAPH, deliberately. Four short lines is a page telling you what you
-    are looking at; a line per photograph would be a caption gallery, which is
-    what this page has always refused to be.
+    The reference answer is a NARROW COLUMN CARRYING MANY PARAGRAPHS beside one
+    picture, never a paragraph to a screen. So the two passages become one
+    column, in the order a reader needs them — what the work is, then what the
+    stages are — and the second anchor goes back into the mosaic below, where a
+    photograph is doing something.
 
-    IT NOW SITS DIRECTLY ABOVE WHAT IT DESCRIBES (section 85). While the frames
-    were woven, this paragraph named five stages and the page then dealt
-    unrelated photographs between every one of them. The eight making frames
-    follow it immediately and in work order.
+    THE TWO VOICES STAY SEPARATE INSIDE THE COLUMN. His lines are his and carry
+    whatever `Statement` decides; the stages paragraph is OURS, flagged
+    `processText`, and keeps its own draft mark directly above itself. Merging
+    the layout is not merging the authorship, and the mark has to stay attached
+    to the sentence it is about (section 22's rule for /about, same reason).
+
+    ONE PARAGRAPH FOR THE STAGES, still deliberate (section 81): a line per
+    photograph would be the caption gallery this page has always refused to be.
+    It still sits directly above the eight frames it describes (section 85).
   */}
-  {processText && (
-    <PairedSurface media={pairB ?? null} locale={locale} side="right">
-      {processIsMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
-      <p class:list={["type-body text-body whitespace-pre-line", processIsMarked && "draft-text"]}>
-        {processText}
-      </p>
-    </PairedSurface>
-  )}
+  <PairedSurface media={pairA ?? null} locale={locale} side="left">
+    <div class="flex flex-col gap-u5">
+      <Statement text={making} locale={locale} voice={voice} register="body" bare />
+      {processText && (
+        <>
+          {processIsMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
+          <p class:list={["type-body text-body whitespace-pre-line", processIsMarked && "draft-text"]}>
+            {processText}
+          </p>
+        </>
+      )}
+    </div>
+  </PairedSurface>
 
   <div class="grid grid-cols-1 md:grid-cols-2">
     {
@@ -194,7 +214,14 @@ const isLandscape = (media: MediaItem) => {
     }
   </div>
 
-  <TextSurface class="hairline-h flex flex-col gap-u3 py-u13">
+  {/*
+    u8, not u13 (2026-08-13, section 108). Thirteen units above and below a
+    single 12px link was 510px of empty paper at 1440 — 94% air around the one
+    thing on the page asking to be clicked. Section 105 made exactly this
+    correction to the home page's heading blocks; this one was missed because
+    the page ends here and nobody scrolls past the end to look.
+  */}
+  <TextSurface class="hairline-h flex flex-col gap-u3 py-u8">
     <a
       href={localePath(locale, "creature")}
       class="type-label text-label self-start hairline-under"

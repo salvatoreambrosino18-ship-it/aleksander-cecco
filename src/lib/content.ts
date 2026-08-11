@@ -88,6 +88,11 @@ export type SiteSettings = {
   designerText: LocaleField;
   aboutOpeningMedia: MediaItem | null;
   aboutOpeningLine: LocaleField;
+  /**
+   * The one photograph on /contact (section 108). Optional: with none set the
+   * page picks a frame and says, in `inventedCopy`, that the choice is ours.
+   */
+  contactMedia: MediaItem | null;
   aboutMedia: MediaItem[] | null;
   about: LocaleField;
   /** True only if the brand story was written by us rather than by the owner. */
@@ -125,6 +130,7 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     designerText,
     aboutOpeningMedia{${MEDIA_PROJECTION}},
     aboutOpeningLine,
+    contactMedia{${MEDIA_PROJECTION}},
     aboutMedia[]{${MEDIA_PROJECTION}},
     about,
     "aboutIsDraft": coalesce(aboutIsDraft, false),
@@ -156,6 +162,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   designerPortrait: null,
   designerText: null,
   aboutOpeningMedia: null,
+  contactMedia: null,
   aboutOpeningLine: null,
   aboutMedia: null,
   about: null,

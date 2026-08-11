@@ -940,8 +940,18 @@ const OWNER_EN = {
     "Nigredo and Albedo explored as living textures.",
     "The garments are alchemical entities where decomposition and purification meet.",
   ].join("\n"),
+  /*
+    THE ONE EDIT WE HAVE MADE TO HIS OWN WORDS (2026-08-13, section 108). He
+    wrote "In 100% vegetable-tanned leather, MADE TO MEASURE, handmade in South
+    Italy." — capitalised here so a careless replace cannot eat the record. Two
+    words were DELETED, nothing added, because the shop stopped selling made to
+    measure on 2026-08-12 (section 98) and the sentence became false on a page a
+    buyer reads. Flagged `aboutMadeToMeasure` in inventedCopy below; the flag
+    comes off when he approves the shorter line. Restoring the phrase here
+    republishes a false claim with every check green.
+  */
   making: [
-    "In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy. Every process is Artisan.",
+    "In 100% vegetable-tanned leather, handmade in South Italy. Every process is Artisan.",
     "A work of repetition, patience, and precision.",
     "This is what makes every piece similar, but never identical.",
   ].join("\n"),
@@ -982,8 +992,10 @@ const OWNER_IT = {
     "Nigredo e Albedo esplorati come texture viventi.",
     "I capi sono entità alchemiche in cui decomposizione e purificazione si incontrano.",
   ].join("\n"),
+  // As above (section 108): he wrote "conciata al vegetale, SU MISURA, fatta a
+  // mano". The two words were deleted, not replaced, and the edit is flagged.
   making: [
-    "In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia. Ogni processo è artigianale.",
+    "In pelle 100% conciata al vegetale, fatta a mano nel Sud Italia. Ogni processo è artigianale.",
     "Un lavoro di ripetizione, pazienza e precisione.",
     "È questo che rende ogni pezzo simile, ma mai identico.",
   ].join("\n"),
@@ -1828,6 +1840,19 @@ async function main() {
       "dropsIntro",
       "contactIntro",
       "aboutOrigin",
+      /*
+        DRIFT, CORRECTED 2026-08-13. This list is written WHOLE, so anything set
+        in the studio and missing here is silently un-flagged by an import. Two
+        flags had drifted out of it — `processText` (section 81) and
+        `madeToMeasureLine` (section 98) — and a run of this script would have
+        laundered both: our copy on two pages would have stopped being counted
+        by launch-check with every check green. That is section 5's second trap
+        wearing a different hat.
+      */
+      "processText",
+      "madeToMeasureLine",
+      // The one edit to HIS text, section 108. See the making lines above.
+      "aboutMadeToMeasure",
     ],
     footerCopyIsDraft: true,
 

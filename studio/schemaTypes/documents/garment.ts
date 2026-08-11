@@ -167,7 +167,9 @@ export const garment = defineType({
       type: 'text',
       rows: 3,
       description:
-        'Le misure del capo fotografato, per far capire taglio e proporzioni. NON sono le misure di chi compra: ogni capo e fatto su misura e le misure del cliente arrivano con la richiesta. Non tradotto. Mostrato in monospazio. / The measurements of the photographed piece, so a visitor can judge cut and proportion. NOT the buyer measurements: every piece is made to measure and the customer measurements arrive with the enquiry. Not translated. Shown in monospace.',
+        // Riscritto 13/08/2026: dal 12/08 il negozio non prende piu misure (sezione 98),
+        // quindi la vecchia spiegazione descriveva un flusso che non esiste.
+        'Le misure del capo fotografato, per far capire taglio e proporzioni. Chi compra sceglie una TAGLIA, e il sito non chiede piu le misure del corpo. Non tradotto. Mostrato in monospazio. / The measurements of the photographed piece, so a visitor can judge cut and proportion. The buyer chooses a SIZE, and the site no longer asks for body measurements. Not translated. Shown in monospace.',
     }),
     defineField({
       name: 'description',

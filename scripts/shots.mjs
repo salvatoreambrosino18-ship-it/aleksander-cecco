@@ -986,6 +986,43 @@ async function main() {
               }
               return out;
             });
+
+            /*
+              A PAIRED SECTION READS 0% EMPTY AND ITS TEXT HALF CAN STILL BE
+              MOSTLY AIR (2026-08-13, section 108).
+
+              The measure above takes the union of every painting leaf inside a
+              section. Since the photograph fills its half edge to edge, that
+              union is the whole box, so every paired composition on the site
+              now reports 0px empty however little the passage says. It is
+              exactly section 5's trap: two questions — "is this section empty?"
+              and "is the TEXT in this section adrift in it?" — that had the
+              same answer for as long as the picture was shorter than the row,
+              and stopped having it the day that changed.
+
+              So the halves are measured separately. `gap` is the row height
+              less the passage's own height: the padding is in it deliberately
+              (192px at every desktop width, u8 top and bottom), so anything
+              much above that is the floor holding a short passage open, and
+              that is the number to argue about.
+            */
+            const halves = await page.evaluate(() => {
+              const out = [];
+              for (const sec of document.querySelectorAll(".paired")) {
+                const inner = sec.querySelector(".paired-inner");
+                if (!inner) continue;
+                const row = Math.round(sec.getBoundingClientRect().height);
+                const media = sec.querySelector(".paired-media");
+                const text = Math.round(inner.getBoundingClientRect().height);
+                out.push({
+                  row,
+                  text,
+                  media: media ? Math.round(media.getBoundingClientRect().height) : 0,
+                  label: (inner.textContent || "").trim().replace(/\s+/g, " ").slice(0, 30),
+                });
+              }
+              return out;
+            });
             let air = 0;
             let tall = 0;
             const lines = [];
@@ -1001,6 +1038,20 @@ async function main() {
             }
             console.log(`  ${viewport.name.padStart(4)}  ${route}`);
             for (const l of lines) console.log(l);
+            for (const h of halves) {
+              /*
+                The photograph must equal the row: it is absolutely positioned
+                so it cannot set the height, and if it ever differs from the row
+                the composition has a hole in it again. Printed rather than
+                assumed, because that is the fault section 108 fixed and the one
+                most likely to come back.
+              */
+              const holed = h.media !== h.row ? `  MEDIA ${h.media} != ROW` : "";
+              console.log(
+                `        paired  row ${String(h.row).padStart(5)}px  text ${String(h.text).padStart(5)}px` +
+                  `  gap ${String(h.row - h.text).padStart(5)}px${holed}  ${h.label}`,
+              );
+            }
             console.log(
               `        TOTAL ${tall}px, ${air}px empty = ${((air / Math.max(tall, 1)) * 100).toFixed(0)}%` +
                 `, ${(air / viewport.height).toFixed(1)} screens\n`,

@@ -383,32 +383,47 @@
     position: relative;
   }
   @media (min-width: 64rem) {
-    /* The photograph fills its cell: figure and its box both stretch. */
-    .paired-media,
-    .paired-media > figure,
+    /*
+      THE PHOTOGRAPH FILLS ITS HALF, AND NEVER SETS THE ROOM (2026-08-13,
+      section 108). Both halves of that sentence matter and they used to be in
+      conflict.
+
+      THE ROOM. `height: 100%` inside a grid row of automatic height resolves to
+      auto, so the row took the picture's own 3:4: a 720px half is 960px tall at
+      1440 and a 960px half is 1280px at 1920. Every paired section was a screen
+      and a bit whatever it contained, and a two-sentence passage floated in the
+      middle of it — 70% and 78% air, measured (section 105).
+
+      THE CAP THAT FIXED IT OPENED A HOLE AT THE OTHER END. Section 105 answered
+      that with `max-height: clamp(26rem, 62svh, 40rem)` on the picture's box,
+      and its own comment claimed "a longer passage still makes its own room…
+      and the photograph grows back to fill." IT CANNOT. A max-height is a
+      ceiling in both directions of the argument: when the passage was TALLER
+      than the cap the row grew and the photograph stopped, leaving flat paper
+      under it. The home page's three reasons measured 338px of empty half at
+      1440 and 330px at 1920, and /about had 95px of the same. **A comment
+      asserting what the CSS does not do is section 5's trap in one property.**
+
+      SO THE PICTURE IS TAKEN OUT OF THE HEIGHT CALCULATION ENTIRELY rather than
+      capped inside it. Absolutely positioned in its cell, it contributes
+      nothing to the row and fills whatever the row turns out to be: the text
+      decides the height, the floor below catches a short passage, and
+      `object-fit: cover` does the rest. No clamp to tune, no width at which it
+      is wrong, and nothing left that can disagree with this comment.
+
+      THE `position: absolute` ITSELF IS A UTILITY ON THE FIGURE, in
+      PairedSurface, and not a rule here — see the note there. A rule in this
+      layer loses to the `relative` utility MediaSurface sets on every figure,
+      and it loses SILENTLY: the stylesheet compiles, the selector matches, and
+      the photograph goes on setting the room. What stays here is only what has
+      no utility arguing with it.
+    */
+    .paired-media {
+      position: relative;
+      overflow: hidden;
+    }
     .paired-media > figure > div {
       height: 100%;
-    }
-    /*
-      THE PHOTOGRAPH WAS SETTING THE ROOM (2026-08-13, section 105).
-
-      `height: 100%` inside a row of automatic height resolves to auto, so the
-      row took the picture's own 3:4: a 720px half is 960px tall at 1440 and a
-      960px half is 1280px tall at 1920. Every paired section was therefore a
-      screen and a bit, whatever it contained, and a two-sentence passage sat in
-      the middle of it — 70% and 78% air, measured.
-
-      Capped, the photograph crops to about 1.3:1 rather than stretching the
-      section. That is a long way from the 2.9:1 letterbox section 56 refused,
-      and it is the picture giving up a little room rather than the reader
-      scrolling through an empty one.
-
-      A LONGER PASSAGE STILL MAKES ITS OWN ROOM: the cap is on the media, not on
-      the section, so the three reasons push the row past it and the photograph
-      grows back to fill.
-    */
-    .paired-media > figure > div {
-      max-height: clamp(26rem, 62svh, 40rem);
     }
     .paired {
       display: grid;
@@ -430,8 +445,12 @@
 
         56svh is a FLOOR, not a height: a passage longer than that (the three
         reasons) makes its own room, and the photograph beside it grows to
-        match. Below the floor the photograph would crop toward a letterbox,
-        which section 56 measured and refused.
+        match — which is true since section 108 and was not true before it.
+        Below the floor the photograph would crop toward a letterbox, which
+        section 56 measured and refused. It is now the ONLY thing standing
+        between the composition and a letterbox, because the picture no longer
+        argues for its own height at all: at 1440 a 720px half at this floor is
+        1.43:1, and at 1920 a 960px half is 1.59:1. Lower it and check both.
       */
       min-height: 56svh;
     }
