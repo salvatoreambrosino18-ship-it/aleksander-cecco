@@ -79,10 +79,19 @@ words in his statement rather than something the site performs. Sections 77 to
 LIGHT — and it was a good one. It is closed. Read it as history, not as a rule.
 
 **What survived and is NOT the same thing: polarity over photography.** A
-caption, the fixed chrome and any mark on a frame take the measured polarity of
-the pixels they sit on (`overlay`, `overlayChrome`, `overlayCaption` per image).
-That is legibility, it is load-bearing, and it is untouched by any of the above.
-Do not tidy it away while removing page polarity.
+caption or a mark sitting ON a frame takes the measured polarity of the pixels
+under it (`overlay`, `overlayCaption` per image). That is legibility, it is
+load-bearing, and it is untouched by any of the above. Do not tidy it away while
+removing page polarity.
+
+**THE CHROME NO LONGER SITS ON PHOTOGRAPHY AT ALL** (section 87, the owner's
+call). The signature and MENU take their own height in page ground at the top of
+every page; the photograph begins under them; the mark reads 19.6:1 everywhere.
+`overlayChrome` and the tool that measured it are gone. **This is not a scrim
+and standing rule 11 is intact** — nothing is laid over a photograph and no
+value between ink and paper is painted anywhere. A veil was rendered, measured
+and rejected (section 86); nobody is to reintroduce one believing they are
+restoring something.
 
 ### 3. The state: it cannot launch, and that is correct
 
@@ -312,8 +321,11 @@ started.
     npm run launch-check   the state of the content, in one command
     npm run shots          a real browser: --audit --prove --only= --force=light|dark
     npm run icons          both icon shapes from one SVG: --check compares them
-    npm run measure-chrome the chrome band's polarity, per photograph
+    npm run detail-crops   construction crops from his own frames: DRY by default
     npm run import         Drive → Sanity, READ ONLY, flags every invented value
+
+`npm run measure-chrome` was DELETED on 2026-08-11 (section 87): the chrome
+stopped floating over photography, so there is no band left to measure.
 
 **Three tools have now died in temporary folders and each death cost a real
 defect.** If you are about to write a renderer or a capturer, add a flag to one
@@ -440,18 +452,29 @@ for going quiet.
 
 **Opened 2026-08-11**
 
-11. **THE MARK OVER HIS PHOTOGRAPHY — the largest single defect on the site, and
-    the decision is his.** 118 of 152 audit faults are the brand's own mark; 71
-    of 97 photograph placements have no legible side; the worst is 1.00:1.
-    Section 86 renders and measures four treatments and finds that **the rule
-    costing us is not "no scrim" (standing rule 11) but "the chrome floats over
-    full-bleed photography" (section 14)** — both treatments that fully work keep
-    two colours and break no rule about grey.
-    **Recommended: the BAND** — the chrome takes its own height in page ground,
-    19.6:1 everywhere, no per-image judgement ever again, and it deletes
-    `overlayChrome`, its 97 measurements and section 83's drifting-loop trap. It
-    costs the full-bleed top edge on the two culture pages, which is the whole
-    trade and is why it is on this list rather than in the code.
+11. **THE MARK OVER HIS PHOTOGRAPHY — DECIDED AND BUILT (2026-08-11, section
+    87).** 118 of 152 audit faults were the brand's own mark; 71 of 97
+    placements had no legible side; the worst was 1.00:1. **The owner took the
+    BAND**: the chrome stopped floating, takes its own height in page ground,
+    and reads 19.6:1 everywhere with no per-image judgement ever again. It cost
+    the full-bleed top edge on the two culture pages, and it deleted
+    `overlayChrome`, its 97 measurements, `measure-chrome`, the chrome observer
+    and half of section 83's video trap.
+    **THE NO-SCRIM RULE SURVIVES INTACT.** The band is not a scrim and not a
+    weaker one; nothing is laid over a photograph and no value between ink and
+    paper is painted anywhere. What was overturned is the ASSUMPTION under the
+    rule — that the chrome must float over full-bleed photography (section 14,
+    the owner's own call of 2026-08-01, made before this photography existed).
+    Nobody is to reintroduce a veil later believing they are restoring
+    something.
+12. **THIRTEEN DETAIL CROPS ARE ON THE SITE AND THIRTEEN SENTENCES ARE NOT
+    (2026-08-11, section 88).** The crops came out of his own files; the caption
+    under each is empty because the sentence is his. Every one is flagged
+    `needsCaption` and named by `npm run launch-check` until he writes it. The
+    list to send him is `docs/SCATTI-DETTAGLIO.md`, which also names the exact
+    detail missing from each of the eight pieces whose photographs are too small
+    to crop. **This is now the highest-value item he owns, and it is an hour of
+    shooting plus thirteen lines rather than an afternoon.**
 
 ---
 
@@ -522,16 +545,17 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 
 **Does not block launch, but the site is weaker without it**
 
-- [ ] **THREE DETAIL PHOTOGRAPHS PER CREATURE, each with one line of his own
-      words.** The highest-value item on this entire list for the time it costs
-      — an afternoon — and the answer to the one weakness the site cannot fix in
-      code: his photography is atmosphere, and a buyer sending three body
-      measurements cannot see the cut. The mechanism has shipped since the
-      beginning and has never been used: **fifty-six Creature frames, zero
-      captions.** The brief is `docs/SCATTI-DETTAGLIO.md`, in Italian, ready to
-      send: what to shoot, how close, in what light, what to write, where it
-      goes. Start with Rubedo, whose own Instagram caption already contains two
-      of the lines. See THE OPEN LIST item 7 and section 84.
+- [ ] **THIRTEEN SENTENCES, one under each detail crop now on the site**, and
+      **eight pieces still to photograph** — down from three photographs of all
+      seventeen, because 41 of 83 frames already carried a croppable detail
+      (section 88). The crops are live with empty captions, flagged
+      `needsCaption`, and `npm run launch-check` names every one until he writes
+      it. `docs/SCATTI-DETTAGLIO.md` is the brief, in Italian, ready to send:
+      the thirteen lines to write, where they go in the studio, and the exact
+      detail missing from each of the eight pieces. **Start with Rubedo** — his
+      own Instagram caption already contains two of the thirteen, and the third
+      is his handwriting inside the collar. This is the highest-value item he
+      owns.
 - [ ] **Approve or replace the intro lines** (shop, drops, contact, worn, home
       chapters) and the ORDER-flow copy, all flagged in inventedCopy.
 - [ ] **Choose the four Instagram frames.** The section is live and the four in
@@ -7694,3 +7718,125 @@ Not recommended: the **plate**, because section 25 removed the last closed box
 from this system deliberately and the render shows MENU turning back into a
 button; and the **gradient**, because it is the only option that modifies his
 photograph.
+
+## 87. The band: the chrome stopped floating (2026-08-11)
+
+**THE OWNER'S DECISION**, taken on the measurements in section 86 and against
+rendered alternatives. His words: evidence beats a rule I made without it.
+
+### What changed
+
+The signature and MENU no longer sit on the photography. The header keeps its
+sticky behaviour and loses `-mb-chrome`, the negative margin that gave it zero
+height in the flow; it paints page ground and the photograph begins under it.
+The mark is ink on paper at **19.6:1**, at every width, on every photograph he
+will ever shoot.
+
+Every corner-mark fault on the site is gone. `/it/about`, `/it/process`, the
+catalogue and a Creature page now audit **clean**. What remains on the home page
+is the arrival's own overlay text and the drawn signature over it — a different
+band, still open as the section 58 caption-polarity item.
+
+### THE NO-SCRIM RULE SURVIVES INTACT, and this is the part to read twice
+
+**Standing rule 11 is untouched.** The band is not a scrim and it is not a
+diluted one: nothing is laid over the photograph, nothing is faded, and no value
+between ink and paper is painted anywhere on this site. The alternative that
+used one was rendered, measured and rejected — at the strength that actually
+clears AA (85%) it is a black bar with a soft edge, and it is the only option
+that modifies his photograph.
+
+**So nobody should later "restore" a veil under the marks believing they are
+putting something back. There was never a veil.** What was reconsidered and
+found wanting was not the colour rule but the ASSUMPTION under it — that the
+chrome must float over full-bleed photography (section 14, 2026-08-01).
+
+### What it deleted, which is most of the point
+
+- **`overlayChrome`** — the field, its studio control, its projection, its type.
+- **`scripts/measure-chrome.mjs`** and its npm script: there is no band to
+  measure. Its chained call at the end of every import went with it.
+- **The chrome observer** in Base.astro, which watched every media surface pass
+  under the marks and swapped their polarity. It ran on every page, it was
+  correct, and it could not solve the problem: 71 of 97 placements had no
+  legible side to swap to.
+- **`data-chrome-polarity`** on every media surface, and the `chrome` prop on
+  six pages.
+- **Section 83's loop trap.** A video whose luminance drifts under the chrome
+  can no longer make the brand's name vanish mid-loop, because the name is not
+  over the video. The shooting spec keeps the framing rule for the caption band;
+  the chrome half of that trap is gone.
+
+### Two consequences that had to be handled
+
+**A screen is now a screen less the band.** `--media-h-screen` was 100svh, and
+with an opaque sticky band above it the site's one sealed screen — the home
+arrival — ran a band's height past the fold and stopped being sealed. It is
+`calc(100svh - var(--chrome-h))`.
+
+**The wash is held under the band, not behind it.** Its sticky child pinned at
+`top: 0` would have spent its first band-height underneath opaque paper, putting
+the mark being written off-centre. It pins at `top: var(--chrome-h)`.
+
+Four pages that used `pt-chrome` to clear the floating chrome no longer need to
+clear anything; they take `pt-u8`, which is the same air expressed as rhythm
+rather than as an overlay's height.
+
+## 88. Forty-one details were already in the files (2026-08-11)
+
+Thirteen construction crops were cut from his own photographs and imported.
+**Every one went in with an empty caption on purpose.**
+
+### What was imported, and where
+
+Each crop is spliced in **after the frame it was cut from**, never before a
+piece's first frame — that frame is the arrival, the LCP image and the share
+card. Nothing was removed or reordered.
+
+    Rubedo            the hand stitching down the front panel
+    Rubedo            HIS HANDWRITING INKED INSIDE THE COLLAR
+    Rubedo            the opening in the upper back
+    Rubedo            the raw scalloped hem
+    Oblivion          the centre-back seam and its topstitching
+    Oblivion          the cut hem, left raw
+    Oblivion          the snaps and the stitched placket edge
+    Armonyen          the collar, the snaps and the crumpled grain
+    Corvinus          the wrapped collar in crinkled leather
+    Nocte             a panel let into the leg, and the stamped tape
+    Monumentus Vest   the scrap panels and their stitched edges
+    Monumentus Pants  the two welt zips at the back waist
+    Monumentus Pants  the waistband, the belt loops and the exposed zip
+
+`npm run detail-crops` is the tool, dry by default. The rectangles are declared
+as fractions of their source frame, so they survive a re-export at another size,
+and every one was cut and LOOKED AT before it was written down.
+
+### The caption is empty and that is the whole design
+
+The picture was ours to cut. **The sentence is his** — "500 punti cicatrice,
+cuciti a mano" is a fact only he knows, and writing it for him would be
+inventing his voice on the one page that is meant to prove the work is real.
+
+An empty caption cannot be told from a caption nobody wanted, because most
+frames here correctly have none. So the import marks each crop `needsCaption`,
+a new boolean on the media object, and **`npm run launch-check` names every one
+of them until he writes it**. The gate went from 34 to 47, and the unapproved
+alt count from 56 to 69. Both rises are correct: thirteen photographs now carry
+a description we wrote and a sentence nobody has written.
+
+### The guard that fired on the cases it was meant to help
+
+The first run refused capo-03, capo-12 and capo-13 — "only one frame, so it must
+stay whole". The reasoning was wrong: a crop lands AFTER its source, so the wide
+view keeps its place and the detail follows it, which is exactly the arrangement
+being asked for. Those three pieces have one photograph each and therefore the
+most to gain from a second. **A dry run is what caught it**, which is the whole
+argument for one.
+
+### What is left for him
+
+Eight pieces have no frame big enough to crop — styrax, styrax-red, glovyes,
+severya, capo-09, capo-07, capo-04 and the hat — and `docs/SCATTI-DETTAGLIO.md`
+now names the exact detail each one is missing rather than asking for three
+photographs of everything. Ghezard needs nothing shot: one of its frames is
+already a close-up of the zip and the fur collar. It needs the line.

@@ -1,84 +1,31 @@
-# Scatti di dettaglio
+# Dettagli: le righe da scrivere, e gli otto pezzi da fotografare
 
-**Per Ciro e Ferdinando. Un pomeriggio di lavoro, e il sito smette di essere
-solo atmosfera.**
+**Per Ciro e Ferdinando.** Questo documento era una lista di scatti da fare.
+Non lo è più.
 
----
+Abbiamo aperto tutte le 83 fotografie del sito alla loro risoluzione vera, e
+**quarantuno contenevano già un dettaglio di costruzione**, abbastanza grande da
+essere ritagliato senza perdere qualità. Tredici sono stati ritagliati e sono
+già sulle pagine.
 
-## Perché
+Quindi il lavoro che resta è più piccolo di quello che pensavamo:
 
-Chi compra manda tre misure del proprio corpo e spende quattro cifre senza aver
-toccato niente. Le fotografie che ci sono raccontano benissimo il mondo del
-marchio: il buio, il cemento, la texture. **Nessuna mostra come è fatto un
-pezzo.**
-
-Il posto per dirlo esiste già nello studio, e non è mai stato usato: su
-**cinquantasei fotografie di Creature, zero hanno una didascalia.** Non serve
-costruire niente. Servono le fotografie e una riga sotto ognuna.
+1. **Tredici righe da scrivere.** Le fotografie ci sono, le parole no.
+2. **Otto pezzi da fotografare**, non sedici, e per ognuno sappiamo già cosa
+   manca.
 
 ---
 
-## Cosa serve
+## 1. Le tredici righe
 
-- **Il telefono va benissimo.** Non serve una macchina fotografica.
-- **Luce del giorno**: vicino a una finestra, oppure fuori all'ombra.
-- **Mai il flash**, e mai il sole diretto di mezzogiorno.
-- Il **muro di cemento chiaro** che usi già, per i pezzi neri.
-- Niente treppiede, niente sfondo bianco, niente allestimento. Le mani nella
-  fotografia sono ammesse: anzi, sono la cosa migliore che ci sia.
-
----
-
-## La regola delle tre fotografie per Creatura
-
-Per ogni pezzo, **tre scatti e basta**. Sempre gli stessi tre, così le pagine si
-somigliano senza che nessuno debba pensarci.
-
-### 1. La cucitura — a 20/30 cm
-
-Il punto che ti è costato più tempo. Riempi tutta l'inquadratura con la
-cucitura: niente pavimento, niente tavolo, niente pezzo intero. Chi guarda deve
-vedere il filo, non il capo.
-
-### 2. Il gesto che nessun altro ha — a 30/40 cm
-
-La cosa che quel pezzo ha e gli altri no: il buco sulla schiena, il taglio
-lasciato grezzo, la stringa cerata annodata, la zip messa dove non te l'aspetti,
-il pannello ricavato da uno scarto. Se un pezzo non ha niente di tutto questo,
-salta questo scatto: **due fotografie vere valgono più di tre di cui una
-inventata.**
-
-### 3. Il materiale — a 10/15 cm
-
-Vicinissimo, finché non si vede il grano della pelle o il pelo. Qui la luce
-**laterale** è tutto: la pelle nera illuminata di fronte diventa una macchia
-nera, illuminata di lato mostra il rilievo. Gira il pezzo finché la luce non
-arriva quasi radente.
-
-**Sempre verticali** (il formato del telefono in piedi). Il sito le mette a tutta
-larghezza e le orizzontali diventano una striscia.
-
----
-
-## La luce, in tre righe
-
-- **Pezzo nero** → luce laterale, sfondo chiaro (il cemento).
-- **Pezzo chiaro** → sfondo scuro, luce più morbida.
-- Se guardando la fotografia sul telefono **non distingui il punto**, non lo
-  distinguerà nemmeno chi compra. Rifalla girando il pezzo, non alzando la
-  luminosità.
-
----
-
-## Cosa scrivi sotto: una riga, e deve essere un fatto
-
-Sotto ogni fotografia va **una riga sola**, da sei a dodici parole. Non è una
-descrizione: è **un fatto che solo tu sai**.
+Sotto ogni dettaglio, sul sito, c'è uno spazio vuoto in attesa di **una riga
+tua**. Non una descrizione — quello che si vede lo vediamo tutti. **Un fatto che
+sai solo tu**: cosa hai fatto, come, quante volte.
 
 La prova: *se quella frase potrebbe stare sotto la fotografia di un altro
 marchio, non è la frase giusta.*
 
-**Vanno bene** (sono tue, sono verificabili, dicono qualcosa):
+**Vanno bene** (tue, verificabili, dicono qualcosa):
 
 > 500 punti cicatrice, cuciti a mano.
 >
@@ -86,62 +33,95 @@ marchio, non è la frase giusta.*
 >
 > Taglio grezzo, lasciato vivo.
 >
-> Stringa cerata, annodata a mano.
->
 > Pannello ricavato da uno scarto della pelle.
 
 **Non vanno bene** (potrebbero stare ovunque):
 
-> ~~Dettaglio della lavorazione artigianale.~~
->
-> ~~Qualità e passione in ogni dettaglio.~~
->
+> ~~Dettaglio della lavorazione artigianale.~~ ~~Qualità e passione.~~
 > ~~Made in Italy.~~
 
-**Scrivi la riga in italiano E in inglese.** Se lasci l'inglese vuoto, sulla
-pagina inglese sotto quella fotografia non compare niente, e metà di chi compra
-legge in inglese. Un inglese approssimativo va benissimo: si sistema dopo, ma
-deve esserci.
+Da sei a dodici parole. **In italiano E in inglese**: se lasci l'inglese vuoto,
+sulla pagina inglese sotto quella fotografia non compare niente, e metà di chi
+compra legge in inglese. Un inglese approssimativo va benissimo.
 
----
+### Cosa aspetta una riga, pezzo per pezzo
 
-## Dove si mettono, nello studio
+| Creatura | il dettaglio che si vede | la riga la scrivi tu |
+| --- | --- | --- |
+| **Rubedo** | la cucitura a mano lungo il davanti | ← i 500 punti cicatrice |
+| **Rubedo** | **la tua scritta a mano dentro il collo** | cosa dice, e perché |
+| **Rubedo** | l'apertura sulla schiena | ← il buco di Oblivion |
+| **Rubedo** | l'orlo grezzo e smerlato | |
+| **Oblivion** | la cucitura centrale sulla schiena | |
+| **Oblivion** | l'orlo tagliato e lasciato grezzo | |
+| **Oblivion** | i bottoni a pressione e il bordo cucito | |
+| **Armonyen** | il collo, i bottoni, la pelle increspata | |
+| **Corvinus** | il collo alto avvolto | |
+| **Nocte** | il pannello inserito nella gamba, col nastro | |
+| **Monumentus Vest** | i pannelli di ritaglio attorno alla zip | |
+| **Monumentus Pants** (chiari) | le due tasche con zip a filetto dietro | |
+| **Monumentus Pants** (neri) | cintura, passanti, zip a vista | |
+
+**Comincia da Rubedo.** La tua didascalia su Instagram contiene già due di
+queste righe — i 500 punti cicatrice e il buco sulla schiena — e la terza, la
+scritta dentro il collo, è la cosa più tua che ci sia sul sito. Nessuno aveva
+mai aperto quel file abbastanza in grande da vederla.
+
+### Dove si scrivono, nello studio
 
 1. **Creature** → apri il pezzo → **Galleria**.
-2. Aggiungi le nuove fotografie **dopo la prima**. La prima è lo schermo di
-   apertura del pezzo e non si tocca.
-3. Su ogni fotografia nuova compila:
-   - **Testo alternativo**: cosa si vede, in italiano. Serve a chi non vede.
-   - **Didascalia**: la riga di cui sopra, italiano e inglese.
-   - **Testo sopra**: guarda la fotografia e scegli se il testo sopra si legge
-     meglio **bianco** o **nero**.
-   - **Posizione del testo**: *Sopra l'immagine* se c'è una zona uniforme dove
-     leggere; *Sotto, sulla pagina* se la fotografia è troppo contrastata.
-4. **Pubblica.**
-
-Non devi toccare nient'altro: né i prezzi, né l'ordine, né le altre pagine.
+2. Le fotografie di dettaglio sono quelle **subito dopo la prima**. Le riconosci:
+   hanno la spunta **«Dettaglio in attesa di una riga»** accesa.
+3. Scrivi la **Didascalia**, italiano e inglese.
+4. **Spegni la spunta** «Dettaglio in attesa di una riga».
+5. Se il testo alternativo che abbiamo scritto non descrive bene la foto,
+   correggilo e spegni anche «Testo alternativo da approvare».
+6. **Pubblica.**
 
 ---
 
-## Da dove cominciare
+## 2. Gli otto pezzi da fotografare
 
-1. **Rubedo.** La sua didascalia su Instagram nomina già due dettagli con parole
-   tue — i 500 punti cicatrice e il buco sulla schiena — e quelle due frasi sono
-   pronte da scrivere. È il pezzo che dimostra il metodo.
-2. **I tre pezzi che venderesti domani.** Non i più belli: quelli che una
-   persona comprerebbe adesso.
-3. Il resto, quando capita, un pezzo alla volta.
+Questi non avevano fotografie abbastanza grandi da ritagliare: sono i pezzi le
+cui immagini sono arrivate piccole. Per ognuno sappiamo **cosa manca**, quindi
+non serve fotografare tutto: serve quella cosa lì.
 
-Non serve farle tutte insieme. **Una Creatura con tre dettagli e tre righe vale
-più di diciassette senza.**
+| Pezzo | Cosa manca, esattamente |
+| --- | --- |
+| **Styrax** | il collo alto con le borchie, e il punto dove la pelle incontra il pelo |
+| **Styrax Red Goat** | la stringa cerata annodata, e la tasca a filetto sul retro |
+| **Glovyes** | le fasce e le fibbie: come sono fissate alla gamba |
+| **Severya** | la texture a serpente da vicino, e l'orlo a punte |
+| **Capo-09** (la borsa) | la patta smerlata con le borchie, e la cucitura in diagonale |
+| **Capo-07** (pantaloni neri larghi) | la zip in vita e l'orlo grezzo |
+| **Capo-04** (gilet) | la costruzione a pannelli sul davanti |
+| **Il cappello** | una fotografia vera del cappello: quella che c'è è un ritaglio provvisorio |
+
+**Ghezard non è in questa lista** perché una delle sue fotografie **è già un
+dettaglio**: la zip e il collo di pelliccia riempiono tutto il fotogramma. Gli
+manca solo la riga.
+
+### Come si fotografa un dettaglio
+
+- **Il telefono va benissimo.** Luce del giorno, vicino a una finestra o fuori
+  all'ombra. Mai il flash, mai il sole di mezzogiorno.
+- **Vicino**: 20/30 cm per una cucitura, 10/15 cm per il materiale. Il dettaglio
+  riempie tutta l'inquadratura: niente pavimento, niente pezzo intero.
+- **Luce di lato.** La pelle nera illuminata di fronte diventa una macchia nera;
+  illuminata di lato mostra il rilievo. Gira il pezzo finché la luce non arriva
+  quasi radente.
+- **Verticale**, il telefono in piedi.
+- Le mani nella fotografia sono ammesse: anzi, sono la cosa migliore che ci sia.
+- Se sul telefono **non distingui il punto**, non lo distinguerà nemmeno chi
+  compra. Rifalla girando il pezzo, non alzando la luminosità.
+
+Otto pezzi, una o due fotografie ciascuno: **un'ora, non un pomeriggio.**
 
 ---
 
-## Quanto costa
+## Perché conta
 
-Tre scatti per otto pezzi sono ventiquattro fotografie: **un pomeriggio.** Le
-righe si scrivono mentre le carichi.
-
-È, in questo momento, la cosa che alza di più il sito per il tempo che costa.
-Tutto il resto che manca sono prezzi, misure e testi legali; questa è l'unica
-che riguarda il lavoro.
+Chi compra manda tre misure del proprio corpo e spende quattro cifre senza aver
+toccato niente. Le fotografie raccontano benissimo il mondo del marchio. **Il
+dettaglio e la riga sotto sono l'unica prova di come è fatto**, ed è la sola
+cosa che manca al sito e che non possiamo scrivere noi.

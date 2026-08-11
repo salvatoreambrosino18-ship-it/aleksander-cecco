@@ -33,6 +33,11 @@ const query = /* groq */ `{
   "copy": *[_id == "siteSettings"][0].inventedCopy,
   "provisional": *[_type == "garment" && count(media[isProvisional == true]) > 0]{"slug": slug.current},
   "draftAlt": count(*[_type == "garment"].media[altIsDraft == true]),
+  // Detail crops imported with the caption left empty on purpose (section 88).
+  // The picture is ours to cut; the sentence under it is his to write.
+  "awaitingCaption": *[_type == "garment" && count(media[needsCaption == true]) > 0]
+    | order(orderRank asc){"slug": slug.current, name,
+      "details": media[needsCaption == true].alt.it},
   // A piece whose price or measurements are ABSENT rather than invented. See
   // the note below: the gate counted what we made up and not what is missing.
   "hollow": *[_type == "garment" && defined(slug.current) && count(media) > 0
@@ -78,6 +83,25 @@ if (result.customs !== false) {
 }
 if (!result.contact || /@example\./i.test(result.contact)) {
   problems.push("site settings         the contact address is a placeholder");
+}
+/*
+  A DETAIL FRAME WITH NO SENTENCE UNDER IT (2026-08-11, section 88).
+
+  Forty-one frames in the dataset carried a construction detail croppable at the
+  size this site already publishes, so thirteen were cut and imported — the
+  scar-stitch, the hole in the back, the seams, the zips, the hems, and his own
+  handwriting inside Rubedo's collar. Every one went in with an EMPTY caption,
+  because the picture was ours to cut and the sentence is his to write.
+
+  An empty caption cannot be told from a caption nobody wanted: most frames on
+  this site have none and should have none. So the import marks these
+  `needsCaption`, and they are named here one by one, because a gap that lives
+  only in a chat message is a gap this project loses (section 84).
+*/
+for (const g of result.awaitingCaption ?? []) {
+  for (const detail of g.details ?? []) {
+    problems.push(`${(g.name ?? g.slug).padEnd(20)} detail awaiting his sentence: ${detail}`);
+  }
 }
 
 console.log(`\nLaunch check: ${project}/${dataset}\n`);
