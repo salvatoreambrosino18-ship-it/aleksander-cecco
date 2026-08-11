@@ -573,6 +573,18 @@ for going quiet.
     which no resolution fixes. **Ask for: 6-10 seconds, camera still, one
     material moving, first and last frame identical, no audio, camera original.**
 
+21. **THE MATERIAL THAT WOULD LET THE REST FOLLOW** (section 107,
+    `docs/MATERIALE-DA-FOTOGRAFARE.md`, in Italian, ordered by impact). One
+    consistent pale-ground shot of every piece — the single change that would do
+    most, because the catalogue grid is where the references' light actually
+    lives; a six-second locked-off loop whose ends match; eight to ten
+    full-length on-model frames shot the same way; the detail frames still
+    missing for eight pieces; and any archive photography at all.
+    **This list is worth more than anything built against it.**
+22. **HIS ABOUT TEXT STILL SAYS "SU MISURA" / "Made to Measure"** while the shop
+    no longer offers it (section 98). His words are not ours to change, so it is
+    a question for him rather than an edit: change the line, or keep it.
+
 ---
 
 ## THE LAUNCH CHECKLIST (2026-08-03)
