@@ -54,6 +54,21 @@ const query = /* groq */ `{
   // the note below: the gate counted what we made up and not what is missing.
   "hollow": *[_type == "garment" && defined(slug.current) && count(media) > 0
               && (!defined(price) || !defined(measurements))]{"slug": slug.current, name},
+  // EVERY PURCHASABLE PIECE MUST PUBLISH ITS OWN MEASUREMENTS (section 98).
+  // The owner removed made to measure: a Creature is now an object that exists
+  // and is bought as it is, so its measurements stopped being context and
+  // became the only way a buyer can know whether it fits. Nobody spends four
+  // figures on a leather shirt on faith. notOffered and privateOrder are exempt:
+  // they cannot be bought, so there is nothing to fit.
+  // NO BACKTICKS IN HERE. This is a template literal, so one backtick in a
+  // comment ends the string. It is the second time in two days (content.ts,
+  // 2026-08-11) and the first time it took a while to see, because the error
+  // points at whatever word follows the backtick.
+  "unmeasured": *[_type == "garment" && defined(slug.current) && count(media) > 0
+                  && !(coalesce(availability, "readyNow") in ["notOffered", "privateOrder"])
+                  && (!defined(measurements) || measurements == "")]
+                 | order(orderRank asc){"slug": slug.current, name,
+                   "state": coalesce(availability, "readyNow")},
   "contact": *[_id == "siteSettings"][0].contactEmail,
   "customs": *[_id == "siteSettings"][0].shippingCustomsIsProvisional
 }`;
@@ -94,6 +109,25 @@ for (const {slot, n} of result.provisionalSite?.where ?? []) {
 */
 for (const g of result.hollow ?? []) {
   problems.push(`${(g.name ?? g.slug).padEnd(20)} has no price or no measurements — the page shows a placeholder`);
+}
+/*
+  MEASUREMENTS ARE NOT OPTIONAL ANY MORE (2026-08-12, section 98).
+
+  While the shop sold made to measure, a piece's measurements described the
+  photographed sample and were context: useful, and survivable if missing. The
+  owner has removed made to measure, so every Creature is the object that will
+  arrive — and a buyer four figures deep has no other way to know whether it
+  fits. There are no sizes on this site by his own decision (section 17), which
+  means these numbers are the ONLY fit information that exists.
+
+  This is deliberately louder than the `hollow` check above, which catches a
+  page rendering a visible {MEASUREMENTS} placeholder. This one catches the
+  quieter case: a purchasable piece whose page simply says nothing about size.
+*/
+for (const g of result.unmeasured ?? []) {
+  problems.push(
+    `${(g.name ?? g.slug).padEnd(20)} is for sale with NO MEASUREMENTS (${g.state}) — a buyer cannot tell if it fits`,
+  );
 }
 if (result.customs !== false) {
   problems.push("site settings         the customs line is still unconfirmed");

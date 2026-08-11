@@ -8363,3 +8363,70 @@ sessions of someone reading past it.
 
 Nothing here changed a pixel. That is the point: they were all things a reader
 would have had to disprove before trusting the file around them.
+
+## 98. Made to measure is removed from the shop (2026-08-12)
+
+**THE OWNER'S DECISION, in his words:** remove made to measure, everything
+becomes available, and under each piece write that a made-to-measure order goes
+by email.
+
+So the shop sells OBJECTS. A Creature exists, is photographed, and is bought as
+it is. Made to measure survives as one sentence inviting an email, and as
+nothing else — not a state, not a form, not a branch.
+
+### What left
+
+- **The measurement fieldset**: chest, shoulders, length, the diagram, the
+  centimetre/inch chooser and the help text under each field.
+- **The as-is-or-remade question**, and the `fulfilment` field behind it.
+- **`MeasureDiagram`**, deleted, and its `measureDiagram` flag with it.
+- **`madeToOrder`** as a state. Thirteen Creature were carrying it and are now
+  `readyNow`; the studio no longer offers the value, and the query defaults to
+  `readyNow` so an unsaved document still sells.
+- **The Function's measurement half**: the ranges, the inch conversion, the
+  as-is branch, and three rows from the order email. **It no longer handles body
+  measurements at all**, which shrinks what the privacy notice has to cover — a
+  special category of personal data left the site tonight.
+- **His own approved sentence**, "Send us your measurements and we will make it
+  for you", which was true and is now false. Ours replaces it, marked.
+- **`availabilityCopy`** and **`homeLines`**, both flagging copy that no longer
+  exists.
+
+### THE THING HIS DECISION CREATES, and it is not small
+
+**If every piece is bought as it exists, every piece must publish its own
+measurements.** While the shop sold made to measure, a piece's numbers described
+the photographed sample: context, useful, survivable if missing. Now they
+describe the object that will arrive, and with no sizes on this site by his own
+decision (section 17) they are the ONLY fit information a buyer has. Nobody
+spends four figures on a leather shirt without knowing whether it fits.
+
+`launch-check` now REFUSES on any purchasable Creature with no measurements, and
+names it. `notOffered` and `privateOrder` are exempt: they cannot be bought.
+
+**Fifteen of sixteen purchasable pieces need his numbers.** Oblivion is the only
+one whose measurements are his. Fourteen carry measurements WE invented, already
+flagged; Rubedo has none at all and is the one the new check catches on its own.
+
+### What else this decision breaks, listed because he asked
+
+1. **The measuring diagram and its copy** are gone, as above. They were the one
+   place the site taught a person to do something.
+2. **The 1 of 1 state loses its distinction.** It used to mean "exists, cannot
+   be remade" — which is now true of everything. It is kept because the
+   catalogue's second movement is built on it and because "one of one" is a fact
+   about the object, but **it no longer changes what a buyer can do**.
+3. **The order email is shorter**: piece, price, name, email, note, language.
+   Nothing about a body.
+4. **The privacy notice gets easier.** Three body measurements were the reason
+   the legal group named a special category; the form now collects a name and an
+   email like a hundred thousand other shops.
+5. **"Handmade. Made to measure." was the constant line** on every Creature
+   page. It is "Handmade in South Italy." now.
+6. **Returns copy may need re-reading by a lawyer, in the other direction.**
+   Made-to-measure goods can be exempt from the EU cooling-off period; goods
+   sold as they are usually are NOT. The checklist item that asked which applies
+   now has a simpler answer and probably a stricter one.
+7. **The catalogue's first movement** is now everything that is not sold or
+   private, which is most of the site. Its heading still reads AVAILABLE, which
+   is right, but it no longer distinguishes anything.

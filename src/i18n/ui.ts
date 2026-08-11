@@ -7,14 +7,17 @@
 import type {Locale} from "../lib/locales";
 
 /*
-  The two-state availability copy is OURS, written 2026-08-03 and not yet seen
-  by the owner, so every screen that shows it marks it as a draft in the same
-  register as the brand story. The one-word states ("Available now.") are labels
-  like their four siblings; what is marked is the sentence that explains the
-  CHOICE a ready piece gives a buyer, because that sentence makes a promise
-  about how the brand sells and only he can approve one.
+  THE MADE-TO-MEASURE LINE IS OURS (2026-08-12, section 98). The owner removed
+  made to measure from the shop and said what should stand in its place — that a
+  made-to-measure order goes by email — but not in what words. So the sentence
+  is ours, marked wherever it is shown, and flagged `madeToMeasureLine` in the
+  studio until he writes his own.
+
+  What replaced this flag's old job: there is no longer a sentence explaining a
+  CHOICE between taking a piece as it is and having it remade, because there is
+  no choice. A piece exists and is bought.
 */
-export const AVAILABILITY_COPY_IS_DRAFT = true;
+export const MADE_TO_MEASURE_IS_DRAFT = true;
 
 const ui = {
   it: {
@@ -81,19 +84,14 @@ const ui = {
     creature: "Creatura",
     processTitle: "Solvet et Coagula",
     composition: "Composizione",
-    handmadeMadeToMeasure: "Fatto a mano. Su misura.",
+    handmade: "Fatto a mano nel Sud Italia.",
     outsideCollections: "Fuori dalle collezioni.",
     // A buyer who cannot try anything on needs a way to use these numbers.
     fitGuidance: "Confrontale con un capo che gia possiedi e che ti veste come vuoi.",
-    madeToOrder: "Su ordinazione.",
+    /* OURS, flagged as madeToMeasureLine: made to measure is not a flow any
+       more, it is an invitation to write (section 98). */
+    madeToMeasureLine: "Su misura, solo su richiesta: scrivici e ne parliamo.",
     availableNow: "Disponibile subito.",
-    /*
-      OURS, and marked as ours wherever it is shown (AVAILABILITY_COPY_IS_DRAFT).
-      It is the one place the site explains a choice rather than stating a fact,
-      because a piece that already exists gives the buyer two different things
-      and saying only "available now" would hide the second one.
-    */
-    readyExplanation: "Già fatta. Prendila così com'è, o falla rifare sulle tue misure.",
     thisPieceMeasurements: "Misure di questo capo",
     /*
       1 OF 1 = PRIVATE COMMISSION (owner, 2026-08-04). Each was made once, to
@@ -106,7 +104,6 @@ const ui = {
     privateOrder: "Ordine privato.",
     notTakingRequests: "Non in lavorazione ora.",
     // "Creatura" is the owner's own word for a piece, not ours (2026-08-02).
-    madeToMeasureValue: "Costruita sulle tue misure.",
     draftNotice: "Bozza non approvata",
     provisionalPhoto: "Fotografia provvisoria",
     // Distinct from a draft: the wording is settled, the FACT is not confirmed.
@@ -120,6 +117,15 @@ const ui = {
     // Home sequence section labels. These name a region, they are not brand
     // copy: the brand's own words for each section come from Sanity.
     theWork: "Il lavoro",
+    /*
+      HIS NAMES, IN HIS ENGLISH, ON BOTH PAGES (section 99). He titled these
+      sections himself, and the three reasons carry his titles as plain strings
+      with no translation at all — OUR SKINS, REASONS, REBORN. Translating two
+      of his titles and not the other three would be the site speaking in two
+      voices about the same document.
+    */
+    theProject: "THE PROJECT",
+    bodyOfLight: "BODY OF LIGHT",
     worn: "Addosso",
     theMaking: "La lavorazione",
     /* The owner's word for a piece. Plural "Creature", singular "Creatura". */
@@ -210,24 +216,25 @@ const ui = {
     creature: "Creature",
     processTitle: "Solvet et Coagula",
     composition: "Composition",
-    handmadeMadeToMeasure: "Handmade. Made to measure.",
+    handmade: "Handmade in South Italy.",
     outsideCollections: "Outside the collections.",
     fitGuidance: "Compare these with a garment you already own and like the fit of.",
-    madeToOrder: "Made to order.",
+    madeToMeasureLine: "Made to measure on request only: write to us and we will talk.",
     availableNow: "Available now.",
-    readyExplanation: "Already made. Take it as it is, or have it remade to your measurements.",
+
     thisPieceMeasurements: "This piece's measurements",
     unique: "A private commission. 1 of 1, made once.",
     uniqueAction: "Acquire this piece",
     uniqueIntro: "Made once, to someone else's measurements. It is bought as it is.",
     privateOrder: "Private order.",
     notTakingRequests: "Not in the making now.",
-    madeToMeasureValue: "Built to your measurements.",
     draftNotice: "Unapproved draft",
     provisionalPhoto: "Provisional photograph",
     provisionalFact: "Not yet confirmed",
     translationNotice: "Unapproved translation",
     theWork: "The work",
+    theProject: "THE PROJECT",
+    bodyOfLight: "BODY OF LIGHT",
     worn: "Worn",
     theMaking: "The making",
     creatures: "Creature",

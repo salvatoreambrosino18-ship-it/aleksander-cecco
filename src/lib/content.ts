@@ -57,6 +57,10 @@ export type SiteSettings = {
   instagramUrl: string | null;
   contactEmail: string | null;
   openingMedia: MediaItem | null;
+  /** His three lines over the first photograph (section 99). Verbatim. */
+  openingLines: LocaleField;
+  /** His three reasons, which replaced THE MAKING (section 99). */
+  philosophy: Array<{title: string | null; text: LocaleField}> | null;
   /** The short about-the-brand lines on the home page, not the full story. */
   homeStatement: LocaleField;
   /** The worn band: the pieces on people, scrolled sideways. */
@@ -103,6 +107,8 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     instagramUrl,
     contactEmail,
     openingMedia{${MEDIA_PROJECTION}},
+    openingLines,
+    philosophy[]{title, text},
     homeStatement,
     homeSequence[]{
       media{${MEDIA_PROJECTION}},
@@ -138,6 +144,8 @@ const EMPTY_SETTINGS: SiteSettings = {
   instagramUrl: null,
   contactEmail: null,
   openingMedia: null,
+  openingLines: null,
+  philosophy: null,
   homeStatement: null,
   homeSequence: null,
   makingMedia: null,
@@ -212,7 +220,7 @@ export type Garment = {
   materials: LocaleField;
   measurements: string | null;
   description: LocaleField;
-  /** madeToOrder | unique | privateOrder | notOffered. See the garment schema. */
+  /** readyNow | unique | privateOrder | notOffered. See the garment schema. */
   availability: string | null;
   availabilityNote: LocaleField;
   collection: {name: string; slug: string | null; season: string | null} | null;
@@ -230,7 +238,9 @@ const GARMENT_PROJECTION = /* groq */ `
   materials,
   measurements,
   description,
-  "availability": coalesce(availability, "madeToOrder"),
+  // Default readyNow since 2026-08-12 (section 98): made to measure left the
+  // shop, so a document with no value set is a piece that exists.
+  "availability": coalesce(availability, "readyNow"),
   availabilityNote,
   "collection": collection->{name, "slug": slug.current, season},
   media[]{${MEDIA_PROJECTION}}

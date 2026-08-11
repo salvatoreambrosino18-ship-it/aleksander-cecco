@@ -31,7 +31,6 @@ import Base from "../../../../layouts/Base.astro";
 import TextSurface from "../../../../components/TextSurface.astro";
 import {getGarments, getSiteSettings, type Garment} from "../../../../lib/content";
 import MediaSurface from "../../../../components/MediaSurface.astro";
-import MeasureDiagram from "../../../../components/MeasureDiagram.astro";
 import {LOCALES, localePath, pick, toLocale} from "../../../../lib/locales";
 import {enquiryCopy, ENQUIRY_COPY_IS_DRAFT} from "../../../../i18n/enquiry";
 import {t} from "../../../../i18n/ui";
@@ -66,32 +65,23 @@ const shippingLines = [
   pick(settings.shippingCustoms, locale),
 ].filter((line): line is string => Boolean(line));
 /*
-  Only a Creature that is made to order can be enquired about. A unique piece
-  and a private order are already made and already someone's, so the form is not
-  shown for them (DESIGN-PLAN section 24).
+  EVERY PIECE IS BOUGHT AS IT EXISTS (2026-08-12, section 98). The OWNER removed
+  made to measure from the shop: there is no measurement flow, no as-is-or-remade
+  question, and no remake anywhere. A Creature is an object that exists; this
+  form asks who is buying it and how to reach them.
+
+  Made to measure survives as a SENTENCE on the piece inviting an email, and
+  nothing else. It is not a state, not a form and not a branch.
 */
-const availability = garment.availability ?? "madeToOrder";
+const availability = garment.availability ?? "readyNow";
 const canEnquire =
-  availability === "madeToOrder" || availability === "readyNow" || availability === "unique";
-/*
-  A private commission is bought as it is: no remake choice, and no measurement
-  fields, because there is nothing to remake TO. The server is told by the same
-  hidden field the ready pieces use.
-*/
-const isUnique = availability === "unique";
-/*
-  A Creature that already exists can be taken as it is or remade, and those are
-  different requests. The form asks which, and the three measurements stop being
-  required when the answer might be "as it is" (DESIGN-PLAN section 49).
-*/
-const isReady = availability === "readyNow";
+  availability === "readyNow" || availability === "unique" || availability === "madeToOrder";
 const availabilityLabel = {
   readyNow: t(locale, "availableNow"),
-  madeToOrder: t(locale, "madeToOrder"),
   unique: t(locale, "unique"),
   privateOrder: t(locale, "privateOrder"),
   notOffered: t(locale, "notTakingRequests"),
-}[availability] ?? t(locale, "madeToOrder");
+}[availability] ?? t(locale, "availableNow");
 const availabilityNote = pick(garment.availabilityNote, locale);
 ---
 
@@ -129,7 +119,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
       ) : (
         <>
           <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}>
-            {isUnique ? t(locale, "uniqueIntro") : copy.intro}
+            {copy.intro}
           </p>
 
           <form method="POST" action="/api/enquiry" class="flex max-w-prose flex-col gap-u5">
@@ -142,111 +132,6 @@ const availabilityNote = pick(garment.availabilityNote, locale);
               <label class="type-label text-label" for="email">Email</label>
               <input id="email" name="email" type="email" required maxlength="254" autocomplete="email" />
             </div>
-
-            {/*
-              WHAT IS BEING ASKED FOR, when the piece already exists. Radios and
-              no script, so it works with JavaScript off like everything else on
-              this path, and the fields below stay visible rather than being
-              hidden: a form that hides its own questions cannot explain itself
-              without JavaScript, and the line under them says what to do.
-            */}
-            {
-              isReady && !isUnique && (
-                <fieldset class="flex flex-col gap-u2">
-                  <legend class="type-label text-label">{copy.fulfilmentQuestion}</legend>
-                  {(
-                    [
-                      ["asIs", copy.takeAsIs],
-                      ["remade", copy.haveItRemade],
-                    ] as const
-                  ).map(([value, label], index) => (
-                    <label class="type-label text-label flex items-baseline gap-u2">
-                      <input type="radio" name="fulfilment" value={value} checked={index === 0} />
-                      {label}
-                    </label>
-                  ))}
-                </fieldset>
-              )
-            }
-
-            {isUnique && <input type="hidden" name="fulfilment" value="asIs" />}
-
-            {!isUnique && (
-            <fieldset class="flex flex-col gap-u3">
-              <legend class="flex flex-col gap-u1">
-                <span class="type-label text-label">{t(locale, "yourMeasurements")}</span>
-                <span class="type-label text-label">{copy.measureTitle}</span>
-              </legend>
-
-              {isReady && (
-                <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}>
-                  {copy.measurementsForRemakeOnly}
-                </p>
-              )}
-
-              {/*
-                The diagram (section 73): ours, flagged, plain. It sits before
-                the numbers because a person measures before they type.
-              */}
-              <MeasureDiagram />
-
-              {/*
-                ONE UNIT FOR ALL THREE, chosen by the person filling the form
-                (DESIGN-PLAN section 38). Nobody measures a chest in inches and
-                shoulders in centimetres, so asking three times would be three
-                chances to get it wrong.
-
-                A radio group, not a script: the whole form works with no
-                JavaScript and the server does the conversion. That is also why
-                the field labels no longer say "(cm)": without JavaScript a
-                label cannot follow the radio, so the unit is stated once, here,
-                and applies to everything below it.
-              */}
-              <div class="flex flex-wrap items-baseline gap-u3">
-                <span class="type-label text-label">{copy.unitQuestion}</span>
-                {(["cm", "in"] as const).map((unit, index) => (
-                  <label class="type-label text-label flex items-baseline gap-u1">
-                    <input type="radio" name="unit" value={unit} checked={index === 0} />
-                    {unit.toUpperCase()}
-                  </label>
-                ))}
-              </div>
-
-              {(["chest", "shoulders", "length"] as const).map((key, index) => (
-                <div class="field">
-                  <label class="type-label text-label" for={key}>
-                    {copy.measures[index].label}
-                  </label>
-                  {/*
-                    step="any" and NO min/max: the accepted range depends on the
-                    unit chosen above, and a browser cannot know which one that
-                    is without JavaScript. The server validates, and its error
-                    names the range in the unit that was chosen.
-                  */}
-                  <input
-                    id={key}
-                    name={key}
-                    type="number"
-                    inputmode="decimal"
-                    step="any"
-                    required={!isReady}
-                    aria-describedby={`${key}-how`}
-                  />
-                  <p
-                    id={`${key}-how`}
-                    class:list={["type-body text-body", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}
-                  >
-                    {copy.measures[index].how}
-                  </p>
-                </div>
-              ))}
-
-              <p class:list={["type-body text-body max-w-prose", ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text"]}>
-                {copy.measureHelp}
-              </p>
-
-            </fieldset>
-            )}
 
             <div class="field">
               <label class="type-label text-label" for="note">{t(locale, "note")}</label>

@@ -46,8 +46,8 @@ import PairedSurface from "../../components/PairedSurface.astro";
 import Statement from "../../components/Statement.astro";
 import Signature from "../../components/Signature.astro";
 import Spine from "../../components/Spine.astro";
-import {getCollections, getGarments, getSiteSettings} from "../../lib/content";
-import {describingLines, openingLine, unspentLine} from "../../lib/statement";
+import {getCollections, getSiteSettings} from "../../lib/content";
+import {unspentLine} from "../../lib/statement";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
 import {voiceState} from "../../lib/voice";
@@ -59,11 +59,7 @@ export function getStaticPaths() {
 }
 
 const locale = toLocale(Astro.params.lang);
-const [collections, settings, creature] = await Promise.all([
-  getCollections(),
-  getSiteSettings(),
-  getGarments(),
-]);
+const [collections, settings] = await Promise.all([getCollections(), getSiteSettings()]);
 
 const opening = settings.openingMedia;
 const instagramFrames = settings.instagramFrames ?? [];
@@ -73,46 +69,22 @@ const instagramHandle = instagramUrl
   : null;
 
 /*
-  WHAT THE ARRIVAL SAYS. His title, his sentence, and one line of ours.
+  THE ARRIVAL SPEAKS HIS OWN LINES NOW (2026-08-12, section 99), from
+  `openingLines`, written for this screen. What stood here was assembled: the
+  drop's name as a label, the first describing line of its statement, and a
+  price line of OURS. All three are gone — with them goes the reason this page
+  needed the drop at all before its chapters block.
 
-  `dropLine` is the FIRST line of his own collection statement, unaltered and in
-  his order, so the opening screen speaks in his voice rather than in ours. The
-  price line is ours and is flagged as `homeLines` in site settings: it names the
-  lowest real price in the catalogue rather than a claim, so it cannot drift out
-  of date while the prices are right.
+  `spentLines` survives because the chapters block still asks lib/statement for
+  a line this page has not already used; it simply starts empty now.
 */
-const [drop] = collections;
-const dropStatement = pick(drop?.statement ?? null, locale);
-/*
-  THE ANNOUNCEMENT LEFT THE ARRIVAL (2026-08-04). "We present MONUMENTUS" is
-  his approved sentence, so the words are untouchable; the PLACEMENT was ours,
-  and the owner named it as the thing he dislikes. An announcement lives where
-  the thing is announced: on the drop's own page, which opens with his full
-  statement and always has. The arrival now carries the drop's NAME as a label
-  and his second line, which describes rather than announces.
-*/
-const dropLine = describingLines(dropStatement)[0] ?? null;
-/*
-  WHAT THIS PAGE HAS ALREADY SAID IN HIS VOICE. The chapters block at the foot
-  of the page asks lib/statement for a line this list does not hold, so the
-  reader who scrolls the whole way is given a second sentence rather than the
-  first one again. For MONUMENTUS that resolves to the alchemical-entities
-  line, which is the right one to open a chapter with anyway: it says what the
-  garments ARE, where the arrival's line names the two stages they move between.
-*/
-const spentLines = dropLine ? [dropLine] : [];
+const spentLines: string[] = [];
 
-const prices = creature.map((c) => c.price).filter((p): p is number => typeof p === "number");
-const priceFrom = prices.length
-  ? `${t(locale, "priceFrom")} ${new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
-      style: "currency",
-      currency: "EUR",
-      maximumFractionDigits: 0,
-    }).format(Math.min(...prices))}  /  ${t(locale, "madeToMeasure")}`
-  : null;
 const worn = settings.homeSequence ?? [];
 const makingMedia = settings.makingMedia ?? [];
 const homeStatement = pick(settings.homeStatement, locale);
+const openingLines = pick(settings.openingLines, locale);
+const philosophy = (settings.philosophy ?? []).filter((r) => pick(r.text, locale));
 /*
   ONE LINE, because /process is the page this passage is FOR (2026-08-10).
   `makingStatement` is three lines, and /process printed all three while this
@@ -121,7 +93,6 @@ const homeStatement = pick(settings.homeStatement, locale);
   Home makes the claim and points at the evidence; the evidence page keeps the
   whole passage.
 */
-const makingStatement = openingLine(pick(settings.makingStatement, locale));
 // Both blocks are the owner's own words now, so the only question left is
 // whether this language is one he approved. See lib/voice.ts.
 const voice = voiceState(settings, locale);
@@ -184,11 +155,15 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
         <div class="relative">
           <MediaSurface media={opening} locale={locale} priority height="tall">
             <div class="flex flex-col gap-u2">
-              {drop && <p class="type-label text-label">{drop.name}</p>}
-              {dropLine && (
-                <p class="type-display text-display max-w-prose">{dropLine}</p>
+              {/*
+                HIS THREE LINES, VERBATIM (2026-08-12, section 99), replacing
+                the drop's name, a borrowed line from its statement, and our
+                invented price line. He wrote these FOR this screen; everything
+                they replaced was assembled for it by us.
+              */}
+              {openingLines && (
+                <p class="type-display text-display max-w-prose">{openingLines}</p>
               )}
-              {priceFrom && <p class="type-mono text-mono">{priceFrom}</p>}
               <a
                 href={localePath(locale, "creature")}
                 class="type-label text-label hairline-under self-start"
@@ -274,7 +249,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     <Statement
       text={homeStatement}
       locale={locale}
-      heading={t(locale, "theWork")}
+      heading={t(locale, "theProject")}
       voice={voice}
       register="body"
       bare
@@ -286,31 +261,50 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   </PairedSurface>
 
   {/* 3. WORN. The pieces on people, sideways. */}
-  <WornBand tiles={worn} locale={locale} label={t(locale, "worn")} line={t(locale, "wornLine")} />
+  {/*
+    BODY OF LIGHT (2026-08-12, section 99). His name for this band, replacing
+    ours. The line under it goes: he named the section and did not write a
+    subtitle for it, and inventing one under his own title is exactly the thing
+    every other block on this page just stopped doing.
+  */}
+  <WornBand tiles={worn} locale={locale} label={t(locale, "bodyOfLight")} />
 
   {/*
-    4. THE MAKING. Section 2 claims the work is a transformation; this is the
-    evidence for it, and it is the only place the home page says how a piece is
-    actually got. The frames are "tall", so the wash below is already showing.
+    4. THE THREE REASONS (2026-08-12, section 99), which replaced THE MAKING
+    entirely at the owner's instruction: OUR SKINS, REASONS, REBORN, his words
+    and his order.
+
+    NO HEADING OVER THEM. He asked whether the block wanted one and suggested
+    PHILOSOPHY. It does not: each reason already carries his own title, and a
+    heading above three headings is a label on a label. The site names a section
+    when the section has no voice of its own — WORN, THE PROJECT — and this one
+    speaks for itself three times.
+
+    Composed with the making frames, as the passage it replaces was, because a
+    body-register passage is never alone on this site (section 82).
   */}
-  <PairedSurface media={makingMedia[1] ?? null} locale={locale} side="right">
-    <Statement
-      text={makingStatement}
+  {philosophy.map((reason, index) => (
+    <PairedSurface
+      media={makingMedia[index + 1] ?? makingMedia[index] ?? null}
       locale={locale}
-      heading={t(locale, "theMaking")}
-      voice={voice}
-      register="body"
-      bare
+      side={index % 2 === 0 ? "right" : "left"}
     >
-      <p class="type-label text-label">{t(locale, "madeToMeasureValue")}</p>
-      <a href={localePath(locale, "creature")} class="type-label text-label self-start hairline-under">
-        {t(locale, "allCreatures")}
-      </a>
-      <a href={localePath(locale, "collections")} class="type-label text-label self-start hairline-under">
-        {t(locale, "collections")}
-      </a>
-    </Statement>
-  </PairedSurface>
+      <Statement
+        text={pick(reason.text, locale)}
+        locale={locale}
+        heading={reason.title}
+        voice={voice}
+        register="body"
+        bare
+      >
+        {index === philosophy.length - 1 && (
+          <a href={localePath(locale, "creature")} class="type-label text-label self-start hairline-under">
+            {t(locale, "allCreatures")}
+          </a>
+        )}
+      </Statement>
+    </PairedSurface>
+  ))}
 
   {/* Any making frame beyond the two now composed above simply continues. */}
   {makingMedia.slice(2).map((media) => <MediaSurface media={media} locale={locale} height="tall" />)}

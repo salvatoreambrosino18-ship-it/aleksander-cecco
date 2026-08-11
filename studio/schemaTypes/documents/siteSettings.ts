@@ -1,4 +1,4 @@
-import {defineType, defineField} from 'sanity'
+import {defineType, defineField, defineArrayMember} from 'sanity'
 
 // Singleton (a single editable document, enforced by the studio structure).
 export const siteSettings = defineType({
@@ -53,6 +53,44 @@ export const siteSettings = defineType({
       type: 'media',
       description:
         "La prima cosa che si vede: una fotografia a tutto schermo, non la firma. Scegliere un'immagine verticale, alta almeno 2000px, con la parte alta uniforme (chiara o scura) perche' la firma e il MENU ci passano sopra. / The first thing seen: one full-screen photograph, not the signature. Choose a vertical frame, at least 2000px tall, with an even top band (either light or dark) because the signature and MENU sit over it.",
+    }),
+    /*
+      HIS OPENING LINES (2026-08-12, section 99). Three short lines over the
+      first photograph, approved and verbatim from his own document. They used
+      to be borrowed from the current drop's statement, which meant the home
+      page's first words changed whenever a drop did and were never written for
+      that screen.
+    */
+    defineField({
+      name: 'openingLines',
+      title: 'Righe di apertura / Opening lines',
+      type: 'localeText',
+      description:
+        "Le tre righe sulla prima fotografia. Vanno a capo come le scrivi. / The three lines over the first photograph. Line breaks are kept exactly as you type them.",
+    }),
+    /*
+      THE THREE REASONS (section 99). His replacement for THE MAKING: three
+      titled passages, in his order and his words. An array rather than one
+      text field because each has a heading he chose — OUR SKINS, REASONS,
+      REBORN — and a heading is not punctuation.
+    */
+    defineField({
+      name: 'philosophy',
+      title: 'Le tre ragioni / The three reasons',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'reason',
+          fields: [
+            defineField({name: 'title', title: 'Titolo / Title', type: 'string'}),
+            defineField({name: 'text', title: 'Testo / Text', type: 'localeText'}),
+          ],
+          preview: {select: {title: 'title', subtitle: 'text.en'}},
+        }),
+      ],
+      description:
+        'Titolo e testo, nel suo ordine. Sostituisce il vecchio blocco THE MAKING. / A title and a passage, in his order. Replaces the old THE MAKING block.',
     }),
     defineField({
       name: 'homeStatement',

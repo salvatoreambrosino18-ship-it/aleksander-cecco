@@ -8,17 +8,19 @@
   facts and the single action. The diptych is withdrawn, so nothing caps the
   photograph at half the viewport.
 
-  How a Creature can be had is a four-state fact, not a boolean: made to order,
-  unique (1 of 1), a private order, or not in the making now. Only the first
-  carries an enquiry action (DESIGN-PLAN section 24).
+  HOW A CREATURE CAN BE HAD, since 2026-08-12 (section 98): it EXISTS and is
+  bought as it is. Made to measure was removed from the shop by the owner and
+  survives as one line inviting an email, below the facts. A piece already sold
+  (private order) or withdrawn (not taking requests) carries no action, and a
+  1 of 1 is bought exactly like anything else.
 */
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
-import {getGarments, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
+import {getGarments, getSiteSettings, isPlaceholderEmail, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
-import {AVAILABILITY_COPY_IS_DRAFT, t} from "../../../i18n/ui";
+import {MADE_TO_MEASURE_IS_DRAFT, t} from "../../../i18n/ui";
 import {SHOW_UNAPPROVED_MARKS} from "../../../lib/marks";
 
 export async function getStaticPaths() {
@@ -34,6 +36,10 @@ export async function getStaticPaths() {
 
 const {garment, all} = Astro.props as {garment: Garment; all: Garment[]};
 const locale = toLocale(Astro.params.lang) as Locale;
+
+/* The address the made-to-measure line invites a person to write to. */
+const settings = await getSiteSettings();
+const contactEmail = isPlaceholderEmail(settings.contactEmail) ? null : settings.contactEmail;
 
 /*
   NEXT AND PREVIOUS. Without them every Creature was a dead end and seeing two
@@ -65,7 +71,7 @@ const availabilityNote = pick(garment.availabilityNote, locale);
   another would be a lie. They stay fully visible at full scale, which is the
   rule that has always governed a withdrawn action here.
 */
-const availability = garment.availability ?? "madeToOrder";
+const availability = garment.availability ?? "readyNow";
 /*
   TWO STATES CAN BE ENQUIRED ABOUT (2026-08-03). A piece available now and a
   piece made to order are both things a visitor can ask for; what differs is
@@ -77,17 +83,20 @@ const availability = garment.availability ?? "madeToOrder";
   confirmed these are private commissions that exist and are for sale AS THEY
   ARE, so they take the action and never the remake choice.
 */
+/*
+  EVERY PIECE IS BOUGHT AS IT EXISTS (section 98). `madeToOrder` is kept in the
+  union only so a document nobody has re-saved still renders and still sells;
+  the studio no longer offers it.
+*/
 const canEnquire =
-  availability === "madeToOrder" || availability === "readyNow" || availability === "unique";
-const isReady = availability === "readyNow";
+  availability === "readyNow" || availability === "unique" || availability === "madeToOrder";
 const isUnique = availability === "unique";
 const availabilityLabel = {
   readyNow: t(locale, "availableNow"),
-  madeToOrder: t(locale, "madeToOrder"),
   unique: t(locale, "unique"),
   privateOrder: t(locale, "privateOrder"),
   notOffered: t(locale, "notTakingRequests"),
-}[availability] ?? t(locale, "madeToOrder");
+}[availability] ?? t(locale, "availableNow");
 
 const price =
   typeof garment.price === "number"
@@ -121,8 +130,14 @@ const inscription: Array<{text: string | null; token: string}> = [
     read as an oversight rather than as a fact (DESIGN-PLAN section 31).
   */
   ...(garment.collection ? [] : [{text: t(locale, "outsideCollections"), token: ""}]),
-  // Always true of every Creature, so it is a constant rather than a field.
-  {text: t(locale, "handmadeMadeToMeasure"), token: ""},
+  /*
+    "Handmade. Made to measure." was the constant here until 2026-08-12, when
+    the owner removed made to measure from the shop (section 98). What is
+    always true of a Creature now is that it is handmade in South Italy; being
+    built to someone's measurements is a conversation, not a property of the
+    object, and it has its own line further down.
+  */
+  {text: t(locale, "handmade"), token: ""},
 ];
 
 /*
@@ -155,7 +170,13 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       (DESIGN-PLAN sections 31 and 49). One field, two truthful labels, rather
       than two fields an owner would have to keep in step.
     */
-    term: isReady ? t(locale, "thisPieceMeasurements") : t(locale, "referenceMeasurements"),
+    /*
+      ALWAYS THIS PIECE'S OWN MEASUREMENTS (section 98). The label used to
+      follow the state — reference measurements on a made-to-order piece, this
+      piece's on a ready one — and there is only one state now: the object that
+      will arrive is the object in the photograph.
+    */
+    term: t(locale, "thisPieceMeasurements"),
     value: garment.measurements,
     placeholder: "{MEASUREMENTS}",
   },
@@ -217,31 +238,36 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
         measure." was a tautology, found by reading the page as a buyer. The
         other four states carry real information and stay.
       */}
-      {availability !== "madeToOrder" && <p>{availabilityLabel}</p>}
+      <p>{availabilityLabel}</p>
     </div>
 
     {/*
-      A piece that already exists offers two different things, and saying only
-      "Available now." would hide the second one. Ours, so it carries the same
-      mark the brand story carries when the words are not his.
+      MADE TO MEASURE IS A SENTENCE NOW, NOT A FLOW (2026-08-12, section 98).
+
+      The owner removed it from the shop: every Creature is an object that
+      exists and is bought as it is. What remains is an invitation to write,
+      and it belongs HERE — on the piece, where a person is deciding — rather
+      than on the contact page, where nobody looks for it.
+
+      OURS, so it carries the same mark every sentence we wrote on his behalf
+      carries, and it is flagged `madeToMeasureLine` in the studio.
     */}
-    {
-      isReady && (
-        <div class="flex flex-col gap-u2">
-          {AVAILABILITY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && (
-            <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
-          )}
-          <p
-            class:list={[
-              "type-body text-body max-w-prose",
-              AVAILABILITY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
-            ]}
-          >
-            {t(locale, "readyExplanation")}
-          </p>
-        </div>
-      )
-    }
+    <div class="flex flex-col gap-u2">
+      {MADE_TO_MEASURE_IS_DRAFT && SHOW_UNAPPROVED_MARKS && (
+        <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
+      )}
+      <p
+        class:list={[
+          "type-body text-body max-w-prose",
+          MADE_TO_MEASURE_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
+        ]}
+      >
+        {t(locale, "madeToMeasureLine")}{" "}
+        {contactEmail && (
+          <a href={`mailto:${contactEmail}`} class="hairline-under">{contactEmail}</a>
+        )}
+      </p>
+    </div>
 
     {description && <p class="type-body text-body max-w-prose">{description}</p>}
 

@@ -1823,7 +1823,7 @@ async function main() {
       "homeLines",
       "enquiryCopy",
       "availabilityCopy",
-      "instagramFrames", "measureDiagram",
+      "instagramFrames",
       "shopIntro",
       "dropsIntro",
       "contactIntro",

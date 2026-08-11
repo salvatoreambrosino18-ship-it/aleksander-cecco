@@ -164,11 +164,10 @@ export const garment = defineType({
       name: 'availability',
       title: 'Come si ottiene / How it can be had',
       type: 'string',
-      initialValue: 'madeToOrder',
+      initialValue: 'readyNow',
       options: {
         list: [
-          {title: 'Disponibile subito / Available now', value: 'readyNow'},
-          {title: 'Su ordinazione / Made to order', value: 'madeToOrder'},
+          {title: 'Disponibile / Available', value: 'readyNow'},
           {title: 'Pezzo unico, 1 di 1 / Unique, 1 of 1', value: 'unique'},
           {title: 'Ordine privato / Private order', value: 'privateOrder'},
           {title: 'Non disponibile ora / Not taking requests now', value: 'notOffered'},
@@ -176,7 +175,7 @@ export const garment = defineType({
         layout: 'radio',
       },
       description:
-        "Disponibile subito: questa Creatura esiste gia e puo essere presa cosi com'e, oppure rifatta su misura. Unica e ordine privato restano visibili e leggibili, ma senza pulsante di richiesta: non si possono ordinare di nuovo. / Available now: this Creature already exists and can be taken as it is, or remade to measure. Unique and private order stay visible and readable but carry no enquiry button: they cannot be ordered again.",
+        "Ogni Creatura esiste e si compra com'e (2026-08-12). 'Su ordinazione' non esiste piu: il su misura si chiede per email, e sulla pagina del pezzo c'e la riga che lo dice. Ordine privato e non disponibile restano visibili ma senza pulsante. / Every Creature exists and is bought as it is (2026-08-12). 'Made to order' is gone: made to measure is asked for by email, and the piece's page carries the line that says so. Private order and not available stay visible but carry no button.",
     }),
     defineField({
       name: 'availabilityNote',
@@ -184,7 +183,7 @@ export const garment = defineType({
       type: 'localeString',
       description:
         "Una riga, al posto del pulsante di richiesta. Se vuota il sito usa la formula predefinita. / One line, in place of the enquiry button. If empty the site uses its default wording.",
-      hidden: ({parent}) => parent?.availability === 'madeToOrder',
+      hidden: ({parent}) => parent?.availability === 'readyNow',
     }),
     /*
       WHAT ON THIS DOCUMENT WAS INVENTED (2026-08-03).

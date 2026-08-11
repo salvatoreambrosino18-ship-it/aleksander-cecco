@@ -201,32 +201,13 @@ async function globalSends(store: Store) {
 type Locale = "it" | "en";
 
 /*
-  MEASUREMENT RANGES, in centimetres, which is what is stored and sent.
-
-  A buyer working in inches is NOT rejected (DESIGN-PLAN section 38). Before
-  this, chest was validated between 50 and 200 with no unit choice, so an
-  American entering 40 was told "Chest is in centimetres, between 50 and 200"
-  for a perfectly normal chest. That is a valid customer turned away by a
-  validator, and it is the kind of lost sale that appears in no log anywhere.
+  MEASUREMENTS LEFT THIS FILE (2026-08-12, section 98). The owner removed made
+  to measure from the shop: every Creature is bought as it exists, so an order
+  carries a person and a piece and nothing else. The centimetre ranges, the inch
+  conversion, the unit choice and the as-is-or-remade branch are all gone — and
+  with them the one place this endpoint handled body measurements, which shrinks
+  what the privacy notice has to cover.
 */
-const RANGES = {
-  chest: [50, 200],
-  shoulders: [25, 90],
-  length: [30, 200],
-} as const;
-
-const PER_INCH = 2.54;
-
-/*
-  The range shown back to someone who chose inches is rounded INWARD: ceil the
-  minimum, floor the maximum. Anyone who obeys the message therefore passes,
-  where rounding outward would print a range that then gets rejected.
-*/
-function shownRange(key: keyof typeof RANGES, unit: "cm" | "in"): [number, number] {
-  const [min, max] = RANGES[key];
-  if (unit === "cm") return [min, max];
-  return [Math.ceil(min / PER_INCH), Math.floor(max / PER_INCH)];
-}
 
 const TEXT = {
   it: {
@@ -237,9 +218,6 @@ const TEXT = {
     invalid: "Controlla i dati inseriti.",
     name: "Serve un nome.",
     email: "Serve un indirizzo email valido.",
-    measure: {chest: "Torace", shoulders: "Spalle", length: "Lunghezza"},
-    range: (field: string, min: number, max: number, unit: string) =>
-      `${field}: indica un valore tra ${min} e ${max} ${unit}.`,
     tooFast: "Riprova: il modulo e stato inviato troppo in fretta.",
     notSent: "Non siamo riusciti a inviare l'ordine. Riprova piu tardi.",
     notConfigured: "L'invio degli ordini non e ancora attivo su questo sito.",
@@ -255,9 +233,6 @@ const TEXT = {
     invalid: "Please check what you entered.",
     name: "A name is needed.",
     email: "A valid email address is needed.",
-    measure: {chest: "Chest", shoulders: "Shoulders", length: "Length"},
-    range: (field: string, min: number, max: number, unit: string) =>
-      `${field}: enter a value between ${min} and ${max} ${unit}.`,
     tooFast: "Please try again: the form was submitted too quickly.",
     notSent: "We could not send your enquiry. Please try again later.",
     notConfigured: "Sending orders is not switched on for this site yet.",
@@ -408,9 +383,6 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const fields = {
     name: get("name"),
     email: get("email"),
-    chest: get("chest"),
-    shoulders: get("shoulders"),
-    length: get("length"),
     note: get("note").slice(0, 2000),
     garmentName: get("garmentName"),
     garmentRef: get("garmentRef"),
@@ -431,45 +403,6 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email) || fields.email.length > 254) {
     problems.push(text.email);
   }
-  /*
-    Whatever unit they chose, CENTIMETRES are what get validated, stored and
-    sent. The error names the range in THEIR unit, because telling someone who
-    chose inches that a chest must be "between 50 and 200" is the original bug
-    wearing a different hat.
-  */
-  const unit: "cm" | "in" = get("unit") === "in" ? "in" : "cm";
-  const cm: Record<"chest" | "shoulders" | "length", number> = {chest: 0, shoulders: 0, length: 0};
-
-  /*
-    TAKING A PIECE AS IT IS (2026-08-03). Some Creature already exist and can be
-    had immediately, and asking for one of those needs no measurements at all.
-    Requiring them anyway is precisely the defect section 31 costed: a server
-    refusing a legitimate purchase, 422, with nothing in any log to show a sale
-    was lost.
-
-    Default is "remade", so every made to order piece behaves exactly as before
-    and a submission that omits the field entirely is unchanged.
-
-    The server does NOT check that this Creature really is one of the ready
-    ones. It cannot: it has no content database, by design (the site is static).
-    The worst a forged value can do is deliver an enquiry with no measurements
-    in it, which the owner reads and answers like any other.
-  */
-  const asIs = get("fulfilment") === "asIs";
-
-  for (const key of asIs ? ([] as const) : (["chest", "shoulders", "length"] as const)) {
-    // A comma is a decimal separator in most of the languages this site meets.
-    const entered = Number(fields[key].replace(",", "."));
-    const value = unit === "in" ? entered * PER_INCH : entered;
-    const [min, max] = RANGES[key];
-    if (!Number.isFinite(value) || value < min || value > max) {
-      const [lo, hi] = shownRange(key, unit);
-      problems.push(text.range(text.measure[key], lo, hi, unit));
-    } else {
-      cm[key] = Math.round(value * 10) / 10;
-    }
-  }
-
   if (problems.length > 0) {
     return new Response(
       page(locale, {heading: text.invalid, lines: problems, backHref}),
@@ -546,14 +479,6 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     ...(shownPrice ? ([["Price", shownPrice]] as Array<[string, string]>) : []),
     ["Name", fields.name],
     ["Email", fields.email],
-    ["Wants", asIs ? "This piece as it is" : "Made to measure"],
-    ...(asIs
-      ? []
-      : ([
-          ["Chest", `${cm.chest} cm${unit === "in" ? ` (entered ${fields.chest} in)` : ""}`],
-          ["Shoulders", `${cm.shoulders} cm${unit === "in" ? ` (entered ${fields.shoulders} in)` : ""}`],
-          ["Length", `${cm.length} cm${unit === "in" ? ` (entered ${fields.length} in)` : ""}`],
-        ] as Array<[string, string]>)),
     ["Language", locale === "it" ? "Italiano" : "English"],
   ];
 
