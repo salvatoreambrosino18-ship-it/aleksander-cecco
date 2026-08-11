@@ -3,17 +3,32 @@
   SOLVET ET COAGULA. The one home of imagery (2026-08-04).
 
   The gallery dissolved into this page (DESIGN-PLAN section 65): its fifteen
-  artistic frames and the eight process frames are woven into a single
-  descending sequence, so photographs-as-photographs live here and products only
-  ever live in the shop. The menu says Process, because the formula is
+  artistic frames and the eight process frames descend it together, so
+  photographs-as-photographs live here and products only ever live in the shop.
+  The menu says Process, because the formula is
   illegible to anyone who does not already know the brand; the formula is THIS
   page's title, inside, in the one display size (section 67).
 
-  THE WEAVE. The eight process frames are the spine, in the order the work
-  happens: pattern, cut, dye, dry, build, the parts, the finished garments.
-  The artistic frames are dealt between them, evenly, keeping their own order
-  (the gallery's dark-to-light descent). Deterministic, so the page is stable
-  across builds; nothing is shuffled.
+  THE ORDER, UNWOVEN (2026-08-11, section 85, and it reopens section 65).
+
+  The eight process frames are a NARRATIVE — pattern, cut, dye, dry, build, the
+  parts, the finished garments — and section 65's weave dealt up to two artistic
+  frames into every gap between them: pattern, two artistic, cut, two artistic,
+  dye. So the sequence existed in the data and was unreadable on the page, which
+  is the fault a proposal to make this page scroll-driven uncovered. The page did
+  not need a mechanism. It needed its own order back.
+
+  So: the eight making frames run CONSECUTIVELY, in the order the work happens,
+  and the artistic frames follow as a CODA. Nothing is removed — every artistic
+  frame still appears, in its own order, the gallery's dark-to-light descent —
+  and nothing is added: no captions, no words, no motion. The story is told by
+  sequence alone, which is the only way this page has ever been willing to tell
+  anything.
+
+  What section 65 was right about is untouched: the gallery is dissolved,
+  photographs-as-photographs live here, and products live only in the shop.
+  What it got wrong was interleaving two sequences that each mean something in
+  their own order and mean nothing shuffled together.
 
   NO CAPTIONS, still. The only text is the formula and his own making lines.
   The page invents nothing.
@@ -46,45 +61,48 @@ const process = settings.processMedia ?? [];
 const artistic = gallery.flatMap((piece) => piece.media ?? []);
 
 /*
-  Deal the artistic frames into the gaps between process frames. With eight
-  spine frames there are eight gaps (one after each); fifteen frames deal as
-  two per gap with the extras landing early, which keeps the end of the page,
-  the finished garments, close to its spine frame.
+  THE WORK FIRST, IN ITS OWN ORDER, THEN THE PHOTOGRAPHS. Two sequences, each
+  kept whole, rather than one shuffled out of two. This replaces the deal that
+  put up to two artistic frames between every stage of the making.
 */
-const woven: MediaItem[] = [];
-{
-  const gaps = Math.max(process.length, 1);
-  const per = Math.floor(artistic.length / gaps);
-  let extra = artistic.length % gaps;
-  let cursor = 0;
-  for (const frame of process) {
-    woven.push(frame);
-    let take = per + (extra > 0 ? 1 : 0);
-    if (extra > 0) extra--;
-    while (take-- > 0 && cursor < artistic.length) woven.push(artistic[cursor++]!);
-  }
-  while (cursor < artistic.length) woven.push(artistic[cursor++]!);
-}
+const sequence: MediaItem[] = [...process, ...artistic];
 
 /*
-  THE PAIRED FRAMES ARE THIS PAGE'S OWN (2026-08-11, section 82).
+  THE PAIRED FRAMES ARE THIS PAGE'S OWN (section 82), AND THEY COME OUT OF THE
+  CODA, NOT OUT OF THE WORK (section 85).
 
-  `makingMedia` is a SUBSET of `processMedia` — both of the home page's making
-  frames also appear here — so pairing on woven[0] and woven[1] put the same
-  photograph at the head of a composition on two different pages. The mosaic
-  still shows everything; only the two frames that ANCHOR a composition are
-  chosen from the ones home does not use, so each page's compositions are its
-  own. Falls back to the first frames if the exclusion leaves nothing.
+  Two constraints meet here and the second one is new.
+
+  `makingMedia` is a SUBSET of `processMedia`, so anchoring a composition on a
+  frame home already uses puts the same photograph at the head of a composition
+  on two pages. That was section 82's rule and it still holds.
+
+  But an anchor is LIFTED OUT of the descending sequence and shown at the top of
+  the page, so anchoring on a making frame would punch a hole in the very
+  narrative section 85 just restored — pattern, cut, then dye missing because it
+  is up there beside a paragraph. So the anchors are taken from the ARTISTIC
+  frames, which are a descent rather than a sequence and lose nothing by giving
+  up two, and all eight making frames stay consecutive and in work order.
+
+  It also reads better than it did: the stages passage is now directly above the
+  eight frames it describes, with nothing between them.
+
+  Falls back to any frame home does not use, and then to the sequence itself, so
+  a dataset with no artistic frames still renders a composed page.
 */
 const homeRefs = new Set(
   (settings.makingMedia ?? []).map((m) => m.poster?.asset?._ref).filter(Boolean),
 );
-const paired = woven.filter((m) => !homeRefs.has(m.poster?.asset?._ref));
-const [pairA, pairB] = paired.length >= 2 ? paired : woven;
+const unusedByHome = (items: MediaItem[]) =>
+  items.filter((m) => !homeRefs.has(m.poster?.asset?._ref));
+const anchors = unusedByHome(artistic);
+const fallback = unusedByHome(sequence);
+const [pairA, pairB] =
+  anchors.length >= 2 ? anchors : fallback.length >= 2 ? fallback : sequence;
 const pairedRefs = new Set([pairA, pairB].map((m) => m?.poster?.asset?._ref).filter(Boolean));
-const mosaic = woven.filter((m) => !pairedRefs.has(m.poster?.asset?._ref));
+const mosaic = sequence.filter((m) => !pairedRefs.has(m.poster?.asset?._ref));
 
-const [first] = woven;
+const [first] = sequence;
 const making = pick(settings.makingStatement, locale);
 /*
   The stages text is OURS in every language, so it is a draft rather than a
@@ -119,11 +137,13 @@ const isLandscape = (media: MediaItem) => {
   </TextSurface>
 
   {/*
-    COMPOSED WITH THE WORK IT DESCRIBES (2026-08-11, section 82). His account of
-    the making shares a screen with the first process frame rather than sitting
-    on a flat one above it, so the words and the thing they describe arrive
-    together. The frame leaves the mosaic below and the weave simply starts one
-    later.
+    COMPOSED, NOT ALONE ON A SCREEN (2026-08-11, section 82). His account of the
+    making shares a screen with a photograph rather than sitting on a flat one
+    above it — a passage in the body register is never alone on this site.
+
+    Its frame comes from the gallery rather than from the making sequence
+    (section 85): an anchor is lifted out of the descent below, and the eight
+    frames of the work must stay whole and in order.
   */}
   <PairedSurface media={pairA ?? null} locale={locale} side="left">
     <Statement text={making} locale={locale} voice={voice} register="body" bare />
@@ -142,6 +162,11 @@ const isLandscape = (media: MediaItem) => {
     ONE PARAGRAPH, deliberately. Four short lines is a page telling you what you
     are looking at; a line per photograph would be a caption gallery, which is
     what this page has always refused to be.
+
+    IT NOW SITS DIRECTLY ABOVE WHAT IT DESCRIBES (section 85). While the frames
+    were woven, this paragraph named five stages and the page then dealt
+    unrelated photographs between every one of them. The eight making frames
+    follow it immediately and in work order.
   */}
   {processText && (
     <PairedSurface media={pairB ?? null} locale={locale} side="right">

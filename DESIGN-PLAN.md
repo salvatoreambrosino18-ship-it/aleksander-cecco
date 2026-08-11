@@ -394,24 +394,35 @@ for going quiet.
 
 **The four brought to this session (2026-08-11), and what became of them**
 
-7. **Detail points on the photography — REFUSED, and it was asked for.** A
-   Mammut-style interactive point on a garment, tapped for its construction.
-   The need is real and named repeatedly in this file: his photographs are
-   atmosphere, not evidence, and a buyer sending three body measurements for a
-   four-figure made-to-measure piece cannot see the cut. The FORM is what fails
-   here. Argued in full in section 84.
-8. **Photographs that expand as they enter — NOT BUILT, and he wants it.** The
-   one place it could mean something is a Creature's arrival, and that is
-   exactly the frame that must never animate: it is the LCP element (s24, s69).
-   Every other frame on that page is a continuation, and a continuation cannot
-   arrive. Argued in section 84. **This is the one refusal here that is against
-   the owner's stated wish, so it is his to overturn, not a future session's.**
-9. **The process page as a scroll-driven sequence — REFUSED as scroll-driving,
-   but it found a real fault and THAT IS OPEN.** The eight making frames are a
-   narrative (pattern, cut, dye, dry, build) and the page deals up to two
-   unrelated artistic frames BETWEEN each of them, so the sequence exists in the
-   data and is invisible on the page. Undoing the weave is reopening s65 and is
-   **the owner's decision**, costed in section 84.
+7. **Detail points on the photography — REFUSED, and the refusal is ACCEPTED
+   (2026-08-11).** A Mammut-style interactive point, tapped for its
+   construction. The need is real and is the best observation the proposal
+   carried: his photographs are atmosphere, not evidence, and a buyer sending
+   three body measurements for a four-figure made-to-measure piece cannot see
+   the cut. The FORM fails on four counts, argued in section 84 — and the
+   finding that closed it is that **the mechanism already exists and has never
+   been used: fifty-six Creature frames, zero captions.**
+   **WHAT IS NOW OPEN IS HIS, NOT OURS**: three detail photographs per piece,
+   each with one line of his own words. The brief is `docs/SCATTI-DETTAGLIO.md`,
+   written in Italian for him — what to shoot, how close, in what light, what to
+   write under each, and where it goes in the studio. **It costs him an
+   afternoon and it is the highest-value thing left in the project.**
+8. **Photographs that expand as they enter — NOT BUILT, and the owner has
+   declined to overturn it (2026-08-11).** He wants the effect; the one place it
+   could mean something is a Creature's arrival, and that is exactly the frame
+   that must never animate — it is the LCP element (s24, s69). Every other frame
+   on that page is the same piece continuing, and a continuation cannot arrive.
+   His words on reading the argument: three gestures that each mean something,
+   rather than four where one is a tic. **It stays here rather than closed: it
+   is his to overturn whenever he wants it, and nobody else's.**
+9. **The process page as a scroll-driven sequence — REFUSED as scroll-driving.
+   The real fault it uncovered is now FIXED (2026-08-11, section 85).** The
+   eight making frames were a narrative — pattern, cut, dye, dry, build — with
+   up to two unrelated artistic frames dealt between every stage, so the
+   sequence existed in the data and was unreadable on the page. **The owner
+   decided to unweave it**: eight making frames consecutive in work order, the
+   artistic frames as a coda. It partly reopens s65 and section 85 records
+   exactly which part. Nothing was added — no captions, no words, no motion.
 10. **Video — SPECIFIED, and the player already shipped.** Nothing is shot yet.
     The three places it belongs, what each needs in length and framing, what it
     must not be used for, and the one trap that will silently break the chrome,
@@ -488,6 +499,16 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 
 **Does not block launch, but the site is weaker without it**
 
+- [ ] **THREE DETAIL PHOTOGRAPHS PER CREATURE, each with one line of his own
+      words.** The highest-value item on this entire list for the time it costs
+      — an afternoon — and the answer to the one weakness the site cannot fix in
+      code: his photography is atmosphere, and a buyer sending three body
+      measurements cannot see the cut. The mechanism has shipped since the
+      beginning and has never been used: **fifty-six Creature frames, zero
+      captions.** The brief is `docs/SCATTI-DETTAGLIO.md`, in Italian, ready to
+      send: what to shoot, how close, in what light, what to write, where it
+      goes. Start with Rubedo, whose own Instagram caption already contains two
+      of the lines. See THE OPEN LIST item 7 and section 84.
 - [ ] **Approve or replace the intro lines** (shop, drops, contact, worn, home
       chapters) and the ORDER-flow copy, all flagged in inventedCopy.
 - [ ] **Choose the four Instagram frames.** The section is live and the four in
@@ -564,6 +585,12 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
 - [ ] **Make the check gate catch what it missed.** `npm run check` reported
       zero errors on a component using an identifier it never imported; only
       `npm run build` caught it. The gate should include a build.
+- [ ] **Give a paired surface a `priority` frame.** On /process the first
+      photograph a reader meets is a composition anchor, and `PairedSurface`
+      never passes `priority`, so the page's own opening image is `loading=
+      "lazy"` at low fetch priority. Home and about are unaffected — their first
+      frame is the arrival, which is already priority. One prop, measured
+      before and after (noted 2026-08-11, section 85).
 - [ ] **Correct the accents in the older Italian interface strings**, which drop
       them ("e" for "è") while the brand copy carries them properly.
 - [ ] **Decide the footer's shipping line.** His "Free worldwide shipping over
@@ -7472,3 +7499,69 @@ real devices.
 The fifteen contrast faults the harness reports are the known caption-polarity
 defect, unchanged: it is the first item under MINE TO DO in the checklist and
 needs a schema field, an import change and a re-import.
+
+## 85. The making unwoven, and section 65 partly reopened (2026-08-11)
+
+**Decided by the OWNER**, on the finding rather than on the proposal: the
+narrative existed in the data and was unreadable on the page.
+
+### What section 65 got right, and the one thing it did not
+
+s65 dissolved the gallery into /process, so photographs-as-photographs live on
+one page and products live only in the shop. **That is untouched and remains
+correct.** What it also did was DEAL the fifteen artistic frames into the gaps
+between the eight process frames, evenly, two per gap.
+
+The eight process frames are not a set. They are a SEQUENCE — pattern, cut, dye,
+dry, build, the parts, the finished garments — and the weave put two unrelated
+photographs between every stage of it:
+
+    pattern . artistic . artistic . cut . artistic . artistic . dye . ...
+
+So the page carried a narrative it made impossible to read, and the paragraph
+above it named five stages a reader then could not find. This was uncovered by a
+proposal to make the page a scroll-driven sequence, which was refused (section
+84): **the page did not need a mechanism, it needed its own order back.**
+
+### What it is now
+
+Eight making frames CONSECUTIVE, in work order, followed by the artistic frames
+as a CODA in their own order — the gallery's dark-to-light descent. Nothing is
+removed and nothing is added: no captions, no words, no motion, no scroll
+trickery. The story is told by sequence alone, which is the only way this page
+has ever been willing to tell anything.
+
+The stages paragraph now sits directly above the eight frames it describes, with
+nothing between them. That was luck rather than design, and it is the clearest
+sign the weave was the fault.
+
+### The one thing this forced, and it matters
+
+**The composition anchors now come out of the coda, not out of the work.** A
+paired surface LIFTS its photograph out of the descending sequence and shows it
+at the top of the page, so anchoring on a making frame would punch a hole in the
+narrative just restored — pattern, cut, then dye missing because it is upstairs
+beside a paragraph.
+
+So the two anchors are taken from the ARTISTIC frames, which are a descent
+rather than a sequence and lose nothing by giving up two. Section 82's rule is
+satisfied for free: an artistic frame is never in `makingMedia`, so no
+photograph heads a composition on two pages. Falls back to any frame home does
+not use, then to the sequence itself, so a dataset with no artistic frames still
+renders a composed page.
+
+Verified in the built HTML, in the owner's own order:
+
+    anchor (gallery) . anchor (gallery) . process 0..7 in order . gallery coda
+
+### What is NOT reopened
+
+The gallery stays dissolved. Imagery stays on /process. Products stay in the
+shop. **Only the interleaving is undone** — two sequences that each mean
+something in their own order and mean nothing shuffled together.
+
+### And the page still says nothing
+
+Naming the five stages under the five frames was costed in section 84 and NOT
+done. It would put words on the one page that has refused captions since it was
+built, and they would be ours until he approved them. The order does the work.
