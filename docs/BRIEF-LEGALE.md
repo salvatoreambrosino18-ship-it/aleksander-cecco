@@ -42,18 +42,19 @@ Dati inseriti dalla persona:
 | --- | --- | --- |
 | Nome | sì | testo libero, max 120 caratteri |
 | Indirizzo email | sì | serve per rispondere |
-| Torace | solo se il capo va fatto su misura | numero, in cm o pollici a scelta |
-| Spalle | idem | idem |
-| Lunghezza | idem | idem |
+| Taglia | sì, dove il capo ha più taglie | una scelta fra XS, S, M, L, XL |
 | Nota libera | no | max 2.000 caratteri, la persona ci scrive quello che vuole |
 
-**Le tre misure sono misure del corpo della persona.** Per i capi già esistenti
-presi «così come sono» e per i pezzi unici (1 di 1) **non vengono chieste né
-inviate**: il modulo non le mostra proprio.
+**AGGIORNAMENTO 2026-08-12, ed è la modifica più rilevante per questo brief: il
+sito NON raccoglie più misure del corpo.** Fino a oggi il modulo chiedeva torace,
+spalle e lunghezza. Il proprietario ha cambiato il funzionamento del negozio:
+ora chi compra **sceglie una taglia** e il capo viene realizzato in quella
+taglia. Le tre misure sono state rimosse dal modulo, dal server e dall'email
+d'ordine: **non vengono più chieste, né inviate, né conservate da nessuna
+parte.**
 
 Dati aggiunti automaticamente dal sito, non digitati dalla persona: quale capo,
-il suo codice, il prezzo mostrato, la lingua della pagina, se vuole il capo così
-com'è o su misura, e l'unità di misura scelta.
+il suo codice, il prezzo mostrato e la lingua della pagina.
 
 Dati tecnici trattati dal server per ragioni di sicurezza:
 
@@ -226,18 +227,39 @@ alle immagini su `cdn.sanity.io` descritta in §2.
 
 ### 6.2 Domande da porre, in ordine di impatto sul sito
 
-1. **Il diritto di recesso si applica ai capi su misura?** È la domanda che
-   cambia il sito in modo più visibile: la normativa prevede eccezioni per i
-   beni confezionati su misura o chiaramente personalizzati, e la risposta
-   determina **quale testo compare oggi sulla pagina di ogni capo e nella pagina
-   spedizioni**. Va distinto anche tra i tre casi che il sito già tratta in modo
-   diverso: capo **su misura**, capo **esistente venduto così com'è**, e
-   **pezzo unico 1 di 1** (commissione privata già realizzata).
-2. **Le misure del corpo, come vanno qualificate?** Non sono dati sanitari nella
-   nostra lettura, ma sono dati personali che una persona non si aspetta di
-   veder trattati con leggerezza, e sono raccolti da un modulo pubblico. Vanno
-   trattate con cautele particolari? Vanno menzionate espressamente
-   nell'informativa?
+1. **IL DIRITTO DI RECESSO, ED È CAMBIATA LA DOMANDA (2026-08-12).** È la prima
+   domanda per impatto, e non è più quella di prima.
+
+   **Come funziona il negozio da oggi:** ogni capo esiste come modello, chi
+   compra **sceglie una taglia** fra quelle che il produttore realizza, e il capo
+   **viene confezionato dopo l'ordine, in quella taglia**, con una consegna
+   dichiarata di massimo due settimane. Non si prendono misure del corpo. Non
+   c'è magazzino: nulla è confezionato prima che qualcuno ordini.
+
+   **La domanda, e la poniamo come domanda perché non sappiamo la risposta:** un
+   capo realizzato dopo l'ordine nella taglia scelta dal cliente è un bene
+   «confezionato su misura o chiaramente personalizzato» ai fini dell'eccezione
+   al recesso, oppure è un normale bene di serie prodotto su commessa, per cui
+   il recesso si applica in pieno?
+
+   La situazione ci sembra **intermedia** fra i due casi tipici, e nessuna delle
+   due letture ci convince da sole: non c'è personalizzazione sulle misure della
+   singola persona, ma non c'è nemmeno un prodotto già fatto e intercambiabile,
+   perché quel capo viene tagliato e cucito a mano per quell'ordine.
+
+   **Cosa cambia in base alla risposta:** il testo dei resi che è **già online
+   oggi** sulla pagina di ogni capo e nella pagina spedizioni, e il testo delle
+   condizioni di vendita da scrivere. Se il recesso si applica, servono anche i
+   quattordici giorni, le istruzioni per esercitarlo e il modulo tipo.
+
+   Restano due casi che il sito tratta diversamente e che vanno distinti nella
+   risposta: il **pezzo unico 1 di 1** (già realizzato, venduto com'è) e il capo
+   **su misura vera**, che oggi non è più un flusso del sito ma resta possibile
+   **per email** — sulla pagina di ogni capo c'è una riga che invita a scrivere.
+2. **Le misure del corpo non vengono più raccolte** (vedi §1.1). La domanda che
+   stava qui — come qualificarle — **decade**, salvo che il legale ritenga
+   necessario dire qualcosa sulle misure che dovessero arrivare via email dopo
+   una richiesta di su misura, che è un canale diverso e non un modulo del sito.
 3. **Per quanto tempo vanno conservate le email degli ordini**, e cosa va fatto
    scaduto quel termine? Serve una regola applicabile a mano da una persona, non
    automatizzata.

@@ -8650,3 +8650,44 @@ It appears in **both places a person needs it**: on the piece, where they are
 deciding, and on the confirmation, where they have committed and the question
 becomes "what now". It is phrased as a MAXIMUM rather than a promise of speed —
 "two weeks at most" cannot be missed by being early, and "in two weeks" can.
+
+
+## 103. His four photographs, and three of them were already here (2026-08-12)
+
+He sent four files named for their positions. **Three are re-exports of
+photographs already in the dataset; one is new.**
+
+    hp1-meet-our-creatures    3024x4032   = homepage_homepage (1).jpg   ALREADY HERE
+    hp2-the-project           1536x2048   = 0d454a66-...jpg             ALREADY HERE
+    hp3-body-of-light         1320x1778   = IMG_3485.PNG                ALREADY HERE
+    hp4-our-skins             4284x5712   NEW — the first new photography in weeks
+
+**sha1 said all four were new, and sha1 was useless**: a re-export changes every
+byte. What answered the question was comparing the PICTURES — a downscaled
+greyscale difference, then looking at the pairs. Three came back at 1.4 to 2.9
+out of 255, which is JPEG noise; hp4 came back at 55, which is a different
+photograph, confirmed by eye.
+
+This is section 80's trap from the other side. There, a file that WAS new
+arrived behind a key that had not changed, and every signal was green. Here,
+three files that look new by every cheap signal are the same photographs.
+**Neither question was answerable without looking at the picture.**
+
+### What his placement resolved by accident
+
+`hp3-body-of-light-ferdinando` is `IMG_3485.PNG` — **the worn band's frame 5,
+the one that has had no linked piece since section 47 and sat on the open list
+as an unidentified photograph.** It was never a piece. It is Ferdinando. The
+tile is linked to no Creature deliberately: it is one of the two people who make
+the brand, and sending a reader from his portrait to a product page would be
+wrong.
+
+### One photograph, three reasons
+
+The first attempt gave each of his three reasons its own paired surface. With one
+photograph available, the same skirt appeared twice and REBORN stood alone on
+flat ground — exactly what section 82 forbids for a body-register passage.
+
+They share one screen now, his photograph on one side and the three passages on
+the other. They are one thought in three parts and his titles are the
+punctuation between them, which is also what he called them.

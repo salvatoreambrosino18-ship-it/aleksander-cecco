@@ -283,30 +283,39 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     Composed with the making frames, as the passage it replaces was, because a
     body-register passage is never alone on this site (section 82).
   */}
-  {philosophy.map((reason, index) => (
-    <PairedSurface
-      media={makingMedia[index + 1] ?? makingMedia[index] ?? null}
-      locale={locale}
-      side={index % 2 === 0 ? "right" : "left"}
-    >
-      <Statement
-        text={pick(reason.text, locale)}
-        locale={locale}
-        heading={reason.title}
-        voice={voice}
-        register="body"
-        bare
-      >
-        {index === philosophy.length - 1 && (
-          <a href={localePath(locale, "creature")} class="type-label text-label self-start hairline-under">
-            {t(locale, "allCreatures")}
-          </a>
-        )}
-      </Statement>
-    </PairedSurface>
-  ))}
+  {philosophy.length > 0 && (
+    /*
+      ONE PHOTOGRAPH, THREE REASONS, ONE COMPOSITION (2026-08-12, section 103).
 
-  {/* Any making frame beyond the two now composed above simply continues. */}
+      He sent ONE photograph for this block. The first attempt gave each reason
+      its own paired surface, and with one frame available the same skirt
+      appeared twice and the third reason stood alone on flat ground — which is
+      precisely what section 82 forbids for a body-register passage.
+
+      So the three reasons share a screen with his photograph the way a single
+      passage would. They are one thought in three parts, his titles are the
+      punctuation between them, and the block reads as what he called it.
+    */
+    <PairedSurface media={makingMedia[1] ?? makingMedia[0] ?? null} locale={locale} side="right">
+      <div class="flex flex-col gap-u8">
+        {philosophy.map((reason) => (
+          <Statement
+            text={pick(reason.text, locale)}
+            locale={locale}
+            heading={reason.title}
+            voice={voice}
+            register="body"
+            bare
+          />
+        ))}
+        <a href={localePath(locale, "creature")} class="type-label text-label self-start hairline-under">
+          {t(locale, "allCreatures")}
+        </a>
+      </div>
+    </PairedSurface>
+  )}
+
+  {/* Any making frame beyond the two composed above simply continues. */}
   {makingMedia.slice(2).map((media) => <MediaSurface media={media} locale={locale} height="tall" />)}
 
   {/*
