@@ -8312,3 +8312,29 @@ It takes the measure's full width instead.
 **That is the second time tonight a fix landed and its own side effect was found
 by the check rather than by a person** — which is the argument for having run
 the audit before writing this section rather than after.
+
+## 97. What accumulated, removed without asking (2026-08-12)
+
+Things that were never decided, only left. Each had survived at least two
+sessions of someone reading past it.
+
+- **`--media-h-band`, and the `height="band"` branch that read it.** Nothing has
+  passed `band` since the home page was rebuilt as a sequence. It was flagged
+  "delete if still unused when the next hand passes through" a session ago; the
+  next hand has passed through.
+- **The sentence describing it**, which had been broken mid-way for as long:
+  *"'screen' fills the viewport, 'tall' leaves the next one peeking, 'band' is
+  'short' is the low row..."*. Two readers had corrected around a line that said
+  nothing rather than noticing it.
+- **`footerTheme`**, threaded through Base into SiteFooter and passed by nobody
+  since section 82. The footer's own `theme` prop stays, documented as the one
+  surface that would carry a local inversion if the site grew one.
+- **`.sig-arrival`**, its absolute positioning and its per-image polarity, which
+  section 96 made unnecessary.
+- **Base.astro's opening comment**, which still described polarity as a property
+  a page chooses, and its `theme` note, which still listed `overlayChrome` among
+  the values that survive. Both argued for rules the site no longer follows,
+  which is the exact failure section 84 named.
+
+Nothing here changed a pixel. That is the point: they were all things a reader
+would have had to disprove before trusting the file around them.

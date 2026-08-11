@@ -30,13 +30,18 @@ interface Props {
   media: MediaItem;
   locale: Locale;
   /**
-   * "screen" fills the viewport, "tall" leaves the next one peeking, "band" is
-   * "short" is the low row on the Creature index, "band" is a tile in a stacked
-   * pair (58svh on a phone, full height on desktop, see DESIGN-PLAN section
-   * 14), and "worn" is a frame inside the horizontal worn band, whose width
-   * comes from the flex item around it.
+   * "screen" fills the viewport less the chrome band, "tall" leaves the next
+   * frame peeking, "short" is the low row on the Creature index, "worn" is a
+   * frame inside the horizontal band (its width comes from the flex item
+   * around it), "tile" is a catalogue tile at the photograph's own 3:4,
+   * "square" is an Instagram frame, "paired" is half of a composed screen.
+   *
+   * "band" was removed on 2026-08-12: nothing had passed it since the home page
+   * was rebuilt as a sequence, and the sentence describing it had been broken
+   * mid-way for as long — two readers had corrected around it rather than
+   * noticing it said nothing.
    */
-  height?: "screen" | "tall" | "short" | "band" | "worn" | "tile" | "square" | "paired";
+  height?: "screen" | "tall" | "short" | "worn" | "tile" | "square" | "paired";
   /**
    * A different height from `height` at desktop. It exists for the gallery,
    * where a phone alternates tall and short down one column and a desktop pairs
@@ -184,7 +189,6 @@ const contained =
       height === "screen" && "h-media-screen",
       height === "tall" && "h-media-tall",
       height === "short" && "h-media-short",
-      height === "band" && "h-media-band md:h-media-screen",
       height === "worn" && "h-worn",
       /*
         A CATALOGUE TILE AT EVERY WIDTH: the photograph's own 3:4. Two across on

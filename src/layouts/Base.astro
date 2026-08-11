@@ -3,9 +3,10 @@
   The shell every page sits inside: the document head, the spine, the corner
   treatment, and the footer. Pages supply only their own content.
 
-  Polarity is a property of the page (or later, of a section): `theme` sets
-  data-theme, and every token resolves from it. There is no interpolated state
-  between the two themes anywhere (DESIGN-PLAN section 3).
+  EVERY PAGE IS PAPER (section 82). `theme` still exists and still sets
+  data-theme, because the menu panel inverts against the page it covers — but no
+  PAGE passes it, and setting it on one reopens an owner's decision. There is no
+  interpolated state between the two polarities anywhere, and never was.
 */
 import "../styles/global.css";
 /*
@@ -49,10 +50,11 @@ interface Props {
     rather than in the site's voice. See BoundaryWash.
 
     WHAT SURVIVED, and it is not the same thing: POLARITY OVER PHOTOGRAPHY. A
-    caption, the fixed chrome and a mark on a frame each take the measured
-    polarity of the pixels they sit on — overlay, overlayChrome, overlayCaption
-    on the media object. That has nothing to do with a page's own ground and is
-    load-bearing for legibility; do not touch it while tidying this away.
+    caption still takes the measured polarity of the pixels under it (`overlay`
+    and `overlayCaption` per image). That has nothing to do with a page's own
+    ground and is load-bearing for legibility; do not touch it while tidying
+    this away. The chrome and the drawn mark no longer sit on photography at all
+    (sections 87 and 96), so neither has a polarity to measure.
 
     SO WHAT IS THIS PROP FOR. A local inversion, and there is exactly one on the
     site: the menu panel, which inverts against the page it covers. If you are
@@ -77,16 +79,9 @@ interface Props {
     is, sets it under the wordmark; nobody crowns an about page with it.
   */
   shopChrome?: boolean;
-  /**
-   * The polarity the page ENDS in. Written for the home page, which used to
-   * invert partway down; UNUSED since section 82 made every page paper, and
-   * kept only because a local inversion is still a thing this shell can express.
-   * If it is still unused when the next hand passes through here, delete it.
-   */
-  footerTheme?: "light" | "dark";
 }
 
-const {locale, title, description: rawDescription, theme = "light", image, footerTheme, shopChrome = true} =
+const {locale, title, description: rawDescription, theme = "light", image, shopChrome = true} =
   Astro.props;
 
 /*
@@ -278,7 +273,7 @@ const shareImage =
       <main id="content" class="flex-1">
         <slot />
       </main>
-      <SiteFooter locale={locale} settings={settings} theme={footerTheme} />
+      <SiteFooter locale={locale} settings={settings} />
     </div>
 
     {/*

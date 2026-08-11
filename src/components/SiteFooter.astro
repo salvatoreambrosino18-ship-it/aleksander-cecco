@@ -34,6 +34,13 @@ interface Props {
   locale: Locale;
   settings: SiteSettings;
   /** Set when the page inverts above it, so the footer joins the second half. */
+  /*
+    UNUSED SINCE EVERY PAGE BECAME PAPER (2026-08-12). It was passed by the home
+    page, which used to end in the opposite polarity to the one it started in.
+    Kept as a prop rather than deleted because the footer is the one surface
+    that would carry a local inversion if the site ever grows one — but nothing
+    passes it, and `undefined` is the correct value everywhere today.
+  */
   theme?: "light" | "dark";
 }
 
