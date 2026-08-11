@@ -125,3 +125,31 @@ Chi compra manda tre misure del proprio corpo e spende quattro cifre senza aver
 toccato niente. Le fotografie raccontano benissimo il mondo del marchio. **Il
 dettaglio e la riga sotto sono l'unica prova di come è fatto**, ed è la sola
 cosa che manca al sito e che non possiamo scrivere noi.
+
+---
+
+## 3. Il video: mandaci l'originale
+
+Abbiamo guardato `video aleksander cecco.mp4`. **Quello che mostra va bene** — il
+capo appeso, le mani, la pelle che si muove: è esattamente il tipo di ripresa che
+serve al sito.
+
+**Ma quel file è una copia ridotta.** È largo 464 pixel: il sito ne chiede almeno
+1200, e a schermo pieno su un telefono la pelle diventa una macchia — si perde
+proprio la grana, che è la cosa che vogliamo far vedere. Succede quando un video
+passa da WhatsApp o da Instagram: vengono rimpiccioliti e ricompressi
+all'invio.
+
+**Cosa ci serve, ed è un messaggio solo:**
+
+- **L'originale dal telefono**, quello che ha registrato la camera (di solito
+  1080x1920).
+- **Mandalo con AirDrop, o caricalo su Drive.** Non con WhatsApp, non con
+  Instagram, non con Telegram: tutti e tre lo rimpiccioliscono di nuovo.
+- Se sul telefono non c'è più, va bene anche rigirarlo: **6 secondi bastano**,
+  telefono fermo, luce di lato, il capo che si muove da solo o le mani che
+  lavorano. Un gesto solo, senza stacchi.
+
+Con l'originale in mano il pezzo che useremo è già scelto: **dal secondo 1,5 al
+secondo 7,5**, dove il capo viene sollevato contro il muro bianco. Finirà nella
+pagina PROCESSO, non nella schermata di apertura.

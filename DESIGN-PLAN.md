@@ -320,6 +320,8 @@ started.
     npm run check          types, then a build
     npm run launch-check   the state of the content, in one command
     npm run shots          a real browser: --audit --prove --only= --force=light|dark
+                           --chrome=  renders a treatment without shipping one
+                           --weigh    what a route costs at 400 kbps (section 91)
     npm run icons          both icon shapes from one SVG: --check compares them
     npm run detail-crops   construction crops from his own frames: DRY by default
     npm run measure-captions  the caption band's polarity and placement, per frame
