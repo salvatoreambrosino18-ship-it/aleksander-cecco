@@ -122,11 +122,13 @@ fifth gesture needs an argument in this file**, not a preference.
 ### 3. The state: it cannot launch, and that is correct
 
 `npm run launch-check` reads the live dataset and **refuses** while anything
-invented is still in it. On 2026-08-11, after the detail crops: **47 invented
-values**, plus 69 images whose alt text no human has approved. **Run the command
-rather than trusting these two numbers** — they were 31 and 49 two days earlier, they move whenever he
-files photographs or we write a line on his behalf, and a number in a document
-is a number going stale.
+invented is still in it. On 2026-08-13: **79 things still ours rather than his**,
+plus 69 images whose alt text no human has approved. **Run the command rather
+than trusting these two numbers** — the first was 47 two days earlier and 77
+this morning, they move whenever he files photographs or we write a line on his
+behalf, and a number in a document is a number going stale. Two of the 79 are
+not copy we wrote but CHOICES we made inside his material and flagged as such:
+`aboutMadeToMeasure` (section 108) and `contactFrame`.
 
 Everything invented is deliberately **invisible to a visitor** — braces and
 "unapproved draft" marks make a real brand look like a rehearsal — so the whole
@@ -358,18 +360,32 @@ started.
     npm run shots          a real browser: --audit --prove --only= --force=light|dark
                            --chrome=  renders a treatment without shipping one
                            --weigh    what a route costs at 400 kbps (section 91)
+                           --rhythm   how empty each section is, and each half of
+                                      a paired one (sections 105, 108)
+                           --slice=N  cuts a capture into strips you can look at;
+                                      a 20,000px page opened whole is a thumbnail
+                           --viewports=1440,1920  name the widths (default 390,1440)
     npm run icons          both icon shapes from one SVG: --check compares them
     npm run detail-crops   construction crops from his own frames: DRY by default
     npm run patch-loop     the one video onto /process: DRY by default
     npm run measure-captions  the caption band's polarity and placement, per frame
     npm run import         Drive → Sanity, READ ONLY, flags every invented value
 
+One-shot patches to the dataset, run with `node scripts/…`, DRY by default, each
+recording verbatim what it changed and why:
+
+    patch-made-to-measure.mjs  "Su Misura" out of his approved text (section 108)
+    patch-contact-frame.mjs    flags OUR choice of the /contact photograph, and
+                               un-flags it the moment he sets `contactMedia`
+    patch-name-order.mjs       Ciro before Ferdinando, inside his sentence (s65)
+
 `npm run measure-chrome` was DELETED on 2026-08-11 (section 87): the chrome
 stopped floating over photography, so there is no band left to measure.
 
 **Three tools have now died in temporary folders and each death cost a real
-defect.** If you are about to write a renderer or a capturer, add a flag to one
-of these instead. And `--prove` must go red before you believe a green.
+defect, and a fourth was written at the repository root on 2026-08-13 before
+being folded in as `--slice` (section 108).** If you are about to write a
+renderer or a capturer, add a flag to one of these instead. And `--prove` must go red before you believe a green.
 
 **AFTER EVERY IMPORT, LOOK AT THE PAGES.** Not the log, not the counts — the
 rendered pages. A screenshot of another website became the drop's cover with
