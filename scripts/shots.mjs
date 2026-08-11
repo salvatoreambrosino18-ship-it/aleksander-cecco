@@ -622,6 +622,31 @@ async function main() {
           colorScheme: scheme,
           reducedMotion: "no-preference",
         });
+        /*
+          EVERY VISIT IS A FIRST VISIT (2026-08-12, section 92).
+
+          The signature draws itself over the home arrival ONCE PER VISIT and
+          then marks `ac-sig-drawn` in sessionStorage; on every later view the
+          element is `display:none`. One browser context walks all 89 routes, so
+          the ceremony happened on the FIRST home page the walk reached — `/`,
+          which redirects to `/en` — and by the time `/en` came round as its own
+          route there was nothing left to measure.
+
+          The full-site audit therefore reported ZERO faults on a site whose only
+          fault is that mark, while auditing `/en` alone in a fresh session
+          reported it at 1.74:1 and 1.49:1. The site had not changed; the visit
+          order had. A first-time reader, which is who the check is for, sees it
+          every time.
+
+          Clearing the key before the page's own scripts run makes every route a
+          first visit, which is the state worth checking.
+        */
+        await context.addInitScript(() => {
+          try {
+            sessionStorage.removeItem("ac-sig-drawn");
+          } catch {}
+        });
+
         const page = await context.newPage();
 
         /*

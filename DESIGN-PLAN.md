@@ -500,7 +500,9 @@ for going quiet.
     arrival's words moved onto paper beneath it (section 89) and the corner mark
     moved into the band above it (section 87). What neither move reaches is the
     DRAWN SIGNATURE, the once-per-visit ceremony over the arrival, which
-    measures 1.49:1 and 1.74:1 and is the only fault left on the site.
+    measures 1.49:1 and 1.74:1 and is the only fault left on the site — **4
+    faults in a full walk**, being one defect on two language pages at two
+    widths (section 92 explains why earlier sessions reported 2).
     **A single photograph fixes it**: an opening frame with a quiet band — even
     quiet in one half — carries a white mark. Tuning the ceremony to the current
     photograph was refused, because a ceremony tuned to one picture becomes a
@@ -8084,3 +8086,46 @@ and whatever a later session does to them.
 without being argued in this file.** Those are the two numbers that decide
 whether the site is usable on the connection his buyers actually have, and they
 now have a command that produces them in a minute.
+
+## 92. The audit could not see the site's only fault (2026-08-12)
+
+A full walk reported **zero faults** tonight. The site has one, and the zero was
+an artefact of visit order.
+
+### What happened
+
+The signature draws itself over the home arrival ONCE PER VISIT and then sets
+`ac-sig-drawn` in sessionStorage; on every later view the element is
+`display:none`. The harness walks all 89 routes in ONE browser context, and the
+first route in the sorted list is `/`, which redirects to `/en`. So the ceremony
+happened there, at the very start of the walk — and by the time `/en` came round
+as its own route there was nothing left on the page to measure.
+
+Audited alone in a fresh session, the same build reported the mark at 1.74:1 and
+1.49:1. **The site had not changed. The visit order had.**
+
+### Why this one stings
+
+The mark is the site's only remaining defect, it is on the most important screen,
+and **it is precisely the thing a FIRST-TIME reader sees** — which is who the
+check exists for. A returning reader never sees it, and the audit had
+accidentally been auditing the returning reader on every route but one.
+
+It is the same shape as section 86, where the check hid the element it was being
+used to judge, and section 84, where `slots.has()` answered a different question
+from the one meant. **A green from a check that cannot reach the thing is worth
+less than no check**, because it is quoted afterwards as evidence.
+
+Every route now clears the key before the page's own scripts run, so every visit
+is a first visit.
+
+### The honest number, and it is not a regression
+
+With the blindness fixed the full walk reports **4 faults**: the drawn signature
+on `/it` and `/en`, at 390 and at 1440.
+
+**Earlier sessions reported 2 for the same defect on the same build**, because
+they had audited one language. The site did not get worse tonight; the
+measurement got honest. There is one defect, on two language pages, at two
+widths, and it clears the day the opening photograph has a quiet band —
+item 13 on THE OPEN LIST.
