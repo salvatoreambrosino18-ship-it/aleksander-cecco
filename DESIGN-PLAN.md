@@ -36,10 +36,16 @@ The shape, which is settled:
 - **/new** is the current drop, in his own drag order in the studio.
 - **One catalogue page** carries all seventeen Creature in three movements
   (available, 1 of 1, sold out) with a CSS-only filter by who a piece is for.
-- **A piece → order flow**: "Acquire — €X" → an order page that takes three body
-  measurements → "Order received". Email via Resend from one Function. **No
+- **A piece → order flow**: "Acquire — €X" → an order page that takes a NAME
+  AND AN EMAIL → "Order received". Email via Resend from one Function. **No
   payment exists**; Stripe slots into one return statement in that Function when
   he has a fiscal position.
+- **EVERY CREATURE IS BOUGHT AS IT EXISTS** (section 98, the owner's call of
+  2026-08-12). Made to measure was removed from the shop and survives as one
+  line on each piece inviting an email. There is no measurement flow, no
+  as-is-or-remade question and no remake anywhere. **Every purchasable piece
+  must therefore publish its own measurements, and the gate refuses without
+  them.**
 - **/process** is the single home of imagery. There is no gallery route.
 - A free-shipping banner on every commerce page; not on the culture pages.
 
@@ -532,6 +538,24 @@ for going quiet.
     `docs/SCATTI-DETTAGLIO.md` section 3 is the ask in Italian. **This is the
     only thing on the site marked to be replaced before launch.**
 
+15. **HIS MEASUREMENTS, FIFTEEN PIECES.** Created by his own decision to remove
+    made to measure (section 98): every Creature is now the object that arrives,
+    so its measurements are the only way a buyer knows whether it fits, and the
+    gate refuses without them. Only **Oblivion** has his. Fourteen carry ours,
+    flagged; **Rubedo has none at all**. The list to send him is in section 98.
+16. **THREE ERRORS IN HIS OWN ENGLISH, shipped unaltered (section 99).** "Our
+    leathers is tanned", "it change", "the Mother Nature". They are his, they
+    are on the home page, and the rule that protects his voice protects his
+    mistakes until he chooses. **Ask him; do not fix.** Two of the three read
+    like the way this brand has always sounded.
+17. **THE PHOTOGRAPH OF FERDINANDO** that replaces the red shirt in BODY OF
+    LIGHT. He said the frame comes out and it has; the band runs at four frames
+    until his replacement arrives. **The file is not on this machine.**
+18. **THE FOUR PHOTOGRAPHS IN HIS DOCUMENT.** He sent them at full resolution
+    and they are probably already in the dataset — but the document did not
+    reach this machine, so nobody has checked. **If any is new it is the first
+    new photography in weeks and belongs in the import.**
+
 ---
 
 ## THE LAUNCH CHECKLIST (2026-08-03)
@@ -553,17 +577,20 @@ that single fact governs the order below.
 Nothing in this group can be written by the owner or by a developer. Until it
 exists, step 3 must not be run.
 
-- [ ] **Privacy notice.** The form collects a name, an email address and three
-      BODY MEASUREMENTS. Under GDPR that needs a named data controller, the
-      legal basis, what is collected, why, how long it is kept, and how to ask
-      for deletion. Body measurements are the kind of data a person expects to
-      be told about.
+- [ ] **Privacy notice.** The form collects **a name and an email address** —
+      body measurements left the site on 2026-08-12 (section 98), which removes
+      the special category that made this harder. It still needs a named data
+      controller, the legal basis, what is collected, why, how long it is kept,
+      and how to ask for deletion.
 - [ ] **Terms of sale and a refund policy.** All four reference sites carry
       them. This brand sells at four figures, made to measure, internationally.
-- [ ] **Right of withdrawal.** Distance selling in the EU has a statutory
-      cooling-off period, and made-to-measure goods may be exempt from it. Which
-      applies here is a legal question and the answer changes the returns copy
-      already on the site.
+- [ ] **Right of withdrawal, and the answer probably CHANGED on 2026-08-12.**
+      Distance selling in the EU has a statutory cooling-off period, and
+      made-to-measure goods can be exempt from it. **The shop no longer sells
+      made to measure** (section 98): every piece is sold as it exists, and
+      goods sold as they are usually are NOT exempt. The question is simpler
+      now and the answer is probably stricter. It changes the returns copy on
+      the site.
 - [ ] **A statement covering the analytics**, even though Cloudflare Web
       Analytics is cookieless.
 
@@ -583,8 +610,12 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
       STYRAX closes it (section 48).
 - [ ] **Compositions** for the twelve Creature still showing `{MATERIALS}`.
 - [ ] **Prices.** Every Creature shows `{PRICE_EUR}`.
-- [ ] **Reference measurements.** Every Creature shows `{MEASUREMENTS}`. With no
-      size system these are the only way to judge cut (section 17).
+- [ ] **MEASUREMENTS, FOR FIFTEEN OF SIXTEEN PURCHASABLE PIECES.** This became
+      the hardest blocker on the list on 2026-08-12 (section 98): with made to
+      measure gone, a piece's numbers describe the object that will arrive, and
+      with no sizes they are the ONLY fit information a buyer has. `launch-check`
+      refuses without them. **Only Oblivion's are his.** Fourteen carry
+      measurements we invented; Rubedo has none at all.
 - [ ] **Reference codes**, or a decision that the brand does not use them, in
       which case `{REF_CODE}` is removed rather than filled.
 - [ ] **Which pieces are available now**, by putting their frames in the
