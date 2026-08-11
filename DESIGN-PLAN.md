@@ -519,8 +519,11 @@ for going quiet.
 12. **THIRTEEN DETAIL CROPS ARE ON THE SITE AND THIRTEEN SENTENCES ARE NOT
     (2026-08-11, section 88).** The crops came out of his own files; the caption
     under each is empty because the sentence is his. Every one is flagged
-    `needsCaption` and named by `npm run launch-check` until he writes it. The
-    list to send him is `docs/SCATTI-DETTAGLIO.md`, which also names the exact
+    `needsCaption` and named by `npm run launch-check` until he writes it.
+    **The list to send him is `docs/RIGHE-DA-SCRIVERE.md`**: thirteen lines,
+    each naming the piece, the detail and the URL of the page it sits on, so he
+    can open a page, look at the photograph and write the sentence.
+    `docs/SCATTI-DETTAGLIO.md` is the longer brief and also names the exact
     detail missing from each of the eight pieces whose photographs are too small
     to crop. **This is now the highest-value item he owns, and it is an hour of
     shooting plus thirteen lines rather than an afternoon.**
