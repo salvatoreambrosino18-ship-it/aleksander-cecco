@@ -6,6 +6,9 @@
     npm run shots -- --prove     prove the audit can go red, then stop
     npm run shots -- --only=/it/contact,/it   just these routes
     npm run shots -- --dark      also capture with prefers-color-scheme: dark
+    npm run shots -- --chrome=gradient|plate|band   render a treatment for the
+                                 corner mark over photography, WITHOUT shipping
+                                 one (section 86)
 
   WHY THIS FILE EXISTS AT ALL, and why it is committed.
 
@@ -76,6 +79,36 @@ const ONLY = value("only")?.split(",").map((s) => s.trim()).filter(Boolean) ?? n
   the page around it did. Flipping them would make the study lie.
 */
 const FORCE = value("force");
+
+/*
+  --chrome=gradient|plate|band RENDERS A TREATMENT FOR THE CORNER MARK, for
+  studying it before anyone commits to one (2026-08-11, section 86).
+
+  WHY THIS IS A FLAG AND NOT A BRANCH. 71 of 97 photograph placements measure
+  under 4.5:1 for the fixed signature and MENU WHICHEVER polarity is chosen —
+  the brand's own name is unreadable on most of the site, and standing rule 11,
+  which forbids the standard fix, was written before anyone had seen this
+  photography. The rule deserves to be re-examined against a picture rather than
+  against an argument, and this is how the pictures get made. Nothing here is
+  shipped; the site is untouched.
+
+    none      (default) as the site is today
+    gradient  the conventional scrim: a soft band under the chrome, in the
+              OPPOSITE polarity to the mark, fading to nothing. It is the thing
+              every reference does, and it is what the rule forbids: between
+              solid ink and solid paper it paints every value in between.
+    plate     a solid plate behind the marks only. Two colours, no gradient, no
+              gray — the rule survives intact — and it puts two opaque
+              rectangles on his photograph.
+    band      the chrome stops floating: it takes its own height in the flow, in
+              page ground, and the photograph begins under it. No mark ever sits
+              on a photograph, so nothing needs measuring. It costs the top edge
+              of every full-bleed frame.
+
+  It deliberately does not touch captions: they are a different band with a
+  different measured value, and mixing the two would make the study lie.
+*/
+const CHROME = value("chrome");
 
 /*
   The two widths the site is designed against (DESIGN-PLAN section 14): a phone
@@ -405,9 +438,46 @@ async function overlayContrast(page, sharp, tmpFile) {
   });
   if (!boxes.length) return [];
 
+  /*
+    TRANSPARENT TEXT, NOT A HIDDEN ELEMENT (corrected 2026-08-11, section 86).
+
+    This hid `#site-chrome` outright and then measured the pixels inside the
+    mark's box. That is correct only while the chrome is nothing but glyphs —
+    and it silently stops being correct the moment anything is put BEHIND the
+    glyphs, because `visibility:hidden` takes the element's own background, its
+    pseudo-elements and its children's backgrounds with it. Measured that way, a
+    scrim and no scrim produce byte-identical numbers, and the check reports the
+    naked photograph either way.
+
+    Found while rendering scrim treatments for the very question this check
+    exists to answer: gradient and plate came back to two decimal places
+    identical to the baseline on four routes. A check that cannot see the fix it
+    is being used to evaluate is worse than no check, because it argues against
+    the fix with a number.
+
+    Every mark here paints in `currentColor` — the signature SVG is
+    `fill: currentColor` and MENU is text — so making the colour transparent
+    removes exactly the glyphs and leaves every ground, plate and scrim painted.
+    On today's site the two are identical, because there is nothing behind the
+    glyphs to keep.
+  */
+  /*
+    BORDERS COUNT AS THE MARK, NOT AS THE GROUND. An action on this site is a
+    word with a hairline UNDER it, drawn from `var(--fg)` rather than from
+    currentColor, so making the text transparent left the underline painted
+    inside the measured box — and a solid line in exactly the text colour reads
+    as a perfect 1.00:1. The first run of this correction invented a fault on
+    "Tutte le Creature" at both widths, which is the harness lying in the
+    direction of alarm rather than of comfort, and is still lying.
+  */
+  const HIDE_MARKS =
+    "color:transparent!important;fill:transparent!important;" +
+    "border-color:transparent!important;text-decoration-color:transparent!important";
   await page.addStyleTag({
     content:
-      "figcaption{visibility:hidden!important}#site-chrome{visibility:hidden!important}.sig-arrival{visibility:hidden!important}",
+      `figcaption, figcaption *{${HIDE_MARKS}}` +
+      `#site-chrome, #site-chrome *{${HIDE_MARKS}}` +
+      `.sig-arrival, .sig-arrival *{${HIDE_MARKS}}`,
   });
   await page.waitForTimeout(120);
   await page.screenshot({path: tmpFile, fullPage: true});
@@ -548,6 +618,68 @@ async function main() {
           }
 
           /*
+            THE CHROME TREATMENTS (section 86). Injected, never shipped. Each
+            one is written in the site's own tokens so what is photographed is
+            what the site would actually paint.
+          */
+          if (CHROME && CHROME !== "none") {
+            const css = {
+              /*
+                The scrim's height is twice the chrome band, so it is finished
+                before it reaches anything a reader is looking at, and its
+                strongest point is 55% — the least that lifts the worst measured
+                frame over 4.5:1. Its colour follows the MARK's own measured
+                polarity, because a scrim under a white mark must be dark and
+                under a black mark must be light.
+              */
+              gradient:
+                `#site-chrome{position:sticky;isolation:isolate}` +
+                `#site-chrome::before{content:"";position:absolute;left:0;right:0;top:0;` +
+                `height:calc(var(--chrome-h)*2);z-index:-1;pointer-events:none;` +
+                `background:linear-gradient(to bottom,rgba(10,10,10,.55),rgba(10,10,10,0))}` +
+                `#site-chrome[data-theme="light"]::before{` +
+                `background:linear-gradient(to bottom,rgba(250,250,248,.75),rgba(250,250,248,0))}`,
+              /*
+                WHAT IT TAKES TO ACTUALLY PASS, arrived at by arithmetic and
+                then confirmed here. White text at 0.958 luminance needs the
+                brightest pixel under it at or below 0.174 to reach 4.5:1, and
+                veiling bright concrete (~0.95) down to that means an ink layer
+                at roughly 82% — so this is 85%. It is no longer a scrim; it is
+                a black bar with a soft bottom edge. Rendering it is the point:
+                the "minimal" version and the version that works are not the
+                same object, and only one of them is what the references do.
+              */
+              "gradient-strong":
+                `#site-chrome{position:sticky;isolation:isolate}` +
+                `#site-chrome::before{content:"";position:absolute;left:0;right:0;top:0;` +
+                `height:calc(var(--chrome-h)*2);z-index:-1;pointer-events:none;` +
+                `background:linear-gradient(to bottom,rgba(10,10,10,.92) 0%,rgba(10,10,10,.85) 45%,rgba(10,10,10,0) 100%)}` +
+                `#site-chrome[data-theme="light"]::before{` +
+                `background:linear-gradient(to bottom,rgba(250,250,248,.95) 0%,rgba(250,250,248,.9) 45%,rgba(250,250,248,0) 100%)}`,
+              /*
+                A plate is the chrome's own --bg, which is by definition the
+                opposite of the mark it carries. Solid: no value between the two
+                colours exists anywhere in this treatment.
+              */
+              plate:
+                `#site-chrome > a, #site-chrome .menu > summary{` +
+                `background:var(--bg);padding:calc(var(--s-u1)*0.75) var(--s-u2);}`,
+              /*
+                The chrome takes its own height in the flow — the negative margin
+                that makes it an overlay is removed — and paints page ground. The
+                marks are then on paper, at 19.6:1, and the photograph starts
+                below them. Nothing is measured because nothing overlaps.
+              */
+              band:
+                `#site-chrome{margin-bottom:0!important;background:var(--paper);` +
+                `--fg:#0a0a0a!important;color:#0a0a0a!important}`,
+            }[CHROME];
+            if (!css) throw new Error(`unknown --chrome=${CHROME} (none|gradient|plate|band)`);
+            await page.addStyleTag({content: css});
+            await page.waitForTimeout(120);
+          }
+
+          /*
             REFUSE IF WE LANDED SOMEWHERE UNINTENDED. A 404 photographs
             perfectly well and looks like a working page; so does a redirect.
             The old harness learned this the expensive way.
@@ -658,7 +790,17 @@ async function main() {
             return;
           }
 
-          const dir = path.join(OUT, FORCE ? `force-${FORCE}` : scheme === "dark" ? "dark" : "light", viewport.name);
+          const dir = path.join(
+            OUT,
+            CHROME && CHROME !== "none"
+              ? `chrome-${CHROME}`
+              : FORCE
+                ? `force-${FORCE}`
+                : scheme === "dark"
+                  ? "dark"
+                  : "light",
+            viewport.name,
+          );
           fs.mkdirSync(dir, {recursive: true});
           const name = (route === "/" ? "root" : route.slice(1).replace(/\//g, "_")) + ".png";
           const file = path.join(dir, name);

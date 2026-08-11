@@ -407,6 +407,14 @@ for going quiet.
    written in Italian for him — what to shoot, how close, in what light, what to
    write under each, and where it goes in the studio. **It costs him an
    afternoon and it is the highest-value thing left in the project.**
+   **HALVED 2026-08-11 (section 86), by looking at the files instead of assuming:
+   41 of 83 frames carry a croppable detail at or above the size the site
+   already publishes.** Eight pieces are covered by cropping what he has shot —
+   the scar-stitch, the hole, the seams, the zips, the hems, and his own
+   handwriting inside Rubedo's collar. Eight still need him: styrax, styrax-red,
+   glovyes, capo-09, severya, capo-07, capo-04, capo-14. **Nothing has been
+   imported; the crops are proposals for his eye.** The sentence under each is
+   still the part only he can give.
 8. **Photographs that expand as they enter — NOT BUILT, and the owner has
    declined to overturn it (2026-08-11).** He wants the effect; the one place it
    could mean something is a Creature's arrival, and that is exactly the frame
@@ -429,6 +437,21 @@ for going quiet.
     are all in **section 83**. Zero `<video>` elements are in the build today, and
     the moment he uploads a file into any media object, a loop plays there with
     no code change and no rebuild of anything but the site.
+
+**Opened 2026-08-11**
+
+11. **THE MARK OVER HIS PHOTOGRAPHY — the largest single defect on the site, and
+    the decision is his.** 118 of 152 audit faults are the brand's own mark; 71
+    of 97 photograph placements have no legible side; the worst is 1.00:1.
+    Section 86 renders and measures four treatments and finds that **the rule
+    costing us is not "no scrim" (standing rule 11) but "the chrome floats over
+    full-bleed photography" (section 14)** — both treatments that fully work keep
+    two colours and break no rule about grey.
+    **Recommended: the BAND** — the chrome takes its own height in page ground,
+    19.6:1 everywhere, no per-image judgement ever again, and it deletes
+    `overlayChrome`, its 97 measurements and section 83's drifting-loop trap. It
+    costs the full-bleed top edge on the two culture pages, which is the whole
+    trade and is why it is on this list rather than in the code.
 
 ---
 
@@ -7565,3 +7588,109 @@ something in their own order and mean nothing shuffled together.
 Naming the five stages under the five frames was costed in section 84 and NOT
 done. It would put words on the one page that has refused captions since it was
 built, and they would be ours until he approved them. The order does the work.
+
+## 86. What the photographs already contain, and the rule we wrote too early (2026-08-11)
+
+Two things were reconsidered on the owner's instruction. Neither is built; both
+are measured, and the renders are in an artifact he has.
+
+### The detail photographs mostly already exist
+
+Section 84 answered the detail-points proposal with "three new photographs per
+piece, shot by him". That was right in principle and half wrong in practice, and
+the way to find out was to LOOK at the files rather than to assume.
+
+Every frame in the live dataset was read at full resolution — **83 frames**
+across seventeen Creature, the arrival, the making sequence, about and the
+archive — against one mechanical test: a crop is real only if it lands at
+**1200px or more on its long edge**, which is the size of the smallest frames
+the site already publishes full-bleed today. That threshold decides the zoom: a
+1200px crop is 40% of a 3024px frame, and 71% of a 1680px one.
+
+    41 frames  croppable to a genuine detail (>= 2400px wide)
+     8 frames  marginal (1700-2399px: a "crop" is 70% of the frame)
+    34 frames  too small — these are the ones he must shoot
+
+**Twelve crops were cut and looked at**, all at or above the floor: Rubedo's
+scar-stitch (1360x1612), his handwriting inside Rubedo's collar (nobody had
+noticed it was in the file), the Oblivion hole on the back, three raw hems,
+Capo-02's back seams and snaps, Capo-10's welt zips, Capo-05's exposed zip,
+Capo-13's let-in panel, Capo-12's wrapped collar, Capo-01's collar.
+
+Eight pieces can be covered by cropping. Eight need him: **styrax** (the choker),
+**styrax-red** (the waxed lacing), **glovyes**, **capo-09**, **severya**,
+**capo-07**, **capo-04**, **capo-14**. Every one of those is a piece whose frames
+came in at 1200-1690px — the Instagram-sized and salvaged files of section 47.
+
+**And the finding under the finding:** several frames ARE already detail
+photographs — Ghezard's zip fills its own frame, Capo-02's seams are close-ups,
+the archive holds a hand-signed label — published full-bleed today with nothing
+written under them. **The gap was never the picture. It is the sentence.**
+
+`docs/SCATTI-DETTAGLIO.md` stands, halved: crop what exists, shoot the eight.
+
+### The mark over photography, and the rule that is actually costing us
+
+The audit re-run across 89 routes at both widths: **152 faults, every one of them
+text on a photograph** — no overflow, no spill, no band, no DOM contrast fault
+anywhere on the site. **118 of the 152 are the brand's own mark.** Separately,
+`measure-chrome` reports **71 of 97 placements under 4.5:1 whichever polarity is
+chosen**: no legible side. The worst measurement is 1.00:1.
+
+**THE AUDIT WAS LYING ABOUT THIS, and that had to be fixed first.** Rendering the
+treatments produced numbers identical to two decimal places on four routes,
+because the check hid `#site-chrome` before measuring the ground under the mark —
+and `visibility:hidden` takes an element's background and pseudo-elements with
+it. A scrim and no scrim measured the same. It now sets the glyphs transparent
+(every mark paints in `currentColor`), so any ground behind them survives into
+the measurement; verified behaviour-preserving against every baseline number. The
+first attempt at that correction invented a fault of its own — an action's
+hairline underline is drawn from `var(--fg)` rather than currentColor, so it sat
+inside the box as a perfect 1.00:1 — and borders are neutralised too.
+
+**A check that cannot see the fix it is being used to evaluate is worse than no
+check, because it argues against the fix with a number.**
+
+Four treatments, rendered with `npm run shots -- --chrome=`, measured on the same
+eight placements (four routes x two widths):
+
+    none            8 of 8 fail, worst 1.14:1   the brand's name, on most of the site
+    gradient 55%    3 of 8 fail, worst 2.83:1   a veil on every photograph, and it still fails
+    gradient 85%    0 of 8 fail                 a black bar with a soft edge, grey over his work
+    plate           0 of 8 fail                 two closed boxes on the photograph
+    band            0 of 8 fail, 19.6:1         the photograph loses its top edge
+
+The 85% is arithmetic, not taste: white text at 0.958 luminance needs the
+brightest pixel under it at or below 0.174 to reach 4.5:1, and veiling pale
+concrete to that takes an ink layer at roughly 82%. **The minimal scrim and the
+scrim that works are not the same object.**
+
+**THE ANSWER TO THE QUESTION AS ASKED:** a scrim costs standing rule 11 —
+permanently, on every page, over his work — and at the strength that clears AA it
+is a bar rather than a veil. That cost is larger than it looks and **smaller than
+the brand's own name being illegible on 126 of 178 screens.** If those were the
+only two options the scrim would win, and the rule would deserve to go.
+
+**They are not the only two options, and that is the finding. The rule that is
+costing us is not "no scrim" — it is "the chrome floats over full-bleed
+photography"** (section 14, an owner's call on 2026-08-01, written before this
+photography existed either). Both treatments that fully work keep two colours and
+break no rule about grey.
+
+**Recommended, and it is the owner's to take: THE BAND.** The chrome stops
+floating and takes its own height in page ground. It measures 19.6:1 everywhere,
+forever, with no per-image judgement — and it DELETES work: `overlayChrome`, its
+97 measurements and its import step stop being needed, and section 83's trap,
+where a video loop drifts under the chrome and makes the name vanish mid-loop,
+disappears with them. On shop pages it costs almost nothing, because those pages
+already open with the paper shipping line and the band continues it. On the two
+culture pages it costs the full-bleed top edge, and that is the whole trade.
+
+If the culture pages must keep their edge, the site already has the pattern: a
+`chromePlacement` of over/above, mirroring `captionPlacement`, defaulting to the
+measurement. It costs an inconsistent top edge between pages.
+
+Not recommended: the **plate**, because section 25 removed the last closed box
+from this system deliberately and the render shows MENU turning back into a
+button; and the **gradient**, because it is the only option that modifies his
+photograph.
