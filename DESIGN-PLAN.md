@@ -430,9 +430,10 @@ for going quiet.
    already publishes.** Eight pieces are covered by cropping what he has shot —
    the scar-stitch, the hole, the seams, the zips, the hems, and his own
    handwriting inside Rubedo's collar. Eight still need him: styrax, styrax-red,
-   glovyes, capo-09, severya, capo-07, capo-04, capo-14. **Nothing has been
-   imported; the crops are proposals for his eye.** The sentence under each is
-   still the part only he can give.
+   glovyes, capo-09, severya, capo-07, capo-04, capo-14. **The thirteen crops
+   were imported on 2026-08-11 and are live with empty captions** — see item 12,
+   which is where this item now continues. The sentence under each is still the
+   part only he can give.
 8. **Photographs that expand as they enter — NOT BUILT, and the owner has
    declined to overturn it (2026-08-11).** He wants the effect; the one place it
    could mean something is a Creature's arrival, and that is exactly the frame
@@ -449,25 +450,24 @@ for going quiet.
    decided to unweave it**: eight making frames consecutive in work order, the
    artistic frames as a coda. It partly reopens s65 and section 85 records
    exactly which part. Nothing was added — no captions, no words, no motion.
-10. **Video — SPECIFIED, and the player already shipped.** Nothing is shot yet.
-    The three places it belongs, what each needs in length and framing, what it
-    must not be used for, and the one trap that will silently break the chrome,
-    are all in **section 83**. Zero `<video>` elements are in the build today, and
-    the moment he uploads a file into any media object, a loop plays there with
-    no code change and no rebuild of anything but the site.
+10. **VIDEO — one file exists, and it was surveyed and REFUSED (2026-08-12,
+    section 90).** `video aleksander cecco.mp4`: 26s, **464 x 832**, 30fps, with
+    an audio track, 4.29 MB. It shows the right thing — one continuous take of a
+    garment being hung, his own work — and it cannot go on the site: its long
+    edge is 832 against a 1200 floor, so at the size a phone actually paints it
+    the leather has no grain; nothing in it loops (first to last differs by 84.7
+    of 255, and the best six-second window still ends 33.9 away); its first
+    frame is a different picture from the arrival's poster; and its caption band
+    swings across the clip to 2.59:1 for white and 1.07:1 for black — the exact
+    trap section 83 predicted, measured. **Nothing was imported or re-encoded**:
+    re-encoding fixes the audio and the megabytes and neither is the problem.
+    **THE ASK IS NOW ONE MESSAGE**: the camera ORIGINAL, sent by AirDrop or
+    Drive rather than WhatsApp or Instagram, which re-compress on send. That
+    file is 1080 x 1920 on his phone. With it, the window is already chosen —
+    1.5s to 7.5s — and it belongs on /process, never on the arrival, which needs
+    a locked-off frame of one material moving rather than a cut from a take.
 
 **Opened 2026-08-11**
-
-13. **THE OPENING PHOTOGRAPH, and it is the last thing standing between this
-    site and a clean audit.** Its caption band measures 1.5:1 worst case, so the
-    arrival's words moved onto paper beneath it (section 89) and the corner mark
-    moved into the band above it (section 87). What neither move reaches is the
-    DRAWN SIGNATURE, the once-per-visit ceremony over the arrival, which
-    measures 1.49:1 and 1.74:1 and is the only fault left on the site.
-    **A single photograph fixes it**: an opening frame with a quiet band — even
-    quiet in one half — carries a white mark. Tuning the ceremony to the current
-    photograph was refused, because a ceremony tuned to one picture becomes a
-    bug the day the picture changes. His to shoot or to choose.
 
 11. **THE MARK OVER HIS PHOTOGRAPHY — DECIDED AND BUILT (2026-08-11, section
     87).** 118 of 152 audit faults were the brand's own mark; 71 of 97
@@ -492,6 +492,17 @@ for going quiet.
     detail missing from each of the eight pieces whose photographs are too small
     to crop. **This is now the highest-value item he owns, and it is an hour of
     shooting plus thirteen lines rather than an afternoon.**
+
+13. **THE OPENING PHOTOGRAPH, and it is the last thing standing between this
+    site and a clean audit.** Its caption band measures 1.5:1 worst case, so the
+    arrival's words moved onto paper beneath it (section 89) and the corner mark
+    moved into the band above it (section 87). What neither move reaches is the
+    DRAWN SIGNATURE, the once-per-visit ceremony over the arrival, which
+    measures 1.49:1 and 1.74:1 and is the only fault left on the site.
+    **A single photograph fixes it**: an opening frame with a quiet band — even
+    quiet in one half — carries a white mark. Tuning the ceremony to the current
+    photograph was refused, because a ceremony tuned to one picture becomes a
+    bug the day the picture changes. His to shoot or to choose.
 
 ---
 
@@ -7930,3 +7941,86 @@ text. It is the same photographic problem in the same place: it clears when the
 opening frame does. It is on THE OPEN LIST rather than in the code, because
 tuning a ceremony to one photograph is how a ceremony becomes a bug when the
 photograph changes.
+
+## 90. The one video, surveyed and refused (2026-08-12)
+
+One file exists — `video aleksander cecco.mp4`, 4.29 MB — and the owner has
+confirmed there is no other on the machine or the Drive. Measured against the
+spec in section 83, and then LOOKED AT, it cannot go on the site.
+
+### What it is
+
+    duration    26.12s          (spec: 6-10s arrival, 4-8s process, 4-6s a piece)
+    resolution  464 x 832       portrait 9:16
+    frame rate  30 fps
+    codec       h264 Baseline, yuv420p, 1308 kbps
+    audio       AAC 44.1kHz stereo, 65 kbps   (spec: no audio track at all)
+    size        4.29 MB         (spec: under 3 MB, under 2 MB on the arrival)
+
+**What it shows**, and this part is good: one continuous take — no scene change
+scores above 0.15 anywhere in it — of a hooded figure hanging a long black
+leather garment against a white plaster wall, the camera moving in until the
+fabric fills the frame, ending nearly black. It is the work, and it is his.
+
+### Why it cannot carry the arrival, or anything else full bleed
+
+**1. It is 832px on its long edge, and the site's floor is 1200.** That floor is
+not a preference: it is the size of the smallest frames already published here
+(section 88). A full-bleed frame on a phone is 390 CSS pixels at DPR 3, so 1170
+device pixels; this clip is 464 wide. Rendered at the size a reader actually
+sees it, **the leather has no grain at all** — blocked shadows and compression
+smear where every crease reads on the stills beside it. That comparison was
+rendered and looked at, and it is the whole decision. A site whose argument is
+the material cannot show the material as mush.
+
+**2. There is no loop in it.** First frame against last differs by 84.7 of 255;
+the best six-second window anywhere in the clip still ends 33.9 from where it
+started. Nothing here returns to where it began, because it is a NARRATIVE — a
+person arrives, hangs a garment, the camera closes in, the light goes. A loop
+that jumps is a player, and section 83's whole premise is a moving photograph.
+
+**3. Its first frame cannot be its own poster.** The clip opens on a bright room
+with a gloved hand entering the frame; the arrival's photograph is a black
+crinkled bodysuit on a mannequin. They are different pictures, so the moment the
+loop played the page would cut.
+
+**4. The luminance drift is real and measured.** Sampled twice a second, the
+caption band swings from 0.007 to 0.339 relative luminance: **worst case 2.59:1
+for white text and 1.07:1 for black, over the same clip.** Neither colour
+survives it. The arrival's words are on paper now (section 89) so they would not
+be harmed — but the drawn signature still sits over that frame, and its ground
+swings 0.012 to 0.320 underneath it. This is exactly the trap section 83
+predicted, and here it is with numbers.
+
+Any one of these is disqualifying on its own. The first is not fixable by
+re-encoding: **you cannot add pixels that were never recorded.**
+
+### Where it goes: nowhere, and that is not the same as never
+
+**Nothing was imported and nothing was re-encoded.** Re-encoding would have
+fixed the two things that do not matter — the audio track and the file size —
+and left the two that do.
+
+Every place a video is allowed on this site is full bleed, and every small frame
+— the worn band, the Instagram strip, a catalogue tile — is forbidden a loop for
+reasons that have not changed (section 83). Inventing a small video surface so
+this clip has somewhere to sit would be building a role for a file rather than a
+reason, which is the thing the owner explicitly asked not to be done.
+
+### What would change the answer, and it is one message
+
+**464 x 832, Baseline profile, 1.3 Mbps is a messaging-app re-encode**, not a
+camera original. The phone that shot this recorded 1080 x 1920. Ask him for the
+ORIGINAL, sent by AirDrop or Drive rather than by WhatsApp or Instagram, which
+re-compress on send.
+
+With the original in hand the survey changes completely, and the window is
+already chosen: **1.5s to 7.5s**, the steadiest six seconds in the take, where
+the garment is being lifted against the white wall. It would still not loop
+seamlessly, so it would be a /process frame — the making, where a loop is
+allowed to be an action rather than a breath — and never the arrival. The
+arrival needs a locked-off frame of one material moving, which is a thing to
+shoot rather than a thing to cut.
+
+This is item 10 on THE OPEN LIST, and it is now specific: one file, one window,
+one thing to ask for.
