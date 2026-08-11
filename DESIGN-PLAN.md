@@ -93,6 +93,25 @@ value between ink and paper is painted anywhere. A veil was rendered, measured
 and rejected (section 86); nobody is to reintroduce one believing they are
 restoring something.
 
+### 2b. WHAT MOVES, and it is four things
+
+The site's motion is one system: one curve, each gesture once, everything
+degrading to nothing under reduced motion or with JavaScript off.
+
+- **A photograph arrives** as it enters — opacity and 24px, never scale.
+- **The tile becomes the piece**: tapping a catalogue tile carries that
+  photograph into the Creature's arrival (section 94). One element is named, at
+  the moment a finger lands on it.
+- **The grid settles** when a filter changes, so the page has visibly answered.
+- **A line is drawn** under anything you point at, focus, or press — the last
+  covering the buyer on a phone, who had no acknowledgement at all.
+- **His hand writes**, twice and once each: the signature signs the arrival on
+  paper (section 96), and the reader writes it again with their own scroll at
+  the boundary wash.
+
+Nothing moves that must be read, and nothing competes with a photograph. **A
+fifth gesture needs an argument in this file**, not a preference.
+
 ### 3. The state: it cannot launch, and that is correct
 
 `npm run launch-check` reads the live dataset and **refuses** while anything
@@ -324,6 +343,7 @@ started.
                            --weigh    what a route costs at 400 kbps (section 91)
     npm run icons          both icon shapes from one SVG: --check compares them
     npm run detail-crops   construction crops from his own frames: DRY by default
+    npm run patch-loop     the one video onto /process: DRY by default
     npm run measure-captions  the caption band's polarity and placement, per frame
     npm run import         Drive → Sanity, READ ONLY, flags every invented value
 
@@ -498,18 +518,19 @@ for going quiet.
     to crop. **This is now the highest-value item he owns, and it is an hour of
     shooting plus thirteen lines rather than an afternoon.**
 
-13. **THE OPENING PHOTOGRAPH, and it is the last thing standing between this
-    site and a clean audit.** Its caption band measures 1.5:1 worst case, so the
-    arrival's words moved onto paper beneath it (section 89) and the corner mark
-    moved into the band above it (section 87). What neither move reaches is the
-    DRAWN SIGNATURE, the once-per-visit ceremony over the arrival, which
-    measures 1.49:1 and 1.74:1 and is the only fault left on the site — **4
-    faults in a full walk**, being one defect on two language pages at two
-    widths (section 92 explains why earlier sessions reported 2).
-    **A single photograph fixes it**: an opening frame with a quiet band — even
-    quiet in one half — carries a white mark. Tuning the ceremony to the current
-    photograph was refused, because a ceremony tuned to one picture becomes a
-    bug the day the picture changes. His to shoot or to choose.
+13. **THE OPENING PHOTOGRAPH — the fault it caused is CLOSED (section 96), and
+    the ask is smaller now.** The drawn signature no longer sits on it: the
+    ceremony moved onto the paper beneath, ink at 19.6:1, immune to any
+    photograph he ever shoots. **The site audits clean.**
+    What is still worth having from him, and it is no longer a defect: an
+    opening frame with a quiet band would let the arrival's four lines go back
+    ONTO the picture (they sit under it since section 89), which is the stronger
+    composition. Wanted, not needed.
+14. **THE CAMERA ORIGINAL OF THE ONE VIDEO.** A 464px messaging-app copy is live
+    on /process tonight, marked provisional, and it is the weakest frame on the
+    site at 1440 (section 93). The original is 1080x1920 and one message away;
+    `docs/SCATTI-DETTAGLIO.md` section 3 is the ask in Italian. **This is the
+    only thing on the site marked to be replaced before launch.**
 
 ---
 
