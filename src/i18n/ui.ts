@@ -100,7 +100,6 @@ const ui = {
     */
     unique: "Commissione privata. 1 di 1, fatta una volta sola.",
     uniqueAction: "Acquista questo pezzo",
-    uniqueIntro: "Fatta una volta sola, sulle misure di qualcun altro. Si acquista così com'è.",
     privateOrder: "Ordine privato.",
     notTakingRequests: "Non in lavorazione ora.",
     // "Creatura" is the owner's own word for a piece, not ours (2026-08-02).
@@ -159,7 +158,6 @@ const ui = {
     placeOrder: "Invia l'ordine",
     sending: "Invio in corso",
     yourName: "Nome",
-    yourMeasurements: "Le tue misure",
     note: "Note",
     details: "Scheda tecnica",
     shippingReturns: "Spedizioni e resi",
@@ -225,7 +223,6 @@ const ui = {
     thisPieceMeasurements: "This piece's measurements",
     unique: "A private commission. 1 of 1, made once.",
     uniqueAction: "Acquire this piece",
-    uniqueIntro: "Made once, to someone else's measurements. It is bought as it is.",
     privateOrder: "Private order.",
     notTakingRequests: "Not in the making now.",
     draftNotice: "Unapproved draft",
@@ -252,7 +249,6 @@ const ui = {
     placeOrder: "Place the order",
     sending: "Placing the order",
     yourName: "Name",
-    yourMeasurements: "Your measurements",
     note: "Note",
     details: "Technical details",
     shippingReturns: "Shipping and returns",
