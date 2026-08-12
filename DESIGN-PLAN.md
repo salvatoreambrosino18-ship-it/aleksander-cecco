@@ -444,6 +444,8 @@ recording verbatim what it changed and why:
     patch-contact-frame.mjs    flags OUR choice of the /contact photograph, and
                                un-flags it the moment he sets `contactMedia`
     patch-name-order.mjs       Ciro before Ferdinando, inside his sentence (s65)
+    patch-band-caption.mjs     MONUMENTUS TENEBRAE on the band's first frame; it
+                               REFUSES once a Creature carries that name (s110)
 
 `npm run measure-chrome` was DELETED on 2026-08-11 (section 87): the chrome
 stopped floating over photography, so there is no band left to measure.
@@ -497,7 +499,10 @@ reference to a section or a flag, is `docs/PER-ALEKSANDER.md`, and that is the
 document to send rather than any part of this file.
 
 - The **worn band's order** (five frames; it is a studio field — drag
-  `homeSequence`, first from the top is leftmost). Frame 5 has no linked piece.
+  `homeSequence`, first from the top is leftmost). **Its first frame is captioned
+  MONUMENTUS TENEBRAE and is linked to no piece** (section 110), because no
+  Creature carries that name. If he files one, link the frame and delete the
+  caption.
 - His **Instagram post links** — four frames, none carries a `postUrl`, so every
   square currently falls back to the profile.
 - **`collection.season`** is empty; the drops card renders it the moment he sets
@@ -9361,3 +9366,51 @@ astro build` since before this session.
 `{REF_CODE}`"; the built HTML contains it nowhere, because the field is absent
 and every use is guarded. The decision is still his, but nothing is broken while
 he takes it.
+
+## 110. The first frame of BODY OF LIGHT gets a name (2026-08-12)
+
+The owner looked at the home page and said the first frame in the band — the
+trousers — carries no name and should say **MONUMENTUS TENEBRAE**.
+
+### The question was WHERE the name comes from, not what it says
+
+`WornBand.astro` renders a name from the LINKED PIECE and never from typed text,
+so renaming a Creature renames it everywhere at once. **That is the better
+mechanism and it is the one to prefer.** It could not be used here, and the
+checking is the whole of this section:
+
+- **`IMG_3485.PNG` is in no garment's media.** It was the band's unidentified
+  frame, and section 103 made it first in BODY OF LIGHT because it is a
+  person — Ferdinando — rather than a piece.
+- **No Creature in the catalogue is called Monumentus Tenebrae.** The dataset
+  holds Monumentus Vest, Monumentus Pants and Monumentus Lux. Tenebrae is the
+  dark half of the drop's own title and Lux the pale half, so the name is
+  plainly his and plainly real — **it simply is not a document yet.**
+
+So it is a caption on the photograph, `media.caption`, both languages, and it is
+**the weaker of the two mechanisms**: a typed string that will not follow a
+rename. `scripts/patch-band-caption.mjs` therefore REFUSES to run if a Creature
+named Monumentus Tenebrae ever exists, and says to link the frame instead. **A
+decision that is only true today has to carry the check that notices when it
+stops being true**, or it becomes another wrong comment that compiles.
+
+**It carries no invented-copy flag.** The word is his; we chose nothing but
+which field holds it.
+
+**It is not a link, and the four beside it are.** A reader can tap Severya,
+Styrax, Monumentus Lux and Ghezard and land on the piece; this one goes nowhere,
+because there is nowhere to go. `WornBand` already renders an unlinked frame
+deliberately. **The day that piece enters the catalogue, this frame should
+become a link and the caption should be deleted** — the script enforces the
+first half and this paragraph is the second.
+
+### The mutation was the exact shape of section 78's incident
+
+The first version wrote `set: {"homeSequence[_key=='…'].media.caption": …}`. A
+keyed array item is documented to work; **the plain object INSIDE one is the
+case that replaced four media objects with a bare string** and rebuilt the site
+from placeholders. So the `media` object is read whole, given its caption in
+memory, written back whole, and **read back and asserted** — file, alt text and
+caption placement all still present — because the failure this guards against is
+silent and looks like success.
+
