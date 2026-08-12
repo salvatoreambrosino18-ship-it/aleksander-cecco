@@ -41,7 +41,7 @@ interface Props {
    * mid-way for as long — two readers had corrected around it rather than
    * noticing it said nothing.
    */
-  height?: "screen" | "tall" | "short" | "worn" | "tile" | "square" | "paired";
+  height?: "screen" | "tall" | "short" | "worn" | "tile" | "square" | "paired" | "two-up";
   /**
    * A different height from `height` at desktop. It exists for the gallery,
    * where a phone alternates tall and short down one column and a desktop pairs
@@ -201,6 +201,12 @@ const contained =
       height === "square" && "h-auto aspect-square",
       /* Half of a paired screen: a phone stacks it at 62svh, desktop fills. */
       height === "paired" && "h-media-short lg:h-full",
+      /*
+        Half of a two-up split (section 114). A phone stacks the two frames at
+        "tall", so each is still a photograph rather than a band; at desktop
+        both take the same full height and meet at a seam.
+      */
+      height === "two-up" && "h-media-tall lg:h-two-up",
       desktopHeight === "screen" && "md:h-media-screen",
       desktopHeight === "tall" && "md:h-media-tall",
       desktopHeight === "short" && "md:h-media-short",

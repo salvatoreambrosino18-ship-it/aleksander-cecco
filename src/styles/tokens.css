@@ -135,6 +135,9 @@
     to continue DOWN the page has to find clear space first. At 62svh there is
     always page either side of it.
   */
+  /* A two-up half at desktop (section 114): a whole screen less the chrome
+     band, so the pair reads as one held composition rather than a strip. */
+  --two-up-h: calc(100svh - var(--chrome-h));
   --worn-w: 78vw;
   --worn-h: 62svh;
   --caption-inset: var(--s-u3); /* how far a label sits off the media edge */

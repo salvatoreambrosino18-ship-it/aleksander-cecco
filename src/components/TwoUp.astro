@@ -1,0 +1,65 @@
+---
+/*
+  TWO PICTURES, ONE SCREEN, NO GUTTER (2026-08-12, section 114).
+
+  THE ONE DEVICE THE REFERENCES USE THAT THIS SITE HAD NEVER BUILT. Rick Owens'
+  home page divides a screen vertically and lets each half be a whole picture at
+  full height — a portrait against white beside a portrait in acid green, one
+  word on each (EYEWEAR, BAGS). It appears four times in the fifty screenshots
+  and it is the most recognisable thing about that page after the full-bleed
+  hero.
+
+  Everything this site had was a COLUMN: full-bleed frame, then text, then
+  full-bleed frame. A reader met one thing at a time all the way down. This is
+  the first screen where two photographs argue with each other, and that is the
+  whole point of it — the eye compares rather than receives.
+
+  WHY IT WORKS WITH OUR MATERIAL WHEN A FOUR-ACROSS GRID DOES NOT. Section 107's
+  finding stands: our frames are concrete, forest, night and studio, so a dense
+  grid of them reads as a contact sheet. TWO is not a grid. Two frames chosen to
+  share a ground read as one composition, and choosing two is something this
+  dataset can actually do — choosing thirty is not.
+
+  NO GUTTER, NO MARGIN, NO ROUNDING. It is two full-bleed surfaces meeting at a
+  seam, which is standing rule 9 and is also what the reference does. The seam
+  is the composition; a gap would make them two cards.
+
+  ON A PHONE IT STACKS, each frame at its own full width, because half of 390px
+  is 195px and a garment at that size is a thumbnail. The reference is a desktop
+  composition and is honest about it.
+
+  The caption on each takes the frame's own measured polarity, exactly as any
+  other label over photography does. Nothing new is measured and no scrim is
+  introduced.
+*/
+import MediaSurface from "./MediaSurface.astro";
+import type {MediaItem} from "../lib/media";
+import type {Locale} from "../lib/locales";
+
+interface Props {
+  locale: Locale;
+  /** Exactly two. Fewer and this is not a split; more and it is a grid. */
+  items: {media: MediaItem; label: string; href?: string | null}[];
+  /** The first screen after an arrival is worth fetching eagerly. */
+  priority?: boolean;
+  class?: string;
+}
+
+const {locale, items, priority = false, class: className = ""} = Astro.props;
+const pair = items.slice(0, 2);
+---
+
+{
+  pair.length === 2 && (
+    <section class:list={["two-up", className]}>
+      {pair.map(({media, label, href}) => {
+        const frame = (
+          <MediaSurface media={media} locale={locale} height="two-up" priority={priority}>
+            <span class="type-label text-label">{label}</span>
+          </MediaSurface>
+        );
+        return <div class="two-up-half">{href ? <a href={href} class="block">{frame}</a> : frame}</div>;
+      })}
+    </section>
+  )
+}

@@ -103,12 +103,39 @@ const priceOf = (garment: Garment) =>
   full screen, so two openers are enough to set the scale of the work, and one
   closer is enough to end on a photograph. Change them here and nowhere else.
 */
-const NARRATIVE_MAX = 5;
-const OPENING = 2;
-const isChapter = garments.length <= NARRATIVE_MAX;
-const opening = isChapter ? garments : garments.slice(0, OPENING);
-const middle = isChapter ? [] : garments.slice(OPENING, -1);
-const closing = isChapter ? [] : garments.slice(-1);
+/*
+  AN ANNOUNCEMENT, NOT A SECOND SHOP (2026-08-12, section 113).
+
+  This page showed EVERY piece in the drop, which made it a duplicate of the
+  catalogue one click away — the same seventeen garments, the same names, the
+  same prices, in a different arrangement. Two pages doing one job, and the
+  weaker of the two was the one the menu points at first.
+
+  So it announces. His statement, a HANDFUL of frames, the film of him working,
+  and one route into the catalogue for anyone who wants the rest. Six is the
+  number: enough to show what the drop is, few enough that nobody mistakes it
+  for the shop. Rick Owens' chapter covers carry a name and a verb and nothing
+  else; the browsing happens somewhere else, and that is the shape being copied.
+
+  The rest are not hidden — they are one link away, and the link says how many.
+*/
+const SHOWN = 6;
+const shown = garments.slice(0, SHOWN);
+const rest = Math.max(0, garments.length - shown.length);
+const opening = shown.slice(0, 2);
+const middle = shown.slice(2);
+
+/*
+  THE FILM BELONGS HERE (2026-08-12, section 113), his instruction. It is the
+  one moving thing on the site and it shows him working — which is what a drop
+  announcement is for. It is the same clip /process carries, taken from
+  `processMedia` by looking for the frame that HAS a video rather than by
+  position, so re-ordering that array in the studio cannot silently empty this.
+
+  It stays marked provisional wherever it appears: it is a 464px messaging-app
+  copy and the camera original is still the ask.
+*/
+const film = (settings.processMedia ?? []).find((m) => m.videoUrl) ?? null;
 ---
 
 <Base
@@ -181,19 +208,13 @@ const closing = isChapter ? [] : garments.slice(-1);
     </div>
   )}
 
-  {/* THE CLOSE: a photograph, not a half-empty row. */}
-  {
-    closing.map((garment) => (
-      <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
-        <MediaSurface media={garment.media![0]} locale={locale} height="tall">
-          <div class="flex flex-col gap-u1">
-            <h2 class="type-label text-label">{garment.name}</h2>
-            {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
-          </div>
-        </MediaSurface>
-      </a>
-    ))
-  }
+  {/*
+    THE FILM (2026-08-12, section 113). Full bleed, no caption, no words: it is
+    him working, and a line explaining that would be the site narrating his own
+    hands. It closes the announcement the way a photograph does, and it is the
+    only moving thing a visitor meets before the catalogue.
+  */}
+  {film && <MediaSurface media={film} locale={locale} height="tall" />}
 
   {/*
     u8, not u13 (2026-08-13, section 108). Thirteen units above and below a
@@ -204,6 +225,17 @@ const closing = isChapter ? [] : garments.slice(-1);
     end of a page to look at it.
   */}
   <TextSurface class="hairline-h flex flex-col gap-u3 py-u8">
+    {/*
+      SAY HOW MANY ARE NOT HERE (section 113). This page shows six of the drop;
+      the link is the only way to the other eleven, so it has to be worth
+      pressing. A count is a fact, in the register facts take, and it is the
+      same device the drop page already uses at its own foot.
+    */}
+    {rest > 0 && (
+      <p class="type-mono text-mono">
+        {garments.length} {t(locale, "countCreatures")}
+      </p>
+    )}
     <a
       href={localePath(locale, "creature")}
       class="type-label text-label self-start hairline-under"

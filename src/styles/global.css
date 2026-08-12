@@ -43,6 +43,7 @@
   --spacing-media-tall: var(--media-h-tall);
   --spacing-media-short: var(--media-h-short);
   --spacing-worn: var(--worn-h);
+  --spacing-two-up: var(--two-up-h);
 }
 
 /*
@@ -365,6 +366,25 @@
     below it, half a screen is a column too narrow for prose and the stack is
     the right answer. There is no in-between state to tune.
   */
+  /*
+    THE TWO-UP SPLIT (2026-08-12, section 114). Two full-bleed frames meeting at
+    a seam, no gutter, no margin — the composition Rick Owens' home page uses
+    four times in fifty screenshots and this site had never built.
+
+    A phone stacks them: half of 390px is 195px and a garment at that size is a
+    thumbnail, so the split is a desktop composition and says so. 64rem is the
+    same threshold the paired surface uses, for the same reason.
+  */
+  .two-up {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 64rem) {
+    .two-up {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
   .paired-inner {
     display: flex;
     flex-direction: column;

@@ -40,13 +40,14 @@ import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import WornBand from "../../components/WornBand.astro";
+import TwoUp from "../../components/TwoUp.astro";
 import BoundaryWash from "../../components/BoundaryWash.astro";
 import InstagramMark from "../../components/InstagramMark.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
 import Statement from "../../components/Statement.astro";
 import Signature from "../../components/Signature.astro";
 import Spine from "../../components/Spine.astro";
-import {getCollections, getSiteSettings} from "../../lib/content";
+import {byStage, getCollections, getGarmentsInCollection, getSiteSettings} from "../../lib/content";
 import {unspentLine} from "../../lib/statement";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {overlayTheme} from "../../lib/media";
@@ -60,6 +61,30 @@ export function getStaticPaths() {
 
 const locale = toLocale(Astro.params.lang);
 const [collections, settings] = await Promise.all([getCollections(), getSiteSettings()]);
+
+/*
+  THE TWO-UP PAIR (2026-08-12, section 114). Two Creature from the current drop,
+  side by side at full height, which is the composition Rick Owens' home page
+  uses four times in fifty screenshots and this page had never had.
+
+  THE FIRST TWO OF THE DROP, in his own drag order, and that is not laziness: it
+  is the only choice available that is HIS. Picking two frames because they
+  happen to share a ground would be us curating his photography, and the pair
+  that arrives first in his order is the pair he put first.
+
+  It renders only when both frames exist, so a drop of one degrades to nothing
+  rather than to a half-empty screen.
+*/
+const dropSlug = collections[0]?.slug ?? null;
+const dropPieces = dropSlug ? await getGarmentsInCollection(dropSlug) : [];
+const twoUp = byStage(dropPieces)
+  .filter((g) => g.media?.[0] && g.name)
+  .slice(0, 2)
+  .map((g) => ({
+    media: g.media![0],
+    label: g.name!,
+    href: localePath(locale, `creature/${g.slug}`),
+  }));
 
 const opening = settings.openingMedia;
 const instagramFrames = settings.instagramFrames ?? [];
@@ -245,6 +270,20 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     home page its notice the moment one was not, which is precisely when it
     matters. Same register, same markup, one fewer thing to remember.
   */}
+  {/*
+    THE SPLIT, SECOND SCREEN (2026-08-12, section 114), which is exactly where
+    the reference puts it: full-bleed atmosphere, then two pictures arguing.
+
+    The owner looked at two days of work and said the site looked the same. He
+    was right, and this is the reason — every screen on this page was ONE thing:
+    a photograph, then a passage, then a band, then a passage. A reader met one
+    object at a time from top to bottom, and no amount of tightening padding
+    changes what kind of page that is. This is the first screen where two
+    photographs are held against each other, and it is the single most
+    recognisable device on the page it comes from.
+  */}
+  <TwoUp locale={locale} items={twoUp} />
+
   <PairedSurface media={makingMedia[0] ?? null} locale={locale} side="left">
     <Statement
       text={homeStatement}

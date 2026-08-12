@@ -9072,6 +9072,15 @@ camera original rather than through WhatsApp.
 
 ## 107. Seen rather than measured: Rick Owens and Vivienne Westwood (2026-08-13)
 
+> **CORRECTED 2026-08-12 (section 111 and section 115). AT LEAST TWO CLAIMS
+> BELOW ARE FALSE, and half a week of work was built on them. Read section 115
+> before you act on anything in this section.** The corrections, in short:
+> their photography IS full-bleed and the home page ground is DARK, not white;
+> and a paragraph DOES get most of a screen, more than once. Both errors were
+> repeated by a later session that cited this text instead of opening the
+> folder.
+
+
 Seventy-seven screenshots of the two reference sites, looked at page by page.
 This project has measured these sites for a fortnight — type sizes, tracking,
 the 19%-of-viewport signature — and had never SEEN them. What follows is what
@@ -9507,3 +9516,70 @@ reader.
 reading of the references, it opens the folder. A summary in this file is a
 record of what somebody once saw; it is not the thing itself, and the first
 session to forget that shipped a day of work on two sentences that were wrong.
+
+## 112. The band's first frame was showing its own dark half (2026-08-12)
+
+The owner said the first frame of BODY OF LIGHT had a black strip along the top
+and the wrong crop while the two beside it ran clean.
+
+**Measured, not guessed.** `IMG_3485.PNG` is 1320x1778, a portrait frame. The
+band's box is 416 x 702 at 1440 and 416 x 842 at 1920 — NARROWER in proportion
+than the source — so `object-fit: cover` crops the WIDTH and shows the full
+height, including the top of the picture, where the mean luminance of the first
+three hundred rows is 14 to 20 of 255. **It is not a bar baked into the file and
+it is not a bug: it is his own shaded wall, shown because nothing was trimming
+it.** The frames beside it are brighter at their top edge and so run clean.
+
+**A hotspot could not have fixed it, and would have looked like it might.**
+`objectPosition` moves the picture along the axis being cropped, and that axis
+here is the WIDTH. The trim has to happen before the box, which means the
+asset's own `crop` — applied by @sanity/image-url because `poster` is projected
+whole. `scripts/patch-band-crop.mjs`, `--top=0.14`, and it is a value he can
+drag in the studio rather than a re-upload.
+
+## 113. /new stops being a second shop (2026-08-12)
+
+It showed every piece in the drop, which made it a duplicate of the catalogue
+one click away: the same seventeen garments, the same names, the same prices, in
+a different arrangement. **Two pages doing one job, and the weaker was the one
+the menu points at first.**
+
+It announces now, on the owner's instruction: his statement, SIX frames, the
+film of him working, and one route into the catalogue that says how many are not
+here. Six is enough to show what the drop is and few enough that nobody mistakes
+it for the shop.
+
+**The film is found by looking for the frame that HAS a video**, not by
+position, so re-ordering `processMedia` in the studio cannot silently empty this
+page. It stays marked provisional: it is still the 464px messaging-app copy, it
+is still the weakest frame on the site, and the camera original is still the ask.
+
+## 114. THE TWO-UP SPLIT, and why the site looked the same (2026-08-12)
+
+**The owner looked at two days of work and said the home page looked the same as
+before. He was right, and the reason is structural rather than cosmetic.**
+
+Every screen on that page was ONE THING: a photograph, then a passage, then a
+band, then a passage, then a wash, then a chapter. A reader met one object at a
+time from top to bottom. Tightening padding, capping a photograph and merging
+two columns all made it *better* and none of them changed *what kind of page it
+is* — which is exactly what he was reporting.
+
+**Rick Owens' home page divides a screen vertically and lets each half be a
+whole picture at full height**, one word on each. It appears four times in fifty
+screenshots and it is the most recognisable thing about that page after the
+full-bleed hero. This site had never built it.
+
+So `TwoUp.astro`: two full-bleed frames meeting at a seam, no gutter, no margin,
+stacking on a phone because half of 390px is a thumbnail. It sits SECOND, where
+the reference puts it — atmosphere, then two pictures arguing.
+
+**WHY TWO WORKS WHERE FOUR DOES NOT.** Section 107's surviving finding is that
+our frames are concrete, forest, night and studio, so a dense grid of them reads
+as a contact sheet. **Two is not a grid.** Two frames that share a tonal world
+read as one composition, and choosing two out of seventeen is something this
+dataset can do — choosing thirty is not.
+
+**The pair is the first two of the drop in HIS drag order.** Picking two because
+they happen to share a ground would be us curating his photography; the pair
+that arrives first is the pair he put first.
