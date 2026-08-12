@@ -1,0 +1,161 @@
+---
+/*
+  THE MIXED-KIND MOSAIC (2026-08-12, section 115).
+
+  WHAT IT IS COPYING, and it is the one arrangement in the reference folders
+  this site had never attempted. Rick Owens' editorial and process pages are not
+  a grid of rows. They are a MOSAIC OF COLUMNS, and all 77 screenshots agree on
+  its rules (section 107, `docs/SURVEY-RIFERIMENTI.md`):
+
+    - block widths run from about 10% to 66% of the viewport and change every
+      unit — 22%, 27%, 31%, 33%, 38%, 54%, 57%, 65% all appear;
+    - the ANCHOR alternates: right, then left, then centre (`RO17`, `RO18`);
+    - blocks are NOT top-aligned (`RO42`) and columns run past each other,
+      ending where their own content ends (`RO34`, `RO38`);
+    - the empty space is always to ONE SIDE, never centred, and the side
+      alternates down the page (`RO19`, `RO37`);
+    - adjacent blocks are of unlike KIND — prose beside a product beside a
+      process photograph, in one row (`RO28`, `RO40`).
+
+  WHY A FIXED CYCLE AND NOT A RANDOM ONE. Eight placements, repeated. The
+  reference's asymmetry is composed, not scattered, and a random arrangement
+  reads as a bug on the second visit. A cycle also means the page's rhythm is
+  the same on every build, which is the only way a screenshot of it can be
+  compared with a screenshot of it.
+
+  THE PLACEMENTS ARE MEASURED OFF NAMED FRAMES, not chosen for balance:
+
+    1  cols 1-5    left, medium          RO18 (lower cluster)
+    2  cols 7-12   right, wide           RO18 (upper) / RO20 (the wide process
+                                         frame beside a 27% column)
+    3  cols 1-4    left cluster, first   RO14
+    4  cols 5-8    left cluster, second  RO14 — the right third stays EMPTY,
+                                         which is the whole point of that frame
+    5  cols 3-10   centre, widest        RO17 (the acid-graded show set)
+    6  cols 9-12   right, narrow         RO30 / RO31
+    7  cols 1-3    left, narrowest       RO37
+    8  cols 6-10   centre-right          RO41 / RO42
+
+  Items 1+2, 3+4 and 7+8 can share a row because their columns do not overlap;
+  5 and 6 do overlap and cannot. `grid-auto-flow: dense` places each block in
+  the first row where its columns are free, which is what produces the
+  reference's uneven, non-repeating rows out of a repeating cycle.
+
+  WHAT IT CANNOT BE YET, and this is the honest part. `RO40` and `RO28` — the
+  two frames that make the whole device work — put a GARMENT CUT OUT ON PALE
+  GROUND next to a full-bleed photograph next to a paragraph. We have the
+  photographs and we have the prose. **We have no product on pale ground at
+  all**, because every frame in the dataset is a photograph with its own world
+  in it: concrete, forest, studio, night. So this mosaic runs on two kinds where
+  the reference runs on four, and it will keep looking like a well-arranged set
+  of photographs rather than like their page until the owner shoots one garment
+  per piece against the same pale ground — which is the first item in group 2 of
+  `docs/PER-ALEKSANDER.md` and the single change that would alter this site most.
+
+  A "product" kind is deliberately NOT stubbed in below. An unused branch
+  waiting for data is a branch nobody tests, and the next session would find it
+  and believe the work was done.
+
+  ON A PHONE THERE IS NO MOSAIC. One column, full bleed, in order. Half of
+  390px is 195px, and a 25% column of it is 97px — the reference is a desktop
+  composition and both folders are honest about that (`VW27` stacks, `RO`'s
+  clusters stack).
+*/
+import MediaSurface from "./MediaSurface.astro";
+import Spine from "./Spine.astro";
+import type {MediaItem} from "./../lib/media";
+import type {Locale} from "../lib/locales";
+
+/**
+ * A block in the run. Two kinds, because two kinds is what this dataset has —
+ * see the note above before adding a third.
+ */
+export type MosaicBlock =
+  | {kind: "frame"; media: MediaItem}
+  | {
+      kind: "note";
+      text: string;
+      /** Set only where the text is ours and still unapproved. */
+      marked?: boolean;
+      /** The draft/translation notice, already localised by the caller. */
+      notice?: string | null;
+    };
+
+interface Props {
+  blocks: MosaicBlock[];
+  locale: Locale;
+  class?: string;
+}
+
+const {blocks, locale, class: className = ""} = Astro.props;
+
+/*
+  THE CYCLE. `start` is the 1-based grid column; `span` is how many of twelve.
+  `drop` offsets a block downward by its own row's rhythm, which is `RO42`: two
+  blocks in one row, deliberately not top-aligned. Two of eight carry it, so it
+  reads as composition rather than as jitter.
+*/
+const PLACEMENTS = [
+  {start: 1, span: 5, drop: false},
+  {start: 7, span: 6, drop: true},
+  {start: 1, span: 4, drop: false},
+  {start: 5, span: 4, drop: false},
+  {start: 3, span: 8, drop: false},
+  {start: 9, span: 4, drop: false},
+  {start: 1, span: 3, drop: false},
+  {start: 6, span: 5, drop: true},
+];
+
+/*
+  `sizes` HAS TO TELL THE TRUTH, and in this component it changes per block
+  (section 69: a `sizes` that lies is the trap this project has already paid
+  for twice). A five-column block at desktop is 5/12 of the viewport; on a
+  phone every block is the full width. The number below is computed from the
+  span rather than written out, so a placement edited above cannot leave a
+  stale declaration behind it.
+*/
+const sizesFor = (span: number) =>
+  `(min-width: 64rem) ${Math.round((span / 12) * 100)}vw, 100vw`;
+---
+
+<div class:list={["mosaic", className]}>
+  {
+    blocks.map((block, index) => {
+      const place = PLACEMENTS[index % PLACEMENTS.length];
+      const style = `--m-start:${place.start}; --m-span:${place.span}`;
+      return (
+        <div class:list={["mosaic-cell", place.drop && "mosaic-drop"]} style={style}>
+          {block.kind === "frame" ? (
+            <MediaSurface
+              media={block.media}
+              locale={locale}
+              height="native"
+              sizes={sizesFor(place.span)}
+            />
+          ) : (
+            /*
+              A NOTE IS A TEXT SURFACE AND TAKES THE SPINE, which is the site's
+              rule for every surface that carries words (section 2). Inside the
+              mosaic the spine is the block's own left edge rather than the
+              page's margin, because that edge is what the column actually has.
+            */
+            <div class="mosaic-note relative">
+              <Spine />
+              {block.marked && block.notice && (
+                <p class="placeholder-mark self-start">{block.notice}</p>
+              )}
+              <p
+                class:list={[
+                  "type-body text-body whitespace-pre-line",
+                  block.marked && "draft-text",
+                ]}
+              >
+                {block.text}
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    })
+  }
+</div>

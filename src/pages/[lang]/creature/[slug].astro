@@ -207,8 +207,17 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
 ];
 ---
 
+{/*
+  A CREATURE OPENS AT PIXEL ZERO TOO (2026-08-12, section 115). Neither
+  reference folder contains a product detail page — 77 of 77 opened, section 107
+  — so nothing here is copied from them. What IS carried over is the site's own
+  rule: a page whose first block is a full-bleed photograph floats its chrome on
+  that photograph, in the polarity the owner measured for it, and a page that
+  opens on words does not. This page opens on the garment.
+*/}
 <Base
   locale={locale}
+  chromeOver={firstMedia?.overlay ?? null}
   title={garment.name}
   description={description ?? undefined}
   image={firstMedia ? imageUrl(firstMedia.poster, 1200) : null}

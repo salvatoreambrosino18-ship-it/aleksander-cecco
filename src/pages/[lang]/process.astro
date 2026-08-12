@@ -38,7 +38,7 @@
   letterbox that destroys the photograph.
 */
 import Base from "../../layouts/Base.astro";
-import MediaSurface from "../../components/MediaSurface.astro";
+import Mosaic from "../../components/Mosaic.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
 import Statement from "../../components/Statement.astro";
 import TextSurface from "../../components/TextSurface.astro";
@@ -117,11 +117,6 @@ const processIsMarked = SHOW_UNAPPROVED_MARKS && Boolean(processText);
 const notice = "draftNotice";
 
 const voice = voiceState(settings, locale);
-
-const isLandscape = (media: MediaItem) => {
-  const d = media.dimensions;
-  return Boolean(d && d.width > d.height);
-};
 ---
 
 <Base
@@ -198,26 +193,36 @@ const isLandscape = (media: MediaItem) => {
   </PairedSurface>
 
   {/*
-    NO `priority` IN THIS GRID ANY MORE (2026-08-13, section 108). The anchor
-    above is this page's first photograph and now carries it; two images
-    declaring high fetch priority is two images competing for the same
-    connection, and the one that wins is not the one on the screen.
+    THE MOSAIC IS ACTUALLY A MOSAIC NOW (2026-08-12, section 115).
+
+    WHAT IT WAS: `grid-cols-2`, every cell a viewport-height crop, alternating
+    tall and short on a phone, landscape frames spanning both columns. Two
+    columns of equal width with no white anywhere is a CONTACT SHEET, and the
+    variable it was calling `mosaic` had been describing something the page did
+    not have since the name was chosen.
+
+    WHAT THE REFERENCE ACTUALLY DOES, from all 77 frames rather than from a
+    sentence about them: block widths from 10% to 66% changing every unit, the
+    anchor alternating left / right / centre, blocks not top-aligned, columns
+    running past each other, and the empty space always to ONE SIDE. `RO20` to
+    `RO34` is Rick Owens' own process page and it is the direct analogue of this
+    one — the same subject, the same kinds of picture, prose threaded through it.
+
+    NOTHING IS CROPPED. `height="native"` gives each frame its own proportion,
+    because the reference's rhythm comes from frames that DIFFER in shape and
+    forcing them to a common height is what produced the wall this replaces.
+
+    NO `priority` HERE, unchanged from section 108: the anchor above is this
+    page's first photograph and carries it, and two images declaring high fetch
+    priority is two images competing for one connection.
+
+    `isLandscape` IS GONE WITH THE OLD GRID. It existed to make a wide frame
+    span two equal columns; there are no equal columns now, and a wide frame
+    simply lands wherever the cycle puts it — which is the reference's own
+    answer, since `RO17` puts a small portrait and a two-thirds landscape in
+    consecutive units without either being told about the other.
   */}
-  <div class="grid grid-cols-1 md:grid-cols-2">
-    {
-      mosaic.map((media, index) => (
-        <div class:list={["contents md:block", isLandscape(media) && "md:col-span-2"]}>
-          <MediaSurface
-            media={media}
-            locale={locale}
-            height={index % 2 === 0 ? "tall" : "short"}
-            desktopHeight="tall"
-            sizes={isLandscape(media) ? "100vw" : "(min-width: 48rem) 50vw, 100vw"}
-          />
-        </div>
-      ))
-    }
-  </div>
+  <Mosaic blocks={mosaic.map((media) => ({kind: "frame" as const, media}))} locale={locale} />
 
   {/*
     u8, not u13 (2026-08-13, section 108). Thirteen units above and below a

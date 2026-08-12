@@ -28,6 +28,7 @@
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
+import Mosaic from "../../components/Mosaic.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
 import {getSiteSettings, isPlaceholderText} from "../../lib/content";
 import {LOCALES, pick, toLocale} from "../../lib/locales";
@@ -78,8 +79,11 @@ const partnerName = settings.partnerName?.trim() || null;
 const partnerUrl = settings.partnerUrl?.trim() || null;
 ---
 
+{/* The chrome floats on the opening frame (section 115), or the band stays if
+    there is no opening frame to float on. */}
 <Base shopChrome={false}
   locale={locale}
+  chromeOver={openingMedia?.overlay ?? null}
   title={t(locale, "about")}
   description={openingLine ?? undefined}
   image={openingMedia ? imageUrl(openingMedia.poster, 1200) : null}
@@ -169,22 +173,23 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
   )}
 
   {/*
-    THE REST OF THE PHOTOGRAPHY, AS A MOSAIC (section 107). Two across at
-    desktop, alternating tall and short on a phone, the same arrangement
-    /process uses — so the page ends in pictures rather than in a column of
-    single frames each sealing its own screen.
+    THE REST OF THE PHOTOGRAPHY, AS AN ACTUAL MOSAIC (2026-08-12, section 115).
+
+    It was two equal columns of viewport-height crops, which section 107 called
+    a mosaic and which the 77 frames say is not one. Same correction as
+    /process, same component, same reasons — see Mosaic.astro, which carries the
+    measurements and the frames they came from.
+
+    WHY IT MATTERS MORE HERE. This page's whole argument since section 107 is
+    that his story goes in ONE COLUMN and the freed frames run below it, and the
+    density that buys is supposed to come from more photographs visible at once.
+    Two equal columns of full-height crops shows two. The mosaic shows three or
+    four, at three or four sizes, which is what `RO14` and `RO19` do.
   */}
-  <div class="grid grid-cols-1 md:grid-cols-2">
-    {photographs.slice(1).map((media, index) => (
-      <MediaSurface
-        media={media}
-        locale={locale}
-        height={index % 2 === 0 ? "tall" : "short"}
-        desktopHeight="tall"
-        sizes="(min-width: 48rem) 50vw, 100vw"
-      />
-    ))}
-  </div>
+  <Mosaic
+    blocks={photographs.slice(1).map((media) => ({kind: "frame" as const, media}))}
+    locale={locale}
+  />
 
   {/*
     THE TWO CREATORS (2026-08-04). {DESIGNER_BIOGRAPHY} is answered: his own

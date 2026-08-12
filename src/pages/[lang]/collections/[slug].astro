@@ -102,8 +102,10 @@ const settings = await getSiteSettings();
 const voice = voiceState(settings, locale);
 ---
 
+{/* Pixel zero on the cover, the band when there is no cover (section 115). */}
 <Base
   locale={locale}
+  chromeOver={collection.cover?.overlay ?? null}
   title={collection.name}
   description={statement ?? undefined}
   image={collection.cover ? imageUrl(collection.cover.poster, 1200) : null}

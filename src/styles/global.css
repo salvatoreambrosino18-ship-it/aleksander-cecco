@@ -385,6 +385,111 @@
     }
   }
 
+  /*
+    THE FLOATING CHROME (2026-08-12, section 115). Two properties and no third.
+
+    The negative margin takes the band out of the flow, so the photograph under
+    it begins at pixel zero and reaches the top edge of the screen — which is
+    what both reference sites do and what this site gave up in section 87. No
+    background is painted, so what is behind the marks is the owner's
+    photograph and nothing else.
+
+    THE MARKS' COLOUR IS NOT SET HERE. It comes from `data-theme` on the header,
+    which the page sets from the opening frame's own measured `overlay`. Putting
+    a colour in this rule would freeze one polarity for every photograph, which
+    is the exact failure the `overlay` field exists to prevent.
+
+    NOTHING GOES BEHIND THE GLYPHS. If a mark is illegible on a frame, the
+    answer is that frame's `overlay` value or a different frame — never a scrim
+    (standing rule 11, and section 86 rendered and rejected four of them).
+
+    AND IT NEEDS NOTHING FOR THE OPEN MENU, which was checked rather than
+    assumed. The panel covers the screen and the header floats transparently
+    over the panel, which is exactly what should be behind it; CHIUDI/CLOSE
+    already carries the PANEL's polarity on its own element (Menu.astro), and
+    the signature link is already `visibility: hidden` while the panel is open.
+    Every part of that predates this change and none of it depended on the band.
+  */
+  .chrome-float {
+    margin-bottom: calc(var(--chrome-h) * -1);
+    background: transparent;
+  }
+
+  /*
+    THE MOSAIC (2026-08-12, section 115). The component carries the reasoning
+    and the frames it is measured off; this is the geometry.
+
+    A PHONE IS ONE COLUMN AT FULL BLEED, and that is not a degraded version of
+    the desktop composition — it is what both references do at that width. The
+    cells simply stack in order, edge to edge, exactly as every other sequence
+    on this site does.
+  */
+  .mosaic {
+    display: flex;
+    flex-direction: column;
+  }
+  .mosaic-note {
+    padding: var(--s-u5) var(--content-x);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-u2);
+  }
+
+  @media (min-width: 64rem) {
+    /*
+      TWELVE COLUMNS, AND THE GRID DOES THE PACKING. `dense` puts each cell in
+      the first row where its declared columns are free, which turns a repeating
+      cycle of eight placements into rows that do not repeat — the reference's
+      uneven rhythm without a random number anywhere.
+
+      `align-items: start` is what makes a short block leave white BELOW itself
+      instead of stretching to its row (`RO31`: a five-line paragraph with two
+      thirds of its column empty under it, and nothing done about it).
+
+      THE COLUMN GAP IS DELIBERATE HERE AND FORBIDDEN ON THE CATALOGUE, and the
+      two are not in conflict. A shop grid keeps its columns closed because our
+      tiles are full-bleed photographs and paper between them frames each one as
+      a card (section 111). An editorial mosaic is white-around-pictures by
+      definition — that is the thing being copied — so the gutter is the point
+      rather than a leak. Both references draw exactly this distinction between
+      their listings and their editorial.
+
+      The page margin is NOT applied. The mosaic's own outer columns start at
+      the viewport edge, because the reference's clusters do: `RO14` runs its
+      left cluster from the page edge and leaves the right third bare, and a
+      margin either side would centre the emptiness, which is the one thing
+      their composition never does.
+    */
+    .mosaic {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-flow: row dense;
+      align-items: start;
+      column-gap: var(--s-u2);
+      row-gap: var(--s-u13);
+      padding: var(--s-u8) var(--s-u2);
+    }
+    .mosaic-cell {
+      grid-column: var(--m-start) / span var(--m-span);
+    }
+    /*
+      TWO BLOCKS IN ONE ROW, NOT TOP-ALIGNED (`RO42`). The offset is the row
+      rhythm rather than a new number, so it moves with the site's spacing and
+      there is nothing here to tune independently.
+    */
+    .mosaic-drop {
+      margin-top: var(--s-u13);
+    }
+    /*
+      Inside the mosaic a note is held off its own column edge, not off the
+      page. `--content-x` is measured from the page margin and would push a
+      four-column block's prose most of the way across itself.
+    */
+    .mosaic-note {
+      padding: 0 var(--s-u3);
+    }
+  }
+
   .paired-inner {
     display: flex;
     flex-direction: column;

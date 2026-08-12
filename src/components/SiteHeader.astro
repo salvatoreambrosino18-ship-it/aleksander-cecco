@@ -16,35 +16,57 @@
   full-screen image. A brand hiding its own name on every page except home is
   not restraint.
 
-  THE CHROME STOPPED FLOATING (2026-08-11, section 87). THE OWNER'S CALL.
+  IT FLOATS AGAIN, OVER A PHOTOGRAPH THAT BEGINS AT PIXEL ZERO (2026-08-12,
+  section 115). THE WHITE BAND WAS CORRECT FOR THE EVIDENCE AT THE TIME AND IS
+  SUPERSEDED.
 
-  It used to sit ON the photography and take a polarity measured per image
-  (`overlayChrome`), swapped by an observer as frames passed beneath. Measured
-  across the site, that arrangement put the brand's own name under 4.5:1 on 118
-  of 152 audit faults, and 71 of 97 photograph placements had NO legible side —
-  no value of that field could have fixed them, because the band held both
-  extremes at once.
+  WHAT THE BAND WAS FOR, because none of it was wrong. It used to sit ON the
+  photography and take a polarity measured per image (`overlayChrome`), swapped
+  by an observer as frames passed beneath. Measured across the site, that
+  arrangement put the brand's own name under 4.5:1 on 118 of 152 audit faults,
+  and 71 of 97 photograph placements had NO legible side. So the band took its
+  own height in the flow, in page ground, and the mark became ink on paper at
+  19.6:1 everywhere (section 87, the owner's call, against rendered
+  alternatives).
 
-  Now it takes its own height in the flow, in page ground, and the photograph
-  begins underneath it. The mark is ink on paper at 19.6:1, everywhere, at every
-  width, on every photograph he will ever shoot, and there is nothing left to
-  measure or to keep in step.
+  WHAT CHANGED IS THE EVIDENCE, NOT THE ARITHMETIC. All 77 reference
+  screenshots have now been opened rather than summarised (section 107,
+  `docs/SURVEY-RIFERIMENTI.md`). Both reference sites begin at pixel zero and
+  float their chrome, and Rick Owens solves legibility by RE-COLOURING THE MARKS
+  AGAINST WHAT THEY LAND ON — white on the dark hero, dark blue on the yellow
+  band, white again on the mountain. He does not veil, plate or strap anything.
 
-  WHAT THIS COST, said plainly: a full-bleed photograph no longer touches the
-  top edge of the screen. On the shop pages the band simply continues the paper
-  shipping line that was already there; on about and process it is a new strip.
-  That was the trade and the owner took it, against rendered alternatives.
+  AND THE OLD MEASUREMENT WAS OF A DIFFERENT OBJECT. 71 of 97 counted a band
+  SPANNING THE FULL WIDTH, which necessarily holds both extremes of a photograph
+  at once — that is why no single value could fix it. This chrome is one CLUSTER
+  at the left, the signature and MENU sharing a few hundred pixels of picture
+  (the section 14 move that put them together). A local region has a legible
+  side far more often than a 1440px strap does, which is the whole reason the
+  reference can do this and the old band could not.
 
-  THE NO-SCRIM RULE SURVIVES INTACT (standing rule 11). This is not a scrim and
-  it is not a compromise version of one: nothing is laid over the photograph,
-  nothing is faded, and no value between ink and paper is painted anywhere. A
-  later session must not "restore" a veil under the marks believing it is
-  putting something back — there was never a veil, and the alternative that used
-  one was rendered, measured and rejected (section 86).
+  SO: the negative margin is back, the band paints nothing, and the marks take
+  the FRAME'S OWN MEASURED `overlay` — the value the owner already sets per
+  image in the studio. Nothing new is measured and no observer runs: the page
+  knows which photograph it opens on and says so once, at build time.
+
+  WHERE THERE IS NO PHOTOGRAPH AT THE TOP, THE BAND STAYS. /process and
+  /contact open on a text surface, so `over` is null there and the chrome takes
+  its height in paper exactly as it has since section 87. This is not a fallback
+  that might be forgotten — it is the default, and floating is the thing a page
+  has to ask for.
+
+  THE NO-SCRIM RULE SURVIVES INTACT (standing rule 11). Nothing is laid over the
+  photograph, nothing is faded, and no value between ink and paper is painted
+  anywhere. A later session must not "restore" a veil under the marks believing
+  it is putting something back — there was never a veil, and the alternative
+  that used one was rendered, measured and rejected (section 86). The answer to
+  a mark that will not sit on a photograph is the OWNER'S `overlay` value, or a
+  different photograph. It is never a grey.
 */
 import Signature from "./Signature.astro";
 import Menu from "./Menu.astro";
 import {localePath, type Locale} from "../lib/locales";
+import {overlayTheme, type OverlayPolarity} from "../lib/media";
 import {t} from "../i18n/ui";
 
 interface Props {
@@ -53,23 +75,49 @@ interface Props {
    * menu performs the site's own two-state idea (DESIGN-PLAN section 61).
    */
   pageTheme?: "light" | "dark";
+  /**
+   * The measured `overlay` of the photograph this page OPENS on, when it opens
+   * on one (section 115). Present: the chrome floats on that photograph and the
+   * marks take its polarity. Absent: the chrome is a paper band in the flow,
+   * which is what every text-first page gets and is the default.
+   */
+  over?: OverlayPolarity | null;
   locale: Locale;
 }
 
-const {locale, pageTheme = "light"} = Astro.props;
+const {locale, pageTheme = "light", over = null} = Astro.props;
+
+/*
+  THE MARKS' POLARITY IS THE FRAME'S, NOT THE PAGE'S. `overlayTheme` is the one
+  place the mapping lives and reading it backwards makes the mark invisible, so
+  it is called and never reimplemented (lib/media.ts).
+
+  While floating, the header's own `--fg` must come from this value and NOT from
+  the page, which is why `data-theme` goes on the element rather than a class:
+  the menu summary, the signature fill and the focus ring all resolve through
+  the same token, so one attribute moves all three together.
+*/
+const floating = over !== null;
+const markTheme = floating ? overlayTheme(over) : undefined;
 ---
 
 {/*
-  STICKY, AND NOW WITH ITS OWN FOOTPRINT (section 87). Sticky is unchanged and
-  still right: it starts below the shipping line and pins to the top the moment
-  that line scrolls away, so the two can never collide (section 70). What went
-  is `-mb-chrome`, the negative margin that gave the band zero height in the
-  flow and made it an overlay. It has its height now, and `bg-bg` paints it in
-  the page's own ground — which is paper, on every page (section 82).
+  STICKY EITHER WAY, and that is unchanged (section 70): it pins to the top so
+  the marks are always reachable, and while a page still has a shipping line it
+  starts below it and can never collide with it.
+
+  WHAT `chrome-float` DOES, and it is two properties: the negative margin gives
+  the band zero height in the flow so the photograph begins at pixel zero
+  underneath it, and the background stops painting. Nothing else. There is no
+  gradient, no plate and no blur — see the note above.
 */}
 <header
   id="site-chrome"
-  class="bg-bg text-fg sticky inset-x-0 top-0 z-30 flex h-chrome items-center gap-u3 px-margin"
+  data-theme={markTheme}
+  class:list={[
+    "text-fg sticky inset-x-0 top-0 z-30 flex h-chrome items-center gap-u3 px-margin",
+    floating ? "chrome-float" : "bg-bg",
+  ]}
 >
   <a href={localePath(locale)} aria-label={t(locale, "home")} class="block">
     <Signature class="h-sig-corner" decorative />

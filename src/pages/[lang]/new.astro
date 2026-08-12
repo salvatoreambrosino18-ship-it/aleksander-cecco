@@ -138,8 +138,15 @@ const middle = shown.slice(2);
 const film = (settings.processMedia ?? []).find((m) => m.videoUrl) ?? null;
 ---
 
+{/*
+  AN ANNOUNCEMENT OPENS ON ONE PHOTOGRAPH AND ITS OWN NAME (section 115), which
+  is `VW25` exactly: the lookbook cover is a full-bleed frame beginning at pixel
+  zero with the chrome floating and the title centred on it. This page already
+  had the frame and the title; what it did not have was the pixel zero.
+*/}
 <Base
   locale={locale}
+  chromeOver={cover?.overlay ?? null}
   title={collection?.name ?? t(locale, "newDrop")}
   description={statement ?? undefined}
   image={cover ? imageUrl(cover.poster, 1200) : null}

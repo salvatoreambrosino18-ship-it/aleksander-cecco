@@ -136,7 +136,18 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   is the wash, and what happens there is his signature being written.
 */}
 
-<Base locale={locale} image={shareImage ? imageUrl(shareImage.poster, 1200) : null}>
+{/*
+  THE ARRIVAL BEGINS AT PIXEL ZERO AGAIN (2026-08-12, section 115). `opening` is
+  this page's first block and the chrome floats on it, in the polarity the owner
+  measured for that exact frame. With no opening photograph the page falls
+  through to a text surface and passes nothing, so the band comes back — which
+  is correct, because there would be nothing for a mark to float on.
+*/}
+<Base
+  locale={locale}
+  chromeOver={opening?.overlay ?? null}
+  image={shareImage ? imageUrl(shareImage.poster, 1200) : null}
+>
   {/*
     1. ARRIVAL. The one sealed screen on the page, and the only priority image:
     it is the largest thing the site downloads and the first thing seen.

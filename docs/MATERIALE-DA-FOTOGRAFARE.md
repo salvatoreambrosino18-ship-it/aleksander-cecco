@@ -24,7 +24,36 @@ sembra una collezione.
 
 **Uno scatto per capo. Diciotto scatti, mezza giornata.**
 
-## 2. Un video fermo, di sei secondi
+## 2. L'angolo in alto a sinistra deve essere calmo
+
+**Questa è nuova, ed è la più facile di tutte: non serve rifotografare niente,
+serve solo saperlo la prossima volta.**
+
+Adesso la fotografia parte dal bordo alto dello schermo, come su Rick Owens, e
+il nome del marchio e la parola MENU stanno **sopra la fotografia**, in alto a
+sinistra. Prima c'era una striscia bianca che li teneva separati; l'abbiamo
+tolta perché quella striscia è la cosa che faceva sembrare il sito un sito.
+
+**Il problema:** in quell'angolo, sulle tue fotografie, capita quasi sempre che
+ci sia sia una parte chiarissima sia una parte scurissima — la pelle nera contro
+il muro di cemento illuminato. Quando succede, **nessun colore della scritta si
+legge**: se la scriviamo bianca sparisce sul cemento, se la scriviamo nera
+sparisce sulla pelle. L'abbiamo misurato su tutte le pagine: **su 62 schermate,
+60 non hanno un colore che funzioni.**
+
+**Cosa serve, ed è una riga:** quando fotografi un capo che sarà **la prima
+fotografia di una pagina**, lascia l'angolo in alto a sinistra — grosso modo un
+quarto di schermo — **tutto chiaro oppure tutto scuro.** Non a metà. Basta
+spostarti di mezzo passo o alzare l'inquadratura di poco.
+
+Non riguarda tutte le fotografie: solo la prima di ogni capo, e le due o tre di
+apertura (home, il drop, Chi siamo).
+
+**Se preferisci non pensarci**, dicci di rimettere la striscia bianca e la
+rimettiamo: si toglie una riga da cinque pagine. Guardala prima online, e poi
+decidi tu.
+
+## 3. Un video fermo, di sei secondi
 
 Non un video raccontato: **sei secondi, telefono fermo su un appoggio**, una cosa
 sola che si muove — la pelle che oscilla, le frange, una mano che passa sul
@@ -37,7 +66,7 @@ Instagram: lo rimpiccioliscono e la pelle diventa una macchia.
 Quello che ci hai mandato mostra la cosa giusta ma è una copia ridotta e non gira
 in continuo. Con un video così, il video può stare **sulla prima schermata**.
 
-## 3. Le persone che indossano i capi, sempre allo stesso modo
+## 4. Le persone che indossano i capi, sempre allo stesso modo
 
 Rick Owens e Westwood mostrano otto o dieci look uno accanto all'altro, e
 funziona perché sono fotografati **tutti nello stesso posto, in piedi, figura
@@ -47,13 +76,13 @@ Noi ne abbiamo cinque, tutti diversi fra loro. **Servono otto o dieci scatti a
 figura intera, stesso muro, stessa luce**, una persona per capo. Anche in una
 mattina sola.
 
-## 4. Il dettaglio della costruzione
+## 5. Il dettaglio della costruzione
 
 Le tredici righe che ti abbiamo chiesto (`RIGHE-DA-SCRIVERE.md`) valgono ancora:
 la fotografia c'è già, manca la frase. **Per otto pezzi manca anche la
 fotografia**, e la lista è in `SCATTI-DETTAGLIO.md`.
 
-## 5. L'archivio
+## 6. L'archivio
 
 Loro hanno fotografie che partono dagli anni Settanta, e le pagine di racconto
 vivono di quelle. Se hai **fotografie vecchie del laboratorio, dei primi pezzi,

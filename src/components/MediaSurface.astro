@@ -41,7 +41,25 @@ interface Props {
    * mid-way for as long — two readers had corrected around it rather than
    * noticing it said nothing.
    */
-  height?: "screen" | "tall" | "short" | "worn" | "tile" | "square" | "paired" | "two-up";
+  height?:
+    | "screen"
+    | "tall"
+    | "short"
+    | "worn"
+    | "tile"
+    | "square"
+    | "paired"
+    | "two-up"
+    /**
+     * THE PHOTOGRAPH'S OWN PROPORTION, whatever it is (2026-08-12, section 115).
+     * Every other value here crops toward a shape this site chose; this one
+     * crops nothing. It exists for the mosaic, where the survey's finding is
+     * that consecutive frames DIFFER in aspect ratio and that the difference is
+     * the composition — `RO17` puts a small dark portrait above a wide acid
+     * landscape, and forcing either into the other's box would destroy the
+     * thing being copied.
+     */
+    | "native";
   /**
    * A different height from `height` at desktop. It exists for the gallery,
    * where a phone alternates tall and short down one column and a desktop pairs
@@ -106,7 +124,14 @@ const isTile = height === "tile" || desktopHeight === "tile";
 const sizes =
   sizesProp ??
   (isTile
-    ? "(min-width: 80rem) 25vw, 50vw"
+    ? /*
+         33vw, NOT 25vw (2026-08-12, section 115). The catalogue went from four
+         across at xl to three, and a `sizes` left behind at the old count is
+         exactly the lie section 69 was written about — the browser would pick a
+         source a third too small and the shop's own photographs would go soft
+         on the widest screens. The two numbers move together or neither moves.
+      */
+      "(min-width: 80rem) 33vw, 50vw"
     : height === "square"
       ? "(min-width: 48rem) 26rem, 72vw"
       : "100vw");
@@ -176,7 +201,26 @@ const hasLabel = Boolean(caption) || hasSlot;
   entire point of the choice.
 */
 const contained =
-  height === "worn" || height === "square" || height === "tile" || desktopHeight === "tile";
+  height === "worn" ||
+  height === "square" ||
+  height === "tile" ||
+  height === "native" ||
+  desktopHeight === "tile";
+
+/*
+  THE NATIVE PROPORTION COMES FROM THE ASSET, and falls back to 3:4 (2026-08-12,
+  section 115). `dimensions` is projected for every frame in the query, but a
+  frame uploaded before that projection existed could carry none, and a box with
+  no height collapses to nothing — a silently empty mosaic cell. 3:4 is this
+  site's own tile proportion, so the fallback is a shape the site already uses
+  rather than a new invention.
+*/
+const nativeRatio =
+  height === "native" && media.dimensions?.width && media.dimensions?.height
+    ? `${media.dimensions.width} / ${media.dimensions.height}`
+    : height === "native"
+      ? "3 / 4"
+      : null;
 ---
 
 <figure
@@ -196,6 +240,12 @@ const contained =
         screens deep, so the tile keeps its proportion instead of the viewport's.
       */
       height === "tile" && "h-auto aspect-[3/4]",
+      /*
+        The photograph's own proportion, set inline below from the asset's
+        dimensions. Nothing is cropped, so consecutive frames in a mosaic
+        differ in shape — which is the composition (section 115).
+      */
+      height === "native" && "h-auto",
       /* Instagram's native shape (section 71): the recognition signal is the
          square itself. The hotspot decides what survives it. */
       height === "square" && "h-auto aspect-square",
@@ -217,6 +267,7 @@ const contained =
       */
       desktopHeight === "tile" && "md:h-auto md:aspect-[3/4]",
     ]}
+    style={nativeRatio ? `aspect-ratio: ${nativeRatio}` : undefined}
   >
     {/*
       THE LOOP, WHEN ONE EXISTS (2026-08-11, section 83).

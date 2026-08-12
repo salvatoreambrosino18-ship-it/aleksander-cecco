@@ -9070,105 +9070,204 @@ camera original rather than through WhatsApp.
 
 **That is the thing to ask him for.** If it arrives, the arrival can carry it.
 
-## 107. Seen rather than measured: Rick Owens and Vivienne Westwood (2026-08-13)
+## 107. Seen rather than measured: Rick Owens and Vivienne Westwood
 
-> **CORRECTED 2026-08-12 (section 111 and section 115). AT LEAST TWO CLAIMS
-> BELOW ARE FALSE, and half a week of work was built on them. Read section 115
-> before you act on anything in this section.** The corrections, in short:
-> their photography IS full-bleed and the home page ground is DARK, not white;
-> and a paragraph DOES get most of a screen, more than once. Both errors were
-> repeated by a later session that cited this text instead of opening the
-> folder.
+> **REWRITTEN FROM THE PICTURES, 2026-08-12.** What stood here was written after
+> looking at ten of seventy-seven screenshots and reported as seventy-seven. Two
+> of its claims were false, half a week of work was built on them, and a later
+> session repeated both because it cited this text instead of opening the folder
+> (section 111). **All 77 frames have now been opened, one at a time, and what
+> each one shows was written down as it was opened** — the frame-by-frame record
+> is `docs/SURVEY-RIFERIMENTI.md`, and it is the evidence. This section is the
+> reading; that file is what it was read from. **If they ever disagree, the file
+> wins**, and if you are about to act on this section, open the frames it cites.
 
+`~/Desktop/RICK OWENS` holds 49 screenshots, `~/Desktop/VIVIENNE WESTWOOD` 28.
+Between them: two home pages, two catalogues, a long Rick Owens editorial run,
+a Rick Owens process page, the Westwood heritage pages, the Westwood editorial
+index, and a Westwood lookbook. Frames are cited below by the survey's keys —
+`RO30` is `Screenshot 2026-08-11 at 16.43.36.png`.
 
-Seventy-seven screenshots of the two reference sites, looked at page by page.
-This project has measured these sites for a fortnight — type sizes, tracking,
-the 19%-of-viewport signature — and had never SEEN them. What follows is what
-the pictures show.
+### WHAT THE OLD SECTION GOT WRONG, AND WHAT WAS BUILT ON IT
 
-### Composition
+Four claims failed. Two were already caught in section 111 from four frames;
+opening all 77 confirms both and adds two more.
 
-**Rick Owens divides a screen in two, vertically, and lets each half be a whole
-picture.** Not a photograph with a caption: two unrelated pictures at full
-height, a portrait against white beside a portrait in acid green, each with one
-word on it (EYEWEAR, BAGS). His editorial pages abandon that entirely for an
-ASYMMETRIC MOSAIC: images at a third, a half, two thirds of the width, on white,
-at different aspect ratios, with irregular white space around them. **Very
-little of their photography is full-bleed.** It sits ON the page, framed by
-white, which is what makes the white read as paper rather than as a gap.
+**1. "Very little of their photography is full-bleed. It sits ON the page,
+framed by white." FALSE, and it is the most consequential error in this file.**
+Both home pages begin at pixel zero (`RO01`, `VW01`). Rick Owens' hero is one
+near-black photograph filling the viewport with the chrome floating on it in
+white. Every 2-up split in both folders bleeds to all four edges (`RO02`,
+`RO03`, `RO08`, `VW03`). The Westwood lookbook grid bleeds and has no gutter at
+all (`VW27`, `VW28`). **The white is in the EDITORIAL pages, not in the site.**
 
-**Vivienne Westwood composes in rows**: a full-bleed hero with centred type, then
-a horizontal product carousel, then two half-width category tiles, then an
-editorial row. More conventional, and denser per screen.
+*Built on it:* nothing directly — but this sentence sat in the file as a second,
+false justification for the white chrome band, which had a real one of its own
+(71 of 97 placements with no legible side, section 87). **A decision with one
+good reason and one invented reason is harder to revisit than a decision with
+one good reason**, because the invented one has to be knocked down first. It has
+now been knocked down. See section 115 for what followed.
 
-### Sequence
+**2. "Neither ever gives a paragraph its own screen." FALSE, and the correction
+is more useful than the claim.** `RO30` is a six-line paragraph beside one
+photograph with the left third and the bottom two thirds of the screen empty.
+`RO24` gives two quoted passages a full screen beside one image. `RO32` gives
+TWO LINES a whole column. **The true rule is: a paragraph never gets a screen
+ALONE. It gets a screen beside a picture, and the pair leaves a third of the
+width bare.** Emptiness is the composition, not the failure of one.
 
-Rick Owens: full-bleed atmosphere → 2-up split → product grid → a long editorial
-run that alternates text column and image cluster → full-bleed atmosphere again.
-**The rhythm is not full-bleed / pair / full-bleed. It is one dense mosaic
-sustained for many screens, bracketed by two atmospheric images.**
+*Built on it:* `/about` (section 107's own change), `/process` and `/contact`
+(section 108) were all rebuilt from "never a paragraph to a screen".
+**Those three changes stand, and their stated reason does not.** The correct
+reason is the one visible in `RO11` and `VW24`: a CONTINUOUS TEXT — a show note,
+a life story, an account of the making — runs as many paragraphs in ONE column,
+eight at Rick Owens, twelve at Westwood. All three of those pages carry a
+continuous text. What was forbidden was never "a paragraph on a screen"; it was
+"a continuous text chopped into one paragraph per screen", which is what
+`/about` was doing with four screens for a hundred and twenty words.
 
-Vivienne Westwood: hero → carousel → category pair → heritage story → lookbook
-grid → a large multi-column footer.
+**3. "Ours already matches that" — of the listing pages. HALF FALSE, and the
+half that fails is the Rick Owens half.** Rick Owens shows THREE across on white
+with **nothing under a tile at rest** and everything on hover: brand, name,
+struck price, sizes, `QUICK BUY +` (`RO05`, `RO07`). Westwood shows FOUR across
+in tinted panels with name and price always visible (`VW02`, `VW08`). Ours was
+four across, name and price always shown — so it matched Westwood and not Rick
+Owens, and this file said it matched "that" as if the two references agreed.
+They do not agree, and where they disagree this project's standing preference is
+Rick Owens.
 
-### Density
+*Built on it:* the catalogue was left alone for a fortnight on the strength of
+this sentence. Section 111 added the row gutter after actually looking; the
+column count and the resting labels are addressed in section 115.
 
-This is where the gap is widest and it is not a layout gap.
+**4. "Neither folder contains a product detail page." TRUE — and section 111 was
+still right to refuse it.** 77 of 77 are now open and there is no product detail
+page and no contact page in either folder. Section 107 asserted this from ten
+frames; it happened to be correct, which is the worst outcome for a habit. **A
+claim that is true by luck teaches the method that produced it.**
 
-**Rick Owens puts two to four elements on every screen** of an editorial page: a
-narrow text column, a process photograph, a product on white, an archival image.
-**Vivienne Westwood's lookbook is a four-across grid** — eight full-length looks
-visible at once, edge to edge, uncaptioned.
+### THE CHROME, which is the finding that matters most
 
-**Both can do this because every photograph in the run was shot the same way.**
-The lookbook grid works because all thirty images share a ground, a distance and
-a light. Ours cannot: our frames are concrete, studio, forest, night, at
-different distances, in different light. Four of ours across a screen is a
-contact sheet of different shoots.
+**Both references float their chrome on the photograph, and neither uses a
+plate, a bar, a strap or a scrim.** They differ in how they solve legibility,
+and the difference is the whole lesson:
 
-### Product pages
+- **Rick Owens RE-COLOURS THE MARKS AGAINST WHAT THEY LAND ON.** White on the
+  dark hero (`RO01`), **dark blue on the yellow band** (`RO02`, `RO03`), white
+  again on the mountain (`RO48`) and the truck (`RO49`). The marks are the same
+  marks; the polarity is chosen per frame. Where it collides with running text
+  on an editorial page it simply collides and is unreadable (`RO12`) — they
+  accept that on a text page and never on an image page.
+- **Vivienne Westwood keeps a black lockup** and relies on shooting pale-topped
+  photographs. It works because their photography is theirs to commission.
 
-**Neither folder contains one.** Fifty and twenty-eight screenshots, and not a
-single product detail page in either — home, listings, editorial and lookbooks
-only. **So the comparison he asked for cannot be made from this material**, and
-guessing at it from a listing page would be inventing evidence.
+**This is the mechanism section 87 measured and could not have.** The measurement
+was correct: 71 of 97 of OUR placements had no legible side, because our frames
+are dark leather against bright concrete and a single band holds both extremes
+at once. What the measurement could not see is that **the reference does not put
+the mark in a band across the whole width.** Rick Owens' marks are four small
+clusters at the corners and centre of the top edge, each landing on a few
+hundred pixels of picture — not a strip spanning 1440px of it.
 
-What the listings do show: product on pale ground, three or four across, name
-and price under, sizes and a QUICK BUY revealed on hover, a sticky FILTERS/SORT
-bar. **Ours already matches that**, four across at xl and two on a phone.
+### COMPOSITION
 
-### Text pages, which is our weakness
+**The 2-up split is in BOTH folders and takes three forms.** Bled to all edges
+with the word on the picture (`RO02`, `RO03`, `RO08`, `VW03`); inset with a
+small gutter (`VW09`, `VW10`); and **picture against plain white with the label
+in the white half** (`VW04`, `VW06`). Rick Owens only ever bleeds it. The halves
+are freely unlike: a figure against a texture (`RO03`), a black field against
+near-empty white (`RO08`), a photograph against a product on seamless (`RO04`).
 
-Their answer is the same on both sites and it is the opposite of ours.
+**The editorial pages are a mosaic of COLUMNS, not a grid of rows**, and this is
+where the old section was closest to right and least specific. Measured off the
+frames:
 
-**A narrow column — a third of the viewport at Rick Owens, closer to a half at
-Westwood — carrying MANY paragraphs, beside a photograph.** Rick Owens sets an
-entire show note, eight or ten paragraphs, in one column at about 11px uppercase
-with tight leading. Westwood stacks five or six sentence-case serif paragraphs
-against one image. **Neither ever gives a paragraph its own screen.**
+- **widths run from 10% to 66%** of the viewport, changing every unit;
+- **the anchor alternates** — right, then left, then centre (`RO17`, `RO18`);
+- **blocks are NOT top-aligned** (`RO42`); columns run past each other and end
+  where their content ends (`RO34`, `RO38`, `VW16`);
+- **the empty space is always to ONE SIDE, never centred**, and the side
+  alternates down the page;
+- **adjacent blocks are of unlike KIND**: prose, product cut out on white, a
+  wide process photograph, an archival scan, a graphic plate, a press release
+  reproduced as a picture at a size where its body copy cannot be read
+  (`RO28`, `RO33`, `RO40`, `RO43`).
+- **unlike shapes are equalised by STACKING, not by cropping**: one tall frame
+  faces a column of two short ones (`RO46`).
 
-Ours gave every paragraph its own screen. On /about that was four screens to
-carry a hundred and twenty words.
+`RO40` is the single most useful frame in either folder for this project: **a
+garment cut out on WHITE and a full-bleed colour photograph, side by side, at
+the same top edge, unframed.** The cutout is given room rather than a matching
+box. The photograph is a rectangle, the cutout is a shape, and the white is what
+they share.
 
-### What was adopted tonight
+### SEQUENCE
 
-- **/about is one column carrying his whole story** beside one photograph, in
-  his order, unbroken — which is also what section 22 asks of that page — with
-  the freed frames running below as a two-across mosaic. Four paired screens
-  became one column and a mosaic.
+**Rick Owens:** full-bleed hero with one word → 2-up splits, stacking → product
+grid → a long editorial run of mosaic and prose columns → full-bleed atmosphere
+again, sometimes with no word at all → a two-line footer.
 
-### What cannot be adopted, and the owner's reading is right
+**Vivienne Westwood:** full-bleed hero with display type → product carousel →
+2-up category pair → half-picture-half-white category blocks → heritage
+editorial → Instagram row → trust bar → a forty-link footer.
+
+### DENSITY, and the sentence that survives everything
+
+`VW27` and `VW28`: four across, **no gutter on any side**, uncaptioned, eight
+looks at once. Every frame is the same apartment, the same radiator, the same
+parquet, the same daylight. The crop varies freely — full length, waist up, legs
+only — and the room never does.
+
+**The old section's surviving finding is exactly this and it is still the truest
+sentence in it:** their density is possible because every photograph in the run
+was shot the same way. Ours are concrete, studio, forest and night, at different
+distances, in different light. **Four of ours across a screen is a contact
+sheet.**
+
+But `RO27` narrows it in a way that is worth having. Two portraits sit side by
+side on **completely different grounds** — one black, one warm pale — and the
+row holds. What they share is not a ground: it is **one figure each, the same
+crop distance, the same height, the same soft frontal light.** So the constraint
+is not "same background". It is "same TREATMENT", and a ground is only the
+easiest treatment to match. That is a smaller ask to put to the owner than
+eighteen identical backdrops, and it is why the mixed-kind mosaic in section 115
+is buildable at two-across and not at four.
+
+### TEXT PAGES
+
+**A narrow column carrying MANY paragraphs, beside one picture.** Rick Owens:
+22% to 38% of the viewport, uppercase, **JUSTIFIED**, about 11px, very tight
+leading, eight to ten paragraphs (`RO11`, `RO16`). Westwood: 34% to 48%,
+sentence case, ragged right, and **the size is not a system** — 24px serif on
+one page (`VW05`), 15px sans on another (`VW15`), up to twelve paragraphs
+(`VW24`). Both put a subhead of two lines above the run (`430 Kings Road` /
+`1971 – 1980`) and let the picture be shorter than the text beside it.
+
+The column width is set by how much there is to say, not by a token. The picture
+is not obliged to match its height. **Neither of them centres a prose column.**
+
+### PRODUCT PAGES
+
+**Neither folder contains one, confirmed across all 77 frames.** The comparison
+the owner asked for cannot be made from this material, and guessing it from a
+listing page would be inventing evidence. What the listings do show is recorded
+under claim 3 above.
+
+### WHAT CANNOT BE ADOPTED, AND THE OWNER'S READING IS STILL RIGHT
 
 - **The light is in the photograph, not the layout.** Their product grids read
-  as light because every item is on white seamless under studio lighting. No
-  arrangement of ours reproduces it; the same grid filled with our frames reads
-  as a contact sheet.
-- **Their density is made of material.** Dozens of video clips, thirty
-  consistent lookbook frames, archival photography going back to 1971. We have
-  one clip that cannot loop and no archive.
+  as light because every item is on pale seamless under studio lighting. No
+  arrangement of ours reproduces it.
+- **Their density is made of material.** Dozens of clips, thirty consistent
+  lookbook frames, archival photography going back to 1971, and a press office
+  whose PDFs are worth reproducing as pictures. We have one clip that cannot
+  loop and no archive.
 - **Copying a structure built for material we do not have produces an empty
-  structure**, which is worse than what we have: our 4-across catalogue at xl
-  already reads thinner than theirs for exactly this reason.
+  structure**, which is worse than what we have.
+- **Their footers are opposite each other** (`RO47`: ten links and one line of
+  legal micro-copy; `VW12`: forty links, a newsletter form, eight social icons,
+  five payment marks). There is no consensus to copy, so ours is decided by our
+  own rules and not by theirs.
 
 ## 108. The reference pattern applied everywhere, and one word out of his text (2026-08-13)
 
@@ -9583,3 +9682,203 @@ dataset can do — choosing thirty is not.
 **The pair is the first two of the drop in HIS drag order.** Picking two because
 they happen to share a ground would be us curating his photography; the pair
 that arrives first is the pair he put first.
+
+## 115. The seventy-seven opened, the chrome floats again, and the mosaic is a mosaic (2026-08-12)
+
+Section 111 established the rule — **reference material is looked at, not
+cited** — and could only apply it to ten frames before running out of room.
+This session opened the other sixty-seven. **All 77 are now recorded frame by
+frame in `docs/SURVEY-RIFERIMENTI.md`, written down AS EACH WAS OPENED** rather
+than summarised at the end, so an interrupted session costs only the frames it
+had not yet reached. That file is the evidence; section 107 is now the reading
+of it and has been rewritten from scratch.
+
+### WHAT THE FULL SURVEY CHANGED ABOUT SECTION 107
+
+Four claims failed rather than two, and the two new ones matter as much as the
+first two. The list, and what each one had already been built into, is in
+section 107 under WHAT THE OLD SECTION GOT WRONG. In short:
+
+1. **"Very little of their photography is full-bleed."** False. Both home pages
+   begin at pixel zero. This is the one that mattered.
+2. **"Neither ever gives a paragraph its own screen."** False, and the true rule
+   — *a paragraph never gets a screen ALONE* — is more useful. **The three
+   pages rebuilt on the false version (/about, /process, /contact) are correct
+   for the true version too**, because all three carry a continuous text, and a
+   continuous text does run as one column in both references.
+3. **"Ours already matches that"** of the listings. Half false: it matched
+   Westwood and not Rick Owens, and the file recorded the two references as
+   agreeing when they do not.
+4. **"Neither folder contains a product detail page."** True — and it was
+   asserted from ten frames, which is the habit this section exists to break.
+   **A claim that is true by luck teaches the method that produced it.**
+
+### THE CHROME FLOATS, AND THE WHITE BAND IS SUPERSEDED
+
+**The band was correct for the evidence at the time and it is recorded here as
+superseded, not as a mistake.** Section 87 measured 118 of 152 audit faults on
+the brand's own name and 71 of 97 photograph placements with no legible side;
+the owner was shown rendered alternatives and chose the band. Nothing about that
+was careless.
+
+**What changed is the evidence.** Both reference sites begin at pixel zero and
+float their chrome; Rick Owens solves legibility by RE-COLOURING THE MARKS
+against what they land on — white on the dark hero, dark blue on the yellow
+band, white again on the mountain (`RO01`, `RO02`, `RO48`). He never veils,
+plates or straps anything. Section 107's false claim that their photography sits
+framed by white had been standing in this file as a second, invented
+justification for the band, and a decision with one good reason and one invented
+reason is harder to revisit than one with a single good reason.
+
+**So `SiteHeader` takes `over`, the measured `overlay` of the photograph the
+page opens on.** The negative margin is back, the band paints nothing, the
+photograph reaches the top edge, and the marks are coloured per frame from the
+value the owner already sets in the studio. Pages that open on TEXT — /process,
+/contact, both index pages — pass nothing and keep the paper band, and that is
+the default: floating has to be asked for, by a page that knows what is
+underneath it. No observer runs; a page has one opening frame, known at build
+time.
+
+**THE SHIPPING BANNER STANDS DOWN WHERE THE CHROME FLOATS**, because pixel zero
+is the whole point and a paper strap above the chrome moves the photograph down
+by exactly as much as the band used to. **It costs less than it looks and this
+was checked rather than assumed:** the banner prints `shippingFree`, and
+SiteFooter prints the same `shippingFree` string on every page (section 108), so
+on a page opening with a photograph his sentence was appearing twice. What
+stands down is the copy. **It is still ours and it is still a trade** — his line
+moves from the first screen to the last one on five pages — and it is on the
+list to put to him.
+
+### AND THEN IT WAS MEASURED, AND THE MEASUREMENT IS BAD
+
+`npm run shots -- --audit`, on the shipped float:
+
+> **62 faults. Every one of them is `[the corner mark]` — the brand's own name
+> — over the owner's photography. Nothing else regressed: no caption fault, no
+> overflow, no third colour.**
+
+The harness now answers the second question too, which is section 87's question
+and which no committed tool could answer until tonight. When a mark fails it
+reports whether the OTHER polarity would have survived the same pixels — Rick
+Owens' own mechanism, asked as a number:
+
+> **60 of the 62 have NO LEGIBLE SIDE.** Two — `/creature/styrax-red` at 1440 —
+> would clear by flipping that frame's `overlay`. The worst cases run to
+> **1.02:1**, on Creature pages, which are where money changes hands.
+
+Only **one** capture of the twenty routes that now float is clean: `/en` at
+1440. The home arrival at 390 faults at 3.24:1.
+
+**This is section 87's finding reproduced by an independent instrument, three
+weeks later: 71 of 97 then, 60 of 62 now.** Our photographs are dark leather
+against bright concrete, forest and night; the mark's box holds both extremes
+at once and no colour exists that survives it. Rick Owens' hero is dark across
+its whole top edge — **he solves this by choosing the photograph, and that is
+the part this site cannot copy from a stylesheet.**
+
+**IT SHIPS ANYWAY, and that is a decision recorded rather than a fault that
+slipped through.** It ships because the instruction was explicit and informed,
+and because gating the float per frame on today's data would mean "band
+everywhere" — delivering nothing while appearing to comply. **The exit is one
+line of photography, not one line of CSS:** the top-left corner of any frame
+used as a page's opening must be quiet enough to carry a mark. That is now in
+`docs/MATERIALE-DA-FOTOGRAFARE.md` and in the handoff.
+
+**`npm run shots -- --chrome=band` renders the reverse**, so the owner can look
+at both instead of being argued at — which is the same procedure section 87
+used to choose the band in the first place. **If he looks at 1.02:1 and wants
+the band back, `chromeOver` comes off five pages and nothing else moves.**
+
+**NO SCRIM. Standing rule 11 is intact and section 86 already rendered,
+measured and rejected four veils.** A later session reading "62 faults" must not
+reach for a gradient: the answer to a mark that will not sit on a photograph is
+that frame's `overlay`, or a different photograph.
+
+### THE MOSAIC IS A MOSAIC NOW
+
+`/about` and `/process` both had a variable called `mosaic` feeding
+`grid-cols-2` — **two equal columns of viewport-height crops, no white
+anywhere.** That is a contact sheet, and the name had been describing something
+the pages did not have since it was chosen.
+
+**What the 77 frames actually show** (section 107, COMPOSITION): block widths
+from 10% to 66% changing every unit; the anchor alternating left, right, centre;
+blocks NOT top-aligned; columns running past each other and ending where their
+own content ends; and the empty space always to ONE SIDE, never centred, with
+the side alternating down the page.
+
+`Mosaic.astro` is that: twelve columns, a fixed cycle of eight placements each
+measured off a named frame, `grid-auto-flow: dense` so a repeating cycle
+produces rows that do not repeat, `align-items: start` so a short block leaves
+white below itself (`RO31`), and `height="native"` so **nothing is cropped** —
+the reference's rhythm comes from frames that differ in shape.
+
+**A fixed cycle rather than a random one**, because their asymmetry is composed
+and a random arrangement reads as a bug on the second visit — and because a page
+whose rhythm changes per build cannot be compared with a screenshot of itself.
+
+**THE COLUMN GAP IS RIGHT HERE AND WRONG ON THE CATALOGUE**, and the two rules
+do not conflict. A shop grid keeps its columns closed because our tiles are
+full-bleed photographs and paper between them frames each as a card (section
+111). An editorial mosaic is white-around-pictures by definition. **Both
+references draw exactly this line between their listings and their editorial.**
+
+### WHAT THE MOSAIC CANNOT BE, said plainly
+
+`RO40` and `RO28` are the two frames that make the device work, and both put **a
+garment cut out on pale ground** next to a full-bleed photograph next to a
+paragraph. Three kinds in one row.
+
+**We have two kinds: photographs and prose. We have no product on pale ground at
+all**, because every frame in this dataset is a photograph with its own world in
+it — concrete, forest, studio, night. So this mosaic runs on two kinds where
+theirs runs on four, and **it will keep reading as a well-arranged set of
+photographs rather than as their page until the owner shoots one garment per
+piece against the same pale ground.** That is the first item in group 2 of
+`docs/PER-ALEKSANDER.md` and it remains the single change that would alter this
+site most.
+
+**A "product" kind is deliberately NOT stubbed into the component.** An unused
+branch waiting for data is a branch nobody tests, and the next session would
+find it and believe the work was done.
+
+**ONE THING THE SURVEY MAKES THE ASK SMALLER, though.** `RO27` puts two
+portraits side by side on completely different grounds — one black, one warm
+pale — and the row holds. What they share is not a ground: **one figure each,
+the same crop distance, the same height, the same soft frontal light.** So the
+constraint is SAME TREATMENT, and a shared ground is only the easiest treatment
+to match. That is a smaller thing to ask him for than eighteen identical
+backdrops, and it is why two-across works for us where four-across does not.
+
+### THE CATALOGUE GOES TO THREE ACROSS
+
+Rick Owens is three across on white; Westwood is four in tinted panels. Ours was
+four, so it matched Westwood while this file recorded it as matching both.
+**Where they disagree this project takes Rick Owens.**
+
+It is also what our material wants: at four across a 1920 screen gives each tile
+480px of a full-bleed photograph with its own world in it; at three it is 640px,
+and a garment shot in a forest at 640px is a photograph rather than a swatch.
+`sizes` moved from 25vw to 33vw in the same commit — **a `sizes` left behind at
+the old count is section 69's trap exactly**, and the two numbers move together
+or neither moves.
+
+**THE LABELS STAY**, and the divergence is deliberate: Rick Owens reveals name
+and price on hover, and a shop whose prices appear only on hover shows a touch
+reader nothing at all. **We copy the count and refuse the concealment**
+(section 111 settled this and it has not moved).
+
+### WHAT WAS DELIBERATELY NOT CHANGED
+
+- **The footer.** `RO47` is ten links and one line of legal micro-copy; `VW12`
+  is forty links, a newsletter form, eight social icons and five payment marks.
+  **There is no consensus to copy**, so ours stays decided by section 26's own
+  argument.
+- **/new's grid.** Its middle run is four frames of one kind carrying names and
+  prices — a lookbook with captions, which is `VW27` plus a shop's obligations.
+  The asymmetric mosaic is an EDITORIAL device and applying it to a row of
+  products would be borrowing a form for the wrong content.
+- **Hiding name and price until hover.** Refused again, same reason.
+- **The two-up split.** Unchanged and now better supported: section 114 built it
+  from Rick Owens alone, and the full survey finds it in BOTH folders, in three
+  forms (`RO02`, `VW03`, `VW09`, `VW04`).

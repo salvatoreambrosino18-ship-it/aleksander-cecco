@@ -65,6 +65,15 @@ capi uno accanto all'altro: con diciotto sfondi diversi sembra una raccolta di
 scatti, con lo stesso sfondo sembra una collezione. **Uno scatto per capo, mezza
 giornata.**
 
+**L'angolo in alto a sinistra calmo, nelle foto di apertura.** Adesso la
+fotografia parte dal bordo alto dello schermo e il nome del marchio ci sta
+sopra, come su Rick Owens. Dove in quell'angolo c'è insieme il cemento chiaro e
+la pelle nera, **la scritta non si legge di nessun colore** — misurato: 60
+schermate su 62. Non serve rifotografare niente, serve saperlo la prossima
+volta: nella **prima** foto di ogni capo, quell'angolo tutto chiaro o tutto
+scuro. **E se non ti convince, dicci di rimettere la striscia bianca di prima:
+si torna indietro in dieci minuti.** Guarda prima com'è online.
+
 **Un video fermo di sei secondi.** Telefono appoggiato, fermo. Una cosa sola che
 si muove: la pelle che oscilla, le frange, una mano che passa. **L'inizio e la
 fine devono somigliarsi**, perché gira in continuo. Niente audio, e **mandalo con

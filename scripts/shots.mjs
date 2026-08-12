@@ -569,9 +569,35 @@ async function overlayContrast(page, sharp, tmpFile) {
     const fg = lum(rgb[0], rgb[1], rgb[2]);
     const worst = Math.min(ratio(fg, lo), ratio(fg, hi));
     if (worst < 4.5) {
+      /*
+        IS THERE A LEGIBLE SIDE AT ALL? (2026-08-12, section 115.)
+
+        This check used to say only that a mark failed, and every session that
+        read it then had to guess between two very different problems: a frame
+        whose `overlay` is simply set the wrong way round, and a frame whose box
+        holds BOTH extremes so that no colour survives it. Section 87 turned on
+        exactly that distinction — 71 of 97 placements had no legible side — and
+        the number came from a one-off script that no longer exists.
+
+        Rick Owens' answer to a mark on a photograph is to re-colour it for what
+        it lands on (`RO01` white, `RO02` dark blue). So the useful question is
+        not "did this fail" but "would the other polarity have worked", and this
+        answers it in the same pass, from the same pixels, at no extra cost.
+
+        The two candidates are the site's only two colours. There is no third
+        and there is no scrim; standing rule 11 and section 86.
+      */
+      const paper = lum(250, 250, 248);
+      const ink = lum(10, 10, 10);
+      const other = Math.abs(fg - paper) < Math.abs(fg - ink) ? ink : paper;
+      const otherWorst = Math.min(ratio(other, lo), ratio(other, hi));
+      const verdict =
+        otherWorst >= 4.5
+          ? `FLIP IT: the other polarity clears at ${otherWorst.toFixed(2)}:1`
+          : `NO LEGIBLE SIDE (${otherWorst.toFixed(2)}:1 the other way)`;
       faults.push({
         kind: "on-photo",
-        detail: `${worst.toFixed(2)}:1 worst case — "${box.label}"`,
+        detail: `${worst.toFixed(2)}:1 worst case — "${box.label}" — ${verdict}`,
       });
     }
   }
@@ -812,6 +838,13 @@ async function main() {
                 that makes it an overlay is removed — and paints page ground. The
                 marks are then on paper, at 19.6:1, and the photograph starts
                 below them. Nothing is measured because nothing overlaps.
+
+                THIS IS THE STUDY AGAIN, NOT THE SHIPPED STATE (2026-08-12,
+                section 115). It shipped between sections 87 and 115; the chrome
+                floats now, so `band` renders the alternative the owner can look
+                at — which is the direction this flag pointed when it was
+                written, and the reason it was kept rather than deleted when it
+                won.
               */
               band:
                 `#site-chrome{margin-bottom:0!important;background:var(--paper);` +
@@ -827,11 +860,15 @@ async function main() {
                 mark sits on it?
 
                 This is that. The negative margin comes back, the band stops
-                painting, and the mark takes paper — which is the polarity the
-                arrival's dark leather wants. It is a STUDY, not a proposal: the
-                real thing would take each image's measured `overlay` value, and
-                the reason `band` exists at all is that 71 of 97 placements had
-                no legible side. Look at the top 200px and nothing else.
+                painting, and the mark takes paper.
+
+                IT SHIPPED (2026-08-12, section 115), and this flag is now
+                mostly redundant: the site floats by default and takes each
+                image's measured `overlay` rather than forcing paper. What it
+                still does that the site does not is FORCE PAPER on every route
+                including the ones that open on text, which is occasionally
+                useful for seeing the mark against a page it never sits on.
+                To study the alternative, use `--chrome=band`.
               */
               float:
                 `#site-chrome{margin-bottom:calc(var(--chrome-h) * -1)!important;` +
