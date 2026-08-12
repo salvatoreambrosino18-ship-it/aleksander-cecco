@@ -816,8 +816,29 @@ async function main() {
               band:
                 `#site-chrome{margin-bottom:0!important;background:var(--paper);` +
                 `--fg:#0a0a0a!important;color:#0a0a0a!important}`,
+              /*
+                FLOAT — THE REVERSE OF WHAT SHIPPED, added 2026-08-12 (section
+                111). Every treatment above was written while the chrome
+                floated, to test ways of making a mark legible ON photography.
+                `band` won and shipped, so all four now render either the
+                current state or a scrim on top of it, and NONE of them renders
+                the question the reference sites actually raise: what does this
+                page look like when the photograph starts at pixel zero and the
+                mark sits on it?
+
+                This is that. The negative margin comes back, the band stops
+                painting, and the mark takes paper — which is the polarity the
+                arrival's dark leather wants. It is a STUDY, not a proposal: the
+                real thing would take each image's measured `overlay` value, and
+                the reason `band` exists at all is that 71 of 97 placements had
+                no legible side. Look at the top 200px and nothing else.
+              */
+              float:
+                `#site-chrome{margin-bottom:calc(var(--chrome-h) * -1)!important;` +
+                `background:transparent!important;` +
+                `--fg:#fafaf8!important;color:#fafaf8!important}`,
             }[CHROME];
-            if (!css) throw new Error(`unknown --chrome=${CHROME} (none|gradient|plate|band)`);
+            if (!css) throw new Error(`unknown --chrome=${CHROME} (none|gradient|plate|band|float)`);
             await page.addStyleTag({content: css});
             await page.waitForTimeout(120);
           }

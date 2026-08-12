@@ -9414,3 +9414,96 @@ memory, written back whole, and **read back and asserted** — file, alt text an
 caption placement all still present — because the failure this guards against is
 silent and looks like success.
 
+
+## 111. The references were never opened, and what they actually show (2026-08-12)
+
+**This section exists because section 107 was trusted instead of the pictures,
+and two of its claims are wrong.**
+
+### THE FAILURE, first, because it is the useful part
+
+Section 107 is titled "Seen rather than measured" and reports seventy-seven
+screenshots looked at page by page. A later session — this one — was asked to
+apply that reading to the rest of the site and **applied section 107's PROSE
+without ever opening a single screenshot.** The folders are
+`~/Desktop/RICK OWENS` (50 files) and `~/Desktop/VIVIENNE WESTWOOD` (28). Every
+statement made about them for a day came out of this file.
+
+It was undetectable from inside: the counts quoted matched, the conclusions were
+plausible, and the work built on them compiled, audited clean and shipped. **A
+document written from evidence is indistinguishable from evidence, and it
+outlives the looking that produced it.** That is section 5's shape again, one
+level up: the trap is no longer a wrong comment beside code, it is a right
+comment that has become the only source.
+
+**Two of section 107's claims do not survive contact with the images:**
+
+1. **"Very little of their photography is full-bleed. It sits ON the page,
+   framed by white."** FALSE. The Rick Owens home page (`16.30.32`) is one
+   photograph edge to edge, filling the viewport, on a DARK ground, with the
+   chrome floating on it. The 2-up splits (`16.40.27`, `16.41.28`) are two
+   full-height images with no margin and no gutter.
+2. **"Neither ever gives a paragraph its own screen."** FALSE. `16.43.36` is a
+   six-line paragraph beside one photograph with the bottom 70% of the screen
+   empty. **This rule was applied to /about, /process and /contact.**
+
+### WHAT THE PICTURES SHOW, page against page
+
+**Home.** Theirs: the photograph begins at pixel zero; MENU and SEARCH sit on it
+left, the signature CENTRED at top, ACCOUNT and BAG right; and ONE word, centred
+in the middle of the image. Ours: a paper band carrying the signature and MENU,
+the photograph beginning under it, and his three lines on paper below the
+picture. **This is the largest visual difference on the site, and it is section
+87 — the owner's own decision.** Not an oversight. But nobody had connected "I
+chose the band" with "it looks like a website now", and those are one fact.
+
+`npm run shots -- --chrome=float` renders the reverse — negative margin back,
+band transparent, mark in paper — so the trade can be looked at instead of
+argued. **The picture shows both halves honestly**: the photograph reaches the
+top edge, and the signature is nearly illegible on the pale strap it lands on,
+which is precisely the measurement that produced the band (71 of 97 placements
+with no legible side).
+
+**Catalogue.** Theirs is 3 across with roughly 155px of white between rows, NO
+name or price at rest, and a floating FILTERS/SORT pill. Their category pages
+open on one centred heading and a short intro, then product. Ours was 4 across
+with no gutter at all, name and price always shown, and **two** bands before a
+visitor saw a garment.
+
+**Creature page and contact: no comparison is possible.** Ten of seventy-eight
+were opened and neither folder showed a product detail page or a contact page in
+those ten. **That is a statement about the sample, not about the folders** —
+section 107 asserted "neither folder contains one" and that assertion is exactly
+the kind this section exists to stop repeating.
+
+### WHAT WAS BUILT, and what was deliberately not
+
+**Built: a row gutter on the catalogue.** u5 on a phone, u13 at desktop — 156px
+at 1920, the site's own token, no new value invented. Columns stay closed: their
+products are cut out on white seamless so white between columns is the product's
+own ground, while ours are full-bleed photographs and paper between them would
+frame every tile as a card. **The row gutter is the half of their arrangement
+our material can take.**
+
+**Built: the first movement loses its heading.** The argument is this file's
+own — section 98 note 7 recorded that after made to measure left the shop the
+first movement became "everything that is not sold or private, which is most of
+the site… it no longer distinguishes anything." A display heading and a hairline
+dividing a set from nothing is a band a reader crosses to reach the product.
+**1 DI 1 and ESAURITI keep theirs**, because those still divide something real.
+The section keeps `aria-label`, so a landmark a screen reader needs did not
+disappear with a heading a sighted reader did not.
+
+**NOT built: the chrome.** Reversing section 87 is the owner's to do, with the
+rendered picture in front of him, and it is not a thing to slip into a commit.
+
+**NOT built: hiding name and price until hover.** A shop whose prices appear
+only on hover shows a touch reader nothing at all, and every phone is a touch
+reader.
+
+### THE RULE THIS LEAVES
+
+**Reference material is looked at, not cited.** If a session is asked to apply a
+reading of the references, it opens the folder. A summary in this file is a
+record of what somebody once saw; it is not the thing itself, and the first
+session to forget that shipped a day of work on two sentences that were wrong.

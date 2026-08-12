@@ -166,7 +166,7 @@ for (const drop of dropKeys) {
     {
       creature.length > 0 ? (
         MOVEMENTS.map((movement) => (
-          <section class="movement">
+          <section class="movement" aria-label={movement.label}>
             {/*
               The movement heading arrives on the reveal's own curve as it is
               scrolled to (section 72): the three movements are the page's
@@ -174,11 +174,54 @@ for (const drop of dropKeys) {
               every arrival — no new mechanism, reduced-motion and no-JS
               guarantees unchanged. Remove by deleting `arrive`.
             */}
-            <TextSurface arrive class="hairline-h flex flex-col gap-u1 pt-u5 pb-u2 md:pt-u8 md:pb-u3">
-              <h2 class="type-display text-display">{movement.label}</h2>
-            </TextSurface>
+            {/*
+              THE FIRST MOVEMENT LOSES ITS HEADING (2026-08-12, section 111),
+              and the argument is the project's own: section 98 note 7 already
+              recorded that after made to measure left the shop, "the
+              catalogue's first movement is now everything that is not sold or
+              private, which is most of the site. Its heading still reads
+              AVAILABLE, which is right, but it no longer distinguishes
+              anything."
 
-            <div class="grid grid-cols-2 xl:grid-cols-4">
+              A display-size heading and a hairline that separate a set from
+              nothing are a band a reader crosses to reach the product. Rick
+              Owens' listing pages carry no heading over the grid at all, and
+              their category pages carry ONE. Ours carried two before a visitor
+              saw a garment: the page title with its intro and filters, then
+              this.
+
+              1 DI 1 AND ESAURITI KEEP THEIRS, because those two still divide
+              something real — a private commission and a piece that is gone.
+              The architecture survives exactly where it means something.
+
+              The section keeps its accessible name either way: a heading a
+              sighted reader does not need is still a landmark a screen reader
+              does, so it becomes `aria-label` rather than disappearing.
+            */}
+            {movement.key !== "available" && (
+              <TextSurface arrive class="hairline-h flex flex-col gap-u1 pt-u5 pb-u2 md:pt-u8 md:pb-u3">
+                <h2 class="type-display text-display">{movement.label}</h2>
+              </TextSurface>
+            )}
+
+            {/*
+              A ROW GUTTER (2026-08-12, section 111). The grid had none, so
+              seventeen photographs ran together as one wall from the first tile
+              to the last. Rick Owens' listing leaves roughly 155px of white
+              between rows at desktop, and it is what lets each row read as a
+              row of objects rather than as texture.
+
+              u13 is 156px at 1920 and it is the site's own rhythm token, so
+              nothing new is invented. A phone keeps u5: at two across, a
+              desktop gutter is a third of the screen spent on nothing.
+
+              COLUMNS STAY CLOSED deliberately. Their products are cut out on
+              white seamless, so white between columns is the same white as the
+              product's own ground; ours are full-bleed photographs, and paper
+              between them would frame every tile as a card. The row gutter is
+              the half of their arrangement our material can actually take.
+            */}
+            <div class="grid grid-cols-2 gap-y-u5 md:gap-y-u13 xl:grid-cols-4">
               {movement.items.map((garment, index) => (
                 <a
                   href={localePath(locale, `creature/${garment.slug}`)}
