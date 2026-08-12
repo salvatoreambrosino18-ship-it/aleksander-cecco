@@ -14,8 +14,37 @@
   menu when there are five or six drops rather than three.
 
   WHAT IT CARRIES: his statement whole (never an excerpt, because this is the
-  page the statement is FOR), then the drop's pieces full bleed with name and
-  price, then the way to the other drops.
+  page the statement is FOR), then the drop's pieces, then the way to the other
+  drops.
+
+  THE PIECES ARE NOT SEVENTEEN FULL SCREENS ANY MORE (2026-08-13, section 109).
+
+  They were, and it made this page 19,886px at 1920 — a screen per piece, for
+  the whole drop. **This site had already decided that was wrong and this page
+  had not been told.** The drop's own page caps its narrative at five, and
+  section 42 wrote the reason down: *five full screens is a chapter a reader
+  finishes, fifteen is a catalogue they scroll past.* /new was showing
+  seventeen.
+
+  So it takes the rhythm section 107 measured off both references: a few
+  full-bleed frames BRACKETING a dense two-across mosaic, rather than one
+  sustained treatment for the whole run. Two pieces open it at full bleed, the
+  middle runs two across, one piece closes it at full bleed. The cover above is
+  already the opening atmospheric image, so the pieces need only enough full
+  bleed to establish that these are objects seen closely before a reader is
+  asked to compare them — and the page ends on a photograph rather than on a
+  half-empty grid row.
+
+  A SMALL DROP KEEPS THE NARRATIVE. Five or fewer and every piece stays full
+  bleed: at that length the chapter is the right form and a mosaic of four is a
+  grid pretending to be one.
+
+  THE MOSAIC IS TWO DEVICES THIS SITE ALREADY OWNS, not a third. The geometry
+  is /process's and /about's — full-bleed cells, no gutter, alternating heights
+  on a phone and level at desktop so rows line up. The name and price sit in a
+  `px-caption` block UNDER each cell, which is exactly how the catalogue does a
+  contained tile; putting them through the caption slot would give a half-width
+  frame the page's own margins, which is the bug section 56's note describes.
 */
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
@@ -65,6 +94,21 @@ const money = new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
 });
 const priceOf = (garment: Garment) =>
   typeof garment.price === "number" ? money.format(garment.price) : null;
+
+/*
+  THE BRACKET (section 109). Two full-bleed pieces, the middle two across, one
+  full-bleed piece to close. Below six the whole drop stays a chapter.
+
+  The numbers are deliberate and small: the cover is already an atmospheric
+  full screen, so two openers are enough to set the scale of the work, and one
+  closer is enough to end on a photograph. Change them here and nowhere else.
+*/
+const NARRATIVE_MAX = 5;
+const OPENING = 2;
+const isChapter = garments.length <= NARRATIVE_MAX;
+const opening = isChapter ? garments : garments.slice(0, OPENING);
+const middle = isChapter ? [] : garments.slice(OPENING, -1);
+const closing = isChapter ? [] : garments.slice(-1);
 ---
 
 <Base
@@ -91,13 +135,55 @@ const priceOf = (garment: Garment) =>
   */}
   <Statement text={statement} locale={locale} voice={voice} />
 
-  {/*
-    The pieces, full bleed, one per screen: this is the drop being looked at,
-    not the catalogue being compared, so it keeps the narrative treatment the
-    dense grid deliberately gave up.
-  */}
+  {/* THE OPENING, full bleed: the drop looked at, in his own drag order. */}
   {
-    garments.map((garment) => (
+    opening.map((garment) => (
+      <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
+        <MediaSurface media={garment.media![0]} locale={locale} height="tall">
+          <div class="flex flex-col gap-u1">
+            <h2 class="type-label text-label">{garment.name}</h2>
+            {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
+          </div>
+        </MediaSurface>
+      </a>
+    ))
+  }
+
+  {/*
+    THE MOSAIC. Two across at desktop, one column on a phone, no gutter — the
+    arrangement /process and /about use, which is where the density the
+    references have actually comes from: more photographs visible at once,
+    not less space between them.
+
+    The name and price sit UNDER the frame rather than in its caption slot,
+    because a half-width frame taking the page's own margins is a garment's
+    name wrapping inside 126px (section 56's note on the worn band). `px-caption`
+    is the same edge distance a caption on the picture would have used, so the
+    two treatments agree at the edge.
+  */}
+  {middle.length > 0 && (
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      {middle.map((garment, index) => (
+        <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
+          <MediaSurface
+            media={garment.media![0]}
+            locale={locale}
+            height={index % 2 === 0 ? "tall" : "short"}
+            desktopHeight="tall"
+            sizes="(min-width: 48rem) 50vw, 100vw"
+          />
+          <div class="flex flex-col gap-u1 px-caption py-u2">
+            <h2 class="type-label text-label">{garment.name}</h2>
+            {priceOf(garment) && <span class="type-mono text-mono">{priceOf(garment)}</span>}
+          </div>
+        </a>
+      ))}
+    </div>
+  )}
+
+  {/* THE CLOSE: a photograph, not a half-empty row. */}
+  {
+    closing.map((garment) => (
       <a href={localePath(locale, `creature/${garment.slug}`)} class="block">
         <MediaSurface media={garment.media![0]} locale={locale} height="tall">
           <div class="flex flex-col gap-u1">
