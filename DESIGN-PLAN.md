@@ -795,9 +795,14 @@ Ordered by what blocks the most. Nothing here can be invented on his behalf.
       thing on the project; ask before building (section 65).
 - [ ] **Wire the Cloudflare Web Analytics token.** Decided in section 9, still
       not done, cookieless and free.
-- [ ] **Remove the three Resend values from the local `.env`.** Wrangler reads
-      it, so submitting the form against a local dev server sends REAL email and
-      has already spent three of the daily allowance (section 38).
+- [x] **Remove the three Resend values from the local `.env`.** DONE
+      2026-08-13. Wrangler reads that file, so a form submitted against a local
+      dev server sent REAL email. The three keys are emptied and the previous
+      contents were moved to `~/.aleksander-cecco-resend.bak` (mode 600, outside
+      the repository) rather than destroyed — the API key exists nowhere else
+      yet, because the Cloudflare secrets are still gated on the privacy notice.
+      The Function refuses to send with any of the three missing and logs that
+      it is not configured, which is the correct local behaviour.
 - [x] **Make the check gate catch what it missed.** DONE, and it was already
       done: `npm run check` has been `astro check && tsc -p functions --noEmit
       && astro build` since before 2026-08-13. Verified rather than assumed
