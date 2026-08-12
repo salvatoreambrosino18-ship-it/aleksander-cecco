@@ -16,6 +16,72 @@ will lose; four of them nearly were.
 **If a comment in the code and this page disagree, one of them is out of date
 and the answer is to LOOK AT THE SITE.** A wrong comment compiles.
 
+### 0. If you have never seen this repository, read this box first
+
+You are in `~/aleksander-cecco`, a personal client project with its own
+repository. **No other repo on this machine is related to it and none of their
+rules apply here.**
+
+**Get it running, in four commands.** Node 22+, and `.env` already exists on the
+machine this was built on:
+
+    npm install
+    npm run dev            # localhost:4321, reads the LIVE Sanity dataset
+    npm run build          # writes dist/, and REFUSES a placeholder build
+    npm run shots          # a real browser walks the built site and photographs it
+
+There is no test suite and no local database. **Content comes from Sanity over
+the network at build time**, so a build needs `PUBLIC_SANITY_*` and
+`SANITY_READ_TOKEN` in `.env`; `.env` is gitignored and only `.env.example`,
+which carries names and no values, is committed (standing rule 5). If `.env` is
+missing you cannot build, and that is the correct failure — there is no fixture
+mode and inventing one would produce the exact disaster section 5 describes.
+
+**The eleven routes, both languages, `/it` and `/en`:**
+
+    /                       redirects to the reader's language
+    /[lang]                 home
+    /[lang]/new             the current drop
+    /[lang]/creature        the catalogue, all seventeen, filterable
+    /[lang]/creature/[slug] one Creature
+    /[lang]/creature/[slug]/order    name + email, no payment
+    /[lang]/collections     the drop index
+    /[lang]/collections/[slug]       one drop
+    /[lang]/process         the single home of imagery
+    /[lang]/about           the brand, in his words, complete
+    /[lang]/contact         two addresses and the terms
+
+**Where things live.** `src/pages` is one file per route and carries most of the
+reasoning in comments. `src/components` is nine surfaces — the whole visual
+system is `MediaSurface`, `TextSurface` and `PairedSurface`. `src/lib/content.ts`
+is every GROQ query and the only place the dataset is described. `src/i18n/ui.ts`
+is interface strings and **no brand copy**. `functions/api/enquiry.ts` is the
+entire order flow. `studio/` is the Sanity schema the owner edits through.
+`scripts/` is the tools, section 6.
+
+**The four things that make this project unusual, and they explain almost every
+decision below:**
+
+1. **It cannot launch, and the gate enforces that.** `npm run launch-check`
+   refuses while anything invented remains. Section 3.
+2. **Everything we wrote on his behalf is invisible to a visitor and flagged in
+   the data.** Braces and "unapproved draft" marks make a real brand look like a
+   rehearsal, so the site reads as finished and the GATE carries the honesty.
+   That bargain is a lie without the gate.
+3. **His words are not ours to change.** One exception exists, in twelve days,
+   and it is marked, flagged and recorded verbatim (section 108).
+4. **A green check proves almost nothing here.** Section 5 is thirteen failures
+   that every automated signal reported as fine. Read it before you trust one.
+
+**The standing rules are section 7** (thirteen of them: two colours, no third-party
+scripts, nothing paid, no scrim over photography, reduced motion respected, never
+invent brand copy). This page cites them by number.
+
+**What to do first, in a fresh session:** run `npm run launch-check` to see the
+real state, `npm run build` to prove it compiles, then `npm run shots --
+--audit` and LOOK at `shots/`. Anything you plan after that goes on THE OPEN
+LIST or it does not exist.
+
 ### 1. What this is
 
 A SHOP for **Aleksander Cecco**, a leather atelier in South Italy. Live at
@@ -395,14 +461,40 @@ minute. The full trap is in the list below.
 
 ### 7. How the pieces fit
 
-Sanity holds content. Push to `main` deploys reliably; publishing in Sanity
-deploys intermittently (s16). The order flow — its email, its confirmation and
-the slot where payment will go — is entirely in `functions/api/enquiry.ts`. The
-photographs live in Sanity, never in the repository. The domain move is the
-OWNER's task; when it lands, `PUBLIC_SITE_URL`, `RESEND_FROM` and
-`ENQUIRY_TO_EMAIL` are the three values that change here.
+**Astro builds every page to static HTML at build time**, reading Sanity over
+the network. There is no server and no client-side data fetching; the only
+runtime code on the site is a few inline scripts for motion and one Cloudflare
+Pages Function. **Cloudflare Pages hosts it**, free tier, and a push to `main`
+deploys reliably; publishing in Sanity deploys intermittently through a webhook
+(s16), so if the site looks stale after a content change, push something.
+
+**Sanity holds all content and every photograph** — nothing is in the
+repository, and the owner edits through the studio in `studio/`, which is
+bilingual and where every field's help text is written for HIM rather than for
+us. `src/lib/content.ts` is the only file that knows the shape of that data.
+
+**The order flow is entirely `functions/api/enquiry.ts`**: it takes a name and
+an email, sends two messages through Resend, and answers. **No payment exists**;
+Stripe Checkout slots into one return statement there when he has a fiscal
+position. It refuses to send while its three environment values are missing and
+says so in the log, which is the correct local behaviour — the real values are
+Cloudflare secrets set on a deployment made after the privacy notice exists, and
+they must never be in `.env` again (s38, and they were removed 2026-08-13).
+
+**Two noindex locks keep the site out of search results** until it can lawfully
+sell: one environment variable and two lines in `public/_headers`. They come off
+LAST (s16).
+
+**The domain move is the OWNER's task**; when it lands, `PUBLIC_SITE_URL`,
+`RESEND_FROM` and `ENQUIRY_TO_EMAIL` are the three values that change here, and
+section 29 has the four steps.
 
 ### 8. Outstanding, and all of it is his
+
+**This is MATERIAL he owes — photographs, links, an order.** Decisions live on
+THE OPEN LIST below; the list written FOR HIM, in Italian and without a single
+reference to a section or a flag, is `docs/PER-ALEKSANDER.md`, and that is the
+document to send rather than any part of this file.
 
 - The **worn band's order** (five frames; it is a studio field — drag
   `homeSequence`, first from the top is leftmost). Frame 5 has no linked piece.
