@@ -10186,3 +10186,61 @@ on /process, at the end of the gallery's descent, where an experiment belongs.
 **The catalogue is sixteen pieces now, and the site builds 81 pages instead of
 89** — eight fewer because two garments each carried a page and an order form in
 two languages.
+
+### THE WRITING, AND HOW THEY WRITE
+
+The owner put printed Rick Owens pages in the reference folder and asked for
+their WRITING rather than their layout. Forty-three pages of press notes plus
+the eco-aware page, read for register:
+
+- **MATERIAL FIRST, WITH ITS PROVENANCE.** *"SHAGGY JACKETS COME IN HEAVYWEIGHT
+  UNSHAVEN HAIR-ON COWHIDES TANNED IN THE VENETO AREA OF ITALY BY A 2ND
+  GENERATION FAMILY-OWNED TANNERY THAT HAS A LWG GOLD RATING."* Never
+  "beautiful leather".
+- **A FACT WHERE A FACT EXISTS.** *"BLACK IS DYED WITH BAMBOO CHARCOAL WHILE
+  GREEN IS ACHIEVED USING OLIVE WASTE."* Processes, places, dates, mills.
+- **NO ADJECTIVE ABOUT THEMSELVES.** In forty-three pages there is not one
+  sentence praising the brand.
+- **AND THEY ADMIT WHAT IS NOT DONE.** The eco-aware page ends *"WE STILL HAVE A
+  WAYS TO GO BUT WE CAN ALL AIM HIGHER AND START SOMEWHERE."* The Luxor note
+  ends *"WITH A SENSE OF FRUSTRATION THAT NOTHING IS ENOUGH."* **That admission
+  is what makes the rest believable.**
+
+**SEVEN BLOCKS, 211 WORDS, ACROSS TWO PAGES.** Three on /about — the alchemy,
+the cut that follows the animal, the piece that is never finished. Four on
+/process — the tanning, the cut, the stitch, and what lasts. Both pages end on
+the thing that is not solved.
+
+**WHAT THEY ARE ALLOWED TO SAY.** Only what HIS approved copy already asserts,
+plus what a photograph plainly shows: plants, bark, leaves and roots; no
+chemicals and less water; a semicircular raw cut following natural shapes; one
+of a kind, made by order; five hundred scar-stitches on Rubedo. **The alchemy is
+not imported** — Solve et Coagula is the name of his process page, Rubedo is the
+name of a piece, Tenebrae and Lux are the name of his collection. Nothing
+invents a certification, a supplier, a mill or a number.
+
+**AND THEY GO IN THE COLUMNS, WHICH IS THE POINT.** Section 116 named this as
+the last structural difference: `Mosaic` had carried a `note` block since it was
+written and NO PAGE PASSED ONE, so our editorial pages ran pictures-only for a
+dozen screens while `RO28`, `RO31` and `RO33` thread a paragraph between the
+images in the same row. They are woven at the same mixed slots the cut-outs use,
+and ZIPPED with them so consecutive rows carry different kinds rather than three
+objects and then four paragraphs.
+
+**HIS SENTENCES ARE UNTOUCHED AND STAY FIRST.** On /about his whole story is
+still one unbroken column above the mosaic; on /process his making statement is
+still the first prose on the page. Ours sit below, in the margins of the
+pictures. **Both are flagged `aboutNotes` and `processNotes` in `inventedCopy`,
+so `npm run launch-check` refuses while they stand** and the owner can rewrite
+any of the seven in the studio.
+
+### AND THE SPINE WAS RUNNING THROUGH THE SENTENCES
+
+`Spine` positions itself at `--spine-x`, the PAGE margin — 115px at 1440. Inside
+a 330px mosaic column that put the hairline straight through the prose.
+**Overriding the token locally did nothing**, because Tailwind v4 inlines
+`--spacing-spine` at build time, so the utility never sees a local value: a
+second instance of section 67's trap, in the opposite direction.
+
+The note carries a `border-left` instead. **A border cannot be in the wrong
+place — it IS the edge**, which is what tokens.css says the line means.

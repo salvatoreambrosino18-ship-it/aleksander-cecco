@@ -42,6 +42,11 @@ const MEDIA_PROJECTION = /* groq */ `
   "dimensions": poster.asset->metadata.dimensions
 `;
 
+export type MosaicNote = {
+  heading: LocaleField;
+  text: LocaleField;
+};
+
 export type HomeTile = {
   media: MediaItem;
   garment: {name: string; slug: string | null} | null;
@@ -76,6 +81,15 @@ export type SiteSettings = {
   cutoutMedia: HomeTile[] | null;
   /** The stages, in the order of the work. OURS, flagged as processText. */
   processText: LocaleField;
+  /**
+   * THE NARRATIVE IN THE COLUMNS (section 118). Short blocks that sit INSIDE
+   * the mosaic beside the photographs, which is how the references thread prose
+   * through an editorial page. OURS in every language, flagged `aboutNotes` and
+   * `processNotes` in `inventedCopy`; his own sentences are untouched and stay
+   * first on both pages.
+   */
+  aboutNotes: MosaicNote[] | null;
+  processNotes: MosaicNote[] | null;
   /** A chosen handful, not a live feed. See the schema for why. */
   instagramFrames: Array<{media: MediaItem; postUrl: string | null}> | null;
   makingStatement: LocaleField;
@@ -139,6 +153,8 @@ const SITE_SETTINGS_QUERY = /* groq */ `
       "garment": garment->{name, "slug": slug.current}
     },
     processText,
+    aboutNotes[]{heading, text},
+    processNotes[]{heading, text},
     instagramFrames[]{"media": media{${MEDIA_PROJECTION}}, postUrl},
     makingStatement,
     "approvedLanguages": coalesce(approvedLanguages, ["en"]),
@@ -174,6 +190,8 @@ const EMPTY_SETTINGS: SiteSettings = {
   processMedia: null,
   cutoutMedia: null,
   processText: null,
+  aboutNotes: null,
+  processNotes: null,
   instagramFrames: null,
   makingStatement: null,
   approvedLanguages: null,

@@ -417,6 +417,42 @@ export const siteSettings = defineType({
       description:
         "Un capo per fotografia, ritagliato, sul fondo chiaro della pagina. Entrano nelle pagine di racconto accanto al testo e alle fotografie del lavoro. Collegare ogni ritaglio al suo capo. PRIMA DI CARICARE: confronta il ritaglio con la fotografia originale all'orlo — se l'orlo e' stato raddrizzato, non va usato. / One piece per frame, cut out, on the page's own pale ground. They enter the story pages beside the text and the process photographs. Link each cut-out to its piece. BEFORE UPLOADING: compare the cut-out with the original photograph at the hem — if the hem has been tidied, it does not go in.",
     }),
+    /*
+      IL RACCONTO NELLE COLONNE (2026-08-13, sezione 118).
+
+      Righe brevi che stanno DENTRO il mosaico, in colonna, accanto alle
+      fotografie — non un blocco di testo prima o dopo. E' cosi' che scrivono i
+      riferimenti: il materiale, da dove viene, cosa gli succede, e una cosa che
+      non e' ancora risolta. Mai un aggettivo sul marchio.
+
+      SONO NOSTRE. Le sue frasi restano intoccate e restano le prime: queste
+      stanno accanto, non al posto loro. Finche' sono segnate in `inventedCopy`
+      il sito non puo' aprire. Riscrivile con le tue parole e togli la spunta.
+
+      THE NARRATIVE IN THE COLUMNS. Short lines that live INSIDE the mosaic,
+      beside the photographs, in the reference's own manner: the material, where
+      it comes from, what happens to it, and one thing not yet solved. Never an
+      adjective about the brand. OURS, and flagged as ours; his sentences stay
+      untouched and stay first.
+    */
+    defineField({
+      name: 'aboutNotes',
+      title: 'Chi siamo: le righe nel mosaico / About: the lines in the mosaic',
+      type: 'array',
+      of: [{type: 'mosaicNote'}],
+      description:
+        "Da due a quattro. Brevi. Vanno in colonna, accanto alle fotografie. / Two to four. Short. They sit in a column beside the photographs.",
+      validation: (Rule) => Rule.max(5).warning('More than five and the page becomes an essay.'),
+    }),
+    defineField({
+      name: 'processNotes',
+      title: 'Processo: le righe nel mosaico / Process: the lines in the mosaic',
+      type: 'array',
+      of: [{type: 'mosaicNote'}],
+      description:
+        "Da tre a cinque. Il materiale, la lavorazione, cosa ne esce. / Three to five. The material, the making, what comes out of it.",
+      validation: (Rule) => Rule.max(6).warning('More than six and the page becomes an essay.'),
+    }),
     defineField({
       name: 'inventedCopy',
       title: 'Testi scritti da noi, da approvare / Copy we wrote, to be approved',

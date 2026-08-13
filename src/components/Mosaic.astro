@@ -67,7 +67,6 @@
   clusters stack).
 */
 import MediaSurface from "./MediaSurface.astro";
-import Spine from "./Spine.astro";
 import type {Locale} from "../lib/locales";
 import type {MosaicBlock} from "../lib/mosaic";
 export type {MosaicBlock} from "../lib/mosaic";
@@ -182,8 +181,18 @@ const sizesFor = (span: number) =>
               mosaic the spine is the block's own left edge rather than the
               page's margin, because that edge is what the column actually has.
             */
-            <div class="mosaic-note relative">
-              <Spine />
+            /*
+              THE SPINE IS THE BLOCK'S OWN LEFT BORDER (2026-08-13, section
+              118), not a positioned hairline.
+
+              `Spine` places itself at `--spine-x`, the PAGE margin, which is
+              115px — inside a 330px column that put the line straight through
+              the sentences, and overriding the token locally did nothing
+              because Tailwind v4 inlines `--spacing-spine` at build. A
+              `border-left` cannot be in the wrong place: it IS the edge, which
+              is what tokens.css says the line means.
+            */
+            <div class="mosaic-note">
               {/*
                 A HEADING, WHERE THERE IS ONE (2026-08-13, section 118). Both
                 references put a two-line subhead above a run of prose —

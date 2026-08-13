@@ -459,8 +459,21 @@
     display: flex;
     flex-direction: column;
   }
+  /*
+    THE SPINE MOVES TO THE BLOCK'S OWN EDGE (2026-08-13, section 118).
+
+    `--spine-x` is the PAGE margin — 115px at 1440 — and a mosaic note is a
+    column about 330px wide, so the hairline landed 115px INSIDE the block and
+    ran straight through the sentences. It is drawn at the note's own left edge
+    instead, which is what tokens.css says the line is for: "the line only means
+    something when it is the EDGE of something."
+
+    On a phone the note takes the page's own width, so the page margin IS its
+    edge and the override resolves to the same place.
+  */
   .mosaic-note {
-    padding: var(--s-u5) var(--content-x);
+    border-left: var(--hairline-w) solid var(--hairline);
+    padding: var(--s-u3) var(--content-x);
     display: flex;
     flex-direction: column;
     gap: var(--s-u2);
@@ -527,8 +540,12 @@
       page. `--content-x` is measured from the page margin and would push a
       four-column block's prose most of the way across itself.
     */
+    /*
+      At desktop the note keeps a small inset off its own spine, the same
+      relationship a text surface has with the page margin.
+    */
     .mosaic-note {
-      padding: 0 var(--s-u3);
+      padding: 0 var(--s-u5);
     }
     /*
       AT DESKTOP THE CUT-OUT SHRINKS INSIDE ITS COLUMN. `RO36` gives a belt a

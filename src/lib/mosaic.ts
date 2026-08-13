@@ -6,7 +6,8 @@
   and the weaving rule belong somewhere both can import rather than being
   copied. A copied rule is two rules with one name.
 */
-import type {HomeTile} from "./content";
+import type {HomeTile, MosaicNote} from "./content";
+import type {LocaleField} from "./locales";
 import type {MediaItem} from "./media";
 
 /**
@@ -73,6 +74,23 @@ export function weaveMosaic(frames: MediaItem[], guests: MosaicBlock[]): MosaicB
   return out;
 }
 
+/**
+ * INTERLEAVE THE GUESTS SO THE KINDS ALTERNATE (2026-08-13, section 118).
+ *
+ * The mixed slots are few, and if all the cut-outs are queued before all the
+ * notes the page gets a run of objects and then a run of prose — two blocks of
+ * one kind, which is the thing the mosaic exists to avoid. Zipping them means
+ * consecutive mixed rows carry different kinds.
+ */
+export function zip<T>(a: T[], b: T[]): T[] {
+  const out: T[] = [];
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    if (a[i] !== undefined) out.push(a[i]);
+    if (b[i] !== undefined) out.push(b[i]);
+  }
+  return out;
+}
+
 /** A cut-out tile as a mosaic block, with its piece's name and route. */
 export function productBlock(tile: HomeTile, href: string | null): MosaicBlock {
   return {
@@ -81,4 +99,16 @@ export function productBlock(tile: HomeTile, href: string | null): MosaicBlock {
     label: tile.garment?.name ?? null,
     href,
   };
+}
+
+/** A written block as a mosaic block, already localised by the caller. */
+export function noteBlock(
+  n: MosaicNote,
+  pick: (f: LocaleField) => string | null,
+  marked: boolean,
+  notice: string | null,
+): MosaicBlock | null {
+  const text = pick(n.text);
+  if (!text) return null;
+  return {kind: "note", heading: pick(n.heading), text, marked, notice};
 }
