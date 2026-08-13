@@ -188,8 +188,28 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           the bottom would let the words go back on the picture. That is his to
           shoot, and it is on the open list.
         */}
+        {/*
+          THE ARRIVAL IS A LOOP NOW (2026-08-12, section 117), and it is the
+          only loop on the site.
+
+          Section 116 made `film` the default because no clip in the folder
+          returned to where it began. `scripts/find-loop.mjs` then searched
+          every clip for its steadiest WINDOW rather than judging it whole, and
+          one came back usable: `IMG_0263` between 2.50s and 4.00s, a hand
+          pulling a jacket off its hook against the concrete wall. **Seam 5.2 of
+          255, border drift 3.2** — the two end frames put side by side are all
+          but identical.
+
+          IT GOES HERE BECAUSE THIS IS THE POSITION THAT CANNOT HAVE CONTROLS.
+          An arrival with a play button is not an arrival. Everywhere else a
+          clip can be a film, so everywhere else a clip IS one, and nothing
+          judders in a corner of the site to satisfy a rule.
+
+          The poster is the loop's own first frame, so the still and the motion
+          agree exactly and there is no jump when it starts.
+        */}
         <div class="relative">
-          <MediaSurface media={opening} locale={locale} priority height="tall">
+          <MediaSurface media={opening} locale={locale} priority height="tall" videoMode="loop">
             <div class="flex flex-col gap-u2">
               {/*
                 HIS THREE LINES, VERBATIM (2026-08-12, section 99), replacing

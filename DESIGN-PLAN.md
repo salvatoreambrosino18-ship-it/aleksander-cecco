@@ -10004,3 +10004,65 @@ The script now uses one patch per array inside a single transaction, is
 re-runnable — every step asks the dataset whether its own file is already there
 — and **reads the dataset back after committing and prints the counts**, because
 the response is not evidence.
+
+## 117. The ground, the loop, and seven cut-outs (2026-08-12)
+
+### THE CUT-OUTS WERE SITTING ON A WHITE BOX
+
+The tool returns a cut-out on **pure white**. The site's paper is `#fafaf8`.
+Those two whites do not match, so every cut-out on /process had a hard rectangle
+around it — the "card" this site refuses everywhere else, introduced by the one
+component built to avoid it.
+
+**Flattening onto paper does not fix it, and that was the first attempt.**
+`flatten` fills TRANSPARENT pixels; these files have no transparency at all, so
+it is a no-op and the box survives. The fix is to knock the ground out to alpha
+and let the page show through.
+
+**A GLOBAL WHITE KEY WOULD HAVE EATEN THE GARMENTS.** The two pieces that most
+need this treatment are a WHITE mesh top and CREAM trousers. So the fill starts
+at the BORDER and spreads only through connected near-white pixels: an interior
+white is enclosed by the garment's own edge and is never reached. Verified by
+compositing the result onto a red ground, where any hole would be obvious —
+there are none.
+
+`scripts/prepare-cutouts.mjs` does this, trims to the figure, re-pads evenly and
+can split a composite into its figures. **It does not decide whether a cut-out
+is honest**; that is still a judgement made by looking at the hem.
+
+### ONE CLIP IN THE FOLDER CAN LOOP, AND IT IS THE ARRIVAL'S
+
+Section 116 judged each clip WHOLE and made them all films.
+`scripts/find-loop.mjs` now searches each clip for its steadiest WINDOW instead,
+and reports two numbers: the SEAM (how different the window's first and last
+frames are, 0–255) and the DRIFT (the same difference measured only on the outer
+12% of the frame, which is wall or floor on every one of these — a fixed camera
+holds its border still).
+
+| clip | best window | seam | drift | reads as |
+|---|---|---|---|---|
+| `IMG_0263` | 2.50–4.00s | **5.2** | **3.2** | a blink |
+| `IMG_1426` | 0.00–1.20s | 16.4 | 18.5 | visible |
+| `IMG_0143` | 1.00–3.00s | 24.4 | 24.2 | a cut |
+| `IMG_9150` | 2.70–3.90s | 32.5 | 22.7 | a cut |
+| `IMG_7508` | 5.10–6.30s | 34.9 | 30.4 | a cut |
+| `IMG_0271` | 1.50–3.50s | 37.7 | 21.8 | a cut |
+| `IMG_2046` | 5.80–7.00s | 38.0 | 29.9 | a cut |
+
+**`IMG_0263` goes on the home arrival, looped**, because the arrival is the one
+position that cannot carry controls — a play button is not an arrival. Its two
+end frames put side by side are all but identical.
+
+**`IMG_1426` WAS TRIED AND REFUSED.** At 16.4 it judders visibly every 1.2
+seconds. It was run through `deshake` to see whether the movement was operator
+shake: **it came back 16.6, no better, because the movement is a deliberate PAN
+and stabilising cannot remove one.** It is a film on /process instead.
+
+Everything else stays a film at 32 to 38, which is not a seam but a cut.
+**Nothing on this site judders in a corner to satisfy a rule.**
+
+The arrival's mark went to INK: the harness measures the real rendered box and
+found ink clears at 5.10:1 on a phone where paper fails at 2.28:1. At 1440
+neither clears and ink is the better of the two. **Home is one fault instead of
+two**, and my own sampled box had said the opposite — the instrument that
+measures where the mark actually is wins over one that guesses.
