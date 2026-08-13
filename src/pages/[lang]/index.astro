@@ -75,16 +75,44 @@ const [collections, settings] = await Promise.all([getCollections(), getSiteSett
   It renders only when both frames exist, so a drop of one degrades to nothing
   rather than to a half-empty screen.
 */
+/*
+  THE SECOND HALF IS A CUT-OUT NOW (2026-08-13, section 118), which is `RO04`:
+  a photograph cropped hard against an object on pale ground with two thirds of
+  its half left empty. The first half is still the first piece of the drop in
+  HIS drag order; what changes is what it is held against.
+
+  The pair reads better for it. Two full-bleed photographs of two garments in
+  two different worlds were a comparison the eye could not make; a photograph
+  against an object is a comparison it makes immediately.
+
+  It falls back to two photographs when no cut-out exists, so a dataset without
+  them renders exactly what section 114 built.
+*/
 const dropSlug = collections[0]?.slug ?? null;
 const dropPieces = dropSlug ? await getGarmentsInCollection(dropSlug) : [];
-const twoUp = byStage(dropPieces)
+const cutouts = (settings.cutoutMedia ?? []).filter((c) => c.media?.poster);
+const homeCutout = cutouts[0] ?? null;
+const dropFrames = byStage(dropPieces)
   .filter((g) => g.media?.[0] && g.name)
-  .slice(0, 2)
   .map((g) => ({
     media: g.media![0],
     label: g.name!,
     href: localePath(locale, `creature/${g.slug}`),
+    kind: "frame" as const,
   }));
+const twoUp = homeCutout
+  ? [
+      dropFrames[0],
+      {
+        media: homeCutout.media,
+        label: homeCutout.garment?.name ?? "",
+        href: homeCutout.garment?.slug
+          ? localePath(locale, `creature/${homeCutout.garment.slug}`)
+          : null,
+        kind: "cutout" as const,
+      },
+    ].filter(Boolean)
+  : dropFrames.slice(0, 2);
 
 const opening = settings.openingMedia;
 const instagramFrames = settings.instagramFrames ?? [];

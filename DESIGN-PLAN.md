@@ -10066,3 +10066,94 @@ found ink clears at 5.10:1 on a phone where paper fails at 2.28:1. At 1440
 neither clears and ink is the better of the two. **Home is one fault instead of
 two**, and my own sampled box had said the opposite — the instrument that
 measures where the mark actually is wins over one that guesses.
+
+## 118. Seven cut-outs, six true, and the writing that fills the columns (2026-08-13)
+
+### THE SECOND BATCH, VERIFIED THE SAME WAY
+
+The owner replaced the folder: seven cut-outs, re-processed, with the contact
+shadows kept. Each was put beside the photograph it came from and compared at
+the hem, the seams and the hardware — the same test section 116 used, because it
+is the test that caught three of the first six.
+
+**SIX HOLD UP. ONE DOES NOT.**
+
+| cut-out | garment | verdict |
+|---|---|---|
+| woman seated, shirt as a dress | Oblivion | **passes** — same frame, hem and studs correspond, shadow kept |
+| woman, shirt worn open over jeans | Oblivion | **passes** — the raw scallop notch for notch, the FERDRESSED label still in place |
+| **frontal man, black shirt + cream shorts** | — | **REFUSED AGAIN** |
+| woman, black fur top | Styrax | **passes** |
+| woman, red leather shirt | Rubedo | **passes — and it is fixed** |
+| woman, red goat fur top | Styrax Red Goat | **passes** |
+| man, mesh top + cream trousers | Monumentus Lux | **passes** (unchanged file) |
+
+**RUBEDO IS THE ONE WORTH RECORDING.** The first batch redrew its raw scallop
+into a symmetric batwing curve and gave its bell sleeves regular corrugated
+ripples; section 116 refused it for exactly that. **The new one is the real
+hem** — the deep asymmetric scallop with long uneven tongues, the ragged cuffs,
+the small hole in the right cuff, all matching the photograph. Re-processing
+fixed what re-processing had broken.
+
+**THE FRONTAL MAN FAILED THE SAME WAY TWICE.** The only photograph of that
+outfit is a three-quarter profile against a white wall, sunglasses on, one hand
+raised. The cut-out is frontal, symmetrical, hands at the waist, direct gaze —
+**a pose that exists in no photograph** — and the shorts still have no belt
+loops and no yoke seam, both plainly present on the real garment.
+
+**AND I GOT ONE WRONG BEFORE CORRECTING IT.** The black fur first read as
+regenerated: eyes open in the cut-out where the photograph had them closed.
+**It was the wrong photograph.** Styrax has two frames from that session in the
+same clearing, and the second has her looking straight at the camera. Against
+the right frame the cut-out matches — choker studs, the raw pointed hem, the
+bracelet, the tattoo. **A cut-out is only as verified as the frame it is
+compared with, and finding the right frame is part of the test.**
+
+### THE GROUND FADES NOW INSTEAD OF BEING CUT
+
+Section 117's knockout was binary: everything above the tolerance went fully
+transparent, everything below stayed fully opaque. That is fine on a figure
+floating in flat white and **wrong the moment a contact shadow exists**, because
+a soft shadow gets sliced along a contour and reads as a grey tidemark round the
+feet.
+
+So the fill is soft at both ends: alpha ramps with distance from white, and the
+colour is remapped toward paper by the same proportion, so a shadow keeps
+exactly the weight it had and anything that drops alpha downstream still lands
+on the page's ground. **A floor was needed too** — the tool writes its
+background at 254, not 255, so a ramp starting at pure white left every cut-out
+under a 6%-opacity veil: invisible on paper, plainly a rectangle on anything
+else.
+
+### SHARED OUT, NOT HOARDED
+
+Six cut-outs, three pages. **The home two-up takes the first, /about takes two,
+/process takes three.** The split is a comment on each page rather than a
+computation, because it is an editorial decision.
+
+**THE HOME TWO-UP'S SECOND HALF IS A CUT-OUT**, which is `RO04`: a photograph
+cropped hard against an object on pale ground with two thirds of its half left
+empty. The first half is still the first piece of the drop in HIS drag order;
+what changed is what it is held against. Two full-bleed photographs of two
+garments in two different worlds were a comparison the eye could not make; a
+photograph against an object is one it makes immediately.
+
+### AND THE CUT-OUTS WERE TOO SMALL
+
+The owner said Oblivion on /process was too small and he was right. **A
+photograph FILLS its cell; a cut-out is inset inside its cell and then inset
+again inside its own PNG**, because the padding is what gives it room. Two
+insets on a four-column cell left a garment about 140px wide at 1440.
+
+Fixed at both ends: a product block is **widened by two columns**, and the
+inset inside it went from 18% to 8%. It is still the smallest thing in its row —
+that is `RO36` — and it is a garment rather than a stamp.
+
+### THE FILENAME CHECK THAT ATE A BATCH
+
+The import script looked for an existing asset BY FILENAME and reused it, which
+silently re-attached the OLD images the moment the owner re-processed his
+cut-outs under the same names. The dry run looked perfect and the site showed
+the previous batch. **Sanity's assets are content-addressed** — uploading
+identical bytes returns the identical asset — so the check bought nothing and
+cost a whole batch. It always uploads now.

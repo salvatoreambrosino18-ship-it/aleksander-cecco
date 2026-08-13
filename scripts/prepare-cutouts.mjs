@@ -48,13 +48,36 @@ import sharp from "sharp";
 
 const PAPER = {r: 250, g: 250, b: 248};
 /*
-  HOW FAR FROM WHITE STILL COUNTS AS GROUND. 14 was arrived at by running the
-  set: below about 8 the tool's own JPEG-ish noise leaves a speckled halo, and
-  above about 20 the fill starts eating the pale trousers where they meet the
-  ground in shadow.
+  HOW FAR FROM WHITE STILL COUNTS AS GROUND. 17 was arrived at by running the
+  set: below about 8 the tool's own compression noise leaves a speckled halo,
+  and above about 24 the fill starts eating the pale trousers where they meet
+  the ground.
 */
-const TOL = Number(process.env.CUTOUT_TOLERANCE ?? 14);
+const TOL = Number(process.env.CUTOUT_TOLERANCE ?? 17);
 
+/**
+ * THE GROUND FADES OUT INSTEAD OF BEING CUT OUT (2026-08-13, section 118).
+ *
+ * The second batch of cut-outs KEEPS THE CONTACT SHADOW under each figure, and
+ * a shadow is the one thing a binary knockout destroys: everything at or above
+ * the threshold becomes fully transparent and everything below stays fully
+ * opaque, so a soft shadow gets sliced along a contour and reads as a grey
+ * tidemark round the feet.
+ *
+ * So the fill is soft at both ends. Inside the background region:
+ *
+ *   - ALPHA ramps with distance from white. Pure white is alpha 0; a pixel at
+ *     the tolerance edge is fully opaque; a shadow in between keeps exactly the
+ *     weight it had.
+ *   - THE COLOUR is remapped toward the site's paper by the same proportion, so
+ *     anything that drops alpha downstream — a JPEG conversion, an old viewer —
+ *     still lands on the page's own ground rather than on white, and the seam
+ *     at the boundary is continuous rather than a step of ten levels.
+ *
+ * The garment is untouched: the fill still starts at the BORDER and spreads
+ * only through connected near-white pixels, so an interior white is enclosed by
+ * the figure's own edge and never reached.
+ */
 export async function knockout(inFile) {
   const {data, info} = await sharp(inFile).ensureAlpha().raw().toBuffer({resolveWithObject: true});
   const {width: W, height: H, channels: C} = info;
@@ -92,11 +115,29 @@ export async function knockout(inFile) {
   for (let p = 0; p < W * H; p++) {
     if (!bg[p]) continue;
     const i = p * C;
-    data[i] = PAPER.r;
-    data[i + 1] = PAPER.g;
-    data[i + 2] = PAPER.b;
-    data[i + 3] = 0;
-    cleared++;
+    /*
+      How far this ground pixel is from white, 0 at white and 1 at the
+      tolerance edge. That fraction is both the alpha and the amount by which
+      the colour is pulled down from paper, so the two agree everywhere and the
+      shadow survives with its own weight.
+    */
+    const v = Math.min(data[i], data[i + 1], data[i + 2]);
+    /*
+      FLAT GROUND GOES FULLY CLEAR, and that needs a floor rather than a ramp
+      starting at 255. The tool writes its background at 254, not 255, so a ramp
+      from pure white left every cut-out under a 6%-opacity veil — invisible on
+      paper, plainly a rectangle on anything else, which is the bug this whole
+      function exists to remove. Anything within FLOOR levels of white is
+      ground; the ramp runs from there to the tolerance edge, so a shadow still
+      fades in smoothly.
+    */
+    const FLOOR = 3;
+    const k = Math.min(1, Math.max(0, (255 - v - FLOOR) / (TOL - FLOOR)));
+    data[i] = Math.round(PAPER.r * (v / 255));
+    data[i + 1] = Math.round(PAPER.g * (v / 255));
+    data[i + 2] = Math.round(PAPER.b * (v / 255));
+    data[i + 3] = Math.round(255 * k);
+    if (k < 0.02) cleared++;
   }
   return {
     buffer: await sharp(data, {raw: {width: W, height: H, channels: C}}).png().toBuffer(),

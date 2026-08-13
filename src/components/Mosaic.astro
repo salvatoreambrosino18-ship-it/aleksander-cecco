@@ -43,20 +43,18 @@
 
   THE THIRD KIND ARRIVED (2026-08-12, section 116). `RO40` and `RO28` — the two
   frames that make the whole device work — put a GARMENT CUT OUT ON PALE GROUND
-  next to a full-bleed photograph next to a paragraph. Until tonight this mosaic
-  ran on two of those three, and the note here said so.
+  next to a full-bleed photograph next to a paragraph.
 
-  **There are now three cut-outs**, and they cover TWO pieces of eighteen:
-  Monumentus Lux and Oblivion, the latter twice. So a mixed row is real where
-  those two fall and is a two-kind row everywhere else, and that is the honest
-  state of it — the arrangement is finished, the material is a fifth done.
+  **SIX CUT-OUTS NOW, COVERING FIVE PIECES** (2026-08-13, section 118):
+  Monumentus Lux, Oblivion twice, Rubedo, Styrax and Styrax Red Goat. They are
+  SHARED OUT across home, /about and /process rather than held on one page —
+  see each page's own comment for its slice.
 
-  THREE MORE CAME BACK REDRAWN AND ARE NOT HERE. The tool that removed the
-  backgrounds also straightened a raw hem, replaced a zip's teeth with a smooth
-  bar, and rebuilt a matted fur as separate strands. On a brand whose claim is
-  the raw cut, that is a lie about the object, so those three are not on the
+  ONE OF THE SEVEN CAME BACK FABRICATED AND IS NOT HERE. The frontal man in the
+  black shirt and cream shorts is in a pose that exists in no photograph, and
+  his shorts have lost their belt loops and their yoke seam. It is not on the
   site in any form — not flagged, not provisional, absent. See
-  `docs/SURVEY-MATERIALE-NUOVO.md` for which and how.
+  `docs/SURVEY-MATERIALE-NUOVO.md` for the comparison.
 
   A CUT-OUT IS GIVEN ROOM, NOT A MATCHING BOX (`RO40`). It sits small inside a
   narrow column with white around it, while the photograph beside it fills its
@@ -70,31 +68,9 @@
 */
 import MediaSurface from "./MediaSurface.astro";
 import Spine from "./Spine.astro";
-import type {MediaItem} from "./../lib/media";
 import type {Locale} from "../lib/locales";
-
-/**
- * A block in the run. Three kinds, which is what the reference rows are made
- * of: prose, a garment cut out on pale ground, and a photograph.
- */
-export type MosaicBlock =
-  | {kind: "frame"; media: MediaItem}
-  | {
-      /** A garment cut out on the page's own paper. Given room, never a box. */
-      kind: "product";
-      media: MediaItem;
-      /** The piece's name, and where it goes. Rendered as `RO36` does it. */
-      label?: string | null;
-      href?: string | null;
-    }
-  | {
-      kind: "note";
-      text: string;
-      /** Set only where the text is ours and still unapproved. */
-      marked?: boolean;
-      /** The draft/translation notice, already localised by the caller. */
-      notice?: string | null;
-    };
+import type {MosaicBlock} from "../lib/mosaic";
+export type {MosaicBlock} from "../lib/mosaic";
 
 interface Props {
   blocks: MosaicBlock[];
@@ -114,12 +90,31 @@ const PLACEMENTS = [
   {start: 1, span: 5, drop: false},
   {start: 7, span: 6, drop: true},
   {start: 1, span: 4, drop: false},
-  {start: 5, span: 4, drop: false},
+  {start: 5, span: 5, drop: false},
   {start: 3, span: 8, drop: false},
-  {start: 9, span: 4, drop: false},
-  {start: 1, span: 3, drop: false},
+  {start: 8, span: 5, drop: false},
+  {start: 1, span: 4, drop: false},
   {start: 6, span: 5, drop: true},
 ];
+
+/*
+  A CUT-OUT NEEDS MORE COLUMN THAN A PHOTOGRAPH (2026-08-13, section 118), and
+  the owner was right that Oblivion was too small.
+
+  A photograph FILLS its cell, so a four-column cell is a four-column picture. A
+  cut-out is inset inside its cell and then the object is inset again inside its
+  own bounding box — the figure occupies maybe two thirds of the PNG, because
+  the padding is what gives it room. Two insets on a narrow cell left a garment
+  about 140px wide on a 1440 screen.
+
+  So a product block is widened by two columns, capped at the grid, and its
+  inset is smaller than a note's. It is still the smallest thing in its row,
+  which is `RO36`; it is no longer a stamp.
+*/
+const widen = (place: (typeof PLACEMENTS)[number], kind: string) =>
+  kind === "product"
+    ? {...place, span: Math.min(12 - place.start + 1, place.span + 2)}
+    : place;
 
 /*
   `sizes` HAS TO TELL THE TRUTH, and in this component it changes per block
@@ -136,7 +131,7 @@ const sizesFor = (span: number) =>
 <div class:list={["mosaic", className]}>
   {
     blocks.map((block, index) => {
-      const place = PLACEMENTS[index % PLACEMENTS.length];
+      const place = widen(PLACEMENTS[index % PLACEMENTS.length], block.kind);
       const style = `--m-start:${place.start}; --m-span:${place.span}`;
       return (
         <div class:list={["mosaic-cell", place.drop && "mosaic-drop"]} style={style}>
@@ -189,6 +184,16 @@ const sizesFor = (span: number) =>
             */
             <div class="mosaic-note relative">
               <Spine />
+              {/*
+                A HEADING, WHERE THERE IS ONE (2026-08-13, section 118). Both
+                references put a two-line subhead above a run of prose —
+                Westwood's `430 Kings Road / 1971 – 1980`, Rick Owens' bold
+                credit labels — at LABEL scale rather than as a display line.
+                It is optional because most of these blocks are a paragraph and
+                nothing else, and a heading over a single paragraph is a label
+                on a label (section 99's argument, same shape).
+              */}
+              {block.heading && <h2 class="type-label text-label">{block.heading}</h2>}
               {block.marked && block.notice && (
                 <p class="placeholder-mark self-start">{block.notice}</p>
               )}

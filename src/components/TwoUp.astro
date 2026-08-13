@@ -36,10 +36,23 @@ import MediaSurface from "./MediaSurface.astro";
 import type {MediaItem} from "../lib/media";
 import type {Locale} from "../lib/locales";
 
+/*
+  A HALF MAY NOW BE A CUT-OUT (2026-08-13, section 118), and that is the
+  reference's own version of this composition rather than a new idea.
+
+  `RO04` is a 2-up whose left half is a bag against a body, cropped hard, and
+  whose right half is A SINGLE SHOE ON PALE GROUND, small in the frame, with two
+  thirds of that half left empty. Photograph against object; full bleed against
+  air. It is the same device as two photographs and it reads differently.
+
+  The cut-out half is `object-contain` on the page's own paper, inset, so the
+  shape keeps its proportion and the emptiness around it is the composition. It
+  is NOT cropped to fill: cropping a cut-out is how it stops being one.
+*/
 interface Props {
   locale: Locale;
   /** Exactly two. Fewer and this is not a split; more and it is a grid. */
-  items: {media: MediaItem; label: string; href?: string | null}[];
+  items: {media: MediaItem; label: string; href?: string | null; kind?: "frame" | "cutout"}[];
   /** The first screen after an arrival is worth fetching eagerly. */
   priority?: boolean;
   class?: string;
@@ -52,12 +65,24 @@ const pair = items.slice(0, 2);
 {
   pair.length === 2 && (
     <section class:list={["two-up", className]}>
-      {pair.map(({media, label, href}) => {
-        const frame = (
-          <MediaSurface media={media} locale={locale} height="two-up" priority={priority}>
-            <span class="type-label text-label">{label}</span>
-          </MediaSurface>
-        );
+      {pair.map(({media, label, href, kind = "frame"}) => {
+        const frame =
+          kind === "cutout" ? (
+            <div class="two-up-cutout">
+              <MediaSurface
+                media={media}
+                locale={locale}
+                height="native"
+                sizes="(min-width: 64rem) 34vw, 90vw"
+                priority={priority}
+              />
+              <span class="type-label text-label">{label}</span>
+            </div>
+          ) : (
+            <MediaSurface media={media} locale={locale} height="two-up" priority={priority}>
+              <span class="type-label text-label">{label}</span>
+            </MediaSurface>
+          );
         return <div class="two-up-half">{href ? <a href={href} class="block">{frame}</a> : frame}</div>;
       })}
     </section>

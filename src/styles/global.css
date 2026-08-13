@@ -384,6 +384,37 @@
       grid-template-columns: 1fr 1fr;
     }
   }
+  /*
+    THE CUT-OUT HALF (`RO04`). It takes the same height as the photograph beside
+    it and holds the object inside that, centred, on the page's own paper, with
+    the emptiness left over. A phone gets the same thing at its own height,
+    because a cut-out does not need cropping to work small.
+  */
+  .two-up-cutout {
+    background: var(--bg);
+    min-height: var(--media-h-tall);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-u5);
+    padding: var(--s-u8) 22%;
+    text-align: center;
+  }
+  .two-up-cutout figure {
+    max-height: 62%;
+  }
+  .two-up-cutout figure > div {
+    height: 100%;
+  }
+  .two-up-cutout img {
+    object-fit: contain;
+  }
+  @media (min-width: 64rem) {
+    .two-up-cutout {
+      min-height: var(--two-up-h);
+    }
+  }
 
   /*
     THE FLOATING CHROME (2026-08-12, section 115). Two properties and no third.
@@ -505,8 +536,15 @@
       white it leaves is the point. 18% either side is the closest this site's
       own spacing gets to that without inventing a value.
     */
+    /*
+      8%, NOT 18% (2026-08-13, section 118). The cut-out PNG already carries 12%
+      padding of its own around the figure, so an 18% inset on top of it was two
+      insets stacked and the garment came out about a seventh of its column. The
+      object is still the smallest thing in its row — that is `RO36` — but it is
+      now a garment rather than a stamp.
+    */
     .mosaic-product {
-      padding: var(--s-u5) 18% var(--s-u8);
+      padding: var(--s-u5) 8% var(--s-u8);
     }
   }
 

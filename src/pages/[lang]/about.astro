@@ -29,9 +29,10 @@ import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import Mosaic from "../../components/Mosaic.astro";
+import {productBlock, weaveMosaic, type MosaicBlock} from "../../lib/mosaic";
 import PairedSurface from "../../components/PairedSurface.astro";
 import {getSiteSettings, isPlaceholderText} from "../../lib/content";
-import {LOCALES, pick, toLocale} from "../../lib/locales";
+import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {imageUrl} from "../../lib/image";
 import {isMarked, voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
@@ -77,6 +78,21 @@ const portrait = settings.designerPortrait;
 const creators = settings.creators ?? [];
 const partnerName = settings.partnerName?.trim() || null;
 const partnerUrl = settings.partnerUrl?.trim() || null;
+
+/*
+  TWO OF THE SIX CUT-OUTS (2026-08-13, section 118). The set is shared out so no
+  page hoards it: the home two-up takes the first, this page takes the next two,
+  /process takes the last three. Both of these are Oblivion, worn two ways —
+  open over jeans and closed as a dress — which is the one piece the dataset can
+  show twice without repeating a photograph.
+*/
+const cutouts = (settings.cutoutMedia ?? []).filter((c) => c.media?.poster);
+const mosaicBlocks: MosaicBlock[] = weaveMosaic(
+  photographs.slice(1),
+  cutouts.slice(1, 3).map((c) =>
+    productBlock(c, c.garment?.slug ? localePath(locale, `creature/${c.garment.slug}`) : null),
+  ),
+);
 ---
 
 {/* The chrome floats on the opening frame (section 115), or the band stays if
@@ -186,10 +202,7 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
     Two equal columns of full-height crops shows two. The mosaic shows three or
     four, at three or four sizes, which is what `RO14` and `RO19` do.
   */}
-  <Mosaic
-    blocks={photographs.slice(1).map((media) => ({kind: "frame" as const, media}))}
-    locale={locale}
-  />
+  <Mosaic blocks={mosaicBlocks} locale={locale} />
 
   {/*
     THE TWO CREATORS (2026-08-04). {DESIGNER_BIOGRAPHY} is answered: his own
