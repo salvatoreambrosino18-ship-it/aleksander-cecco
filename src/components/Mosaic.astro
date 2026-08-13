@@ -41,20 +41,27 @@
   the first row where its columns are free, which is what produces the
   reference's uneven, non-repeating rows out of a repeating cycle.
 
-  WHAT IT CANNOT BE YET, and this is the honest part. `RO40` and `RO28` — the
-  two frames that make the whole device work — put a GARMENT CUT OUT ON PALE
-  GROUND next to a full-bleed photograph next to a paragraph. We have the
-  photographs and we have the prose. **We have no product on pale ground at
-  all**, because every frame in the dataset is a photograph with its own world
-  in it: concrete, forest, studio, night. So this mosaic runs on two kinds where
-  the reference runs on four, and it will keep looking like a well-arranged set
-  of photographs rather than like their page until the owner shoots one garment
-  per piece against the same pale ground — which is the first item in group 2 of
-  `docs/PER-ALEKSANDER.md` and the single change that would alter this site most.
+  THE THIRD KIND ARRIVED (2026-08-12, section 116). `RO40` and `RO28` — the two
+  frames that make the whole device work — put a GARMENT CUT OUT ON PALE GROUND
+  next to a full-bleed photograph next to a paragraph. Until tonight this mosaic
+  ran on two of those three, and the note here said so.
 
-  A "product" kind is deliberately NOT stubbed in below. An unused branch
-  waiting for data is a branch nobody tests, and the next session would find it
-  and believe the work was done.
+  **There are now three cut-outs**, and they cover TWO pieces of eighteen:
+  Monumentus Lux and Oblivion, the latter twice. So a mixed row is real where
+  those two fall and is a two-kind row everywhere else, and that is the honest
+  state of it — the arrangement is finished, the material is a fifth done.
+
+  THREE MORE CAME BACK REDRAWN AND ARE NOT HERE. The tool that removed the
+  backgrounds also straightened a raw hem, replaced a zip's teeth with a smooth
+  bar, and rebuilt a matted fur as separate strands. On a brand whose claim is
+  the raw cut, that is a lie about the object, so those three are not on the
+  site in any form — not flagged, not provisional, absent. See
+  `docs/SURVEY-MATERIALE-NUOVO.md` for which and how.
+
+  A CUT-OUT IS GIVEN ROOM, NOT A MATCHING BOX (`RO40`). It sits small inside a
+  narrow column with white around it, while the photograph beside it fills its
+  box edge to edge. The photograph is a rectangle and the cutout is a shape;
+  the white is what they share, and matching their heights would destroy it.
 
   ON A PHONE THERE IS NO MOSAIC. One column, full bleed, in order. Half of
   390px is 195px, and a 25% column of it is 97px — the reference is a desktop
@@ -67,11 +74,19 @@ import type {MediaItem} from "./../lib/media";
 import type {Locale} from "../lib/locales";
 
 /**
- * A block in the run. Two kinds, because two kinds is what this dataset has —
- * see the note above before adding a third.
+ * A block in the run. Three kinds, which is what the reference rows are made
+ * of: prose, a garment cut out on pale ground, and a photograph.
  */
 export type MosaicBlock =
   | {kind: "frame"; media: MediaItem}
+  | {
+      /** A garment cut out on the page's own paper. Given room, never a box. */
+      kind: "product";
+      media: MediaItem;
+      /** The piece's name, and where it goes. Rendered as `RO36` does it. */
+      label?: string | null;
+      href?: string | null;
+    }
   | {
       kind: "note";
       text: string;
@@ -132,6 +147,39 @@ const sizesFor = (span: number) =>
               height="native"
               sizes={sizesFor(place.span)}
             />
+          ) : block.kind === "product" ? (
+            /*
+              THE CUT-OUT, GIVEN ROOM (`RO40`, `RO36`).
+
+              It is inset inside its own column rather than filling it, so the
+              white around the shape is part of the composition — which is the
+              difference between a cut-out and a sticker. Rick Owens puts a belt
+              alone in a centre column at about a fifth of the space allotted to
+              it; the inset here is the site's own rhythm token rather than a
+              new number.
+
+              THE NAME IS A LINE OF TEXT WITH A RULE UNDER IT, not a button
+              (`RO36`: `CLICK TO BUY SUICIDEBAND COLLECTION`, underlined,
+              centred, no border and no fill). That is how their editorial
+              sells, and it is the same `hairline-under` every action on this
+              site already uses.
+            */
+            <div class="mosaic-product">
+              <MediaSurface
+                media={block.media}
+                locale={locale}
+                height="native"
+                sizes={sizesFor(place.span)}
+              />
+              {block.label &&
+                (block.href ? (
+                  <a href={block.href} class="type-label text-label hairline-under self-start">
+                    {block.label}
+                  </a>
+                ) : (
+                  <span class="type-label text-label">{block.label}</span>
+                ))}
+            </div>
           ) : (
             /*
               A NOTE IS A TEXT SURFACE AND TAKES THE SPINE, which is the site's

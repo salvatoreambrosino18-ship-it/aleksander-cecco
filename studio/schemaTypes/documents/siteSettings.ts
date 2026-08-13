@@ -389,6 +389,34 @@ export const siteSettings = defineType({
       description:
         "Le fotografie del lavoro in corso, nell'ordine del processo: cartamodello, taglio, tintura, asciugatura, montaggio. Senza didascalie. / Photographs of the work in progress, in the order of the process: pattern, cut, dye, dry, build. No captions.",
     }),
+    /*
+      I CAPI RITAGLIATI SU FONDO CHIARO — la terza specie di immagine, e la
+      sola che mancava (2026-08-12, sezione 116).
+
+      Le pagine di racconto dei riferimenti mettono nella stessa riga: un
+      paragrafo, UN CAPO RITAGLIATO SU FONDO CHIARO, e una fotografia larga del
+      lavoro. Il sito aveva le prime due. Questa e' la terza.
+
+      ATTENZIONE, e vale piu' di ogni altra nota in questo file: un programma
+      che toglie lo sfondo RIDISEGNA. Su sei figure provate, tre sono tornate
+      cambiate — l'orlo grezzo raddrizzato, la cerniera senza denti, la
+      pelliccia rifatta a ciuffi. Ogni ritaglio va confrontato con la
+      fotografia da cui viene, ALL'ORLO, prima di entrare qui.
+      Vedi docs/SURVEY-MATERIALE-NUOVO.md.
+
+      THE PIECES CUT OUT ON PALE GROUND — the third kind of image, and the only
+      one that was missing. A background-removal tool REDRAWS: three of six
+      figures came back altered. Compare every cut-out with its source
+      photograph AT THE HEM before it goes in here.
+    */
+    defineField({
+      name: 'cutoutMedia',
+      title: 'Capi ritagliati su fondo chiaro / Pieces cut out on pale ground',
+      type: 'array',
+      of: [{type: 'homeTile'}],
+      description:
+        "Un capo per fotografia, ritagliato, sul fondo chiaro della pagina. Entrano nelle pagine di racconto accanto al testo e alle fotografie del lavoro. Collegare ogni ritaglio al suo capo. PRIMA DI CARICARE: confronta il ritaglio con la fotografia originale all'orlo — se l'orlo e' stato raddrizzato, non va usato. / One piece per frame, cut out, on the page's own pale ground. They enter the story pages beside the text and the process photographs. Link each cut-out to its piece. BEFORE UPLOADING: compare the cut-out with the original photograph at the hem — if the hem has been tidied, it does not go in.",
+    }),
     defineField({
       name: 'inventedCopy',
       title: 'Testi scritti da noi, da approvare / Copy we wrote, to be approved',

@@ -68,6 +68,12 @@ export type SiteSettings = {
   makingMedia: MediaItem[] | null;
   /** SOLVET ET COAGULA: the work being done, in the order it is done. */
   processMedia: MediaItem[] | null;
+  /**
+   * THE PIECES CUT OUT ON PALE GROUND (section 116), the third kind of image
+   * the reference rows are made of. Three today, covering two garments; the
+   * three that came back REDRAWN by the tool are deliberately not in here.
+   */
+  cutoutMedia: HomeTile[] | null;
   /** The stages, in the order of the work. OURS, flagged as processText. */
   processText: LocaleField;
   /** A chosen handful, not a live feed. See the schema for why. */
@@ -125,6 +131,13 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     },
     makingMedia[]{${MEDIA_PROJECTION}},
     processMedia[]{${MEDIA_PROJECTION}},
+    // The third kind of image (section 116): a garment cut out on pale ground.
+    // Same shape as a worn tile, because a cut-out also wants to link to its
+    // piece, and a second object type saying the same thing is one too many.
+    cutoutMedia[]{
+      media{${MEDIA_PROJECTION}},
+      "garment": garment->{name, "slug": slug.current}
+    },
     processText,
     instagramFrames[]{"media": media{${MEDIA_PROJECTION}}, postUrl},
     makingStatement,
@@ -159,6 +172,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   homeSequence: null,
   makingMedia: null,
   processMedia: null,
+  cutoutMedia: null,
   processText: null,
   instagramFrames: null,
   makingStatement: null,

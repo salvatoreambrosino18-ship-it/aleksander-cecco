@@ -434,6 +434,17 @@
     flex-direction: column;
     gap: var(--s-u2);
   }
+  /*
+    A cut-out is INSET inside its column and its name sits under it. On a phone
+    the inset is the page margin, because at that width the column IS the page.
+  */
+  .mosaic-product {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-u3);
+    padding: var(--s-u3) var(--margin) var(--s-u5);
+  }
 
   @media (min-width: 64rem) {
     /*
@@ -487,6 +498,15 @@
     */
     .mosaic-note {
       padding: 0 var(--s-u3);
+    }
+    /*
+      AT DESKTOP THE CUT-OUT SHRINKS INSIDE ITS COLUMN. `RO36` gives a belt a
+      whole centre column and lets the object occupy about a fifth of it; the
+      white it leaves is the point. 18% either side is the closest this site's
+      own spacing gets to that without inventing a value.
+    */
+    .mosaic-product {
+      padding: var(--s-u5) 18% var(--s-u8);
     }
   }
 
@@ -632,6 +652,23 @@
     .video-loop {
       display: none !important;
     }
+  }
+
+  /*
+    A FILM IS NOT A LOOP, and gets none of the three rules above (2026-08-12,
+    section 116). It is always in the document: it does not wait for a script,
+    because it plays on a tap rather than on arrival, and it survives reduced
+    motion, because a reader who presses play has asked for the motion.
+
+    The rules it does need are about the CONTROLS. `object-fit: cover` on a
+    <video> crops the picture but not the control bar, which the browser draws
+    across the element's real bottom edge — so on a frame taller than the clip
+    the controls would float in the middle of the black. `object-position` is
+    already set inline; this only guarantees the element and its box agree.
+  */
+  .video-film {
+    display: block;
+    background: var(--ink);
   }
 
   .wash-content {

@@ -38,7 +38,7 @@
   letterbox that destroys the photograph.
 */
 import Base from "../../layouts/Base.astro";
-import Mosaic from "../../components/Mosaic.astro";
+import Mosaic, {type MosaicBlock} from "../../components/Mosaic.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
 import Statement from "../../components/Statement.astro";
 import TextSurface from "../../components/TextSurface.astro";
@@ -117,6 +117,51 @@ const processIsMarked = SHOW_UNAPPROVED_MARKS && Boolean(processText);
 const notice = "draftNotice";
 
 const voice = voiceState(settings, locale);
+
+/*
+  THE MIXED ROW, AND THIS IS THE PAGE THE REFERENCE BUILDS IT ON (2026-08-12,
+  section 116).
+
+  `RO28` and `RO40` are both from Rick Owens' PROCESS page, and both put a
+  garment cut out on pale ground into a row with prose and a wide process
+  photograph. That is the row this page could not build until tonight, because
+  the third kind of image did not exist in the dataset.
+
+  WHERE THEY GO, and it is not decoration. The Mosaic's cycle pairs blocks 1+2,
+  3+4 and 7+8 into shared rows, so a cut-out placed at index 1, 3 or 6 lands
+  BESIDE a photograph rather than alone in a row of its own. Anywhere else and
+  the page has a cut-out and a mixed row would still be missing.
+
+  THEY ARE ON THIS PAGE AND NOT ON /about, deliberately. There are three of
+  them; spending the same three on two pages would put the same object at the
+  head of two compositions, which is the duplication section 82 already refuses
+  for photographs. When there are eighteen, /about gets its own.
+*/
+const cutouts = (settings.cutoutMedia ?? []).filter((c) => c.media?.poster);
+const AT = [1, 3, 6];
+const mosaicBlocks: MosaicBlock[] = [];
+let taken = 0;
+for (let i = 0; mosaicBlocks.length < mosaic.length + cutouts.length; i++) {
+  if (AT.includes(i) && taken < cutouts.length) {
+    const c = cutouts[taken++];
+    mosaicBlocks.push({
+      kind: "product",
+      media: c.media,
+      label: c.garment?.name ?? null,
+      href: c.garment?.slug ? localePath(locale, `creature/${c.garment.slug}`) : null,
+    });
+  } else if (mosaicBlocks.length - taken < mosaic.length) {
+    mosaicBlocks.push({kind: "frame", media: mosaic[mosaicBlocks.length - taken]});
+  } else if (taken < cutouts.length) {
+    const c = cutouts[taken++];
+    mosaicBlocks.push({
+      kind: "product",
+      media: c.media,
+      label: c.garment?.name ?? null,
+      href: c.garment?.slug ? localePath(locale, `creature/${c.garment.slug}`) : null,
+    });
+  } else break;
+}
 ---
 
 <Base
@@ -222,7 +267,7 @@ const voice = voiceState(settings, locale);
     answer, since `RO17` puts a small portrait and a two-thirds landscape in
     consecutive units without either being told about the other.
   */}
-  <Mosaic blocks={mosaic.map((media) => ({kind: "frame" as const, media}))} locale={locale} />
+  <Mosaic blocks={mosaicBlocks} locale={locale} />
 
   {/*
     u8, not u13 (2026-08-13, section 108). Thirteen units above and below a
