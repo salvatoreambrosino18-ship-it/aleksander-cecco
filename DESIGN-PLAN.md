@@ -9882,3 +9882,125 @@ reader nothing at all. **We copy the count and refuse the concealment**
 - **The two-up split.** Unchanged and now better supported: section 114 built it
   from Rick Owens alone, and the full survey finds it in BOTH folders, in three
   forms (`RO02`, `VW03`, `VW09`, `VW04`).
+
+## 116. The third kind of image, and eight clips that will not loop (2026-08-12)
+
+Two folders arrived: `MODELLI/` with three AI-processed cut-outs, and `video/`
+with eight clips and seven photographs. **Both were surveyed before anything was
+built**, and the survey is `docs/SURVEY-MATERIALE-NUOVO.md`. This section is
+what the survey let the site do, and what it stopped it doing.
+
+### THREE OF SIX FIGURES CAME BACK REDRAWN
+
+The three PNGs hold **six figures**, not three: they are composites. Each figure
+was put beside the photograph it came from and compared at the hem, the seams
+and the hardware — because that is where a re-drawing tool gives itself away.
+
+**Three matched and are on the site.** Monumentus Lux, and Oblivion twice. On
+the black shirt the raw scalloped hem corresponds notch for notch, the
+press-studs sit in the same places, and the FERDRESSED label is where it was.
+
+**Three did not, and they are NOT on the site in any form** — not flagged, not
+provisional, not "usable with a caveat". Absent.
+
+1. **A frontal man in black shirt and cream shorts: the pose exists in no
+   photograph.** The only frame of that outfit is a three-quarter profile
+   against a white wall, sunglasses on, one hand raised. Beside the real garment
+   on its hanger, the shorts have **lost their belt loops, their yoke seam and
+   their waistband topstitching**, and the metal zip with visible teeth has
+   become a smooth black bar. The hands are malformed.
+2. **The fur top is re-rendered.** His pelt is dense and matted with a blunt raw
+   edge; the cut-out has separated spiky strands. The face is regenerated —
+   eyes open where the photograph has them closed.
+3. **RUBEDO's raw scallop is redrawn as a symmetric batwing curve**, its bell
+   sleeves given regular corrugated ripples, its leather a hard specular sheen.
+
+**The third is the one that matters most.** RUBEDO's own caption reads *500
+handmade scar-stitch*. **A tidied hem on that piece is a lie about the only
+thing it is sold on**, and this brand's entire claim is the raw cut.
+
+> **THE RULE: a background-removal tool is a re-drawing tool wearing a cutting
+> tool's name.** Every cut-out is compared with its source AT THE HEM before it
+> is used. The three that passed passed on the hem; the three that failed failed
+> on the hem. This is written into the studio field's own description, where the
+> next person to upload one will read it.
+
+### WHAT THE THIRD KIND UNLOCKED, AND WHAT IT DID NOT
+
+Section 115 said this mosaic would keep reading as a well-arranged set of
+photographs until pale-ground product existed. It exists, and **the row `RO28`
+builds is now on /process**: a leather pattern piece at the left, the Oblivion
+cut-out inset in a narrow centre column with its name underlined beneath, and a
+wide photograph of garments on a rail at the right. Three kinds, three widths,
+one row, the white to one side.
+
+**A cut-out is given room, not a matching box** (`RO40`): 18% inset either side
+of its column, so the object is small in the space allotted to it and the white
+around the shape is part of the composition. Measured on the built page, the
+three sit at 438px, 287px and 211px wide inside cells of 684, 448 and 330.
+
+**THEY ARE ON /process AND NOT ON /about**, deliberately: three cut-outs spent
+across two pages would put the same object at the head of two compositions,
+which section 82 already refuses for photographs. When there are eighteen,
+/about gets its own.
+
+**AND THE HONEST NUMBER IS TWO OF EIGHTEEN.** Monumentus Lux and Oblivion have
+this treatment. Sixteen pieces do not. **The arrangement is finished; the
+material is a ninth done.**
+
+### EIGHT CLIPS, NONE OF THEM A LOOP
+
+They are camera originals at last — 3840x2160 at 60fps, not the 464px
+messaging-app copy section 113 called the weakest frame on the site. **Every one
+of them is hand-held.**
+
+Measured rather than judged: first, middle and last frames extracted from each,
+and the camera's own stillness measured on the BORDER of the frame, where a
+fixed camera keeps its background constant. Then the folder was searched for
+**any window of 2.5s or more** whose two ends match and whose camera holds still.
+**The best window in the whole folder — `IMG_0263`, 1.5s to 4.0s — still fails
+both thresholds.** One file is 0 bytes.
+
+> **What is missing is a tripod, not a camera.** That is the whole ask now, and
+> it is one sentence in `docs/PER-ALEKSANDER.md`.
+
+**SO NOTHING IS PUT ON A LOOP.** `MediaSurface` takes `videoMode`, and it
+**defaults to `film`**: poster, controls, plays once, on a tap. A loop must now
+be asked for by name. That inversion is the point — a loop has to be earned by a
+clip that actually loops, and today none does.
+
+**The film is `VW26`**, which is the reference's own answer: Westwood gives a
+film a whole screen with its native controls showing and does not pretend it is
+a moving photograph. Everything the loop is, inverted: never autoplays, so no
+observer and no decoder held open; keeps its controls; **survives reduced
+motion**, because a reader who presses play has asked for the motion; and is not
+`aria-hidden`, because a film is content rather than decoration.
+
+**Three places earn one.** The drop announcement, which retires the 464px copy.
+The process page. And **Monumentus Vest's second frame** — the piece zipped on a
+body, which is the first time that garment has been photographed on anyone.
+
+**THE ARRIVAL DID NOT GET ONE**, because the condition was that a clip loop
+cleanly and none does. A film that plays once cannot open a page.
+
+### A SHOP TILE IS ALWAYS A STILL, AND THAT IS A RULE
+
+The moment a Creature's second frame became a film, the catalogue's flick strip
+— which renders `media.slice(0, 2)` — put a `<video controls>` **inside a link**,
+on the page a buyer lands on, where section 95 fought for every kilobyte.
+
+So `MediaSurface` refuses video in a tile, a square or a worn frame, **whatever
+the caller passes**. It is not a prop, because a prop is a thing a caller
+forgets, and the caller here was a page nobody had thought about.
+
+### THE PATCH THAT LIED
+
+The import script chained four array operations onto one Sanity patch. It
+returned success and applied **only the last insert**: the cut-outs and Rubedo
+were silently dropped while the films landed, so the run looked like it had
+worked. **A patch carries at most one insert, and `append()` is one.**
+
+The script now uses one patch per array inside a single transaction, is
+re-runnable — every step asks the dataset whether its own file is already there
+— and **reads the dataset back after committing and prints the counts**, because
+the response is not evidence.

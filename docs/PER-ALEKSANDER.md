@@ -74,18 +74,40 @@ volta: nella **prima** foto di ogni capo, quell'angolo tutto chiaro o tutto
 scuro. **E se non ti convince, dicci di rimettere la striscia bianca di prima:
 si torna indietro in dieci minuti.** Guarda prima com'è online.
 
+**Un cavalletto, o un appoggio.** Gli otto video che ci hai mandato sono
+finalmente gli originali della fotocamera — 4K, nitidi, la pelle si vede. **Il
+problema non è più la qualità: è che sono tutti a mano libera.** Li abbiamo
+misurati uno per uno e poi abbiamo cercato dentro ogni video anche solo due
+secondi e mezzo che potessero girare in continuo: **non ce n'e' nessuno.**
+Perciò sul sito non girano in continuo — si aprono con un tasto, come un film,
+e va benissimo così. Ma **con il telefono appoggiato e ferma la mano**, il
+prossimo video puo' stare sulla prima schermata. Un cavalletto da dieci euro, o
+un muretto.
+
 **Un video fermo di sei secondi.** Telefono appoggiato, fermo. Una cosa sola che
 si muove: la pelle che oscilla, le frange, una mano che passa. **L'inizio e la
 fine devono somigliarsi**, perché gira in continuo. Niente audio, e **mandalo con
 AirDrop o su Drive, mai da WhatsApp o Instagram** — lo rimpiccioliscono e la
-pelle diventa una macchia. Quello che ci avevi mandato mostra la cosa giusta ma è
-una copia ridotta e non gira in continuo; è online adesso, ed è il fotogramma più
-debole del sito. **Con un video così, il video può stare sulla prima schermata.**
+pelle diventa una macchia. La copia ridotta che ci avevi mandato **non è più online**: l'abbiamo
+sostituita con il tuo originale. **Con un video fermo, il video può stare sulla
+prima schermata** — oggi non ci può stare, perché nessuno dei tuoi gira in
+continuo.
 
 **Le persone che indossano i capi.** Undici Creature non sono mai state
 fotografate addosso a qualcuno. Otto o dieci scatti a figura intera, tutti girati
-allo stesso modo. Oggi la fascia «BODY OF LIGHT» in home si ferma a cinque
-fotografie per questo.
+allo stesso modo. Oggi la fascia «BODY OF LIGHT» in home ne ha sei — ci abbiamo
+appena aggiunto RUBEDO — e si ferma lì per questo.
+
+**Gli altri sedici capi ritagliati su fondo chiaro.** I tre ritagli che hai
+mandato: **tre figure su sei erano buone e sono online adesso** — Monumentus Lux
+e Oblivion (due volte). Le altre tre **il programma le ha ridisegnate**, e non le
+abbiamo usate: a RUBEDO ha raddrizzato l'orlo grezzo, alla cerniera ha tolto i
+denti, alla pelliccia ha rifatto il pelo a ciuffi, e un ragazzo e' in una posa
+che in nessuna tua fotografia esiste. **Su un marchio che vive del taglio
+grezzo, un orlo pulito è una bugia sul capo.** Quel programma non ritaglia:
+ridisegna. Se ne rifai altri, mandaci anche la foto di partenza e li
+controlliamo all'orlo. **Meglio ancora: fotografa i capi su un lenzuolo bianco
+e il ritaglio non serve.**
 
 **I dettagli di otto capi.** Per gli altri li abbiamo ritagliati dalle tue
 fotografie. Questi otto no, perché gli scatti che abbiamo non arrivano abbastanza
