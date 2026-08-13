@@ -737,6 +737,31 @@ for going quiet.
     **With this dataset every frame is already used somewhere**, so "pick an
     unused one" was never available — which is item 21 again, in one page.
 
+**Opened 2026-08-13**
+
+24. **SOLVET, OR SOLVE? The page heading and the paragraph under it now
+    disagree, and only he can settle it (section 119).** /process is titled
+    `Solvet et Coagula` and the first note we wrote for the mosaic opens
+    *"Solve et coagula."* — the correct Latin, and the alchemical phrase the
+    whole page is named for. They sit on one screen, about two inches apart, in
+    both languages.
+    **The heading traces back to HIS OWN FOLDER**, `SOLVET ET COAUGULA
+    (PROCESS)`, which misspells both words; we silently normalised the second
+    one to `Coagula` when the string was written into `src/i18n/ui.ts` and left
+    the first. So the site has been half-correcting him for a fortnight and
+    nobody noticed, because nothing on the page had ever said the phrase
+    properly until section 118.
+    **Three ways out and they are his, not ours**: correct the heading to
+    `Solve et Coagula`; keep `Solvet` as the brand's own word and change OUR
+    note to match it; or keep both on the grounds that the heading is a name and
+    the note is a sentence. **Do not pick one quietly** — standing rule 3, and
+    the second option means writing a misspelling into new copy on purpose,
+    which is a thing to do deliberately or not at all.
+    **`processTitle` is also brand copy living in `src/i18n/ui.ts`**, which the
+    handoff says holds interface strings and no brand copy. Whichever answer he
+    gives, that string belongs in the studio with a flag, like every other
+    sentence of ours.
+
 ---
 
 ## THE LAUNCH CHECKLIST (2026-08-03)
@@ -10244,3 +10269,77 @@ second instance of section 67's trap, in the opposite direction.
 
 The note carries a `border-left` instead. **A border cannot be in the wrong
 place — it IS the edge**, which is what tokens.css says the line means.
+
+## 119. Section 118 verified from cold, and a word that now contradicts itself (2026-08-13)
+
+**Section 118 was written and committed and never looked at.** The session that
+built it reached its limit at the commit, so seven blocks of prose, six cut-outs,
+a merged Creature and a deleted one went to `main` on the strength of a dry run
+and a type-check. This section is the looking, and it is recorded separately
+because **"built" and "seen" are different claims** — which is section 5's whole
+subject and the reason `scripts/shots.mjs` is committed at all.
+
+### WHAT WAS CHECKED, AND AGAINST WHAT
+
+Not the diff. The diff was already known to be right. What was unknown is
+whether the LIVE DATASET matches it, because every one of those changes is a
+mutation over the network that a passing script does not prove.
+
+| claim | how it was checked | result |
+|---|---|---|
+| six cut-outs, not seven | `cutoutMedia` read back out of Sanity | **six**, five pieces, the refused one absent entirely |
+| Monumentus Pants merged into Lux | `dist/` route list, image count on the survivor | `capo-10` gone, `capo-11` carries **nine** frames |
+| the black Monumentus Pants untouched | same list | `capo-05` present |
+| Nocte out of the shop | catalogue count, `archivePiece` query | **16 pieces**, Nocte is an `archivePiece` with 2 frames |
+| Nocte's frames reach /process | the last two frames before the footer | **they render**, at the foot of the descent |
+| the narrative is in the columns | `mosaic-note` count per built page | **3 on /about, 4 on /process**, both languages |
+| the cut-outs are shared out | `mosaic-product` count per built page | **home 1 (two-up), /about 2, /process 3** |
+| 81 pages | build | **81** |
+
+**The gallery does not print its titles**, so grepping `dist/` for "Nocte"
+returns nothing and looks exactly like a piece that failed to import. It was
+found by counting frames and reading the query instead. **A name absent from the
+HTML is not a piece absent from the page**, and the ten minutes that cost are
+the reason it is written down.
+
+### AND THEN THEY WERE LOOKED AT
+
+`/about` and `/process`, both languages, 390 and 1440, sliced. **The narrative
+renders as intended**: the note takes a mosaic column with its `border-left` at
+the column edge rather than the page margin, the headings sit above their
+paragraphs on /process and the /about blocks run without one, and at 390 the
+mosaic collapses to a single column and the measure comes back to something a
+person reads. **The cut-outs sit on paper with no box and no tidemark round the
+feet** — the soft ramp of section 118 holds at both widths — and the home
+two-up is `RO04`: Armonyen full-bleed against Monumentus Lux cut out on ground.
+
+**Oblivion is no longer a stamp.** The widening is visible at 1440 and the
+garment reads as a garment.
+
+### THE AUDIT: 58 FAULTS, ALL OF THEM THE SAME ONE ALREADY DECIDED
+
+`npm run shots -- --audit` reports **58 faults, every one `[the corner mark]`
+over photography** — section 115's shipped float, measured at 62 then and 58
+now. **The drop is the two deleted Creature routes, not an improvement.**
+Nothing else regressed: no caption fault, no overflow, no third colour, on any
+of the 81 routes at either width. **A later session reading "58 faults" must not
+reach for a scrim** — standing rule 11, section 86's four rejected veils, and
+the exit is one line of photography in `docs/MATERIALE-DA-FOTOGRAFARE.md`.
+
+`npm run launch-check` still refuses, correctly: **74 things ours rather than
+his**, now including `aboutNotes` and `processNotes`. The seven blocks are
+flagged and the gate holds.
+
+### THE ONE THING THE LOOKING FOUND
+
+**/process is titled `Solvet et Coagula` and the paragraph under it now says
+"Solve et coagula."** The heading comes from his own folder, `SOLVET ET COAUGULA
+(PROCESS)`, whose second word we quietly corrected and whose first we did not.
+Nothing said the phrase properly on that page until section 118 wrote a note
+that does, so the writing did not create the misspelling — **it made a
+fortnight-old one legible**, which is the useful thing a paragraph can do to a
+page it sits on.
+
+It is **item 24 on THE OPEN LIST** and it is his, because one of the three
+answers is "Solvet is the brand's word" and that is not a call a developer makes
+about a name. **Nothing was changed in either direction.**
