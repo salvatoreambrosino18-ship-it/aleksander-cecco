@@ -10157,3 +10157,32 @@ cut-outs under the same names. The dry run looked perfect and the site showed
 the previous batch. **Sanity's assets are content-addressed** — uploading
 identical bytes returns the identical asset — so the check bought nothing and
 cost a whole batch. It always uploads now.
+
+### THE CATALOGUE'S TWO ERRORS, BOTH THE OWNER'S CATCH
+
+**MONUMENTUS PANTS AND MONUMENTUS LUX WERE ONE GARMENT ENTERED TWICE.**
+`capo-10` held five frames of the cream leather trousers on a hanger — front,
+back, the welt-pocket detail, hanging on the rail; `capo-11` held four of the
+same trousers WORN. Same colour, same drawstring, same zip, same stage, same
+price. Put side by side there is no argument.
+
+They merged into `capo-11`: **nine frames, the worn four first and the hanging
+five after**, so the piece opens on a body and then shows itself alone.
+`capo-10` was deleted, because a duplicate left in place is a second product
+page for one garment and the shop counts it twice.
+
+**THE CHECK THAT MATTERED MORE THAN THE MERGE.** There are TWO documents called
+"Monumentus Pants": `capo-10` (stage lux, cream) and `capo-05` (stage tenebrae,
+black). Two documents sharing a name is exactly how the wrong one gets deleted,
+so the script refuses to run if the survivor and `capo-05` share a stage, and it
+prints which one it is leaving alone before it touches anything.
+
+**NOCTE STOPS BEING FOR SALE.** The owner says it was an experiment. So it stops
+being a `garment` — which is the type that carries a price, a size and an
+enquiry form — and becomes an `archivePiece`, the gallery type that exists for
+photographs that are not products (section 18, rewritten). Its two frames render
+on /process, at the end of the gallery's descent, where an experiment belongs.
+
+**The catalogue is sixteen pieces now, and the site builds 81 pages instead of
+89** — eight fewer because two garments each carried a page and an order form in
+two languages.
