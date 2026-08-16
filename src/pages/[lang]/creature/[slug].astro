@@ -110,7 +110,7 @@ const price =
 /*
   THE INSCRIPTION, in his own caption format (DESIGN-PLAN section 26):
 
-      Creature: Tomar. Composition: 100% lambskin. Handmade.
+      Creature: Tomar. Composition: 100% lambskin. Handcrafted.
 
   It replaced a seven row definition list. His caption for the same kind of
   object is one line; seven labelled rows is a product sheet, and a product
@@ -131,13 +131,13 @@ const inscription: Array<{text: string | null; token: string}> = [
   */
   ...(garment.collection ? [] : [{text: t(locale, "outsideCollections"), token: ""}]),
   /*
-    "Handmade. Made to measure." was the constant here until 2026-08-12, when
+    "Handcrafted. Made to measure." was the constant here until 2026-08-12, when
     the owner removed made to measure from the shop (section 98). What is
-    always true of a Creature now is that it is handmade in South Italy; being
+    always true of a Creature now is that it is handcrafted in South Italy; being
     built to someone's measurements is a conversation, not a property of the
     object, and it has its own line further down.
   */
-  {text: t(locale, "handmade"), token: ""},
+  {text: t(locale, "handcrafted"), token: ""},
 ];
 
 /*
@@ -266,7 +266,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       }
       {/*
         The availability line appears only when it says something the constant
-        line above it does not: "Made to order." under "Handmade. Made to
+        line above it does not: "Made to order." under "Handcrafted. Made to
         measure." was a tautology, found by reading the page as a buyer. The
         other four states carry real information and stay.
       */}

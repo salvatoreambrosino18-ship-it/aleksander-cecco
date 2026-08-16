@@ -80,11 +80,11 @@ const ui = {
     // How a Creature can be had. His register: short, declarative, no hedging.
     availability: "Come si ottiene",
     // The inscription on a Creature page, in his own caption format:
-    // "Creature: Tomar. Composition: 100% lambskin. Handmade."
+    // "Creature: Tomar. Composition: 100% lambskin. Handcrafted."
     creature: "Creatura",
     processTitle: "Solvet et Coagula",
     composition: "Composizione",
-    handmade: "Fatto a mano nel Sud Italia.",
+    handcrafted: "Lavorato a mano nel Sud Italia.",
     outsideCollections: "Fuori dalle collezioni.",
     // A buyer who cannot try anything on needs a way to use these numbers.
     fitGuidance: "Confrontale con un capo che già possiedi e che ti veste come vuoi.",
@@ -138,7 +138,7 @@ const ui = {
     // Footer block headings.
     support: "Assistenza",
     worldwideShipping: "Spedizioni in tutto il mondo",
-    madeInItaly: "Fatto a mano nel Sud Italia",
+    madeInItaly: "Lavorato a mano nel Sud Italia",
     price: "Prezzo",
     priceFrom: "Da",
     /*
@@ -163,7 +163,7 @@ const ui = {
       cima al catalogo. / Corrected 2026-08-13: it offered a choice the shop
       stopped making on 2026-08-12.
     */
-    shopIntro: "Ogni pezzo esiste già. Fatto a mano nel Sud Italia.",
+    shopIntro: "Ogni pezzo esiste già. Lavorato a mano nel Sud Italia.",
     enterDrop: "Vedi il drop",
     contactIntro: "Risponde una persona. Entro un giorno, ora italiana.",
     wornLine: "Addosso, alla luce del giorno.",
@@ -227,7 +227,7 @@ const ui = {
     creature: "Creature",
     processTitle: "Solvet et Coagula",
     composition: "Composition",
-    handmade: "Handmade in South Italy.",
+    handcrafted: "Handcrafted in South Italy.",
     outsideCollections: "Outside the collections.",
     fitGuidance: "Compare these with a garment you already own and like the fit of.",
     madeToMeasureLine: "Made to measure on request only: write to us and we will talk.",
@@ -254,13 +254,13 @@ const ui = {
     creatures: "Creature",
     support: "Support",
     worldwideShipping: "Worldwide shipping",
-    madeInItaly: "Handmade in South Italy",
+    madeInItaly: "Handcrafted in South Italy",
     price: "Price",
     priceFrom: "From",
     order: "Order",
     // See the Italian above (section 108): the choice this line offered was
     // removed from the shop on 2026-08-12.
-    shopIntro: "Every piece already exists. Handmade in South Italy.",
+    shopIntro: "Every piece already exists. Handcrafted in South Italy.",
     enterDrop: "See the drop",
     contactIntro: "A person replies. Within one day, Italian time.",
     wornLine: "On bodies, in daylight.",
