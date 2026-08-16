@@ -343,10 +343,30 @@ const shareImage =
 
         document.documentElement.setAttribute("data-loops-live", "");
 
+        /*
+          A CLIP THAT PLAYS ONCE HAS TO BE LET GO OF (2026-08-17, section 124).
+
+          Dropping `loop` is not enough on its own. This observer plays whatever
+          is on screen and pauses whatever leaves, and after a video has ENDED
+          its position sits at the end — so the next time it scrolls back into
+          view, `play()` rewinds it to zero and runs it again. The reader would
+          get the arrival once per visit to the top of the page, which is a
+          loop with extra steps.
+
+          So a `data-play-once` clip is started on its first intersection and
+          then unobserved: never paused, never resumed, never rewound. It ends
+          on its last frame and that frame is what stays.
+        */
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
               const video = entry.target;
+              if (video.hasAttribute("data-play-once")) {
+                if (!entry.isIntersecting) continue;
+                observer.unobserve(video);
+                video.play().catch(() => {});
+                continue;
+              }
               if (entry.isIntersecting) video.play().catch(() => {});
               else video.pause();
             }

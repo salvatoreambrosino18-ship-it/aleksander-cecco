@@ -31,7 +31,7 @@ const photograph = settings.openingMedia;
 <Base locale={locale} title="404">
   {
     photograph && (
-      <MediaSurface media={photograph} locale={locale} priority>
+      <MediaSurface media={photograph} locale={locale} priority playOnce>
         <h1 class="type-display text-display">404 / {t(locale, "notFound")}</h1>
       </MediaSurface>
     )

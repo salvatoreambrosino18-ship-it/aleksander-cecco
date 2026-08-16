@@ -237,7 +237,7 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           agree exactly and there is no jump when it starts.
         */}
         <div class="relative">
-          <MediaSurface media={opening} locale={locale} priority height="tall">
+          <MediaSurface media={opening} locale={locale} priority height="tall" playOnce>
             <div class="flex flex-col gap-u2">
               {/*
                 HIS THREE LINES, VERBATIM (2026-08-12, section 99), replacing

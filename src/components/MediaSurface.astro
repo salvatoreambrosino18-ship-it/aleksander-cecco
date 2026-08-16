@@ -98,6 +98,20 @@ interface Props {
    * The worn band turns it off per frame and reveals as one presence instead.
    */
   reveal?: boolean;
+  /**
+   * PLAYS ONCE AND STOPS ON ITS LAST FRAME (2026-08-17, section 124, the
+   * OWNER's call for the arrival).
+   *
+   * A loop has to close, and none of this footage closes: the cut at the wrap
+   * is the price of looping at all. A clip that plays once never reaches a
+   * wrap, so it pays nothing — it is simply a piece of film that ends, and the
+   * frame it ends on is a photograph.
+   *
+   * Everything else about it is unchanged and deliberately so: it autoplays,
+   * it is muted, it has no controls and nothing to click. A reader still never
+   * starts anything. The only thing removed is the repeat.
+   */
+  playOnce?: boolean;
   class?: string;
 }
 
@@ -110,6 +124,7 @@ const {
   sizes: sizesProp,
   hover = null,
   reveal,
+  playOnce = false,
   class: className = "",
 } = Astro.props;
 
@@ -319,19 +334,24 @@ const nativeRatio =
       (standing rule 12): it fetches when it enters the screen, not on the way
       past.
 
-      A CLIP IS CUT TO ITS QUIETEST WINDOW AND PLAYS FORWARD (2026-08-17,
-      section 123, the OWNER's call). Section 121 had removed the seam by
-      running each clip forward and back; on screen that reads as a boomerang,
-      and motion that never happened in front of the camera is a worse lie
-      than a cut. So the seam is not solved any more, it is MINIMISED and then
-      accepted: every file in the dataset is a forward-only window chosen for
-      the smallest jump at its wrap, and how big that jump is is written down
-      in scripts/patch-restore-process.mjs and scripts/patch-video.mjs rather
-      than discovered on the page.
+      A WINDOW IS CHOSEN FOR THE MOTION IN IT, NOT FOR ITS SEAM (2026-08-17,
+      section 124). Section 123 cut every clip to the window with the smallest
+      jump at its wrap, and that was the wrong thing to minimise: in handheld
+      footage the cheapest way to end where you began is to drift away and
+      drift BACK, so the search selected out-and-back motion every time and
+      scored it perfectly. Three clips shipped reading as boomerangs.
 
-      This element still takes no view on any of it. If a `video` reaches it,
-      the window has already been chosen. Measure with scripts/find-loop.mjs
-      before attaching anything, and expect a number rather than a promise.
+      There is a second half to it that no window can fix. A LOOP'S RESET IS
+      ITSELF A RETURN — the picture travels for a second and snaps back — so a
+      short loop of ANY moving footage reads as oscillation whether the motion
+      returns or not. Length is the only cure: at ten seconds a reset reads as
+      a cut, at one second it reads as a reversal.
+
+      So windows are now chosen by NET/PATH, how far the camera got against how
+      far it travelled, and they are long. What is left is a real cut at the
+      wrap, which the owner has accepted. See scripts/patch-motion.mjs for the
+      number each one carries, and scripts/find-loop.mjs measures only the
+      seam, which is now the lesser half of the question.
     */}
     {
       media.videoUrl && videoAllowed && (
@@ -340,7 +360,8 @@ const nativeRatio =
           src={media.videoUrl}
           poster={src ?? undefined}
           muted
-          loop
+          loop={!playOnce}
+          data-play-once={playOnce ? "" : undefined}
           playsinline
           preload="none"
           aria-hidden="true"
