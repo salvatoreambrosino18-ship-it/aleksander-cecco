@@ -334,6 +334,68 @@ const shareImage =
       otherwise hold several decoders open on a phone, which is the cost that
       makes video expensive rather than the file size.
     */}
+    {/*
+      THE BASKET, AND IT IS ONLY EVER AN ENHANCEMENT (2026-08-17, section 126).
+
+      A cart is per-visitor state that has to survive navigation, and this site
+      is static HTML on a CDN: no session, no per-request render. localStorage
+      is the only way to hold it without changing how the site is served, which
+      means a cart that follows a reader from page to page REQUIRES JavaScript.
+      That is stated plainly in src/pages/[lang]/order.astro rather than hidden.
+
+      So nothing here is load-bearing. `Add to order` is a LINK to the order
+      page, which is a plain form listing everything and works with no script at
+      all; this only intercepts it so a reader can add a piece without leaving
+      the page they are on, and writes a count next to the menu.
+    */}
+    <script is:inline>
+      (() => {
+        const KEY = "ac-order";
+        const read = () => {
+          try {
+            return JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+          } catch {
+            return {};
+          }
+        };
+
+        const count = () =>
+          Object.values(read()).reduce((n, e) => n + (Number(e && e.qty) || 0), 0);
+
+        const badge = document.querySelector("[data-order-count]");
+        const paint = () => {
+          if (!badge) return;
+          const n = count();
+          badge.textContent = n > 0 ? String(n) : "";
+          badge.hidden = n <= 0;
+        };
+        document.addEventListener("ac-order-changed", paint);
+        paint();
+
+        for (const link of document.querySelectorAll("[data-add-to-order]")) {
+          link.addEventListener("click", (event) => {
+            /* a modified click is the reader asking for a new tab: leave it */
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+            event.preventDefault();
+            const slug = link.dataset.addToOrder;
+            const basket = read();
+            const entry = basket[slug] || {qty: 0};
+            entry.qty = (Number(entry.qty) || 0) + 1;
+            basket[slug] = entry;
+            try {
+              localStorage.setItem(KEY, JSON.stringify(basket));
+            } catch {
+              /* private mode: fall through to the link, which still works */
+              window.location.href = link.href;
+              return;
+            }
+            link.textContent = link.dataset.addedLabel || link.textContent;
+            paint();
+          });
+        }
+      })();
+    </script>
+
     <script is:inline>
       (() => {
         const loops = document.querySelectorAll("video.video-loop");

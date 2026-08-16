@@ -88,6 +88,20 @@ const instagram = settings.instagramUrl?.trim() || null;
           </a>
         ))
       }
+      {/*
+        THE ORDER PAGE, and the only place a count appears (2026-08-17, section
+        126). It is a destination like the others and is written by the build,
+        so it is in this list with no script running; the number beside it is
+        the one part that needs one, and it stays hidden until there is
+        something to count rather than sitting there as a nought.
+      */}
+      <a
+        href={localePath(locale, "order")}
+        class="type-label text-label flex items-baseline gap-u1 hover:underline underline-offset-8"
+      >
+        {t(locale, "orderSeveral")}
+        <span class="type-mono text-mono" data-order-count hidden></span>
+      </a>
     </nav>
 
     {/*

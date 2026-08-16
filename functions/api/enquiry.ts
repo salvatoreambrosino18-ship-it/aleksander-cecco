@@ -225,6 +225,7 @@ const TEXT = {
     name: "Serve un nome.",
     email: "Serve un indirizzo email valido.",
     tooFast: "Riprova: il modulo e stato inviato troppo in fretta.",
+    nothingChosen: "Scegli almeno un pezzo: metti una quantita sopra lo zero.",
     notSent: "Non siamo riusciti a inviare l'ordine. Riprova piu tardi.",
     notConfigured: "L'invio degli ordini non e ancora attivo su questo sito.",
     listClosed: "Le iscrizioni non sono ancora aperte.",
@@ -241,6 +242,7 @@ const TEXT = {
     name: "A name is needed.",
     email: "A valid email address is needed.",
     tooFast: "Please try again: the form was submitted too quickly.",
+    nothingChosen: "Choose at least one piece: set a quantity above zero.",
     notSent: "We could not send your enquiry. Please try again later.",
     notConfigured: "Sending orders is not switched on for this site yet.",
     listClosed: "Sign-up is not open yet.",
@@ -419,6 +421,73 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email) || fields.email.length > 254) {
     problems.push(text.email);
   }
+  /*
+    SEVERAL PIECES AT ONCE (2026-08-17, section 126) — the cart posts here.
+
+    It is the same endpoint on purpose. The gate that keeps orders from being
+    sent is the absence of the Resend bindings, and a second endpoint would be
+    a second gate to remember to close. The rate limiting, the honeypot, the
+    timing check, the confirmation page and the email are all already here and
+    all already correct; a basket is just a longer list of pieces.
+
+    THE PRICES ARE NOT READ FROM THE FORM. A single-piece order sends `price`
+    as a hidden field and this file has always said in its own comment that the
+    figure is display-only, because a buyer can edit it. That is tolerable for
+    one line the owner recognises; it is not tolerable for a total. So a basket
+    is priced from /order-catalogue.json, which the BUILD writes from the same
+    query the shop renders, served from this site's own origin: a slug that is
+    not in it cannot be ordered, a size that is not offered for it is dropped,
+    and a quantity above what exists is clamped.
+
+    If that file cannot be fetched the order is refused rather than sent
+    unpriced. An order sheet with the wrong total is worse than one that never
+    arrived, because he would act on it.
+  */
+  const qtyKeys = [...form.keys()].filter((k) => k.startsWith("qty:"));
+  const isBasket = qtyKeys.length > 0;
+  type Line = {name: string; slug: string; size: string; qty: number; price: number};
+  let lines: Line[] = [];
+  let currency = "EUR";
+
+  if (isBasket) {
+    let catalogue: {items?: Array<{slug: string; name: string; price: number; currency?: string; sizes?: string[]; max?: number}>} | null = null;
+    try {
+      const res = await fetch(new URL("/order-catalogue.json", request.url).toString(), {
+        cf: {cacheTtl: 300},
+      } as RequestInit);
+      if (res.ok) catalogue = await res.json();
+    } catch {
+      catalogue = null;
+    }
+    if (!catalogue?.items?.length) {
+      console.error("[enquiry] basket: order-catalogue.json unreachable — refusing rather than pricing from the form");
+      return new Response(page(locale, {heading: text.title, lines: [text.notSent], backHref}), {
+        status: 503,
+        headers: {"Content-Type": "text/html; charset=utf-8"},
+      });
+    }
+    const byslug = new Map(catalogue.items.map((i) => [i.slug, i]));
+    for (const key of qtyKeys) {
+      const slug = key.slice(4);
+      const item = byslug.get(slug);
+      if (!item) continue;
+      const wanted = Math.floor(Number(get(key)));
+      if (!Number.isFinite(wanted) || wanted <= 0) continue;
+      const qty = Math.min(wanted, Math.max(1, item.max ?? 10));
+      const offered = item.sizes ?? [];
+      const chosen = get(`size:${slug}`);
+      lines.push({
+        name: item.name,
+        slug,
+        size: offered.includes(chosen) ? chosen : "",
+        qty,
+        price: item.price,
+      });
+      currency = item.currency ?? currency;
+    }
+    if (lines.length === 0) problems.push(text.nothingChosen);
+  }
+
   if (problems.length > 0) {
     return new Response(
       page(locale, {heading: text.invalid, lines: problems, backHref}),
@@ -452,7 +521,14 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     );
   }
 
-  const piece = [fields.garmentName, fields.garmentRef].filter(Boolean).join(" / ") || "(no piece)";
+  const money = (n: number) =>
+    new Intl.NumberFormat("en-GB", {style: "currency", currency, maximumFractionDigits: 0}).format(n);
+  const basketTotal = lines.reduce((sum, l) => sum + l.price * l.qty, 0);
+  const basketCount = lines.reduce((sum, l) => sum + l.qty, 0);
+
+  const piece = isBasket
+    ? `${basketCount} ${basketCount === 1 ? "piece" : "pieces"}`
+    : [fields.garmentName, fields.garmentRef].filter(Boolean).join(" / ") || "(no piece)";
 
   /*
     THE EMAIL IS A BRAND ARTEFACT (2026-08-03).
@@ -488,16 +564,38 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     the payment step exists the amount comes from the dataset, never from the
     form.
   */
-  const shownPrice = get("price").replace(/[^0-9€.,]/g, "").slice(0, 12);
+  const shownPrice = isBasket
+    ? money(basketTotal)
+    : get("price").replace(/[^0-9€.,]/g, "").slice(0, 12);
 
-  const rows: Array<[string, string]> = [
-    ["Creature", piece],
-    ...(shownPrice ? ([["Price", shownPrice]] as Array<[string, string]>) : []),
-    ["Name", fields.name],
-    ["Email", fields.email],
-    ...(fields.size ? ([["Size", fields.size]] as Array<[string, string]>) : []),
-    ["Language", locale === "it" ? "Italiano" : "English"],
-  ];
+  /*
+    A BASKET IS READ AS AN ORDER SHEET, one line per piece, with the size and
+    the quantity beside the name and the line total at the end — because that
+    is what he has to pick and pack from. A single piece keeps the shape it
+    always had.
+  */
+  const rows: Array<[string, string]> = isBasket
+    ? [
+        ...lines.map(
+          (l) =>
+            [
+              l.name,
+              `${l.qty} x ${money(l.price)}${l.size ? `  size ${l.size}` : ""}  =  ${money(l.price * l.qty)}`,
+            ] as [string, string],
+        ),
+        ["Total", money(basketTotal)],
+        ["Name", fields.name],
+        ["Email", fields.email],
+        ["Language", locale === "it" ? "Italiano" : "English"],
+      ]
+    : [
+        ["Creature", piece],
+        ...(shownPrice ? ([["Price", shownPrice]] as Array<[string, string]>) : []),
+        ["Name", fields.name],
+        ["Email", fields.email],
+        ...(fields.size ? ([["Size", fields.size]] as Array<[string, string]>) : []),
+        ["Language", locale === "it" ? "Italiano" : "English"],
+      ];
 
   const esc = (value: string) =>
     value.replace(/[&<>"]/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]!);
@@ -549,7 +647,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
   ].join("\n");
 
   if (env.ENQUIRY_DRY_RUN) {
-    console.warn(`[enquiry] DRY RUN: not sending. Would have mailed "${piece}" (${locale}).`);
+    console.warn(`[enquiry] DRY RUN: not sending. Would have mailed "${piece}"${shownPrice ? ` — ${shownPrice}` : ""} (${locale}).`);
     return new Response(
       page(locale, {heading: text.title, lines: [text.ok, text.delivery], next: text.replyWindow, backHref}),
       {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},

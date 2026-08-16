@@ -90,6 +90,21 @@ const availability = garment.availability ?? "readyNow";
 */
 const canEnquire =
   availability === "readyNow" || availability === "unique" || availability === "madeToOrder";
+/*
+  A PIECE CAN ONLY JOIN A BASKET IF IT HAS A PRICE (2026-08-17, section 126).
+
+  The single-piece order works without one — it asks him for a piece and he
+  answers with a figure — but a basket has a TOTAL, and a line with no price
+  either breaks the sum or silently counts as zero. The endpoint prices from
+  order-catalogue.json, which excludes anything unpriced, so an `Add to order`
+  on such a piece would put it in the basket and then quietly drop it.
+
+  Rubedo is the case that found this: eleven photographs, first in the worn
+  band, availability `unique`, and no price in the dataset. It keeps its
+  Acquire line and loses only the basket, which is the honest split — the
+  number is his to set, and nothing here should invent one.
+*/
+const canAddToOrder = canEnquire && typeof garment.price === "number" && garment.price > 0;
 const isUnique = availability === "unique";
 const availabilityLabel = {
   readyNow: t(locale, "availableNow"),
@@ -363,12 +378,37 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
           pressing anything. It leads to the order page; the enquiry framing is
           gone. Still one action, still the field language of section 26.
         */
-        <a
-          href={localePath(locale, `creature/${garment.slug}/order`)}
-          class="type-label text-body hairline-under self-start"
-        >
-          {t(locale, isUnique ? "uniqueAction" : "acquire")}{price ? ` — ${price}` : ""}
-        </a>
+        <div class="flex flex-col gap-u3">
+          <a
+            href={localePath(locale, `creature/${garment.slug}/order`)}
+            class="type-label text-body hairline-under self-start"
+          >
+            {t(locale, isUnique ? "uniqueAction" : "acquire")}{price ? ` — ${price}` : ""}
+          </a>
+
+          {/*
+            SEVERAL PIECES (2026-08-17, section 126). The line above is still
+            the one action: this piece, now, on its own page. This is the other
+            case, and it is a LINK rather than a button so that it works with
+            no JavaScript at all — it goes to the order page, which lists
+            everything and is a plain form.
+
+            With a script it becomes an add: the piece is written to
+            localStorage and the reader is told the basket holds it, without
+            leaving the page they are reading. Same href either way, so there
+            is nothing to fall back to.
+          */}
+          {canAddToOrder && (
+            <a
+              href={localePath(locale, "order")}
+              class="type-label text-label hairline-under self-start"
+              data-add-to-order={garment.slug}
+              data-added-label={t(locale, "orderAdded")}
+            >
+              {t(locale, "orderAdd")}
+            </a>
+          )}
+        </div>
       ) : (
         /*
           No action, and no apology. The Creature stays visible at full scale
