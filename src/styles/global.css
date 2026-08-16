@@ -710,21 +710,11 @@
   }
 
   /*
-    A FILM IS NOT A LOOP, and gets none of the three rules above (2026-08-12,
-    section 116). It is always in the document: it does not wait for a script,
-    because it plays on a tap rather than on arrival, and it survives reduced
-    motion, because a reader who presses play has asked for the motion.
-
-    The rules it does need are about the CONTROLS. `object-fit: cover` on a
-    <video> crops the picture but not the control bar, which the browser draws
-    across the element's real bottom edge — so on a frame taller than the clip
-    the controls would float in the middle of the black. `object-position` is
-    already set inline; this only guarantees the element and its box agree.
+    `.video-film` was deleted on 2026-08-13 (section 120). Every clip is a loop
+    now, so the rules it carried — always in the document, surviving reduced
+    motion, an ink ground behind a control bar — describe a thing that no longer
+    renders. The control bar it was written for is the whole reason it is gone.
   */
-  .video-film {
-    display: block;
-    background: var(--ink);
-  }
 
   .wash-content {
     display: flex;

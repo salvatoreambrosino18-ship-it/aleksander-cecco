@@ -17,10 +17,15 @@
   polarity is the only overlay value left that matters.
 
   Video: the schema carries an optional muted loop, and since 2026-08-11
-  (section 83) this renders the loop itself over its own poster. Nothing changes
-  until a file exists — there are zero <video> elements in the build today — and
-  every guarantee sits on the poster rather than on the video. See the note at
-  the element below, and the shooting spec in section 83.
+  (section 83) this renders the loop itself over its own poster. Every guarantee
+  sits on the poster rather than on the video. See the note at the element
+  below, and the shooting spec in section 83.
+
+  THERE IS ONE KIND OF CLIP NOW (2026-08-13, section 120, the OWNER's call).
+  Every video on this site plays by itself, muted, looping, with no controls and
+  nothing to click. The `film` mode — poster, controls, plays once on a tap —
+  is gone, and with it the `videoMode` prop: a surface no longer has an opinion
+  about how a clip behaves, because there is only one behaviour.
 */
 import {fullBleedSrcSet, imageUrl, objectPosition} from "../lib/image";
 import {overlayTheme, type MediaItem} from "../lib/media";
@@ -87,21 +92,6 @@ interface Props {
    */
   hover?: MediaItem | null;
   /**
-   * HOW A CLIP BEHAVES, and the default is `film` (2026-08-12, section 116).
-   *
-   * A LOOP HAS TO BE EARNED. Section 83 asks for a fixed camera, one thing
-   * moving, and a beginning that matches its end; every clip the owner has sent
-   * is hand-held, and the folder was searched for ANY window of 2.5s or more
-   * that could loop — the best one still fails. A non-looping clip put on
-   * `loop` shows a visible cut every few seconds, forever.
-   *
-   * So `film` is the default and `loop` must be asked for: poster, controls,
-   * plays once, on a tap. That is `VW26` — Vivienne Westwood gives a film a
-   * whole screen and does not hide that it is a film — and it is the only
-   * honest form for footage that cannot come back to where it began.
-   */
-  videoMode?: "film" | "loop";
-  /**
    * Reveal this frame as it enters (DESIGN-PLAN section 24). Defaults to on,
    * except for a priority image: the arrival must not be faded in, because it
    * is the LCP element and an arrival that arrives late is not an arrival.
@@ -119,7 +109,6 @@ const {
   priority = false,
   sizes: sizesProp,
   hover = null,
-  videoMode = "film",
   reveal,
   class: className = "",
 } = Astro.props;
@@ -321,9 +310,17 @@ const nativeRatio =
         a loop is motion by definition and there is no reduced version of it.
       - no controls, muted, playsinline, loop: it is a moving photograph, not a
         player, and it must never take over an iPhone's screen.
+
+      AND THIS IS NOW THE ONLY KIND (2026-08-13, section 120). The `film` — a
+      poster with controls that played once on a tap — is deleted. The owner's
+      rule is that a visitor never starts anything, so a clip that cannot loop
+      is not a clip that gets a play button; it is a clip that gets a better
+      window or gets replaced. `preload="none"` still holds the bandwidth
+      (standing rule 12): it fetches when it enters the screen, not on the way
+      past.
     */}
     {
-      media.videoUrl && videoAllowed && videoMode === "loop" && (
+      media.videoUrl && videoAllowed && (
         <video
           class="video-loop absolute inset-0 h-full w-full object-cover"
           src={media.videoUrl}
@@ -334,39 +331,6 @@ const nativeRatio =
           preload="none"
           aria-hidden="true"
           tabindex="-1"
-          style={`object-position: ${objectPosition(media.poster)}`}
-        />
-      )
-    }
-
-    {
-      /*
-        A FILM (2026-08-12, section 116). Everything the loop is, inverted:
-
-        - CONTROLS ARE SHOWN. `VW26` shows a pause button, a mute button and a
-          scrubber along the bottom edge, and does not pretend the thing is a
-          moving photograph. A clip that stops needs a way to be started again.
-        - IT NEVER AUTOPLAYS, so there is no IntersectionObserver, no decoder
-          held open on a phone, and nothing to pause when it scrolls away.
-        - NO `loop`. This is the whole reason the mode exists.
-        - REDUCED MOTION KEEPS IT. A loop is motion the page imposes and there
-          is no reduced version of it; a film is motion a reader ASKS for by
-          pressing play, which the preference does not forbid.
-        - IT IS NOT `aria-hidden`. The loop is decoration and hides itself from
-          a screen reader; a film is content and takes a label.
-
-        `preload="none"` still: 5.6MB fetches when somebody presses play, never
-        on the way past (standing rule 12).
-      */
-      media.videoUrl && videoAllowed && videoMode === "film" && (
-        <video
-          class="video-film absolute inset-0 h-full w-full object-cover"
-          src={media.videoUrl}
-          poster={src ?? undefined}
-          controls
-          playsinline
-          preload="none"
-          aria-label={alt || undefined}
           style={`object-position: ${objectPosition(media.poster)}`}
         />
       )
