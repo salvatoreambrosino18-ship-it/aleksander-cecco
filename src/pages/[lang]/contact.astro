@@ -196,9 +196,14 @@ const contactFrame =
         Saying so here is the only sentence on the site that sends a reader
         AWAY from contact, and it is the most useful one on the page.
 
-      Both are ours, carrying his facts, and flagged `contactCopy`. The
-      made-to-measure line is the existing one and keeps its own flag: it is
-      the one case where writing IS the route.
+      Both are ours, carrying his facts, and flagged `contactCopy`.
+
+      THE MADE-TO-MEASURE LINE THAT STOOD UNDER THEM IS GONE (2026-08-16,
+      section 130). The owner decided there is no made to measure, so our
+      sentence offering it "on request" stopped being an unapproved draft and
+      became a false offer — here and on every piece page. Both went in the same
+      change, which is what the handoff means by "when a decision changes, the
+      same commit must change every place that argues the old one".
     */}
     <div class="type-body text-body flex flex-col gap-u2 pt-u8">
       <p class="max-w-prose">{t(locale, "contactWhere")}</p>
@@ -206,7 +211,6 @@ const contactFrame =
       <a href={localePath(locale, "creature")} class="self-start hairline-under">
         {t(locale, "allCreatures")}
       </a>
-      <p class="max-w-prose pt-u2">{t(locale, "madeToMeasureLine")}</p>
     </div>
 
     {/*

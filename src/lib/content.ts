@@ -98,6 +98,13 @@ export type SiteSettings = {
    */
   aboutNotes: MosaicNote[] | null;
   processNotes: MosaicNote[] | null;
+  /**
+   * The words beside the LAST photograph on /process (section 130). Separate
+   * from `processNotes` because it is not one of the run: the run is woven into
+   * the mosaic's mixed slots, and this one closes the page. Empty means the page
+   * ends on photographs, which is a choice rather than a fault.
+   */
+  processClosing: MosaicNote | null;
   /** A chosen handful, not a live feed. See the schema for why. */
   instagramFrames: Array<{media: MediaItem; postUrl: string | null}> | null;
   /*
@@ -172,6 +179,7 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     processText,
     aboutNotes[]{heading, text},
     processNotes[]{heading, text},
+    processClosing{heading, text},
     instagramFrames[]{"media": media{${MEDIA_PROJECTION}}, postUrl},
     newDropCount,
     chapterCount,
@@ -212,6 +220,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   processText: null,
   aboutNotes: null,
   processNotes: null,
+  processClosing: null,
   instagramFrames: null,
   /*
     THREE FIELDS THAT WERE MISSING HERE, and `npm run check` had been red on

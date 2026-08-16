@@ -110,15 +110,6 @@ export default defineType({
         'Compare sotto le misure di un capo, solo se quel capo ha le misure. ' +
         'Serve a chi compra da lontano e non può provare niente. ' + blank,
     }),
-    defineField({
-      name: 'madeToMeasureLine',
-      title: 'La riga sul su misura',
-      type: 'localeString',
-      group: 'capi',
-      description:
-        'Compare sotto ogni capo e nella pagina Contatti. È l\'unico punto del sito che invita a scrivere. ' +
-        blank,
-    }),
 
     /* -------------------------------------------------------- negozio */
     defineField({

@@ -172,8 +172,30 @@ const notes = (settings.processNotes ?? [])
   .map((n) => noteBlock(n, (f) => pick(f, locale), SHOW_UNAPPROVED_MARKS && isMarked(notesVoice), t(locale, "draftNotice")))
   .filter((b): b is MosaicBlock => b !== null);
 
+/*
+  THE LAST PHOTOGRAPH IS HELD BACK (2026-08-16, section 130), so it can be
+  composed with words beside it instead of ending a dozen-frame run in silence.
+
+  It is taken off the END of the woven set, which changes nothing above it: the
+  weave places blocks in order, so removing the final frame shortens the run by
+  one and leaves every earlier placement exactly where it was. Everything else
+  on this page is untouched, which is what the owner asked for.
+*/
+const closing = settings.processClosing;
+const closingBlock =
+  closing &&
+  noteBlock(
+    closing,
+    (f) => pick(f, locale),
+    SHOW_UNAPPROVED_MARKS && isMarked(notesVoice),
+    t(locale, "draftNotice"),
+  );
+
+const woven = closingBlock ? mosaic.slice(0, -1) : mosaic;
+const lastFrame = closingBlock ? mosaic.at(-1) : null;
+
 const mosaicBlocks: MosaicBlock[] = weaveMosaic(
-  mosaic,
+  woven,
   zip(
     notes,
     mine.map((c) =>
@@ -181,6 +203,11 @@ const mosaicBlocks: MosaicBlock[] = weaveMosaic(
     ),
   ),
 );
+
+const tail =
+  closingBlock && lastFrame && closingBlock.kind === "note"
+    ? {media: lastFrame, note: closingBlock}
+    : null;
 ---
 
 <Base
@@ -286,7 +313,7 @@ const mosaicBlocks: MosaicBlock[] = weaveMosaic(
     answer, since `RO17` puts a small portrait and a two-thirds landscape in
     consecutive units without either being told about the other.
   */}
-  <Mosaic blocks={mosaicBlocks} locale={locale} />
+  <Mosaic blocks={mosaicBlocks} locale={locale} tail={tail} />
 
   {/*
     u8, not u13 (2026-08-13, section 108). Thirteen units above and below a

@@ -506,6 +506,26 @@
     padding: var(--s-u3) var(--margin) var(--s-u5);
   }
 
+  /*
+    THE CLOSING ROW OF /process (2026-08-16, section 130): the last photograph
+    with words beside it.
+
+    It is a sibling of the mosaic rather than a block inside it, and the reason
+    is `grid-auto-flow: dense`. Dense puts every block in the first row where
+    its columns are free, so a narrow note appended to the end of the run
+    backfills into an early gap and never reaches the bottom of the page —
+    which is the opposite of what "beside the last photograph" means. Its place
+    in the run would also move whenever the owner files another photograph.
+
+    On a phone it is one column, in order, like the mosaic above it.
+  */
+  .mosaic-tail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-u8);
+    padding-bottom: var(--s-u13);
+  }
+
   @media (min-width: 64rem) {
     /*
       TWELVE COLUMNS, AND THE GRID DOES THE PACKING. `dense` puts each cell in
@@ -562,6 +582,28 @@
     */
     .mosaic-note {
       padding: 0 var(--s-u5);
+    }
+    /*
+      The closing row takes the mosaic's own twelve columns and its own gutters,
+      so it reads as the last row of the run rather than as a new section: the
+      words on the left, the photograph on the right, and the empty space on one
+      side — never centred, which is the rule the whole mosaic is built on.
+    */
+    .mosaic-tail {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: var(--s-u2);
+      align-items: start;
+      padding: 0 var(--s-u2) var(--s-u13);
+    }
+    .mosaic-tail-note {
+      grid-column: 1 / span 4;
+      /* Not top-aligned against the photograph, the same RO42 offset the
+         cycle's paired rows already carry. */
+      margin-top: var(--s-u13);
+    }
+    .mosaic-tail-frame {
+      grid-column: 6 / span 7;
     }
     /*
       AT DESKTOP THE CUT-OUT SHRINKS INSIDE ITS COLUMN. `RO36` gives a belt a

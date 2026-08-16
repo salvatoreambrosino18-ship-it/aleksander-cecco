@@ -8,17 +8,18 @@ import type {Locale} from "../lib/locales";
 import {copyOverrides} from "./overrides";
 
 /*
-  THE MADE-TO-MEASURE LINE IS OURS (2026-08-12, section 98). The owner removed
-  made to measure from the shop and said what should stand in its place — that a
-  made-to-measure order goes by email — but not in what words. So the sentence
-  is ours, marked wherever it is shown, and flagged `madeToMeasureLine` in the
-  studio until he writes his own.
+  THE MADE-TO-MEASURE LINE IS GONE (2026-08-16, section 130), and so is the flag
+  that marked it as our draft. The OWNER decided there is no made to measure at
+  all — in the same breath as XS, S, M, L on everything — so a sentence of ours
+  offering it "on request" stopped being an unapproved draft and became a FALSE
+  OFFER, on every piece page and on /contact. Both went in the same change, and
+  so did its studio field: a field an editor can fill that no page reads is a
+  promise the studio cannot keep.
 
-  What replaced this flag's old job: there is no longer a sentence explaining a
-  CHOICE between taking a piece as it is and having it remade, because there is
-  no choice. A piece exists and is bought.
+  THE SENTENCE, recorded so it can come back without archaeology:
+    "Su misura, solo su richiesta: scrivici e ne parliamo."
+    "Made to measure on request only: write to us and we will talk."
 */
-export const MADE_TO_MEASURE_IS_DRAFT = true;
 
 const ui = {
   it: {
@@ -89,9 +90,6 @@ const ui = {
     outsideCollections: "Fuori dalle collezioni.",
     // A buyer who cannot try anything on needs a way to use these numbers.
     fitGuidance: "Confrontale con un capo che già possiedi e che ti veste come vuoi.",
-    /* OURS, flagged as madeToMeasureLine: made to measure is not a flow any
-       more, it is an invitation to write (section 98). */
-    madeToMeasureLine: "Su misura, solo su richiesta: scrivici e ne parliamo.",
     availableNow: "Disponibile subito.",
     thisPieceMeasurements: "Misure di questo capo",
     /* SIZES, back on his third answer (sections 100 and 101). */
@@ -262,7 +260,6 @@ const ui = {
     handcrafted: "Handcrafted in South Italy.",
     outsideCollections: "Outside the collections.",
     fitGuidance: "Compare these with a garment you already own and like the fit of.",
-    madeToMeasureLine: "Made to measure on request only: write to us and we will talk.",
     availableNow: "Available now.",
 
     thisPieceMeasurements: "This piece's measurements",
@@ -347,7 +344,7 @@ export type UIKey = keyof (typeof ui)["it"];
 export const OWNER_EDITABLE = [
   // the sentences the brand speaks
   "handcrafted", "madeInItaly", "shopIntro", "contactIntro", "contactWhere", "contactBuy",
-  "newsletterLine", "outsideCollections", "fitGuidance", "madeToMeasureLine", "deliveryLine",
+  "newsletterLine", "outsideCollections", "fitGuidance", "deliveryLine",
   "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
   "cartIntro", "cartOnePiece", "cartNoPayment", "cartEmpty", "nothingYet", "notFound",
   // the titles that head a part of a page

@@ -69,15 +69,32 @@
 import MediaSurface from "./MediaSurface.astro";
 import type {Locale} from "../lib/locales";
 import type {MosaicBlock} from "../lib/mosaic";
+import type {MediaItem} from "../lib/media";
 export type {MosaicBlock} from "../lib/mosaic";
 
 interface Props {
   blocks: MosaicBlock[];
   locale: Locale;
+  /**
+   * THE LAST ROW, COMPOSED RATHER THAN WOVEN (2026-08-16, section 130).
+   *
+   * A photograph with words beside it, closing the run. It is NOT put through
+   * the cycle above, and that is the whole point: `grid-auto-flow: dense` puts
+   * each block in the first row where its columns are free, so a narrow note
+   * appended at the end BACKFILLS into an early row instead of staying at the
+   * bottom. Where a block lands would also depend on how many photographs the
+   * owner happens to have filed that week, which is not a thing a composition
+   * should depend on.
+   *
+   * So the pair is rendered after the grid, in its own row of the same twelve
+   * columns: words left, photograph right, the empty space to one side exactly
+   * as the reference does it. On a phone it stacks, like everything else here.
+   */
+  tail?: {media: MediaItem; note: MosaicBlock & {kind: "note"}} | null;
   class?: string;
 }
 
-const {blocks, locale, class: className = ""} = Astro.props;
+const {blocks, locale, tail = null, class: className = ""} = Astro.props;
 
 /*
   THE CYCLE. `start` is the 1-based grid column; `span` is how many of twelve.
@@ -221,3 +238,38 @@ const sizesFor = (span: number) =>
     })
   }
 </div>
+
+{
+  /*
+    THE CLOSING ROW. Same twelve columns, composed by hand rather than by the
+    cycle, for the reasons on the `tail` prop. The photograph keeps its own
+    proportion like every other frame in the run; the words take the column
+    beside it and the spine that every text surface on this site takes.
+  */
+  tail && (
+    <div class="mosaic-tail">
+      <div class="mosaic-note mosaic-tail-note">
+        {tail.note.heading && <h2 class="type-label text-label">{tail.note.heading}</h2>}
+        {tail.note.marked && tail.note.notice && (
+          <p class="placeholder-mark self-start">{tail.note.notice}</p>
+        )}
+        <p
+          class:list={[
+            "type-body text-body whitespace-pre-line",
+            tail.note.marked && "draft-text",
+          ]}
+        >
+          {tail.note.text}
+        </p>
+      </div>
+      <div class="mosaic-tail-frame">
+        <MediaSurface
+          media={tail.media}
+          locale={locale}
+          height="native"
+          sizes="(min-width: 64rem) 58vw, 100vw"
+        />
+      </div>
+    </div>
+  )
+}

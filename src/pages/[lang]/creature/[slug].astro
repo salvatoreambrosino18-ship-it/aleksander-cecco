@@ -8,19 +8,20 @@
   facts and the single action. The diptych is withdrawn, so nothing caps the
   photograph at half the viewport.
 
-  HOW A CREATURE CAN BE HAD, since 2026-08-12 (section 98): it EXISTS and is
-  bought as it is. Made to measure was removed from the shop by the owner and
-  survives as one line inviting an email, below the facts. A piece already sold
+  HOW A CREATURE CAN BE HAD, since 2026-08-12 (section 98) and settled on
+  2026-08-16 (section 130): it EXISTS, it is bought as it is, and the buyer
+  CHOOSES A SIZE. There is no made to measure anywhere — not a flow, not a
+  state, and since section 130 not a sentence either. A piece already sold
   (private order) or withdrawn (not taking requests) carries no action, and a
   1 of 1 is bought exactly like anything else.
 */
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
-import {getGarments, getSiteSettings, isPlaceholderEmail, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
+import {getGarments, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
-import {MADE_TO_MEASURE_IS_DRAFT, t} from "../../../i18n/ui";
+import {t} from "../../../i18n/ui";
 import {SHOW_UNAPPROVED_MARKS} from "../../../lib/marks";
 
 export async function getStaticPaths() {
@@ -37,9 +38,6 @@ export async function getStaticPaths() {
 const {garment, all} = Astro.props as {garment: Garment; all: Garment[]};
 const locale = toLocale(Astro.params.lang) as Locale;
 
-/* The address the made-to-measure line invites a person to write to. */
-const settings = await getSiteSettings();
-const contactEmail = isPlaceholderEmail(settings.contactEmail) ? null : settings.contactEmail;
 
 /*
   NEXT AND PREVIOUS. Without them every Creature was a dead end and seeing two
@@ -154,9 +152,9 @@ const inscription: Array<{text: string | null; token: string}> = [
   /*
     "Handcrafted. Made to measure." was the constant here until 2026-08-12, when
     the owner removed made to measure from the shop (section 98). What is
-    always true of a Creature now is that it is handcrafted in South Italy; being
-    built to someone's measurements is a conversation, not a property of the
-    object, and it has its own line further down.
+    always true of a Creature now is that it is handcrafted in South Italy.
+    Being built to someone's measurements is not offered at all since section
+    130, so there is no longer a line about it anywhere on this page.
   */
   {text: t(locale, "handcrafted"), token: ""},
 ];
@@ -295,39 +293,31 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
     </div>
 
     {/*
-      MADE TO MEASURE IS A SENTENCE NOW, NOT A FLOW (2026-08-12, section 98).
+      MADE TO MEASURE IS GONE FROM THE PIECE (2026-08-16, section 130). THE
+      OWNER'S DECISION, in the same breath as the sizes: XS, S, M, L on
+      everything, and NO MADE TO MEASURE.
 
-      The owner removed it from the shop: every Creature is an object that
-      exists and is bought as it is. What remains is an invitation to write,
-      and it belongs HERE — on the piece, where a person is deciding — rather
-      than on the contact page, where nobody looks for it.
+      What stood here was OUR sentence, flagged `madeToMeasureLine`, inviting a
+      reader to write about a made-to-measure piece. The moment he decided there
+      is none, it stopped being an unapproved draft and became a FALSE OFFER on
+      the page where a person commits — which is the exact fault section 108
+      removed two words from his own /about text for, and the rule it set:
+      **a site that says less is not exposed and a site that says the wrong
+      thing is.**
 
-      OURS, so it carries the same mark every sentence we wrote on his behalf
-      carries, and it is flagged `madeToMeasureLine` in the studio.
+      THE SENTENCE, so it can come back without archaeology:
+        "Su misura, solo su richiesta: scrivici e ne parliamo."
+        "Made to measure on request only: write to us and we will talk."
+      It is recorded here, in DESIGN-PLAN section 130, and nowhere else — the
+      string, its studio field and its draft flag were all removed, because a
+      field in the studio that no page reads is a promise the studio cannot
+      keep.
+
+      The delivery line STAYS: how long a piece takes is still true, and it is
+      the fact a buyer asks about most.
     */}
     <div class="flex flex-col gap-u2">
-      {MADE_TO_MEASURE_IS_DRAFT && SHOW_UNAPPROVED_MARKS && (
-        <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
-      )}
-      <p
-        class:list={[
-          "type-body text-body max-w-prose",
-          MADE_TO_MEASURE_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
-        ]}
-      >
-        {t(locale, "deliveryLine")}{" "}
-      </p>
-      <p
-        class:list={[
-          "type-body text-body max-w-prose",
-          MADE_TO_MEASURE_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
-        ]}
-      >
-        {t(locale, "madeToMeasureLine")}{" "}
-        {contactEmail && (
-          <a href={`mailto:${contactEmail}`} class="hairline-under">{contactEmail}</a>
-        )}
-      </p>
+      <p class="type-body text-body max-w-prose">{t(locale, "deliveryLine")}</p>
     </div>
 
     {description && <p class="type-body text-body max-w-prose">{description}</p>}

@@ -511,6 +511,23 @@ export const siteSettings = defineType({
       validation: (Rule) => Rule.max(6).warning('More than six and the page becomes an essay.'),
     }),
     /*
+      L'ULTIMA PAROLA DELLA PAGINA (2026-08-16, sezione 130). Le righe qui sopra
+      finiscono a meta pagina e poi Processo continua per una dozzina di
+      fotografie senza piu una parola. Questa sta accanto all'ULTIMA, nella
+      colonna vuota che il mosaico lascia di fianco, e chiude la pagina.
+
+      E' un campo suo e a parte: se lo svuota, la pagina torna a finire in
+      silenzio, il che e' una scelta legittima e non un guasto.
+    */
+    defineField({
+      name: 'processClosing',
+      group: 'pagine',
+      title: 'Processo: le parole accanto all\'ultima fotografia',
+      type: 'mosaicNote',
+      description:
+        "Chiude la pagina, di fianco all'ultima fotografia. Lasciala vuota e la pagina finisce con le fotografie e basta.",
+    }),
+    /*
       QUANTE COSE SI VEDONO, E QUALE FOTOGRAFIA APRE (2026-08-18, sezione 128).
 
       Erano tre numeri e una scelta scritti nel codice: sei capi nella pagina
@@ -590,7 +607,6 @@ export const siteSettings = defineType({
           },
           {title: 'Chi siamo: la traduzione delle origini', value: 'aboutOrigin'},
           {title: "Chi siamo: l'ordine dei nomi, modificato dal testo approvato / About: name order, edited from approved text", value: 'aboutNameOrder'},
-          {title: "Pagina prodotto: la riga sul su misura", value: 'madeToMeasureLine'},
           {
             title:
               'Chi siamo e Processo: «Su Misura» tolto dal testo approvato / About and Process: "Made to Measure" removed from approved text',
