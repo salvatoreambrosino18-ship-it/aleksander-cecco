@@ -128,18 +128,23 @@ const voice = voiceState(settings, locale);
   photograph. That is the row this page could not build until the third kind of
   image existed.
 
-  THE CUT-OUTS ARE SHARED OUT NOW, NOT HOARDED (2026-08-13, section 118). Six
-  survive verification and they cover five pieces, so each page takes a slice
-  and no page takes them all: the home two-up takes the first, /about takes the
-  next two, and this page takes the last three. The split is written down in one
-  comment on each page rather than computed, because it is an editorial decision
-  and not an algorithm.
+  THE CUT-OUTS ARE ALL HERE NOW, BAR THE HOME ONE (2026-08-17, section 123,
+  the OWNER's call). They were shared three ways on 2026-08-13 — one to the
+  home two-up, two to /about, three to here — and /about's two have come over,
+  so this page takes five of the six.
+
+  It is the right page for them and the sharing was the mistake. A cut-out is a
+  garment lifted off its ground and laid on pale paper: it is a way of showing
+  the WORK. /about is about where the brand and its material come from, and a
+  figure floating on white says nothing about either. Spreading them evenly
+  treated six photographs as a resource to divide rather than as a kind of
+  picture that belongs somewhere.
 
   Where they land inside the run is `weaveMosaic`'s business — see lib/mosaic.ts
   for why the slots are 1, 3, 6 and not anywhere.
 */
 const cutouts = (settings.cutoutMedia ?? []).filter((c) => c.media?.poster);
-const mine = cutouts.slice(3);
+const mine = cutouts.slice(1);
 
 /*
   AND THE PROSE GOES IN WITH THEM (2026-08-13, section 118), which is the last

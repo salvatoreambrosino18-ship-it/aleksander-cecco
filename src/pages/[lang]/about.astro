@@ -80,13 +80,18 @@ const partnerName = settings.partnerName?.trim() || null;
 const partnerUrl = settings.partnerUrl?.trim() || null;
 
 /*
-  TWO OF THE SIX CUT-OUTS (2026-08-13, section 118). The set is shared out so no
-  page hoards it: the home two-up takes the first, this page takes the next two,
-  /process takes the last three. Both of these are Oblivion, worn two ways —
-  open over jeans and closed as a dress — which is the one piece the dataset can
-  show twice without repeating a photograph.
+  NO CUT-OUTS ON THIS PAGE (2026-08-17, section 123, the OWNER's call).
+
+  It took two of the six until now — both Oblivion, worn open over jeans and
+  worn as a dress — and they have gone to /process, where the other four
+  already were. So the whole set lives in one place apart from the home two-up,
+  and this page is photographs and video only.
+
+  That is a better division than the old one. A cut-out is a garment lifted off
+  its ground and laid on pale paper: it is a way of showing the WORK, which is
+  what /process is for. This page is about where the brand and its material
+  come from, and a figure floating on white says nothing about either.
 */
-const cutouts = (settings.cutoutMedia ?? []).filter((c) => c.media?.poster);
 
 /*
   AND THREE WRITTEN BLOCKS (2026-08-13, section 118): Naples, Solofra, and the
@@ -120,15 +125,9 @@ const notes = (settings.aboutNotes ?? [])
   .map((n) => noteBlock(n, (f) => pick(f, locale), SHOW_UNAPPROVED_MARKS && isMarked(notesVoice), t(locale, "draftNotice")))
   .filter((b): b is MosaicBlock => b !== null);
 
-const mosaicBlocks: MosaicBlock[] = weaveMosaic(
-  photographs.slice(1),
-  zip(
-    notes,
-    cutouts.slice(1, 3).map((c) =>
-      productBlock(c, c.garment?.slug ? localePath(locale, `creature/${c.garment.slug}`) : null),
-    ),
-  ),
-);
+/* Notes alone into the mosaic now: the cut-outs that used to be zipped in
+   beside them are on /process (section 123). */
+const mosaicBlocks: MosaicBlock[] = weaveMosaic(photographs.slice(1), notes);
 ---
 
 {/* The chrome floats on the opening frame (section 115), or the band stays if
