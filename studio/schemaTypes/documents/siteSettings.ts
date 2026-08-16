@@ -6,17 +6,17 @@ export const siteSettings = defineType({
   title: 'Impostazioni',
   type: 'document',
   /*
-    L'ORDINE DELLE SCHEDE E' L'ORDINE IN CUI LE TOCCA (2026-08-18, sezione 128).
+    L'ORDINE DELLE SCHEDE È L'ORDINE IN CUI LE TOCCA (2026-08-18, sezione 128).
 
     Erano quaranta campi in fila, senza un ordine che volesse dire qualcosa, e
     le cose che cambia ogni settimana stavano sotto quelle che ha impostato una
-    volta sola. Adesso sono schede, e la prima e' quella che apre.
+    volta sola. Adesso sono schede, e la prima è quella che apre.
 
-    Home per prima perche' e' la pagina che cambia quando arrivano fotografie
+    Home per prima perché è la pagina che cambia quando arrivano fotografie
     nuove. Poi le altre pagine. Poi le condizioni di vendita, che cambiano
     quando cambia il modo di vendere. Instagram, che si aggiorna a mano ogni
-    tanto. Chi siamo, che si scrive una volta. Avanzate per ultima: li' dentro
-    non c'e' niente che debba toccare in una settimana normale.
+    tanto. Chi siamo, che si scrive una volta. Avanzate per ultima: lì dentro
+    non c'è niente che debba toccare in una settimana normale.
   */
   groups: [
     {name: 'home', title: 'La home', default: true},
@@ -76,7 +76,7 @@ export const siteSettings = defineType({
       title: 'Fotografia di apertura',
       type: 'media',
       description:
-        "La prima cosa che si vede: una fotografia a tutto schermo, non la firma. Scegliere un'immagine verticale, alta almeno 2000px, con la parte alta uniforme (chiara o scura) perche' la firma e il MENU ci passano sopra. / The first thing seen: one full-screen photograph, not the signature. Choose a vertical frame, at least 2000px tall, with an even top band (either light or dark) because the signature and MENU sit over it.",
+        "La prima cosa che si vede: una fotografia a tutto schermo, non la firma. Scegliere un'immagine verticale, alta almeno 2000px, con la parte alta uniforme (chiara o scura) perché la firma e il MENU ci passano sopra. / The first thing seen: one full-screen photograph, not the signature. Choose a vertical frame, at least 2000px tall, with an even top band (either light or dark) because the signature and MENU sit over it.",
     }),
     /*
       HIS OPENING LINES (2026-08-12, section 99). Three short lines over the
@@ -145,7 +145,7 @@ export const siteSettings = defineType({
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
-        "La fascia orizzontale a meta' home. Fotografie di persone che indossano i capi: si scorre di lato, niente frecce e niente puntini. Da quattro a sei. Collegare ogni fotografia al suo capo, dove esiste. L'ORDINE E' QUESTO ELENCO: trascina le fotografie per riordinarle, la prima in alto e' quella piu' a sinistra nella fascia. / The horizontal band halfway down the home page. Photographs of people wearing the pieces: it scrolls sideways, with no arrows and no dots. Four to six. Link each frame to its piece where one exists. THE ORDER IS THIS LIST: drag the photographs to reorder them; the first from the top is the leftmost frame in the band.",
+        "La fascia orizzontale a metà home. Fotografie di persone che indossano i capi: si scorre di lato, niente frecce e niente puntini. Da quattro a sei. Collegare ogni fotografia al suo capo, dove esiste. L'ORDINE È QUESTO ELENCO: trascina le fotografie per riordinarle, la prima in alto è quella più a sinistra nella fascia. / The horizontal band halfway down the home page. Photographs of people wearing the pieces: it scrolls sideways, with no arrows and no dots. Four to six. Link each frame to its piece where one exists. THE ORDER IS THIS LIST: drag the photographs to reorder them; the first from the top is the leftmost frame in the band.",
       validation: (Rule) =>
         Rule.max(8).warning('More than eight is a long sideways scroll; four to six reads best.'),
     }),
@@ -156,7 +156,7 @@ export const siteSettings = defineType({
       type: 'array',
       of: [{type: 'media'}],
       description:
-        "Due o tre fotografie del lavoro: la pelle grezza, il banco, le mani. Non i capi finiti, che si vedono gia' sopra. / Two or three photographs of the work: the raw hide, the bench, the hands. Not finished garments, which are already shown above.",
+        "Due o tre fotografie del lavoro: la pelle grezza, il banco, le mani. Non i capi finiti, che si vedono già sopra. / Two or three photographs of the work: the raw hide, the bench, the hands. Not finished garments, which are already shown above.",
       validation: (Rule) => Rule.max(4).warning('Two or three frames say it; more turns a claim into a gallery.'),
     }),
     defineField({
@@ -209,7 +209,7 @@ export const siteSettings = defineType({
       title: 'Righe del fondo pagina non approvate',
       type: 'boolean',
       description:
-        "Acceso finche' il titolare non approva le due righe che abbiamo scritto noi in fondo alla pagina (spedizioni, origine). / On until the owner approves the two footer lines we wrote (shipping, origin).",
+        "Acceso finché il titolare non approva le due righe che abbiamo scritto noi in fondo alla pagina (spedizioni, origine). / On until the owner approves the two footer lines we wrote (shipping, origin).",
       initialValue: true,
     }),
     defineField({
@@ -266,7 +266,7 @@ export const siteSettings = defineType({
       title: 'Chi lo fa: il testo',
       type: 'localeText',
       description:
-        "Parole sue. Lasciare vuoto finche' non le ha scritte: la pagina mostra un segnaposto invece di inventare una biografia. / His own words. Leave empty until he has written them: the page shows a placeholder rather than inventing a biography.",
+        "Parole sue. Lasciare vuoto finché non le ha scritte: la pagina mostra un segnaposto invece di inventare una biografia. / His own words. Leave empty until he has written them: the page shows a placeholder rather than inventing a biography.",
     }),
     defineField({
       name: 'aboutOpeningMedia',
@@ -363,7 +363,7 @@ export const siteSettings = defineType({
       title: 'Fondo pagina: spedizioni',
       type: 'localeText',
       description:
-        "Una riga sola. Nessuna promessa di tempi o costi finche' non sono decisi. / One line only. No promise about timing or cost until those are decided.",
+        "Una riga sola. Nessuna promessa di tempi o costi finché non sono decisi. / One line only. No promise about timing or cost until those are decided.",
     }),
     defineField({
       name: 'footerOrigin',
@@ -445,9 +445,9 @@ export const siteSettings = defineType({
 
       Le pagine di racconto dei riferimenti mettono nella stessa riga: un
       paragrafo, UN CAPO RITAGLIATO SU FONDO CHIARO, e una fotografia larga del
-      lavoro. Il sito aveva le prime due. Questa e' la terza.
+      lavoro. Il sito aveva le prime due. Questa è la terza.
 
-      ATTENZIONE, e vale piu' di ogni altra nota in questo file: un programma
+      ATTENZIONE, e vale più di ogni altra nota in questo file: un programma
       che toglie lo sfondo RIDISEGNA. Su sei figure provate, tre sono tornate
       cambiate — l'orlo grezzo raddrizzato, la cerniera senza denti, la
       pelliccia rifatta a ciuffi. Ogni ritaglio va confrontato con la
@@ -466,7 +466,7 @@ export const siteSettings = defineType({
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
-        'Un capo per fotografia, ritagliato, su fondo chiaro. Collega ogni ritaglio al suo capo, cosi\' chi lo tocca ci arriva. ' +
+        'Un capo per fotografia, ritagliato, su fondo chiaro. Collega ogni ritaglio al suo capo, così chi lo tocca ci arriva. ' +
         'L\'ORDINE DECIDE DOVE VANNO: il PRIMO della lista compare nella home, tutti gli altri nella pagina Processo. ' +
         'Trascina per spostarli. ' +
         'PRIMA DI CARICARE: confronta il ritaglio con la fotografia originale sull\'orlo. Se lo scontorno ha raddrizzato l\'orlo, ' +
@@ -476,13 +476,13 @@ export const siteSettings = defineType({
       IL RACCONTO NELLE COLONNE (2026-08-13, sezione 118).
 
       Righe brevi che stanno DENTRO il mosaico, in colonna, accanto alle
-      fotografie — non un blocco di testo prima o dopo. E' cosi' che scrivono i
+      fotografie — non un blocco di testo prima o dopo. È così che scrivono i
       riferimenti: il materiale, da dove viene, cosa gli succede, e una cosa che
-      non e' ancora risolta. Mai un aggettivo sul marchio.
+      non è ancora risolta. Mai un aggettivo sul marchio.
 
       SONO NOSTRE. Le sue frasi restano intoccate e restano le prime: queste
-      stanno accanto, non al posto loro. Finche' sono segnate in `inventedCopy`
-      il sito non puo' aprire. Riscrivile con le tue parole e togli la spunta.
+      stanno accanto, non al posto loro. Finché sono segnate in `inventedCopy`
+      il sito non può aprire. Riscrivile con le tue parole e togli la spunta.
 
       THE NARRATIVE IN THE COLUMNS. Short lines that live INSIDE the mosaic,
       beside the photographs, in the reference's own manner: the material, where
@@ -527,8 +527,8 @@ export const siteSettings = defineType({
       type: 'number',
       group: 'pagine',
       description:
-        'La pagina del drop e\' un annuncio, non un secondo negozio: fa vedere qualche capo e poi manda al catalogo. ' +
-        'Adesso sono sei. Alzandolo diventa una copia del catalogo; abbassandolo sotto tre non si capisce cos\'e\' il drop. ' +
+        'La pagina del drop è un annuncio, non un secondo negozio: fa vedere qualche capo e poi manda al catalogo. ' +
+        'Adesso sono sei. Alzandolo diventa una copia del catalogo; abbassandolo sotto tre non si capisce cos\'è il drop. ' +
         'Lascia vuoto per tenere sei.',
       validation: (Rule) => Rule.min(2).max(12).integer(),
     }),
@@ -606,7 +606,7 @@ export const siteSettings = defineType({
       title: 'Suono ambiente',
       type: 'file',
       description:
-        "Facoltativo. Un file audio breve, in loop, che il visitatore puo' accendere da un piccolo comando nell'angolo. NON parte da solo: i browser bloccano l'audio automatico, quindi resta spento finche' non lo si accende. Rimane spento per chi ha chiesto di ridurre le animazioni. / Optional. A short looping audio file the visitor can switch on from a small corner control. It does NOT start on its own: browsers block automatic audio, so it stays off until switched on. It stays off for anyone who has asked for reduced motion.",
+        "Facoltativo. Un file audio breve, in loop, che il visitatore può accendere da un piccolo comando nell'angolo. NON parte da solo: i browser bloccano l'audio automatico, quindi resta spento finché non lo si accende. Rimane spento per chi ha chiesto di ridurre le animazioni. / Optional. A short looping audio file the visitor can switch on from a small corner control. It does NOT start on its own: browsers block automatic audio, so it stays off until switched on. It stays off for anyone who has asked for reduced motion.",
       options: {accept: 'audio/mpeg,audio/mp4,audio/ogg,audio/wav'},
     }),
     // One file only. The supplied signature SVG paints with currentColor, so it

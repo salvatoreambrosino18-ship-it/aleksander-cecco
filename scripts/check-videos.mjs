@@ -48,13 +48,13 @@ import {createClient} from "@sanity/client";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 /*
-  .env in locale, variabili d'ambiente in CI. Su GitHub il file non c'e' e non
+  .env in locale, variabili d'ambiente in CI. Su GitHub il file non c'è e non
   deve esserci: leggerlo e basta farebbe fallire il job prima di iniziare.
 */
 try {
   process.loadEnvFile(path.join(ROOT, ".env"));
 } catch {
-  /* nessun .env: si usano le variabili d'ambiente gia' presenti */
+  /* nessun .env: si usano le variabili d'ambiente già presenti */
 }
 
 const WRITE = process.argv.includes("--write");
@@ -63,32 +63,32 @@ const WRITE = process.argv.includes("--write");
 
 /*
   I NUMERI, E DA DOVE VENGONO. Non sono scelti a occhio: sono tarati sui video
-  veri e sul giudizio del titolare, che e' l'unico giudice che conta.
+  veri e sul giudizio del titolare, che è l'unico giudice che conta.
 
   QUELLI CHE HA CHIAMATO BOOMERANG:  1.0s, 1.3s, 1.5s
   QUELLI CHE HA ACCETTATO:           3.5s, 5.7s, 10.0s, 18.8s
 
-  La cosa che salta all'occhio guardando quella riga e' che NON E' IL
-  MOVIMENTO, E' LA DURATA. Uno dei tre bocciati andava perfettamente dritto
-  (travel 1.00) ed era comunque un boomerang, perche' durava un secondo e
+  La cosa che salta all'occhio guardando quella riga è che NON È IL
+  MOVIMENTO, È LA DURATA. Uno dei tre bocciati andava perfettamente dritto
+  (travel 1.00) ed era comunque un boomerang, perché durava un secondo e
   mezzo; uno di quelli accettati va e torna di brutto (travel 0.12) e va bene,
-  perche' dura diciannove secondi.
+  perché dura diciannove secondi.
 
-  Il motivo e' che il RICOMINCIARE e' esso stesso un ritorno. A un secondo e
-  mezzo il ricominciare e' piu' frequente del movimento, e l'occhio non
+  Il motivo è che il RICOMINCIARE è esso stesso un ritorno. A un secondo e
+  mezzo il ricominciare è più frequente del movimento, e l'occhio non
   distingue un video che riparte da uno che torna indietro. A dieci secondi lo
   stesso identico stacco si legge come uno stacco.
 
   Quindi:
 
-  - 3 SECONDI e' la soglia. Il peggiore accettato sta a 3.5, il migliore
+  - 3 SECONDI è la soglia. Il peggiore accettato sta a 3.5, il migliore
     bocciato a 1.5. Tre sta in mezzo e lascia margine da tutte e due le parti.
   - IL MOVIMENTO conta solo sotto gli 8 secondi, e come rete di sicurezza: un
-    video corto che oscilla forte e' un boomerang anche se dura tre secondi.
-    Sopra gli otto, un movimento che va e torna e' semplicemente una ripresa a
-    mano, e il titolare l'ha gia' accettata.
+    video corto che oscilla forte è un boomerang anche se dura tre secondi.
+    Sopra gli otto, un movimento che va e torna è semplicemente una ripresa a
+    mano, e il titolare l'ha già accettata.
   - LO STACCO deve essere enorme per contare: lui ne ha accettato uno da 77.
-    Questa soglia serve solo a prendere il caso in cui dentro il file c'e' un
+    Questa soglia serve solo a prendere il caso in cui dentro il file c'è un
     cambio di scena, non uno stacco.
 
   La versione precedente di queste soglie bocciava tre dei quattro video che
@@ -107,8 +107,8 @@ function requireFfmpeg() {
     execFileSync("ffprobe", ["-version"], {stdio: "ignore"});
   } catch {
     console.error(
-      "\n  ffmpeg non c'e' su questa macchina.\n" +
-        "  Senza non si puo' misurare niente, e segnare tutto come 'non sicuro'\n" +
+      "\n  ffmpeg non c'è su questa macchina.\n" +
+        "  Senza non si può misurare niente, e segnare tutto come 'non sicuro'\n" +
         "  sarebbe una bugia diversa. Installa ffmpeg e rilancia.\n",
     );
     process.exit(1);
@@ -225,8 +225,8 @@ function verdict({seconds, travel, seam}) {
       loops: false,
       note:
         `Dura ${seconds.toFixed(1)} secondi, troppo poco per ripartire in continuo: ` +
-        `ricomincerebbe cosi' spesso da sembrare un boomerang, anche se non lo e'. ` +
-        `Sul sito parte una volta sola e si ferma sull'ultima immagine, e va benissimo cosi'. ` +
+        `ricomincerebbe così spesso da sembrare un boomerang, anche se non lo è. ` +
+        `Sul sito parte una volta sola e si ferma sull'ultima immagine, e va benissimo così. ` +
         `Se lo vuoi in loop serve un video di almeno ${MIN_SECONDS} secondi.`,
     };
   }
@@ -234,10 +234,10 @@ function verdict({seconds, travel, seam}) {
     return {
       loops: false,
       note:
-        `E' corto e la ripresa va e torna dov'era partita: messi insieme, sono le due cose ` +
+        `È corto e la ripresa va e torna dov'era partita: messi insieme, sono le due cose ` +
         `che fanno sembrare un video un boomerang. Sul sito parte una volta sola e si ferma. ` +
         `Per il loop tieni la macchina ferma, o muovila sempre nella stessa direzione, ` +
-        `oppure fai un video piu' lungo.`,
+        `oppure fai un video più lungo.`,
     };
   }
   if (seam > MAX_SEAM) {
@@ -251,7 +251,7 @@ function verdict({seconds, travel, seam}) {
   return {
     loops: true,
     note:
-      `Va in loop: dura ${seconds.toFixed(1)} secondi, abbastanza perche' il ricominciare ` +
+      `Va in loop: dura ${seconds.toFixed(1)} secondi, abbastanza perché il ricominciare ` +
       `si legga come uno stacco e non come un video che torna indietro.`,
   };
 }
@@ -343,11 +343,11 @@ if (!WRITE) {
   /*
     E ADESSO CONTROLLA CHE IL SITO LI VEDA DAVVERO.
 
-    Il sito legge Sanity SENZA token, perche' il dataset e' pubblico. La prima
+    Il sito legge Sanity SENZA token, perché il dataset è pubblico. La prima
     versione di questo script salvava i documenti con un _id tipo
     `videoCheck.file-abc`, con il PUNTO: la scrittura andava a buon fine, il
-    token di scrittura li vedeva, e un lettore anonimo NO — perche' Sanity
-    tratta gli id con un punto come uno spazio riservato, com'e' `drafts.`.
+    token di scrittura li vedeva, e un lettore anonimo NO — perché Sanity
+    tratta gli id con un punto come uno spazio riservato, com'è `drafts.`.
 
     Il risultato sarebbe stato silenzioso e sbagliato nella direzione giusta:
     ogni video sarebbe partito una volta sola per sempre, senza un errore da
@@ -366,7 +366,7 @@ if (!WRITE) {
   if (visible < rows.length) {
     console.error(
       `\n  ATTENZIONE: salvati ${rows.length} controlli ma il sito ne vede ${visible}.\n` +
-        `  Finche' non li vede, OGNI video parte una volta sola. Non e' rotto il sito: e' questo script.\n`,
+        `  Finché non li vede, OGNI video parte una volta sola. Non è rotto il sito: è questo script.\n`,
     );
     process.exit(1);
   }

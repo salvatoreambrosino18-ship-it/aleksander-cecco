@@ -46,3 +46,7 @@ shots/
 
 # evidence that a build query failed; scripts/verify-build.mjs reads it
 .sanity-failures.log
+
+# scratch scripts used to drive the studio in a browser
+.studio.mjs
+.look*.mjs

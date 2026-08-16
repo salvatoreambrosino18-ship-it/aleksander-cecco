@@ -3,21 +3,21 @@ import {defineType, defineField} from 'sanity'
 /*
   UNA RIGA DENTRO IL MOSAICO / A LINE INSIDE THE MOSAIC.
 
-  Non e' un paragrafo di una pagina: e' un BLOCCO, largo quanto una colonna,
+  Non è un paragrafo di una pagina: è un BLOCCO, largo quanto una colonna,
   messo accanto a una fotografia e a un capo ritagliato. I riferimenti scrivono
-  cosi' — Rick Owens infila la prosa fra le immagini, non sopra o sotto di esse
+  così — Rick Owens infila la prosa fra le immagini, non sopra o sotto di esse
   (DESIGN-PLAN sezione 107, fotogrammi RO28, RO31, RO33).
 
-  IL TITOLO E' FACOLTATIVO ed e' quasi sempre meglio lasciarlo vuoto. Serve solo
+  IL TITOLO È FACOLTATIVO ed è quasi sempre meglio lasciarlo vuoto. Serve solo
   quando due righe di seguito parlano di cose diverse; un titolo sopra un solo
-  paragrafo e' un'etichetta su un'etichetta.
+  paragrafo è un'etichetta su un'etichetta.
 
   COME SI SCRIVE, guardando come scrivono loro:
-  - il materiale per primo: cos'e', da dove viene, cosa gli e' stato fatto;
+  - il materiale per primo: cos'è, da dove viene, cosa gli è stato fatto;
   - un fatto, non un aggettivo. "Conciata con corteccia" e non "conciata con
     cura";
   - frasi corte, una cosa per frase;
-  - se una cosa non e' risolta, si dice. Loro scrivono "we still have a ways to
+  - se una cosa non è risolta, si dice. Loro scrivono "we still have a ways to
     go" sulla pagina della sostenibilita';
   - mai una lode al marchio.
 

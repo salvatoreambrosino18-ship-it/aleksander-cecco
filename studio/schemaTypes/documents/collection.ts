@@ -14,19 +14,11 @@ export const collection = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'slug',
-      title: 'Slug (URL)',
-      type: 'slug',
-      description: 'Generato dal nome. Usato nel percorso della pagina.',
-      options: {source: 'name', maxLength: 96},
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'season',
       title: 'Stagione',
       type: 'string',
       description:
-        "FACOLTATIVO. Il marchio non lavora a stagioni: una collezione puo' essere semplicemente un corpo di lavoro con un nome. Lascia vuoto se non c'e' una data. / OPTIONAL. The brand does not work in seasons: a collection can simply be a named body of work. Leave empty when there is no date.",
+        "FACOLTATIVO. Il marchio non lavora a stagioni: una collezione può essere semplicemente un corpo di lavoro con un nome. Lascia vuoto se non c'è una data. / OPTIONAL. The brand does not work in seasons: a collection can simply be a named body of work. Leave empty when there is no date.",
     }),
     defineField({
       name: 'statement',
@@ -62,6 +54,15 @@ export const collection = defineType({
       initialValue: false,
     }),
     orderRankField({type: 'collection'}),
+
+    defineField({
+      name: 'slug',
+      title: 'L\'indirizzo della pagina',
+      type: 'slug',
+      description: 'Generato dal nome. Usato nel percorso della pagina.',
+      options: {source: 'name', maxLength: 96},
+      validation: (Rule) => Rule.required(),
+    }),
   ],
   orderings: [orderRankOrdering],
   preview: {

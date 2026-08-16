@@ -45,7 +45,7 @@ export default defineType({
       readOnly: true,
       description:
         'Da 0 a 1. Vicino a 1 la ripresa va in una direzione sola. Vicino a 0 va e torna, ' +
-        'ed e\' quello che sembra un boomerang.',
+        'ed è quello che sembra un boomerang.',
     }),
     defineField({
       name: 'seam',
@@ -56,7 +56,7 @@ export default defineType({
     }),
     defineField({
       name: 'note',
-      title: 'Cosa succede e perche\'',
+      title: 'Cosa succede e perché',
       type: 'text',
       rows: 3,
       readOnly: true,

@@ -1,13 +1,14 @@
 # Il tuo sito
 
-Questa è l'unica guida che ti serve. Non c'è niente da installare e non c'è
-niente da sapere prima.
+Questa guida non ti serve per cominciare. Entra nel pannello e leggi la prima
+schermata: c'è scritto lì tutto quello che serve i primi giorni. Questa è per
+quando vuoi fare qualcosa che lì non c'è.
 
 Il sito è **https://aleksander-cecco.pages.dev**
 Il pannello dove si cambia è **https://aleksander-cecco.sanity.studio**
 
-Cambi una cosa nel pannello, premi **Publish**, e nel giro di qualche minuto la
-vedi sul sito. Non devi avvisare nessuno.
+Cambi una cosa, premi **Publish**, e dopo qualche minuto la vedi sul sito. Non
+devi avvisare nessuno.
 
 ---
 
@@ -15,6 +16,7 @@ vedi sul sito. Non devi avvisare nessuno.
 
 1. [Come si entra](#1-come-si-entra)
 2. [Come è fatto il pannello](#2-come-è-fatto-il-pannello)
+2-bis. [L'anteprima: vedere cosa stai facendo](#2-bis-lanteprima-vedere-cosa-stai-facendo)
 3. [Mettere un capo nuovo](#3-mettere-un-capo-nuovo)
 4. [Cambiare prezzo, taglie, disponibilità](#4-cambiare-prezzo-taglie-disponibilità)
 5. [Cambiare o riordinare le fotografie](#5-cambiare-o-riordinare-le-fotografie)
@@ -59,24 +61,45 @@ e caricare le foto dal telefono è spesso più comodo.
 
 ## 2. Come è fatto il pannello
 
-A sinistra c'è un elenco, e l'ordine è quello di quanto spesso si tocca:
+Quando entri ti si apre **Inizio**: la schermata con le cinque cose che farai
+più spesso e i pulsanti che ci portano. Se ti perdi, torna lì.
+
+In alto ci sono due voci sole: **Inizio** e **I contenuti**. La seconda è dove
+stanno le tue cose:
 
 | | |
 |---|---|
-| **I capi** | Un capo per riga. Qui ci sono foto, prezzi, taglie. È dove lavori quasi sempre. |
+| **I capi** | Un capo per riga. Foto, prezzi, taglie. È dove lavori quasi sempre. |
 | **I drop** | Le collezioni. Si toccano quando ne esce una. |
 | **La home e le pagine** | Le fotografie e i testi della home, di Chi siamo, di Processo, dei Contatti. |
 | **Le parole del sito** | Tutte le frasi che il sito dice. Si toccano di rado. |
+| **I video** | Il referto automatico su ogni video che carichi. Non c'è niente da compilare. |
 | **Archivio (venduti)** | I pezzi che non ci sono più. |
 
-Dentro «La home e le pagine» ci sono delle **schede** in alto: La home, Le
-pagine, Spedizioni e ordini, Instagram, Chi siamo, Avanzate. Sono nello stesso
-ordine: la prima è quella che apri di più, l'ultima non dovresti aprirla quasi
-mai.
+Dentro «La home e le pagine» ci sono delle **schede** in alto, nello stesso
+ordine: la prima è quella che apri di più, l'ultima quasi mai.
 
-**Publish è il tasto che conta.** Finché non lo premi, la modifica esiste solo
-per te. Sotto ogni campo c'è scritto in italiano cosa fa quella cosa sulla
-pagina: leggilo, è lì per quello.
+**Publish è il tasto che conta**, in basso a destra. Finché non lo premi, la
+modifica esiste solo per te. Sotto ogni campo c'è scritto in italiano cosa fa
+quella cosa sulla pagina.
+
+---
+
+## 2-bis. L'anteprima: vedere cosa stai facendo
+
+Aprendo un capo, in alto trovi due linguette: **Modifica** e **Anteprima**.
+
+L'anteprima ti mostra **subito** com'è messo il capo con quello che hai scritto
+in questo momento, anche prima di Publish: quale fotografia apre la pagina, che
+prezzo si legge, quali taglie potrà scegliere chi compra, se il pulsante per
+comprare c'è o no.
+
+Non è la pagina vera e non prova a esserlo: serve a controllare che ci sia
+tutto, non a vedere com'è fatta. Ma ti risparmia di cambiare un prezzo e
+aspettare cinque minuti per sapere se hai fatto la cosa giusta.
+
+Ti avvisa anche di due cose che altrimenti scopriresti tardi: se non hai
+scelto nessuna taglia, e se hai scritto un testo in italiano ma non in inglese.
 
 ---
 
@@ -84,16 +107,16 @@ pagina: leggilo, è lì per quello.
 
 1. **I capi** → **Create** (in alto).
 2. **Come si chiama** — il nome del capo.
-3. **L'indirizzo della pagina** — premi *Generate*: se lo scrive il sistema è
-   giusto.
-4. **Le fotografie** — carica. **La prima è quella che apre la pagina** e che si
+3. **Le fotografie** — carica. **La prima è quella che apre la pagina** e che si
    vede nel catalogo: mettila per prima. Trascina per riordinare.
 5. Per ogni fotografia, compila **Cosa si vede in questa foto**: serve a chi non
    la vede e a Google.
 6. **Le scritte sopra questa foto** — bianche o nere. Guarda la foto e scegli
    quello che si legge.
 7. **Prezzo**, **In che taglie lo fai**, **Si può comprare?**
-8. **Publish**.
+8. **Publish**. Se ti dice che manca l'indirizzo della pagina: apri
+   **Impostazioni del capo** in fondo al modulo e premi **GENERATE**. Si fa una
+   volta sola, quando crei il capo.
 
 Il capo compare da solo nel catalogo, nel drop a cui l'hai collegato, e nella
 pagina per ordinare più pezzi.
@@ -291,8 +314,8 @@ funzionare, non cose che il sito dice.
 - **La scheda Avanzate**, dentro *La home e le pagine*. Ci sono le spunte che
   dicono quali testi sono tuoi e quali no, e servono a noi per sapere cosa manca.
 - **Valuta** — è bloccato su EUR apposta.
-- **Vision**, se lo vedi nel menu in alto: è uno strumento tecnico per
-  interrogare i dati. Non rompe niente, ma non ti serve.
+- Il menu **Drafts** in alto a destra e le icone accanto: sono cose di Sanity,
+  non del tuo sito. Lasciale dove sono.
 - **Non cancellare un capo venduto.** Mettilo su *No, è già di qualcuno*, oppure
   spostalo in Archivio. Cancellandolo spariscono anche le fotografie.
 
