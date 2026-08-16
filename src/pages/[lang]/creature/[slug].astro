@@ -333,10 +333,30 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
       is no gray in this system at all (standing rule 1). It nearly shipped that
       way, which is exactly why the rule is absolute rather than a preference.
     */}
+    {/*
+      A MISSING FACT SHOWS NOTHING (2026-08-17, section 127). This list was
+      printing "{SIZES}" to visitors on all fifteen Creature in both languages,
+      and "{PRICE_EUR}" on Rubedo — literal braces in mono with a dashed rule
+      under them, on the live site, because a row rendered whenever it had a
+      value OR a placeholder.
+
+      That is the same mistake section 59 already settled for the unapproved
+      marks and settled the same way: a visitor cannot act on the distinction,
+      and it makes a real brand look like a rehearsal. SHOW_UNAPPROVED_MARKS
+      turned those off and left these on, which is the worst of both — the
+      site looked finished except for the one thing it admitted.
+
+      So the token follows the same switch, and the row it was standing in
+      disappears with it. The measurements row above has worked this way since
+      section 101 and says why in its own note; this is that rule applied to
+      the two rows that were still shouting. Nothing is hidden from the people
+      who can fix it: `npm run launch-check` still refuses on both, naming
+      every piece with no size and every piece with no price.
+    */}
     <dl class="flex flex-col gap-u2">
       {
         subordinate.map(({term, value, placeholder}) =>
-          value || placeholder ? (
+          value || (placeholder && SHOW_UNAPPROVED_MARKS) ? (
             <div class="flex flex-wrap items-baseline gap-u2">
               <dt class="type-mono text-mono">{term}</dt>
               <dd class="type-mono text-mono">
