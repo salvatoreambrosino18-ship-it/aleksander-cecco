@@ -170,8 +170,12 @@ Italia». **È l'unica volta che abbiamo toccato una parola tua, ed è segnata
 come nostra finché non ci dici.** Va bene così, la scrivi diversa, o la
 rimettiamo com'era?
 
-**Due settimane: lavorative o di calendario?** Sul sito è scritto che un pezzo
-parte entro due settimane. Ci serve sapere quali due.
+**«Made by order», in inglese, su due capi.** Le descrizioni inglesi di
+MONUMENTUS PANTS e MONUMENTUS LUX finiscono con «Made by order. Handcrafted in
+Italy.» — e il sito adesso dice che i capi sono disponibili subito, come hai
+deciso tu. **Quelle due frasi sono TUE e le abbiamo lasciate dove sono.** In
+italiano la stessa riga l'avevamo scritta noi e l'abbiamo tolta. Le togliamo
+anche in inglese, o le lasci?
 
 **Le due parole in inglese.** Nel testo che ci hai mandato ci sono «Our leathers
 **is** tanned», «it **change**» e «**the** Mother Nature». **Sono tue e le

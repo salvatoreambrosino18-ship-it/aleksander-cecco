@@ -215,11 +215,12 @@ const TEXT = {
     ok: "Ordine ricevuto.",
     replyWindow: "Lo confermiamo via email entro un giorno, ora italiana. Pagamento e consegna si definiscono in quella risposta.",
     /*
-      HOW LONG THEY WAIT, at the moment they have committed (section 102). His
-      number, our sentence, phrased as a MAXIMUM: the piece is made after the
-      order, so this is the one fact a buyer needs and nobody else can give.
+      THE WAIT IS GONE (2026-08-16, section 131). This told a buyer, on the
+      confirmation, that the piece would be MADE after their order — while the
+      piece's own page said "Available now." The owner settled it: available
+      now. The reply window below still says when a person will hear back,
+      which is the fact that remains true.
     */
-    delivery: "Il pezzo viene fatto dopo l'ordine: massimo due settimane prima della spedizione.",
     back: "Torna alla Creatura",
     /*
       UN ORDINE DAL CARRELLO NON HA UNA Creatura SOLA a cui tornare (sezione
@@ -242,7 +243,6 @@ const TEXT = {
     title: "Order",
     ok: "Order received.",
     replyWindow: "We confirm it by email within one day, Italian time. Payment and delivery are arranged in that reply.",
-    delivery: "Your piece is made after the order: two weeks at most before it ships.",
     back: "Back to the Creature",
     backAll: "All Creature",
     invalid: "Please check what you entered.",
@@ -685,7 +685,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
   if (env.ENQUIRY_DRY_RUN) {
     console.warn(`[enquiry] DRY RUN: not sending. Would have mailed "${piece}"${shownPrice ? ` — ${shownPrice}` : ""} (${locale}).`);
     return new Response(
-      page(locale, {heading: text.title, lines: [text.ok, text.delivery], next: text.replyWindow, backHref, backAll: backIsCatalogue, clearCart: true}),
+      page(locale, {heading: text.title, lines: [text.ok], next: text.replyWindow, backHref, backAll: backIsCatalogue, clearCart: true}),
       {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }

@@ -188,19 +188,11 @@ const sizes = (garment.sizes ?? []).filter((size) => size !== "ONE");
             )}
 
             {/*
-              HOW LONG THEY WAIT (section 102). His number — two weeks maximum —
-              in our sentence, marked, where a person is committing rather than
-              only where they are browsing.
+              THE WAIT IS GONE (2026-08-16, section 131). This said the piece is
+              made after the order, on the form where a person commits, while
+              the piece's own page said "Available now." The owner settled it:
+              available now. Nothing replaces it.
             */}
-            <p
-              class:list={[
-                "type-body text-body max-w-prose",
-                ENQUIRY_COPY_IS_DRAFT && SHOW_UNAPPROVED_MARKS && "draft-text",
-              ]}
-            >
-              {t(locale, "deliveryLine")}
-            </p>
-
             <div class="field">
               <label class="type-label text-label" for="note">{t(locale, "note")}</label>
               <textarea id="note" name="note" rows="4" maxlength="2000" />

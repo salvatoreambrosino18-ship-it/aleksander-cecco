@@ -258,9 +258,10 @@ stanno in **Le parole del sito**:
 - **Spedizione gratis sopra i 500 euro** — è una tua frase, sta in
   *Spedizioni e ordini*.
 - **I resi** — stessa scheda.
-- **Quanto si aspetta** («massimo due settimane») — sta in *Le parole del sito*
-  e compare in tre punti: sul modulo d'ordine di un capo, nel carrello, e nei
-  Contatti. **Se cambia, cambiala lì una volta sola.**
+La riga «massimo due settimane» **non c'è più** (16/08/2026): il sito diceva che
+un capo è disponibile subito e, una riga sotto, che viene fatto dopo l'ordine.
+Hai scelto tu: **disponibile subito**. Se un giorno servisse di nuovo una riga
+sui tempi, si rimette.
 
 ---
 

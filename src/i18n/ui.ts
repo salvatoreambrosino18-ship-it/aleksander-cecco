@@ -21,6 +21,27 @@ import {copyOverrides} from "./overrides";
     "Made to measure on request only: write to us and we will talk."
 */
 
+/*
+  AND THE WAIT WENT WITH IT (2026-08-16, section 131). THE OWNER'S DECISION:
+  **available now is what the site says.** Every piece page carried "DISPONIBILE
+  SUBITO." and, one line below, a sentence promising the piece would be MADE
+  after the order — two claims about the terms of sale that cannot both be true,
+  on the page where a person commits.
+
+  `deliveryLine` was the second one. It stood on a piece, on its order form, in
+  the cart and on /contact, and it is gone from all four, from the studio field
+  that fed it, and from the order confirmation. Nothing replaced it: what a
+  buyer needs to know is that the piece exists, which the availability line
+  already says.
+
+  THE SENTENCE, recorded so it can come back without archaeology:
+    "Ogni pezzo è fatto dopo l'ordine: massimo due settimane prima della spedizione."
+    "Each piece is made after the order: two weeks at most before it ships."
+
+  This also settles item 4 on THE OPEN LIST — "two weeks: working hours or
+  elapsed?" — by removing the claim that raised it.
+*/
+
 const ui = {
   it: {
     skipToContent: "Vai al contenuto",
@@ -101,8 +122,6 @@ const ui = {
       serve una frase per quando uno preme senza averla scelta.
     */
     chooseSizeFirst: "Scegli prima la taglia",
-    /* OURS, flagged as deliveryLine: his number, our sentence (section 102). */
-    deliveryLine: "Ogni pezzo è fatto dopo l'ordine: massimo due settimane prima della spedizione.",
     /*
       1 OF 1 = PRIVATE COMMISSION (owner, 2026-08-04). Each was made once, to
       someone's measurements. It can be bought only as it is, so the line says
@@ -272,7 +291,6 @@ const ui = {
     oneSize: "One size.",
     chooseSize: "Choose a size",
     chooseSizeFirst: "Choose a size first",
-    deliveryLine: "Each piece is made after the order: two weeks at most before it ships.",
     unique: "A private commission. 1 of 1, made once.",
     uniqueAction: "Acquire this piece",
     privateOrder: "Private order.",
@@ -350,7 +368,7 @@ export type UIKey = keyof (typeof ui)["it"];
 export const OWNER_EDITABLE = [
   // the sentences the brand speaks
   "handcrafted", "madeInItaly", "shopIntro", "contactIntro", "contactWhere", "contactBuy",
-  "newsletterLine", "outsideCollections", "fitGuidance", "deliveryLine",
+  "newsletterLine", "outsideCollections", "fitGuidance",
   "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
   "cartIntro", "cartOnePiece", "cartNoPayment", "cartEmpty", "nothingYet", "notFound",
   // the titles that head a part of a page

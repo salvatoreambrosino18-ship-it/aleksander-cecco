@@ -120,15 +120,6 @@ export default defineType({
       description: 'La prima frase della pagina con tutti i capi. ' + blank,
     }),
     defineField({
-      name: 'deliveryLine',
-      title: 'Quanto si aspetta',
-      type: 'localeString',
-      group: 'negozio',
-      description:
-        'Compare in tre punti: sul modulo d\'ordine di un capo, nel carrello e nei Contatti. ' +
-        'È la cosa che chi compra chiede più spesso, quindi tienila vera. ' + blank,
-    }),
-    defineField({
       name: 'cartIntro',
       title: 'La riga in cima al carrello',
       type: 'localeString',
