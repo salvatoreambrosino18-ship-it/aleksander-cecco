@@ -18,11 +18,11 @@
   FOTOGRAFIA, in un campo suo (`videoLoopAlways`), che lui può togliere quando
   vuole e che vale per quel video e basta.
 
-  E IL FUOCO SCENDE A 0.55. La finestra sull'apertura adesso è più alta — si
-  misura sulla LARGHEZZA della pagina, non sull'altezza dello schermo — quindi
-  se ne vede il 42% invece del 31%, e il centro giusto di quella fascia non è
-  più lo stesso. A 0.55 restano dentro il pendaglio di legno, il corpo della
-  giacca e la mano che la afferra: reso e guardato a 1440 e a 1920.
+  IL FUOCO NON SI TOCCA QUI. Sta in scripts/patch-arrival-crop.mjs, che è
+  l'unico posto dove si decide cosa si vede della fotografia. Questo script
+  scriveva anche quello, e due script che scrivono lo stesso campo sono due
+  risposte alla stessa domanda: rilanciando questo si sarebbe riportato indietro
+  il taglio senza che nessuno se ne accorgesse.
 
   LEGGE E RISCRIVE L'OGGETTO INTERO (sezione 78).
 */
@@ -34,7 +34,6 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.loadEnvFile(path.join(ROOT, ".env"));
 
 const WRITE = process.argv.includes("--write");
-const Y = 0.55;
 
 const client = createClient({
   projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
@@ -56,27 +55,12 @@ if (!settings?.openingMedia?.video) {
 }
 
 const media = structuredClone(settings.openingMedia);
-const before = {
-  loop: media.videoLoopAlways === true,
-  y: media.poster?.hotspot?.y,
-};
+const before = {loop: media.videoLoopAlways === true};
 
 media.videoLoopAlways = true;
-if (media.poster) {
-  media.poster.hotspot = {
-    _type: "sanity.imageHotspot",
-    x: media.poster.hotspot?.x ?? 0.5,
-    y: Y,
-    width: media.poster.hotspot?.width ?? 0.9,
-    height: media.poster.hotspot?.height ?? 0.5,
-  };
-}
 
 console.log("\n  La fotografia di apertura");
-console.table([
-  {campo: "videoLoopAlways", prima: before.loop, dopo: true},
-  {campo: "poster.hotspot.y", prima: before.y, dopo: Y},
-]);
+console.table([{campo: "videoLoopAlways", prima: before.loop, dopo: true}]);
 
 if (!WRITE) {
   console.log("\n  PROVA. Rilancia con --write per salvarlo.\n");
@@ -92,9 +76,9 @@ if (!WRITE) {
   });
   await new Promise((r) => setTimeout(r, 2000));
   const seen = await anon.fetch(
-    /* groq */ `*[_id == "siteSettings"][0].openingMedia{videoLoopAlways, "y": poster.hotspot.y}`,
+    /* groq */ `*[_id == "siteSettings"][0].openingMedia{videoLoopAlways}`,
   );
-  if (seen?.videoLoopAlways !== true || seen?.y !== Y) {
+  if (seen?.videoLoopAlways !== true) {
     console.error(`\n  ATTENZIONE: il sito legge ${JSON.stringify(seen)}.\n`);
     process.exit(1);
   }

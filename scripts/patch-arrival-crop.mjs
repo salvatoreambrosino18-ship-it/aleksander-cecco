@@ -4,36 +4,29 @@
     node scripts/patch-arrival-crop.mjs            dice cosa farebbe
     node scripts/patch-arrival-crop.mjs --write    lo scrive nel database
 
-  IL PROBLEMA, misurato e poi guardato (2026-08-16, sezione 130).
+  DOV'È IL SOGGETTO, guardando il video invece della fotografia (2026-08-16,
+  sezione 132, sua correzione).
 
-  La fotografia di apertura è verticale: 1440 x 2560, cioè 9:16, scattata col
-  telefono. Su un telefono la finestra è 9:16 anche lei, quindi non si taglia
-  quasi niente e la composizione si legge tutta — la giacca appesa al gancio,
-  le due braccia, le mani che la prendono.
+  Il punto di quel clip è IL LIQUIDO CHE COLA sul muro, e sta in basso: le
+  striature scure scendono sul cemento sotto le due mani, fra il 75% e il 94%
+  dell'altezza del fotogramma. Con il fuoco a 0.55 la finestra del desktop
+  mostrava dal 32% al 74% — cioè la giacca e le mani, e del liquido niente.
 
-  Su un desktop la stessa fotografia sta in una finestra larga 1440 e alta
-  88svh, cioè 792: un rettangolo 1.82:1. Per coprirlo, `object-fit: cover` la
-  scala sulla LARGHEZZA e ne mostra 792 pixel su 2560 — **il 31% dell'altezza,
-  e il 69% non si vede.**
+  COME SI CALCOLA LA FASCIA. Su uno schermo largo se ne vede il 42%
+  dell'altezza; `object-position: 50% Y` mette Y come frazione di quello che
+  avanza, quindi la fascia visibile è [0.58 * Y, 0.58 * Y + 0.42]. A 0.90 fa
+  52% - 94%: ci stanno dentro tutte e due le mani che stringono E tutta la
+  colata sul muro.
 
-  Con il fuoco al 42% quella striscia cadeva sul corpo della giacca: una massa
-  nera senza un soggetto dentro, con un avambraccio che entra dal basso. Non si
-  capiva cosa fosse. Al 52% la stessa striscia contiene il pendaglio di legno,
-  il corpo della giacca E la mano che la afferra, che è la fotografia.
+  SUL TELEFONO QUESTO NON CAMBIA NIENTE, e va detto ogni volta. A 390 la
+  fotografia viene scalata sull'ALTEZZA (743 su 743) e tagliata solo in
+  larghezza: verticalmente non avanza niente, quindi la Y non ha alcun effetto e
+  il liquido si è sempre visto. Questa correzione vale solo per gli schermi
+  larghi, che erano gli unici rotti.
 
-  QUATTRO POSIZIONI RESE E GUARDATE, non calcolate: 42 (quella di prima), 52,
-  58, 64. A 58 e 64 le mani si leggono benissimo e la giacca sparisce; a 42 la
-  giacca c'è e non si capisce; **52 è l'unica che tiene tutte e due.**
-
-  IL TELEFONO NON CAMBIA DI UN PIXEL, ed è il motivo per cui questa correzione
-  si può fare qui. Su 390x844 la fotografia viene scalata sull'ALTEZZA (743 su
-  743) e ritagliata di 27 pixel in larghezza: verticalmente non avanza niente,
-  quindi la coordinata Y del fuoco non ha nessun effetto. Cambiarla tocca solo
-  gli schermi larghi, che sono quelli rotti.
-
-  QUESTO NON RIPARA LA CAUSA, e va detto: una fotografia 9:16 su uno schermo
-  16:9 mostrerà sempre un terzo di sé. Serve un fotogramma orizzontale, o 4:5,
-  per l'apertura su desktop — è la voce 21 della LISTA APERTA, ed è sua.
+  IL VIDEO SEGUE LA FOTOGRAFIA. `MediaSurface` dà al <video> lo stesso
+  `object-position` che dà all'immagine, letto da `poster.hotspot`: un solo
+  punto governa tutti e due, ed è quello che lui trascina nello studio.
 
   IL FUOCO È UN CAMPO SUO. Sta nello studio, sulla fotografia, e si sposta
   trascinando un punto. Questo script corregge un valore che avevamo messo noi
@@ -52,7 +45,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.loadEnvFile(path.join(ROOT, ".env"));
 
 const WRITE = process.argv.includes("--write");
-const Y = 0.52;
+const Y = 0.90;
 
 const client = createClient({
   projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
