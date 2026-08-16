@@ -318,6 +318,15 @@ const nativeRatio =
       window or gets replaced. `preload="none"` still holds the bandwidth
       (standing rule 12): it fetches when it enters the screen, not on the way
       past.
+
+      AND THE RULE IS NOW ENFORCED IN THE DATA, not here (2026-08-16, section
+      121). Section 120 deleted the mode but left four unloopable clips on
+      `loop`, where they cut every few seconds; scripts/patch-loops.mjs measured
+      every window of every clip, rebuilt the two that could survive as
+      ping-pongs, and detached the three that could not. So this element takes
+      no view on whether a clip loops: if a `video` reaches it, the clip has
+      already been proved. Attach one that has not and the cut comes back —
+      run scripts/find-loop.mjs before attaching anything.
     */}
     {
       media.videoUrl && videoAllowed && (

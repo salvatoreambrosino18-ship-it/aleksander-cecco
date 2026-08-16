@@ -111,7 +111,7 @@ const priceOf = (garment: Garment) =>
   same prices, in a different arrangement. Two pages doing one job, and the
   weaker of the two was the one the menu points at first.
 
-  So it announces. His statement, a HANDFUL of frames, the film of him working,
+  So it announces. His statement, a HANDFUL of frames, the loop of him working,
   and one route into the catalogue for anyone who wants the rest. Six is the
   number: enough to show what the drop is, few enough that nobody mistakes it
   for the shop. Rick Owens' chapter covers carry a name and a verb and nothing
@@ -126,16 +126,21 @@ const opening = shown.slice(0, 2);
 const middle = shown.slice(2);
 
 /*
-  THE FILM BELONGS HERE (2026-08-12, section 113), his instruction. It is the
-  one moving thing on the site and it shows him working — which is what a drop
-  announcement is for. It is the same clip /process carries, taken from
-  `processMedia` by looking for the frame that HAS a video rather than by
-  position, so re-ordering that array in the studio cannot silently empty this.
+  HIM WORKING BELONGS HERE (2026-08-12, section 113), his instruction — which
+  is what a drop announcement is for. It is the same clip /process carries,
+  taken from `processMedia` by looking for the frame that HAS a video rather
+  than by position, so re-ordering that array in the studio cannot silently
+  empty this.
+
+  It is a LOOP and no longer a film (2026-08-16, section 121). For four days
+  this slot held `drop-film` — the model in the yard — which matched neither
+  this note nor its own alt text, and which has no loop anywhere in its 24
+  seconds. The clip here now is the one the note always described.
 
   It stays marked provisional wherever it appears: it is a 464px messaging-app
   copy and the camera original is still the ask.
 */
-const film = (settings.processMedia ?? []).find((m) => m.videoUrl) ?? null;
+const loop = (settings.processMedia ?? []).find((m) => m.videoUrl) ?? null;
 ---
 
 {/*
@@ -221,7 +226,7 @@ const film = (settings.processMedia ?? []).find((m) => m.videoUrl) ?? null;
     hands. It closes the announcement the way a photograph does, and it is the
     only moving thing a visitor meets before the catalogue.
   */}
-  {film && <MediaSurface media={film} locale={locale} height="tall" />}
+  {loop && <MediaSurface media={loop} locale={locale} height="tall" />}
 
   {/*
     u8, not u13 (2026-08-13, section 108). Thirteen units above and below a
