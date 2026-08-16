@@ -93,6 +93,19 @@ const garments = await client.fetch(
   /* groq */ `*[_type == "garment"]{_id, name, "slug": slug.current, sizes, availability, price, inventedFields}`,
 );
 
+/*
+  E IL SEGNO SULLA RIGA DEL SU MISURA SE NE VA CON LA RIGA. «Niente su misura» è
+  la stessa decisione delle taglie, quindi sta in questo script.
+
+  `madeToMeasureLine` era in `inventedCopy`: il gate lo contava, e contava una
+  frase che dal 16/08/2026 non esiste più da nessuna parte — non sulla pagina di
+  un capo, non nei Contatti, e nemmeno come campo nello studio. Un segno su una
+  frase che non c'è è il gate che si rifiuta per qualcosa che nessuno può
+  sistemare.
+*/
+const settings = await client.fetch(/* groq */ `*[_id == "siteSettings"][0]{_id, inventedCopy}`);
+const staleFlag = (settings?.inventedCopy ?? []).includes("madeToMeasureLine");
+
 const tx = client.transaction();
 const rows = [];
 let touched = 0;
@@ -138,14 +151,31 @@ for (const g of garments) {
 }
 
 console.table(rows);
+console.log(
+  staleFlag
+    ? "  E toglie `madeToMeasureLine` da inventedCopy: la frase non esiste più.\n"
+    : "  `madeToMeasureLine` non è più fra i campi inventati.\n",
+);
 
+if (staleFlag) {
+  tx.patch(settings._id, (p) =>
+    p.set({inventedCopy: settings.inventedCopy.filter((k) => k !== "madeToMeasureLine")}),
+  );
+}
+
+/*
+  IL SEGNO SI TOGLIE ANCHE QUANDO LE TAGLIE SONO GIÀ A POSTO. La prima versione
+  metteva la pulizia dentro il ramo `touched > 0`, quindi rilanciando lo script
+  dopo che le taglie erano già scritte non faceva più niente — e il segno vecchio
+  sarebbe rimasto per sempre, in silenzio.
+*/
 if (!WRITE) {
   console.log(`\n  PROVA. ${touched} capi da cambiare. Rilancia con --write per salvarlo.\n`);
-} else if (touched === 0) {
-  console.log("\n  Niente da cambiare: erano già tutti a posto.\n");
+} else if (touched === 0 && !staleFlag) {
+  console.log("\n  Niente da cambiare: era già tutto a posto.\n");
 } else {
   await tx.commit();
-  console.log(`\n  Salvato su ${touched} capi.\n`);
+  console.log(`\n  Salvato: ${touched} capi${staleFlag ? ", e il segno vecchio è via" : ""}.\n`);
   /*
     E CONTROLLA CHE IL SITO LO VEDA, senza token, come lo legge la build. Una
     scrittura andata a buon fine che il lettore anonimo non vede è il guasto che

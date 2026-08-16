@@ -50,10 +50,14 @@ const query = /* groq */ `{
   "awaitingCaption": *[_type == "garment" && count(media[needsCaption == true]) > 0]
     | order(orderRank asc){"slug": slug.current, name,
       "details": media[needsCaption == true].alt.it},
-  // A piece whose price or measurements are ABSENT rather than invented. See
-  // the note below: the gate counted what we made up and not what is missing.
+  // A piece whose PRICE is absent rather than invented. See the note below:
+  // the gate counted what we made up and not what is missing. Measurements are
+  // deliberately NOT part of this any more — section 101 made them reference
+  // information rather than fit information, so a piece without them is
+  // complete and its row simply does not render.
   "hollow": *[_type == "garment" && defined(slug.current) && count(media) > 0
-              && (!defined(price) || !defined(measurements))]{"slug": slug.current, name},
+              && !(coalesce(availability, "readyNow") in ["notOffered", "privateOrder"])
+              && !defined(price)]{"slug": slug.current, name},
   // A purchasable piece whose SIZES nobody has decided (section 101). Ticking
   // ONE SIZE is a decision; an empty list is not, and the two must not look
   // the same to anything that reads this dataset.
@@ -97,9 +101,26 @@ for (const {slot, n} of result.provisionalSite?.where ?? []) {
 
   A visible placeholder is the exact failure the whole invisible-and-flagged
   bargain exists to prevent, so it belongs here rather than in a comment.
+
+  CORRECTED 2026-08-16 (section 130), AND IT WAS CRYING WOLF ON FOURTEEN OF ITS
+  OWN FIFTY-NINE ITEMS. The rule asked for a price OR measurements, and since
+  section 101 deleted the invented measurement sets there is exactly ONE piece
+  left with any — so it fired on fourteen pieces, thirteen of which have a
+  price, and told the reader each one "shows a placeholder".
+
+  IT DOES NOT. Section 127 stopped rendering the tokens to visitors; the built
+  HTML contains no `{...}` anywhere, which was checked rather than assumed. So
+  a quarter of this gate's output was a sentence that was false about the site,
+  in a command whose entire value is that it can be believed. A gate nobody
+  believes is the same as no gate, which is the lesson the hourly video job had
+  already taught this repository the same day.
+
+  What it asks now is the question that still matters: a piece a visitor can
+  ORDER, with no price. That one is real — the Acquire line renders with no
+  figure and the piece cannot go in a cart at all.
 */
 for (const g of result.hollow ?? []) {
-  problems.push(`${(g.name ?? g.slug).padEnd(20)} has no price or no measurements — the page shows a placeholder`);
+  problems.push(`${(g.name ?? g.slug).padEnd(20)} can be ordered and has NO PRICE — set one, or withdraw it`);
 }
 /*
   A DETAIL FRAME WITH NO SENTENCE UNDER IT (2026-08-11, section 88).
