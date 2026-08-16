@@ -60,6 +60,13 @@ const PLAN = {
   "capo-12": [CLOTHES, "top con collo alto", false],
   ghezard: [CLOTHES, "giacca", false],
   severya: [CLOTHES, "minigonna", false],
+  /*
+    RUBEDO NON HA PREZZO, quindi non entra nel carrello — ma si ordina lo stesso
+    dal suo modulo, e quel modulo CHIEDE LA TAGLIA. Saltarlo perché non è nel
+    listino lasciava l'unico capo che il gate continuava a nominare, e un
+    modulo d'ordine senza scelta di taglia su una giacca. È una giacca.
+  */
+  rubedo: [CLOTHES, "giacca", false],
   /* le sue parole dicono taglia unica */
   styrax: [ONE, 'sua descrizione: "adjustable choker ... One Size"', false],
   "styrax-red": [ONE, 'sua descrizione: "adjustable choker ... One Size"', false],
@@ -94,9 +101,10 @@ for (const g of garments) {
   const plan = PLAN[g.slug];
   if (!plan) {
     /*
-      Un capo non nel piano è un capo che non si può comprare: Rubedo, che non
-      ha prezzo, e Monumentus Lux, che è ritirato. Una taglia su un capo che
-      nessuno può ordinare non serve a niente e non si mette.
+      Un capo non nel piano è un capo che nessuno può ordinare: oggi solo
+      Monumentus Lux, che è ritirato. Una taglia su un capo che non si può
+      ordinare non serve a niente e non si mette — e il launch-check è
+      d'accordo, perché non la chiede sui ritirati e sugli ordini privati.
     */
     rows.push({capo: g.name ?? g.slug, taglie: "-", perche: "non acquistabile, saltato"});
     continue;
