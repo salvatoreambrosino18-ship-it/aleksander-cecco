@@ -50,6 +50,13 @@ export default defineConfig({
         defaultLocale: 'en',
         locales: { it: 'it', en: 'en' },
       },
+      // THE CART IS NOT A PAGE TO ARRIVE ON (2026-08-16, section 129). It holds
+      // one visitor's own state and, to anything that does not run scripts —
+      // which includes every crawler worth the name — it is one sentence saying
+      // the cart needs JavaScript, twice, once per language. Submitting that to
+      // a search engine as content is submitting a thin duplicate. The single
+      // piece order forms stay listed: they are real pages about a real object.
+      filter: (page) => !/\/(it|en)\/cart\/?$/.test(page),
     }),
   ],
 

@@ -66,3 +66,16 @@
 
 /it/pieces/*  /it/creature/:splat  301
 /en/pieces/*  /en/creature/:splat  301
+
+# THE ORDER PAGE BECAME THE CART (2026-08-16, DESIGN-PLAN section 129). The
+# owner saw the page that listed every piece at once and did not want it; the
+# cart replaces it and the page is deleted.
+#
+# These two lines are for HIM. The page existed for a day, the site is
+# noindexed, and nobody else can have the URL — but he was sent it to look at,
+# so a tab he still has open lands on the thing that replaced it rather than on
+# the 404. **They carry the shadowing risk this file records above**: the day
+# anything is built at /[lang]/order these lines answer first and it will look
+# like the page does not exist. There is no plan to build one.
+/it/order  /it/cart  301
+/en/order  /en/cart  301

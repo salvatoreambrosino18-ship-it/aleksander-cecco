@@ -436,7 +436,20 @@ const shareImage =
               if (button.dataset.fallbackHref) window.location.href = button.dataset.fallbackHref;
               return;
             }
+            /*
+              THE LABEL CONFIRMS THE ACT AND THEN GOES BACK TO NAMING IT. It
+              said "In the cart" and stayed that way, so a control that still
+              added one more on every press was labelled as a state — press it
+              twice and it reads as though nothing happened, while the count
+              quietly went to two. The count in the chrome is the state; this is
+              the acknowledgement, and it belongs to the press rather than to
+              the cart.
+            */
             button.textContent = button.dataset.addedLabel || button.textContent;
+            clearTimeout(button._ackTimer);
+            button._ackTimer = setTimeout(() => {
+              if (button.dataset.addLabel) button.textContent = button.dataset.addLabel;
+            }, 2400);
             paint();
           });
         }

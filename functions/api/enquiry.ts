@@ -221,6 +221,12 @@ const TEXT = {
     */
     delivery: "Il pezzo viene fatto dopo l'ordine: massimo due settimane prima della spedizione.",
     back: "Torna alla Creatura",
+    /*
+      UN ORDINE DAL CARRELLO NON HA UNA Creatura SOLA a cui tornare (sezione
+      129). Prima la conferma diceva "Torna alla Creatura" e portava alla home,
+      il che è sbagliato due volte: la parola e il posto.
+    */
+    backAll: "Tutte le Creature",
     invalid: "Controlla i dati inseriti.",
     name: "Serve un nome.",
     email: "Serve un indirizzo email valido.",
@@ -238,6 +244,7 @@ const TEXT = {
     replyWindow: "We confirm it by email within one day, Italian time. Payment and delivery are arranged in that reply.",
     delivery: "Your piece is made after the order: two weeks at most before it ships.",
     back: "Back to the Creature",
+    backAll: "All Creature",
     invalid: "Please check what you entered.",
     name: "A name is needed.",
     email: "A valid email address is needed.",
@@ -269,6 +276,8 @@ function page(
     draft?: boolean;
     /** What happens next, shown only on the confirmation. */
     next?: string;
+    /** A cart order has no single piece behind it: name the catalogue instead. */
+    backAll?: boolean;
     /**
      * Empty the visitor's cart. Set ONLY on a confirmation, because that is the
      * only moment the pieces in it have actually been ordered.
@@ -341,7 +350,7 @@ function page(
   ${opts.placeholder ? `<p class="mark">${escape(opts.placeholder)}</p>` : ""}
   ${opts.next ? `<p class="next">${escape(opts.next)}</p>` : ""}
   <hr>
-  <p class="label"><a href="${escape(opts.backHref)}">${text.back}</a></p>
+  <p class="label"><a href="${escape(opts.backHref)}">${opts.backAll ? text.backAll : text.back}</a></p>
 ${
   opts.clearCart
     ? `  <!--
@@ -369,7 +378,13 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const locale: Locale = get("lang") === "en" ? "en" : "it";
   const text = TEXT[locale];
   const slug = get("slug").replace(/[^a-z0-9-]/gi, "");
-  const backHref = slug ? `/${locale}/creature/${slug}/` : `/${locale}/`;
+  /*
+    WHERE THE ANSWER PAGE SENDS THEM BACK TO. A single-piece order came from one
+    Creature and returns to it. A cart order came from several, so it returns to
+    the catalogue rather than to the home page, and says so — see `backAll`.
+  */
+  const backHref = slug ? `/${locale}/creature/${slug}/` : `/${locale}/creature/`;
+  const backIsCatalogue = !slug;
 
   /*
     RATE LIMIT, before validation and before anything expensive. Counting
@@ -384,7 +399,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const retryAfter = await limitAttempt(store, ip);
   if (retryAfter !== null) {
     console.warn(`[enquiry] rate limited ${ip}`);
-    return new Response(page(locale, {heading: text.title, lines: [text.tooMany], backHref}), {
+    return new Response(page(locale, {heading: text.title, lines: [text.tooMany], backHref, backAll: backIsCatalogue}), {
       status: 429,
       headers: {"Content-Type": "text/html; charset=utf-8", "Retry-After": String(retryAfter)},
     });
@@ -405,7 +420,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   */
   if (get("intent") === "newsletter") {
     return new Response(
-      page(locale, {heading: text.title, lines: [text.listClosed], backHref}),
+      page(locale, {heading: text.title, lines: [text.listClosed], backHref, backAll: backIsCatalogue}),
       {status: 503, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }
@@ -482,7 +497,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     }
     if (!catalogue?.items?.length) {
       console.error("[enquiry] basket: order-catalogue.json unreachable — refusing rather than pricing from the form");
-      return new Response(page(locale, {heading: text.title, lines: [text.notSent], backHref}), {
+      return new Response(page(locale, {heading: text.title, lines: [text.notSent], backHref, backAll: backIsCatalogue}), {
         status: 503,
         headers: {"Content-Type": "text/html; charset=utf-8"},
       });
@@ -511,7 +526,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
 
   if (problems.length > 0) {
     return new Response(
-      page(locale, {heading: text.invalid, lines: problems, backHref}),
+      page(locale, {heading: text.invalid, lines: problems, backHref, backAll: backIsCatalogue}),
       {status: 422, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }
@@ -524,7 +539,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const sends = await globalSends(store);
   if (sends.exhausted) {
     console.error("[enquiry] DAILY SEND CAP REACHED: refusing to spend more of the Resend allowance");
-    return new Response(page(locale, {heading: text.title, lines: [text.tooMany], backHref}), {
+    return new Response(page(locale, {heading: text.title, lines: [text.tooMany], backHref, backAll: backIsCatalogue}), {
       status: 429,
       headers: {
         "Content-Type": "text/html; charset=utf-8",
@@ -537,7 +552,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     // Honest, not silent: nobody is told an email was sent when none was.
     console.warn("[enquiry] not configured: RESEND_API_KEY, RESEND_FROM or ENQUIRY_TO_EMAIL missing");
     return new Response(
-      page(locale, {heading: text.title, lines: [text.notConfigured], backHref}),
+      page(locale, {heading: text.title, lines: [text.notConfigured], backHref, backAll: backIsCatalogue}),
       {status: 503, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }
@@ -670,7 +685,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
   if (env.ENQUIRY_DRY_RUN) {
     console.warn(`[enquiry] DRY RUN: not sending. Would have mailed "${piece}"${shownPrice ? ` — ${shownPrice}` : ""} (${locale}).`);
     return new Response(
-      page(locale, {heading: text.title, lines: [text.ok, text.delivery], next: text.replyWindow, backHref, clearCart: true}),
+      page(locale, {heading: text.title, lines: [text.ok, text.delivery], next: text.replyWindow, backHref, backAll: backIsCatalogue, clearCart: true}),
       {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }
@@ -699,7 +714,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
       const reason = await sent.text().catch(() => "(no body)");
       console.error(`[enquiry] Resend refused the message: ${sent.status} ${reason.slice(0, 500)}`);
       return new Response(
-        page(locale, {heading: text.title, lines: [text.notSent], backHref}),
+        page(locale, {heading: text.title, lines: [text.notSent], backHref, backAll: backIsCatalogue}),
         {status: 502, headers: {"Content-Type": "text/html; charset=utf-8"}},
       );
     }
@@ -710,7 +725,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
   } catch (error) {
     console.error(`[enquiry] could not reach Resend: ${(error as Error).message}`);
     return new Response(
-      page(locale, {heading: text.title, lines: [text.notSent], backHref}),
+      page(locale, {heading: text.title, lines: [text.notSent], backHref, backAll: backIsCatalogue}),
       {status: 502, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }
@@ -736,6 +751,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
       lines: [text.ok],
       next: text.replyWindow,
       backHref,
+      backAll: backIsCatalogue,
       clearCart: true,
     }),
     {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},

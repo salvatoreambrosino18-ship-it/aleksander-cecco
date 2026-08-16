@@ -285,6 +285,14 @@ const currency = items[0]?.currency ?? "EUR";
         comes out of the dataset, which is the owner's to write; building the
         DOM means no piece can ever be named something that ends up parsed as
         markup, and there is no escaping rule for a later session to get wrong.
+
+        THE CLASSES BELOW ONLY EVER EXIST INSIDE THIS SCRIPT, and they work
+        because Tailwind scans this file as TEXT and finds them in here. It was
+        checked in the compiled stylesheet rather than assumed. Two things
+        follow, and they are the kind that fail silently: a class assembled from
+        pieces (`"gap-u" + n`) would be found by nothing and would compile to
+        nothing, and moving this script to its own .js file outside the content
+        globs would take every rule here with it.
       */
       function line(slug, entry) {
         const item = catalogue.get(slug);
@@ -420,8 +428,14 @@ const currency = items[0]?.currency ?? "EUR";
         if (totalOut) totalOut.textContent = fmt.format(total);
       }
 
-      form.addEventListener("input", () => sync(false));
-      form.addEventListener("change", () => sync(true));
+      /*
+        ON THE LIST, NOT ON THE FORM. The form also holds the name, the email
+        and the note, and listening there rewrote the stored cart on every
+        keystroke of somebody's address — for nothing, since none of it belongs
+        to the cart.
+      */
+      list.addEventListener("input", () => sync(false));
+      list.addEventListener("change", () => sync(true));
 
       list.addEventListener("click", (event) => {
         const button = event.target.closest("[data-remove-slug]");
