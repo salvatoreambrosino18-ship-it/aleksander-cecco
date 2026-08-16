@@ -50,6 +50,21 @@ export const structure: StructureResolver = (S, context) =>
           S.document().schemaType('siteCopy').documentId('siteCopy').title('Le parole del sito'),
         ),
       S.divider(),
+      /*
+        I VIDEO, in sola lettura. Non e' un pannello da compilare: e' il
+        referto di scripts/check-videos.mjs, che misura ogni video caricato e
+        decide se puo' ripartire in continuo o se deve partire una volta sola.
+        Lui non deve fare niente qui — puo' solo venire a leggere perche' un
+        suo video parte una volta sola invece di andare in loop.
+      */
+      S.listItem()
+        .title('I video (controllo automatico)')
+        .child(
+          S.documentTypeList('videoCheck')
+            .title('I video')
+            .defaultOrdering([{field: 'checkedAt', direction: 'desc'}]),
+        ),
+      S.divider(),
       orderableDocumentListDeskItem({
         type: 'archivePiece',
         title: 'Archivio (venduti)',

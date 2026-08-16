@@ -353,6 +353,25 @@ const nativeRatio =
       number each one carries, and scripts/find-loop.mjs measures only the
       seam, which is now the lesser half of the question.
     */}
+    {/*
+      A CLIP LOOPS ONLY IF IT HAS BEEN MEASURED AND PASSED (2026-08-18,
+      section 129). This is the whole answer to the one gap the owner could
+      make worse on his own: he can upload a video and cannot trim one, so
+      until now the site looped whatever it was handed and a short or restless
+      clip read as a boomerang — three of them shipped in August.
+
+      A WARNING ON THE UPLOAD FIELD WAS NOT ENOUGH. He will not measure a clip,
+      and by the time it looks wrong it is live and he cannot fix it. So the
+      default is inverted rather than explained: `videoLoops` is false unless
+      scripts/check-videos.mjs has measured the file and passed it, and
+      everything else plays ONCE and stops. A clip that plays once has no wrap,
+      so it cannot boomerang at all — by construction, not by care.
+
+      That makes the failure modes land on the quiet side: an unmeasured clip,
+      a check that was never run, a deleted document, a join that returns
+      nothing. Every one of them means "plays once", which is never wrong. The
+      loud outcome now requires evidence.
+    */}
     {
       media.videoUrl && videoAllowed && (
         <video
@@ -360,8 +379,8 @@ const nativeRatio =
           src={media.videoUrl}
           poster={src ?? undefined}
           muted
-          loop={!playOnce}
-          data-play-once={playOnce ? "" : undefined}
+          loop={media.videoLoops && !playOnce}
+          data-play-once={media.videoLoops && !playOnce ? undefined : ""}
           playsinline
           preload="none"
           aria-hidden="true"

@@ -39,6 +39,14 @@ const MEDIA_PROJECTION = /* groq */ `
   // boolean is gone rather than kept beside the URL: two ways to ask the same
   // question is how the answers drift apart (section 84).
   "videoUrl": video.asset->url,
+  // WHETHER THIS CLIP MAY LOOP, and the default is NO (2026-08-18, section 129).
+  // scripts/check-videos.mjs measures every uploaded video and writes one
+  // videoCheck document per asset; anything it has not passed plays ONCE and
+  // stops, which has no wrap and so cannot read as a boomerang. coalesce to
+  // false is the whole guarantee: an unmeasured clip, a deleted check, a
+  // failed join all land on the safe side rather than on the loud one.
+  "videoLoops": coalesce(*[_type == "videoCheck" && assetId == ^.video.asset._ref][0].loops, false),
+  "videoSeconds": *[_type == "videoCheck" && assetId == ^.video.asset._ref][0].seconds,
   "dimensions": poster.asset->metadata.dimensions
 `;
 

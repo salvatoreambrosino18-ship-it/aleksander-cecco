@@ -141,17 +141,30 @@ Apri il capo, vai su **Le fotografie**, e trascina.
 Dentro una fotografia c'è il campo **Un video al posto della foto**. Il video
 parte da solo, senza audio e senza comandi, sopra quella fotografia.
 
-**Le regole, e non sono capricci:**
+**Non devi misurare niente e non puoi sbagliare.** Ogni video che carichi viene
+controllato da solo entro un'ora:
 
-- **Almeno 4 secondi.** Un video corto riparte in continuazione e sembra un
-  boomerang di Instagram anche se non lo è.
-- **Macchina ferma**, o che si muove sempre nella stessa direzione. Un video
-  ripreso a mano che va e torna è proprio quello che sembra un boomerang.
-- **Quando ricomincia si vede uno stacco.** Sempre, perché l'ultima immagine non
-  è uguale alla prima. Più è lungo, più raro è lo stacco.
-- **Senza audio**, MP4, sotto i 3 MB se puoi.
-- **La fotografia resta obbligatoria**: è quello che si vede prima che il video
-  parta, e quello che vede chi ha spento le animazioni sul telefono.
+- se è abbastanza lungo e la ripresa regge, **va in loop** (riparte in continuo);
+- altrimenti **parte una volta sola e si ferma** sull'ultima immagine. Sul sito
+  sta benissimo lo stesso: la home funziona già così.
+
+Nel dubbio parte una volta sola. Un video non può mai finire sul sito a
+rimbalzare avanti e indietro come un boomerang.
+
+**Se lo vuoi in loop**, quando giri:
+
+- **almeno 4 secondi**. Un video corto ricomincia così spesso che il
+  ricominciare diventa il movimento;
+- **macchina ferma**, oppure che si muove sempre nella stessa direzione. Un
+  video ripreso a mano che va e torna sembra un boomerang anche se non lo è;
+- senza audio, MP4, sotto i 3 MB se puoi.
+
+Vuoi sapere cosa è stato deciso per un tuo video? Nell'elenco a sinistra c'è
+**I video (controllo automatico)**: per ognuno trovi quanto dura, cosa fa sul
+sito, e la ragione scritta in italiano. Non c'è niente da compilare lì.
+
+**La fotografia resta sempre obbligatoria**: è quello che si vede prima che il
+video parta, e quello che vede chi ha spento le animazioni sul telefono.
 
 ---
 
@@ -297,8 +310,9 @@ Onestamente, perché tu sappia quando chiamarci:
 - **Il dominio è ancora `aleksander-cecco.pages.dev`.** Per usare un dominio tuo
   bisogna comprarlo e collegarlo: dieci minuti, ma li dobbiamo fare noi.
 - **Il sito è nascosto ai motori di ricerca**, apposta, finché non si lancia.
-- **Tagliare un video** (accorciarlo, scegliere il pezzo giusto) non si fa dal
-  pannello. Mandaci il file e lo prepariamo.
+- **Tagliare un video** non si fa dal pannello. Non serve, però: un video che
+  non regge il loop parte una volta sola invece di rimbalzare, e va bene così.
+  Se ne vuoi uno tagliato su misura, mandaci il file.
 - **Come è fatto il sito** — i colori, i caratteri, come sono disposte le
   pagine — non si cambia dal pannello, ed è voluto. Tu cambi tutto quello che il
   sito **dice** e **mostra**; come è costruito resta fermo, altrimenti in un mese

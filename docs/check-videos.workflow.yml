@@ -1,0 +1,67 @@
+# COPIA QUESTO FILE IN .github/workflows/check-videos.yml
+#
+# Non e' gia' li' per una ragione noiosa: il token con cui questo repository
+# viene aggiornato non ha il permesso `workflow`, e GitHub rifiuta un push che
+# crea o modifica un file dentro .github/workflows. Va messo a mano, una volta.
+#
+# DUE COSE DA FARE, una sola volta:
+#   1. copia questo file in .github/workflows/check-videos.yml e fai un commit;
+#   2. aggiungi il segreto SANITY_WRITE_TOKEN in
+#      Settings > Secrets and variables > Actions.
+#
+# SE NON LO FAI NON SI ROMPE NIENTE. Un video che nessuno ha misurato parte una
+# volta sola e si ferma, che e' il comportamento sicuro: senza questo job i
+# video nuovi semplicemente non passeranno mai in loop da soli, e basta
+# lanciare `node scripts/check-videos.mjs --write` a mano quando serve.
+
+# Misura i video caricati e decide quali possono andare in loop.
+#
+# WHY THIS RUNS ON A SCHEDULE RATHER THAN ON A PUSH. Nothing in the repository
+# changes when the owner uploads a clip: he uploads to Sanity from his phone,
+# and the site rebuilds itself through a webhook without a commit. So there is
+# no push to hang this off. A clock is the honest trigger.
+#
+# WHAT HAPPENS IN BETWEEN. A clip nobody has measured yet PLAYS ONCE AND STOPS,
+# which is never wrong and never loud. So the worst case of this job being late,
+# or failing, or never being set up at all, is that a good clip keeps playing
+# once until the next run. The bad case — a boomerang on the site — is not
+# reachable from here.
+#
+# ffmpeg is already on the GitHub runners, so nothing is installed for it.
+#
+# ONE SECRET IS NEEDED: SANITY_WRITE_TOKEN, under the repository's
+# Settings > Secrets and variables > Actions. Without it the job fails loudly
+# rather than writing nothing quietly.
+
+name: Controllo dei video
+
+on:
+  schedule:
+    # ogni ora, al minuto 20
+    - cron: "20 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: check-videos
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci --omit=optional --no-audit --no-fund
+
+      - name: Misura ogni video e scrive il verdetto
+        env:
+          PUBLIC_SANITY_PROJECT_ID: ${{ vars.PUBLIC_SANITY_PROJECT_ID || 'lq2xg1yd' }}
+          PUBLIC_SANITY_DATASET: ${{ vars.PUBLIC_SANITY_DATASET || 'production' }}
+          PUBLIC_SANITY_API_VERSION: "2026-03-01"
+          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
+        run: node scripts/check-videos.mjs --write

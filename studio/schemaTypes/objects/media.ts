@@ -189,23 +189,17 @@ export const media = defineType({
       title: 'La riga sotto la foto',
       type: 'localeString',
       description:
-        'MP4, senza audio, con la stessa inquadratura della fotografia qui sopra: il sito lo fa partire ' +
+        'MP4, senza audio, con la stessa inquadratura della fotografia qui sopra. Il sito lo fa partire ' +
         'da solo sopra quella foto, senza comandi e senza che nessuno lo tocchi. ' +
-        'DEVE DURARE ALMENO 4 SECONDI. Un video corto riparte in continuazione e sembra un boomerang ' +
-        'di Instagram anche se non lo e\': l\'occhio non distingue un video che ricomincia da uno che ' +
-        'torna indietro. ' +
-        'TIENI FERMA LA MACCHINA, o muovila sempre nella stessa direzione. Un video ripreso a mano che ' +
-        'va e torna e\' proprio quello che sembra un boomerang. ' +
-        'QUANDO RICOMINCIA SI VEDE UNO STACCO, sempre, perche\' l\'ultima immagine non e\' uguale alla ' +
-        'prima: piu\' e\' lungo il video, piu\' raro e\' lo stacco. ' +
-        'Sotto i 3 MB se puoi: i video sono l\'unica cosa che puo\' far costare il sito. ' +
-        'Chi ha spento le animazioni sul telefono vede solo la fotografia, quindi quella deve reggere da sola.' +
-        'ATTENZIONE ALLE DUE LINGUE: se la scrivi solo in italiano, sulla versione inglese del sito ' +
-        'sotto quella foto non compare NIENTE. O tutte e due, o nessuna.' +
-        '«500 punti cicatrice, cuciti a mano» non se la puo\' inventare nessun altro. ' +
-        'Scrivila nel campo qui sotto e poi spegni questo.' +
-        'SOTTO quando la foto e\' mezza chiara e mezza scura: li\' nessun colore funziona, e una scritta ' +
-        'illeggibile sopra una bella foto e\' peggio che nessuna scritta.',
+        'NON DEVI MISURARE NIENTE. Ogni video caricato viene controllato in automatico entro un\'ora. ' +
+        'Se e\' abbastanza lungo e la ripresa regge, va in loop; altrimenti PARTE UNA VOLTA SOLA e si ferma ' +
+        'sull\'ultima immagine, che sul sito sta benissimo lo stesso. Non puoi sbagliare: nel dubbio parte una ' +
+        'volta sola. ' +
+        'SE LO VUOI IN LOOP: almeno 4 secondi, macchina ferma o che si muove sempre nella stessa direzione. ' +
+        'Un video corto ricomincia cosi\' spesso da sembrare un boomerang, e uno ripreso a mano che va e torna ' +
+        'sembra un boomerang anche se non lo e\'. ' +
+        'Nell\'elenco «I video» trovi cosa e\' stato deciso per ognuno e perche\'. ' +
+        'Sotto i 3 MB se puoi. Chi ha spento le animazioni sul telefono vede solo la fotografia.',
     }),
   ],
   preview: {

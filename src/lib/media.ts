@@ -38,6 +38,9 @@ export type MediaItem = {
    * poster carries the frame either way. See section 83 for what to shoot.
    */
   videoUrl: string | null;
+  /** False unless scripts/check-videos.mjs has measured this clip and passed it. */
+  videoLoops: boolean;
+  videoSeconds: number | null;
   dimensions: {width: number; height: number} | null;
 };
 
