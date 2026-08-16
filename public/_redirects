@@ -31,10 +31,20 @@
 /it/designer  /it/about  301
 /en/designer  /en/about  301
 
-# The red shirt left the catalogue the same day (DESIGN-PLAN section 50). It is
-# a gallery frame now, so its Creature page goes where the piece went.
-/it/creature/rubedo  /it/process  301
-/en/creature/rubedo  /en/process  301
+# RUBEDO CAME BACK, and its redirect had to go with it (2026-08-16).
+#
+# The red shirt left the catalogue on 2026-08-04 (DESIGN-PLAN section 50) and
+# these two lines sent its old page to /process, where the piece had gone. It
+# is a Creature again — eleven photographs, a page that builds, a tile in the
+# worn band — and the redirect stayed, which made it the one broken link on
+# the site: Cloudflare applies redirects BEFORE static assets, so
+# /en/creature/rubedo answered /en/process while /en/creature/rubedo/ answered
+# the piece. Every internal link is written without the trailing slash, so
+# every route to Rubedo went to the process page and nothing else did.
+#
+# The lesson is the one this file already knew, inverted: a redirect costs
+# nothing while the destination is right, and shadows a real page the moment
+# the thing comes back. Anything added here has to be removed when it does.
 
 # The enquiry became the order on 2026-08-04: same flow, named for what it is.
 # Severya took its own name on 2026-08-04, out of the sample-sale folder.
