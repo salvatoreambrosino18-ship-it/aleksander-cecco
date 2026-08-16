@@ -14,7 +14,7 @@
   (section 67). A second typeface at a third size made it a third group, and the
   one thing separating the groups was supposed to be the space.
 */
-import {LOCALES, switchLocalePath, type Locale} from "../lib/locales";
+import {LOCALES, isLocale, localePath, switchLocalePath, type Locale} from "../lib/locales";
 import {t} from "../i18n/ui";
 
 interface Props {
@@ -23,6 +23,24 @@ interface Props {
 
 const {locale} = Astro.props;
 const pathname = Astro.url.pathname;
+
+/*
+  A PAGE OUTSIDE /[lang]/ HAS NO TRANSLATION TO SWITCH TO (2026-08-16, section
+  130), and there is exactly one: the 404, which is served for any path and so
+  cannot live under a language.
+
+  `switchLocalePath` does the only sensible thing with a path that carries no
+  locale segment — it prefixes one — and on the 404 that produced `/it/404/`,
+  a page that does not exist. So the site's own error page carried a link to a
+  second error, in the one place a lost reader is already lost. Found by
+  walking every internal link in the built output against the built routes.
+
+  Where there is no locale in the path there is nothing to preserve, so the
+  switch offers the other language's front door instead.
+*/
+const localised = isLocale(pathname.replace(/^\/+/, "").split("/")[0]);
+const hrefFor = (code: Locale) =>
+  localised ? switchLocalePath(pathname, code) : localePath(code);
 ---
 
 <nav class="type-label text-label flex items-baseline gap-u1" aria-label={t(locale, "languageLabel")}>
@@ -35,7 +53,7 @@ const pathname = Astro.url.pathname;
             {code}
           </span>
         ) : (
-          <a href={switchLocalePath(pathname, code)} hreflang={code} class="hover:underline underline-offset-4">
+          <a href={hrefFor(code)} hreflang={code} class="hover:underline underline-offset-4">
             {code}
           </a>
         )}
