@@ -246,7 +246,27 @@ const currency = items[0]?.currency ?? "EUR";
         document.dispatchEvent(new CustomEvent("ac-cart-changed"));
       };
 
-      const catalogue = new Map(JSON.parse(source.textContent).map((i) => [i.slug, i]));
+      /*
+        THE PAGE MUST NOT GO BLANK IF ANY OF THIS FAILS. The no-script sentence
+        is hidden the moment scripts run, and the live block stays hidden until
+        this script shows it — so one error would leave a heading over an empty
+        page with no way on. Putting the sentence back is not a lie in that
+        state: the cart really does not work, and where to go instead is the
+        same answer either way.
+      */
+      const fail = (error) => {
+        document.documentElement.classList.remove("js");
+        live.hidden = true;
+        console.error("[cart]", error);
+      };
+
+      let catalogue;
+      try {
+        catalogue = new Map(JSON.parse(source.textContent).map((i) => [i.slug, i]));
+      } catch (error) {
+        fail(error);
+        return;
+      }
       const fmt = new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
         style: "currency",
         currency,
@@ -360,7 +380,7 @@ const currency = items[0]?.currency ?? "EUR";
           What the reader sees is the truth here, so the truth is taken from the
           rendered lines rather than from what was stored.
         */
-        sync();
+        sync(true);
         const has = list.children.length > 0;
         form.hidden = !has;
         empty.hidden = has;
@@ -373,7 +393,7 @@ const currency = items[0]?.currency ?? "EUR";
         mirrors them back into storage, so the count in the chrome agrees and the
         cart is still theirs on the next page.
       */
-      function sync() {
+      function sync(correct) {
         const next = {};
         let total = 0;
         for (const li of list.querySelectorAll(".cart-line")) {
@@ -384,7 +404,14 @@ const currency = items[0]?.currency ?? "EUR";
           let qty = Math.floor(Number(field.value));
           if (!Number.isFinite(qty) || qty < 1) qty = 1;
           if (qty > item.max) qty = item.max;
-          if (String(qty) !== field.value) field.value = String(qty);
+          /*
+            THE BOX IS CORRECTED WHEN THE READER LEAVES IT, NOT WHILE THEY TYPE.
+            Clearing the box to type "12" empties it for one keystroke; writing
+            "1" back into it at that instant fights the person using it. The
+            total and the stored cart always use the clamped number, so nothing
+            downstream ever sees the half-typed one.
+          */
+          if (correct && String(qty) !== field.value) field.value = String(qty);
           const size = li.querySelector("input[type=radio]:checked")?.value;
           next[slug] = size ? {qty, size} : {qty};
           total += qty * item.price;
@@ -393,8 +420,8 @@ const currency = items[0]?.currency ?? "EUR";
         if (totalOut) totalOut.textContent = fmt.format(total);
       }
 
-      form.addEventListener("input", sync);
-      form.addEventListener("change", sync);
+      form.addEventListener("input", () => sync(false));
+      form.addEventListener("change", () => sync(true));
 
       list.addEventListener("click", (event) => {
         const button = event.target.closest("[data-remove-slug]");
@@ -418,7 +445,11 @@ const currency = items[0]?.currency ?? "EUR";
         button.textContent = button.dataset.sending;
       });
 
-      render();
+      try {
+        render();
+      } catch (error) {
+        fail(error);
+      }
     })();
   </script>
 </Base>

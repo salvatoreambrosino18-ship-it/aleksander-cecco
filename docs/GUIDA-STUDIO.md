@@ -118,8 +118,8 @@ scelto nessuna taglia, e se hai scritto un testo in italiano ma non in inglese.
    **Impostazioni del capo** in fondo al modulo e premi **GENERATE**. Si fa una
    volta sola, quando crei il capo.
 
-Il capo compare da solo nel catalogo, nel drop a cui l'hai collegato, e nella
-pagina per ordinare più pezzi.
+Il capo compare da solo nel catalogo, nel drop a cui l'hai collegato, e si può
+mettere nel carrello dalla sua pagina.
 
 ---
 
@@ -127,12 +127,14 @@ pagina per ordinare più pezzi.
 
 **I capi** → apri il capo → cambia → **Publish**.
 
-- **Prezzo** — solo il numero. Se lo togli, il capo resta sul sito ma **sparisce
-  dalla pagina «Ordina più pezzi»**, perché lì c'è un totale da fare.
+- **Prezzo** — solo il numero. Se lo togli, il capo resta sul sito ma **non si
+  può più mettere nel carrello**, perché nel carrello c'è un totale da fare.
+  Si compra ancora dal suo modulo d'ordine.
 - **In che taglie lo fai** — spunta le taglie. Se sta bene a tutti, **Taglia
-  unica**. Finché è vuoto, chi compra non può scegliere niente e nel modulo
-  d'ordine la taglia non compare proprio. *Adesso è vuoto su tutti i capi: è la
-  cosa più utile che puoi sistemare.*
+  unica**. Finché è vuoto, chi compra non può scegliere niente: la taglia non
+  compare né sulla pagina del capo né nel modulo d'ordine, e l'ordine ti arriva
+  senza. *Adesso è vuoto su tutti i capi. È la cosa più utile che puoi
+  sistemare, ed è una spunta per capo.*
 - **Si può comprare?** — quattro risposte:
   - *Sì, c'è ed è in vendita* — normale.
   - *Sì, ma ne esiste uno solo* — si compra, e nell'ordine la quantità si ferma a uno.
@@ -257,8 +259,8 @@ stanno in **Le parole del sito**:
   *Spedizioni e ordini*.
 - **I resi** — stessa scheda.
 - **Quanto si aspetta** («massimo due settimane») — sta in *Le parole del sito*
-  e compare in tre punti: sul modulo d'ordine di un capo, sulla pagina per
-  ordinare più pezzi, e nei Contatti. **Se cambia, cambiala lì una volta sola.**
+  e compare in tre punti: sul modulo d'ordine di un capo, nel carrello, e nei
+  Contatti. **Se cambia, cambiala lì una volta sola.**
 
 ---
 
@@ -292,7 +294,8 @@ Nell'ordine. Nove volte su dieci è il primo punto.
 4. **Un capo non compare nel catalogo?** Deve avere almeno **una fotografia**.
    Senza foto non esiste.
 5. **Un drop non compare?** Controlla la spunta **Si vede sul sito**.
-6. **Un capo non compare in «Ordina più pezzi»?** Non ha il **prezzo**.
+6. **Un capo non si può mettere nel carrello?** Non ha il **prezzo**. Dal suo
+   modulo d'ordine si compra lo stesso.
 7. **Una frase compare in italiano e non in inglese?** L'hai scritta solo in una
    casella. Vedi il punto 12.
 8. **Vedi una scritta fra parentesi graffe tipo `{PREZZO}`?** Non dovrebbe più

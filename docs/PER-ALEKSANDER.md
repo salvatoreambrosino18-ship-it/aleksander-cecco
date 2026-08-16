@@ -27,6 +27,10 @@ contiamo tutti e il sito non parte finché ci sono. **Sedici numeri.**
 oppure spunta **TAGLIA UNICA** se veste tutti. **Lasciare vuoto non vuol dire
 taglia unica**, vuol dire che nessuno ha deciso, e il sito distingue le due cose
 apposta. **Sedici spunte.**
+Adesso il sito ha il carrello, e la taglia si sceglie sulla pagina del capo:
+finché le caselle sono vuote **quella domanda non viene fatta a nessuno** e gli
+ordini ti arrivano senza taglia. È la spunta che cambia di più cosa può fare chi
+compra.
 
 **I nomi di sette capi.** Sette Creature si chiamano ancora `capo-01`, `capo-07`,
 `capo-08`, `capo-09`, `capo-12`, `capo-13`, `capo-14`. **Non serve fotografare
