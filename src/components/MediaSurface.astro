@@ -319,14 +319,19 @@ const nativeRatio =
       (standing rule 12): it fetches when it enters the screen, not on the way
       past.
 
-      AND THE RULE IS NOW ENFORCED IN THE DATA, not here (2026-08-16, section
-      121). Section 120 deleted the mode but left four unloopable clips on
-      `loop`, where they cut every few seconds; scripts/patch-loops.mjs measured
-      every window of every clip, rebuilt the two that could survive as
-      ping-pongs, and detached the three that could not. So this element takes
-      no view on whether a clip loops: if a `video` reaches it, the clip has
-      already been proved. Attach one that has not and the cut comes back —
-      run scripts/find-loop.mjs before attaching anything.
+      A CLIP IS CUT TO ITS QUIETEST WINDOW AND PLAYS FORWARD (2026-08-17,
+      section 123, the OWNER's call). Section 121 had removed the seam by
+      running each clip forward and back; on screen that reads as a boomerang,
+      and motion that never happened in front of the camera is a worse lie
+      than a cut. So the seam is not solved any more, it is MINIMISED and then
+      accepted: every file in the dataset is a forward-only window chosen for
+      the smallest jump at its wrap, and how big that jump is is written down
+      in scripts/patch-restore-process.mjs and scripts/patch-video.mjs rather
+      than discovered on the page.
+
+      This element still takes no view on any of it. If a `video` reaches it,
+      the window has already been chosen. Measure with scripts/find-loop.mjs
+      before attaching anything, and expect a number rather than a promise.
     */}
     {
       media.videoUrl && videoAllowed && (
