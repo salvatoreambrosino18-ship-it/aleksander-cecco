@@ -2,17 +2,20 @@
 #
 # Non e' gia' li' per una ragione noiosa: il token con cui questo repository
 # viene aggiornato non ha il permesso `workflow`, e GitHub rifiuta un push che
-# crea o modifica un file dentro .github/workflows. Va messo a mano, una volta.
+# crea o modifica un file dentro .github/workflows. Va messo a mano.
 #
-# DUE COSE DA FARE, una sola volta:
-#   1. copia questo file in .github/workflows/check-videos.yml e fai un commit;
-#   2. aggiungi il segreto SANITY_WRITE_TOKEN in
-#      Settings > Secrets and variables > Actions.
+#   cp docs/check-videos.workflow.yml .github/workflows/check-videos.yml
+#   git add .github/workflows/check-videos.yml
+#   git commit -m "fix: ffmpeg non c'e' sui runner, si installa quando serve"
+#   git push
 #
-# SE NON LO FAI NON SI ROMPE NIENTE. Un video che nessuno ha misurato parte una
-# volta sola e si ferma, che e' il comportamento sicuro: senza questo job i
-# video nuovi semplicemente non passeranno mai in loop da soli, e basta
-# lanciare `node scripts/check-videos.mjs --write` a mano quando serve.
+# QUESTA VERSIONE E' UNA CORREZIONE, non la prima installazione: il job gira
+# gia' e fallisce a ogni giro. Finche' non la copi, il job NON fallisce piu'
+# (lo script non chiede piu' ffmpeg quando non c'e' niente da misurare), ma il
+# giorno in cui carichi un video nuovo torna a fallire, una volta.
+#
+# IL SEGRETO SANITY_WRITE_TOKEN e' gia' a posto, in
+# Settings > Secrets and variables > Actions. Non va rifatto.
 
 # Misura i video caricati e decide quali possono andare in loop.
 #
@@ -27,7 +30,13 @@
 # once until the next run. The bad case — a boomerang on the site — is not
 # reachable from here.
 #
-# ffmpeg is already on the GitHub runners, so nothing is installed for it.
+# FFMPEG IS NOT ON THE RUNNERS, whatever an older version of this comment said.
+# It was on ubuntu-20.04 and it has not been on the Ubuntu image since 22.04:
+# the published toolset for ubuntu-24.04 lists mediainfo and no ffmpeg. That is
+# what made every run of this job fail — the script refuses without it, in about
+# a second, which is the correct behaviour and was reported as "All jobs have
+# failed" once an hour. It is installed below, and ONLY when there is a video to
+# measure, which on an hourly clock is almost never.
 #
 # ONE SECRET IS NEEDED: SANITY_WRITE_TOKEN, under the repository's
 # Settings > Secrets and variables > Actions. Without it the job fails loudly
@@ -48,20 +57,30 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_SANITY_PROJECT_ID: ${{ vars.PUBLIC_SANITY_PROJECT_ID || 'lq2xg1yd' }}
+      PUBLIC_SANITY_DATASET: ${{ vars.PUBLIC_SANITY_DATASET || 'production' }}
+      PUBLIC_SANITY_API_VERSION: "2026-03-01"
+      SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
-      - run: npm ci --omit=optional --no-audit --no-fund
+      # Lo script usa solo @sanity/client, che è una dependency vera. Playwright
+      # e sharp stanno fra le devDependencies e qui non servono a niente.
+      - run: npm ci --omit=dev --omit=optional --no-audit --no-fund
 
       - name: Misura ogni video e scrive il verdetto
-        env:
-          PUBLIC_SANITY_PROJECT_ID: ${{ vars.PUBLIC_SANITY_PROJECT_ID || 'lq2xg1yd' }}
-          PUBLIC_SANITY_DATASET: ${{ vars.PUBLIC_SANITY_DATASET || 'production' }}
-          PUBLIC_SANITY_API_VERSION: "2026-03-01"
-          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
-        run: node scripts/check-videos.mjs --write
+        run: |
+          if [ "$(node scripts/check-videos.mjs --pending)" != "0" ]; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq --no-install-recommends ffmpeg
+            ffmpeg -version | head -1
+          else
+            echo "Nessun video nuovo: ffmpeg non serve."
+          fi
+          node scripts/check-videos.mjs --write

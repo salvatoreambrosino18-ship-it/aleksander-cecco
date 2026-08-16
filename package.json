@@ -14,6 +14,7 @@
     "launch-check": "node scripts/launch-check.mjs",
     "detail-crops": "node scripts/detail-crops.mjs",
     "measure-captions": "node scripts/measure-captions.mjs",
+    "check-videos": "node scripts/check-videos.mjs",
     "patch-text": "node scripts/patch-text.mjs",
     "icons": "node scripts/icons.mjs",
     "shots": "node scripts/shots.mjs",

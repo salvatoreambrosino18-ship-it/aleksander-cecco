@@ -3,6 +3,8 @@
 
     node scripts/check-videos.mjs            dice cosa farebbe
     node scripts/check-videos.mjs --write    lo scrive nel database
+    node scripts/check-videos.mjs --all      rimisura anche quelli già fatti
+    node scripts/check-videos.mjs --pending  stampa solo quanti ne mancano
 
   THE GAP THIS CLOSES. The owner can upload a clip and cannot trim one. The
   site used to loop whatever it was handed, and a clip that is short, or that
@@ -35,9 +37,23 @@
   making an editorial decision nobody asked it to make, and he would have no
   way to see what had been taken out.
 
-  ffmpeg is required and is checked for first. On a machine without it the
-  script refuses rather than marking everything unsafe, because "unmeasured"
-  and "measured and bad" must not collapse into each other.
+  ffmpeg is required, and it is checked for ONLY WHEN THERE IS SOMETHING TO
+  MEASURE. On a machine without it, with work to do, the script refuses rather
+  than marking everything unsafe, because "unmeasured" and "measured and bad"
+  must not collapse into each other. With nothing to do it does not care, which
+  is what makes an hourly clock cheap.
+
+  A CLIP IS MEASURED ONCE, EVER. Sanity file assets are content addressed: the
+  id contains the sha1 of the bytes, so a given id is one unchanging file and
+  its verdict cannot go stale. Anything that already has a `videoCheck` is
+  skipped, so the ordinary hourly run is one query and no downloads. Re-measure
+  everything with `--all`, which is what to run AFTER CHANGING A THRESHOLD in
+  this file — the old verdicts do not recompute themselves.
+
+  WHY THIS MATTERS RATHER THAN BEING A TIDY-UP. The first version downloaded and
+  decoded all seventeen clips on every run, which is four minutes and most of a
+  hundred megabytes off Sanity's CDN, every hour, to reach the same answer it
+  reached the hour before.
 */
 import {execFileSync} from "node:child_process";
 import fs from "node:fs";
@@ -58,6 +74,13 @@ try {
 }
 
 const WRITE = process.argv.includes("--write");
+const ALL = process.argv.includes("--all");
+/*
+  --pending esiste per il job orario: stampa un numero e basta, così il workflow
+  può installare ffmpeg SOLO quando c'è davvero un video da misurare invece di
+  scaricare mezzo Debian ogni ora per non fare niente.
+*/
+const PENDING = process.argv.includes("--pending");
 
 /* --------------------------------------------------------------- soglie */
 
@@ -258,7 +281,19 @@ function verdict({seconds, travel, seam}) {
 
 /* ------------------------------------------------------------------ main */
 
-requireFfmpeg();
+/*
+  IL TOKEN SERVE SOLO PER SCRIVERE. Il dataset è pubblico, quindi la lettura
+  funziona senza. Se manca proprio quando serve, lo si dice qui e subito: senza
+  questo controllo lo scopriremmo alla riga `tx.commit()`, dopo aver scaricato e
+  misurato ogni video, con un errore HTTP che non nomina la causa.
+*/
+if (WRITE && !process.env.SANITY_WRITE_TOKEN) {
+  console.error(
+    "\n  Manca SANITY_WRITE_TOKEN, e con --write serve per forza.\n" +
+      "  In locale sta in .env; su GitHub in Settings > Secrets and variables > Actions.\n",
+  );
+  process.exit(1);
+}
 
 const client = createClient({
   projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
@@ -271,14 +306,32 @@ const client = createClient({
 const assets = await client.fetch(
   /* groq */ `*[_type == "sanity.fileAsset" && mimeType match "video/*"]{_id, originalFilename, url}`,
 );
-console.log(`\n  ${assets.length} video nel database\n`);
+const measured = new Set(await client.fetch(/* groq */ `*[_type == "videoCheck"].assetId`));
+const todo = ALL ? assets : assets.filter((a) => !measured.has(a._id));
+
+if (PENDING) {
+  process.stdout.write(`${todo.length}\n`);
+  process.exit(0);
+}
+
+console.log(
+  `\n  ${assets.length} video nel database, ${todo.length} da misurare` +
+    (todo.length === 0 ? " — niente da fare\n" : "\n"),
+);
+
+/*
+  ffmpeg si controlla QUI e non prima: un giro che non deve misurare niente non
+  ha bisogno di ffmpeg, e su un orologio che scatta ogni ora la stragrande
+  maggioranza dei giri è esattamente quella.
+*/
+if (todo.length > 0) requireFfmpeg();
 
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), "videocheck-"));
 const rows = [];
 const tx = client.transaction();
 
 try {
-  for (const asset of assets) {
+  for (const asset of todo) {
     const file = path.join(dir, `${asset._id}.mp4`);
     const res = await fetch(asset.url);
     if (!res.ok) {
@@ -328,17 +381,24 @@ try {
       note: v.note,
       checkedAt: new Date().toISOString(),
     });
+    measured.add(asset._id);
   }
 } finally {
   fs.rmSync(dir, {recursive: true, force: true});
 }
 
-console.table(rows);
+if (rows.length > 0) console.table(rows);
+
+/* Quanti controlli il sito DEVE poter vedere quando questo giro è finito: uno
+   per ogni video che è stato misurato, oggi o in un giro precedente. */
+const expected = assets.filter((a) => measured.has(a._id)).length;
 
 if (!WRITE) {
   console.log("\n  PROVA. Rilancia con --write per salvarlo.\n");
 } else {
-  await tx.commit();
+  /* Una transazione vuota non è un no-op: Sanity la rifiuta, e un giro che non
+     aveva niente da fare uscirebbe con un errore invece che in silenzio. */
+  if (rows.length > 0) await tx.commit();
 
   /*
     E ADESSO CONTROLLA CHE IL SITO LI VEDA DAVVERO.
@@ -363,12 +423,16 @@ if (!WRITE) {
   });
   await new Promise((r) => setTimeout(r, 2000));
   const visible = await anon.fetch(`count(*[_type == "videoCheck"])`);
-  if (visible < rows.length) {
+  if (visible < expected) {
     console.error(
-      `\n  ATTENZIONE: salvati ${rows.length} controlli ma il sito ne vede ${visible}.\n` +
+      `\n  ATTENZIONE: dovrebbero esserci ${expected} controlli ma il sito ne vede ${visible}.\n` +
         `  Finché non li vede, OGNI video parte una volta sola. Non è rotto il sito: è questo script.\n`,
     );
     process.exit(1);
   }
-  console.log(`\n  Salvato. ${rows.length} video controllati, e il sito li vede tutti.\n`);
+  console.log(
+    rows.length > 0
+      ? `\n  Salvato. ${rows.length} video nuovi controllati, ${expected} in tutto, e il sito li vede.\n`
+      : `\n  Niente di nuovo. ${expected} video già controllati, e il sito li vede.\n`,
+  );
 }
