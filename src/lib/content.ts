@@ -47,6 +47,9 @@ const MEDIA_PROJECTION = /* groq */ `
   // failed join all land on the safe side rather than on the loud one.
   "videoLoops": coalesce(*[_type == "videoCheck" && assetId == ^.video.asset._ref][0].loops, false),
   "videoSeconds": *[_type == "videoCheck" && assetId == ^.video.asset._ref][0].seconds,
+  // THE OWNER OVERRULING THE CHECK ON ONE CLIP (section 131). Defaults to
+  // false, so the safe side is still the side you land on by doing nothing.
+  "videoLoopAlways": coalesce(videoLoopAlways, false),
   "dimensions": poster.asset->metadata.dimensions
 `;
 

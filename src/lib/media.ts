@@ -40,6 +40,13 @@ export type MediaItem = {
   videoUrl: string | null;
   /** False unless scripts/check-videos.mjs has measured this clip and passed it. */
   videoLoops: boolean;
+  /**
+   * The OWNER overruling the automatic check for one clip (section 131). The
+   * check is deliberately timid — anything under three seconds plays once — and
+   * this is how he says no to it on a single video without making the check
+   * meaningless for every other one.
+   */
+  videoLoopAlways: boolean;
   videoSeconds: number | null;
   dimensions: {width: number; height: number} | null;
 };

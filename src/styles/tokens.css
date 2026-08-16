@@ -112,6 +112,28 @@
   --media-h-screen: calc(100svh - var(--chrome-h));
   --media-h-tall: 88svh; /* one in a sequence, so the next one shows */
   /*
+    THE ARRIVAL'S OWN HEIGHT (2026-08-16, section 131), and it is the only box
+    on the site measured against the viewport's WIDTH.
+
+    His opening photograph is 9:16, shot on a phone. `cover` scales it to the
+    box's width, so the taller the screen is relative to that width the more of
+    the picture survives — which means the crop gets WORSE as a window gets
+    wider, exactly backwards from every other frame here. At 1440x900 the old
+    88svh box showed 31% of the frame and the subject was gone.
+
+    `75vw` ties the height to the width instead, so the SAME fraction of the
+    photograph survives at every desktop size: 42%, whether the window is 1440
+    or 1920. `max()` with the old value means nothing ever gets shorter than it
+    is today — on a phone 75vw is 293px against 743, so the phone is untouched,
+    and a narrow window keeps the taller box it already had. The `min()` stops a
+    short wide window from turning the arrival into two full screens.
+
+    It does not fix the cause: a 9:16 photograph on a 16:9 screen can never show
+    all of itself. A landscape or 4:5 frame for the desktop arrival is item 21
+    on THE OPEN LIST, and it is his.
+  */
+  --media-h-arrival: min(max(var(--media-h-tall), 75vw), 160svh);
+  /*
     THE SHORT ROW on the Creature index. Paired with --media-h-tall it gives the
     index an alternating pulse instead of a conveyor of identical rectangles.
     The gap between the two is deliberately wide enough to feel on a phone

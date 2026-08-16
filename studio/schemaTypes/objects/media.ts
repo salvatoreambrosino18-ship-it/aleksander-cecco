@@ -184,6 +184,32 @@ export const media = defineType({
         "Loop breve e muto: 4-10 secondi, MP4 (h.264), meno di 3 MB, SENZA traccia audio, stesso taglio della fotografia qui sopra. Il sito lo riproduce sopra la fotografia, solo quando è sullo schermo. La fotografia resta cio' che vedono chi ha il risparmio dati e chi ha ridotto le animazioni. / Short muted loop: 4-10 seconds, MP4 (h.264), under 3 MB, with NO audio track at all, framed the same as the photograph above. The site plays it over the photograph, only while it is on screen. The photograph stays what a reader gets under reduced motion or when the video cannot play.",
       options: {accept: 'video/mp4,video/webm'},
     }),
+    /*
+      IL LOOP DECISO DA LUI, SOPRA LA MISURA (2026-08-16, sezione 131).
+
+      Il controllo automatico è tarato per essere prudente: un video sotto i tre
+      secondi parte una volta sola, perché un loop corto si legge come un
+      boomerang. È la regola giusta e resta la regola.
+
+      Questo è il modo di dirgli di no su UN video. Il titolare ha guardato il
+      clip di apertura, che dura un secondo e mezzo, e ha deciso che lo vuole in
+      loop accettando lo stacco al ricomincio. Senza questa casella l'unico modo
+      sarebbe stato mentire al controllo automatico — scrivergli dentro un
+      verdetto che non ha misurato — e allora il controllo non varrebbe più
+      niente per nessun altro video.
+    */
+    defineField({
+      name: 'videoLoopAlways',
+      title: 'Questo video va in loop comunque',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'Normalmente decide il controllo automatico: se un video è troppo corto o troppo mosso parte una ' +
+        'volta sola, perché un loop corto sembra un boomerang. Spuntando questa casella dici «questo lo ' +
+        'voglio in loop lo stesso», e ti prendi lo stacco che si vede quando ricomincia. ' +
+        'Vale solo per QUESTO video. / Normally the automatic check decides. Tick this to loop this one clip ' +
+        'anyway, accepting the visible cut at the wrap.',
+    }),
     defineField({
       name: 'caption',
       title: 'La riga sotto la foto',

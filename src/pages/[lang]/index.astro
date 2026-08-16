@@ -237,7 +237,21 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
           agree exactly and there is no jump when it starts.
         */}
         <div class="relative">
-          <MediaSurface media={opening} locale={locale} priority height="tall" playOnce>
+          {/*
+            THE ARRIVAL LOOPS, AND IT IS TALLER (2026-08-16, section 131, the
+            OWNER's call, reversing his own of section 124 for this clip alone).
+
+            `playOnce` is gone: he watched it stop and wants it to run, and he
+            accepts the cut at the wrap. The clip is 1.5 seconds and travels
+            0.05 — it only ever wobbled — so what a reader sees is a held frame
+            that breathes and jumps back, not a boomerang of a moving camera.
+            The permission is on the FRAME, in his studio (`videoLoopAlways`),
+            so the automatic check still protects every other clip on the site.
+
+            `height="arrival"` measures the box against the viewport's WIDTH, so
+            a wider window stops cropping his 9:16 photograph harder.
+          */}
+          <MediaSurface media={opening} locale={locale} priority height="arrival">
             <div class="flex flex-col gap-u2">
               {/*
                 HIS THREE LINES, VERBATIM (2026-08-12, section 99), replacing

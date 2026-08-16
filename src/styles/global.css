@@ -41,6 +41,7 @@
   /* under --spacing-*, which is the namespace h-* and w-* read in Tailwind v4 */
   --spacing-media-screen: var(--media-h-screen);
   --spacing-media-tall: var(--media-h-tall);
+  --spacing-media-arrival: var(--media-h-arrival);
   --spacing-media-short: var(--media-h-short);
   --spacing-worn: var(--worn-h);
   --spacing-two-up: var(--two-up-h);

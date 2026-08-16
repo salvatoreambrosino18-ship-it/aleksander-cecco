@@ -48,6 +48,12 @@ interface Props {
    */
   height?:
     | "screen"
+    /**
+     * THE HOME ARRIVAL, and nothing else (section 131). Its height is measured
+     * against the viewport's WIDTH, so a wider window does not crop his 9:16
+     * opening photograph harder. See --media-h-arrival.
+     */
+    | "arrival"
     | "tall"
     | "short"
     | "worn"
@@ -251,6 +257,21 @@ const contained =
 */
 const videoAllowed = !isTile && height !== "square" && height !== "worn";
 
+/*
+  DOES THIS CLIP LOOP, and there are three answers feeding one (section 131).
+
+  - the automatic check measured it and passed it (`videoLoops`), or
+  - the OWNER ticked "loop this one anyway" on the frame (`videoLoopAlways`),
+    which is how he overrules a check that is deliberately timid without making
+    it meaningless for every other clip on the site;
+  - and a page can still force once with `playOnce`, which beats both.
+
+  The default is still NO. An unmeasured clip, a deleted check, a failed join
+  and an untouched tick all land on "plays once", which has no wrap and so
+  cannot boomerang.
+*/
+const loops = (media.videoLoops || media.videoLoopAlways) && !playOnce;
+
 const nativeRatio =
   height === "native" && media.dimensions?.width && media.dimensions?.height
     ? `${media.dimensions.width} / ${media.dimensions.height}`
@@ -267,6 +288,7 @@ const nativeRatio =
     class:list={[
       "relative w-full overflow-hidden",
       height === "screen" && "h-media-screen",
+      height === "arrival" && "h-media-arrival",
       height === "tall" && "h-media-tall",
       height === "short" && "h-media-short",
       height === "worn" && "h-worn",
@@ -379,8 +401,8 @@ const nativeRatio =
           src={media.videoUrl}
           poster={src ?? undefined}
           muted
-          loop={media.videoLoops && !playOnce}
-          data-play-once={media.videoLoops && !playOnce ? undefined : ""}
+          loop={loops}
+          data-play-once={loops ? undefined : ""}
           playsinline
           preload="none"
           aria-hidden="true"
