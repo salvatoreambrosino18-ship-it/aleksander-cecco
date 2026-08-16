@@ -213,6 +213,23 @@ const EMPTY_SETTINGS: SiteSettings = {
   aboutNotes: null,
   processNotes: null,
   instagramFrames: null,
+  /*
+    THREE FIELDS THAT WERE MISSING HERE, and `npm run check` had been red on
+    them (2026-08-16, section 129). They were added to `SiteSettings` and to the
+    query and not to the fallback, so the object this file hands back when the
+    dataset does not answer was not the type it claims to return.
+
+    IT WAS INVISIBLE BECAUSE OF THE SPREAD BELOW: `getSiteSettings` returns
+    `{...EMPTY_SETTINGS, ...settings}`, so on any real build the query's own
+    values fill the three gaps and nothing renders differently. The only path
+    that would show it is the one nobody exercises — an unreachable dataset —
+    and a build with an unreachable dataset already refuses for other reasons.
+    So the type error was the ONLY signal, and it was a signal in a command that
+    had stopped passing, which is how a gate goes quiet.
+  */
+  newDropCount: null,
+  chapterCount: null,
+  processPairMedia: null,
   makingStatement: null,
   approvedLanguages: null,
   footerCopyIsDraft: null,

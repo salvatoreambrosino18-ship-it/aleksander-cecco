@@ -161,6 +161,12 @@
     large, so this cannot go below 20px however small its container becomes.
   */
   --ig-mark: max(20px, 1.375rem);
+  /*
+    The cart glyph in the chrome. Set against the signature beside it rather
+    than against the Instagram mark: this one shares a band with the brand's own
+    name and must not out-weigh it, so it is a shade smaller than the square.
+  */
+  --cart-mark: max(18px, 1.125rem);
   /* the mark's own proportion, 2712/615 from its viewBox, not a guess */
   --sig-corner-w: calc(var(--sig-corner-h) * 4.41);
 

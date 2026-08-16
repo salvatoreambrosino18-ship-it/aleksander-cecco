@@ -134,12 +134,12 @@ export default defineType({
       type: 'localeString',
       group: 'negozio',
       description:
-        'Compare in tre punti: sul modulo d\'ordine di un capo, sulla pagina per ordinare più pezzi e nei Contatti. ' +
+        'Compare in tre punti: sul modulo d\'ordine di un capo, nel carrello e nei Contatti. ' +
         'È la cosa che chi compra chiede più spesso, quindi tienila vera. ' + blank,
     }),
     defineField({
-      name: 'orderSeveralIntro',
-      title: 'La riga in cima a «Ordina più pezzi»',
+      name: 'cartIntro',
+      title: 'La riga in cima al carrello',
       type: 'localeString',
       group: 'negozio',
       description:
@@ -147,22 +147,29 @@ export default defineType({
         'chi ordina può aspettarsi di pagare subito. ' + blank,
     }),
     defineField({
-      name: 'orderNoPayment',
+      name: 'cartEmpty',
+      title: 'Cosa dice il carrello quando è vuoto',
+      type: 'localeString',
+      group: 'negozio',
+      description:
+        'Chi legge questa frase non ha ancora scelto niente: sotto trova il link a tutte le Creature. ' + blank,
+    }),
+    defineField({
+      name: 'cartNoPayment',
       title: 'La riga che dice che qui non si paga',
       type: 'localeString',
       group: 'negozio',
       description:
-        'In fondo alla pagina per ordinare più pezzi, appena sopra il pulsante. ' +
+        'In fondo al carrello, appena sopra il pulsante. ' +
         'È la frase che evita malintesi sul pagamento: cambiala pure, ma dillo lo stesso. ' + blank,
     }),
     defineField({
-      name: 'orderOnePiece',
-      title: 'Come si dice, nell\'ordine, che di un capo ne esiste uno solo',
+      name: 'cartOnePiece',
+      title: 'Come si dice, nel carrello, che di un capo ne esiste uno solo',
       type: 'localeString',
       group: 'negozio',
       description:
-        'Compare accanto ai capi «1 di 1» nella pagina per ordinare più pezzi, dove la quantità si ferma a uno. ' +
-        blank,
+        'Compare accanto ai capi «1 di 1» nel carrello, dove la quantità si ferma a uno. ' + blank,
     }),
     defineField({
       name: 'newsletterLine',
@@ -302,21 +309,22 @@ export default defineType({
       description: blank,
     }),
     defineField({
-      name: 'orderSeveral',
-      title: 'Titolo della pagina per ordinare più pezzi',
+      name: 'cart',
+      title: 'Come si chiama il carrello',
       type: 'localeString',
       group: 'titoli',
-      description: 'Questo nome compare anche nel menu. ' + blank,
+      description:
+        'Il titolo della pagina del carrello, e la parola che uno screen reader legge sull\'icona in alto. ' + blank,
     }),
     defineField({
-      name: 'orderPieces',
-      title: 'Titolo: l\'elenco dei capi nell\'ordine',
+      name: 'cartPieces',
+      title: 'Titolo: l\'elenco dei capi nel carrello',
       type: 'localeString',
       group: 'titoli',
       description: blank,
     }),
     defineField({
-      name: 'orderYourOrder',
+      name: 'cartYourDetails',
       title: 'Titolo: i dati di chi ordina',
       type: 'localeString',
       group: 'titoli',
@@ -406,13 +414,12 @@ export default defineType({
       description: 'Come sopra, ma sui capi «1 di 1». ' + blank,
     }),
     defineField({
-      name: 'orderAdd',
-      title: 'Il link che aggiunge un capo all\'ordine',
+      name: 'cartAdd',
+      title: 'Il pulsante che mette un capo nel carrello',
       type: 'localeString',
       group: 'nomi',
       description:
-        'Sotto il pulsante per comprare, sui capi che hanno un prezzo. Porta alla pagina per ordinare più pezzi. ' +
-        blank,
+        'Sotto il pulsante per comprare, sui capi che hanno un prezzo, dopo la scelta della taglia. ' + blank,
     }),
     defineField({
       name: 'menuHome',
@@ -548,8 +555,8 @@ export default defineType({
       description: 'Non lasciarlo vuoto per sbaglio: se lo svuoti resta il nostro, perché un pulsante senza parola non si può premere. Lascia vuoto per tenere la parola che c\'è adesso.',
     }),
     defineField({
-      name: 'orderSend',
-      title: 'Il pulsante che invia l\'ordine di più pezzi',
+      name: 'cartSend',
+      title: 'Il pulsante che invia l\'ordine dal carrello',
       type: 'localeString',
       group: 'bottoni',
       description: 'Lascia vuoto per tenere la parola che c\'è adesso.',

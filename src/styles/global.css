@@ -238,6 +238,22 @@
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
+  /*
+    `hidden` BEATS A DISPLAY UTILITY, AND TAILWIND IS WHY (checked 2026-08-16,
+    not assumed). The browser's own `[hidden] { display: none }` is a bare
+    attribute selector and loses to any class, so `class="flex" hidden` would be
+    VISIBLE while looking in the markup exactly like something hidden — the same
+    shape as the trap recorded against the catalogue filter. Tailwind's
+    preflight closes it, with `!important`, and a rule of ours here was written
+    and then deleted as a duplicate:
+
+        [hidden]:where(:not([hidden='until-found'])) { display: none !important }
+
+    So the cart's toggling is safe. It is written down because it is a
+    DEPENDENCY ON PREFLIGHT rather than on anything in this file: if preflight
+    is ever switched off, everything on this site that hides itself with the
+    attribute stops hiding, silently.
+  */
   body {
     background-color: var(--bg);
     color: var(--fg);
@@ -956,6 +972,91 @@
     bottom: var(--caption-inset);
     color: var(--fg);
     pointer-events: none;
+  }
+
+  /*
+    THE CART (2026-08-16, section 129).
+
+    NOTHING HERE IS DISPLAYED UNTIL `<html>` CARRIES `js`, and that is the whole
+    honesty of the feature. A cart is per-visitor state that has to survive
+    navigation, which on a static site means localStorage, which means a script.
+    A glyph that cannot count, or an "add" that cannot add, is a control that
+    lies about what it does, so both are absent rather than broken. The class is
+    added in the document head, before anything paints, so nothing flashes.
+
+    THE DISPLAY VALUE IS SET HERE AND NOT BY A UTILITY, deliberately. These
+    rules are in `@layer components` and Tailwind's utilities are a LATER layer,
+    so a `flex` class on the element would beat the `display: none` above it and
+    the control would show for a reader who has no script — silently, the way
+    the catalogue filter once did. Whatever a rule here hides must take its
+    display from a rule here.
+  */
+  .cart-mark {
+    display: none;
+    align-items: baseline;
+    gap: var(--s-u1);
+    /* the third mark in the chrome, and the only one on the far side of it */
+    margin-inline-start: auto;
+    color: inherit;
+  }
+  :root.js .cart-mark {
+    display: flex;
+  }
+  /*
+    Optically level with MENU beside it. The glyph is a drawn shape rather than
+    a line of type, so it aligns to the baseline by its own box and needs the
+    nudge every icon beside text needs.
+  */
+  .cart-glyph {
+    display: block;
+    width: var(--cart-mark);
+    height: var(--cart-mark);
+    aspect-ratio: 1;
+    flex: 0 0 auto;
+    transform: translateY(0.1em);
+  }
+
+  /*
+    The cart page's no-script state. It is what the document SAYS, and the
+    script hides it rather than a script revealing something else — so a reader
+    with no JavaScript never watches a control appear and then fail.
+
+    Its layout is set HERE and not by a `flex flex-col` utility, for the reason
+    written against `.tile`: utilities are a later layer, so a display utility on
+    this element would beat the hiding rule below it and the sentence would show
+    to everybody.
+  */
+  .cart-noscript {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-u5);
+  }
+  :root.js .cart-noscript {
+    display: none;
+  }
+
+  /* The size-and-add block on a Creature's page: same rule, same reason. */
+  .cart-add {
+    display: none;
+    flex-direction: column;
+    gap: var(--s-u3);
+  }
+  :root.js .cart-add {
+    display: flex;
+  }
+
+  /*
+    The cart's own page. The list is written by script into `[data-cart-list]`,
+    so the paper it is written onto has to exist in the built HTML; what a
+    reader sees before the script runs is the empty state, which is also what
+    they see when the cart really is empty. One of the two is then hidden.
+  */
+  .cart-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--s-u5);
   }
 
   /*

@@ -1,6 +1,7 @@
 {
   "//": "functions/ is the Cloudflare Pages Function. It runs in the Workers runtime, not the browser, so it is typechecked separately against @cloudflare/workers-types by functions/tsconfig.json. `npm run check` runs both.",
+  "//studio": "studio/ is a SEPARATE PACKAGE with its own tsconfig and its own `npm run typecheck`. It was never excluded here, so `astro check` was walking studio/dist — 8.2 MB of minified Sanity bundle, ignored by git and therefore invisible in a diff — and dying on it: `FATAL ERROR: Reached heap limit`, exit 134. The gate did not report a wrong answer, it reported nothing, which is the failure mode this project keeps finding (DESIGN-PLAN section 5). It only started once the studio had been deployed and left a dist behind, which is why nobody wrote it.",
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "functions"]
+  "exclude": ["dist", "functions", "studio"]
 }

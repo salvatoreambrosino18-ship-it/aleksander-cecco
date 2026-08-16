@@ -45,14 +45,23 @@ mode and inventing one would produce the exact disaster section 5 describes.
     /[lang]/creature        the catalogue, all seventeen, filterable
     /[lang]/creature/[slug] one Creature
     /[lang]/creature/[slug]/order    name + email, no payment
+    /[lang]/cart            the cart and its checkout (section 129)
     /[lang]/collections     the drop index
     /[lang]/collections/[slug]       one drop
     /[lang]/process         the single home of imagery
     /[lang]/about           the brand, in his words, complete
     /[lang]/contact         two addresses and the terms
 
+**`/[lang]/cart` IS THE ONLY PAGE ON THIS SITE THAT NEEDS JAVASCRIPT** (section
+129, the owner's call). A cart is state that has to survive navigation and this
+is static HTML on a CDN, so there is nowhere else to keep it. With no script it
+says so and sends the reader to the catalogue, where every Creature still has
+its own order form and that form is plain HTML. Every other page renders,
+navigates, filters and posts with scripts off, and that was checked by stripping
+every `<script>` out and opening them, not by believing it.
+
 **Where things live.** `src/pages` is one file per route and carries most of the
-reasoning in comments. `src/components` is nine surfaces — the whole visual
+reasoning in comments. `src/components` is sixteen files — the whole visual
 system is `MediaSurface`, `TextSurface` and `PairedSurface`. `src/lib/content.ts`
 is every GROQ query and the only place the dataset is described. `src/i18n/ui.ts`
 is interface strings and **no brand copy**. `functions/api/enquiry.ts` is the
@@ -106,6 +115,11 @@ The shape, which is settled:
   AND AN EMAIL → "Order received". Email via Resend from one Function. **No
   payment exists**; Stripe slots into one return statement in that Function when
   he has a fiscal position.
+- **AND A CART, since 2026-08-16** (section 129, his call): a size and an ADD on
+  each Creature, a cart in the chrome on every page with a count, and a checkout
+  that posts to the same Function. Still no payment. It is the one thing here
+  that needs JavaScript, and the single-piece flow above is what a reader
+  without it gets — unchanged.
 - **THE BUYER CHOOSES A SIZE AND HE MAKES THE PIECE IN IT** (section 101, and
   section 100 records the THREE answers this question has had in ten days —
   read that before touching it). XS to XL, plus ONE SIZE as an explicit tick
@@ -417,6 +431,16 @@ started.
   is a loud refusal instead of noise in a long log.
 - **Local servers must be owned by the process that needs them.** One started
   with `&` dies with its shell call.
+- **A CHECK THAT CRASHES LOOKS LIKE A CHECK THAT RAN** (2026-08-16, section
+  129). `npm run check` was dying with `FATAL ERROR: Reached heap limit`, exit
+  134, because the root `tsconfig.json` excluded `dist` and `functions` and
+  never `studio` — so `astro check` was typechecking `studio/dist`, 8.2 MB of
+  minified bundle, gitignored and invisible in every diff. It began the day the
+  studio was first deployed and left a dist behind. **A real type error had been
+  sitting under it, unreadable.** Read the exit code, not the last line.
+- **A SECTION NUMBER IN A COMMENT IS A PROMISE.** Sections 120 to 128 are cited
+  nineteen times across the source and none of them exists in this file. See the
+  note before section 129.
 
 ### 6. The tools, and the rule about them
 
@@ -679,6 +703,14 @@ for going quiet.
     refuses until each is answered (section 101). **An empty list is not One
     Size**: it is nobody having decided, and the two are deliberately different
     states.
+    **IT NOW COSTS SOMETHING VISIBLE (2026-08-16, section 129).** The cart asks
+    for a size on the Creature's own page, and with no sizes set on any piece
+    that question is not asked anywhere: all thirteen orderable Creature carry an
+    empty list, so the size control renders on none of them and every order
+    reaches him with no size on it. The code is there and correct — it was
+    exercised against a piece given sizes by hand — it simply has nothing to
+    offer until he ticks. **This is the item that most changes what a buyer can
+    do, and it is sixteen ticks in the studio.**
 16. **THREE ERRORS IN HIS OWN ENGLISH, shipped unaltered (section 99).** "Our
     leathers is tanned", "it change", "the Mother Nature". They are his, they
     are on the home page, and the rule that protects his voice protects his
@@ -10343,3 +10375,163 @@ page it sits on.
 It is **item 24 on THE OPEN LIST** and it is his, because one of the three
 answers is "Solvet is the brand's word" and that is not a call a developer makes
 about a name. **Nothing was changed in either direction.**
+
+---
+
+## 120 to 128 ARE MISSING, and the code cites them (found 2026-08-16)
+
+**This file ends at 119 and the codebase refers to nine sections that were never
+written.** Counted rather than guessed: `section 128` appears 5 times in the
+source, `section 126` 3 times, and 120, 121, 122, 123, 124, 125 and 127 between
+one and four times each — in `src/`, `functions/`, `scripts/` and the studio
+schema, as the citation for why something is the way it is.
+
+**Every one of them is a dead reference.** A reader who follows `section 126` to
+find out why the order flow changed finds nothing, and the only account of that
+decision is the comment that cites it.
+
+This is the FIRST TRAP IN SECTION 5 happening again, and one degree worse: the
+first trap is a decision carried in a chat message and never written down, and
+this is a decision carried in a chat message, never written down, and then
+cited by name as though it had been. The citation is what makes it worse — it
+reads like a pointer into this file and it is a pointer at nothing.
+
+**Nothing is reconstructed here.** What those sections said is not recoverable
+from the comments that cite them, and inventing a plausible section 126 would
+put words in an earlier session's mouth and, through it, in the owner's. The
+code comments themselves are detailed and are the record; they are simply not
+where this file says the record lives.
+
+**For whoever writes next: a section number in a comment is a promise, and the
+same commit has to keep it.**
+
+---
+
+## 129. The cart, and the hourly failure that was ffmpeg (2026-08-16)
+
+Two things, both the owner's, and they are unrelated except that both were
+FAILING QUIETLY IN THE SAME DIRECTION — safe, silent, and wrong.
+
+### THE VIDEO CHECK HAD NEVER PASSED, ONCE
+
+`Controllo dei video` was mailing "All jobs have failed" every hour. The cause
+is one line in a comment: **"ffmpeg is already on the GitHub runners, so nothing
+is installed for it."** It is not, and has not been since Ubuntu 22.04. The
+published toolset for `ubuntu-24.04` lists mediainfo and no ffmpeg at all, and
+the script refuses to measure without it — correctly, because "unmeasured" and
+"measured and bad" must never collapse into each other. So: one second of work,
+exit 1, an email an hour.
+
+**Reproduced rather than deduced**, by running it locally with ffmpeg out of the
+PATH: the same Italian refusal, the same exit code, seventeen videos to measure.
+
+**AND A VIDEO IS NOW MEASURED ONCE, EVER.** Sanity file assets are content
+addressed — the id contains the sha1 of the bytes — so an id is one unchanging
+file and its verdict cannot go stale. The old script downloaded and decoded all
+seventeen clips on every run, four minutes and most of a hundred megabytes off
+the CDN, hourly, to reach the answer it reached the hour before. The ordinary
+run is now one GROQ query and nothing else, and **ffmpeg is only installed on
+the runner when there is actually something to measure**, which on an hourly
+clock is almost never. `--all` re-measures everything and is what to run AFTER
+CHANGING A THRESHOLD in that file; nothing recomputes an old verdict on its own.
+
+Two smaller repairs in the same pass: it refuses immediately when
+`SANITY_WRITE_TOKEN` is missing rather than discovering it at `commit()` after
+measuring everything, and it no longer tries to commit an empty transaction,
+which Sanity rejects — so a run with nothing to do used to be the one run
+guaranteed to fail.
+
+**THE YML IS IN `docs/check-videos.workflow.yml` AND HAS TO BE COPIED BY HAND.**
+The token this repository is pushed with has no `workflow` scope and GitHub
+refuses the push; that was tested, not assumed. Until it is copied the job stops
+FAILING anyway, because the script no longer asks for ffmpeg when there is
+nothing to measure — but the day a new clip is uploaded it fails once more.
+
+### THE CART, AND WHAT IT COSTS
+
+The owner saw `/order`, the page that listed every piece at once with a quantity
+box against each, and **did not want it**. What he asked for is what every shop
+has: choose a size on a Creature's page, add it to a cart, a cart in the header
+with a count, and a normal checkout. **`/[lang]/order` is deleted** rather than
+left standing.
+
+**A CART REQUIRES JAVASCRIPT AND THIS ONE SAYS SO.** It is per-visitor state
+that has to survive navigation; the site is static HTML on a CDN, so there is no
+session and no per-request render, and localStorage is the only place to keep it
+without routing the whole site through a Function and giving up the static
+model, the deploy hook and the URL. The owner was told this and accepted it.
+
+**EXACTLY ONE PAGE STOPS WORKING WITHOUT A SCRIPT: `/[lang]/cart`.** It says so
+in both languages and sends the reader to the catalogue, where every Creature
+still has its own order form — a plain HTML form, no script, posting to the same
+endpoint. Everything else is untouched and this was VERIFIED rather than
+asserted: every page was re-fetched with every `<script>` stripped out and
+opened, and the menu still opens (`<details>`), the catalogue filter still
+filters (15 tiles to 12 on Donna, CSS `:has()`), every form still posts, every
+link still resolves.
+
+**THE TWO CART CONTROLS ARE HIDDEN WITHOUT A SCRIPT RATHER THAN DEAD.** The mark
+in the chrome and the size-and-add block on a piece are `display: none` until
+`<html>` carries `js`, which is set in the head before anything paints. A glyph
+that cannot count, or a button that cannot add, is a control that lies. What a
+reader with no script gets on a Creature is exactly what they got before any of
+this existed: the Acquire line, leading to that piece's own order form.
+
+**THE THIRD MARK IN THE CHROME.** The signature and MENU were put together in
+section 14 so one measured polarity keeps both legible; the cart sits at the
+other end of the band, over different pixels. That is acceptable HERE and would
+not have been under the old full-width chrome, for a reason worth keeping: the
+cart is a GLYPH, a closed hairline shape at 18px, not a word. A letterform lost
+against a busy patch is unreadable; a bag outline lost against one is still a
+bag. If it ever stops reading, the answer is the owner's `overlay` value on that
+frame or a different frame — **never a scrim** (standing rule 11).
+
+It came OUT of the menu at the same time. Section 126 had put a seventh entry in
+the flat menu because the order page had nowhere else to live; it has a
+permanent place now, so the menu is the settled six again (s67).
+
+**ONE LINE PER PIECE, and the size lives on that line.** Adding a Creature
+already in the cart raises the quantity and takes the size just chosen; there is
+no second line for the same piece in another size. The wire format the endpoint
+already validates is one quantity and one size per slug, and with sixteen
+pieces, most of them 1 of 1, a second line is a shop-scale feature this shop
+does not have. It is a real limit and it is written here rather than discovered.
+
+**NOTHING IS PRICED BY THE BUYER.** Every figure on the page comes from the
+build; the total the endpoint acts on is computed from `/order-catalogue.json`,
+which the build writes. Proved by forging a POST: a quantity of 99 against a 1
+of 1 came back as 1, a size the brand does not cut was dropped, an invented slug
+vanished, and the sheet totalled what the catalogue says rather than what the
+form said.
+
+**THE FILTER THAT DECIDES WHAT CAN BE BOUGHT IS NOW ONE FUNCTION**
+(`src/lib/order.ts`). It was written out twice — in the JSON endpoint and in the
+order page — with a comment on each saying the two "have to stay the same",
+which is a rule a file can state and cannot keep. A piece on one and absent from
+the other is an order the endpoint silently refuses to price.
+
+**THE GATE IS UNCHANGED AND WAS TESTED IN BOTH STATES.** With the Resend
+bindings unset the endpoint answers 503, says sending is not switched on, and
+**leaves the cart alone** — nothing was ordered, so nothing is emptied. With
+them set and the dry run on, the confirmation renders and the cart is emptied,
+which can only happen there: the cart is in the visitor's browser and that page
+is the only moment the site knows the order was taken.
+
+### AND `npm run check` HAD STOPPED RUNNING AT ALL
+
+Not failing — **crashing**. `FATAL ERROR: Reached heap limit`, exit 134, before
+it reported anything. The root `tsconfig.json` includes `**/*` and excluded
+`dist` and `functions` and never `studio`, so `astro check` was walking
+`studio/dist` — 8.2 MB of minified Sanity bundle, gitignored and therefore
+invisible in every diff — and dying on it. It only started once the studio had
+been deployed and left a dist behind, which is why nobody wrote it down.
+
+Under it was a real type error that had been unreadable behind the crash:
+`EMPTY_SETTINGS` in `src/lib/content.ts` was missing three fields the type
+requires. Harmless on any real build, because `getSiteSettings` spreads the
+query's answer over it — **and the type error was the only signal, sitting
+inside a command that had stopped speaking.** Both fixed.
+
+**This is the shape section 5 keeps finding, in a third form.** A gate that asks
+the wrong question looks like a gate that works; a gate that answers nothing at
+all looks, in a terminal, almost the same.

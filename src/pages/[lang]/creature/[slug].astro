@@ -105,6 +105,12 @@ const canEnquire =
   number is his to set, and nothing here should invent one.
 */
 const canAddToOrder = canEnquire && typeof garment.price === "number" && garment.price > 0;
+/*
+  The sizes the ADD control offers. ONE is filtered out for the same reason the
+  order form filters it (section 101): a piece that is one size has nothing to
+  choose, so it carries no radios and its cart line carries no size.
+*/
+const addSizes = (garment.sizes ?? []).filter((size) => size !== "ONE");
 const isUnique = availability === "unique";
 const availabilityLabel = {
   readyNow: t(locale, "availableNow"),
@@ -407,26 +413,70 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
           </a>
 
           {/*
-            SEVERAL PIECES (2026-08-17, section 126). The line above is still
-            the one action: this piece, now, on its own page. This is the other
-            case, and it is a LINK rather than a button so that it works with
-            no JavaScript at all — it goes to the order page, which lists
-            everything and is a plain form.
+            CHOOSE A SIZE AND ADD IT TO THE CART (2026-08-16, section 129), the
+            OWNER's call: what every shop has, on the page where a person is
+            deciding.
 
-            With a script it becomes an add: the piece is written to
-            localStorage and the reader is told the basket holds it, without
-            leaving the page they are reading. Same href either way, so there
-            is nothing to fall back to.
+            IT IS ABSENT WITHOUT JAVASCRIPT, and that is the honest shape rather
+            than a shortcut. Section 126 made this a LINK to an order page
+            listing everything, so it worked with no script; the owner has seen
+            that page and does not want it, so there is nothing left to fall
+            back to. A button that cannot add, or radios whose answer nothing
+            reads, would be furniture pretending to be a control. `.cart-add` is
+            `display: none` until the document carries `js`.
+
+            WHAT A READER WITH NO SCRIPT GETS IS EXACTLY WHAT THEY GOT BEFORE
+            ANY OF THIS EXISTED: the Acquire line above, which leads to this
+            piece's own order form, which asks for the size itself and posts
+            without a line of JavaScript. Nothing was taken from them.
+
+            ONE LINE PER PIECE, and the size lives on that line. Adding a piece
+            already in the cart raises its quantity and takes the size now
+            chosen; there is no second line for the same piece in another size.
+            The wire format the endpoint already validates is one quantity and
+            one size per slug, and with sixteen pieces, most of them 1 of 1, a
+            second line is a shop-scale feature this shop does not have. The
+            cart shows the line, so nothing about it is hidden.
           */}
           {canAddToOrder && (
-            <a
-              href={localePath(locale, "order")}
-              class="type-label text-label hairline-under self-start"
-              data-add-to-order={garment.slug}
-              data-added-label={t(locale, "orderAdded")}
-            >
-              {t(locale, "orderAdd")}
-            </a>
+            <div class="cart-add">
+              {/*
+                ONE SIZE carries no control (section 101): there is nothing to
+                choose, and a question with one answer is furniture. The empty
+                list is a different state — nobody has decided — and
+                `launch-check` refuses on it, so it must not silently become
+                One Size here.
+              */}
+              {addSizes.length > 0 && (
+                <fieldset class="flex flex-col gap-u2">
+                  <legend class="type-label text-label">{t(locale, "chooseSize")}</legend>
+                  <div class="flex flex-wrap gap-u3">
+                    {addSizes.map((size, index) => (
+                      <label class="type-label text-label flex items-baseline gap-u1">
+                        <input type="radio" name="cart-size" value={size} checked={index === 0} />
+                        {size}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              )}
+
+              {/*
+                `data-fallback-href` is where a reader goes when storage refuses
+                — private browsing, a full store. This piece's own order form:
+                no storage, no script, and it can still sell them the thing they
+                just asked for.
+              */}
+              <button
+                type="button"
+                class="type-label text-body hairline-under self-start"
+                data-add-to-cart={garment.slug}
+                data-added-label={t(locale, "cartAdded")}
+                data-fallback-href={localePath(locale, `creature/${garment.slug}/order`)}
+              >
+                {t(locale, "cartAdd")}
+              </button>
+            </div>
           )}
         </div>
       ) : (

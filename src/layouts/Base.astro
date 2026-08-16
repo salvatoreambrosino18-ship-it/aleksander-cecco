@@ -254,6 +254,24 @@ const shareImage =
       register reaches a first screen, measure before adding a link.
     */}
     <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+
+    {/*
+      DOES THIS BROWSER RUN SCRIPTS (2026-08-16, section 129). One class, set
+      before anything paints, and the only thing on the site that depends on it
+      is the cart — which cannot exist without a script, because a cart is state
+      that has to survive navigation and this site is static HTML on a CDN.
+
+      IN THE HEAD, DELIBERATELY. The controls it reveals are `display: none`
+      until this runs, so a reader with scripts ON must never see them flash in
+      after the page has painted, and a reader with scripts OFF must never see
+      them at all. That ordering is the whole reason this is not at the foot of
+      the body with everything else.
+
+      It says nothing about the rest of the site. Every other page renders,
+      navigates and posts with this class absent, and nothing may start
+      depending on it without saying so on the page it affects.
+    */}
+    <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
   <body>
     {/* Label, not mono: this is a control, and mono is data only (tokens.css). */}
@@ -335,61 +353,90 @@ const shareImage =
       makes video expensive rather than the file size.
     */}
     {/*
-      THE BASKET, AND IT IS ONLY EVER AN ENHANCEMENT (2026-08-17, section 126).
+      THE CART, ON EVERY PAGE (2026-08-16, section 129).
 
-      A cart is per-visitor state that has to survive navigation, and this site
-      is static HTML on a CDN: no session, no per-request render. localStorage
-      is the only way to hold it without changing how the site is served, which
-      means a cart that follows a reader from page to page REQUIRES JavaScript.
-      That is stated plainly in src/pages/[lang]/order.astro rather than hidden.
+      TWO JOBS, and they are on every page because the count is: paint the
+      number in the chrome, and let a piece be added from its own page without
+      leaving it. The cart PAGE has its own script, which is the only place the
+      list is read and written line by line.
 
-      So nothing here is load-bearing. `Add to order` is a LINK to the order
-      page, which is a plain form listing everything and works with no script at
-      all; this only intercepts it so a reader can add a piece without leaving
-      the page they are on, and writes a count next to the menu.
+      IT IS NOT AN ENHANCEMENT AND DOES NOT PRETEND TO BE. A cart is
+      per-visitor state that has to survive navigation, and this site is static
+      HTML on a CDN: no session, no per-request render, so localStorage is the
+      only way to hold it. The controls this drives are hidden until the
+      document carries `js`, and the reasoning is written out in
+      src/pages/[lang]/cart.astro rather than hidden here.
+
+      IT CHANGES NOTHING ELSE. Every other page works with this script absent,
+      exactly as it did before a cart existed.
     */}
     <script is:inline>
       (() => {
-        const KEY = "ac-order";
+        const KEY = "ac-cart";
         const read = () => {
           try {
-            return JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+            const v = JSON.parse(localStorage.getItem(KEY) || "{}");
+            return v && typeof v === "object" ? v : {};
           } catch {
             return {};
           }
         };
 
+        /*
+          PIECES, NOT LINES. Two of one Creature is two pieces in the chrome,
+          which is what "how many pieces are in it" means to the person reading
+          it and what the confirmation email counts.
+        */
         const count = () =>
           Object.values(read()).reduce((n, e) => n + (Number(e && e.qty) || 0), 0);
 
-        const badge = document.querySelector("[data-order-count]");
+        const badge = document.querySelector("[data-cart-count]");
         const paint = () => {
           if (!badge) return;
           const n = count();
           badge.textContent = n > 0 ? String(n) : "";
           badge.hidden = n <= 0;
         };
-        document.addEventListener("ac-order-changed", paint);
+        /* The cart page and this file both write; either one repaints both. */
+        document.addEventListener("ac-cart-changed", paint);
+        /* Another tab of the same site is the same cart. */
+        window.addEventListener("storage", (event) => {
+          if (event.key === KEY) paint();
+        });
         paint();
 
-        for (const link of document.querySelectorAll("[data-add-to-order]")) {
-          link.addEventListener("click", (event) => {
-            /* a modified click is the reader asking for a new tab: leave it */
-            if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
-            event.preventDefault();
-            const slug = link.dataset.addToOrder;
-            const basket = read();
-            const entry = basket[slug] || {qty: 0};
+        for (const button of document.querySelectorAll("[data-add-to-cart]")) {
+          button.addEventListener("click", () => {
+            const slug = button.dataset.addToCart;
+            const block = button.closest(".cart-add");
+            const size = block?.querySelector("input[type=radio]:checked")?.value;
+            const cart = read();
+            const entry = cart[slug] || {qty: 0};
             entry.qty = (Number(entry.qty) || 0) + 1;
-            basket[slug] = entry;
+            /*
+              ONE LINE PER PIECE. Adding the same Creature in another size
+              raises the quantity and takes the size just chosen, rather than
+              opening a second line: the wire format the endpoint validates is
+              one quantity and one size per slug. The cart page shows the line,
+              so the answer is never hidden from the person who chose it.
+            */
+            if (size) entry.size = size;
+            cart[slug] = entry;
             try {
-              localStorage.setItem(KEY, JSON.stringify(basket));
+              localStorage.setItem(KEY, JSON.stringify(cart));
             } catch {
-              /* private mode: fall through to the link, which still works */
-              window.location.href = link.href;
+              /*
+                Private mode, or a full store. A cart cannot exist here, and
+                saying nothing would be the one unacceptable outcome: the reader
+                presses a button, the label says it went in, and nothing did.
+                So they go to this piece's own order form, which needs no
+                storage and no script and can still sell them the thing they
+                just asked for.
+              */
+              if (button.dataset.fallbackHref) window.location.href = button.dataset.fallbackHref;
               return;
             }
-            link.textContent = link.dataset.addedLabel || link.textContent;
+            button.textContent = button.dataset.addedLabel || button.textContent;
             paint();
           });
         }

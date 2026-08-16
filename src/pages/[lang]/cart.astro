@@ -1,0 +1,424 @@
+---
+/*
+  THE CART (2026-08-16, section 129) — the OWNER's call, and it replaces the
+  order page section 126 built.
+
+  WHAT HE ASKED FOR, in his words: choose a size on a Creature's page and add it
+  to a cart; a cart icon in the header, always visible, with a count; and from
+  there a normal checkout — contact details, submit, the order arrives by email.
+  No payment, exactly as before. He has seen the page that listed every piece at
+  once and does not want it. That page is deleted rather than left standing.
+
+  WHAT A CART COSTS ON THIS SITE, stated plainly because it is the whole reason
+  this page is shaped the way it is. A cart is per-visitor mutable state that
+  has to survive navigation. This site is static HTML on a CDN: there is no
+  session, no per-request render and no database. That leaves three ways to hold
+  such state, and two are not available here:
+
+  - LOCALSTORAGE. Needs JavaScript. Every page stays static.
+  - A COOKIE READ BY THE SERVER. Needs every cart-bearing page rendered per
+    request, which means routing the whole site through a Function and giving up
+    the static CDN model, the deploy hook and the URL. That is an infrastructure
+    decision, not a shopping-basket one.
+  - THE URL. Would work with no JavaScript, but only if every "add" link on
+    every page already carried the current basket — and a static build cannot
+    know a visitor's basket when it writes those links.
+
+  So: A CART REQUIRES JAVASCRIPT, and so does a count that follows a reader from
+  page to page. There is no version of either without it, short of changing how
+  the site is served. The owner was told this before it was built and accepted
+  it.
+
+  WHICH PAGES STOP WORKING WITHOUT A SCRIPT, and the answer is one — THIS ONE.
+  With scripts off it says so and sends the reader to the catalogue, where every
+  Creature still has its own order form, which is a plain HTML form that posts
+  to the same endpoint and has never needed a script. Nothing else on the site
+  changed: the menu is a <details>, the catalogue filter is CSS, every other
+  page renders, navigates and posts exactly as it did. The cart control in the
+  chrome and the add control on a piece are HIDDEN rather than dead in that
+  case, because a control that cannot do its job is worse than no control.
+
+  PAYMENT IS NOT HERE, and the form says so. It collects who is buying and what
+  they want and sends it to the brand; money is settled in the reply, when he
+  has a fiscal position for it. It posts to the SAME endpoint as every other
+  order, behind the SAME gate: with the Resend bindings unset the endpoint
+  answers 503 and says sending is not switched on. Nothing leaves this site
+  until the privacy notice exists.
+
+  THE PRICES ARE THE BUILD'S, NEVER THE FORM'S. Every figure on this page comes
+  from the catalogue below, written by the build from the same query the shop
+  renders. The total the reader sees is a convenience computed from those
+  figures; the AUTHORITATIVE total is computed by the endpoint from
+  /order-catalogue.json, from the same function, because a total computed from
+  what arrives in a POST is a total the buyer wrote.
+*/
+import Base from "../../layouts/Base.astro";
+import TextSurface from "../../components/TextSurface.astro";
+import {getGarments} from "../../lib/content";
+import {isOrderable, toOrderItem} from "../../lib/order";
+import {imageUrl} from "../../lib/image";
+import {LOCALES, localePath, toLocale} from "../../lib/locales";
+import {t} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({params: {lang}}));
+}
+
+const locale = toLocale(Astro.params.lang);
+const garments = await getGarments();
+
+/*
+  THE WHOLE ORDERABLE CATALOGUE, EMBEDDED. The cart holds slugs; this is what
+  turns a slug into a name, a price, the sizes he cuts and how many exist. It is
+  the same list `/order-catalogue.json` serves, from the same function, plus the
+  two things a page needs and a till roll does not: where the piece lives and
+  what it looks like.
+
+  A PIECE THAT LEAVES THE SHOP LEAVES THE CART. If he marks something sold or
+  takes its price off, it is absent here, the line silently disappears from a
+  reader's cart, and the endpoint would have refused to price it anyway. That is
+  the correct direction to fail in: the alternative is a cart that keeps
+  offering something the brand cannot sell.
+*/
+const items = garments.filter(isOrderable).map((g) => {
+  const [frame] = g.media ?? [];
+  return {
+    ...toOrderItem(g),
+    href: localePath(locale, `creature/${g.slug}`),
+    /* small: a cart line is a check that you chose the right object, not a view */
+    image: frame ? imageUrl(frame.poster, 240, 62) : null,
+  };
+});
+
+const catalogueJson = JSON.stringify(items).replace(/</g, "\\u003c");
+
+/*
+  ONE PLACE THE CURRENCY IS DECIDED, and it follows the pieces rather than the
+  page: every Creature carries its own, they are all EUR today, and hard-coding
+  the symbol would be a lie the first time one is not.
+*/
+const currency = items[0]?.currency ?? "EUR";
+---
+
+<Base locale={locale} title={t(locale, "cart")}>
+  <TextSurface class="flex flex-col gap-u5 pt-u13 pb-u8">
+    <h1 class="type-display text-display">{t(locale, "cart")}</h1>
+  </TextSurface>
+
+  <TextSurface class="pb-u21">
+    {/*
+      WITH NO SCRIPT THIS IS THE WHOLE PAGE. It is not a fallback bolted on
+      afterwards: it is what the document says before anything runs, and the
+      script hides it by putting `js` on <html> in the head. So a reader with
+      scripts off never sees a control appear and then fail — they see a
+      sentence and a way on.
+    */}
+    <div class="cart-noscript">
+      <p class="type-body text-body max-w-prose">{t(locale, "cartNeedsScript")}</p>
+      <a
+        href={localePath(locale, "creature")}
+        class="type-label text-body hairline-under self-start"
+      >
+        {t(locale, "allCreatures")}
+      </a>
+    </div>
+
+    {/* Written by the script, from localStorage, against the catalogue above. */}
+    <div class="cart-live flex flex-col gap-u8" hidden>
+      <div data-cart-empty class="flex flex-col gap-u5" hidden>
+        <p class="type-body text-body max-w-prose">{t(locale, "cartEmpty")}</p>
+        <a
+          href={localePath(locale, "creature")}
+          class="type-label text-body hairline-under self-start"
+        >
+          {t(locale, "allCreatures")}
+        </a>
+      </div>
+
+      <form
+        method="POST"
+        action="/api/enquiry"
+        class="flex flex-col gap-u8"
+        data-cart-form
+        hidden
+      >
+        <p class="type-body text-body max-w-prose">{t(locale, "cartIntro")}</p>
+
+        <h2 class="type-label text-label">{t(locale, "cartPieces")}</h2>
+        <ul class="flex flex-col gap-u5" data-cart-list></ul>
+
+        {/*
+          THE TOTAL IS A CONVENIENCE, NOT A PRICE. It adds up the figures printed
+          beside it, all of which came out of the build. The authoritative figure
+          is computed by the endpoint from /order-catalogue.json, which a buyer
+          cannot edit. `aria-live` so a screen reader hears it change rather than
+          having to go and look.
+        */}
+        <p class="type-mono text-mono flex gap-u3">
+          <span>{t(locale, "cartTotal")}</span>
+          <output data-cart-total aria-live="polite"></output>
+        </p>
+
+        <h2 class="type-label text-label">{t(locale, "cartYourDetails")}</h2>
+
+        <div class="field">
+          <label class="type-label text-label" for="name">{t(locale, "yourName")}</label>
+          <input id="name" name="name" type="text" required maxlength="120" autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <label class="type-label text-label" for="email">Email</label>
+          <input id="email" name="email" type="email" required maxlength="254" autocomplete="email" />
+        </div>
+
+        <div class="field">
+          <label class="type-label text-label" for="note">{t(locale, "note")}</label>
+          <textarea id="note" name="note" rows="4" maxlength="2000" />
+        </div>
+
+        <p class="type-body text-body max-w-prose">{t(locale, "deliveryLine")}</p>
+        <p class="type-body text-body max-w-prose">{t(locale, "cartNoPayment")}</p>
+
+        {/* Hidden from people, not from bots: they fill it in, humans cannot. */}
+        <div class="spam-trap" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <input type="hidden" name="lang" value={locale} />
+        <input type="hidden" name="renderedAt" value={String(Date.now())} />
+
+        <button
+          type="submit"
+          class="type-label text-body hairline-under self-start"
+          data-sending={t(locale, "sending")}
+        >
+          {t(locale, "cartSend")}
+        </button>
+      </form>
+    </div>
+  </TextSurface>
+
+  <script
+    type="application/json"
+    data-cart-catalogue
+    is:inline
+    set:html={catalogueJson}
+  />
+
+  <script
+    is:inline
+    define:vars={{
+      locale,
+      currency,
+      labels: {
+        size: t(locale, "chooseSize"),
+        quantity: t(locale, "cartQuantity"),
+        remove: t(locale, "cartRemove"),
+        onePiece: t(locale, "cartOnePiece"),
+      },
+    }}
+  >
+    (() => {
+      const live = document.querySelector(".cart-live");
+      const form = document.querySelector("[data-cart-form]");
+      const list = document.querySelector("[data-cart-list]");
+      const empty = document.querySelector("[data-cart-empty]");
+      const totalOut = document.querySelector("[data-cart-total]");
+      const source = document.querySelector("[data-cart-catalogue]");
+      if (!live || !form || !list || !empty || !source) return;
+
+      const KEY = "ac-cart";
+      const read = () => {
+        try {
+          const v = JSON.parse(localStorage.getItem(KEY) || "{}");
+          return v && typeof v === "object" ? v : {};
+        } catch {
+          return {};
+        }
+      };
+      const write = (v) => {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(v));
+        } catch {
+          /* private mode: the page still works for this visit, it just forgets */
+        }
+        document.dispatchEvent(new CustomEvent("ac-cart-changed"));
+      };
+
+      const catalogue = new Map(JSON.parse(source.textContent).map((i) => [i.slug, i]));
+      const fmt = new Intl.NumberFormat(locale === "it" ? "it-IT" : "en-GB", {
+        style: "currency",
+        currency,
+        maximumFractionDigits: 0,
+      });
+
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text != null) node.textContent = text;
+        return node;
+      };
+
+      /*
+        THE LINES ARE BUILT AS NODES, NOT AS A STRING OF HTML. Every name here
+        comes out of the dataset, which is the owner's to write; building the
+        DOM means no piece can ever be named something that ends up parsed as
+        markup, and there is no escaping rule for a later session to get wrong.
+      */
+      function line(slug, entry) {
+        const item = catalogue.get(slug);
+        if (!item) return null;
+
+        const li = el("li", "cart-line");
+        li.dataset.slug = slug;
+
+        const left = el("div", "flex items-start gap-u3");
+        if (item.image) {
+          const img = document.createElement("img");
+          img.src = item.image;
+          img.alt = "";
+          img.width = 60;
+          img.height = 80;
+          img.loading = "lazy";
+          img.decoding = "async";
+          img.style.objectFit = "cover";
+          left.append(img);
+        }
+
+        const naming = el("div", "flex flex-col gap-u1");
+        const link = el("a", "type-label text-label hairline-under self-start", item.name);
+        link.href = item.href;
+        naming.append(link, el("span", "type-mono text-mono", fmt.format(item.price)));
+        if (item.max === 1) naming.append(el("span", "type-label text-label", labels.onePiece));
+        left.append(naming);
+
+        const controls = el("div", "flex flex-wrap items-end gap-u5");
+
+        /* A piece he cuts in one size has nothing to choose (section 101). */
+        const sizes = (item.sizes || []).filter((s) => s !== "ONE");
+        if (sizes.length > 0) {
+          const set = el("fieldset", "flex flex-col gap-u2");
+          set.append(el("legend", "type-label text-label", labels.size));
+          const row = el("div", "flex flex-wrap gap-u3");
+          for (const size of sizes) {
+            const label = el("label", "type-label text-label flex items-baseline gap-u1");
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `size:${slug}`;
+            radio.value = size;
+            radio.checked = entry.size === size;
+            label.append(radio, document.createTextNode(size));
+            row.append(label);
+          }
+          /* Nothing stored, or a size he no longer cuts: take the first. */
+          if (!row.querySelector("input:checked")) row.querySelector("input").checked = true;
+          set.append(row);
+          controls.append(set);
+        }
+
+        const qtyField = el("div", "field");
+        const qtyLabel = el("label", "type-label text-label", labels.quantity);
+        qtyLabel.htmlFor = `qty-${slug}`;
+        const qty = document.createElement("input");
+        qty.id = `qty-${slug}`;
+        qty.name = `qty:${slug}`;
+        qty.type = "number";
+        qty.inputMode = "numeric";
+        qty.min = "1";
+        /* A 1 of 1 stops at one, because one is all there is. */
+        qty.max = String(item.max);
+        qty.step = "1";
+        qty.value = String(Math.min(Math.max(Number(entry.qty) || 1, 1), item.max));
+        qtyField.append(qtyLabel, qty);
+        controls.append(qtyField);
+
+        const remove = el("button", "type-label text-label hairline-under", labels.remove);
+        remove.type = "button";
+        remove.dataset.removeSlug = slug;
+        controls.append(remove);
+
+        li.append(left, controls);
+        return li;
+      }
+
+      function render() {
+        const cart = read();
+        list.replaceChildren();
+        for (const [slug, entry] of Object.entries(cart)) {
+          const node = line(slug, entry || {});
+          if (node) list.append(node);
+        }
+        /*
+          AND THEN WRITE BACK WHAT WAS BUILT, which is not a tidy-up: the lines
+          above CLAMP. A stored quantity of 99 against a 1 of 1 renders as 1 and
+          left storage saying 99, so the cart page showed one piece and the count
+          in the chrome said 102 — measured, not imagined. A piece he has since
+          sold or unpriced is dropped the same way and has to leave storage with
+          it, or it comes back on the next page.
+
+          What the reader sees is the truth here, so the truth is taken from the
+          rendered lines rather than from what was stored.
+        */
+        sync();
+        const has = list.children.length > 0;
+        form.hidden = !has;
+        empty.hidden = has;
+        live.hidden = false;
+      }
+
+      /*
+        WHAT THE READER TYPES IS WHAT IS KEPT. The controls in the list ARE the
+        form fields, so there is nothing to copy across at submit time; this only
+        mirrors them back into storage, so the count in the chrome agrees and the
+        cart is still theirs on the next page.
+      */
+      function sync() {
+        const next = {};
+        let total = 0;
+        for (const li of list.querySelectorAll(".cart-line")) {
+          const slug = li.dataset.slug;
+          const item = catalogue.get(slug);
+          if (!item) continue;
+          const field = li.querySelector("input[type=number]");
+          let qty = Math.floor(Number(field.value));
+          if (!Number.isFinite(qty) || qty < 1) qty = 1;
+          if (qty > item.max) qty = item.max;
+          if (String(qty) !== field.value) field.value = String(qty);
+          const size = li.querySelector("input[type=radio]:checked")?.value;
+          next[slug] = size ? {qty, size} : {qty};
+          total += qty * item.price;
+        }
+        write(next);
+        if (totalOut) totalOut.textContent = fmt.format(total);
+      }
+
+      form.addEventListener("input", sync);
+      form.addEventListener("change", sync);
+
+      list.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-slug]");
+        if (!button) return;
+        const cart = read();
+        delete cart[button.dataset.removeSlug];
+        write(cart);
+        render();
+      });
+
+      /*
+        THE SENDING STATE, the same enhancement every other form on this site
+        has: the browser navigates on submit, and on a slow connection nothing
+        appears to have happened, so a person presses again. The button is not
+        disabled — a disabled control leaves the accessibility tree mid-action.
+      */
+      form.addEventListener("submit", () => {
+        const button = form.querySelector("button[type=submit]");
+        if (!button) return;
+        button.setAttribute("aria-busy", "true");
+        button.textContent = button.dataset.sending;
+      });
+
+      render();
+    })();
+  </script>
+</Base>

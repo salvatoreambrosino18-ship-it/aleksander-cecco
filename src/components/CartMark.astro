@@ -1,0 +1,78 @@
+---
+/*
+  THE CART IN THE CHROME (2026-08-16, section 129) — the OWNER's call, in his
+  own words: "a cart icon in the header, always visible, showing how many pieces
+  are in it."
+
+  WHY THIS IS A GLYPH AND NOT A WORD, because on this site that is the exception
+  and needs saying. Everywhere else "the words are the control": the menu, the
+  filters, the buy action, next and previous are all set in the label register
+  with a hairline under them, and a glyph would be a foreign object. A cart is
+  the one control on a shop that every visitor already recognises before reading
+  anything, and it is the one control that must be findable from a photograph
+  the eye is still inside. He asked for the icon. It is drawn to the site's own
+  rules rather than borrowed: hairline stroke, `currentColor`, no fill, no
+  badge circle, no colour — the same three rules the Instagram glyph obeys.
+
+  IT TAKES THE CHROME'S POLARITY, not the page's, because it sits inside the
+  header and the header sets `data-theme` from the measured `overlay` of the
+  photograph a page opens on (SiteHeader). So it is ink on paper on a text-first
+  page and paper on ink over a dark frame, with nothing painted underneath it.
+  Standing rule 11 is untouched: there is no plate, no scrim and no grey.
+
+  THE COUNT IS THE ONLY PART THAT NEEDS A SCRIPT, and the whole control is
+  hidden without one — `.cart-mark` is `display: none` until `<html>` carries
+  `js`, see global.css and the reasoning in
+  src/pages/[lang]/cart.astro. A cart glyph that cannot count and leads to a
+  page that cannot list is worse than no glyph: it is a control that lies. With
+  no JavaScript the chrome is exactly what it was before this existed.
+
+  NUMBER, NOT DOT. The count is mono, which is this site's DATA voice and is
+  what a count is (tokens.css: "DATA ONLY: prices, measurements, counts"). It is
+  hidden at zero rather than printing a nought, because an empty cart has
+  nothing to say and a permanent 0 is furniture.
+*/
+import {localePath, type Locale} from "../lib/locales";
+import {t} from "../i18n/ui";
+
+interface Props {
+  locale: Locale;
+  class?: string;
+}
+
+const {locale, class: className = ""} = Astro.props;
+---
+
+<a
+  href={localePath(locale, "cart")}
+  class:list={["cart-mark", className]}
+  data-cart-link
+>
+  {/*
+    The bag: a body and a handle, drawn on the same locked 24 square the
+    Instagram glyph uses so the two marks on this site share a grid. Presentation
+    only — the link is named by the word beside it, and two announcements of the
+    same thing is noise.
+  */}
+  <svg
+    class="cart-glyph"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="square"
+    role="presentation"
+    aria-hidden="true"
+  >
+    <path d="M4 8h16l-1.3 13H5.3L4 8Z" />
+    <path d="M8.6 10.4V6.6a3.4 3.4 0 0 1 6.8 0v3.8" />
+  </svg>
+  {/*
+    The word is here for anything that reads rather than looks, and the count is
+    beside it so a screen reader hears "Cart 2" rather than having to hunt for
+    the number. `aria-live` because the count changes under the reader's hands
+    on a piece's page, without the page moving.
+  */}
+  <span class="sr-only">{t(locale, "cart")}</span>
+  <span class="type-mono text-mono" data-cart-count aria-live="polite" hidden></span>
+</a>

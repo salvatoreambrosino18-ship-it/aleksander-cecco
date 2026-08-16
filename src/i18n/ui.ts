@@ -176,23 +176,28 @@ const ui = {
     contactWhere: "Lo studio è a Napoli. La pelle si concia a un'ora di strada, a Solofra.",
     contactBuy: "Per comprare un capo non serve scrivere: ogni Creatura ha il suo modulo d'ordine.",
     /*
-      L'ORDINE DI PIU PEZZI (2026-08-17, sezione 126). NOSTRI, segnati
-      `orderCopy`. Il totale non e un prezzo nuovo: e la somma dei prezzi che
-      sono gia sulle pagine dei capi.
+      IL CARRELLO (2026-08-16, sezione 129). NOSTRE, segnate `orderCopy`. Il
+      totale non è un prezzo nuovo: è la somma dei prezzi che sono già sulle
+      pagine dei capi.
     */
-    orderSeveral: "Ordina piu pezzi",
-    orderSeveralIntro: "Scegli i pezzi, la taglia e quante ne vuoi. Nessun pagamento qui: confermiamo tutto per email.",
-    orderEmpty: "Non hai ancora scelto niente.",
-    orderQuantity: "Quantita",
-    orderTotal: "Totale",
-    orderYourOrder: "Il tuo ordine",
-    orderAdd: "Aggiungi all'ordine",
-    orderAdded: "Nell'ordine",
-    orderRemove: "Togli",
-    orderPieces: "I pezzi",
-    orderOnePiece: "Pezzo unico: ne esiste uno solo.",
-    orderNoPayment: "Il pagamento non si fa qui. Ti rispondiamo per email e lo definiamo insieme.",
-    orderSend: "Invia l'ordine",
+    cart: "Carrello",
+    cartIntro: "Questi sono i pezzi che hai scelto. Nessun pagamento qui: confermiamo tutto per email.",
+    cartEmpty: "Il carrello è vuoto.",
+    cartQuantity: "Quantità",
+    cartTotal: "Totale",
+    cartYourDetails: "I tuoi dati",
+    cartAdd: "Aggiungi al carrello",
+    cartAdded: "Nel carrello",
+    cartRemove: "Togli",
+    cartPieces: "I pezzi",
+    cartOnePiece: "Pezzo unico: ne esiste uno solo.",
+    cartNoPayment: "Il pagamento non si fa qui. Ti rispondiamo per email e lo definiamo insieme.",
+    cartSend: "Invia l'ordine",
+    /*
+      QUANDO IL BROWSER NON ESEGUE SCRIPT. Non è una scusa: è l'unica frase
+      onesta che questa pagina può dire, e dice anche dove andare invece.
+    */
+    cartNeedsScript: "Il carrello ha bisogno di JavaScript, che in questo browser è spento. Ogni Creatura si può comprare lo stesso, dalla sua pagina.",
     wornLine: "Addosso, alla luce del giorno.",
     acquire: "Acquista",
     placeOrder: "Invia l'ordine",
@@ -292,19 +297,20 @@ const ui = {
     contactIntro: "A person replies. Within one day, Italian time.",
     contactWhere: "The studio is in Naples. The leather is tanned an hour up the road, in Solofra.",
     contactBuy: "To buy a piece you do not have to write: every Creature has its own order form.",
-    orderSeveral: "Order several pieces",
-    orderSeveralIntro: "Choose the pieces, the size and how many. No payment here: we confirm everything by email.",
-    orderEmpty: "You have not chosen anything yet.",
-    orderQuantity: "Quantity",
-    orderTotal: "Total",
-    orderYourOrder: "Your order",
-    orderAdd: "Add to order",
-    orderAdded: "In the order",
-    orderRemove: "Remove",
-    orderPieces: "The pieces",
-    orderOnePiece: "One of one: only this one exists.",
-    orderNoPayment: "Payment does not happen here. We reply by email and settle it with you.",
-    orderSend: "Send the order",
+    cart: "Cart",
+    cartIntro: "These are the pieces you chose. No payment here: we confirm everything by email.",
+    cartEmpty: "Your cart is empty.",
+    cartQuantity: "Quantity",
+    cartTotal: "Total",
+    cartYourDetails: "Your details",
+    cartAdd: "Add to cart",
+    cartAdded: "In the cart",
+    cartRemove: "Remove",
+    cartPieces: "The pieces",
+    cartOnePiece: "One of one: only this one exists.",
+    cartNoPayment: "Payment does not happen here. We reply by email and settle it with you.",
+    cartSend: "Send the order",
+    cartNeedsScript: "The cart needs JavaScript, which is switched off in this browser. Every Creature can still be bought from its own page.",
     wornLine: "On bodies, in daylight.",
     acquire: "Acquire",
     placeOrder: "Place the order",
@@ -343,15 +349,15 @@ export const OWNER_EDITABLE = [
   "handcrafted", "madeInItaly", "shopIntro", "contactIntro", "contactWhere", "contactBuy",
   "newsletterLine", "outsideCollections", "fitGuidance", "madeToMeasureLine", "deliveryLine",
   "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
-  "orderSeveralIntro", "orderOnePiece", "orderNoPayment", "nothingYet", "notFound",
+  "cartIntro", "cartOnePiece", "cartNoPayment", "cartEmpty", "nothingYet", "notFound",
   // the titles that head a part of a page
   "theWork", "theProject", "bodyOfLight", "worn", "theMaking", "processTitle",
-  "newsletter", "otherDrops", "enterDrop", "allCreatures", "orderSeveral", "orderPieces",
-  "orderYourOrder", "support", "worldwideShipping", "shippingReturns", "footerNav",
+  "newsletter", "otherDrops", "enterDrop", "allCreatures", "cart", "cartPieces",
+  "cartYourDetails", "support", "worldwideShipping", "shippingReturns", "footerNav",
   // his own words for his own things
-  "creature", "creatures", "collections", "newDrop", "acquire", "uniqueAction", "orderAdd",
+  "creature", "creatures", "collections", "newDrop", "acquire", "uniqueAction", "cartAdd",
   // the menu, the catalogue's own words, the buttons, and the labels under a piece
-  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "orderSend", "backHome", "newsletterClosed", "composition", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
+  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "cartSend", "backHome", "newsletterClosed", "composition", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
 ] as const satisfies ReadonlyArray<UIKey>;
 
 const editable = new Set<string>(OWNER_EDITABLE);

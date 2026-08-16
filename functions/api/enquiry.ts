@@ -269,6 +269,11 @@ function page(
     draft?: boolean;
     /** What happens next, shown only on the confirmation. */
     next?: string;
+    /**
+     * Empty the visitor's cart. Set ONLY on a confirmation, because that is the
+     * only moment the pieces in it have actually been ordered.
+     */
+    clearCart?: boolean;
   },
 ) {
   const text = TEXT[locale];
@@ -337,6 +342,22 @@ function page(
   ${opts.next ? `<p class="next">${escape(opts.next)}</p>` : ""}
   <hr>
   <p class="label"><a href="${escape(opts.backHref)}">${text.back}</a></p>
+${
+  opts.clearCart
+    ? `  <!--
+    THE CART IS EMPTIED HERE, and this is the only place it can be. The cart
+    lives in the visitor's localStorage, which no server can reach; this page is
+    the only moment the site knows the order was actually taken. Without it a
+    buyer's cart still holds everything they just bought, the count in the
+    chrome still says three, and the obvious next act is to order it again.
+
+    A page rendered for a REFUSAL never carries this: nothing was ordered, and
+    silently emptying a cart the brand could not sell to would be the worst
+    possible reading of "it did not work".
+  -->
+  <script>try{localStorage.removeItem("ac-cart")}catch(e){}</script>`
+    : ""
+}
 </body>
 </html>`;
 }
@@ -649,7 +670,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
   if (env.ENQUIRY_DRY_RUN) {
     console.warn(`[enquiry] DRY RUN: not sending. Would have mailed "${piece}"${shownPrice ? ` — ${shownPrice}` : ""} (${locale}).`);
     return new Response(
-      page(locale, {heading: text.title, lines: [text.ok, text.delivery], next: text.replyWindow, backHref}),
+      page(locale, {heading: text.title, lines: [text.ok, text.delivery], next: text.replyWindow, backHref, clearCart: true}),
       {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
     );
   }
@@ -715,6 +736,7 @@ Reply to this message and it goes straight to ${esc(fields.email)}.
       lines: [text.ok],
       next: text.replyWindow,
       backHref,
+      clearCart: true,
     }),
     {status: 200, headers: {"Content-Type": "text/html; charset=utf-8"}},
   );

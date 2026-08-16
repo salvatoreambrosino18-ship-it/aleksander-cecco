@@ -89,19 +89,14 @@ const instagram = settings.instagramUrl?.trim() || null;
         ))
       }
       {/*
-        THE ORDER PAGE, and the only place a count appears (2026-08-17, section
-        126). It is a destination like the others and is written by the build,
-        so it is in this list with no script running; the number beside it is
-        the one part that needs one, and it stays hidden until there is
-        something to count rather than sitting there as a nought.
+        THE CART IS NOT HERE (2026-08-16, section 129), and it was, for a day.
+        Section 126 added a seventh entry with the count beside it, because the
+        order page had nowhere else to live. It has one now: the chrome carries
+        the cart on every page, always visible, which is what the OWNER asked
+        for and what puts a count where a reader can see it without opening
+        anything. A menu entry as well would be the same destination twice, and
+        the flat menu of six is a settled decision (s67).
       */}
-      <a
-        href={localePath(locale, "order")}
-        class="type-label text-label flex items-baseline gap-u1 hover:underline underline-offset-8"
-      >
-        {t(locale, "orderSeveral")}
-        <span class="type-mono text-mono" data-order-count hidden></span>
-      </a>
     </nav>
 
     {/*

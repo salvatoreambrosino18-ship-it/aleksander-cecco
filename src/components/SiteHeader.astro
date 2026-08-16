@@ -65,6 +65,7 @@
 */
 import Signature from "./Signature.astro";
 import Menu from "./Menu.astro";
+import CartMark from "./CartMark.astro";
 import {localePath, type Locale} from "../lib/locales";
 import {overlayTheme, type OverlayPolarity} from "../lib/media";
 import {t} from "../i18n/ui";
@@ -124,4 +125,22 @@ const markTheme = floating ? overlayTheme(over) : undefined;
   </a>
   <Menu locale={locale} theme={pageTheme} />
 
+  {/*
+    THE THIRD MARK, and the first one to join this cluster since section 14 put
+    the signature and MENU together (2026-08-16, section 129, the OWNER's call).
+
+    IT SITS ON THE FAR SIDE, which is the one thing that argues with the reason
+    those two were paired: they share a few hundred pixels of photograph so a
+    single measured polarity keeps both legible, and a mark at the other end of
+    the band is over different pixels. It is acceptable here and would not have
+    been under the old full-width chrome, for a reason worth writing down — the
+    cart is a GLYPH, a closed hairline shape at 18px, not a word. A letterform
+    lost against a busy patch is unreadable; a bag outline lost against one is
+    still a bag, because its silhouette survives what its contrast does not.
+
+    If it ever stops reading over a photograph, the answer is the OWNER's
+    `overlay` value on that frame or a different frame. It is never a scrim
+    behind the mark (standing rule 11, and section 86's four rejected veils).
+  */}
+  <CartMark locale={locale} />
 </header>
