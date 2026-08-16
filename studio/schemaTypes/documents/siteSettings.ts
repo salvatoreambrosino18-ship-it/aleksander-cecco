@@ -485,6 +485,10 @@ export const siteSettings = defineType({
           {title: 'Drops: la riga di apertura / Drops: the intro line', value: 'dropsIntro'},
           {title: 'Contatti: la riga di apertura / Contact: the intro line', value: 'contactIntro'},
           {title: 'Contatti: quale fotografia / Contact: which photograph', value: 'contactFrame'},
+          {
+            title: 'Contatti: dove siamo e dove si compra / Contact: where we are, and where to buy',
+            value: 'contactCopy',
+          },
           {title: 'Chi siamo: la traduzione delle origini / About: the origin translation', value: 'aboutOrigin'},
           {title: "Chi siamo: l'ordine dei nomi, modificato dal testo approvato / About: name order, edited from approved text", value: 'aboutNameOrder'},
           {title: "Pagina prodotto: la riga sul su misura / Piece page: the made-to-measure line", value: 'madeToMeasureLine'},

@@ -166,6 +166,14 @@ const ui = {
     shopIntro: "Ogni pezzo esiste già. Lavorato a mano nel Sud Italia.",
     enterDrop: "Vedi il drop",
     contactIntro: "Risponde una persona. Entro un giorno, ora italiana.",
+    /*
+      QUELLO CHE MANCAVA A QUESTA PAGINA (2026-08-17, sezione 125). Aveva due
+      indirizzi e due righe di spedizione, e non diceva ne DOVE si trova il
+      marchio ne COSA fare se il messaggio riguarda un acquisto. NOSTRE, con i
+      suoi fatti dentro, segnate `contactCopy`. / OURS, carrying his facts.
+    */
+    contactWhere: "Lo studio è a Napoli. La pelle si concia a un'ora di strada, a Solofra.",
+    contactBuy: "Per comprare un capo non serve scrivere: ogni Creatura ha il suo modulo d'ordine.",
     wornLine: "Addosso, alla luce del giorno.",
     acquire: "Acquista",
     placeOrder: "Invia l'ordine",
@@ -263,6 +271,8 @@ const ui = {
     shopIntro: "Every piece already exists. Handcrafted in South Italy.",
     enterDrop: "See the drop",
     contactIntro: "A person replies. Within one day, Italian time.",
+    contactWhere: "The studio is in Naples. The leather is tanned an hour up the road, in Solofra.",
+    contactBuy: "To buy a piece you do not have to write: every Creature has its own order form.",
     wornLine: "On bodies, in daylight.",
     acquire: "Acquire",
     placeOrder: "Place the order",

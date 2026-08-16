@@ -44,7 +44,8 @@ import Base from "../../layouts/Base.astro";
 import InstagramMark from "../../components/InstagramMark.astro";
 import PairedSurface from "../../components/PairedSurface.astro";
 import {getSiteSettings, isPlaceholderEmail, isPlaceholderText} from "../../lib/content";
-import {LOCALES, pick, toLocale} from "../../lib/locales";
+import type {MediaItem} from "../../lib/media";
+import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {isMarked, voiceState} from "../../lib/voice";
 import {t} from "../../i18n/ui";
 import {SHOW_UNAPPROVED_MARKS} from "../../lib/marks";
@@ -113,9 +114,16 @@ const notice = voice === "translation" ? "translationNotice" : "draftNotice";
 
   It falls all the way through to nothing: with no photographs at all the page
   renders as the plain column it used to be rather than failing.
+
+  A FALLBACK MUST NOT PICK UP A CLIP (2026-08-17, section 125). It took the
+  LAST frame of the about sequence, and on 2026-08-16 a video was appended to
+  that sequence — so this page silently started playing the jacket loop, which
+  nobody asked for and which /about was already showing. A frame chosen by
+  position has to be filtered by what it IS, not trusted to stay a photograph.
 */
-const aboutFrames = settings.aboutMedia ?? [];
-const processFrames = settings.processMedia ?? [];
+const stills = (frames: MediaItem[]) => frames.filter((m) => !m.videoUrl);
+const aboutFrames = stills(settings.aboutMedia ?? []);
+const processFrames = stills(settings.processMedia ?? []);
 const contactFrame =
   settings.contactMedia ??
   aboutFrames.at(-1) ??
@@ -173,6 +181,35 @@ const contactFrame =
     </div>
 
     {/*
+      WHERE, AND WHAT NOT TO WRITE ABOUT (2026-08-17, section 125).
+
+      The page had two addresses and two shipping lines and answered none of
+      the questions a person actually arrives with. Two of them are answerable
+      from facts already on the site, so they are answered here:
+
+      - WHERE. A leather label's address is a trust signal and this one is
+        good: the studio is in Naples and the hides are tanned an hour up the
+        road. /about says it in his register; a reader who came to write to
+        somebody should not have to go and find it.
+      - WHETHER TO WRITE AT ALL. Every Creature already carries its own order
+        form, and this page was quietly routing buyers into an inbox instead.
+        Saying so here is the only sentence on the site that sends a reader
+        AWAY from contact, and it is the most useful one on the page.
+
+      Both are ours, carrying his facts, and flagged `contactCopy`. The
+      made-to-measure line is the existing one and keeps its own flag: it is
+      the one case where writing IS the route.
+    */}
+    <div class="type-body text-body flex flex-col gap-u2 pt-u8">
+      <p class="max-w-prose">{t(locale, "contactWhere")}</p>
+      <p class="max-w-prose">{t(locale, "contactBuy")}</p>
+      <a href={localePath(locale, "creature")} class="self-start hairline-under">
+        {t(locale, "allCreatures")}
+      </a>
+      <p class="max-w-prose pt-u2">{t(locale, "madeToMeasureLine")}</p>
+    </div>
+
+    {/*
       The one wide gap: the ways in above it, the terms of buying below. u8
       rather than u13 since section 108 — the gap exists to separate two things,
       and inside a half-width column thirteen units separated them by most of a
@@ -187,6 +224,12 @@ const contactFrame =
         says to somebody deciding whether to ask (2026-08-03).
       */}
       {free && <p class="type-body text-body max-w-prose whitespace-pre-line">{free}</p>}
+
+      {/*
+        HOW LONG IT TAKES, which is a shipping fact and was only ever said on a
+        piece's own page. Somebody deciding whether to write is asking it.
+      */}
+      <p class="type-body text-body max-w-prose">{t(locale, "deliveryLine")}</p>
 
       {shippingIsMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
       {
