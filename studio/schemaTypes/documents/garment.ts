@@ -3,12 +3,12 @@ import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list
 
 export const garment = defineType({
   name: 'garment',
-  title: 'Creatura / Creature',
+  title: 'Capo',
   type: 'document',
   fields: [
     defineField({
       name: 'name',
-      title: 'Nome / Name',
+      title: 'Come si chiama',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -21,17 +21,17 @@ export const garment = defineType({
     }),
     defineField({
       name: 'referenceCode',
-      title: 'Codice / Reference code',
+      title: 'Codice del capo',
       type: 'string',
-      description: 'Codice del capo. Mostrato in monospazio. / Garment reference code. Shown in monospace.',
+      description: 'Codice del capo. Mostrato in monospazio.',
     }),
     defineField({
       name: 'collection',
-      title: 'Collezione / Collection',
+      title: 'A quale drop appartiene',
       type: 'reference',
       to: [{type: 'collection'}],
       description:
-        "Lasciare vuoto se la Creatura non appartiene a nessuna collezione: la pagina lo dice esplicitamente invece di lasciare un buco. / Leave empty when the Creature belongs to no collection: the page says so explicitly rather than leaving a hole.",
+        "Lasciare vuoto se la Creatura non appartiene a nessuna collezione: la pagina lo dice esplicitamente invece di lasciare un buco.",
     }),
     /*
       THE STAGE (2026-08-02). The catalogue divides by material and colour, and
@@ -52,18 +52,18 @@ export const garment = defineType({
     */
     defineField({
       name: 'stage',
-      title: 'Tenebrae o Lux / Tenebrae or Lux',
+      title: 'Tenebrae o Lux',
       type: 'string',
       options: {
         list: [
-          {title: 'Tenebrae (pelle nera lavata / black washed veg tan)', value: 'tenebrae'},
-          {title: 'Lux (pezzi chiari / the pale pieces)', value: 'lux'},
-          {title: 'Rubedo (il rosso, fuori collezione / the red, outside the collections)', value: 'rubedo'},
+          {title: 'Tenebrae (pelle nera lavata)', value: 'tenebrae'},
+          {title: 'Lux (i pezzi chiari)', value: 'lux'},
+          {title: 'Rubedo (il rosso, fuori dai drop)', value: 'rubedo'},
         ],
         layout: 'radio',
       },
       description:
-        "Divide il catalogo per materiale e colore. Lasciare vuoto se la Creatura non appartiene a nessuno dei due. / Divides the catalogue by material and colour. Leave empty when the Creature belongs to neither.",
+        "Divide il catalogo per materiale e colore. Lasciare vuoto se la Creatura non appartiene a nessuno dei due.",
     }),
     /*
       WHO IT IS FOR (2026-08-04). A FILTER, never a route and never a section.
@@ -80,18 +80,18 @@ export const garment = defineType({
     */
     defineField({
       name: 'wornBy',
-      title: 'Per chi / Who it is for',
+      title: 'Per chi e\'',
       type: 'string',
       options: {
         list: [
-          {title: 'Uomo / Men', value: 'men'},
-          {title: 'Donna / Women', value: 'women'},
-          {title: 'Entrambi / Both', value: 'both'},
+          {title: 'Uomo', value: 'men'},
+          {title: 'Donna', value: 'women'},
+          {title: 'Tutti e due', value: 'both'},
         ],
         layout: 'radio',
       },
       description:
-        "Solo un filtro nel catalogo: non divide il sito e non compare come sezione. Lasciare vuoto se non e stato deciso. / A catalogue filter only: it does not divide the site and never appears as a section. Leave empty when it has not been decided.",
+        "Solo un filtro nel catalogo: non divide il sito e non compare come sezione. Lasciare vuoto se non e stato deciso.",
     }),
     /*
       THE SIZES THIS PIECE IS MADE IN (2026-08-12, section 101).
@@ -121,7 +121,7 @@ export const garment = defineType({
     */
     defineField({
       name: 'sizes',
-      title: 'Taglie / Sizes',
+      title: 'In che taglie lo fai',
       type: 'array',
       of: [{type: 'string'}],
       options: {
@@ -131,7 +131,7 @@ export const garment = defineType({
           {title: 'M', value: 'M'},
           {title: 'L', value: 'L'},
           {title: 'XL', value: 'XL'},
-          {title: 'Taglia unica / One size', value: 'ONE'},
+          {title: 'Taglia unica', value: 'ONE'},
         ],
         layout: 'grid',
       },
@@ -140,13 +140,17 @@ export const garment = defineType({
     }),
     defineField({
       name: 'price',
-      title: 'Prezzo / Price (EUR)',
+      title: 'Prezzo in euro',
       type: 'number',
+      description:
+        'Solo il numero, senza il simbolo dell\'euro. ' +
+        'SENZA PREZZO il capo resta sul sito e si puo\' ancora chiedere, ma sparisce dalla pagina ' +
+        '«Ordina piu\' pezzi», perche\' li\' c\'e\' un totale da fare e una riga senza prezzo lo falserebbe.',
       validation: (Rule) => Rule.min(0),
     }),
     defineField({
       name: 'currency',
-      title: 'Valuta / Currency',
+      title: 'Valuta',
       type: 'string',
       initialValue: 'EUR',
       options: {list: [{title: 'EUR', value: 'EUR'}]},
@@ -154,7 +158,7 @@ export const garment = defineType({
     }),
     defineField({
       name: 'materials',
-      title: 'Materiali / Materials',
+      title: 'Di cosa e\' fatto',
       type: 'localeText',
       // Editable per Creature; this is only the starting value on a new one.
       // Corrected 2026-08-02: the owner's text says vegetable-tanned, which is a
@@ -163,7 +167,7 @@ export const garment = defineType({
     }),
     defineField({
       name: 'measurements',
-      title: 'Misure di riferimento / Reference measurements',
+      title: 'Misure di riferimento',
       type: 'text',
       rows: 3,
       description:
@@ -173,16 +177,22 @@ export const garment = defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Descrizione / Description',
+      title: 'La descrizione del capo',
       type: 'localeText',
     }),
     defineField({
       name: 'media',
-      title: 'Galleria / Gallery',
+      title: 'Le fotografie',
       type: 'array',
       of: [{type: 'media'}],
       description:
-        'Ogni elemento occupa uno schermo intero, senza margini. Trascina per riordinare. / Each item fills a whole screen, edge to edge. Drag to reorder.',
+        'Spunta le taglie in cui fai questo capo. Se sta bene a tutti — per esempio ha il collo ' +
+        'regolabile — spunta TAGLIA UNICA. ' +
+        'FINCHE\' LO LASCI VUOTO chi compra non puo\' scegliere niente, e nel modulo d\'ordine la taglia ' +
+        'non compare proprio. Adesso e\' vuoto su tutti i capi: e\' la cosa piu\' utile che puoi sistemare.' +
+        'del capo. E\' anche quella che si vede nel catalogo e quando qualcuno condivide il link. ' +
+        'Trascina per cambiare l\'ordine: la prima in alto e\' la prima che si vede. ' +
+        'Ogni fotografia occupa uno schermo intero, quindi otto fotografie sono otto schermate.',
       validation: (Rule) => Rule.min(1).error('At least one image is required'),
     }),
     /*
@@ -209,15 +219,15 @@ export const garment = defineType({
     */
     defineField({
       name: 'availability',
-      title: 'Come si ottiene / How it can be had',
+      title: 'Come si ottiene',
       type: 'string',
       initialValue: 'readyNow',
       options: {
         list: [
-          {title: 'Disponibile / Available', value: 'readyNow'},
-          {title: 'Pezzo unico, 1 di 1 / Unique, 1 of 1', value: 'unique'},
-          {title: 'Ordine privato / Private order', value: 'privateOrder'},
-          {title: 'Non disponibile ora / Not taking requests now', value: 'notOffered'},
+          {title: 'Si\', c\'e\' ed e\' in vendita', value: 'readyNow'},
+          {title: 'Pezzo unico, 1 di 1', value: 'unique'},
+          {title: 'Ordine privato', value: 'privateOrder'},
+          {title: 'Non disponibile ora', value: 'notOffered'},
         ],
         layout: 'radio',
       },
@@ -226,10 +236,10 @@ export const garment = defineType({
     }),
     defineField({
       name: 'availabilityNote',
-      title: 'Riga aggiuntiva / Extra line',
+      title: 'Una riga in piu\', se serve',
       type: 'localeString',
       description:
-        "Una riga, al posto del pulsante di richiesta. Se vuota il sito usa la formula predefinita. / One line, in place of the enquiry button. If empty the site uses its default wording.",
+        "Una riga, al posto del pulsante di richiesta. Se vuota il sito usa la formula predefinita.",
       hidden: ({parent}) => parent?.availability === 'readyNow',
     }),
     /*
@@ -249,19 +259,19 @@ export const garment = defineType({
     */
     defineField({
       name: 'inventedFields',
-      title: 'Campi inventati, da sostituire / Invented fields, to be replaced',
+      title: 'Campi inventati, da sostituire',
       type: 'array',
       of: [{type: 'string'}],
       options: {
         list: [
-          {title: 'Nome / Name', value: 'name'},
-          {title: 'Prezzo / Price', value: 'price'},
-          {title: 'Materiali / Materials', value: 'materials'},
-          {title: 'Misure / Measurements', value: 'measurements'},
-          {title: 'Descrizione / Description', value: 'description'},
-          {title: 'Descrizione: la traduzione italiana e nostra / Description: the Italian translation is ours', value: 'descriptionIt'},
-          {title: 'Codice / Reference code', value: 'referenceCode'},
-          {title: 'Per chi / Who it is for', value: 'wornBy'},
+          {title: 'Come si chiama', value: 'name'},
+          {title: 'Il prezzo', value: 'price'},
+          {title: 'Di cosa e\' fatto', value: 'materials'},
+          {title: 'Le misure', value: 'measurements'},
+          {title: 'La descrizione del capo', value: 'description'},
+          {title: 'Descrizione: la traduzione italiana e nostra', value: 'descriptionIt'},
+          {title: 'Codice del capo', value: 'referenceCode'},
+          {title: 'Per chi e\'', value: 'wornBy'},
         ],
         layout: 'grid',
       },

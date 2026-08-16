@@ -4,7 +4,7 @@ import {defineType, defineField} from 'sanity'
 // Reuse this for any localized one-line field.
 export const localeString = defineType({
   name: 'localeString',
-  title: 'Testo localizzato / Localized text',
+  title: 'Testo localizzato',
   type: 'object',
   fields: [
     defineField({name: 'it', title: 'Italiano', type: 'string'}),

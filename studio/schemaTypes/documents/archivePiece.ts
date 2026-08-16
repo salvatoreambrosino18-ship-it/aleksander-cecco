@@ -21,19 +21,19 @@ import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list
 */
 export const archivePiece = defineType({
   name: 'archivePiece',
-  title: 'Immagine della galleria / Gallery image',
+  title: 'Immagine della galleria',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
-      title: 'Nome del pezzo / Piece name',
+      title: 'Come si chiama',
       type: 'string',
       description:
-        'Facoltativo. Se vuoto, la frase resta muta e si vede solo la fotografia. / Optional. Left empty, the frame stays silent and only the photograph shows.',
+        'Facoltativo. Se vuoto, la frase resta muta e si vede solo la fotografia.',
     }),
     defineField({
       name: 'media',
-      title: 'Fotografie / Photographs',
+      title: 'Le fotografie',
       type: 'array',
       of: [{type: 'media'}],
       description:

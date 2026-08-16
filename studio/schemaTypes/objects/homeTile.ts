@@ -14,22 +14,22 @@ import {defineType, defineField} from 'sanity'
 */
 export const homeTile = defineType({
   name: 'homeTile',
-  title: 'Riquadro / Tile',
+  title: 'Riquadro',
   type: 'object',
   fields: [
     defineField({
       name: 'media',
-      title: 'Fotografia / Photograph',
+      title: 'La fotografia',
       type: 'media',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'garment',
-      title: 'Capo collegato / Linked garment',
+      title: 'Capo collegato',
       type: 'reference',
       to: [{type: 'garment'}],
       description:
-        'Facoltativo. Se collegato, il riquadro porta alla pagina del capo. / Optional. When linked, the tile leads to that garment.',
+        'Facoltativo. Se collegato, il riquadro porta alla pagina del capo.',
     }),
   ],
   /*

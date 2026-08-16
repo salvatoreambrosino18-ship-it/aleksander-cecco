@@ -3,7 +3,7 @@ import {defineType, defineField, defineArrayMember} from 'sanity'
 // Singleton (a single editable document, enforced by the studio structure).
 export const siteSettings = defineType({
   name: 'siteSettings',
-  title: 'Impostazioni / Site settings',
+  title: 'Impostazioni',
   type: 'document',
   /*
     L'ORDINE DELLE SCHEDE E' L'ORDINE IN CUI LE TOCCA (2026-08-18, sezione 128).
@@ -37,7 +37,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'contactEmail',
       group: 'negozio',
-      title: 'Email di contatto / Contact email',
+      title: 'Email di contatto',
       type: 'string',
       description:
         "L'indirizzo a cui scrivono i visitatori. Mostrato sul sito. / The address visitors write to. Shown on the site.",
@@ -73,7 +73,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'openingMedia',
       group: 'home',
-      title: 'Fotografia di apertura / Opening photograph',
+      title: 'Fotografia di apertura',
       type: 'media',
       description:
         "La prima cosa che si vede: una fotografia a tutto schermo, non la firma. Scegliere un'immagine verticale, alta almeno 2000px, con la parte alta uniforme (chiara o scura) perche' la firma e il MENU ci passano sopra. / The first thing seen: one full-screen photograph, not the signature. Choose a vertical frame, at least 2000px tall, with an even top band (either light or dark) because the signature and MENU sit over it.",
@@ -88,10 +88,10 @@ export const siteSettings = defineType({
     defineField({
       name: 'openingLines',
       group: 'home',
-      title: 'Righe di apertura / Opening lines',
+      title: 'Righe di apertura',
       type: 'localeText',
       description:
-        "Le tre righe sulla prima fotografia. Vanno a capo come le scrivi. / The three lines over the first photograph. Line breaks are kept exactly as you type them.",
+        "Le tre righe sulla prima fotografia. Vanno a capo come le scrivi.",
     }),
     /*
       THE THREE REASONS (section 99). His replacement for THE MAKING: three
@@ -102,29 +102,29 @@ export const siteSettings = defineType({
     defineField({
       name: 'philosophy',
       group: 'home',
-      title: 'Le tre ragioni / The three reasons',
+      title: 'Le tre ragioni',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'object',
           name: 'reason',
           fields: [
-            defineField({name: 'title', title: 'Titolo / Title', type: 'string'}),
-            defineField({name: 'text', title: 'Testo / Text', type: 'localeText'}),
+            defineField({name: 'title', title: 'Titolo', type: 'string'}),
+            defineField({name: 'text', title: 'Testo', type: 'localeText'}),
           ],
           preview: {select: {title: 'title', subtitle: 'text.en'}},
         }),
       ],
       description:
-        'Titolo e testo, nel suo ordine. Sostituisce il vecchio blocco THE MAKING. / A title and a passage, in his order. Replaces the old THE MAKING block.',
+        'Titolo e testo, nel suo ordine. Sostituisce il vecchio blocco THE MAKING.',
     }),
     defineField({
       name: 'homeStatement',
       group: 'home',
-      title: 'Chi siamo, in breve (home) / About the brand, short (home)',
+      title: 'Chi siamo, in breve (home)',
       type: 'localeText',
       description:
-        "Due o tre righe brevi, non un paragrafo. Gli a capo contano: ogni riga va a capo sulla pagina. / Two or three short lines, not a paragraph. Line breaks are meaningful: each line is set on its own line.",
+        "Due o tre righe brevi, non un paragrafo. Gli a capo contano: ogni riga va a capo sulla pagina.",
     }),
     /*
       THE ORDER OF THE BAND IS THIS LIST, and nothing else (2026-08-10).
@@ -141,7 +141,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'homeSequence',
       group: 'home',
-      title: 'Addosso: i capi indossati / Worn: the pieces on people',
+      title: 'Addosso: i capi indossati',
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
@@ -152,7 +152,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'makingMedia',
       group: 'home',
-      title: 'La lavorazione / The making',
+      title: 'Le foto del lavoro, nella home',
       type: 'array',
       of: [{type: 'media'}],
       description:
@@ -162,10 +162,10 @@ export const siteSettings = defineType({
     defineField({
       name: 'makingStatement',
       group: 'home',
-      title: 'La lavorazione, il testo / The making, the text',
+      title: 'La lavorazione, il testo',
       type: 'localeText',
       description:
-        'Una o due righe brevi sul come sono fatti i capi. / One or two short lines about how the pieces are made.',
+        'Una o due righe brevi sul come sono fatti i capi.',
     }),
     /*
       WHICH LANGUAGES CARRY THE OWNER'S OWN VOICE (2026-08-02).
@@ -185,7 +185,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'approvedLanguages',
       group: 'avanzate',
-      title: 'Lingue approvate dal titolare / Languages the owner has approved',
+      title: 'Lingue approvate dal titolare',
       type: 'array',
       of: [{type: 'string'}],
       options: {
@@ -206,7 +206,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'footerCopyIsDraft',
       group: 'avanzate',
-      title: 'Righe del fondo pagina non approvate / Footer lines not approved',
+      title: 'Righe del fondo pagina non approvate',
       type: 'boolean',
       description:
         "Acceso finche' il titolare non approva le due righe che abbiamo scritto noi in fondo alla pagina (spedizioni, origine). / On until the owner approves the two footer lines we wrote (shipping, origin).",
@@ -215,11 +215,11 @@ export const siteSettings = defineType({
     defineField({
       name: 'aboutMedia',
       group: 'pagine',
-      title: 'Fotografie di Chi siamo / About photographs',
+      title: 'Fotografie di Chi siamo',
       type: 'array',
       of: [{type: 'media'}],
       description:
-        'Immagini di processo e materiale, alternate al testo. / Process and material images, interleaved with the text.',
+        'Immagini di processo e materiale, alternate al testo.',
     }),
     /*
       THE DESIGNER. A buyer sending EUR 1,500 to one person they have never met
@@ -234,36 +234,36 @@ export const siteSettings = defineType({
     defineField({
       name: 'creators',
       group: 'chi',
-      title: 'Chi lo fa / The creators',
+      title: 'Chi fa i capi',
       type: 'array',
       of: [{type: 'string'}],
       description:
-        "I nomi, come li ha scritti lui. / The names, as he wrote them.",
+        "I nomi, come li ha scritti lui.",
     }),
     defineField({
       name: 'partnerName',
       group: 'chi',
-      title: 'In collaborazione con / In collaboration with',
+      title: 'In collaborazione con',
       type: 'string',
     }),
     defineField({
       name: 'partnerUrl',
       group: 'chi',
-      title: 'Link del partner / Partner link',
+      title: 'Link del partner',
       type: 'url',
     }),
     defineField({
       name: 'designerPortrait',
       group: 'chi',
-      title: 'Ritratto / Portrait',
+      title: 'Il ritratto',
       type: 'media',
       description:
-        "Una fotografia di chi fa le Creature, meglio se al lavoro. / One photograph of the person who makes the Creature, ideally at work.",
+        "Una fotografia di chi fa le Creature, meglio se al lavoro.",
     }),
     defineField({
       name: 'designerText',
       group: 'chi',
-      title: 'Chi lo fa: il testo / The designer: the text',
+      title: 'Chi lo fa: il testo',
       type: 'localeText',
       description:
         "Parole sue. Lasciare vuoto finche' non le ha scritte: la pagina mostra un segnaposto invece di inventare una biografia. / His own words. Leave empty until he has written them: the page shows a placeholder rather than inventing a biography.",
@@ -271,34 +271,34 @@ export const siteSettings = defineType({
     defineField({
       name: 'aboutOpeningMedia',
       group: 'pagine',
-      title: 'Chi siamo: fotografia di apertura / About: opening photograph',
+      title: 'Chi siamo: fotografia di apertura',
       type: 'media',
       description:
-        "La prima schermata della pagina, a tutto schermo, con una sola riga sopra. / The first screen of the page, full bleed, with a single line over it.",
+        "La prima schermata della pagina, a tutto schermo, con una sola riga sopra.",
     }),
     defineField({
       name: 'contactMedia',
       group: 'pagine',
-      title: 'Contatti: la fotografia / Contact: the photograph',
+      title: 'Contatti: la fotografia',
       type: 'media',
       description:
-        "Una sola fotografia, accanto ai contatti. Se resta vuota il sito ne sceglie una da solo e la scelta resta segnata come nostra (contactFrame). / One photograph, beside the contact details. Left empty, the site picks one itself and the choice stays flagged as ours (contactFrame).",
+        "Una sola fotografia, accanto ai contatti. Se resta vuota il sito ne sceglie una da solo e la scelta resta segnata come nostra (contactFrame).",
     }),
     defineField({
       name: 'aboutOpeningLine',
       group: 'pagine',
-      title: 'Chi siamo: la riga di apertura / About: the opening line',
+      title: 'Chi siamo: la riga di apertura',
       type: 'localeString',
       description:
-        "Una frase sola, sopra la fotografia di apertura. Breve. / One sentence only, over the opening photograph. Short.",
+        "Una frase sola, sopra la fotografia di apertura. Breve.",
     }),
     defineField({
       name: 'about',
       group: 'chi',
-      title: 'Chi siamo / About',
+      title: 'La storia del marchio',
       type: 'localeText',
       description:
-        "La storia del marchio, per intero. Una riga vuota separa i paragrafi, e ogni paragrafo prende una schermata di testo fra le fotografie. Righe e paragrafi vengono rispettati. / The brand story, complete. A blank line separates paragraphs, and each paragraph takes a screen of text between the photographs. Line and paragraph breaks are kept.",
+        "La storia del marchio, per intero. Una riga vuota separa i paragrafi, e ogni paragrafo prende una schermata di testo fra le fotografie. Righe e paragrafi vengono rispettati.",
     }),
     /*
       Turned OFF on 2026-08-02: the story is now the owner's own text, so it is
@@ -312,7 +312,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'aboutIsDraft',
       group: 'avanzate',
-      title: 'La storia e stata scritta da noi / The story was written by us',
+      title: 'La storia e stata scritta da noi',
       type: 'boolean',
       description:
         "Acceso solo se il testo NON e del titolare. Il sito lo marca come bozza in tutte le lingue. Per la sola questione della traduzione usare invece le lingue approvate. / On only when the text is NOT the owner's. The site then marks it as a draft in every language. For the translation question alone, use the approved languages field instead.",
@@ -333,7 +333,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'shippingFree',
       group: 'negozio',
-      title: 'Spedizione gratuita / Free shipping',
+      title: 'Spedizione gratuita',
       type: 'localeText',
       description:
         "Parole del titolare. Una riga. / The owner's own words. One line.",
@@ -341,7 +341,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'shippingReturns',
       group: 'negozio',
-      title: 'Spedizioni e resi / Shipping and returns',
+      title: 'Spedizioni e resi',
       type: 'localeText',
     }),
     /*
@@ -360,7 +360,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'footerShipping',
       group: 'negozio',
-      title: 'Fondo pagina: spedizioni / Footer: shipping',
+      title: 'Fondo pagina: spedizioni',
       type: 'localeText',
       description:
         "Una riga sola. Nessuna promessa di tempi o costi finche' non sono decisi. / One line only. No promise about timing or cost until those are decided.",
@@ -368,9 +368,9 @@ export const siteSettings = defineType({
     defineField({
       name: 'footerOrigin',
       group: 'negozio',
-      title: 'Fondo pagina: dove nasce / Footer: where it is made',
+      title: 'Fondo pagina: dove nasce',
       type: 'localeText',
-      description: 'Una riga sola. / One line only.',
+      description: 'Una riga sola.',
     }),
     /*
       Ambient sound. The field exists so the file has somewhere to live; the
@@ -406,7 +406,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'instagramFrames',
       group: 'instagram',
-      title: 'Instagram: i riquadri / Instagram: the frames',
+      title: 'Instagram: i riquadri',
       type: 'array',
       of: [{type: 'instagramFrame'}],
       description:
@@ -425,7 +425,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'processText',
       group: 'pagine',
-      title: 'Il processo, il testo / The process, the text',
+      title: 'Il processo, il testo',
       type: 'localeText',
       description:
         "Che cosa succede, per fasi, nell'ordine del lavoro. Poche righe brevi: le fotografie fanno il resto. / What happens, stage by stage, in the order of the work. A few short lines: the photographs do the rest.",
@@ -433,7 +433,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'processMedia',
       group: 'pagine',
-      title: 'Il processo / The process',
+      title: 'Le foto della pagina Processo',
       type: 'array',
       of: [{type: 'media'}],
       description:
@@ -462,7 +462,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'cutoutMedia',
       group: 'home',
-      title: 'Capi ritagliati su fondo chiaro / Pieces cut out on pale ground',
+      title: 'Capi ritagliati su fondo chiaro',
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
@@ -493,21 +493,21 @@ export const siteSettings = defineType({
     defineField({
       name: 'aboutNotes',
       group: 'pagine',
-      title: 'Chi siamo: le righe nel mosaico / About: the lines in the mosaic',
+      title: 'Chi siamo: le righe nel mosaico',
       type: 'array',
       of: [{type: 'mosaicNote'}],
       description:
-        "Da due a quattro. Brevi. Vanno in colonna, accanto alle fotografie. / Two to four. Short. They sit in a column beside the photographs.",
+        "Da due a quattro. Brevi. Vanno in colonna, accanto alle fotografie.",
       validation: (Rule) => Rule.max(5).warning('More than five and the page becomes an essay.'),
     }),
     defineField({
       name: 'processNotes',
       group: 'pagine',
-      title: 'Processo: le righe nel mosaico / Process: the lines in the mosaic',
+      title: 'Processo: le righe nel mosaico',
       type: 'array',
       of: [{type: 'mosaicNote'}],
       description:
-        "Da tre a cinque. Il materiale, la lavorazione, cosa ne esce. / Three to five. The material, the making, what comes out of it.",
+        "Da tre a cinque. Il materiale, la lavorazione, cosa ne esce.",
       validation: (Rule) => Rule.max(6).warning('More than six and the page becomes an essay.'),
     }),
     /*
@@ -554,7 +554,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'inventedCopy',
       group: 'avanzate',
-      title: 'Testi scritti da noi, da approvare / Copy we wrote, to be approved',
+      title: 'Testi scritti da noi, da approvare',
       type: 'array',
       of: [{type: 'string'}],
       /*
@@ -571,26 +571,26 @@ export const siteSettings = defineType({
         'Two words deleted, nothing added. Untick "aboutMadeToMeasure" when you approve the shorter line, or put it back.',
       options: {
         list: [
-          {title: 'Fondo pagina: spedizioni / Footer: shipping', value: 'footerShipping'},
-          {title: 'Fondo pagina: origine / Footer: origin', value: 'footerOrigin'},
-          {title: 'Spedizioni e resi / Shipping and returns', value: 'shippingReturns'},
-          {title: 'Home: le righe di sezione / Home: the section lines', value: 'homeLines'},
-          {title: 'Richiesta: i testi / Enquiry: the copy', value: 'enquiryCopy'},
-          {title: 'Disponibilita: la spiegazione / Availability: the explanation', value: 'availabilityCopy'},
-          {title: 'Instagram: quali fotografie / Instagram: which frames', value: 'instagramFrames'},
-          {title: 'Ordine: il disegno delle misure / Order: the measuring diagram', value: 'measureDiagram'},
-          {title: 'Processo: il testo delle fasi / Process: the stages text', value: 'processText'},
-          {title: 'Shop: la riga di apertura / Shop: the intro line', value: 'shopIntro'},
-          {title: 'Drops: la riga di apertura / Drops: the intro line', value: 'dropsIntro'},
-          {title: 'Contatti: la riga di apertura / Contact: the intro line', value: 'contactIntro'},
-          {title: 'Contatti: quale fotografia / Contact: which photograph', value: 'contactFrame'},
+          {title: 'Fondo pagina: spedizioni', value: 'footerShipping'},
+          {title: 'Fondo pagina: origine', value: 'footerOrigin'},
+          {title: 'Spedizioni e resi', value: 'shippingReturns'},
+          {title: 'Home: le righe di sezione', value: 'homeLines'},
+          {title: 'Richiesta: i testi', value: 'enquiryCopy'},
+          {title: 'Disponibilita: la spiegazione', value: 'availabilityCopy'},
+          {title: 'Instagram: quali fotografie', value: 'instagramFrames'},
+          {title: 'Ordine: il disegno delle misure', value: 'measureDiagram'},
+          {title: 'Processo: il testo delle fasi', value: 'processText'},
+          {title: 'Shop: la riga di apertura', value: 'shopIntro'},
+          {title: 'Drops: la riga di apertura', value: 'dropsIntro'},
+          {title: 'Contatti: la riga di apertura', value: 'contactIntro'},
+          {title: 'Contatti: quale fotografia', value: 'contactFrame'},
           {
-            title: 'Contatti: dove siamo e dove si compra / Contact: where we are, and where to buy',
+            title: 'Contatti: dove siamo e dove si compra',
             value: 'contactCopy',
           },
-          {title: 'Chi siamo: la traduzione delle origini / About: the origin translation', value: 'aboutOrigin'},
+          {title: 'Chi siamo: la traduzione delle origini', value: 'aboutOrigin'},
           {title: "Chi siamo: l'ordine dei nomi, modificato dal testo approvato / About: name order, edited from approved text", value: 'aboutNameOrder'},
-          {title: "Pagina prodotto: la riga sul su misura / Piece page: the made-to-measure line", value: 'madeToMeasureLine'},
+          {title: "Pagina prodotto: la riga sul su misura", value: 'madeToMeasureLine'},
           {
             title:
               'Chi siamo e Processo: «Su Misura» tolto dal testo approvato / About and Process: "Made to Measure" removed from approved text',
@@ -603,7 +603,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'ambientAudio',
       group: 'avanzate',
-      title: 'Suono ambiente / Ambient sound',
+      title: 'Suono ambiente',
       type: 'file',
       description:
         "Facoltativo. Un file audio breve, in loop, che il visitatore puo' accendere da un piccolo comando nell'angolo. NON parte da solo: i browser bloccano l'audio automatico, quindi resta spento finche' non lo si accende. Rimane spento per chi ha chiesto di ridurre le animazioni. / Optional. A short looping audio file the visitor can switch on from a small corner control. It does NOT start on its own: browsers block automatic audio, so it stays off until switched on. It stays off for anyone who has asked for reduced motion.",
@@ -615,15 +615,15 @@ export const siteSettings = defineType({
     defineField({
       name: 'logo',
       group: 'avanzate',
-      title: 'Logo (firma / signature)',
+      title: 'La firma',
       type: 'image',
       description:
-        'Un solo file. La firma SVG usa currentColor e si inverte con la pagina, quindi vale sia per il bianco sia per il nero. / One file only. The signature SVG uses currentColor and inverts with the page, so it serves both the white and the black polarity.',
+        'Un solo file. La firma SVG usa currentColor e si inverte con la pagina, quindi vale sia per il bianco sia per il nero.',
     }),
   ],
   preview: {
     prepare() {
-      return {title: 'Impostazioni / Site settings'}
+      return {title: 'Impostazioni'}
     },
   },
 })

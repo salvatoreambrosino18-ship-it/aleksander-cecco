@@ -21,12 +21,12 @@ import {defineType, defineField} from 'sanity'
 */
 export const media = defineType({
   name: 'media',
-  title: 'Immagine o video / Image or video',
+  title: 'Immagine o video',
   type: 'object',
   fields: [
     defineField({
       name: 'poster',
-      title: 'Immagine / Image',
+      title: 'La fotografia',
       type: 'image',
       options: {hotspot: true},
       description:
@@ -35,7 +35,7 @@ export const media = defineType({
     }),
     defineField({
       name: 'alt',
-      title: 'Testo alternativo / Alt text',
+      title: 'Cosa si vede in questa foto',
       type: 'localeString',
       description:
         "Descrizione per chi usa uno screen reader. L'italiano e obbligatorio; se l'inglese e vuoto il sito usa l'italiano. / Description for screen reader users. Italian is required; if English is empty the site falls back to Italian.",
@@ -54,10 +54,16 @@ export const media = defineType({
     */
     defineField({
       name: 'altIsDraft',
-      title: 'Testo alternativo da approvare / Alt text needs approval',
+      title: 'Testo alternativo da approvare',
       type: 'boolean',
       description:
-        'Acceso quando la descrizione e stata generata e non ancora letta da una persona. Spegnilo quando la approvi. / On when the description was generated and no person has read it yet. Turn it off once you approve it.',
+        'Acceso vuol dire che la frase qui sopra l\'ha scritta il computer e nessuno l\'ha controllata. ' +
+        'Leggila, correggila se serve, poi spegni questo. Non si vede sul sito: serve a sapere cosa manca.' +
+        'Scrivi cosa c\'e\' davvero nell\'inquadratura, non il nome del capo. ' +
+        'L\'italiano serve sempre; se lasci vuoto l\'inglese, il sito usa l\'italiano anche li\' ' +
+        '(e\' l\'unico campo che si comporta cosi\').' +
+        'ed e\' quello che resta se il video non parte. Trascina il cerchietto sulla foto per scegliere ' +
+        'la parte che deve restare visibile quando la foto viene tagliata.',
       initialValue: false,
     }),
     /*
@@ -67,7 +73,7 @@ export const media = defineType({
     */
     defineField({
       name: 'isProvisional',
-      title: 'Fotografia provvisoria / Provisional photograph',
+      title: 'Fotografia provvisoria',
       type: 'boolean',
       initialValue: false,
       description:
@@ -75,14 +81,14 @@ export const media = defineType({
     }),
     defineField({
       name: 'overlay',
-      title: 'Testo sopra / Text over this media',
+      title: 'Le scritte sopra questa foto: bianche o nere',
       type: 'string',
       description:
         "Il colore del testo sopra questa immagine, e del logo e del menu quando ci passano sopra. Guarda l'immagine e scegli quello leggibile. Solo bianco o nero, mai grigio. / The color of text over this media, and of the logo and menu while they pass over it. Look at the picture and pick the legible one. White or black only, never gray.",
       options: {
         list: [
-          {title: 'Bianco / White', value: 'paper'},
-          {title: 'Nero / Black', value: 'ink'},
+          {title: 'Bianche', value: 'paper'},
+          {title: 'Nere', value: 'ink'},
         ],
         layout: 'radio',
       },
@@ -109,17 +115,21 @@ export const media = defineType({
     */
     defineField({
       name: 'overlayCaption',
-      title: 'Testo in basso: bianco o nero / Caption below: white or black',
+      title: 'Testo in basso: bianco o nero',
       type: 'string',
       options: {
         list: [
-          {title: 'Bianco / White (paper)', value: 'paper'},
-          {title: 'Nero / Black (ink)', value: 'ink'},
+          {title: 'Bianca', value: 'paper'},
+          {title: 'Nera', value: 'ink'},
         ],
         layout: 'radio',
       },
       description:
-        "La polarita del nome o della didascalia in basso sulla fotografia. Se vuoto usa il valore sopra. / The polarity of the name or caption at the bottom of the photograph. Falls back to the value above when empty.",
+        'In basso la foto e\' quasi sempre di un colore diverso da quello in alto, quindi si sceglie a parte. ' +
+        'Se lo lasci vuoto viene usato il colore scelto qui sopra, che spesso li\' non si legge.' +
+        'sopra questa foto. Non c\'e\' il grigio e non c\'e\' l\'ombra dietro le scritte: o bianco o nero. ' +
+        'Se sbagli, la scritta sparisce dentro la foto.' +
+        'Serve a non dimenticartene: una foto provvisoria non segnata resta li\' per sempre.',
     }),
     /*
       Added 2026-08-02, because real photography demanded it. Three of the nine
@@ -131,14 +141,14 @@ export const media = defineType({
     */
     defineField({
       name: 'captionPlacement',
-      title: 'Posizione del testo / Caption placement',
+      title: 'Posizione del testo',
       type: 'string',
       description:
         "Sopra l'immagine quando la foto ha una zona uniforme dove leggere. Sotto, sulla pagina, quando la foto e' troppo contrastata e nessun colore di testo resta leggibile. / Over the image when the photograph has an even area to read against. Below, on the page, when the photograph is too contrasted for either text color to stay legible.",
       options: {
         list: [
           {title: "Sopra l'immagine / Over the image", value: 'over'},
-          {title: 'Sotto, sulla pagina / Below, on the page', value: 'below'},
+          {title: 'Sotto, sulla pagina', value: 'below'},
         ],
         layout: 'radio',
       },
@@ -160,7 +170,7 @@ export const media = defineType({
     */
     defineField({
       name: 'needsCaption',
-      title: 'Dettaglio in attesa di una riga / Detail awaiting a caption',
+      title: 'Dettaglio in attesa di una riga',
       type: 'boolean',
       initialValue: false,
       description:
@@ -168,7 +178,7 @@ export const media = defineType({
     }),
     defineField({
       name: 'video',
-      title: 'Video (facoltativo / optional)',
+      title: 'Un video al posto della foto (quasi sempre vuoto)',
       type: 'file',
       description:
         "Loop breve e muto: 4-10 secondi, MP4 (h.264), meno di 3 MB, SENZA traccia audio, stesso taglio della fotografia qui sopra. Il sito lo riproduce sopra la fotografia, solo quando e' sullo schermo. La fotografia resta cio' che vedono chi ha il risparmio dati e chi ha ridotto le animazioni. / Short muted loop: 4-10 seconds, MP4 (h.264), under 3 MB, with NO audio track at all, framed the same as the photograph above. The site plays it over the photograph, only while it is on screen. The photograph stays what a reader gets under reduced motion or when the video cannot play.",
@@ -176,10 +186,26 @@ export const media = defineType({
     }),
     defineField({
       name: 'caption',
-      title: 'Didascalia / Caption',
+      title: 'La riga sotto la foto',
       type: 'localeString',
       description:
-        'Una riga sola, se questa immagine ha bisogno di parole. Quasi sempre vuota. / One line only, if this media needs words at all. Usually empty.',
+        'MP4, senza audio, con la stessa inquadratura della fotografia qui sopra: il sito lo fa partire ' +
+        'da solo sopra quella foto, senza comandi e senza che nessuno lo tocchi. ' +
+        'DEVE DURARE ALMENO 4 SECONDI. Un video corto riparte in continuazione e sembra un boomerang ' +
+        'di Instagram anche se non lo e\': l\'occhio non distingue un video che ricomincia da uno che ' +
+        'torna indietro. ' +
+        'TIENI FERMA LA MACCHINA, o muovila sempre nella stessa direzione. Un video ripreso a mano che ' +
+        'va e torna e\' proprio quello che sembra un boomerang. ' +
+        'QUANDO RICOMINCIA SI VEDE UNO STACCO, sempre, perche\' l\'ultima immagine non e\' uguale alla ' +
+        'prima: piu\' e\' lungo il video, piu\' raro e\' lo stacco. ' +
+        'Sotto i 3 MB se puoi: i video sono l\'unica cosa che puo\' far costare il sito. ' +
+        'Chi ha spento le animazioni sul telefono vede solo la fotografia, quindi quella deve reggere da sola.' +
+        'ATTENZIONE ALLE DUE LINGUE: se la scrivi solo in italiano, sulla versione inglese del sito ' +
+        'sotto quella foto non compare NIENTE. O tutte e due, o nessuna.' +
+        '«500 punti cicatrice, cuciti a mano» non se la puo\' inventare nessun altro. ' +
+        'Scrivila nel campo qui sotto e poi spegni questo.' +
+        'SOTTO quando la foto e\' mezza chiara e mezza scura: li\' nessun colore funziona, e una scritta ' +
+        'illeggibile sopra una bella foto e\' peggio che nessuna scritta.',
     }),
   ],
   preview: {

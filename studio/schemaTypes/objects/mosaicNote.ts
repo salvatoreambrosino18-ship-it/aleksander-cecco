@@ -28,19 +28,19 @@ import {defineType, defineField} from 'sanity'
 */
 export const mosaicNote = defineType({
   name: 'mosaicNote',
-  title: 'Riga nel mosaico / Line in the mosaic',
+  title: 'Riga nel mosaico',
   type: 'object',
   fields: [
     defineField({
       name: 'heading',
-      title: 'Titolino / Small heading',
+      title: 'Titolino sopra la riga',
       type: 'localeString',
       description:
-        "Facoltativo, e quasi sempre da lasciare vuoto. / Optional, and usually best left empty.",
+        "Facoltativo, e quasi sempre da lasciare vuoto.",
     }),
     defineField({
       name: 'text',
-      title: 'Testo / Text',
+      title: 'La riga',
       type: 'localeText',
       validation: (Rule) => Rule.required(),
     }),

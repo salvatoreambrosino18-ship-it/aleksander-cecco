@@ -9,18 +9,18 @@ import {defineType, defineField} from 'sanity'
 */
 export const instagramFrame = defineType({
   name: 'instagramFrame',
-  title: 'Riquadro Instagram / Instagram frame',
+  title: 'Riquadro Instagram',
   type: 'object',
   fields: [
     defineField({
       name: 'media',
-      title: 'Fotografia / Photograph',
+      title: 'La fotografia',
       type: 'media',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'postUrl',
-      title: 'Link del post / Post link',
+      title: 'Il link al post',
       type: 'url',
       description:
         "L'indirizzo del post su Instagram: aprilo, copia l'indirizzo dalla barra, incollalo qui. Vuoto, il riquadro porta al profilo. / The post's own address on Instagram: open it, copy the address bar, paste it here. Empty, the frame links to the profile.",
