@@ -419,7 +419,24 @@ const shareImage =
           button.addEventListener("click", () => {
             const slug = button.dataset.addToCart;
             const block = button.closest(".cart-add");
+            const radios = block ? block.querySelectorAll("input[type=radio]") : [];
             const size = block?.querySelector("input[type=radio]:checked")?.value;
+            /*
+              A PIECE WITH SIZES IS NOT ADDED WITHOUT ONE (section 130). Nothing
+              is pre-checked, so pressing ADD before choosing has to say so
+              rather than pick the first size on the reader's behalf. The button
+              names what is missing and the focus moves to the choice, which is
+              the whole of the correction — no colour, no box, nothing new.
+            */
+            if (radios.length > 0 && !size) {
+              button.textContent = button.dataset.needsSize || label;
+              clearTimeout(button._ackTimer);
+              button._ackTimer = setTimeout(() => {
+                button.textContent = label;
+              }, 2400);
+              radios[0].focus();
+              return;
+            }
             const cart = read();
             const entry = cart[slug] || {qty: 0};
             entry.qty = (Number(entry.qty) || 0) + 1;

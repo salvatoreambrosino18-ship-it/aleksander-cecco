@@ -441,9 +441,17 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
                 <fieldset class="flex flex-col gap-u2">
                   <legend class="type-label text-label">{t(locale, "chooseSize")}</legend>
                   <div class="flex flex-wrap gap-u3">
-                    {addSizes.map((size, index) => (
+                    {/*
+                      NOTHING IS PRE-CHECKED, and that is the point (section
+                      130). The first radio used to be selected, so a reader who
+                      never noticed the control added the piece in XS — on a
+                      1850 euro jacket, the smallest size, silently. A default
+                      is a choice made on the buyer's behalf, and this is the
+                      one choice on the site that nobody else can make.
+                    */}
+                    {addSizes.map((size) => (
                       <label class="type-label text-label flex items-baseline gap-u1">
-                        <input type="radio" name="cart-size" value={size} checked={index === 0} />
+                        <input type="radio" name="cart-size" value={size} />
                         {size}
                       </label>
                     ))}
@@ -462,6 +470,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
                 class="type-label text-body hairline-under self-start"
                 data-add-to-cart={garment.slug}
                 data-added-label={t(locale, "cartAdded")}
+                data-needs-size={t(locale, "chooseSizeFirst")}
                 data-fallback-href={localePath(locale, `creature/${garment.slug}/order`)}
               >
                 {t(locale, "cartAdd")}

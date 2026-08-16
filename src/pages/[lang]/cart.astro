@@ -54,10 +54,10 @@
 */
 import Base from "../../layouts/Base.astro";
 import TextSurface from "../../components/TextSurface.astro";
-import {getGarments} from "../../lib/content";
+import {getGarments, getSiteSettings} from "../../lib/content";
 import {isOrderable, toOrderItem} from "../../lib/order";
 import {imageUrl} from "../../lib/image";
-import {LOCALES, localePath, toLocale} from "../../lib/locales";
+import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {t} from "../../i18n/ui";
 
 export function getStaticPaths() {
@@ -66,6 +66,24 @@ export function getStaticPaths() {
 
 const locale = toLocale(Astro.params.lang);
 const garments = await getGarments();
+const settings = await getSiteSettings();
+
+/*
+  THE TERMS, BEFORE THE FORM RATHER THAN AFTER IT (2026-08-16, section 130).
+
+  The single-piece order page has shown these two lines above its fields since
+  section 104, and the cart shipped without them — so the checkout that takes
+  the LARGER order told a buyer less about shipping and returns than the one
+  that takes a single piece. Found by reading the two pages side by side as a
+  buyer rather than by testing either.
+
+  All three are HIS facts: ships worldwide, free over 500 euro, a return is
+  arranged by writing. Nothing here is invented.
+*/
+const shippingLines = [
+  pick(settings.shippingFree, locale),
+  pick(settings.shippingReturns, locale),
+].filter((line): line is string => Boolean(line));
 
 /*
   THE WHOLE ORDERABLE CATALOGUE, EMBEDDED. The cart holds slugs; this is what
@@ -176,7 +194,10 @@ const currency = items[0]?.currency ?? "EUR";
           <textarea id="note" name="note" rows="4" maxlength="2000" />
         </div>
 
-        <p class="type-body text-body max-w-prose">{t(locale, "deliveryLine")}</p>
+        <div class="type-body text-body flex flex-col gap-u1">
+          {shippingLines.map((line) => <p class="max-w-prose">{line}</p>)}
+          <p class="max-w-prose">{t(locale, "deliveryLine")}</p>
+        </div>
         <p class="type-body text-body max-w-prose">{t(locale, "cartNoPayment")}</p>
 
         {/* Hidden from people, not from bots: they fill it in, humans cannot. */}
@@ -336,11 +357,17 @@ const currency = items[0]?.currency ?? "EUR";
             radio.name = `size:${slug}`;
             radio.value = size;
             radio.checked = entry.size === size;
+            /*
+              REQUIRED, AND NOTHING IS PICKED FOR THEM (section 130). The line
+              used to fall back to the first size when nothing was stored, so a
+              cart could carry XS for a piece whose size the buyer had never
+              chosen. The browser now refuses to send until they answer, which
+              is the same answer the piece page gives.
+            */
+            radio.required = true;
             label.append(radio, document.createTextNode(size));
             row.append(label);
           }
-          /* Nothing stored, or a size he no longer cuts: take the first. */
-          if (!row.querySelector("input:checked")) row.querySelector("input").checked = true;
           set.append(row);
           controls.append(set);
         }

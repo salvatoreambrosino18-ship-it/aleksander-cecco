@@ -35,9 +35,16 @@ const VOCI: Array<{titolo: string; testo: string; dove: string; azione: string}>
     azione: 'Vai ai capi',
   },
   {
+    /*
+      CORRETTA 16/08/2026 (sezione 130). Diceva «servono almeno una fotografia e
+      il nome; il resto si può aggiungere dopo», e sono TRE cose: l'indirizzo
+      della pagina è obbligatorio e sta dentro un gruppo CHIUSO, quindi un capo
+      nuovo si rifiuta di pubblicare per un campo che lui non ha mai visto. È
+      esattamente il punto in cui uno smette e chiede aiuto.
+    */
     titolo: 'Mettere un capo nuovo',
     testo:
-      'Il pulsante + in alto nella lista dei capi. Servono almeno una fotografia e il nome; il resto si può aggiungere dopo.',
+      'Il pulsante + in alto nella lista dei capi. Servono tre cose: una fotografia, il nome, e poi apri «Impostazioni del capo» in fondo e premi GENERATE per l’indirizzo della pagina. Senza quello non si pubblica.',
     dove: '/structure/orderable-garment',
     azione: 'Vai ai capi',
   },

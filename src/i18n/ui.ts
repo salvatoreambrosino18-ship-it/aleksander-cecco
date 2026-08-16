@@ -96,6 +96,11 @@ const ui = {
     sizeQuestion: "Taglia",
     oneSize: "Taglia unica.",
     chooseSize: "Scegli la taglia",
+    /*
+      NESSUNA TAGLIA È SCELTA IN PARTENZA (2026-08-16, sezione 130), quindi
+      serve una frase per quando uno preme senza averla scelta.
+    */
+    chooseSizeFirst: "Scegli prima la taglia",
     /* OURS, flagged as deliveryLine: his number, our sentence (section 102). */
     deliveryLine: "Ogni pezzo è fatto dopo l'ordine: massimo due settimane prima della spedizione.",
     /*
@@ -266,6 +271,7 @@ const ui = {
     sizeQuestion: "Size",
     oneSize: "One size.",
     chooseSize: "Choose a size",
+    chooseSizeFirst: "Choose a size first",
     deliveryLine: "Each piece is made after the order: two weeks at most before it ships.",
     unique: "A private commission. 1 of 1, made once.",
     uniqueAction: "Acquire this piece",

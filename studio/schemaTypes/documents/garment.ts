@@ -44,12 +44,17 @@ export const garment = defineType({
       title: 'Le fotografie',
       type: 'array',
       of: [{type: 'media'}],
+      /*
+        QUESTA DESCRIZIONE PARLAVA DELLE TAGLIE (corretto 2026-08-16, sezione
+        130). Sotto «Le fotografie» il titolare leggeva le istruzioni per
+        spuntare le taglie, e poi la frase ripartiva a metà — «del capo. È anche
+        quella che si vede nel catalogo» — senza un inizio. Due descrizioni si
+        erano sovrapposte in una modifica precedente, e il campo più importante
+        del modulo spiegava un altro campo.
+      */
       description:
-        'Spunta le taglie in cui fai questo capo. Se sta bene a tutti — per esempio ha il collo ' +
-        'regolabile — spunta TAGLIA UNICA. ' +
-        'FINCHE\' LO LASCI VUOTO chi compra non può scegliere niente, e nel modulo d\'ordine la taglia ' +
-        'non compare proprio. Adesso è vuoto su tutti i capi: è la cosa più utile che puoi sistemare.' +
-        'del capo. È anche quella che si vede nel catalogo e quando qualcuno condivide il link. ' +
+        'La prima della lista è quella che apre la pagina del capo. ' +
+        'È anche quella che si vede nel catalogo e quando qualcuno condivide il link. ' +
         'Trascina per cambiare l\'ordine: la prima in alto è la prima che si vede. ' +
         'Ogni fotografia occupa uno schermo intero, quindi otto fotografie sono otto schermate.',
       validation: (Rule) => Rule.min(1).error('At least one image is required'),
@@ -61,8 +66,8 @@ export const garment = defineType({
       type: 'number',
       description:
         'Solo il numero, senza il simbolo dell\'euro. ' +
-        'SENZA PREZZO il capo resta sul sito e si può ancora chiedere, ma sparisce dalla pagina ' +
-        '«Ordina più pezzi», perché lì c\'è un totale da fare e una riga senza prezzo lo falserebbe.',
+        'SENZA PREZZO il capo resta sul sito e si può ancora ordinare dal suo modulo, ma non si può ' +
+        'mettere nel CARRELLO, perché lì c\'è un totale da fare e una riga senza prezzo lo falserebbe.',
       validation: (Rule) => Rule.min(0),
     }),
 
@@ -101,7 +106,7 @@ export const garment = defineType({
         layout: 'radio',
       },
       description:
-        "Ogni Creatura esiste e si compra com'e (2026-08-12). 'Su ordinazione' non esiste piu: il su misura si chiede per email, e sulla pagina del pezzo c'e la riga che lo dice. Ordine privato e non disponibile restano visibili ma senza pulsante. / Every Creature exists and is bought as it is (2026-08-12). 'Made to order' is gone: made to measure is asked for by email, and the piece's page carries the line that says so. Private order and not available stay visible but carry no button.",
+        "Ogni Creatura esiste e si compra com'e. Su misura NON si fa piu, in nessuna forma, e dal 16/08/2026 il sito non lo dice piu da nessuna parte. Chi compra sceglie una taglia. Ordine privato e non disponibile restano visibili ma senza pulsante. / Every Creature exists and is bought as it is. Made to measure is not offered at all, and since 2026-08-16 the site no longer mentions it anywhere. The buyer chooses a size. Private order and not available stay visible but carry no button.",
     }),
 
     defineField({
