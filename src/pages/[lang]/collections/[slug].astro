@@ -92,14 +92,16 @@ const garments = byStage(unordered);
   chapter a reader finishes, fifteen is a catalogue they scroll past. The
   catalogue has its own page, so this one does not have to be it.
 */
-const CHAPTER = 5;
-const chapter = garments.slice(0, CHAPTER);
-const remaining = garments.length - chapter.length;
 const locale = toLocale(Astro.params.lang);
 const statement = pick(collection.statement, locale);
 // The statement is the owner's own text, so the only question is the language.
 const settings = await getSiteSettings();
 const voice = voiceState(settings, locale);
+
+/* His number since 2026-08-18 (section 128); five when he has not set one. */
+const CHAPTER = settings.chapterCount ?? 5;
+const chapter = garments.slice(0, CHAPTER);
+const remaining = garments.length - chapter.length;
 ---
 
 {/* Pixel zero on the cover, the band when there is no cover (section 115). */}

@@ -19,10 +19,10 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     // do not offer "create new" for the singleton
-    templates: (prev) => prev.filter((t) => t.schemaType !== 'siteSettings'),
+    templates: (prev) => prev.filter((t) => !['siteSettings', 'siteCopy'].includes(t.schemaType)),
   },
   document: {
     // keep the singleton out of the global create menu
-    newDocumentOptions: (prev) => prev.filter((i) => i.templateId !== 'siteSettings'),
+    newDocumentOptions: (prev) => prev.filter((i) => !['siteSettings', 'siteCopy'].includes(i.templateId as string)),
   },
 })

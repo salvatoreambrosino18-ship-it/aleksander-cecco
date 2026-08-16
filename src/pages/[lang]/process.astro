@@ -104,7 +104,13 @@ const unusedByHome = (items: MediaItem[]) =>
   items.filter((m) => !homeRefs.has(m.poster?.asset?._ref));
 const anchors = unusedByHome(artistic);
 const fallback = unusedByHome(sequence);
-const [pairA] = anchors.length >= 1 ? anchors : fallback.length >= 1 ? fallback : sequence;
+/*
+  HIS CHOICE FIRST (2026-08-18, section 128). The rule below still works and
+  still runs, but it chooses from whatever happens to be spare, which is not a
+  decision anybody made. `processPairMedia` in the studio wins when it is set.
+*/
+const [chosen] = anchors.length >= 1 ? anchors : fallback.length >= 1 ? fallback : sequence;
+const pairA = settings.processPairMedia ?? chosen;
 const mosaic = sequence.filter((m) => m.poster?.asset?._ref !== pairA?.poster?.asset?._ref);
 
 const [first] = sequence;

@@ -92,6 +92,15 @@ export type SiteSettings = {
   processNotes: MosaicNote[] | null;
   /** A chosen handful, not a live feed. See the schema for why. */
   instagramFrames: Array<{media: MediaItem; postUrl: string | null}> | null;
+  /*
+    EDITORIAL NUMBERS, HIS (2026-08-18, section 128). These were constants in
+    page files: how many pieces the drop announcement shows, how many a
+    collection chapter shows, and which photograph heads /process. All optional
+    — null means the page keeps the number it had.
+  */
+  newDropCount: number | null;
+  chapterCount: number | null;
+  processPairMedia: MediaItem | null;
   makingStatement: LocaleField;
   /**
    * The languages whose brand copy is the owner's own words. Anything else is
@@ -156,6 +165,9 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     aboutNotes[]{heading, text},
     processNotes[]{heading, text},
     instagramFrames[]{"media": media{${MEDIA_PROJECTION}}, postUrl},
+    newDropCount,
+    chapterCount,
+    processPairMedia{${MEDIA_PROJECTION}},
     makingStatement,
     "approvedLanguages": coalesce(approvedLanguages, ["en"]),
     "footerCopyIsDraft": coalesce(footerCopyIsDraft, true),

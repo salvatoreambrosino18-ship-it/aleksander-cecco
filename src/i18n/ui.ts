@@ -5,6 +5,7 @@
   stays a marked placeholder token. No em dashes, per standing rule 2.
 */
 import type {Locale} from "../lib/locales";
+import {copyOverrides} from "./overrides";
 
 /*
   THE MADE-TO-MEASURE LINE IS OURS (2026-08-12, section 98). The owner removed
@@ -320,7 +321,51 @@ const ui = {
 
 export type UIKey = keyof (typeof ui)["it"];
 
+/*
+  WHICH OF THESE ARE HIS TO REWRITE (2026-08-18, section 128).
+
+  Everything the BRAND SAYS is his: sentences, section titles, the words over a
+  photograph, the way a state is described. Everything the INTERFACE NEEDS to
+  work is not: the label above an input, the word on a state chip, the string a
+  screen reader is given, the name of a filter that maps onto a schema value.
+
+  The test is what an empty value would mean. Blank "Handcrafted in South
+  Italy." is an editorial decision — the line simply is not said. Blank "Email"
+  above the email box is a broken form, and blank "Sold out" is a garment whose
+  status has disappeared. So the first is offered to him in the studio and the
+  second is not, and this list is the whole of that decision.
+
+  Anything named here appears in the studio under LE PAROLE DEL SITO, empty,
+  with our line shown as the placeholder. Blank means "use ours".
+*/
+export const OWNER_EDITABLE = [
+  // the sentences the brand speaks
+  "handcrafted", "madeInItaly", "shopIntro", "contactIntro", "contactWhere", "contactBuy",
+  "newsletterLine", "outsideCollections", "fitGuidance", "madeToMeasureLine", "deliveryLine",
+  "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
+  "orderSeveralIntro", "orderOnePiece", "orderNoPayment", "nothingYet", "notFound",
+  // the titles that head a part of a page
+  "theWork", "theProject", "bodyOfLight", "worn", "theMaking", "processTitle",
+  "newsletter", "otherDrops", "enterDrop", "allCreatures", "orderSeveral", "orderPieces",
+  "orderYourOrder", "support", "worldwideShipping", "shippingReturns", "footerNav",
+  // his own words for his own things
+  "creature", "creatures", "collections", "newDrop", "acquire", "uniqueAction", "orderAdd",
+] as const satisfies ReadonlyArray<UIKey>;
+
+const editable = new Set<string>(OWNER_EDITABLE);
+
+/**
+ * The string for a key, in his words where he has written them.
+ *
+ * Falls through to ours on: a key he cannot edit, a dataset that did not
+ * answer, a field he has not filled, and a field he filled in the other
+ * language only. A page never renders empty because a field is empty.
+ */
 export function t(locale: Locale, key: UIKey): string {
+  if (editable.has(key)) {
+    const his = copyOverrides[key]?.[locale];
+    if (typeof his === "string" && his.trim() !== "") return his;
+  }
   return ui[locale][key];
 }
 

@@ -5,15 +5,38 @@ export const siteSettings = defineType({
   name: 'siteSettings',
   title: 'Impostazioni / Site settings',
   type: 'document',
+  /*
+    L'ORDINE DELLE SCHEDE E' L'ORDINE IN CUI LE TOCCA (2026-08-18, sezione 128).
+
+    Erano quaranta campi in fila, senza un ordine che volesse dire qualcosa, e
+    le cose che cambia ogni settimana stavano sotto quelle che ha impostato una
+    volta sola. Adesso sono schede, e la prima e' quella che apre.
+
+    Home per prima perche' e' la pagina che cambia quando arrivano fotografie
+    nuove. Poi le altre pagine. Poi le condizioni di vendita, che cambiano
+    quando cambia il modo di vendere. Instagram, che si aggiorna a mano ogni
+    tanto. Chi siamo, che si scrive una volta. Avanzate per ultima: li' dentro
+    non c'e' niente che debba toccare in una settimana normale.
+  */
+  groups: [
+    {name: 'home', title: 'La home', default: true},
+    {name: 'pagine', title: 'Le pagine'},
+    {name: 'negozio', title: 'Spedizioni e ordini'},
+    {name: 'instagram', title: 'Instagram'},
+    {name: 'chi', title: 'Chi siamo'},
+    {name: 'avanzate', title: 'Avanzate'},
+  ],
   fields: [
     defineField({
       name: 'instagramUrl',
+      group: 'instagram',
       title: 'Instagram',
       type: 'url',
       initialValue: 'https://www.instagram.com/aleksandercecco',
     }),
     defineField({
       name: 'contactEmail',
+      group: 'negozio',
       title: 'Email di contatto / Contact email',
       type: 'string',
       description:
@@ -49,6 +72,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'openingMedia',
+      group: 'home',
       title: 'Fotografia di apertura / Opening photograph',
       type: 'media',
       description:
@@ -63,6 +87,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'openingLines',
+      group: 'home',
       title: 'Righe di apertura / Opening lines',
       type: 'localeText',
       description:
@@ -76,6 +101,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'philosophy',
+      group: 'home',
       title: 'Le tre ragioni / The three reasons',
       type: 'array',
       of: [
@@ -94,6 +120,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'homeStatement',
+      group: 'home',
       title: 'Chi siamo, in breve (home) / About the brand, short (home)',
       type: 'localeText',
       description:
@@ -113,6 +140,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'homeSequence',
+      group: 'home',
       title: 'Addosso: i capi indossati / Worn: the pieces on people',
       type: 'array',
       of: [{type: 'homeTile'}],
@@ -123,6 +151,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'makingMedia',
+      group: 'home',
       title: 'La lavorazione / The making',
       type: 'array',
       of: [{type: 'media'}],
@@ -132,6 +161,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'makingStatement',
+      group: 'home',
       title: 'La lavorazione, il testo / The making, the text',
       type: 'localeText',
       description:
@@ -154,6 +184,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'approvedLanguages',
+      group: 'avanzate',
       title: 'Lingue approvate dal titolare / Languages the owner has approved',
       type: 'array',
       of: [{type: 'string'}],
@@ -174,6 +205,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'footerCopyIsDraft',
+      group: 'avanzate',
       title: 'Righe del fondo pagina non approvate / Footer lines not approved',
       type: 'boolean',
       description:
@@ -182,6 +214,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'aboutMedia',
+      group: 'pagine',
       title: 'Fotografie di Chi siamo / About photographs',
       type: 'array',
       of: [{type: 'media'}],
@@ -200,6 +233,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'creators',
+      group: 'chi',
       title: 'Chi lo fa / The creators',
       type: 'array',
       of: [{type: 'string'}],
@@ -208,16 +242,19 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'partnerName',
+      group: 'chi',
       title: 'In collaborazione con / In collaboration with',
       type: 'string',
     }),
     defineField({
       name: 'partnerUrl',
+      group: 'chi',
       title: 'Link del partner / Partner link',
       type: 'url',
     }),
     defineField({
       name: 'designerPortrait',
+      group: 'chi',
       title: 'Ritratto / Portrait',
       type: 'media',
       description:
@@ -225,6 +262,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'designerText',
+      group: 'chi',
       title: 'Chi lo fa: il testo / The designer: the text',
       type: 'localeText',
       description:
@@ -232,6 +270,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'aboutOpeningMedia',
+      group: 'pagine',
       title: 'Chi siamo: fotografia di apertura / About: opening photograph',
       type: 'media',
       description:
@@ -239,6 +278,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'contactMedia',
+      group: 'pagine',
       title: 'Contatti: la fotografia / Contact: the photograph',
       type: 'media',
       description:
@@ -246,6 +286,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'aboutOpeningLine',
+      group: 'pagine',
       title: 'Chi siamo: la riga di apertura / About: the opening line',
       type: 'localeString',
       description:
@@ -253,6 +294,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'about',
+      group: 'chi',
       title: 'Chi siamo / About',
       type: 'localeText',
       description:
@@ -269,6 +311,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'aboutIsDraft',
+      group: 'avanzate',
       title: 'La storia e stata scritta da noi / The story was written by us',
       type: 'boolean',
       description:
@@ -289,6 +332,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'shippingFree',
+      group: 'negozio',
       title: 'Spedizione gratuita / Free shipping',
       type: 'localeText',
       description:
@@ -296,6 +340,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'shippingReturns',
+      group: 'negozio',
       title: 'Spedizioni e resi / Shipping and returns',
       type: 'localeText',
     }),
@@ -314,6 +359,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'footerShipping',
+      group: 'negozio',
       title: 'Fondo pagina: spedizioni / Footer: shipping',
       type: 'localeText',
       description:
@@ -321,6 +367,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'footerOrigin',
+      group: 'negozio',
       title: 'Fondo pagina: dove nasce / Footer: where it is made',
       type: 'localeText',
       description: 'Una riga sola. / One line only.',
@@ -358,6 +405,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'instagramFrames',
+      group: 'instagram',
       title: 'Instagram: i riquadri / Instagram: the frames',
       type: 'array',
       of: [{type: 'instagramFrame'}],
@@ -376,6 +424,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'processText',
+      group: 'pagine',
       title: 'Il processo, il testo / The process, the text',
       type: 'localeText',
       description:
@@ -383,6 +432,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'processMedia',
+      group: 'pagine',
       title: 'Il processo / The process',
       type: 'array',
       of: [{type: 'media'}],
@@ -411,11 +461,16 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'cutoutMedia',
+      group: 'home',
       title: 'Capi ritagliati su fondo chiaro / Pieces cut out on pale ground',
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
-        "Un capo per fotografia, ritagliato, sul fondo chiaro della pagina. Entrano nelle pagine di racconto accanto al testo e alle fotografie del lavoro. Collegare ogni ritaglio al suo capo. PRIMA DI CARICARE: confronta il ritaglio con la fotografia originale all'orlo — se l'orlo e' stato raddrizzato, non va usato. / One piece per frame, cut out, on the page's own pale ground. They enter the story pages beside the text and the process photographs. Link each cut-out to its piece. BEFORE UPLOADING: compare the cut-out with the original photograph at the hem — if the hem has been tidied, it does not go in.",
+        'Un capo per fotografia, ritagliato, su fondo chiaro. Collega ogni ritaglio al suo capo, cosi\' chi lo tocca ci arriva. ' +
+        'L\'ORDINE DECIDE DOVE VANNO: il PRIMO della lista compare nella home, tutti gli altri nella pagina Processo. ' +
+        'Trascina per spostarli. ' +
+        'PRIMA DI CARICARE: confronta il ritaglio con la fotografia originale sull\'orlo. Se lo scontorno ha raddrizzato l\'orlo, ' +
+        'non caricarlo: sarebbe un capo che non hai mai fatto.',
     }),
     /*
       IL RACCONTO NELLE COLONNE (2026-08-13, sezione 118).
@@ -437,6 +492,7 @@ export const siteSettings = defineType({
     */
     defineField({
       name: 'aboutNotes',
+      group: 'pagine',
       title: 'Chi siamo: le righe nel mosaico / About: the lines in the mosaic',
       type: 'array',
       of: [{type: 'mosaicNote'}],
@@ -446,6 +502,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'processNotes',
+      group: 'pagine',
       title: 'Processo: le righe nel mosaico / Process: the lines in the mosaic',
       type: 'array',
       of: [{type: 'mosaicNote'}],
@@ -453,8 +510,50 @@ export const siteSettings = defineType({
         "Da tre a cinque. Il materiale, la lavorazione, cosa ne esce. / Three to five. The material, the making, what comes out of it.",
       validation: (Rule) => Rule.max(6).warning('More than six and the page becomes an essay.'),
     }),
+    /*
+      QUANTE COSE SI VEDONO, E QUALE FOTOGRAFIA APRE (2026-08-18, sezione 128).
+
+      Erano tre numeri e una scelta scritti nel codice: sei capi nella pagina
+      del drop, cinque in un capitolo di collezione, e la fotografia in cima a
+      Processo scelta da una regola invece che da lui. Sono decisioni
+      editoriali, non di struttura, quindi stanno qui.
+
+      Restano OPZIONALI: vuoto vuol dire "come adesso". Un numero fuori scala
+      farebbe una pagina lunghissima, quindi sono limitati piuttosto che liberi.
+    */
+    defineField({
+      name: 'newDropCount',
+      title: 'Quanti capi si vedono nella pagina del drop',
+      type: 'number',
+      group: 'pagine',
+      description:
+        'La pagina del drop e\' un annuncio, non un secondo negozio: fa vedere qualche capo e poi manda al catalogo. ' +
+        'Adesso sono sei. Alzandolo diventa una copia del catalogo; abbassandolo sotto tre non si capisce cos\'e\' il drop. ' +
+        'Lascia vuoto per tenere sei.',
+      validation: (Rule) => Rule.min(2).max(12).integer(),
+    }),
+    defineField({
+      name: 'chapterCount',
+      title: 'Quanti capi si vedono dentro una collezione',
+      type: 'number',
+      group: 'pagine',
+      description:
+        'Ogni capo qui occupa uno schermo intero. Adesso sono cinque: cinque si guardano fino in fondo, quindici si scorrono via. ' +
+        'Gli altri restano nel catalogo, con il link che dice quanti sono. Lascia vuoto per tenere cinque.',
+      validation: (Rule) => Rule.min(2).max(12).integer(),
+    }),
+    defineField({
+      name: 'processPairMedia',
+      title: 'La fotografia in cima alla pagina Processo',
+      type: 'media',
+      group: 'pagine',
+      description:
+        'Sta accanto al testo, in alto, prima di tutte le altre. Se la lasci vuota il sito ne sceglie una da solo, ' +
+        'ma sceglie a caso fra quelle che avanzano: mettila tu se vuoi decidere con cosa si apre.',
+    }),
     defineField({
       name: 'inventedCopy',
+      group: 'avanzate',
       title: 'Testi scritti da noi, da approvare / Copy we wrote, to be approved',
       type: 'array',
       of: [{type: 'string'}],
@@ -503,6 +602,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'ambientAudio',
+      group: 'avanzate',
       title: 'Suono ambiente / Ambient sound',
       type: 'file',
       description:
@@ -514,6 +614,7 @@ export const siteSettings = defineType({
     // section 3.
     defineField({
       name: 'logo',
+      group: 'avanzate',
       title: 'Logo (firma / signature)',
       type: 'image',
       description:

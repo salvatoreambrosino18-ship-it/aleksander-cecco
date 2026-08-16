@@ -119,7 +119,12 @@ const priceOf = (garment: Garment) =>
 
   The rest are not hidden — they are one link away, and the link says how many.
 */
-const SHOWN = 6;
+/*
+  HIS NUMBER SINCE 2026-08-18 (section 128). Six was written here; how much of
+  a drop to show before sending a reader to the catalogue is an editorial
+  decision, so it is set in the studio. Six is what it falls back to.
+*/
+const SHOWN = settings.newDropCount ?? 6;
 const shown = garments.slice(0, SHOWN);
 const rest = Math.max(0, garments.length - shown.length);
 const opening = shown.slice(0, 2);

@@ -8,6 +8,7 @@ import {collection} from './documents/collection'
 import {garment} from './documents/garment'
 import {archivePiece} from './documents/archivePiece'
 import {siteSettings} from './documents/siteSettings'
+import siteCopy from './documents/siteCopy'
 
 export const schemaTypes = [
   // objects
@@ -22,4 +23,5 @@ export const schemaTypes = [
   garment,
   archivePiece,
   siteSettings,
+  siteCopy,
 ]
