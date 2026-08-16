@@ -350,6 +350,8 @@ export const OWNER_EDITABLE = [
   "orderYourOrder", "support", "worldwideShipping", "shippingReturns", "footerNav",
   // his own words for his own things
   "creature", "creatures", "collections", "newDrop", "acquire", "uniqueAction", "orderAdd",
+  // the menu, the catalogue's own words, the buttons, and the labels under a piece
+  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "orderSend", "backHome", "newsletterClosed", "composition", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
 ] as const satisfies ReadonlyArray<UIKey>;
 
 const editable = new Set<string>(OWNER_EDITABLE);
