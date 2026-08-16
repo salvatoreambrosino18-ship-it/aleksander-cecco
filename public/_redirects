@@ -51,6 +51,16 @@
 /it/creature/capo-08  /it/creature/severya  301
 /en/creature/capo-08  /en/creature/severya  301
 
+# The two Monumentus Vests were one vest (2026-08-16, the owner). capo-04 held
+# the same name, collection, price, stage and wornBy as capo-03 and one
+# photograph the other did not; its frame moved across and its page went.
+#
+# Unlike the Rubedo rule above, this one is safe to leave: capo-04 is not a
+# piece that could come back, because it was never a piece. If that ever stops
+# being true, these two lines have to go the same day.
+/it/creature/capo-04  /it/creature/capo-03  301
+/en/creature/capo-04  /en/creature/capo-03  301
+
 /it/creature/:slug/enquiry  /it/creature/:slug/order  301
 /en/creature/:slug/enquiry  /en/creature/:slug/order  301
 
