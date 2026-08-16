@@ -406,6 +406,16 @@ const shareImage =
         paint();
 
         for (const button of document.querySelectorAll("[data-add-to-cart]")) {
+          /*
+            THE BUTTON'S OWN WORD, READ OFF THE BUTTON (2026-08-16). This was a
+            `data-add-label` attribute, and it was deleted by accident while
+            tidying a comment out of the same tag — after which the label below
+            never went back, SILENTLY, because a missing dataset key is
+            `undefined` rather than an error. Found by looking at the published
+            page rather than at the code, which is the only thing that finds it.
+            There is nothing to keep in step now.
+          */
+          const label = button.textContent;
           button.addEventListener("click", () => {
             const slug = button.dataset.addToCart;
             const block = button.closest(".cart-add");
@@ -445,10 +455,10 @@ const shareImage =
               the acknowledgement, and it belongs to the press rather than to
               the cart.
             */
-            button.textContent = button.dataset.addedLabel || button.textContent;
+            button.textContent = button.dataset.addedLabel || label;
             clearTimeout(button._ackTimer);
             button._ackTimer = setTimeout(() => {
-              if (button.dataset.addLabel) button.textContent = button.dataset.addLabel;
+              button.textContent = label;
             }, 2400);
             paint();
           });
