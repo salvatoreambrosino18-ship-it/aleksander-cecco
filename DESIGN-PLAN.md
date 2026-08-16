@@ -10535,3 +10535,122 @@ inside a command that had stopped speaking.** Both fixed.
 **This is the shape section 5 keeps finding, in a third form.** A gate that asks
 the wrong question looks like a gate that works; a gate that answers nothing at
 all looks, in a terminal, almost the same.
+
+---
+
+## 130. The sizes, the arrival's crop, and a gate that cried wolf (2026-08-16)
+
+Four things the owner asked for, and what walking the site afterwards found.
+
+### THE SIZES: XS S M L, AND FIVE THINGS THAT ARE NOT GARMENTS
+
+His decision, relayed: XS, S, M, L on everything, and no made to measure.
+Applied to the nine pieces that are CLOTHES. Five are not, and each was LOOKED
+AT rather than deduced from a name:
+
+- **STYRAX and STYRAX RED GOAT — his own words.** The English description, which
+  is his and is not flagged as ours, reads *"an adjustable choker for a secure,
+  costumizable fit ... One Size."* XS-to-L would have put a size control in
+  contradiction with the paragraph directly above it on the same page.
+- **VESPER is a BAG** — black leather, hung from a chain. **VERTEX is a CAP**,
+  photographed on the bench beside the sewing machine. **GLOVYES are GAITERS**,
+  strapped and buckled the whole length of the leg, adjustable exactly the way
+  the Styrax choker is.
+
+The first two come from a sentence of his and carry no mark. The other three are
+OUR reading of a photograph — right, we believe, and still ours — so `sizes`
+went into `inventedFields` on those three and the gate keeps asking him.
+
+**And no made to measure means no made to measure.** Our line offering it "on
+request" stood under every piece and on /contact. The moment he decided it does
+not exist, that sentence stopped being an unapproved draft and became a FALSE
+OFFER on the page where a person commits — the same fault section 108 removed
+two words from his own /about text for. Gone from both pages, and its studio
+field with it: a field an editor can fill that no page reads is a promise the
+studio cannot keep. **The sentence, recorded so it can come back:** "Su misura,
+solo su richiesta: scrivici e ne parliamo." / "Made to measure on request only:
+write to us and we will talk."
+
+### THE ARRIVAL WAS CROPPED, AND THE VIDEO WAS NEVER BROKEN
+
+Two complaints, one real. **The clip plays.** Measured in a real browser:
+`readyState 4`, `currentTime 1.5` of `duration 1.5`, autoplaying and muted. It
+lasts a second and a half because **the file is 1.5 seconds long — the whole
+source, not a window of it** (section 124 kept all of it). Below the three-second
+threshold the checker uses, so it plays once and stops, which is correct and is
+also indistinguishable from "there is no video" to a person.
+
+**The crop was real and it was desktop-only.** The photograph is 9:16, shot on a
+phone. On a phone the box is 9:16 too and almost nothing is lost. On a 1440-wide
+desktop the box is 88svh — 1.82:1 — so `cover` scales it on the WIDTH and shows
+**792 pixels of 2560: 31% of the frame, with 69% off-screen.** At the old focus
+of 42% that strip landed on the body of the jacket: a black mass with no subject
+in it and a forearm entering at the bottom. Four positions were RENDERED AND
+LOOKED AT — 42, 52, 58, 64 — and 52 is the only one that keeps the wooden peg,
+the jacket AND the hand taking hold of it. **The phone does not change by a
+pixel**, because at that width nothing overflows vertically and the Y focus has
+no effect at all.
+
+**This does not fix the cause.** A 9:16 photograph on a 16:9 screen will always
+show a third of itself. A landscape or 4:5 frame for the desktop arrival is item
+21 on THE OPEN LIST and it is his.
+
+### /process CLOSES WITH WORDS, AND NOTHING ELSE ON IT MOVED
+
+The four mosaic notes run out halfway down and the page then continues for a
+dozen photographs without another word. One line now sits beside the LAST one,
+in `processClosing`, a field of his own — empty means the page ends on
+photographs, which is a choice rather than a fault.
+
+**The last photograph is composed by hand rather than woven.** Inside the mosaic
+`grid-auto-flow: dense` puts every block in the first row where its columns are
+free, so a narrow note appended to the run BACKFILLS into an early gap and never
+reaches the bottom — and where it landed would depend on how many photographs he
+happened to file that week. The pair is its own row after the grid, in the same
+twelve columns.
+
+### WALKING IT AS A BUYER, ON A PHONE, FOUND FOUR THINGS
+
+1. **THE SIZE WAS ALREADY CHOSEN.** The first radio was checked, so a reader who
+   never noticed the control added the piece in XS — on the 1850 euro jacket,
+   the smallest size, silently. **A default is a choice made on the buyer's
+   behalf, and this is the one choice on the site nobody else can make.** Nothing
+   is pre-checked now; pressing ADD without one names what is missing and moves
+   focus to it, and the cart's radios are `required`.
+2. **The cart said LESS than the single-piece form.** That form has carried the
+   free-shipping line and the returns line above its fields since section 104;
+   the cart shipped without them. The checkout taking the LARGER order told a
+   buyer less about shipping and returns than the one taking a single piece.
+3. **The 404 linked to a second 404.** Its language switch pointed at
+   `/it/404/`, which does not exist: a lost reader who tries their own language
+   gets lost again. The 404 is the one page outside `/[lang]/`, because it is
+   served for any path, and `switchLocalePath` did the only sensible thing with
+   a path carrying no locale — it added one. Found by walking every internal
+   link in the built output against the built routes. **There are now none
+   broken.**
+4. **The studio's own help text described the wrong field.** Under "Le
+   fotografie" he read the instructions for ticking SIZES, ending in a fragment
+   that began mid-sentence — two descriptions had been pasted over each other.
+   The most important field in the form explained a different field. Also
+   corrected: the price description named the deleted order page, and the
+   availability description promised made-to-measure by email.
+
+### AND THE GATE ITSELF WAS CRYING WOLF ON A QUARTER OF ITS LIST
+
+`launch-check` told fourteen pieces "has no price or no measurements — the page
+shows a placeholder". **Thirteen of the fourteen have a price, and no page shows
+a placeholder**: section 127 stopped rendering the tokens, and the built HTML
+contains no `{...}` anywhere, which was checked rather than assumed.
+
+The rule asked for price OR measurements, and section 101 deleted every invented
+measurement set — one survives in the whole catalogue — so it fired on almost
+everything. **A quarter of the output of the one command whose entire value is
+that it can be believed was a sentence that was false about the site.**
+
+It now asks the question that still matters: a piece a visitor can ORDER with no
+price. One real case remains, Rubedo. **The count went from 59 to 45, and the 45
+are all true.** The stale `madeToMeasureLine` flag went with them — the gate was
+refusing over a sentence that no longer exists anywhere.
+
+**This is the same lesson as the hourly video job, on the same day: a signal
+nobody believes is the same as no signal.**
