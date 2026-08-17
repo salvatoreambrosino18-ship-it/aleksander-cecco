@@ -3,7 +3,7 @@
 **Per Ciro e Ferdinando.** Il sito è finito. Funziona, è in due lingue, si vede
 qui:
 
-> **https://aleksander-cecco.pages.dev**
+> **https://aleksandercecco.com**
 
 È volutamente **invisibile su Google** finché non può vendere davvero. Da quel
 momento in poi tutto quello che manca è tuo, e sta qui sotto.

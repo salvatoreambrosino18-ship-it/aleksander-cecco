@@ -20,7 +20,13 @@ import {createClient} from "@sanity/client";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.loadEnvFile(path.join(ROOT, ".env"));
 
-const SITE = process.argv[2] || "https://aleksander-cecco.pages.dev";
+/*
+  L'INDIRIZZO PREDEFINITO E' IL DOMINIO, NON IL SOTTODOMINIO TECNICO. Il
+  progetto Pages sta cambiando account, quindi il sottodominio .pages.dev
+  cambiera' o sparira'; il dominio no. Si puo' sempre passare un altro indirizzo
+  come primo argomento.
+*/
+const SITE = process.argv[2] || "https://aleksandercecco.com";
 const COLLECTION_ID = "seed-collection-uno";
 const ORIGINAL = "{SEASON}";
 // Unique per run: patching a field to the value it already holds is not a

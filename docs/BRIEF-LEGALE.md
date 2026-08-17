@@ -18,8 +18,8 @@ archiviazione, l'intestazione di un account — è scritto esplicitamente
 **Stato del sito.** È online, in due lingue (italiano e inglese), ed è
 **deliberatamente escluso dai motori di ricerca** e non è stato annunciato.
 Il dominio definitivo è `aleksandercecco.com`, acquistato e in corso di
-collegamento; fino a quel momento il sito risponde all'indirizzo tecnico
-`https://aleksander-cecco.pages.dev`, che resterà comunque raggiungibile. Non può essere lanciato finché non
+collegamento. Fino a quel momento il sito risponde a un indirizzo tecnico
+fornito dall'hosting, che è provvisorio e destinato a cambiare. Non può essere lanciato finché non
 esistono i documenti richiesti qui sotto: l'informativa privacy in particolare
 blocca sia il modulo d'ordine sia la newsletter.
 

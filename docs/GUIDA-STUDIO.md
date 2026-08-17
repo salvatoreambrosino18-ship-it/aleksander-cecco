@@ -332,10 +332,10 @@ Onestamente, perché tu sappia quando chiamarci:
 - **Gli ordini non partono ancora per email.** Il modulo c'è e funziona, ma
   finché non esiste l'informativa privacy resta spento, e chi ordina vede scritto
   che l'invio non è attivo. Serve un testo legale, non un lavoro tecnico.
-- **I pagamenti non ci sono.** Si concordano nella risposta via email. Quando
-  avrai la posizione fiscale, si aggiunge.
-- **Il dominio è ancora `aleksander-cecco.pages.dev`.** Per usare un dominio tuo
-  bisogna comprarlo e collegarlo: dieci minuti, ma li dobbiamo fare noi.
+- **I pagamenti non ci sono.** Si concordano nella risposta via email. La
+  posizione fiscale adesso c'è, quindi il passo successivo è possibile.
+- **Il dominio `aleksandercecco.com` è comprato e in corso di collegamento.**
+  Finché non risponde, il sito si raggiunge all'indirizzo tecnico.
 - **Il sito è nascosto ai motori di ricerca**, apposta, finché non si lancia.
 - **Tagliare un video** non si fa dal pannello. Non serve, però: un video che
   non regge il loop parte una volta sola invece di rimbalzare, e va bene così.
