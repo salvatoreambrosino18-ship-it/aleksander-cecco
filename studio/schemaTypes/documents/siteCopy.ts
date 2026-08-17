@@ -134,7 +134,7 @@ export default defineType({
       type: 'localeString',
       group: 'negozio',
       description:
-        'Chi legge questa frase non ha ancora scelto niente: sotto trova il link a tutte le Creature. ' + blank,
+        'Chi legge questa frase non ha ancora scelto niente. Sotto trova il link a tutte le Creature. ' + blank,
     }),
     defineField({
       name: 'cartNoPayment',
@@ -159,7 +159,7 @@ export default defineType({
       type: 'localeString',
       group: 'negozio',
       description:
-        'In fondo alla home. Attenzione: le iscrizioni NON sono ancora attive e chi si iscrive riceve ' +
+        'In fondo alla home. Attenzione, le iscrizioni NON sono ancora attive e chi si iscrive riceve ' +
         'una risposta che lo dice. Finché non c\'è l\'informativa privacy resta così. ' + blank,
     }),
 
@@ -180,7 +180,7 @@ export default defineType({
       group: 'pagine',
       description:
         'Nei Contatti. Dice che lo studio è a Napoli e che la pelle si concia a Solofra. ' +
-        'È la cosa che dà più fiducia a chi compra da fuori: è vera e non la trova da nessun\'altra parte. ' +
+        'È la cosa che dà più fiducia a chi compra da fuori, perché è vera e non la trova da nessun\'altra parte. ' +
         blank,
     }),
     defineField({
@@ -220,14 +220,14 @@ export default defineType({
     /* --------------------------------------------------- titoli sezioni */
     defineField({
       name: 'theWork',
-      title: 'Titolo: la sezione del lavoro nella home',
+      title: 'Il titolo della sezione del lavoro nella home',
       type: 'localeString',
       group: 'titoli',
       description: blank,
     }),
     defineField({
       name: 'theProject',
-      title: 'Titolo: THE PROJECT',
+      title: 'Il titolo THE PROJECT',
       type: 'localeString',
       group: 'titoli',
       description:
@@ -236,21 +236,21 @@ export default defineType({
     }),
     defineField({
       name: 'bodyOfLight',
-      title: 'Titolo: BODY OF LIGHT',
+      title: 'Il titolo BODY OF LIGHT',
       type: 'localeString',
       group: 'titoli',
       description: 'Nella home, sopra la fascia dei capi indossati. ' + blank,
     }),
     defineField({
       name: 'worn',
-      title: 'Titolo: Addosso',
+      title: 'Il titolo Addosso',
       type: 'localeString',
       group: 'titoli',
       description: blank,
     }),
     defineField({
       name: 'theMaking',
-      title: 'Titolo: La lavorazione',
+      title: 'Il titolo La lavorazione',
       type: 'localeString',
       group: 'titoli',
       description: blank,
@@ -264,14 +264,14 @@ export default defineType({
     }),
     defineField({
       name: 'newsletter',
-      title: 'Titolo: Le prossime uscite',
+      title: 'Il titolo Le prossime uscite',
       type: 'localeString',
       group: 'titoli',
       description: 'In fondo alla home. ' + blank,
     }),
     defineField({
       name: 'otherDrops',
-      title: 'Titolo: Gli altri drop',
+      title: 'Il titolo Gli altri drop',
       type: 'localeString',
       group: 'titoli',
       description: blank,
@@ -300,14 +300,14 @@ export default defineType({
     }),
     defineField({
       name: 'cartPieces',
-      title: 'Titolo: l\'elenco dei capi nel carrello',
+      title: 'Il titolo dell\'elenco dei capi nel carrello',
       type: 'localeString',
       group: 'titoli',
       description: blank,
     }),
     defineField({
       name: 'cartYourDetails',
-      title: 'Titolo: i dati di chi ordina',
+      title: 'Il titolo dei dati di chi ordina',
       type: 'localeString',
       group: 'titoli',
       description: blank,
@@ -328,14 +328,14 @@ export default defineType({
     }),
     defineField({
       name: 'shippingReturns',
-      title: 'Titolo: Spedizioni e resi',
+      title: 'Il titolo Spedizioni e resi',
       type: 'localeString',
       group: 'titoli',
       description: 'Nei Contatti, sopra le due righe sulle spedizioni. ' + blank,
     }),
     defineField({
       name: 'worldwideShipping',
-      title: 'Titolo: Spedizioni in tutto il mondo',
+      title: 'Il titolo Spedizioni in tutto il mondo',
       type: 'localeString',
       group: 'titoli',
       description: 'In fondo alla pagina. ' + blank,
@@ -555,7 +555,7 @@ export default defineType({
       title: 'Cosa risponde il sito a chi prova a iscriversi',
       type: 'localeString',
       group: 'bottoni',
-      description: 'Le iscrizioni sono spente finché non c\'è l\'informativa privacy: questa è la frase che legge chi ci prova. Lascia vuoto per tenere la parola che c\'è adesso.',
+      description: 'Le iscrizioni sono spente finché non c\'è l\'informativa privacy. Questa è la frase che legge chi ci prova. Lascia vuoto per tenere la parola che c\'è adesso.',
     }),
     defineField({
       name: 'composition',

@@ -163,7 +163,7 @@ export const garment = defineType({
       type: 'reference',
       to: [{type: 'collection'}],
       description:
-        "Lasciare vuoto se la Creatura non appartiene a nessuna collezione: la pagina lo dice esplicitamente invece di lasciare un buco.",
+        "Lasciare vuoto se la Creatura non appartiene a nessuna collezione. La pagina lo dice esplicitamente invece di lasciare un buco.",
     }),
 
     defineField({
@@ -180,7 +180,7 @@ export const garment = defineType({
         layout: 'radio',
       },
       description:
-        "Solo un filtro nel catalogo: non divide il sito e non compare come sezione. Lasciare vuoto se non e stato deciso.",
+        "Solo un filtro nel catalogo. Non divide il sito e non compare come sezione. Lasciare vuoto se non e stato deciso.",
     }),
 
     defineField({
@@ -225,9 +225,9 @@ export const garment = defineType({
       type: 'slug',
       options: {source: 'name', maxLength: 96},
       description:
-        'È la parte finale del link di questo capo: .../creature/ghezard. ' +
+        'È la parte finale del link di questo capo, per esempio .../creature/ghezard. ' +
         'Premi GENERATE e lo scrive da solo dal nome. ' +
-        'NON CAMBIARLO su un capo già online: tutti i link a quel capo che hai già mandato in giro ' +
+        'NON CAMBIARLO su un capo già online. Tutti i link a quel capo che hai già mandato in giro ' +
         'smetterebbero di funzionare.',
       /*
         Il messaggio è un'istruzione, non una diagnosi (2026-08-19, sezione 130).

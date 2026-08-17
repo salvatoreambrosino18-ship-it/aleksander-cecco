@@ -34,8 +34,8 @@ export default defineType({
       type: 'boolean',
       readOnly: true,
       description:
-        'Acceso: il video riparte in continuo. Spento: parte una volta sola e si ferma sull\'ultima immagine. ' +
-        'Non si cambia a mano — lo decide la misura del file.',
+        'Acceso vuol dire che il video riparte in continuo. Spento vuol dire che parte una volta sola e ' +
+        'si ferma sull\'ultima immagine. Non si cambia a mano, lo decide la misura del file.',
     }),
     defineField({name: 'seconds', title: 'Quanto dura', type: 'number', readOnly: true}),
     defineField({

@@ -141,7 +141,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'homeSequence',
       group: 'home',
-      title: 'Addosso: i capi indossati',
+      title: 'Addosso, i capi indossati',
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
@@ -263,15 +263,15 @@ export const siteSettings = defineType({
     defineField({
       name: 'designerText',
       group: 'chi',
-      title: 'Chi lo fa: il testo',
+      title: 'Il testo di Chi lo fa',
       type: 'localeText',
       description:
-        "Parole sue. Lasciare vuoto finché non le ha scritte: la pagina mostra un segnaposto invece di inventare una biografia. / His own words. Leave empty until he has written them: the page shows a placeholder rather than inventing a biography.",
+        "Parole sue. Lasciare vuoto finché non le ha scritte. La pagina mostra un segnaposto invece di inventare una biografia. / His own words. Leave empty until he has written them. The page shows a placeholder rather than inventing a biography.",
     }),
     defineField({
       name: 'aboutOpeningMedia',
       group: 'pagine',
-      title: 'Chi siamo: fotografia di apertura',
+      title: 'La fotografia di apertura di Chi siamo',
       type: 'media',
       description:
         "La prima schermata della pagina, a tutto schermo, con una sola riga sopra.",
@@ -279,7 +279,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'contactMedia',
       group: 'pagine',
-      title: 'Contatti: la fotografia',
+      title: 'La fotografia dei Contatti',
       type: 'media',
       description:
         "Una sola fotografia, accanto ai contatti. Se resta vuota il sito ne sceglie una da solo e la scelta resta segnata come nostra (contactFrame).",
@@ -287,7 +287,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'aboutOpeningLine',
       group: 'pagine',
-      title: 'Chi siamo: la riga di apertura',
+      title: 'La riga di apertura di Chi siamo',
       type: 'localeString',
       description:
         "Una frase sola, sopra la fotografia di apertura. Breve.",
@@ -360,7 +360,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'footerShipping',
       group: 'negozio',
-      title: 'Fondo pagina: spedizioni',
+      title: 'In fondo alla pagina, le spedizioni',
       type: 'localeText',
       description:
         "Una riga sola. Nessuna promessa di tempi o costi finché non sono decisi. / One line only. No promise about timing or cost until those are decided.",
@@ -368,7 +368,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'footerOrigin',
       group: 'negozio',
-      title: 'Fondo pagina: dove nasce',
+      title: 'In fondo alla pagina, dove nasce',
       type: 'localeText',
       description: 'Una riga sola.',
     }),
@@ -406,7 +406,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'instagramFrames',
       group: 'instagram',
-      title: 'Instagram: i riquadri',
+      title: 'I riquadri di Instagram',
       type: 'array',
       of: [{type: 'instagramFrame'}],
       description:
@@ -493,7 +493,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'aboutNotes',
       group: 'pagine',
-      title: 'Chi siamo: le righe nel mosaico',
+      title: 'Le righe nel mosaico di Chi siamo',
       type: 'array',
       of: [{type: 'mosaicNote'}],
       description:
@@ -503,7 +503,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'processNotes',
       group: 'pagine',
-      title: 'Processo: le righe nel mosaico',
+      title: 'Le righe nel mosaico di Processo',
       type: 'array',
       of: [{type: 'mosaicNote'}],
       description:
@@ -519,10 +519,31 @@ export const siteSettings = defineType({
       E' un campo suo e a parte: se lo svuota, la pagina torna a finire in
       silenzio, il che e' una scelta legittima e non un guasto.
     */
+    /*
+      LA PELLE, SU CHI SIAMO (2026-08-16, sezione 133).
+
+      IL TITOLARE HA CHIESTO UNA SEZIONE SULLA SOSTENIBILITA', E QUESTA E'
+      SCRITTA COME FATTI. Dal 2026 le regole europee sulle dichiarazioni
+      ambientali sono strette: chi vende non puo' dire «sostenibile» o
+      «ecologico» senza poterlo dimostrare, e il linguaggio verde generico e'
+      esattamente cio' che viene guardato. A rispondere sarebbe Ciro.
+
+      Quindi qui dentro ci va solo quello che e' vero e verificabile e che il
+      sito gia' dice altrove. Niente aggettivi sul marchio, niente numeri che
+      nessuno ha misurato, niente confronti con altri.
+    */
+    defineField({
+      name: 'aboutMaterial',
+      group: 'pagine',
+      title: 'La sezione sulla pelle di Chi siamo',
+      type: 'mosaicNote',
+      description:
+        "Sta in fondo a Chi siamo, sopra i nomi. Scrivi FATTI, non aggettivi. Va bene «la concia e' vegetale, con corteccia e foglie, e dura settimane»; non va bene «sostenibile», «ecologico», «a impatto zero», ne' un numero che nessuno ha misurato. Se una frase avrebbe bisogno di una prova che non hai, non scriverla.",
+    }),
     defineField({
       name: 'processClosing',
       group: 'pagine',
-      title: 'Processo: le parole accanto all\'ultima fotografia',
+      title: 'Le parole accanto all\'ultima fotografia di Processo',
       type: 'mosaicNote',
       description:
         "Chiude la pagina, di fianco all'ultima fotografia. Lasciala vuota e la pagina finisce con le fotografie e basta.",
@@ -588,7 +609,7 @@ export const siteSettings = defineType({
         'Two words deleted, nothing added. Untick "aboutMadeToMeasure" when you approve the shorter line, or put it back.',
       options: {
         list: [
-          {title: 'Fondo pagina: spedizioni', value: 'footerShipping'},
+          {title: 'In fondo alla pagina, le spedizioni', value: 'footerShipping'},
           {title: 'Fondo pagina: origine', value: 'footerOrigin'},
           {title: 'Spedizioni e resi', value: 'shippingReturns'},
           {title: 'Home: le righe di sezione', value: 'homeLines'},
@@ -602,14 +623,14 @@ export const siteSettings = defineType({
           {title: 'Contatti: la riga di apertura', value: 'contactIntro'},
           {title: 'Contatti: quale fotografia', value: 'contactFrame'},
           {
-            title: 'Contatti: dove siamo e dove si compra',
+            title: 'Dove siamo e dove si compra, nei Contatti',
             value: 'contactCopy',
           },
           {title: 'Chi siamo: la traduzione delle origini', value: 'aboutOrigin'},
           {title: "Chi siamo: l'ordine dei nomi, modificato dal testo approvato / About: name order, edited from approved text", value: 'aboutNameOrder'},
           {
             title:
-              'Chi siamo e Processo: «Su Misura» tolto dal testo approvato / About and Process: "Made to Measure" removed from approved text',
+              '«Su Misura» tolto dal testo approvato di Chi siamo e Processo / "Made to Measure" removed from the approved text of About and Process',
             value: 'aboutMadeToMeasure',
           },
         ],

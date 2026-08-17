@@ -108,6 +108,12 @@ export type SiteSettings = {
    * ends on photographs, which is a choice rather than a fault.
    */
   processClosing: MosaicNote | null;
+  /**
+   * The material facts on /about (section 133). Written as FACTS rather than
+   * claims, because an environmental claim a seller cannot prove is now the
+   * thing regulators look for and the owner is the one who would answer.
+   */
+  aboutMaterial: MosaicNote | null;
   /** A chosen handful, not a live feed. See the schema for why. */
   instagramFrames: Array<{media: MediaItem; postUrl: string | null}> | null;
   /*
@@ -183,6 +189,7 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     aboutNotes[]{heading, text},
     processNotes[]{heading, text},
     processClosing{heading, text},
+    aboutMaterial{heading, text},
     instagramFrames[]{"media": media{${MEDIA_PROJECTION}}, postUrl},
     newDropCount,
     chapterCount,
@@ -224,6 +231,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   aboutNotes: null,
   processNotes: null,
   processClosing: null,
+  aboutMaterial: null,
   instagramFrames: null,
   /*
     THREE FIELDS THAT WERE MISSING HERE, and `npm run check` had been red on

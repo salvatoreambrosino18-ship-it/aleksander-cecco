@@ -31,12 +31,12 @@ type EnquiryCopy = {
 const copy: Record<Locale, EnquiryCopy> = {
   it: {
     intro:
-      "Questa Creatura esiste ed e questa. Lasciaci il tuo nome e la tua email: ti rispondiamo entro un giorno con pagamento e spedizione.",
+      "Questa Creatura esiste ed è questa. Lasciaci il tuo nome e la tua email. Ti rispondiamo entro un giorno con pagamento e spedizione.",
     confirmation: "Richiesta ricevuta. Ti rispondiamo via email.",
   },
   en: {
     intro:
-      "This Creature exists and it is this one. Leave your name and email: we answer within a day with payment and delivery.",
+      "This Creature exists and it is this one. Leave your name and email. We answer within a day with payment and delivery.",
     confirmation: "Enquiry received. We will reply by email.",
   },
 };

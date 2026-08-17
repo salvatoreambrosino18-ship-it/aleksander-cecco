@@ -196,14 +196,14 @@ const ui = {
       suoi fatti dentro, segnate `contactCopy`. / OURS, carrying his facts.
     */
     contactWhere: "Lo studio è a Napoli. La pelle si concia a un'ora di strada, a Solofra.",
-    contactBuy: "Per comprare un capo non serve scrivere: ogni Creatura ha il suo modulo d'ordine.",
+    contactBuy: "Per comprare un capo non serve scrivere. Ogni Creatura ha il suo modulo d'ordine.",
     /*
       IL CARRELLO (2026-08-16, sezione 129). NOSTRE, segnate `orderCopy`. Il
       totale non è un prezzo nuovo: è la somma dei prezzi che sono già sulle
       pagine dei capi.
     */
     cart: "Carrello",
-    cartIntro: "Questi sono i pezzi che hai scelto. Nessun pagamento qui: confermiamo tutto per email.",
+    cartIntro: "Questi sono i pezzi che hai scelto. Qui non si paga. Confermiamo tutto per email.",
     cartEmpty: "Il carrello è vuoto.",
     cartQuantity: "Quantità",
     cartTotal: "Totale",
@@ -212,7 +212,7 @@ const ui = {
     cartAdded: "Nel carrello",
     cartRemove: "Togli",
     cartPieces: "I pezzi",
-    cartOnePiece: "Pezzo unico: ne esiste uno solo.",
+    cartOnePiece: "Pezzo unico. Ne esiste uno solo.",
     cartNoPayment: "Il pagamento non si fa qui. Ti rispondiamo per email e lo definiamo insieme.",
     cartSend: "Invia l'ordine",
     /*
@@ -221,6 +221,12 @@ const ui = {
     */
     cartNeedsScript: "Il carrello ha bisogno di JavaScript, che in questo browser è spento. Ogni Creatura si può comprare lo stesso, dalla sua pagina.",
     wornLine: "Addosso, alla luce del giorno.",
+    /*
+      IL PREZZO STA SUL PULSANTE (sezione 4) E IL TRATTINO NO (sezione 134).
+      Diceva «Acquista — 950 €». La parola al posto del segno tiene la
+      decisione e toglie la punteggiatura.
+    */
+    forPrice: "per",
     acquire: "Acquista",
     placeOrder: "Invia l'ordine",
     sending: "Invio in corso",
@@ -317,9 +323,9 @@ const ui = {
     enterDrop: "See the drop",
     contactIntro: "A person replies. Within one day, Italian time.",
     contactWhere: "The studio is in Naples. The leather is tanned an hour up the road, in Solofra.",
-    contactBuy: "To buy a piece you do not have to write: every Creature has its own order form.",
+    contactBuy: "To buy a piece you do not have to write. Every Creature has its own order form.",
     cart: "Cart",
-    cartIntro: "These are the pieces you chose. No payment here: we confirm everything by email.",
+    cartIntro: "These are the pieces you chose. There is no payment here. We confirm everything by email.",
     cartEmpty: "Your cart is empty.",
     cartQuantity: "Quantity",
     cartTotal: "Total",
@@ -328,11 +334,12 @@ const ui = {
     cartAdded: "In the cart",
     cartRemove: "Remove",
     cartPieces: "The pieces",
-    cartOnePiece: "One of one: only this one exists.",
+    cartOnePiece: "One of one. Only this one exists.",
     cartNoPayment: "Payment does not happen here. We reply by email and settle it with you.",
     cartSend: "Send the order",
     cartNeedsScript: "The cart needs JavaScript, which is switched off in this browser. Every Creature can still be bought from its own page.",
     wornLine: "On bodies, in daylight.",
+    forPrice: "for",
     acquire: "Acquire",
     placeOrder: "Place the order",
     sending: "Placing the order",

@@ -37,7 +37,7 @@ export const archivePiece = defineType({
       type: 'array',
       of: [{type: 'media'}],
       description:
-        "Di solito una sola. Trascina per riordinare: in una galleria l'ordine e il ritmo sono tutto. / Usually just one. Drag to reorder: in a gallery the order and the rhythm are the whole design.",
+        "Di solito una sola. Trascina per riordinare. In una galleria l'ordine e il ritmo sono tutto. / Usually just one. Drag to reorder. In a gallery the order and the rhythm are the whole design.",
       validation: (Rule) => Rule.min(1).error('At least one photograph is required'),
     }),
     orderRankField({type: 'archivePiece'}),

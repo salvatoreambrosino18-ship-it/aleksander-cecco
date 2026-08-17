@@ -400,7 +400,7 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
             href={localePath(locale, `creature/${garment.slug}/order`)}
             class="type-label text-body hairline-under self-start"
           >
-            {t(locale, isUnique ? "uniqueAction" : "acquire")}{price ? ` — ${price}` : ""}
+            {t(locale, isUnique ? "uniqueAction" : "acquire")}{price ? ` ${t(locale, "forPrice")} ${price}` : ""}
           </a>
 
           {/*

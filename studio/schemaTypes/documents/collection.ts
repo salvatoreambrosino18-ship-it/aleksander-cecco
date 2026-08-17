@@ -18,7 +18,7 @@ export const collection = defineType({
       title: 'Stagione',
       type: 'string',
       description:
-        "FACOLTATIVO. Il marchio non lavora a stagioni: una collezione può essere semplicemente un corpo di lavoro con un nome. Lascia vuoto se non c'è una data. / OPTIONAL. The brand does not work in seasons: a collection can simply be a named body of work. Leave empty when there is no date.",
+        "FACOLTATIVO. Il marchio non lavora a stagioni. Una collezione può essere semplicemente un corpo di lavoro con un nome. Lascia vuoto se non c'è una data. / OPTIONAL. The brand does not work in seasons. A collection can simply be a named body of work. Leave empty when there is no date.",
     }),
     defineField({
       name: 'statement',

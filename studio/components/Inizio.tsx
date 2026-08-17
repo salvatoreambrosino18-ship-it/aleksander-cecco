@@ -58,7 +58,7 @@ const VOCI: Array<{titolo: string; testo: string; dove: string; azione: string}>
   {
     titolo: 'Cambiare una frase del sito',
     testo:
-      'Tutte le frasi che il sito dice. I campi sono vuoti apposta: vuoto vuol dire «lascia quella che c’è adesso».',
+      'Tutte le frasi che il sito dice. I campi sono vuoti apposta. Vuoto vuol dire «lascia quella che c’è adesso».',
     dove: '/structure/siteCopy',
     azione: 'Vai alle parole',
   },

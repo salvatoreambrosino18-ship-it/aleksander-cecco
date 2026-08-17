@@ -81,7 +81,7 @@ export const media = defineType({
     }),
     defineField({
       name: 'overlay',
-      title: 'Le scritte sopra questa foto: bianche o nere',
+      title: 'Di che colore sono le scritte sopra questa foto',
       type: 'string',
       description:
         "Il colore del testo sopra questa immagine, e del logo e del menu quando ci passano sopra. Guarda l'immagine e scegli quello leggibile. Solo bianco o nero, mai grigio. / The color of text over this media, and of the logo and menu while they pass over it. Look at the picture and pick the legible one. White or black only, never gray.",
@@ -115,7 +115,7 @@ export const media = defineType({
     */
     defineField({
       name: 'overlayCaption',
-      title: 'Testo in basso: bianco o nero',
+      title: 'Di che colore è il testo in basso',
       type: 'string',
       options: {
         list: [
@@ -174,7 +174,7 @@ export const media = defineType({
       type: 'boolean',
       initialValue: false,
       description:
-        "Acceso su un ritaglio di dettaglio importato senza didascalia: la riga sotto la fotografia la scrivi tu. Spegnilo quando l'hai scritta. / On for an imported detail crop with no caption: the line under the photograph is yours to write. Turn it off once you have written it.",
+        "Acceso su un ritaglio di dettaglio importato senza didascalia. La riga sotto la fotografia la scrivi tu. Spegnilo quando l'hai scritta. / On for an imported detail crop with no caption. The line under the photograph is yours to write. Turn it off once you have written it.",
     }),
     defineField({
       name: 'video',

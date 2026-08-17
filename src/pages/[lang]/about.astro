@@ -121,6 +121,18 @@ const partnerUrl = settings.partnerUrl?.trim() || null;
   the pictures, which is the correct order for a brand's own about page.
 */
 const notesVoice = voiceState(settings, locale, true);
+/*
+  THE LEATHER SECTION (section 133). Ours, so it carries the same mark every
+  sentence we wrote on his behalf carries; empty means the section is simply not
+  on the page, which is a choice rather than a fault.
+*/
+const materialNote = settings.aboutMaterial;
+const materialText = materialNote ? pick(materialNote.text, locale) : null;
+const material = materialText
+  ? {heading: materialNote?.heading ? pick(materialNote.heading, locale) : null, text: materialText}
+  : null;
+const materialMarked = SHOW_UNAPPROVED_MARKS && isMarked(voiceState(settings, locale, true));
+
 const notes = (settings.aboutNotes ?? [])
   .map((n) => noteBlock(n, (f) => pick(f, locale), SHOW_UNAPPROVED_MARKS && isMarked(notesVoice), t(locale, "draftNotice")))
   .filter((b): b is MosaicBlock => b !== null);
@@ -238,6 +250,43 @@ const mosaicBlocks: MosaicBlock[] = weaveMosaic(photographs.slice(1), notes);
     four, at three or four sizes, which is what `RO14` and `RO19` do.
   */}
   <Mosaic blocks={mosaicBlocks} locale={locale} />
+
+  {/*
+    THE LEATHER, AS FACTS (2026-08-16, section 133). The owner asked for a
+    sustainability section and this is it, written as things that are checkable
+    rather than as things that sound good.
+
+    WHY THE SHAPE IS THE ARGUMENT. Since 2026 a seller in Europe cannot call a
+    product sustainable or eco-friendly without being able to prove it, and
+    vague green wording is precisely what is looked at. Ciro is the one who
+    would answer for a sentence here. So every line is either a fact about the
+    material, a fact about where it is tanned, or a property of the object, and
+    each one is already true elsewhere on this site.
+
+    WHAT IS NOT HERE IS THE POINT AS MUCH AS WHAT IS. No adjective about the
+    brand, no comparison with anyone else, no number nobody measured, and no
+    heading with the word sustainability on it, which would frame the facts
+    under it as a claim and invite exactly the reading the rest avoids.
+
+    OURS, flagged `aboutMaterial`, so `npm run launch-check` counts it and he
+    can rewrite any of it in the studio.
+  */}
+  {material && (
+    <TextSurface class="hairline-h flex flex-col gap-u5 py-u13">
+      {material.heading && <h2 class="type-label text-label">{material.heading}</h2>}
+      {materialMarked && (
+        <p class="placeholder-mark self-start">{t(locale, "draftNotice")}</p>
+      )}
+      <p
+        class:list={[
+          "type-body text-body max-w-prose whitespace-pre-line",
+          materialMarked && "draft-text",
+        ]}
+      >
+        {material.text}
+      </p>
+    </TextSurface>
+  )}
 
   {/*
     THE TWO CREATORS (2026-08-04). {DESIGNER_BIOGRAPHY} is answered: his own
