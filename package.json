@@ -18,7 +18,8 @@
     "patch-text": "node scripts/patch-text.mjs",
     "icons": "node scripts/icons.mjs",
     "shots": "node scripts/shots.mjs",
-    "verify-build": "node scripts/verify-build.mjs"
+    "verify-build": "node scripts/verify-build.mjs",
+    "welcome-pdf": "node scripts/welcome-pdf.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
