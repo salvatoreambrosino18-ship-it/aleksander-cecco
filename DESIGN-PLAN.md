@@ -10794,3 +10794,97 @@ boilerplate Astro generates for the root redirect. Cloudflare answers that path
 with a 301 from `public/_redirects` before the HTML is ever parsed, and the
 generated page exists so the dev server behaves the same way. It was left rather
 than fought at the end of a launch.
+
+---
+
+## 136. The domain move, current version (2026-08-16). SUPERSEDES SECTION 29
+
+Section 29 was written before the cart, before the studio was deployed, before
+the site had video, and while `contactEmail` was still a placeholder. This is
+the list as it stands. **Nothing here has been done.**
+
+**HE NOW HAS A VAT NUMBER, AND IT UNBLOCKS LESS THAN IT LOOKS.** It closes the
+legal-entity line in checklist group 2. It does NOT unblock sending: that waits
+on the privacy notice, which is a different document by a different author.
+
+### WHAT GOES DOWN, AND FOR HOW LONG. Nothing.
+
+`aleksander-cecco.pages.dev` keeps serving throughout, because Pages always
+serves its own subdomain alongside any custom domain. There is no cutover and no
+window where the site is unreachable. What actually happens:
+
+- **DNS**: the NEW name does not resolve for some people for a while. The old
+  one never stops. That is not an outage, it is an arrival.
+- **Between step 1 and step 2** the new domain serves pages whose canonical
+  link, hreflang pair, Open Graph URL and sitemap all still say `pages.dev`,
+  because `PUBLIC_SITE_URL` is baked in at build. **Do 1 and 2 in one sitting.**
+- **Carts do not travel.** `localStorage` is per origin, so a cart started on
+  `pages.dev` is invisible on the new domain. Today that is only his own test
+  carts.
+- **The rate limiter's counters reset**, because its Cache API keys are
+  namespaced by origin. Harmless.
+- **Unaffected entirely**: the studio and its address, the Sanity publish
+  webhook, the Cloudflare deploy hook, every photograph and the video, all of
+  which come from `cdn.sanity.io`.
+
+### THE STEPS
+
+**1. Add the custom domain in Pages.** REVERSIBLE. Pages project, Custom
+domains, add `aleksandercecco.com` and `www`. His domain is in his own
+Cloudflare account, so this is a route inside one account rather than a
+nameserver change.
+
+**2. Change `PUBLIC_SITE_URL` to `https://aleksandercecco.com` and REDEPLOY.**
+REVERSIBLE. It feeds the canonical link, hreflang, Open Graph and the sitemap,
+and all four are baked at build time. Same sitting as step 1.
+
+**3. Update the studio's link to the site and redeploy the studio.** REVERSIBLE.
+`studio/components/Inizio.tsx` hardcodes `https://aleksander-cecco.pages.dev` on
+its "Apri il sito" button. `cd studio && npx sanity login && npm run deploy`.
+**The studio needs redeploying anyway** — its live copy predates a week of
+schema work.
+
+**4. Update the addresses in `docs/`.** REVERSIBLE. `BENVENUTO.md` (then rebuild
+the PDF), `GUIDA-STUDIO.md`, `BRIEF-LEGALE.md`, `RIGHE-DA-SCRIVERE.md`.
+
+**NO SANITY CORS ORIGIN IS NEEDED**, and the README is wrong about this.
+Nothing on the site queries Sanity from a browser: `createClient` lives only in
+`src/lib/sanity.ts` and every call runs at build time. The browser fetches
+images and video from the CDN, which is not a CORS-restricted API call.
+
+### STOP HERE UNTIL THE PRIVACY NOTICE EXISTS
+
+**5. Verify the sending domain in Resend.** REVERSIBLE. Add SPF, DKIM and DMARC
+to the zone. Safe to do early — verifying a domain sends nothing.
+
+**6. Set the three secrets and redeploy.** REVERSIBLE, AND THIS IS THE LINE.
+`RESEND_API_KEY`, `RESEND_FROM`, `ENQUIRY_TO_EMAIL`. Functions pick up secrets
+only on a new deployment. **Until all three are set the endpoint answers 503 and
+says sending is not switched on, which is the whole gate.**
+
+**7. Test end to end.** THE SEND ITSELF IS IRREVERSIBLE. Submit on the live
+domain and confirm the order arrives, that reply-to is the buyer, that the
+confirmation reads correctly in both languages, and that the cart empties.
+
+**8. Remove the two noindex locks. THIS IS THE ONE-WAY DOOR.** The environment
+variable `PUBLIC_ALLOW_INDEXING` and the `X-Robots-Tag` line in
+`public/_headers`. Everything above can be undone in minutes; **this cannot**.
+Once a page is crawled and indexed, removal is a request and a wait, not an
+edit. Do it last, and only when everything else is true.
+
+### WHAT MUST NOT BE SWITCHED ON WHILE YOU ARE IN THERE
+
+The Resend secrets are the obvious one. Three more are not:
+
+- **The two noindex locks.** The domain move is exactly the moment somebody
+  thinks "it has a real address now, let Google see it". It is the single most
+  irreversible act in this list and it belongs after the lawyer, not after DNS.
+- **The newsletter.** The capture form is live on the home page and collects
+  NOTHING. Switching it on needs separate unbundled consent, a working
+  unsubscribe, the sender's identity and postal address, a retained record of
+  each consent, and double opt-in (section 62). Being inside the Resend
+  dashboard is not a reason to wire it.
+- **Cloudflare Web Analytics.** Cookieless, still needs a line in the notice.
+
+And a VAT number is not a privacy notice. It closes the legal-entity item and
+nothing else.
