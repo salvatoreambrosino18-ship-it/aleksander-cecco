@@ -10744,3 +10744,53 @@ declarations, `mailto:`, form field names like `qty:slug`, GROQ, the sitemap
 line in robots.txt, and log messages. **The order email was left alone too** —
 its subject and its `Term  value` rows are an operational document he reads, not
 a page, and reformatting it would make the sheet harder to pick and pack from.
+
+---
+
+## 135. The last two colons, and a claim that came down (2026-08-16)
+
+Both the owner's calls, and they close section 134.
+
+**THE INSCRIPTION LOST ITS LABELS.** Every piece page opened with
+`Creatura: Armonyen.` and `Composizione: pelle di agnello nera.` — his caption
+format, recorded verbatim in section 26, and the last colon section 134 had left
+standing. **Removing the colon and keeping the label gives "Creatura Armonyen",
+which is not Italian**, and "Creature Armonyen", which is not English. So the
+labels went and the facts they introduced stayed:
+
+    Armonyen.
+    Pelle di agnello nera lavata, conciata al vegetale.
+    Lavorato a mano nel Sud Italia.
+    Disponibile subito.
+
+`creature` and `composition` were read NOWHERE else — every other `"creature"` in
+this codebase is a route path — so both strings and both studio fields went with
+them, on the rule this project has now applied three times: a field an editor can
+fill that no page reads is a promise the studio cannot keep. That is
+`madeToMeasureLine` (131), `deliveryLine` (131) and these two.
+
+**AND THE EARTH CLAIM CAME DOWN.** `/process` said vegetable-tanned leather
+"at the end goes back into the ground". Ours, live since section 118, and a
+biodegradability claim whose truth depends on the finish, the dye and the
+treatment. It is exactly the sentence section 133 refused to write for the new
+/about section two hours earlier. **It was flagged rather than quietly deleted,
+and the owner chose to remove it rather than qualify it.**
+
+**THE SENTENCE THAT CONTRASTED IT WENT TOO, and that is the careful part.**
+"Quella conciata al cromo no." answered the earth. Remove only the first half
+and the "no" reattaches to *fed, repaired, re-dyed* and states something NEW and
+unchecked, because chrome-tanned leather can also be fed and repaired.
+**Removing a claim and letting another be born by accident is not removing it.**
+What is left is the durability, which is a property of the object rather than a
+comparison with anyone.
+
+**WHAT STAYS, BY HIS DECISION, AND HE WILL RAISE IT WITH THE OWNER**: the drop's
+own name `MONUMENTUS: Tenebrae & Lux`, Oblivion's `Sleeves - 73 cm`, and
+`Color: Black` / `Color: Red` inside the two Styrax English descriptions. All
+three are his, and his to repunctuate or not.
+
+**ONE COLON SURVIVES AND IT IS NOT OURS**: `Redirecting to: /en`, in the
+boilerplate Astro generates for the root redirect. Cloudflare answers that path
+with a 301 from `public/_redirects` before the HTML is ever parsed, and the
+generated page exists so the dev server behaves the same way. It was left rather
+than fought at the end of a launch.

@@ -349,15 +349,13 @@ export default defineType({
     }),
 
     /* ------------------------------------------------ come chiami le cose */
-    defineField({
-      name: 'creature',
-      title: 'Come chiami UN capo',
-      type: 'localeString',
-      group: 'nomi',
-      description:
-        'Singolare. Compare all\'inizio della descrizione breve di ogni capo, così: «Creatura: Rubedo.» ' +
-        blank,
-    }),
+    /*
+      «Come chiami UN capo» e «L'etichetta Composizione» sono state tolte il
+      16/08/2026 (sezione 135). Introducevano il nome e il materiale sulla
+      pagina di un capo, ognuna seguita da due punti, e i due punti sono usciti
+      dal sito. Adesso la pagina scrive il nome e il materiale e basta, quindi
+      queste due caselle non le leggeva piu' nessuno.
+    */
     defineField({
       name: 'creatures',
       title: 'Come chiami PIÙ capi',
@@ -556,13 +554,6 @@ export default defineType({
       type: 'localeString',
       group: 'bottoni',
       description: 'Le iscrizioni sono spente finché non c\'è l\'informativa privacy. Questa è la frase che legge chi ci prova. Lascia vuoto per tenere la parola che c\'è adesso.',
-    }),
-    defineField({
-      name: 'composition',
-      title: 'L\'etichetta «Composizione», sotto un capo',
-      type: 'localeString',
-      group: 'etichette',
-      description: 'Lascia vuoto per tenere la parola che c\'è adesso.',
     }),
     defineField({
       name: 'materials',

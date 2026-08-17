@@ -38,6 +38,14 @@ import {copyOverrides} from "./overrides";
     "Ogni pezzo è fatto dopo l'ordine: massimo due settimane prima della spedizione."
     "Each piece is made after the order: two weeks at most before it ships."
 
+  AND THE TWO INSCRIPTION LABELS WENT THE SAME WAY (2026-08-16, section 135):
+  `creature` was "Creatura" / "Creature" and `composition` was "Composizione" /
+  "Composition". They introduced the name and the material on a piece's page,
+  each followed by a colon, and the colon was the last one section 134 had left
+  standing. Removing it while keeping the label gives "Creatura Armonyen",
+  which is not Italian. The labels went instead, and the facts they introduced
+  stayed.
+
   This also settles item 4 on THE OPEN LIST — "two weeks: working hours or
   elapsed?" — by removing the claim that raised it.
 */
@@ -104,9 +112,7 @@ const ui = {
     availability: "Come si ottiene",
     // The inscription on a Creature page, in his own caption format:
     // "Creature: Tomar. Composition: 100% lambskin. Handcrafted."
-    creature: "Creatura",
     processTitle: "Solvet et Coagula",
-    composition: "Composizione",
     handcrafted: "Lavorato a mano nel Sud Italia.",
     outsideCollections: "Fuori dalle collezioni.",
     // A buyer who cannot try anything on needs a way to use these numbers.
@@ -284,9 +290,7 @@ const ui = {
     referenceMeasurements: "Reference measurements",
     madeToMeasure: "Made to measure",
     availability: "How it can be had",
-    creature: "Creature",
     processTitle: "Solvet et Coagula",
-    composition: "Composition",
     handcrafted: "Handcrafted in South Italy.",
     outsideCollections: "Outside the collections.",
     fitGuidance: "Compare these with a garment you already own and like the fit of.",
@@ -383,9 +387,9 @@ export const OWNER_EDITABLE = [
   "newsletter", "otherDrops", "enterDrop", "allCreatures", "cart", "cartPieces",
   "cartYourDetails", "support", "worldwideShipping", "shippingReturns", "footerNav",
   // his own words for his own things
-  "creature", "creatures", "collections", "newDrop", "acquire", "uniqueAction", "cartAdd",
+  "creatures", "collections", "newDrop", "acquire", "uniqueAction", "cartAdd",
   // the menu, the catalogue's own words, the buttons, and the labels under a piece
-  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "cartSend", "backHome", "newsletterClosed", "composition", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
+  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "cartSend", "backHome", "newsletterClosed", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
 ] as const satisfies ReadonlyArray<UIKey>;
 
 const editable = new Set<string>(OWNER_EDITABLE);
