@@ -26,9 +26,24 @@ blocca sia il modulo d'ordine sia la newsletter.
 **Attività.** Abbigliamento artigianale in pelle, vendita internazionale.
 Tredici pezzi acquistabili oggi, da 275 a 1.850 €.
 
-**Esiste una posizione fiscale**, con partita IVA, aggiornamento del 16/08/2026.
-I dati identificativi completi vanno nell'informativa e sul sito, dove oggi non
-compaiono ancora.
+**CHI VENDE È UNA SOCIETÀ, NON UNA PERSONA FISICA** (dati arrivati il
+17/08/2026). Questo brief era stato scritto quando non era detto che una società
+esistesse, e in più punti si chiedeva se si potesse intestare l'informativa a una
+persona. **Quella domanda non c'è più.**
+
+| Dato | Valore |
+| --- | --- |
+| Denominazione | **Cecco Trading SRLS** |
+| Partita IVA | **11133331212** |
+| PEC | **ceccotrading@pec.it** |
+| Sede legale | **[MANCA, richiesto al titolare il 17/08/2026]** |
+
+**Il titolare del trattamento è Cecco Trading SRLS**, la società, e non Ciro
+Cecco come persona. Lo stesso vale per il venditore nelle condizioni di vendita.
+«Aleksander Cecco» è il nome del marchio e del sito, non il soggetto giuridico,
+e i due non vanno confusi nei testi.
+
+**Nessuno di questi dati compare oggi da nessuna parte sul sito.**
 
 **Il su misura non esiste più**, in nessuna forma. Fino al 12/08/2026 il negozio
 lo offriva; dal 16/08/2026 il sito non lo nomina più da nessuna parte. Chi compra
@@ -286,8 +301,8 @@ alle immagini su `cdn.sanity.io` descritta in §2.
 
 1. **Informativa privacy** completa, in italiano e in inglese, che copra
    **entrambe le casse** e i dati di §1, e che indichi il **titolare del
-   trattamento** con dati identificativi e recapito. La posizione fiscale ora
-   esiste.
+   trattamento**, che è **Cecco Trading SRLS**, con i dati identificativi e il
+   recapito. Manca solo la sede legale.
 2. **Condizioni di vendita.** Prodotto artigianale venduto come esistente e
    disponibile, con scelta della taglia, spedizione internazionale e pagamento
    concordato via email, dato che oggi non c'è un incasso automatico. **Il su
@@ -364,11 +379,20 @@ alle immagini su `cdn.sanity.io` descritta in §2.
    tecnica più facile da fare adesso e la più costosa da fare dopo.
 5. **Servono contratti con Cloudflare, Resend e Sanity**, e in che forma? Uno di
    questi soggetti tratta dati fuori dall'Unione: quali garanzie servono?
-6. **Il titolare del trattamento chi è, e come va scritto?** La posizione
-   fiscale ora esiste, quindi la domanda che stava qui, se si potesse pubblicare
-   un'informativa a nome di una persona fisica, **decade**. Restano da fissare la
-   denominazione esatta, la sede, la partita IVA e il recapito da pubblicare, e
-   dove vanno messi sul sito, dove oggi non compaiono.
+6. **CHIUSA IL 17/08/2026.** Il titolare del trattamento è **Cecco Trading
+   SRLS**, partita IVA **11133331212**, PEC **ceccotrading@pec.it**. La domanda
+   che stava qui, se si potesse intestare un'informativa a una persona fisica,
+   decade del tutto: c'è una società.
+
+   **Resta una sola cosa da avere, la SEDE LEGALE**, chiesta al titolare il
+   17/08/2026.
+
+   **E resta una domanda per il legale, che è sua e non nostra:** quali dati
+   della società devono comparire sul sito e dove. Oltre a denominazione, sede e
+   partita IVA, per una società di capitali si sente nominare anche il numero
+   REA con il registro delle imprese e il capitale sociale. **Non sappiamo se
+   siano dovuti né in che forma**, e non li abbiamo: se servono, vanno chiesti al
+   titolare insieme alla sede.
 7. **Serve un'età minima** per inviare il modulo, e va dichiarata?
 8. **La newsletter**: si può accendere insieme al lancio o conviene dopo, e con
    quale meccanismo di consenso (§4)?
@@ -380,13 +404,45 @@ alle immagini su `cdn.sanity.io` descritta in §2.
 10. **Statistiche in futuro**: se un domani il brand volesse contare le visite
     con uno strumento senza cookie, cosa cambierebbe nell'informativa?
 
-### 6.3 Da accertare, e non lo possiamo fare noi
+### 6.3 Dove finiranno questi testi sul sito
+
+Serve per sapere quanto devono essere lunghi e in quanti pezzi. Il sito è in due
+lingue e ogni testo va consegnato in tutte e due.
+
+**Esiste già e va solo riempito:**
+
+- **Il fondo di ogni pagina.** Ci sta una riga sola, corta. È il posto naturale
+  per denominazione, sede legale e partita IVA. Oggi contiene due frasi del
+  marchio e i recapiti.
+- **La pagina Contatti.** Oggi ha gli indirizzi e le condizioni di spedizione e
+  reso in forma breve.
+- **La pagina di conferma dell'ordine**, quella che una persona vede dopo aver
+  inviato. Oggi dice che l'ordine è arrivato e quando si risponde.
+- **Le due casse**, cioè il modulo di un capo e il carrello. Qui serve la riga di
+  consenso con il collegamento all'informativa, che oggi non c'è.
+- **Le due righe brevi sui resi** già presenti sulla pagina di ogni capo e nei
+  Contatti, che vanno riscritte in base alla risposta sul recesso.
+
+**Non esiste e va costruito:**
+
+- **Una pagina per l'informativa privacy** e **una per le condizioni di vendita
+  con il recesso**, in due lingue. Oggi il sito non ha nessuna pagina legale, e
+  nemmeno una voce di menu per arrivarci.
+
+Il testo lungo può essere lungo quanto serve. Quello che deve stare corto è la
+riga nel fondo pagina e la riga di consenso sulle casse.
+
+### 6.4 Da accertare, e non lo possiamo fare noi
 
 - L'entità contraente e le condizioni applicabili per **Cloudflare**, **Resend**
   e **Sanity**, e quanto ciascuno conserva nei propri registri.
 - La **regione geografica** in cui è ospitato il dataset Sanity del progetto
   (si legge nel pannello di amministrazione del progetto).
-- L'intestazione dell'account di posta che riceve gli ordini.
+- L'intestazione dell'account di posta che riceve gli ordini. **Oggi è una
+  casella Gmail personale, mentre il venditore è una società**, e i due nomi non
+  coincidono. Esiste anche una PEC della società, `ceccotrading@pec.it`, che
+  però oggi il sito non usa in nessun punto.
+- **La sede legale di Cecco Trading SRLS**, unico dato mancante.
 - **Se ogni capo sia fisicamente già pronto**, come il sito dichiara, oppure
   venga cucito dopo l'ordine. Decide la risposta alla prima domanda del §6.2 e
   lo sa solo il proprietario.
@@ -410,6 +466,9 @@ alle immagini su `cdn.sanity.io` descritta in §2.
 | Statistiche / tracciamento | Nessuno |
 | Script di terze parti | Nessuno |
 | Pagamenti | Nessuno, il sito non incassa |
-| Posizione fiscale | Esiste, con partita IVA, dal 16/08/2026 |
+| Chi vende, e chi è il titolare | **Cecco Trading SRLS**, una società, non una persona fisica |
+| Partita IVA | 11133331212 |
+| PEC | ceccotrading@pec.it |
+| Sede legale | **MANCA**, ed è l'unico dato che manca |
 | Fornitori coinvolti | Cloudflare (hosting e inoltro posta), Resend (invio email), Google/Gmail (casella), Sanity (contenuti, immagini e video) |
 | Cosa blocca il lancio | Informativa privacy, condizioni di vendita, recesso e resi |
