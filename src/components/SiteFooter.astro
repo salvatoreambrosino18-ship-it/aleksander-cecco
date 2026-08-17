@@ -29,6 +29,7 @@
   (standing rule 6).
 */
 import TextSurface from "./TextSurface.astro";
+import {COMPANY_LINE} from "../lib/company";
 import {isPlaceholderEmail, isPlaceholderText, type SiteSettings} from "../lib/content";
 import {pick, type Locale} from "../lib/locales";
 import {isMarked, voiceState} from "../lib/voice";
@@ -175,7 +176,23 @@ const anyMarked = originMarked || shippingMarked;
 
     {anyMarked && <p class="placeholder-mark self-start">{t(locale, notice)}</p>}
 
-    <p class="type-label text-label">Aleksander Cecco</p>
+    {/*
+      THE SIGNATURE AND THE SELLER, and they are two different things
+      (2026-08-17, section 137). "Aleksander Cecco" is the brand closing the
+      inscription; the line under it is the company that takes the money. They
+      sit together because a reader looking for the second will look at the
+      bottom, and they stay two lines because collapsing them would read as if
+      the man and the company were the same legal person, which is the exact
+      confusion the brief asked us to remove.
+
+      THE LEGAL LINKS BELONG IN THIS BLOCK, between the two, and they are not
+      here yet: the privacy notice and the terms of sale do not exist as pages,
+      and a footer link to a page that is not written is worse than no link.
+    */}
+    <div class="type-label text-label flex flex-col gap-u2">
+      <p>Aleksander Cecco</p>
+      <p>{COMPANY_LINE}</p>
+    </div>
   </footer>
 </TextSurface>
 </div>
