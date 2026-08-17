@@ -41,19 +41,40 @@ import {chromium} from "playwright";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const KEEP_HTML = process.argv.includes("--html");
 
+/*
+  QUALE DOCUMENTO. Di default il foglio di benvenuto; `--doc=<nome>` ne
+  impagina un altro dalla stessa cartella con la stessa veste.
+
+  IL BRIEF LEGALE USA LA STESSA IMPAGINAZIONE, e non e' un vezzo. Chi lo legge
+  scrive documenti che finiranno su questo sito, e un foglio che ha gia' l'aria
+  del sito dice da solo di che cosa si sta parlando. Le tabelle sono l'unica
+  cosa in piu' che serve, perche' il brief ne ha due.
+*/
+const arg = process.argv.find((a) => a.startsWith("--doc="));
+const DOC = arg ? arg.slice(6) : "BENVENUTO";
+
 const b64 = (p) => fs.readFileSync(path.join(ROOT, p)).toString("base64");
 const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
 
 /* ------------------------------------------------------- le fotografie */
 
+/*
+  LE DIDASCALIE DESCRIVONO QUELLO CHE SI VEDE NELLA FOTOGRAFIA, non quello che
+  il nome del file promette. Guardando gli scatti veri, il secondo mostra le
+  fotografie e il prezzo e il terzo mostra le taglie, quindi le prime
+  didascalie erano sbagliate su entrambi.
+*/
 const SHOTS = [
   ["1-schermata-iniziale.png", "La schermata che vedi entrando"],
-  ["2-prezzo-e-taglie.png", "Il prezzo e le taglie, in cima al capo"],
-  ["3-fotografie.png", "Le fotografie, che si trascinano"],
+  ["2-prezzo-e-taglie.png", "Un capo aperto. Le fotografie in cima, il prezzo sotto"],
+  ["3-fotografie.png", "Le taglie, subito sotto il prezzo"],
   ["4-publish.png", "Il pulsante Publish, in basso a destra"],
 ];
 const shotsDir = path.join(ROOT, "docs/benvenuto-shots");
-const shots = SHOTS.filter(([file]) => fs.existsSync(path.join(shotsDir, file)));
+const shots =
+  DOC === "BENVENUTO"
+    ? SHOTS.filter(([file]) => fs.existsSync(path.join(shotsDir, file)))
+    : [];
 
 /* --------------------------------------------------------- il markdown */
 
@@ -73,6 +94,22 @@ function toHtml(md) {
     if (!t) continue;
     if (t === "---") {
       out.push('<hr>');
+    } else if (/^\|.*\|$/m.test(t) && t.split("\n").length > 2) {
+      /*
+        UNA TABELLA. Il brief legale ne ha due e sono la parte che il legale
+        legge per prima, quindi vanno impaginate e non appiattite. La seconda
+        riga di una tabella markdown e' fatta di trattini e serve solo a
+        separare l'intestazione: si salta.
+      */
+      const rows = t.split("\n").filter((r) => r.trim().startsWith("|"));
+      const cells = (r) =>
+        r.trim().replace(/^\||\|$/g, "").split("|").map((c) => inline(c.trim()));
+      const head = cells(rows[0]);
+      const body = rows.slice(2).map(cells);
+      out.push(
+        `<table><thead><tr>${head.map((c) => `<th>${c}</th>`).join("")}</tr></thead>` +
+          `<tbody>${body.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`,
+      );
     } else if (t.startsWith("### ")) {
       out.push(`<h3>${inline(t.slice(4))}</h3>`);
     } else if (t.startsWith("## ")) {
@@ -103,7 +140,7 @@ function toHtml(md) {
 
 /* ------------------------------------------------------------ la pagina */
 
-const md = read("docs/BENVENUTO.md");
+const md = read(`docs/${DOC}.md`);
 const signature = read("assets/logo/logo-signature.svg")
   .replace(/<\?xml[^>]*\?>/, "")
   .trim();
@@ -125,7 +162,7 @@ const html = `<!doctype html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<title>Benvenuto / Aleksander Cecco</title>
+<title>${DOC} / Aleksander Cecco</title>
 <style>
   @font-face {
     font-family: "Archivo";
@@ -217,6 +254,30 @@ const html = `<!doctype html>
     display: none;
   }
 
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 5mm;
+    font-size: 9pt;
+    break-inside: avoid;
+  }
+  th {
+    text-align: left;
+    font-variation-settings: "wght" 500;
+    font-size: 8pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--ink);
+    padding: 0 4mm 1.5mm 0;
+    vertical-align: bottom;
+  }
+  td {
+    padding: 1.8mm 4mm 1.8mm 0;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+  }
+  td:first-child { width: 34%; }
+
   .shot { margin: 0 0 8mm; break-inside: avoid; }
   .shot img {
     width: 100%;
@@ -250,7 +311,7 @@ const html = `<!doctype html>
 </body>
 </html>`;
 
-const htmlPath = path.join(ROOT, "docs/BENVENUTO.html");
+const htmlPath = path.join(ROOT, `docs/${DOC}.html`);
 fs.writeFileSync(htmlPath, html);
 
 const browser = await chromium.launch();
@@ -258,7 +319,7 @@ const page = await browser.newPage();
 await page.goto(`file://${htmlPath}`, {waitUntil: "networkidle"});
 await page.evaluate(() => document.fonts.ready);
 await page.pdf({
-  path: path.join(ROOT, "docs/BENVENUTO.pdf"),
+  path: path.join(ROOT, `docs/${DOC}.pdf`),
   format: "A4",
   printBackground: true,
   preferCSSPageSize: true,
@@ -267,10 +328,12 @@ await browser.close();
 
 if (!KEEP_HTML) fs.unlinkSync(htmlPath);
 
-const size = fs.statSync(path.join(ROOT, "docs/BENVENUTO.pdf")).size;
-console.log(`\n  docs/BENVENUTO.pdf  ${(size / 1024).toFixed(0)} KB`);
-console.log(
-  shots.length
-    ? `  con ${shots.length} fotografie del pannello\n`
-    : `  SENZA le fotografie del pannello. Mettile in docs/benvenuto-shots/ e rilancia.\n`,
-);
+const size = fs.statSync(path.join(ROOT, `docs/${DOC}.pdf`)).size;
+console.log(`\n  docs/${DOC}.pdf  ${(size / 1024).toFixed(0)} KB`);
+if (shots.length) {
+  console.log(`  con ${shots.length} fotografie del pannello\n`);
+} else if (DOC === "BENVENUTO") {
+  console.log(`  SENZA le fotografie del pannello. Mettile in docs/benvenuto-shots/ e rilancia.\n`);
+} else {
+  console.log("");
+}

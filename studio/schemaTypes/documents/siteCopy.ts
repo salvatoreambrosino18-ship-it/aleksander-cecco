@@ -125,7 +125,7 @@ export default defineType({
       type: 'localeString',
       group: 'negozio',
       description:
-        'Spiega cosa succede quando si invia l\'ordine. Ricordati che qui NON si paga: se togli quella parte, ' +
+        'Spiega cosa succede quando si invia l\'ordine. Ricordati che qui NON si paga. Se togli quella parte, ' +
         'chi ordina può aspettarsi di pagare subito. ' + blank,
     }),
     defineField({
@@ -143,7 +143,7 @@ export default defineType({
       group: 'negozio',
       description:
         'In fondo al carrello, appena sopra il pulsante. ' +
-        'È la frase che evita malintesi sul pagamento: cambiala pure, ma dillo lo stesso. ' + blank,
+        'È la frase che evita malintesi sul pagamento. Cambiala pure, ma dillo lo stesso. ' + blank,
     }),
     defineField({
       name: 'cartOnePiece',
@@ -170,7 +170,7 @@ export default defineType({
       type: 'localeString',
       group: 'pagine',
       description:
-        'Sotto il titolo CONTATTI. Promette un tempo di risposta: se non riesci a rispondere in un giorno, cambiala. ' +
+        'Sotto il titolo CONTATTI. Promette un tempo di risposta. Se non riesci a rispondere in un giorno, cambiala. ' +
         blank,
     }),
     defineField({
@@ -314,14 +314,14 @@ export default defineType({
     }),
     defineField({
       name: 'support',
-      title: 'Titolo: Assistenza, in fondo alla pagina',
+      title: 'Il titolo Assistenza, in fondo alla pagina',
       type: 'localeString',
       group: 'titoli',
       description: blank,
     }),
     defineField({
       name: 'footerNav',
-      title: 'Titolo: Collegamenti, in fondo alla pagina',
+      title: 'Il titolo Collegamenti, in fondo alla pagina',
       type: 'localeString',
       group: 'titoli',
       description: blank,
@@ -383,7 +383,7 @@ export default defineType({
       type: 'localeString',
       group: 'nomi',
       description:
-        'Sulla pagina di un capo, con il prezzo accanto. Se lo lasci vuoto resta «Acquista»: ' +
+        'Sulla pagina di un capo, con il prezzo accanto. Se lo lasci vuoto resta «Acquista». ' +
         'non può restare senza parola, perché sarebbe un pulsante vuoto. ' + blank,
     }),
     defineField({
@@ -455,7 +455,7 @@ export default defineType({
       title: 'La riga su Ferdressed',
       type: 'localeString',
       group: 'menu',
-      description: 'Nella pagina Chi siamo, sotto i vostri nomi. Il nome Ferdressed viene aggiunto dopo, in automatico: scrivi solo la parte prima. Lascia vuoto per tenere la parola che c\'è adesso.',
+      description: 'Nella pagina Chi siamo, sotto i vostri nomi. Il nome Ferdressed viene aggiunto dopo, in automatico, quindi scrivi solo la parte prima. Lascia vuoto per tenere la parola che c\'è adesso.',
     }),
     defineField({
       name: 'filterAll',
@@ -532,7 +532,7 @@ export default defineType({
       title: 'Il pulsante che invia l\'ordine di un capo',
       type: 'localeString',
       group: 'bottoni',
-      description: 'Non lasciarlo vuoto per sbaglio: se lo svuoti resta il nostro, perché un pulsante senza parola non si può premere. Lascia vuoto per tenere la parola che c\'è adesso.',
+      description: 'Non lasciarlo vuoto per sbaglio. Se lo svuoti resta il nostro, perché un pulsante senza parola non si può premere. Lascia vuoto per tenere la parola che c\'è adesso.',
     }),
     defineField({
       name: 'cartSend',

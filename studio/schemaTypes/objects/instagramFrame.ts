@@ -23,7 +23,7 @@ export const instagramFrame = defineType({
       title: 'Il link al post',
       type: 'url',
       description:
-        "L'indirizzo del post su Instagram: aprilo, copia l'indirizzo dalla barra, incollalo qui. Vuoto, il riquadro porta al profilo. / The post's own address on Instagram: open it, copy the address bar, paste it here. Empty, the frame links to the profile.",
+        "L'indirizzo del post su Instagram. Aprilo, copia l'indirizzo dalla barra, incollalo qui. Vuoto, il riquadro porta al profilo. / The post's own address on Instagram. Open it, copy the address bar, paste it here. Empty, the frame links to the profile.",
     }),
   ],
   preview: {

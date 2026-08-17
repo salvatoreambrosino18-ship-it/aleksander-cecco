@@ -10852,7 +10852,28 @@ Nothing on the site queries Sanity from a browser: `createClient` lives only in
 `src/lib/sanity.ts` and every call runs at build time. The browser fetches
 images and video from the CDN, which is not a CORS-restricted API call.
 
+### STEPS 1 TO 4 ARE DONE, EXCEPT THE PART IN HIS CLOUDFLARE (2026-08-16)
+
+Done on our side: `PUBLIC_SITE_URL` in `.env` and `.env.example`, the studio's
+"Apri il sito" button, the studio redeployed twice, and the four documents that
+hardcoded the old address, plus both PDFs rebuilt.
+
+**NOT DONE, AND IT IS HIS**: adding the custom domain in the Pages project and
+setting `PUBLIC_SITE_URL` in the production environment variables. The wrangler
+login on this machine belongs to a different account with read access only, so
+it cannot be done from here even in principle.
+
+**UNTIL HE DOES IT, THE FOUR DOCUMENTS POINT AT AN ADDRESS THAT DOES NOT
+RESOLVE.** They must not be sent to the owner before the domain answers.
+
 ### STOP HERE UNTIL THE PRIVACY NOTICE EXISTS
+
+**A LATER SESSION MUST NOT CONTINUE PAST THIS LINE.** Steps 5 to 8 are not
+sequenced work waiting to be picked up; they are gated on a document that does
+not exist yet, written by a lawyer who has not been briefed. The brief is
+`docs/BRIEF-LEGALE.md` and it went out on 2026-08-16. **If you are reading this
+and the privacy notice still does not exist, the correct next step is none of
+them.**
 
 **5. Verify the sending domain in Resend.** REVERSIBLE. Add SPF, DKIM and DMARC
 to the zone. Safe to do early — verifying a domain sends nothing.

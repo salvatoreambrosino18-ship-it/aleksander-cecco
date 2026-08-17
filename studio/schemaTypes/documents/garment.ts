@@ -55,7 +55,7 @@ export const garment = defineType({
       description:
         'La prima della lista è quella che apre la pagina del capo. ' +
         'È anche quella che si vede nel catalogo e quando qualcuno condivide il link. ' +
-        'Trascina per cambiare l\'ordine: la prima in alto è la prima che si vede. ' +
+        'Trascina per cambiare l\'ordine. La prima in alto è la prima che si vede. ' +
         'Ogni fotografia occupa uno schermo intero, quindi otto fotografie sono otto schermate.',
       validation: (Rule) => Rule.min(1).error('At least one image is required'),
     }),
@@ -88,7 +88,7 @@ export const garment = defineType({
         layout: 'grid',
       },
       description:
-        "Le taglie in cui fai questo pezzo. Se il pezzo e uno solo per tutti (per esempio con il collo regolabile) spunta TAGLIA UNICA. Vuoto vuol dire che non l'hai ancora deciso, e il sito non parte. / The sizes you make this piece in. If it fits everyone (an adjustable choker, say) tick ONE SIZE. Empty means undecided, and the launch check refuses.",
+        "Le taglie in cui fai questo pezzo. Se il pezzo è uno solo per tutti (per esempio con il collo regolabile) spunta TAGLIA UNICA. Vuoto vuol dire che non l'hai ancora deciso, e il sito non parte. / The sizes you make this piece in. If it fits everyone (an adjustable choker, say) tick ONE SIZE. Empty means undecided, and the launch check refuses.",
     }),
 
     defineField({
@@ -106,7 +106,7 @@ export const garment = defineType({
         layout: 'radio',
       },
       description:
-        "Ogni Creatura esiste e si compra com'e. Su misura NON si fa piu, in nessuna forma, e dal 16/08/2026 il sito non lo dice piu da nessuna parte. Chi compra sceglie una taglia. Ordine privato e non disponibile restano visibili ma senza pulsante. / Every Creature exists and is bought as it is. Made to measure is not offered at all, and since 2026-08-16 the site no longer mentions it anywhere. The buyer chooses a size. Private order and not available stay visible but carry no button.",
+        "Ogni Creatura esiste e si compra com'è. Su misura NON si fa più, in nessuna forma, e dal 16/08/2026 il sito non lo dice più da nessuna parte. Chi compra sceglie una taglia. Ordine privato e non disponibile restano visibili ma senza pulsante. / Every Creature exists and is bought as it is. Made to measure is not offered at all, and since 2026-08-16 the site no longer mentions it anywhere. The buyer chooses a size. Private order and not available stay visible but carry no button.",
     }),
 
     defineField({
@@ -254,14 +254,14 @@ export const garment = defineType({
           {title: 'Di cosa è fatto', value: 'materials'},
           {title: 'Le misure', value: 'measurements'},
           {title: 'La descrizione del capo', value: 'description'},
-          {title: 'Descrizione: la traduzione italiana e nostra', value: 'descriptionIt'},
+          {title: 'La traduzione italiana della descrizione, che è nostra', value: 'descriptionIt'},
           {title: 'Codice del capo', value: 'referenceCode'},
           {title: 'Per chi è', value: 'wornBy'},
         ],
         layout: 'grid',
       },
       description:
-        "Ogni voce qui e un valore scritto da noi, plausibile ma non suo. Il sito non lo dice al visitatore; lo dice qui, e il controllo di lancio non passa finché la lista non e vuota. / Every entry here is a value we wrote: plausible, and not his. The site does not tell a visitor; it says so here, and the launch check does not pass until the list is empty.",
+        "Ogni voce qui è un valore scritto da noi, plausibile ma non suo. Il sito non lo dice al visitatore; lo dice qui, e il controllo di lancio non passa finché la lista non è vuota. / Every entry here is a value we wrote, plausible and not his. The site does not tell a visitor; it says so here, and the launch check does not pass until the list is empty.",
     }),
     orderRankField({type: 'garment'}),
   ],

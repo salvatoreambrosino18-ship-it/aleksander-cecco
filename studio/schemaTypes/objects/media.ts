@@ -30,7 +30,7 @@ export const media = defineType({
       type: 'image',
       options: {hotspot: true},
       description:
-        "Sempre obbligatoria, anche con un video: è il fotogramma di copertina e il fallback. / Always required, even with a video: it is the poster frame and the fallback.",
+        "Sempre obbligatoria, anche con un video, perché è il fotogramma di copertina e il fallback. / Always required, even with a video, because it is the poster frame and the fallback.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -58,7 +58,7 @@ export const media = defineType({
       type: 'boolean',
       description:
         'Acceso vuol dire che la frase qui sopra l\'ha scritta il computer e nessuno l\'ha controllata. ' +
-        'Leggila, correggila se serve, poi spegni questo. Non si vede sul sito: serve a sapere cosa manca.' +
+        'Leggila, correggila se serve, poi spegni questo. Non si vede sul sito. Serve a sapere cosa manca.' +
         'Scrivi cosa c\'è davvero nell\'inquadratura, non il nome del capo. ' +
         'L\'italiano serve sempre; se lasci vuoto l\'inglese, il sito usa l\'italiano anche lì ' +
         '(è l\'unico campo che si comporta così).' +
@@ -127,9 +127,9 @@ export const media = defineType({
       description:
         'In basso la foto è quasi sempre di un colore diverso da quello in alto, quindi si sceglie a parte. ' +
         'Se lo lasci vuoto viene usato il colore scelto qui sopra, che spesso lì non si legge.' +
-        'sopra questa foto. Non c\'è il grigio e non c\'è l\'ombra dietro le scritte: o bianco o nero. ' +
+        'sopra questa foto. Non c\'è il grigio e non c\'è l\'ombra dietro le scritte. O bianco o nero. ' +
         'Se sbagli, la scritta sparisce dentro la foto.' +
-        'Serve a non dimenticartene: una foto provvisoria non segnata resta lì per sempre.',
+        'Serve a non dimenticartene, perché una foto provvisoria non segnata resta lì per sempre.',
     }),
     /*
       Added 2026-08-02, because real photography demanded it. Three of the nine
@@ -181,7 +181,7 @@ export const media = defineType({
       title: 'Un video al posto della foto (quasi sempre vuoto)',
       type: 'file',
       description:
-        "Loop breve e muto: 4-10 secondi, MP4 (h.264), meno di 3 MB, SENZA traccia audio, stesso taglio della fotografia qui sopra. Il sito lo riproduce sopra la fotografia, solo quando è sullo schermo. La fotografia resta cio' che vedono chi ha il risparmio dati e chi ha ridotto le animazioni. / Short muted loop: 4-10 seconds, MP4 (h.264), under 3 MB, with NO audio track at all, framed the same as the photograph above. The site plays it over the photograph, only while it is on screen. The photograph stays what a reader gets under reduced motion or when the video cannot play.",
+        "Loop breve e muto, da 4 a 10 secondi, MP4 (h.264), meno di 3 MB, SENZA traccia audio, stesso taglio della fotografia qui sopra. Il sito lo riproduce sopra la fotografia, solo quando è sullo schermo. La fotografia resta quello che vedono chi ha il risparmio dati e chi ha ridotto le animazioni. / Short muted loop, 4 to 10 seconds, MP4 (h.264), under 3 MB, with NO audio track at all, framed the same as the photograph above. The site plays it over the photograph, only while it is on screen. The photograph stays what a reader gets under reduced motion or when the video cannot play.",
       options: {accept: 'video/mp4,video/webm'},
     }),
     /*
@@ -204,7 +204,7 @@ export const media = defineType({
       type: 'boolean',
       initialValue: false,
       description:
-        'Normalmente decide il controllo automatico: se un video è troppo corto o troppo mosso parte una ' +
+        'Normalmente decide il controllo automatico. Se un video è troppo corto o troppo mosso parte una ' +
         'volta sola, perché un loop corto sembra un boomerang. Spuntando questa casella dici «questo lo ' +
         'voglio in loop lo stesso», e ti prendi lo stacco che si vede quando ricomincia. ' +
         'Vale solo per QUESTO video. / Normally the automatic check decides. Tick this to loop this one clip ' +
@@ -219,9 +219,9 @@ export const media = defineType({
         'da solo sopra quella foto, senza comandi e senza che nessuno lo tocchi. ' +
         'NON DEVI MISURARE NIENTE. Ogni video caricato viene controllato in automatico entro un\'ora. ' +
         'Se è abbastanza lungo e la ripresa regge, va in loop; altrimenti PARTE UNA VOLTA SOLA e si ferma ' +
-        'sull\'ultima immagine, che sul sito sta benissimo lo stesso. Non puoi sbagliare: nel dubbio parte una ' +
+        'sull\'ultima immagine, che sul sito sta benissimo lo stesso. Non puoi sbagliare, perché nel dubbio parte una ' +
         'volta sola. ' +
-        'SE LO VUOI IN LOOP: almeno 4 secondi, macchina ferma o che si muove sempre nella stessa direzione. ' +
+        'SE LO VUOI IN LOOP servono almeno 4 secondi, macchina ferma o che si muove sempre nella stessa direzione. ' +
         'Un video corto ricomincia così spesso da sembrare un boomerang, e uno ripreso a mano che va e torna ' +
         'sembra un boomerang anche se non lo è. ' +
         'Nell\'elenco «I video» trovi cosa è stato deciso per ognuno e perché. ' +

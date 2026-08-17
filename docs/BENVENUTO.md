@@ -8,13 +8,13 @@ Tutto il resto lo trovi nel pannello, e il pannello parla italiano.
 ## Gli indirizzi
 
 **Il sito**
-https://aleksander-cecco.pages.dev
+https://aleksandercecco.com
 
 **Il pannello, dove cambi le cose**
 https://aleksander-cecco.sanity.studio
 
-Quando il dominio `aleksandercecco.com` sarà pronto, il sito si sposta lì e il
-pannello resta dov'è.
+Il pannello ha un indirizzo suo e non cambia mai, qualunque cosa succeda al
+sito.
 
 ---
 
@@ -112,8 +112,9 @@ recesso**. Finché non esistono, gli ordini **non partono per email**. Il modulo
 c'è e funziona, ma chi ordina vede scritto che l'invio non è ancora attivo. È
 voluto, ed è la cosa che tiene chiuso il negozio.
 
-**I dati dell'azienda.** Nome, indirizzo, partita IVA. Adesso chi compra non ha
-nessun modo di sapere che l'attività esiste.
+**I dati dell'azienda sul sito.** La partita IVA adesso ce l'hai, ma sul sito
+non compare ancora niente. Servono la denominazione, l'indirizzo e la partita
+IVA, scritti da qualche parte dove chi compra li possa leggere.
 
 ---
 

@@ -4,7 +4,7 @@ Questa guida non ti serve per cominciare. Entra nel pannello e leggi la prima
 schermata: c'è scritto lì tutto quello che serve i primi giorni. Questa è per
 quando vuoi fare qualcosa che lì non c'è.
 
-Il sito è **https://aleksander-cecco.pages.dev**
+Il sito è **https://aleksandercecco.com**
 Il pannello dove si cambia è **https://aleksander-cecco.sanity.studio**
 
 Cambi una cosa, premi **Publish**, e dopo qualche minuto la vedi sul sito. Non

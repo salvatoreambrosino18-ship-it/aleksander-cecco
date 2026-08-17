@@ -44,7 +44,7 @@ const VOCI: Array<{titolo: string; testo: string; dove: string; azione: string}>
     */
     titolo: 'Mettere un capo nuovo',
     testo:
-      'Il pulsante + in alto nella lista dei capi. Servono tre cose: una fotografia, il nome, e poi apri «Impostazioni del capo» in fondo e premi GENERATE per l’indirizzo della pagina. Senza quello non si pubblica.',
+      'Il pulsante + in alto nella lista dei capi. Servono tre cose. Una fotografia, il nome, e poi apri «Impostazioni del capo» in fondo e premi GENERATE per l’indirizzo della pagina. Senza quello non si pubblica.',
     dove: '/structure/orderable-garment',
     azione: 'Vai ai capi',
   },
@@ -146,7 +146,7 @@ export default function Inizio() {
           <Inline space={2}>
             <Button
               as="a"
-              href="https://aleksander-cecco.pages.dev"
+              href="https://aleksandercecco.com"
               target="_blank"
               rel="noopener"
               text="Apri il sito"

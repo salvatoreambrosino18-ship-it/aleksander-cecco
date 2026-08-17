@@ -76,7 +76,7 @@ export const siteSettings = defineType({
       title: 'Fotografia di apertura',
       type: 'media',
       description:
-        "La prima cosa che si vede: una fotografia a tutto schermo, non la firma. Scegliere un'immagine verticale, alta almeno 2000px, con la parte alta uniforme (chiara o scura) perché la firma e il MENU ci passano sopra. / The first thing seen: one full-screen photograph, not the signature. Choose a vertical frame, at least 2000px tall, with an even top band (either light or dark) because the signature and MENU sit over it.",
+        "La prima cosa che si vede è una fotografia a tutto schermo, non la firma. Scegliere un'immagine verticale, alta almeno 2000px, con la parte alta uniforme (chiara o scura) perché la firma e il MENU ci passano sopra. / The first thing seen is one full-screen photograph, not the signature. Choose a vertical frame, at least 2000px tall, with an even top band (either light or dark) because the signature and MENU sit over it.",
     }),
     /*
       HIS OPENING LINES (2026-08-12, section 99). Three short lines over the
@@ -124,7 +124,7 @@ export const siteSettings = defineType({
       title: 'Chi siamo, in breve (home)',
       type: 'localeText',
       description:
-        "Due o tre righe brevi, non un paragrafo. Gli a capo contano: ogni riga va a capo sulla pagina.",
+        "Due o tre righe brevi, non un paragrafo. Gli a capo contano, e ogni riga va a capo sulla pagina.",
     }),
     /*
       THE ORDER OF THE BAND IS THIS LIST, and nothing else (2026-08-10).
@@ -145,7 +145,7 @@ export const siteSettings = defineType({
       type: 'array',
       of: [{type: 'homeTile'}],
       description:
-        "La fascia orizzontale a metà home. Fotografie di persone che indossano i capi: si scorre di lato, niente frecce e niente puntini. Da quattro a sei. Collegare ogni fotografia al suo capo, dove esiste. L'ORDINE È QUESTO ELENCO: trascina le fotografie per riordinarle, la prima in alto è quella più a sinistra nella fascia. / The horizontal band halfway down the home page. Photographs of people wearing the pieces: it scrolls sideways, with no arrows and no dots. Four to six. Link each frame to its piece where one exists. THE ORDER IS THIS LIST: drag the photographs to reorder them; the first from the top is the leftmost frame in the band.",
+        "La fascia orizzontale a metà home. Fotografie di persone che indossano i capi. Si scorre di lato, niente frecce e niente puntini. Da quattro a sei. Collegare ogni fotografia al suo capo, dove esiste. L'ORDINE È QUESTO ELENCO. Trascina le fotografie per riordinarle, la prima in alto è quella più a sinistra nella fascia. / The horizontal band halfway down the home page. Photographs of people wearing the pieces. It scrolls sideways, with no arrows and no dots. Four to six. Link each frame to its piece where one exists. THE ORDER IS THIS LIST. Drag the photographs to reorder them, the first from the top is the leftmost frame in the band.",
       validation: (Rule) =>
         Rule.max(8).warning('More than eight is a long sideways scroll; four to six reads best.'),
     }),
@@ -156,7 +156,7 @@ export const siteSettings = defineType({
       type: 'array',
       of: [{type: 'media'}],
       description:
-        "Due o tre fotografie del lavoro: la pelle grezza, il banco, le mani. Non i capi finiti, che si vedono già sopra. / Two or three photographs of the work: the raw hide, the bench, the hands. Not finished garments, which are already shown above.",
+        "Due o tre fotografie del lavoro, cioè la pelle grezza, il banco, le mani. Non i capi finiti, che si vedono già sopra. / Two or three photographs of the work, the raw hide, the bench, the hands. Not finished garments, which are already shown above.",
       validation: (Rule) => Rule.max(4).warning('Two or three frames say it; more turns a claim into a gallery.'),
     }),
     defineField({
@@ -410,7 +410,7 @@ export const siteSettings = defineType({
       type: 'array',
       of: [{type: 'instagramFrame'}],
       description:
-        "Fino a sei. Sul sito diventano QUADRATI: sposta il punto focale (hotspot) sulla fotografia per decidere cosa sopravvive al quadrato. Ogni riquadro puo portare al suo post; vuoto, porta al profilo. Non e un feed automatico: le scegli tu. / Up to six. They render SQUARE on the site: set the photograph's hotspot to decide what survives the square. Each frame can link to its own post; empty, it links to the profile. Not an automatic feed: you choose them.",
+        "Fino a sei. Sul sito diventano QUADRATI, quindi sposta il punto focale (hotspot) sulla fotografia per decidere cosa sopravvive al quadrato. Ogni riquadro può portare al suo post, e se resta vuoto porta al profilo. Non è un feed automatico, le scegli tu. / Up to six. They render SQUARE on the site, so set the photograph's hotspot to decide what survives the square. Each frame can link to its own post, and if left empty it links to the profile. Not an automatic feed, you choose them.",
       validation: (Rule) => Rule.max(6).warning('More than six stops being a selection.'),
     }),
     /*
@@ -428,7 +428,7 @@ export const siteSettings = defineType({
       title: 'Il processo, il testo',
       type: 'localeText',
       description:
-        "Che cosa succede, per fasi, nell'ordine del lavoro. Poche righe brevi: le fotografie fanno il resto. / What happens, stage by stage, in the order of the work. A few short lines: the photographs do the rest.",
+        "Che cosa succede, per fasi, nell'ordine del lavoro. Poche righe brevi, perché le fotografie fanno il resto. / What happens, stage by stage, in the order of the work. A few short lines, because the photographs do the rest.",
     }),
     defineField({
       name: 'processMedia',
@@ -437,7 +437,7 @@ export const siteSettings = defineType({
       type: 'array',
       of: [{type: 'media'}],
       description:
-        "Le fotografie del lavoro in corso, nell'ordine del processo: cartamodello, taglio, tintura, asciugatura, montaggio. Senza didascalie. / Photographs of the work in progress, in the order of the process: pattern, cut, dye, dry, build. No captions.",
+        "Le fotografie del lavoro in corso, nell'ordine del processo, cioè cartamodello, taglio, tintura, asciugatura, montaggio. Senza didascalie. / Photographs of the work in progress, in the order of the process, pattern, cut, dye, dry, build. No captions.",
     }),
     /*
       I CAPI RITAGLIATI SU FONDO CHIARO — la terza specie di immagine, e la
@@ -467,10 +467,10 @@ export const siteSettings = defineType({
       of: [{type: 'homeTile'}],
       description:
         'Un capo per fotografia, ritagliato, su fondo chiaro. Collega ogni ritaglio al suo capo, così chi lo tocca ci arriva. ' +
-        'L\'ORDINE DECIDE DOVE VANNO: il PRIMO della lista compare nella home, tutti gli altri nella pagina Processo. ' +
+        'L\'ORDINE DECIDE DOVE VANNO. Il PRIMO della lista compare nella home, tutti gli altri nella pagina Processo. ' +
         'Trascina per spostarli. ' +
-        'PRIMA DI CARICARE: confronta il ritaglio con la fotografia originale sull\'orlo. Se lo scontorno ha raddrizzato l\'orlo, ' +
-        'non caricarlo: sarebbe un capo che non hai mai fatto.',
+        'PRIMA DI CARICARE, confronta il ritaglio con la fotografia originale sull\'orlo. Se lo scontorno ha raddrizzato l\'orlo, ' +
+        'non caricarlo, perché sarebbe un capo che non hai mai fatto.',
     }),
     /*
       IL RACCONTO NELLE COLONNE (2026-08-13, sezione 118).
@@ -538,7 +538,7 @@ export const siteSettings = defineType({
       title: 'La sezione sulla pelle di Chi siamo',
       type: 'mosaicNote',
       description:
-        "Sta in fondo a Chi siamo, sopra i nomi. Scrivi FATTI, non aggettivi. Va bene «la concia e' vegetale, con corteccia e foglie, e dura settimane»; non va bene «sostenibile», «ecologico», «a impatto zero», ne' un numero che nessuno ha misurato. Se una frase avrebbe bisogno di una prova che non hai, non scriverla.",
+        "Sta in fondo a Chi siamo, sopra i nomi. Scrivi FATTI, non aggettivi. Va bene «la concia è vegetale, con corteccia e foglie, e dura settimane»; non va bene «sostenibile», «ecologico», «a impatto zero», né un numero che nessuno ha misurato. Se una frase avrebbe bisogno di una prova che non hai, non scriverla.",
     }),
     defineField({
       name: 'processClosing',
@@ -565,7 +565,7 @@ export const siteSettings = defineType({
       type: 'number',
       group: 'pagine',
       description:
-        'La pagina del drop è un annuncio, non un secondo negozio: fa vedere qualche capo e poi manda al catalogo. ' +
+        'La pagina del drop è un annuncio, non un secondo negozio. Fa vedere qualche capo e poi manda al catalogo. ' +
         'Adesso sono sei. Alzandolo diventa una copia del catalogo; abbassandolo sotto tre non si capisce cos\'è il drop. ' +
         'Lascia vuoto per tenere sei.',
       validation: (Rule) => Rule.min(2).max(12).integer(),
@@ -576,7 +576,7 @@ export const siteSettings = defineType({
       type: 'number',
       group: 'pagine',
       description:
-        'Ogni capo qui occupa uno schermo intero. Adesso sono cinque: cinque si guardano fino in fondo, quindici si scorrono via. ' +
+        'Ogni capo qui occupa uno schermo intero. Adesso sono cinque. Cinque si guardano fino in fondo, quindici si scorrono via. ' +
         'Gli altri restano nel catalogo, con il link che dice quanti sono. Lascia vuoto per tenere cinque.',
       validation: (Rule) => Rule.min(2).max(12).integer(),
     }),
@@ -587,7 +587,7 @@ export const siteSettings = defineType({
       group: 'pagine',
       description:
         'Sta accanto al testo, in alto, prima di tutte le altre. Se la lasci vuota il sito ne sceglie una da solo, ' +
-        'ma sceglie a caso fra quelle che avanzano: mettila tu se vuoi decidere con cosa si apre.',
+        'ma sceglie a caso fra quelle che avanzano, quindi mettila tu se vuoi decidere con cosa si apre.',
     }),
     defineField({
       name: 'inventedCopy',
@@ -603,31 +603,31 @@ export const siteSettings = defineType({
       */
       description:
         '«Su Misura» / «Made to Measure» è stato TOLTO dal testo approvato il 13/08/2026, perché dal 12/08 il negozio non vende più su misura e la frase era falsa. ' +
-        'Diceva: «In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia.» e «In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy.» ' +
+        'Diceva «In pelle 100% conciata al vegetale, Su Misura, fatta a mano nel Sud Italia.» e «In 100% vegetable-tanned leather, Made to Measure, handmade in South Italy.» ' +
         'Due parole tolte, nulla aggiunto. Togli la spunta a «aboutMadeToMeasure» quando approvi la frase più corta, o rimettila com\'era. / ' +
         '"Su Misura" / "Made to Measure" was REMOVED from the approved text on 2026-08-13, because the shop stopped selling made to measure on 2026-08-12 and the sentence was false. ' +
         'Two words deleted, nothing added. Untick "aboutMadeToMeasure" when you approve the shorter line, or put it back.',
       options: {
         list: [
           {title: 'In fondo alla pagina, le spedizioni', value: 'footerShipping'},
-          {title: 'Fondo pagina: origine', value: 'footerOrigin'},
+          {title: 'In fondo alla pagina, da dove nasce', value: 'footerOrigin'},
           {title: 'Spedizioni e resi', value: 'shippingReturns'},
-          {title: 'Home: le righe di sezione', value: 'homeLines'},
-          {title: 'Richiesta: i testi', value: 'enquiryCopy'},
-          {title: 'Disponibilita: la spiegazione', value: 'availabilityCopy'},
-          {title: 'Instagram: quali fotografie', value: 'instagramFrames'},
-          {title: 'Ordine: il disegno delle misure', value: 'measureDiagram'},
-          {title: 'Processo: il testo delle fasi', value: 'processText'},
-          {title: 'Shop: la riga di apertura', value: 'shopIntro'},
-          {title: 'Drops: la riga di apertura', value: 'dropsIntro'},
-          {title: 'Contatti: la riga di apertura', value: 'contactIntro'},
-          {title: 'Contatti: quale fotografia', value: 'contactFrame'},
+          {title: 'Le righe di sezione della home', value: 'homeLines'},
+          {title: 'I testi della richiesta', value: 'enquiryCopy'},
+          {title: 'La spiegazione della disponibilità', value: 'availabilityCopy'},
+          {title: 'Quali fotografie di Instagram', value: 'instagramFrames'},
+          {title: 'Il disegno delle misure nel modulo', value: 'measureDiagram'},
+          {title: 'Il testo delle fasi di Processo', value: 'processText'},
+          {title: 'La riga di apertura dello Shop', value: 'shopIntro'},
+          {title: 'La riga di apertura dei Drop', value: 'dropsIntro'},
+          {title: 'La riga di apertura dei Contatti', value: 'contactIntro'},
+          {title: 'Quale fotografia nei Contatti', value: 'contactFrame'},
           {
             title: 'Dove siamo e dove si compra, nei Contatti',
             value: 'contactCopy',
           },
-          {title: 'Chi siamo: la traduzione delle origini', value: 'aboutOrigin'},
-          {title: "Chi siamo: l'ordine dei nomi, modificato dal testo approvato / About: name order, edited from approved text", value: 'aboutNameOrder'},
+          {title: 'La traduzione delle origini in Chi siamo', value: 'aboutOrigin'},
+          {title: "L'ordine dei nomi in Chi siamo, modificato dal testo approvato / Name order in About, edited from the approved text", value: 'aboutNameOrder'},
           {
             title:
               '«Su Misura» tolto dal testo approvato di Chi siamo e Processo / "Made to Measure" removed from the approved text of About and Process',
@@ -643,7 +643,7 @@ export const siteSettings = defineType({
       title: 'Suono ambiente',
       type: 'file',
       description:
-        "Facoltativo. Un file audio breve, in loop, che il visitatore può accendere da un piccolo comando nell'angolo. NON parte da solo: i browser bloccano l'audio automatico, quindi resta spento finché non lo si accende. Rimane spento per chi ha chiesto di ridurre le animazioni. / Optional. A short looping audio file the visitor can switch on from a small corner control. It does NOT start on its own: browsers block automatic audio, so it stays off until switched on. It stays off for anyone who has asked for reduced motion.",
+        "Facoltativo. Un file audio breve, in loop, che il visitatore può accendere da un piccolo comando nell'angolo. NON parte da solo, perché i browser bloccano l'audio automatico, quindi resta spento finché non lo si accende. Rimane spento per chi ha chiesto di ridurre le animazioni. / Optional. A short looping audio file the visitor can switch on from a small corner control. It does NOT start on its own, because browsers block automatic audio, so it stays off until switched on. It stays off for anyone who has asked for reduced motion.",
       options: {accept: 'audio/mpeg,audio/mp4,audio/ogg,audio/wav'},
     }),
     // One file only. The supplied signature SVG paints with currentColor, so it

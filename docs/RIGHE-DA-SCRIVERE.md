@@ -28,25 +28,25 @@ inglese. Un inglese approssimativo va benissimo.
 
 La tua didascalia su Instagram contiene già due di queste righe.
 
-1. **Rubedo** — la cucitura a mano che scende lungo il davanti — https://aleksander-cecco.pages.dev/it/creature/rubedo
-2. **Rubedo** — l'apertura a mandorla sulla schiena — https://aleksander-cecco.pages.dev/it/creature/rubedo
-3. **Rubedo** — **l'interno del collo, con la tua scritta a mano sulla pelle** — https://aleksander-cecco.pages.dev/it/creature/rubedo
-4. **Rubedo** — l'orlo grezzo e smerlato — https://aleksander-cecco.pages.dev/it/creature/rubedo
+1. **Rubedo** — la cucitura a mano che scende lungo il davanti — https://aleksandercecco.com/it/creature/rubedo
+2. **Rubedo** — l'apertura a mandorla sulla schiena — https://aleksandercecco.com/it/creature/rubedo
+3. **Rubedo** — **l'interno del collo, con la tua scritta a mano sulla pelle** — https://aleksandercecco.com/it/creature/rubedo
+4. **Rubedo** — l'orlo grezzo e smerlato — https://aleksandercecco.com/it/creature/rubedo
 
 La terza è la cosa più tua che ci sia sul sito: nessuno aveva mai aperto quel
 file abbastanza in grande da vedere che c'era scritto qualcosa.
 
 ## Le altre nove
 
-5. **Oblivion** — la cucitura centrale sulla schiena, con l'impuntura — https://aleksander-cecco.pages.dev/it/creature/capo-02
-6. **Oblivion** — l'orlo appuntito, tagliato e lasciato grezzo — https://aleksander-cecco.pages.dev/it/creature/capo-02
-7. **Oblivion** — i bottoni a pressione e il bordo cucito dell'abbottonatura — https://aleksander-cecco.pages.dev/it/creature/capo-02
-8. **Armonyen** — il collo, i bottoni a pressione, la pelle increspata — https://aleksander-cecco.pages.dev/it/creature/capo-01
-9. **Monumentus Vest** — i pannelli di ritaglio cuciti attorno alla zip — https://aleksander-cecco.pages.dev/it/creature/capo-03
-10. **Monumentus Pants** (neri) — cintura, passanti e zip a vista — https://aleksander-cecco.pages.dev/it/creature/capo-05
-11. **Monumentus Pants** (chiari) — le due tasche con zip a filetto sul dietro — https://aleksander-cecco.pages.dev/it/creature/capo-10
-12. **Corvinus** — il collo alto avvolto in pelle increspata — https://aleksander-cecco.pages.dev/it/creature/capo-12
-13. **Nocte** — il pannello inserito nella gamba, col nastro stampato — https://aleksander-cecco.pages.dev/it/creature/capo-13
+5. **Oblivion** — la cucitura centrale sulla schiena, con l'impuntura — https://aleksandercecco.com/it/creature/capo-02
+6. **Oblivion** — l'orlo appuntito, tagliato e lasciato grezzo — https://aleksandercecco.com/it/creature/capo-02
+7. **Oblivion** — i bottoni a pressione e il bordo cucito dell'abbottonatura — https://aleksandercecco.com/it/creature/capo-02
+8. **Armonyen** — il collo, i bottoni a pressione, la pelle increspata — https://aleksandercecco.com/it/creature/capo-01
+9. **Monumentus Vest** — i pannelli di ritaglio cuciti attorno alla zip — https://aleksandercecco.com/it/creature/capo-03
+10. **Monumentus Pants** (neri) — cintura, passanti e zip a vista — https://aleksandercecco.com/it/creature/capo-05
+11. **Monumentus Pants** (chiari) — le due tasche con zip a filetto sul dietro — https://aleksandercecco.com/it/creature/capo-10
+12. **Corvinus** — il collo alto avvolto in pelle increspata — https://aleksandercecco.com/it/creature/capo-12
+13. **Nocte** — il pannello inserito nella gamba, col nastro stampato — https://aleksandercecco.com/it/creature/capo-13
 
 ---
 

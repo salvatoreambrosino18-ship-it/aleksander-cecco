@@ -25,7 +25,7 @@ export const collection = defineType({
       title: 'Il testo del drop',
       type: 'localeText',
       description:
-        'DUE O TRE RIGHE BREVI, non un paragrafo. Ogni riga va a capo dove vuoi tu: le interruzioni di riga contano e il sito le rispetta.',
+        'DUE O TRE RIGHE BREVI, non un paragrafo. Ogni riga va a capo dove vuoi tu, e le interruzioni di riga contano e il sito le rispetta.',
       validation: (Rule) =>
         Rule.custom((value: {it?: string; en?: string} | undefined) => {
           const tooLong = (['it', 'en'] as const).filter((lang) => {
