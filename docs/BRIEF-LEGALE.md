@@ -36,7 +36,7 @@ persona. **Quella domanda non c'è più.**
 | Denominazione | **Cecco Trading SRLS** |
 | Partita IVA | **11133331212** |
 | PEC | **ceccotrading@pec.it** |
-| Sede legale | **[MANCA, richiesto al titolare il 17/08/2026]** |
+| Sede legale | **Via Torretta di Siena 16, 80058 Torre Annunziata (NA)** |
 
 **Il titolare del trattamento è Cecco Trading SRLS**, la società, e non Ciro
 Cecco come persona. Lo stesso vale per il venditore nelle condizioni di vendita.
@@ -302,7 +302,7 @@ alle immagini su `cdn.sanity.io` descritta in §2.
 1. **Informativa privacy** completa, in italiano e in inglese, che copra
    **entrambe le casse** e i dati di §1, e che indichi il **titolare del
    trattamento**, che è **Cecco Trading SRLS**, con i dati identificativi e il
-   recapito. Manca solo la sede legale.
+   recapito. Sono tutti nella tabella in cima a questo documento.
 2. **Condizioni di vendita.** Prodotto artigianale venduto come esistente e
    disponibile, con scelta della taglia, spedizione internazionale e pagamento
    concordato via email, dato che oggi non c'è un incasso automatico. **Il su
@@ -384,10 +384,10 @@ alle immagini su `cdn.sanity.io` descritta in §2.
    che stava qui, se si potesse intestare un'informativa a una persona fisica,
    decade del tutto: c'è una società.
 
-   **Resta una sola cosa da avere, la SEDE LEGALE**, chiesta al titolare il
-   17/08/2026.
+   **I dati della società sono completi dal 17/08/2026** e sono nella tabella in
+   cima a questo documento. Da parte nostra non manca più niente.
 
-   **E resta una domanda per il legale, che è sua e non nostra:** quali dati
+   **Resta una domanda per il legale, che è sua e non nostra:** quali dati
    della società devono comparire sul sito e dove. Oltre a denominazione, sede e
    partita IVA, per una società di capitali si sente nominare anche il numero
    REA con il registro delle imprese e il capitale sociale. **Non sappiamo se
@@ -442,7 +442,7 @@ riga nel fondo pagina e la riga di consenso sulle casse.
   casella Gmail personale, mentre il venditore è una società**, e i due nomi non
   coincidono. Esiste anche una PEC della società, `ceccotrading@pec.it`, che
   però oggi il sito non usa in nessun punto.
-- **La sede legale di Cecco Trading SRLS**, unico dato mancante.
+
 - **Se ogni capo sia fisicamente già pronto**, come il sito dichiara, oppure
   venga cucito dopo l'ordine. Decide la risposta alla prima domanda del §6.2 e
   lo sa solo il proprietario.
@@ -469,6 +469,6 @@ riga nel fondo pagina e la riga di consenso sulle casse.
 | Chi vende, e chi è il titolare | **Cecco Trading SRLS**, una società, non una persona fisica |
 | Partita IVA | 11133331212 |
 | PEC | ceccotrading@pec.it |
-| Sede legale | **MANCA**, ed è l'unico dato che manca |
+| Sede legale | Via Torretta di Siena 16, 80058 Torre Annunziata (NA) |
 | Fornitori coinvolti | Cloudflare (hosting e inoltro posta), Resend (invio email), Google/Gmail (casella), Sanity (contenuti, immagini e video) |
 | Cosa blocca il lancio | Informativa privacy, condizioni di vendita, recesso e resi |
