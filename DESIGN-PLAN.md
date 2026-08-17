@@ -10654,3 +10654,93 @@ refusing over a sentence that no longer exists anywhere.
 
 **This is the same lesson as the hourly video job, on the same day: a signal
 nobody believes is the same as no signal.**
+
+---
+
+## 133. The leather section, written as facts (2026-08-16)
+
+The owner asked for a sustainability section, because Rick Owens has one. It is
+on /about now, between the mosaic and the two names, and **every line in it is
+a fact rather than a claim** — which is not a matter of taste.
+
+**WHY THE SHAPE IS THE ARGUMENT.** Since 2026 a seller in Europe cannot call a
+product sustainable or eco-friendly without being able to substantiate it, and
+vague green wording is precisely what is looked at. **Ciro is the one who would
+answer for a sentence on that page**, not us.
+
+**WHAT IT SAYS**, and each of these is already true elsewhere on this site or in
+his own words: the tanning is vegetable, with bark, leaves and roots, and takes
+weeks; no chrome salts; the hides come from Solofra, an hour from Naples, where
+leather has been tanned for centuries; each piece comes out of a single hide and
+is cut by hand; the stitching stays visible so it can be redone, the leather can
+be fed and dyed again, and a piece made this way is meant to be repaired rather
+than replaced.
+
+**WHAT IS DELIBERATELY ABSENT, and it matters as much:**
+
+- **No adjective about the brand.** Never sustainable, never eco, never
+  responsible, never zero impact.
+- **NOT "less water"**, which was in the brief. Vegetable tanning is slower and
+  its effluent is different; that it uses LESS water is a quantitative
+  comparison, and a quantitative comparison with no measurement behind it is
+  exactly the sentence the new rules are aimed at.
+- **NOT "each piece is made after the order"**, which was also in the brief and
+  is **the sentence section 131 removed from five places the same day**, because
+  the owner decided the pieces are AVAILABLE NOW. Writing it into /about would
+  rebuild the contradiction that change closed. It is a question for him.
+- **No number**, and nothing about returning to the earth, which depends on the
+  finish.
+
+**THE HEADING IS "LA PELLE", NOT "SOSTENIBILITÀ".** That word above these lines
+frames all of them as an environmental claim and invites the exact reading the
+rest avoids. The facts do not change; what they promise does.
+
+`scripts/patch-about-material.mjs` **refuses to write** if it finds a banned word
+or an unmeasured number in its own copy, because a later session will rewrite
+these lines without reading this section.
+
+**Ours, flagged `aboutMaterial`**, counted by the gate.
+
+**STILL LIVE AND UNEXAMINED**: `processNotes[3]` says vegetable-tanned leather
+"at the end goes back into the ground". That is ours, it is an environmental
+claim, and it predates this section. It was left alone rather than quietly
+deleted, and it is now a question for him.
+
+---
+
+## 134. No colons and no dashes (2026-08-16)
+
+The owner's rule, applied to every string the site or the studio shows, in both
+languages. **Where a colon carried a sentence the sentence was split, not
+comma-spliced.**
+
+**WHAT CHANGED.** Twelve site strings across `ui.ts`, `enquiry.ts` and the
+order endpoint. Forty labels and help texts in the studio, which he reads. Our
+sentences inside Sanity — the mosaic notes on /about and /process, `processText`,
+`processClosing`, two Italian garment descriptions — and **the alt text**, which
+nobody sees and a screen reader speaks, so it counts like any other sentence.
+`Acquista — 950 €` became `Acquista per 950 €`, keeping the price on the action
+that section 4 put there.
+
+**THE TWO EXCEPTIONS HELD, AND THREE MORE WERE FOUND.** Hyphens inside real
+compound words stay (`Vegetable-tanned`, `Chrome-tanned`, `Snake-embossed`,
+`re-dyed`), and his own sentences were not repunctuated. The three that were not
+anticipated:
+
+1. **`MONUMENTUS: Tenebrae & Lux` is a NAME**, not a sentence — the drop's own
+   name in the dataset, on every piece page. A colon in a name is a title, like
+   a book's.
+2. **`Sleeves - 73 cm, Length - 56 cm`** — Oblivion's measurements, in HIS
+   format and not flagged as ours.
+3. **THE INSCRIPTION, and it is the biggest.** `Creatura: Armonyen.` and
+   `Composizione: ...` head every piece page. The labels are ours and the
+   FORMAT is his, recorded verbatim in section 26 as his own caption style:
+   `Creature: Tomar. Composition: 100% lambskin. Handcrafted.` Removing the
+   colon either drops the brand's own noun for its pieces or produces awkward
+   English, so it was flagged rather than decided.
+
+**Machinery was left alone** and is not punctuation a reader meets: CSS
+declarations, `mailto:`, form field names like `qty:slug`, GROQ, the sitemap
+line in robots.txt, and log messages. **The order email was left alone too** —
+its subject and its `Term  value` rows are an operational document he reads, not
+a page, and reformatting it would make the sheet harder to pick and pack from.
