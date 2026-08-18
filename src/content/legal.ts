@@ -14,14 +14,27 @@
   and §18, returns §3 and §10, in both languages. Nothing else moved, and the
   privacy notice was not touched.
 
-  ⚠ AND THE SENTENCES AROUND THAT ADDRESS ARE OURS, NOT THE LAWYER'S. The client
-  reported on 18 August 2026 that the lawyer confirmed the address may receive
-  withdrawal notices, and asked for the texts to be reissued naming it. What the
-  lawyer confirmed is the FACT; the wording that carries it into these four
-  clauses was written here, which is the one thing the rule below says not to do.
-  It was done on the client's instruction and with the launch in front of it, and
-  it is flagged rather than absorbed: the lawyer should read these four strings
-  and either keep them or send back their own, and when they do, this note goes.
+  THOSE FOUR CLAUSES WERE OURS FOR ONE DAY, AND ARE NOT ANY MORE. On 18 August
+  2026 the wording that carries the second address was written here rather than
+  by the lawyer: he had confirmed the FACT that the address may receive
+  withdrawal notices, not the sentences. That was flagged in this header rather
+  than absorbed, because a clause written by the builders of a shop and printed
+  under its lawyer's version number is the one thing this file exists to
+  prevent.
+
+  Later the same day the client reported that the lawyer had read the four
+  clauses and confirmed them as they stand, without sending a replacement
+  document. So the words are his now by adoption rather than by drafting, the
+  flag is cleared, and 1.1 remains 1.1: nothing in the text changed when the
+  flag went, which is the whole point of recording it this way instead of
+  quietly editing and moving on.
+
+  WHAT THIS DOES NOT MEAN. There is still no signed paper original of 1.1.
+  docs/TESTI-LEGALI.md carries the 1.1 clauses and the 17 August execution
+  block, and those two dates do not agree. If the company ever needs to produce
+  a signed copy of the terms a buyer actually saw, it needs a signed 1.1. That
+  is a filing job for the company, not a change to this site, and it is the last
+  loose thread in the legal group.
 
   NOTHING IN HERE IS OURS AND NOTHING IN HERE IS EDITABLE. Not by us, not from
   the studio. Every other sentence on this site is either the owner's or ours
