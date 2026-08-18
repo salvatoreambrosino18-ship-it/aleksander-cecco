@@ -547,22 +547,39 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
   <TextSurface class="flex flex-col gap-u5 pt-u8 pb-u5">
     <h2 class="type-label text-label">{t(locale, "newsletter")}</h2>
     <p class="type-body text-body max-w-prose">{t(locale, "newsletterLine")}</p>
-    <form method="POST" action="/api/enquiry" class="flex max-w-prose flex-col gap-u3">
-      <div class="field">
-        <label class="type-label text-label" for="list-email">Email</label>
-        <input id="list-email" name="email" type="email" required maxlength="254" autocomplete="email" />
-      </div>
-      {/* Hidden from people, not from bots, exactly as on the enquiry form. */}
-      <div class="spam-trap" aria-hidden="true">
-        <label for="list-website">Website</label>
-        <input id="list-website" name="website" type="text" tabindex="-1" autocomplete="off" />
-      </div>
-      <input type="hidden" name="intent" value="newsletter" />
-      <input type="hidden" name="lang" value={locale} />
-      <button type="submit" class="type-label text-label hairline-under self-start">
-        {t(locale, "newsletterAction")}
-      </button>
-    </form>
+    {/*
+      IL CAMPO E' STATO TOLTO PERCHE' L'INFORMATIVA DICE CHE NON RACCOGLIE
+      NIENTE (2026-08-18, sezione 138).
+
+      COSA C'ERA. Un campo email che faceva POST su /api/enquiry con
+      `intent=newsletter`. L'endpoint rispondeva 503 «le iscrizioni non sono
+      ancora aperte» senza salvare e senza inoltrare niente, e per mesi questo
+      e' bastato: non si raccoglieva nulla, quindi non c'era niente da
+      proteggere.
+
+      COSA L'HA CAMBIATO. Il paragrafo 11 dell'informativa dell'avvocato dice
+      che un indirizzo scritto in questo campo «non viene memorizzato NE'
+      TRASMESSO finche' la funzione non sara' attivata». Memorizzato no, ed era
+      vero. Trasmesso si': il modulo mandava davvero l'indirizzo alla rete,
+      l'endpoint lo leggeva con `formData()` e faceva scattare il contatore
+      antiabuso legato all'IP, e solo dopo rifiutava. Il rifiuto arrivava dopo
+      la trasmissione, non al posto suo.
+
+      LA SCELTA. Il testo e' firmato e non si tocca, quindi si cambia il sito
+      perche' la frase diventi vera com'e' scritta. Senza modulo non parte
+      nessuna richiesta, e «non viene trasmesso» e' vero senza doverci pensare.
+
+      LA SEZIONE RESTA. Il titolo e la riga che spiega cosa sara' la lista
+      valgono anche adesso: dicono a chi e' arrivato in fondo alla pagina che
+      esiste un modo per sapere del prossimo drop, e che non e' ancora aperto.
+      Toglierli avrebbe nascosto un fatto invece di renderlo vero.
+
+      L'ENDPOINT TIENE IL SUO RIFIUTO. Il ramo `intent=newsletter` resta dov'e':
+      niente lo raggiunge piu' dal sito, ma se qualcuno lo chiama a mano
+      continua a non salvare niente. Una porta chiusa vale anche quando la
+      strada che ci portava non c'e' piu'.
+    */}
+    <p class="type-body text-body max-w-prose">{t(locale, "newsletterClosed")}</p>
   </TextSurface>
 
   <BoundaryWash

@@ -51,8 +51,27 @@ const {doc, continued = false} = Astro.props;
             {section.title}
           </h3>
         )}
+        {/*
+          `overflow-wrap:anywhere` E' PER IL MODULO DI RECESSO, e senza di esso
+          la pagina delle condizioni scorreva DI LATO su un telefono
+          (453px dentro 390px, verificato sul sito pubblicato il 2026-08-18).
+
+          La causa sono i trattini bassi del modulo: «Nome del/dei
+          consumatore/i: ____________________» e' UNA SOLA PAROLA per il
+          browser, non si spezza, e la sua larghezza minima diventa la
+          larghezza minima della pagina intera.
+
+          `anywhere` e non `break-word`, ed e' la differenza che conta qui:
+          `break-word` spezza la parola ma NON riduce la larghezza minima
+          calcolata del contenitore, quindi la pagina avrebbe continuato a
+          scorrere. Solo `anywhere` fa entrambe le cose. Le parole normali
+          continuano ad andare a capo normalmente, perche' si spezza solo
+          quello che altrimenti non ci starebbe.
+        */}
         {section.body.map((paragraph) => (
-          <p class="type-body text-body max-w-prose whitespace-pre-line">{paragraph}</p>
+          <p class="type-body text-body max-w-prose [overflow-wrap:anywhere] whitespace-pre-line">
+            {paragraph}
+          </p>
         ))}
       </div>
     ))
