@@ -92,7 +92,7 @@ La firma deve essere apposta a mano dal legale rappresentante della società.
  
 CONDIZIONI GENERALI DI VENDITA
 ITALIANO
-Versione 1.0 — 17 agosto 2026
+Versione 1.1 — 18 agosto 2026
 1. Venditore
 Le presenti condizioni disciplinano gli acquisti effettuati attraverso aleksandercecco.com. Il venditore è Cecco Trading SRLS, con sede legale in Via Torretta di Siena 16, 80058 Torre Annunziata (NA), Italia, P. IVA 11133331212, PEC ceccotrading@pec.it.
 2. Prodotti e disponibilità
@@ -116,7 +116,7 @@ Quando il cliente agisce in qualità di consumatore e il diritto di recesso è p
 10. Eccezioni al recesso
 Il diritto di recesso è escluso esclusivamente nei casi previsti dalla legge, tra cui la fornitura di beni realizzati secondo specifiche del consumatore o chiaramente personalizzati. La sola selezione di una taglia standard disponibile sul sito, senza misure individuali o altre modifiche richieste dal cliente, non è qualificata automaticamente come personalizzazione ai fini dell'esclusione del recesso.
 11. Esercizio del recesso
-Il consumatore deve comunicare la decisione di recedere prima della scadenza del termine, mediante dichiarazione esplicita inviata a ceccotrading@pec.it o con altro mezzo idoneo a dimostrare la comunicazione. Il consumatore può utilizzare il modulo tipo riportato alla fine del presente documento.
+Il consumatore deve comunicare la decisione di recedere prima della scadenza del termine, mediante dichiarazione esplicita inviata a ceccotrading@pec.it o ad aleksandercecco@gmail.com, o con altro mezzo idoneo a dimostrare la comunicazione. Il consumatore può utilizzare il modulo tipo riportato alla fine del presente documento.
 12. Restituzione
 Il prodotto deve essere restituito senza indebito ritardo e comunque entro 14 giorni dalla comunicazione del recesso. Salvo che il venditore abbia accettato di sostenerlo o la legge disponga diversamente, il costo diretto della restituzione è a carico del consumatore.
 13. Rimborso
@@ -130,7 +130,7 @@ Il nome Aleksander Cecco, i marchi, testi, fotografie, video, disegni, elementi 
 17. Legge applicabile e tutela del consumatore
 I contratti con consumatori sono disciplinati dalla legge applicabile, comprese le disposizioni inderogabili a tutela dei consumatori del Paese di residenza del consumatore quando applicabili. Nulla nelle presenti condizioni limita i diritti inderogabili riconosciuti al consumatore dalla legge.
 18. Contatti
-Per ordini, assistenza, recesso e comunicazioni: ceccotrading@pec.it.
+Per ordini, assistenza, recesso e comunicazioni: ceccotrading@pec.it oppure aleksandercecco@gmail.com.
 
 Per Cecco Trading SRLS
 Il Legale Rappresentante
@@ -141,7 +141,7 @@ La firma deve essere apposta a mano dal legale rappresentante della società.
  
 GENERAL TERMS AND CONDITIONS OF SALE
 ENGLISH
-Version 1.0 — 17 August 2026
+Version 1.1 — 18 August 2026
 1. Seller
 These terms govern purchases made through aleksandercecco.com. The seller is Cecco Trading SRLS, with registered office at Via Torretta di Siena 16, 80058 Torre Annunziata (NA), Italy, VAT No. 11133331212, PEC: ceccotrading@pec.it.
 2. Products and Availability
@@ -165,7 +165,7 @@ Where the customer acts as a consumer and withdrawal is required by law, the con
 10. Exceptions to Withdrawal
 Withdrawal is excluded only in cases provided by law, including the supply of goods made to the consumer's specifications or clearly personalised. The mere selection of a standard size available on the website, without individual measurements or other customer-requested modifications, is not automatically treated as personalisation for purposes of excluding withdrawal.
 11. Exercising Withdrawal
-The consumer must communicate the decision to withdraw before the deadline by sending an unequivocal statement to ceccotrading@pec.it or by another method capable of evidencing the communication. The statutory model form included at the end of this document may be used.
+The consumer must communicate the decision to withdraw before the deadline by sending an unequivocal statement to ceccotrading@pec.it or to aleksandercecco@gmail.com, or by another method capable of evidencing the communication. The statutory model form included at the end of this document may be used.
 12. Return
 The goods must be returned without undue delay and in any event within 14 days from the withdrawal notice. Unless the Seller has agreed to bear the cost or applicable law provides otherwise, the direct cost of return is borne by the consumer.
 13. Refund
@@ -179,7 +179,7 @@ The name Aleksander Cecco, trademarks, text, photographs, videos, designs, graph
 17. Applicable Law and Consumer Protection
 Consumer contracts are governed by applicable law, including mandatory consumer-protection rules of the consumer's country of residence where applicable. Nothing in these terms limits mandatory consumer rights.
 18. Contact
-For orders, assistance, withdrawal and communications: ceccotrading@pec.it.
+For orders, assistance, withdrawal and communications: ceccotrading@pec.it or aleksandercecco@gmail.com.
 
 Per Cecco Trading SRLS
 Il Legale Rappresentante
@@ -190,13 +190,13 @@ La firma deve essere apposta a mano dal legale rappresentante della società.
  
 POLITICA DI RESI E DIRITTO DI RECESSO
 ITALIANO
-Versione 1.0 — 17 agosto 2026
+Versione 1.1 — 18 agosto 2026
 1. Quando si applica
 La presente politica disciplina i resi relativi agli acquisti a distanza effettuati da consumatori, nei limiti e con le eccezioni previste dalla legge.
 2. Termine di recesso
 Il consumatore dispone, in via generale, di 14 giorni dal giorno in cui acquisisce il possesso fisico del prodotto per comunicare il recesso.
 3. Comunicazione
-La comunicazione deve essere inviata a Cecco Trading SRLS, PEC ceccotrading@pec.it, entro il termine. È sufficiente una dichiarazione esplicita e inequivocabile della decisione di recedere.
+La comunicazione deve essere inviata a Cecco Trading SRLS, alla PEC ceccotrading@pec.it oppure all'indirizzo aleksandercecco@gmail.com, entro il termine. È sufficiente una dichiarazione esplicita e inequivocabile della decisione di recedere.
 4. Restituzione
 Dopo aver comunicato il recesso, il consumatore deve restituire il prodotto entro 14 giorni dalla comunicazione. Il prodotto deve essere adeguatamente imballato per evitare danni durante il trasporto.
 5. Costi di restituzione
@@ -210,7 +210,7 @@ L'esclusione del recesso opera esclusivamente quando il prodotto rientra in una 
 9. Prodotti non conformi
 La presente politica non limita la garanzia legale di conformità né gli altri diritti del consumatore previsti dalla legge.
 10. Contatti
-Per comunicazioni relative a resi e recesso: ceccotrading@pec.it.
+Per comunicazioni relative a resi e recesso: ceccotrading@pec.it oppure aleksandercecco@gmail.com.
 
 Per Cecco Trading SRLS
 Il Legale Rappresentante
@@ -221,13 +221,13 @@ La firma deve essere apposta a mano dal legale rappresentante della società.
  
 RETURNS AND RIGHT OF WITHDRAWAL POLICY
 ENGLISH
-Version 1.0 — 17 August 2026
+Version 1.1 — 18 August 2026
 1. Scope
 This policy governs returns relating to distance purchases made by consumers, subject to applicable statutory requirements and exceptions.
 2. Withdrawal Period
 As a general rule, consumers have 14 days from the day on which they acquire physical possession of the goods to communicate withdrawal.
 3. Notice
-Notice must be sent to Cecco Trading SRLS at ceccotrading@pec.it within the applicable period. An unequivocal statement of the decision to withdraw is sufficient.
+Notice must be sent to Cecco Trading SRLS at ceccotrading@pec.it or at aleksandercecco@gmail.com within the applicable period. An unequivocal statement of the decision to withdraw is sufficient.
 4. Return
 After communicating withdrawal, the consumer must return the goods within 14 days from the withdrawal notice. Goods should be adequately packaged to prevent damage during transport.
 5. Return Costs
@@ -241,7 +241,7 @@ Withdrawal is excluded only where the product falls within a statutory exception
 9. Non-Conforming Goods
 This policy does not limit the consumer's statutory legal guarantee of conformity or any other rights provided by law.
 10. Contact
-For return and withdrawal notices: ceccotrading@pec.it.
+For return and withdrawal notices: ceccotrading@pec.it or aleksandercecco@gmail.com.
 
 Per Cecco Trading SRLS
 Il Legale Rappresentante

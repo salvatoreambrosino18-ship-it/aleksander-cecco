@@ -1,7 +1,27 @@
 /*
-  I TESTI LEGALI, VERBATIM. Written by a lawyer for Cecco Trading SRLS, version
-  1.0 of 17 August 2026. The source of record is docs/TESTI-LEGALI.md and this
-  file is its transcription, word for word.
+  I TESTI LEGALI, VERBATIM. Written by a lawyer for Cecco Trading SRLS. The
+  source of record is docs/TESTI-LEGALI.md and this file is its transcription,
+  word for word.
+
+  VERSIONS, AND THEY ARE NO LONGER ALL THE SAME. Terms of sale and the returns
+  policy are version 1.1 of 18 August 2026; the privacy notice is unchanged and
+  carries a last-updated date rather than a version; the model withdrawal form
+  carries neither, because it is the statutory form.
+
+  WHAT CHANGED IN 1.1, so that nobody has to diff two files to find out: the
+  second address, aleksandercecco@gmail.com, is named alongside the PEC in the
+  four places where a withdrawal notice is sent or a contact is given. Terms §11
+  and §18, returns §3 and §10, in both languages. Nothing else moved, and the
+  privacy notice was not touched.
+
+  ⚠ AND THE SENTENCES AROUND THAT ADDRESS ARE OURS, NOT THE LAWYER'S. The client
+  reported on 18 August 2026 that the lawyer confirmed the address may receive
+  withdrawal notices, and asked for the texts to be reissued naming it. What the
+  lawyer confirmed is the FACT; the wording that carries it into these four
+  clauses was written here, which is the one thing the rule below says not to do.
+  It was done on the client's instruction and with the launch in front of it, and
+  it is flagged rather than absorbed: the lawyer should read these four strings
+  and either keep them or send back their own, and when they do, this note goes.
 
   NOTHING IN HERE IS OURS AND NOTHING IN HERE IS EDITABLE. Not by us, not from
   the studio. Every other sentence on this site is either the owner's or ours
@@ -56,9 +76,16 @@ export type LegalDoc = {
   sections: LegalSection[];
 };
 
-/** The version every published document carries, from the source file. */
-export const LEGAL_VERSION = "1.0";
-export const LEGAL_DATE = {it: "17 agosto 2026", en: "17 August 2026"} as const;
+/*
+  The highest version among the published documents, from the source file.
+
+  It is exported and nothing reads it: each document carries its own version
+  string, which is what the page prints, and since 1.1 those strings are no
+  longer identical. Kept because it is the one place a reader can see, without
+  opening four documents, that something moved on 18 August.
+*/
+export const LEGAL_VERSION = "1.1";
+export const LEGAL_DATE = {it: "18 agosto 2026", en: "18 August 2026"} as const;
 
 /* ------------------------------------------------------ privacy notice */
 
@@ -272,7 +299,7 @@ const privacy: Record<Locale, LegalDoc> = {
 const terms: Record<Locale, LegalDoc> = {
   it: {
     title: "Condizioni generali di vendita",
-    version: "Versione 1.0 — 17 agosto 2026",
+    version: "Versione 1.1 — 18 agosto 2026",
     sections: [
       {
         n: "1",
@@ -350,7 +377,7 @@ const terms: Record<Locale, LegalDoc> = {
         n: "11",
         title: "Esercizio del recesso",
         body: [
-          "Il consumatore deve comunicare la decisione di recedere prima della scadenza del termine, mediante dichiarazione esplicita inviata a ceccotrading@pec.it o con altro mezzo idoneo a dimostrare la comunicazione. Il consumatore può utilizzare il modulo tipo riportato alla fine del presente documento.",
+          "Il consumatore deve comunicare la decisione di recedere prima della scadenza del termine, mediante dichiarazione esplicita inviata a ceccotrading@pec.it o ad aleksandercecco@gmail.com, o con altro mezzo idoneo a dimostrare la comunicazione. Il consumatore può utilizzare il modulo tipo riportato alla fine del presente documento.",
         ],
       },
       {
@@ -398,13 +425,13 @@ const terms: Record<Locale, LegalDoc> = {
       {
         n: "18",
         title: "Contatti",
-        body: ["Per ordini, assistenza, recesso e comunicazioni: ceccotrading@pec.it."],
+        body: ["Per ordini, assistenza, recesso e comunicazioni: ceccotrading@pec.it oppure aleksandercecco@gmail.com."],
       },
     ],
   },
   en: {
     title: "General Terms and Conditions of Sale",
-    version: "Version 1.0 — 17 August 2026",
+    version: "Version 1.1 — 18 August 2026",
     sections: [
       {
         n: "1",
@@ -482,7 +509,7 @@ const terms: Record<Locale, LegalDoc> = {
         n: "11",
         title: "Exercising Withdrawal",
         body: [
-          "The consumer must communicate the decision to withdraw before the deadline by sending an unequivocal statement to ceccotrading@pec.it or by another method capable of evidencing the communication. The statutory model form included at the end of this document may be used.",
+          "The consumer must communicate the decision to withdraw before the deadline by sending an unequivocal statement to ceccotrading@pec.it or to aleksandercecco@gmail.com, or by another method capable of evidencing the communication. The statutory model form included at the end of this document may be used.",
         ],
       },
       {
@@ -530,7 +557,7 @@ const terms: Record<Locale, LegalDoc> = {
       {
         n: "18",
         title: "Contact",
-        body: ["For orders, assistance, withdrawal and communications: ceccotrading@pec.it."],
+        body: ["For orders, assistance, withdrawal and communications: ceccotrading@pec.it or aleksandercecco@gmail.com."],
       },
     ],
   },
@@ -541,7 +568,7 @@ const terms: Record<Locale, LegalDoc> = {
 const returns: Record<Locale, LegalDoc> = {
   it: {
     title: "Politica di resi e diritto di recesso",
-    version: "Versione 1.0 — 17 agosto 2026",
+    version: "Versione 1.1 — 18 agosto 2026",
     sections: [
       {
         n: "1",
@@ -561,7 +588,7 @@ const returns: Record<Locale, LegalDoc> = {
         n: "3",
         title: "Comunicazione",
         body: [
-          "La comunicazione deve essere inviata a Cecco Trading SRLS, PEC ceccotrading@pec.it, entro il termine. È sufficiente una dichiarazione esplicita e inequivocabile della decisione di recedere.",
+          "La comunicazione deve essere inviata a Cecco Trading SRLS, alla PEC ceccotrading@pec.it oppure all'indirizzo aleksandercecco@gmail.com, entro il termine. È sufficiente una dichiarazione esplicita e inequivocabile della decisione di recedere.",
         ],
       },
       {
@@ -609,13 +636,13 @@ const returns: Record<Locale, LegalDoc> = {
       {
         n: "10",
         title: "Contatti",
-        body: ["Per comunicazioni relative a resi e recesso: ceccotrading@pec.it."],
+        body: ["Per comunicazioni relative a resi e recesso: ceccotrading@pec.it oppure aleksandercecco@gmail.com."],
       },
     ],
   },
   en: {
     title: "Returns and Right of Withdrawal Policy",
-    version: "Version 1.0 — 17 August 2026",
+    version: "Version 1.1 — 18 August 2026",
     sections: [
       {
         n: "1",
@@ -635,7 +662,7 @@ const returns: Record<Locale, LegalDoc> = {
         n: "3",
         title: "Notice",
         body: [
-          "Notice must be sent to Cecco Trading SRLS at ceccotrading@pec.it within the applicable period. An unequivocal statement of the decision to withdraw is sufficient.",
+          "Notice must be sent to Cecco Trading SRLS at ceccotrading@pec.it or at aleksandercecco@gmail.com within the applicable period. An unequivocal statement of the decision to withdraw is sufficient.",
         ],
       },
       {
@@ -683,7 +710,7 @@ const returns: Record<Locale, LegalDoc> = {
       {
         n: "10",
         title: "Contact",
-        body: ["For return and withdrawal notices: ceccotrading@pec.it."],
+        body: ["For return and withdrawal notices: ceccotrading@pec.it or aleksandercecco@gmail.com."],
       },
     ],
   },
