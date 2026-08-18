@@ -1,0 +1,60 @@
+---
+/*
+  ONE LEGAL DOCUMENT, SET TO BE READ (2026-08-17, section 137).
+
+  A terms page is the one page on a shop nobody wants to be on, and most sites
+  answer that by making it look like a fire exit: 11px grey text, full window
+  width, no numbering a person can point at. That is a design that hopes you
+  leave. This site's argument the whole way through has been that the reader is
+  owed the same care wherever they are standing, so these get the body register,
+  the same prose measure as every other page, and the lawyer's clause numbers
+  kept and visible.
+
+  THE NUMBER IS A HANDLE, not decoration. A buyer arguing about a return says
+  "clause 12" and a seller has to find the same clause; that is the entire job
+  of the numbering the lawyer wrote, and dropping it to make the page prettier
+  would take a working tool away from the person with the least power in the
+  exchange. It sits in the label register beside the heading so it reads as
+  reference rather than as a step in a sequence.
+
+  NO MARKS ANYWHERE ON THIS PAGE. `draft-text` and the placeholder marks exist
+  to say "we wrote this and he has not approved it". Nothing here is ours.
+
+  WHITESPACE PRESERVED IN THE BODY, which matters for exactly one document: the
+  statutory withdrawal form is a form, its underscore blanks are load-bearing,
+  and a browser collapsing runs of spaces would shorten the line somebody has
+  to write their address on.
+*/
+import type {LegalDoc} from "../content/legal";
+
+interface Props {
+  doc: LegalDoc;
+  /** Set on every document after the first, so they stack without a rule. */
+  continued?: boolean;
+}
+
+const {doc, continued = false} = Astro.props;
+---
+
+<section class:list={["flex flex-col gap-u5", continued && "pt-u13"]}>
+  <div class="flex flex-col gap-u1">
+    <h2 class="type-display text-display">{doc.title}</h2>
+    <p class="type-label text-label">{doc.version}</p>
+  </div>
+
+  {
+    doc.sections.map((section) => (
+      <div class="flex flex-col gap-u2">
+        {section.title && (
+          <h3 class="type-label text-label">
+            {section.n && <span>{section.n}. </span>}
+            {section.title}
+          </h3>
+        )}
+        {section.body.map((paragraph) => (
+          <p class="type-body text-body max-w-prose whitespace-pre-line">{paragraph}</p>
+        ))}
+      </div>
+    ))
+  }
+</section>

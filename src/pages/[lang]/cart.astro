@@ -196,8 +196,30 @@ const currency = items[0]?.currency ?? "EUR";
 
         <div class="type-body text-body flex flex-col gap-u1">
           {shippingLines.map((line) => <p class="max-w-prose">{line}</p>)}
+          {/* Il testo intero, per chi lo vuole prima di comprare. Sezione 137. */}
+          <a href={localePath(locale, "terms")} class="type-label text-label self-start hairline-under">
+            {t(locale, "returnsLink")}
+          </a>
         </div>
         <p class="type-body text-body max-w-prose">{t(locale, "cartNoPayment")}</p>
+
+        {/*
+          LA RIGA SUL TRATTAMENTO DEI DATI (2026-08-17, sezione 137). Sta qui,
+          sopra il pulsante e sotto i campi, perché è il punto in cui il lettore
+          ha appena scritto il proprio nome e la propria email e sta per
+          mandarli. Nostra, non dell'avvocato, e il link porta al suo testo.
+
+          NON È UNA CASELLA DA SPUNTARE, ed è una decisione. Il consenso non è
+          la base giuridica di questo trattamento — l'informativa dice misure
+          precontrattuali e contratto — quindi chiedere una spunta di consenso
+          sarebbe sbagliato nel merito oltre che un ostacolo in più fra una
+          persona e il capo che vuole. Quello che serve è l'informazione, prima
+          dell'invio, dove non si può non vederla.
+        */}
+        <p class="type-body text-body max-w-prose">
+          {t(locale, "consentLine")}{" "}
+          <a href={localePath(locale, "privacy")} class="hairline-under">{t(locale, "consentLink")}</a>
+        </p>
 
         {/* Hidden from people, not from bots: they fill it in, humans cannot. */}
         <div class="spam-trap" aria-hidden="true">

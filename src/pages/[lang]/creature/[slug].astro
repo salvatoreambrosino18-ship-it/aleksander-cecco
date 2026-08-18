@@ -18,7 +18,7 @@
 import Base from "../../../layouts/Base.astro";
 import TextSurface from "../../../components/TextSurface.astro";
 import MediaSurface from "../../../components/MediaSurface.astro";
-import {getGarments, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
+import {getGarments, getSiteSettings, isPlaceholderText, neighbours, type Garment} from "../../../lib/content";
 import {imageUrl} from "../../../lib/image";
 import {LOCALES, localePath, pick, toLocale, type Locale} from "../../../lib/locales";
 import {t} from "../../../i18n/ui";
@@ -61,6 +61,10 @@ const hasProvisional = media.some((item) => item.isProvisional);
 const description = pick(garment.description, locale);
 const materials = pick(garment.materials, locale);
 const availabilityNote = pick(garment.availabilityNote, locale);
+
+/* His shipping sentence, for the pair beside the buy control. Section 137. */
+const settings = await getSiteSettings();
+const free = pick(settings.shippingFree, locale);
 
 /*
   HOW THIS CREATURE CAN BE HAD. Four states, not two (DESIGN-PLAN section 24).
@@ -503,6 +507,46 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
           owner's own extra line, where he wrote one, is added here.
         */
         availabilityNote && <p class="type-label text-label max-w-prose">{availabilityNote}</p>
+      )
+    }
+
+    {/*
+      SPEDIZIONE E RESO, AL MOMENTO DELLA DECISIONE (2026-08-17, sezione 137).
+
+      LE DUE RIGHE VANNO INSIEME O NON SERVONO. «Spedizione gratuita in tutto il
+      mondo sopra i 500 euro» era l'unico fatto commerciale su questa pagina, e
+      da solo insegna una cosa falsa: chi legge che la spedizione è gratis dà
+      per scontato che lo sia anche il ritorno. Non lo è — le condizioni dicono
+      che il costo diretto della restituzione è a carico del consumatore — e il
+      posto dove correggere quella lettura è accanto alla riga che la provoca,
+      non in un documento che si apre dopo.
+
+      QUI, E NON NEL PIÈ DI PAGINA. Su una pagina che si apre su una fotografia
+      la fascia in alto si ritira (sezione 115), quindi la riga sulla spedizione
+      compariva solo in fondo, lontanissima dal pulsante. Chi decide di comprare
+      decide qui.
+
+      IL PREZZO DELLA RIPETIZIONE È NOTO E ACCETTATO. La frase sulla spedizione
+      compare ora due volte su questa pagina, qui e nel piè di pagina, che è
+      esattamente ciò che la sezione 115 aveva tolto fra fascia e piè di pagina.
+      La differenza è che lì erano due copie della stessa riga sola; qui la
+      seconda copia esiste per dare un contesto alla riga sul reso, che senza di
+      essa risponde a una domanda che il lettore non si è ancora posto. Le
+      pagine del carrello e dell'ordine portano già questa stessa coppia.
+
+      IL RECESSO NON È UNA CORTESIA DEL VENDITORE ma un diritto di legge, e i
+      tre fatti che cambiano una decisione sono quanti giorni, da quando, e chi
+      paga il ritorno. Il link porta al testo dell'avvocato per tutto il resto.
+    */}
+    {
+      canEnquire && (
+        <div class="type-body text-body flex flex-col gap-u1 pt-u5">
+          {free && <p class="max-w-prose">{free}</p>}
+          <p class="max-w-prose">{t(locale, "returnsShort")}</p>
+          <a href={localePath(locale, "terms")} class="type-label text-label self-start hairline-under">
+            {t(locale, "returnsLink")}
+          </a>
+        </div>
       )
     }
   </TextSurface>

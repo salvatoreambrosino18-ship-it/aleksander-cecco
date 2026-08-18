@@ -134,6 +134,10 @@ const sizes = (garment.sizes ?? []).filter((size) => size !== "ONE");
       */}
       <div class="type-body text-body flex flex-col gap-u1 pt-u2">
         {shippingLines.map((line) => <p>{line}</p>)}
+        {/* Il testo intero, per chi lo vuole prima di comprare. Sezione 137. */}
+        <a href={localePath(locale, "terms")} class="type-label text-label self-start hairline-under">
+          {t(locale, "returnsLink")}
+        </a>
       </div>
     </div>
 
@@ -197,6 +201,12 @@ const sizes = (garment.sizes ?? []).filter((size) => size !== "ONE");
               <label class="type-label text-label" for="note">{t(locale, "note")}</label>
               <textarea id="note" name="note" rows="4" maxlength="2000" />
             </div>
+
+            {/* La stessa riga del carrello, per la stessa ragione. Sezione 137. */}
+            <p class="type-body text-body max-w-prose">
+              {t(locale, "consentLine")}{" "}
+              <a href={localePath(locale, "privacy")} class="hairline-under">{t(locale, "consentLink")}</a>
+            </p>
 
             {/* Hidden from people, not from bots: they fill it in, humans cannot. */}
             <div class="spam-trap" aria-hidden="true">

@@ -16,6 +16,7 @@
   It does not talk to Cloudflare or Resend, and it cannot see whether a lawyer
   has written a privacy notice. Those are on the checklist and they need a human.
 */
+import fs from "node:fs";
 import path from "node:path";
 import {fileURLToPath} from "node:url";
 
@@ -159,13 +160,108 @@ for (const g of result.unsized ?? []) {
   the lesson is about building thin (section 100), not about being wrong.
 */
 
+/*
+  IL CANCELLO LEGALE (2026-08-17, sezione 137).
+
+  PERCHE' ESISTE. Fino a oggi questo script contava una cosa sola, «quante frasi
+  sono ancora nostre invece che sue», e sull'unica cosa che teneva davvero chiuso
+  il negozio non aveva nessuna opinione. Si poteva cancellare per sbaglio
+  l'informativa privacy e uscire zero.
+
+  CONTROLLA TRE COSE, e la terza e' quella che nessuno si aspetta:
+
+  1. LE QUATTRO PAGINE ESISTONO nel sito costruito, in tutte e due le lingue, e
+     non sono gusci vuoti.
+  2. IL PIE' DI PAGINA CI PORTA. Una pagina legale raggiungibile solo da chi
+     conosce l'indirizzo non e' pubblicata, e' nascosta.
+  3. IL TESTO PUBBLICATO E' ANCORA QUELLO DELL'AVVOCATO. src/content/legal.ts e'
+     una trascrizione di docs/TESTI-LEGALI.md, e una trascrizione puo' andare
+     alla deriva. Se qualcuno riscrive una clausola per accorciarla, per
+     togliere un due punti, o perche' un'altra regola di questo progetto sembra
+     chiederlo, questo se ne accorge. Un negozio che riscrive da solo le proprie
+     condizioni di vendita ha fatto qualcosa di peggio di un refuso.
+
+  SE dist/ NON C'E' NON GRIDA. Un allarme che suona quando semplicemente non hai
+  ancora costruito il sito e' un allarme che si impara a ignorare, e questo
+  progetto ha gia' pagato una volta quella lezione con il controllo dei video.
+  Dice di costruire e passa oltre.
+*/
+const legal = [];
+const distDir = path.join(ROOT, "dist");
+
+if (!fs.existsSync(distDir)) {
+  console.log("\n  nota: dist/ non c'e', quindi le pagine legali non sono state controllate.");
+  console.log("  Lancia `npm run build` e poi di nuovo questo.\n");
+} else {
+  for (const lang of ["it", "en"]) {
+    for (const page of ["privacy", "terms"]) {
+      const file = path.join(distDir, lang, page, "index.html");
+      if (!fs.existsSync(file)) {
+        legal.push(`/${lang}/${page}/ non esiste nel sito costruito`);
+        continue;
+      }
+      const html = fs.readFileSync(file, "utf8");
+      /* Un guscio vuoto passerebbe un controllo di sola esistenza. */
+      if (html.length < 4000) legal.push(`/${lang}/${page}/ esiste ma e' quasi vuota`);
+    }
+    /* Raggiungibile: il pie' di pagina di una pagina qualunque deve portarci. */
+    const home = path.join(distDir, lang, "index.html");
+    if (fs.existsSync(home)) {
+      const html = fs.readFileSync(home, "utf8");
+      for (const page of ["privacy", "terms"])
+        if (!html.includes(`href="/${lang}/${page}"`) && !html.includes(`href="/${lang}/${page}/"`))
+          legal.push(`il pie' di pagina in ${lang} non porta a /${lang}/${page}/`);
+    }
+  }
+}
+
+/*
+  LA DERIVA DELLA TRASCRIZIONE. Ogni frase lunga in legal.ts deve comparire,
+  parola per parola, nel file dell'avvocato. Il confronto ignora le maiuscole e
+  gli a capo perche' i titoli dei documenti sono in maiuscolo nel sorgente e sul
+  sito prendono la forma delle altre intestazioni; ignora tutto il resto di
+  niente.
+*/
+const sourceFile = path.join(ROOT, "docs", "TESTI-LEGALI.md");
+const codeFile = path.join(ROOT, "src", "content", "legal.ts");
+if (!fs.existsSync(sourceFile)) {
+  legal.push("docs/TESTI-LEGALI.md non c'e' piu', quindi il testo pubblicato non e' verificabile");
+} else if (fs.existsSync(codeFile)) {
+  const flat = (s) => s.replace(/\s+/g, " ").toLowerCase();
+  const source = flat(fs.readFileSync(sourceFile, "utf8"));
+  const code = fs.readFileSync(codeFile, "utf8");
+  const strings = [...code.matchAll(/"((?:[^"\\]|\\.)*)"/g)]
+    .map((m) => m[1].replace(/\\"/g, '"'))
+    .filter((s) => s.length > 25 && !s.includes("../") && !/^[a-z]+$/.test(s));
+  const drifted = strings.filter((s) => !source.includes(flat(s)));
+  for (const s of drifted.slice(0, 5))
+    legal.push(`testo pubblicato che l'avvocato non ha scritto: «${s.slice(0, 60)}…»`);
+  if (drifted.length > 5) legal.push(`e altre ${drifted.length - 5} frasi che non tornano`);
+}
+
 console.log(`\nLaunch check: ${project}/${dataset}\n`);
+
+if (legal.length > 0) {
+  console.log(`  ${legal.length} PROBLEMI LEGALI, e questi vengono prima di tutto il resto:\n`);
+  for (const p of legal) console.log(`    ${p}`);
+  console.log(`
+  Le pagine legali non sono contenuto: sono la condizione per cui il negozio
+  puo' stare aperto. Finche' una di queste righe e' qui, non si pubblica.
+`);
+}
 
 if (result.draftAlt) {
   // Not a blocker: generated alt text that nobody has read is better than none,
   // and section 17 settled that deliberately. Worth knowing before launch.
   console.log(`  note: ${result.draftAlt} images carry alt text no human has approved\n`);
 }
+
+/*
+  UN PROBLEMA LEGALE FA USCIRE UNO ANCHE SE IL DATASET E' PULITO. Senza questa
+  riga il caso peggiore passava: tutte le frasi approvate, l'informativa privacy
+  cancellata, e lo script diceva che andava tutto bene.
+*/
+if (problems.length === 0 && legal.length > 0) process.exit(1);
 
 if (problems.length === 0) {
   console.log("  Nothing invented is left in the dataset.");

@@ -31,7 +31,7 @@
 import TextSurface from "./TextSurface.astro";
 import {COMPANY_LINE} from "../lib/company";
 import {isPlaceholderEmail, isPlaceholderText, type SiteSettings} from "../lib/content";
-import {pick, type Locale} from "../lib/locales";
+import {localePath, pick, type Locale} from "../lib/locales";
 import {isMarked, voiceState} from "../lib/voice";
 import {t} from "../i18n/ui";
 import {SHOW_UNAPPROVED_MARKS} from "../lib/marks";
@@ -185,12 +185,17 @@ const anyMarked = originMarked || shippingMarked;
       the man and the company were the same legal person, which is the exact
       confusion the brief asked us to remove.
 
-      THE LEGAL LINKS BELONG IN THIS BLOCK, between the two, and they are not
-      here yet: the privacy notice and the terms of sale do not exist as pages,
-      and a footer link to a page that is not written is worse than no link.
+      THE LEGAL LINKS ARE HERE SINCE 2026-08-17, between the two, which is the
+      slot this comment reserved when the pages did not exist yet. They sit in
+      one row rather than stacked because they are a pair a reader chooses
+      between, not two more statements in the inscription.
     */}
     <div class="type-label text-label flex flex-col gap-u2">
       <p>Aleksander Cecco</p>
+      <p class="flex flex-wrap gap-u3">
+        <a href={localePath(locale, "privacy")} class="hairline-under">{t(locale, "privacyTitle")}</a>
+        <a href={localePath(locale, "terms")} class="hairline-under">{t(locale, "termsTitle")}</a>
+      </p>
       <p>{COMPANY_LINE}</p>
     </div>
   </footer>

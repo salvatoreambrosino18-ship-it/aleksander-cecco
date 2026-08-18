@@ -1,0 +1,37 @@
+---
+/*
+  CONDIZIONI DI VENDITA, RESI E RECESSO, E IL MODULO (2026-08-17, sezione 137).
+
+  TRE DOCUMENTI SU UNA PAGINA, e non è una scelta di comodo. La clausola 11
+  delle condizioni dice che il consumatore «può utilizzare il modulo tipo
+  riportato ALLA FINE DEL PRESENTE DOCUMENTO». Se il modulo stesse altrove
+  quella frase sarebbe falsa, e sarebbe falsa in un documento che regola il
+  diritto di recesso. Stanno insieme perché il testo dice che stanno insieme.
+
+  L'ORDINE È QUELLO DELL'AVVOCATO: condizioni, poi resi e recesso, poi il
+  modulo in fondo. Non riordinato, non riassunto, non fuso.
+
+  DUE PAGINE E NON QUATTRO (sezione 6.3 del brief). Un piè di pagina con quattro
+  link legali è un piè di pagina che nessuno legge; con due, il lettore capisce
+  al volo che uno riguarda i suoi dati e l'altro il suo acquisto.
+*/
+import Base from "../../layouts/Base.astro";
+import TextSurface from "../../components/TextSurface.astro";
+import LegalDocument from "../../components/LegalDocument.astro";
+import {termsDocs} from "../../content/legal";
+import {LOCALES, toLocale} from "../../lib/locales";
+import {t} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({params: {lang}}));
+}
+
+const locale = toLocale(Astro.params.lang);
+const docs = termsDocs(locale);
+---
+
+<Base locale={locale} title={t(locale, "termsTitle")}>
+  <TextSurface class="flex flex-col pt-u13 pb-u13">
+    {docs.map((doc, i) => <LegalDocument doc={doc} continued={i > 0} />)}
+  </TextSurface>
+</Base>

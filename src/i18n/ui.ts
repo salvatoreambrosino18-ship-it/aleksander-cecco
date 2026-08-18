@@ -232,6 +232,39 @@ const ui = {
       Diceva «Acquista — 950 €». La parola al posto del segno tiene la
       decisione e toglie la punteggiatura.
     */
+    /*
+      LE PAGINE LEGALI E LE DUE RIGHE CHE CI PORTANO (2026-08-17, sezione 137).
+
+      I DUE TITOLI sono i nomi dei documenti dell'avvocato, non frasi del
+      marchio, e non stanno in OWNER_EDITABLE: il titolare può riscrivere cosa
+      dice il negozio, non come si chiama un atto legale.
+
+      LE ALTRE DUE RIGHE SONO NOSTRE, ed è il punto delicato. L'avvocato non ha
+      scritto né la frase sul consenso né il riassunto del recesso, perché
+      nessuna delle due è un testo legale: sono la traduzione in una riga di
+      quello che il documento dice per esteso, nel posto dove serve saperlo.
+      Segnate `consentLine` e `returnsShort` in `inventedCopy`, quindi
+      launch-check le conta fra le cose ancora nostre.
+
+      MA NON PORTANO IL SEGNO DI BOZZA SULLA PAGINA, e la ragione va detta.
+      Quel segno vuol dire «questa frase l'abbiamo scritta noi e aspetta la tua
+      approvazione». Su una riga che spiega dove finiscono i dati di chi compra
+      si leggerebbe come «non siamo sicuri di questo», che è esattamente il
+      contrario di quello che una riga sul trattamento dei dati deve
+      trasmettere. Il segno resta nel registro, dove serve a noi, e non sulla
+      cassa, dove danneggerebbe il lettore.
+
+      IL RIASSUNTO DEL RECESSO NON SOSTITUISCE IL DOCUMENTO e per questo
+      finisce con il link. Dice i tre fatti che cambiano una decisione di
+      acquisto: quanto tempo hai, da quando, e chi paga il ritorno.
+    */
+    privacyTitle: "Informativa privacy",
+    termsTitle: "Condizioni di vendita",
+    consentLine: "I dati che lasci qui servono solo a gestire questo ordine.",
+    consentLink: "Leggi l'informativa privacy",
+    returnsShort:
+      "Quattordici giorni per cambiare idea, da quando ricevi il capo. La spedizione del reso è a tuo carico.",
+    returnsLink: "Condizioni di vendita e recesso",
     forPrice: "per",
     acquire: "Acquista",
     placeOrder: "Invia l'ordine",
@@ -343,6 +376,14 @@ const ui = {
     cartSend: "Send the order",
     cartNeedsScript: "The cart needs JavaScript, which is switched off in this browser. Every Creature can still be bought from its own page.",
     wornLine: "On bodies, in daylight.",
+    /* See the Italian above (section 137) for why these four are not editable. */
+    privacyTitle: "Privacy policy",
+    termsTitle: "Terms of sale",
+    consentLine: "The details you leave here are used only to handle this order.",
+    consentLink: "Read the privacy policy",
+    returnsShort:
+      "Fourteen days to change your mind, from the day you receive the piece. Return shipping is at your expense.",
+    returnsLink: "Terms of sale and withdrawal",
     forPrice: "for",
     acquire: "Acquire",
     placeOrder: "Place the order",
