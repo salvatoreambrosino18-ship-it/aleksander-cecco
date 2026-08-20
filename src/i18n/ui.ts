@@ -112,7 +112,16 @@ const ui = {
     availability: "Come si ottiene",
     // The inscription on a Creature page, in his own caption format:
     // "Creature: Tomar. Composition: 100% lambskin. Handcrafted."
-    processTitle: "Solvet et Coagula",
+    /*
+      PRIMA MATERIA (2026-08-20, his decision). It was "Solvet et Coagula",
+      which he has taken back for the name of the DROP: the phrase was doing two
+      jobs and he wants it doing the other one. This is the only place it
+      appeared — the heading on /process. The menu still says Processo/Process
+      from `process` below, the tab title uses the same string, and the ADDRESS
+      is untouched: /it/process and /en/process still answer, so nothing in
+      _redirects moves and no link anyone has dies.
+    */
+    processTitle: "Prima Materia",
     handcrafted: "Lavorato a mano nel Sud Italia.",
     outsideCollections: "Fuori dalle collezioni.",
     /*
@@ -329,7 +338,7 @@ const ui = {
     referenceMeasurements: "Reference measurements",
     madeToMeasure: "Made to measure",
     availability: "How it can be had",
-    processTitle: "Solvet et Coagula",
+    processTitle: "Prima Materia",
     handcrafted: "Handcrafted in South Italy.",
     outsideCollections: "Outside the collections.",
     alsoExistsAs: "Also exists as",

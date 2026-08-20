@@ -403,6 +403,36 @@ alle immagini su `cdn.sanity.io` descritta in §2.
    serve nelle condizioni di vendita, va scritta da chi può confermarla.
 10. **Statistiche in futuro**: se un domani il brand volesse contare le visite
     con uno strumento senza cookie, cosa cambierebbe nell'informativa?
+11. **UN CAPO IN PELLE DI PITONE, E LA SPECIE È PROTETTA (20/08/2026).**
+    Severya è in **pelle di pitone**. Fino al 20/08 il sito diceva «pelle di
+    agnello, stampa serpente»: era una frase **nostra**, scritta quando nessuno
+    ci aveva detto di che animale fosse, ed era falsa. Il titolare ha
+    confermato che è pitone vero e dice di **avere tutta la documentazione**.
+    La composizione vera è stata pubblicata lo stesso giorno, e il capo resta
+    **acquistabile in tutti i paesi**: è una decisione del titolare, che vende
+    con la sua partita IVA.
+
+    Quello che noi sappiamo e basta: i pitoni sono **specie CITES** — quasi
+    tutti in Appendice II, uno in Appendice I — quindi il movimento
+    transfrontaliero passa da permessi e non da un'etichetta di spedizione. Il
+    sito **spedisce in tutto il mondo** e le condizioni di vendita **non dicono
+    niente** su questo.
+
+    **Non scriviamo noi il testo, e non sappiamo la risposta.** Le domande, in
+    ordine di impatto:
+
+    - Quale **specie**, e quale documento ha davvero in mano — permesso di
+      esportazione, certificato di riesportazione, pre-Convenzione, allevato in
+      cattività — con il **numero**? Un capo unico, un documento solo.
+    - Il negozio può **spedirlo fuori dall'UE**? E dentro l'UE, la vendita di un
+      esemplare in Allegato B richiede qualcosa al momento della vendita?
+    - La **pagina del capo** deve mostrare specie e/o numero di permesso? In
+      quale lingua?
+    - Cosa devono dire le **condizioni di vendita**, e come si incastra con il
+      diritto di recesso (n.1): un capo che torna indietro è un secondo
+      movimento transfrontaliero.
+    - Il capo è **1 di 1 dal sample sale**: cambia qualcosa che sia un pezzo già
+      esistente e non di nuova produzione?
 
 ### 6.3 Dove finiranno questi testi sul sito
 
