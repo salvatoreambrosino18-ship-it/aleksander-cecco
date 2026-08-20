@@ -357,21 +357,74 @@ const GARMENT_PROJECTION = /* groq */ `
   media[]{${MEDIA_PROJECTION}}
 `;
 
+/*
+  THE ORDER OF THE SIZES IS DECIDED HERE, ONCE (2026-08-20).
+
+  Two systems now live in one field. The owner answered his DA APPROVARE sheets
+  with XS S M L on the shirts, W30 - 32 - 34 on the trousers and W27 on Severya,
+  and those are HIS words rather than our normalisation into small-medium-large.
+
+  So the order cannot come from the data. The studio stores the boxes in the
+  order he ticked them, which means an array can arrive W34, W30, W32, and a
+  size chooser that offers W34 before W30 looks broken to the one person whose
+  money is involved.
+
+  ONE ORDERED VOCABULARY, NOT A COMPARATOR. Alphabetical is wrong for XS S M L
+  and numeric is wrong for everything else, and a comparator that switches rule
+  by shape is two rules that can disagree at the seam. This is one line a human
+  can read, and adding W36 is adding one entry.
+
+  AND IT IS SORTED HERE rather than in each page, because the piece page, the
+  order form, the cart and the order email all descend from these three
+  functions: the page and the form read `garment.sizes` straight, the cart reads
+  /order-catalogue.json which `orderCatalogue()` builds from `getGarments()`,
+  and the endpoint validates the posted size against that same file. Sorting
+  once at the source is the only version of this that cannot drift out of step;
+  four sorts in four files is four chances to.
+
+  KEEP THIS IN STEP WITH the tick list in studio/schemaTypes/documents/garment.ts.
+*/
+export const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "W27", "W30", "W32", "W34", "ONE"];
+
+/**
+ * His sizes, in the site's order.
+ *
+ * An unknown value is KEPT and sorted last. A size vanishing from a chooser
+ * because nobody taught this function about it is a piece that cannot be bought
+ * in the size it is made in — far worse than one sitting in the wrong place.
+ */
+export function sortSizes(sizes: string[] | null | undefined): string[] | null {
+  if (!sizes) return null;
+  const rank = (size: string) => {
+    const i = SIZE_ORDER.indexOf(size);
+    return i === -1 ? SIZE_ORDER.length : i;
+  };
+  return [...sizes].sort((a, b) => rank(a) - rank(b) || sizes.indexOf(a) - sizes.indexOf(b));
+}
+
+/** Every garment leaves this file with its sizes in the site's order. */
+function ordered<T extends Garment | null>(garment: T): T {
+  return garment ? {...garment, sizes: sortSizes(garment.sizes)} : garment;
+}
+
 /** Every garment that can have a page: it needs a slug and at least one image. */
 export async function getGarments(): Promise<Garment[]> {
-  return query<Garment[]>(
+  const garments = await query<Garment[]>(
     /* groq */ `*[_type == "garment" && defined(slug.current) && count(media) > 0]
       | order(orderRank asc){${GARMENT_PROJECTION}}`,
     {},
     [],
   );
+  return garments.map(ordered);
 }
 
 export async function getGarment(slug: string): Promise<Garment | null> {
-  return query<Garment | null>(
-    /* groq */ `*[_type == "garment" && slug.current == $slug][0]{${GARMENT_PROJECTION}}`,
-    {slug},
-    null,
+  return ordered(
+    await query<Garment | null>(
+      /* groq */ `*[_type == "garment" && slug.current == $slug][0]{${GARMENT_PROJECTION}}`,
+      {slug},
+      null,
+    ),
   );
 }
 
@@ -403,12 +456,13 @@ export async function getCollection(slug: string): Promise<Collection | null> {
 
 /** Garments in one collection, in the owner's order. */
 export async function getGarmentsInCollection(slug: string): Promise<Garment[]> {
-  return query<Garment[]>(
+  const garments = await query<Garment[]>(
     /* groq */ `*[_type == "garment" && collection->slug.current == $slug && count(media) > 0]
       | order(orderRank asc){${GARMENT_PROJECTION}}`,
     {slug},
     [],
   );
+  return garments.map(ordered);
 }
 
 /*

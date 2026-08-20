@@ -40,6 +40,63 @@ const run = promisify(execFile);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.loadEnvFile(path.join(ROOT, ".env"));
 
+/*
+  THIS SCRIPT REFUSES TO RUN (2026-08-20, the owner's material arrived).
+
+  It was the FIRST import and its job is done. It writes with
+  `createOrReplace`, and its own notes further down say what that means: it
+  "writes what this file knows and drops what it does not". Everything the
+  owner has answered since is exactly what this file does not know.
+
+  Run today it would, silently and in one transaction:
+
+    - rename Arak Top back to CORVINUS, undoing the name he gave us on his own
+      approval sheet;
+    - restore the invented prices — Styrax 975 and Styrax Red 775, replaced by
+      his 250 — and every other figure in the plan below;
+    - drop `relatedPieces`, so the two Styrax stop naming each other;
+    - drop the `inventedFields` edits, putting flags back on values that are
+      now his;
+    - drop `availabilityNote`, `sizes` and anything else added after this file
+      was written.
+
+  A comment saying so is what this file already had. A comment is not read at
+  midnight by someone reaching for `npm run import` because new photographs
+  arrived. So it refuses instead, and says why.
+
+  NEW PHOTOGRAPHS DO NOT COME IN THROUGH HERE. They come in through an
+  ADDITIVE patch, on the model of scripts/import-new-material.mjs, which
+  appends frames to the pieces that already exist and touches nothing else.
+
+  IF YOU GENUINELY NEED A FULL RE-IMPORT — a lost dataset, a new project —
+  delete this block in a commit, having read what it will overwrite. That is a
+  deliberate act with a diff and a reviewer. A --force flag would not be.
+*/
+{
+  console.error(
+    [
+      "",
+      "  import-photos.mjs REFUSES TO RUN.",
+      "",
+      "  It rebuilds every Creature with createOrReplace, from a plan written",
+      "  before the owner answered. It would undo, among other things:",
+      "",
+      "    - the rename Corvinus -> Arak Top",
+      "    - his prices (Styrax and Styrax Red would go back to 975 and 775)",
+      "    - the link between the two Styrax",
+      "    - every inventedFields flag his answers have cleared",
+      "",
+      "  New photographs go in through an ADDITIVE script instead; see",
+      "  scripts/import-new-material.mjs for the shape.",
+      "",
+      "  If a full re-import is really what you want, remove the guard block at",
+      "  the top of this file in a commit, having read what it overwrites.",
+      "",
+    ].join("\n"),
+  );
+  process.exit(1);
+}
+
 const DRY = process.argv.includes("--dry");
 const SOURCE =
   process.argv.find((a) => a.startsWith("--source="))?.slice(9) ||

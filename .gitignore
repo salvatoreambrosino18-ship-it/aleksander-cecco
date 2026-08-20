@@ -50,3 +50,16 @@ shots/
 # scratch scripts used to drive the studio in a browser
 .studio.mjs
 .look*.mjs
+
+# THE OWNER'S DRIVE, DROPPED IN WHOLE (2026-08-20). docs/da-ciro/ is a copy of
+# his Google Drive: about 180 MB of photographs, most of which are already in
+# Sanity. Git is not where they belong — the dataset holds them, and a dataset
+# export holds the dataset.
+#
+# THE TWELVE APPROVAL SHEETS DO belong here: they are the record of what he
+# approved, in his handwriting, and every price and description we are about to
+# publish is answerable to them. So the images go and the PDFs stay.
+docs/da-ciro/**
+!docs/da-ciro/
+!docs/da-ciro/**/
+!docs/da-ciro/**/*.pdf

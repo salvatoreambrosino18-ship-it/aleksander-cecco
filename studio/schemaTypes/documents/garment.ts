@@ -76,6 +76,19 @@ export const garment = defineType({
       title: 'In che taglie lo fai',
       type: 'array',
       of: [{type: 'string'}],
+      /*
+        DUE SISTEMI DI TAGLIE, NON UNO (2026-08-20). Le schede DA APPROVARE
+        rispondono W30 - 32 - 34 sui pantaloni e W27 su Severya: sono le sue
+        parole e restano le sue, non normalizzate in S/M/L.
+
+        L'ORDINE DI QUESTA LISTA È L'ORDINE DEL SITO. Le caselle si spuntano
+        nell'ordine che vuole lui e Sanity le salva in quell'ordine, quindi
+        l'array può arrivare W34, W30, W32. Il sito NON si fida di quell'ordine:
+        `sortSizes` in src/lib/content.ts riordina secondo questa stessa
+        sequenza, una volta sola, e la pagina, il modulo d'ordine, il carrello e
+        la mail leggono tutti quell'unico array. Se aggiungi una taglia qui,
+        aggiungila anche là.
+      */
       options: {
         list: [
           {title: 'XS', value: 'XS'},
@@ -83,6 +96,10 @@ export const garment = defineType({
           {title: 'M', value: 'M'},
           {title: 'L', value: 'L'},
           {title: 'XL', value: 'XL'},
+          {title: 'W27', value: 'W27'},
+          {title: 'W30', value: 'W30'},
+          {title: 'W32', value: 'W32'},
+          {title: 'W34', value: 'W34'},
           {title: 'Taglia unica', value: 'ONE'},
         ],
         layout: 'grid',

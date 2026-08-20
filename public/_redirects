@@ -61,6 +61,22 @@
 /it/creature/capo-04  /it/creature/capo-03  301
 /en/creature/capo-04  /en/creature/capo-03  301
 
+# VERTEX IS NOT THIS BRAND'S PIECE (2026-08-20, the owner). The hat belongs to
+# another project of his, so it came off the site. It was UNPUBLISHED and not
+# deleted: the document is sitting in drafts with its photograph attached, and
+# a dataset export was taken first (~/aleksander-cecco-backups/).
+#
+# Which is exactly why these two lines carry this file's standing warning, and
+# carry it more sharply than the capo-04 pair above: capo-04 was never a piece
+# and cannot come back, and Vertex CAN — it is one click from being published
+# again. Cloudflare answers redirects before static assets, so the day it
+# returns these two lines shadow its page and every link to it lands on the
+# catalogue instead. That is the Rubedo failure, and it took a session to find.
+#
+# THE DAY VERTEX COMES BACK, THESE TWO LINES GO. Same commit, not the next one.
+/it/creature/capo-14  /it/creature  301
+/en/creature/capo-14  /en/creature  301
+
 /it/creature/:slug/enquiry  /it/creature/:slug/order  301
 /en/creature/:slug/enquiry  /en/creature/:slug/order  301
 
