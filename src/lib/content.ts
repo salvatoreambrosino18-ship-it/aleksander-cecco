@@ -324,6 +324,13 @@ export type Garment = {
   availability: string | null;
   availabilityNote: LocaleField;
   collection: {name: string; slug: string | null; season: string | null} | null;
+  /**
+   * ANOTHER CREATURE THIS ONE IS TIED TO (2026-08-20): the same piece in another
+   * colour, and whatever else he ties together later. One-way in the studio,
+   * two-way on the page — the piece page also reads whoever points AT it, so he
+   * fills it in once and both pages carry the line.
+   */
+  relatedPieces: Array<{name: string; slug: string | null}> | null;
   media: MediaItem[] | null;
 };
 
@@ -344,6 +351,9 @@ const GARMENT_PROJECTION = /* groq */ `
   "availability": coalesce(availability, "readyNow"),
   availabilityNote,
   "collection": collection->{name, "slug": slug.current, season},
+  // Dereferenced here, checked against the real page list at the point of use:
+  // a reference survives the piece it points at losing its page.
+  "relatedPieces": relatedPieces[]->{name, "slug": slug.current},
   media[]{${MEDIA_PROJECTION}}
 `;
 

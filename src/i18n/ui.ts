@@ -115,6 +115,12 @@ const ui = {
     processTitle: "Solvet et Coagula",
     handcrafted: "Lavorato a mano nel Sud Italia.",
     outsideCollections: "Fuori dalle collezioni.",
+    /*
+      THE OTHER COLOUR EXISTS (2026-08-20). OURS, flagged `relatedPieceLine`.
+      The piece's NAME is printed after this, as a link, so the line has to end
+      where a name can follow it: "Esiste anche come Styrax Red Goat."
+    */
+    alsoExistsAs: "Esiste anche come",
     // A buyer who cannot try anything on needs a way to use these numbers.
     fitGuidance: "Confrontale con un capo che già possiedi e che ti veste come vuoi.",
     availableNow: "Disponibile subito.",
@@ -326,6 +332,7 @@ const ui = {
     processTitle: "Solvet et Coagula",
     handcrafted: "Handcrafted in South Italy.",
     outsideCollections: "Outside the collections.",
+    alsoExistsAs: "Also exists as",
     fitGuidance: "Compare these with a garment you already own and like the fit of.",
     availableNow: "Available now.",
 
@@ -420,7 +427,7 @@ export type UIKey = keyof (typeof ui)["it"];
 export const OWNER_EDITABLE = [
   // the sentences the brand speaks
   "handcrafted", "madeInItaly", "shopIntro", "contactIntro", "contactWhere", "contactBuy",
-  "newsletterLine", "outsideCollections", "fitGuidance",
+  "newsletterLine", "outsideCollections", "fitGuidance", "alsoExistsAs",
   "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
   "cartIntro", "cartOnePiece", "cartNoPayment", "cartEmpty", "nothingYet", "notFound",
   // the titles that head a part of a page

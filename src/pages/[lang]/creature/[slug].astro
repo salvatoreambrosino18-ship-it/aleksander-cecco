@@ -47,6 +47,44 @@ const locale = toLocale(Astro.params.lang) as Locale;
 */
 const {previous, next} = neighbours(all, garment.slug);
 
+/*
+  THE OTHER COLOUR EXISTS, AND THIS PAGE SAYS SO (2026-08-20, the owner's
+  decision on the two Styrax).
+
+  He asked for ONE Creature with a colour to pick. That is a variant system, and
+  a variant system lands in the schema, the catalogue's movement grouping, this
+  page, the cart's storage key, the order price list, the endpoint, the email
+  and launch-check — for one pair whose halves disagree on price and on
+  availability, the red being a 1 of 1 and the black not. Two pages that name
+  each other say the same thing to a buyer and move none of that.
+
+  ONE FIELD, FILLED IN ONCE, ON EITHER OF THE TWO. The line appears on BOTH
+  pages because this reads the reference in both directions: the pieces this one
+  points at, and the pieces that point at this one.
+
+  ONLY A PIECE THAT HAS A PAGE. `all` is exactly the set of Creature with a slug
+  and at least one photograph, so checking against it means a reference cannot
+  outlive the page it points at and leave a link to a 404 — the failure this
+  site has already had once, from the other direction, with Rubedo.
+*/
+const relatedPieces = (() => {
+  const seen = new Set<string>();
+  const out: Array<{name: string; slug: string}> = [];
+  const add = (slug: string | null | undefined) => {
+    if (!slug || slug === garment.slug || seen.has(slug)) return;
+    const found = all.find((g) => g.slug === slug);
+    /* A placeholder name would print "Also exists as {GARMENT_NAME}". */
+    if (!found || isPlaceholderText(found.name)) return;
+    seen.add(slug);
+    out.push({name: found.name, slug: found.slug});
+  };
+  for (const related of garment.relatedPieces ?? []) add(related?.slug);
+  for (const other of all) {
+    if ((other.relatedPieces ?? []).some((related) => related?.slug === garment.slug)) add(other.slug);
+  }
+  return out;
+})();
+
 
 const media = garment.media ?? [];
 const [firstMedia] = media;
@@ -343,6 +381,34 @@ const subordinate: Array<{term: string; value: string | null; placeholder?: stri
     */}
 
     {description && <p class="type-body text-body max-w-prose">{description}</p>}
+
+    {/*
+      IT SITS UNDER THE DESCRIPTION, above the facts and the action: a buyer
+      deciding on the black one should learn the red one exists BEFORE the
+      Acquire line, not after it. The sentence is OURS, flagged
+      `relatedPieceLine`, and offered to him in LE PAROLE DEL SITO like every
+      other sentence the brand speaks; the NAME after it is the other piece's
+      own, read from the catalogue list so a rename can never leave a stale one
+      here.
+    */}
+    {
+      relatedPieces.length > 0 && (
+        <div class="type-body text-body flex flex-col gap-u1">
+          {relatedPieces.map((related) => (
+            <p class="max-w-prose">
+              {t(locale, "alsoExistsAs")}{" "}
+              <a
+                href={localePath(locale, `creature/${related.slug}`)}
+                class="hairline-under"
+              >
+                {related.name}
+              </a>
+              .
+            </p>
+          ))}
+        </div>
+      )
+    }
 
     {/*
       Subordinate facts. Demoted by SIZE, not by opacity: the inscription above

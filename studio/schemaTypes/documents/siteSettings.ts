@@ -615,6 +615,7 @@ export const siteSettings = defineType({
           {title: 'Le righe di sezione della home', value: 'homeLines'},
           {title: 'I testi della richiesta', value: 'enquiryCopy'},
           {title: 'La spiegazione della disponibilità', value: 'availabilityCopy'},
+          {title: 'La riga che collega un capo a un altro', value: 'relatedPieceLine'},
           {title: 'Quali fotografie di Instagram', value: 'instagramFrames'},
           {title: 'Il disegno delle misure nel modulo', value: 'measureDiagram'},
           {title: 'Il testo delle fasi di Processo', value: 'processText'},

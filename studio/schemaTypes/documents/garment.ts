@@ -166,6 +166,47 @@ export const garment = defineType({
         "Lasciare vuoto se la Creatura non appartiene a nessuna collezione. La pagina lo dice esplicitamente invece di lasciare un buco.",
     }),
 
+    /*
+      UN ALTRO CAPO LEGATO A QUESTO (2026-08-20, deciso dal titolare).
+
+      Nasce dai due Styrax, il nero e il rosso, che lui voleva come UNA sola
+      Creatura con la scelta del colore. Un sistema di varianti sarebbe arrivato
+      allo schema, alla griglia del catalogo, alla pagina, al carrello, al
+      listino dell'endpoint e al launch-check, e i due pezzi non sono d'accordo
+      su prezzo e disponibilità: il rosso è uno solo, il nero no. Due pagine che
+      si nominano a vicenda dicono la stessa cosa e non muovono niente.
+
+      IL CAMPO E GENERALE, non per i due Styrax. Costa lo stesso ed è già
+      servito tre volte: la forma di questo negozio è cambiata tre volte, e un
+      campo che sa dire soltanto «rosso» va rifatto la prima volta che due pezzi
+      sono legati da qualcos'altro.
+
+      SI COMPILA UNA VOLTA SOLA, DA UNA PARTE. La pagina mostra la riga anche
+      sul capo puntato: legge chi punta a lui oltre a chi lui punta. Metterlo su
+      entrambi non è sbagliato, è solo lavoro doppio.
+    */
+    defineField({
+      name: 'relatedPieces',
+      fieldset: 'testi',
+      title: 'Un altro capo legato a questo',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'garment'}]}],
+      description:
+        "Per esempio lo stesso pezzo in un altro colore. Basta metterlo QUI, su uno dei due: la riga compare su tutte e due le pagine. Lasciare vuoto se non c'è. / For example the same piece in another colour. Set it HERE, on one of the two: the line appears on both pages. Leave empty if there is none.",
+      validation: (Rule) =>
+        Rule.unique().custom((value, context) => {
+          /*
+            Un capo che punta a se stesso stampa «Esiste anche come» seguito dal
+            proprio nome. Nessuno lo farebbe apposta e nulla lo impedirebbe.
+          */
+          const self = (context.document?._id ?? '').replace(/^drafts\./, '')
+          const refs = (value ?? []) as Array<{_ref?: string}>
+          return refs.some((r) => r?._ref === self)
+            ? 'Un capo non può essere legato a se stesso.'
+            : true
+        }),
+    }),
+
     defineField({
       name: 'wornBy',
       fieldset: 'impostazioni',

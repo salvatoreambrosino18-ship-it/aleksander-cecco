@@ -102,6 +102,15 @@ export default defineType({
         'Compare sui capi a cui non hai collegato nessun drop, per far capire che è voluto. ' + blank,
     }),
     defineField({
+      name: 'alsoExistsAs',
+      title: 'Come si dice che lo stesso capo esiste anche in un altro colore',
+      type: 'localeString',
+      group: 'capi',
+      description:
+        "Compare solo sui capi che hai collegato a un altro capo, nel campo «Un altro capo legato a questo». " +
+        "Il NOME dell'altro capo viene scritto subito dopo questa frase, come collegamento, quindi la frase deve finire dove può cominciare un nome. " + blank,
+    }),
+    defineField({
       name: 'fitGuidance',
       title: 'Il consiglio sotto le misure',
       type: 'localeString',
