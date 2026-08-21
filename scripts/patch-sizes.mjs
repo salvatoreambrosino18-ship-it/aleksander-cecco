@@ -24,7 +24,7 @@
     si regolano addosso, esattamente come il choker dello Styrax.
 
   LE TRE LETTURE NOSTRE SONO SEGNATE COME NOSTRE. Styrax e Styrax Red Goat
-  vengono da una frase sua, quindi non portano nessun segno. Vesper, Vertex e
+  vengono da una frase sua, quindi non portano nessun segno. Vegmentum (allora Vesper), Vertex e
   Glovyes sono una NOSTRA lettura di una fotografia — giusta, crediamo, ma pur
   sempre nostra — quindi `sizes` entra in `inventedFields` su quei tre e
   `npm run launch-check` continua a chiederglielo finché non conferma. È lo
