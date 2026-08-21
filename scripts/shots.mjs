@@ -70,6 +70,7 @@ const OUT = path.join(ROOT, "shots");
 const argv = process.argv.slice(2);
 const flag = (name) => argv.includes(`--${name}`);
 const value = (name) => argv.find((a) => a.startsWith(`--${name}=`))?.split("=").slice(1).join("=");
+const ORIGIN = value("origin");
 
 const AUDIT = flag("audit") || flag("prove");
 const PROVE = flag("prove");
@@ -647,13 +648,30 @@ async function thirdColour(page, sharp, tmpFile) {
 /* ------------------------------------------------------------------- shots */
 
 async function main() {
-  if (!fs.existsSync(DIST)) {
-    console.error("\n  No dist/. Run `npm run build` first.\n");
+  /*
+    --origin=https://... LOOKS AT THE DEPLOYED SITE INSTEAD OF dist/ (2026-08-21).
+
+    Everything else here captures the local build, which is the right default:
+    it is fast, it needs no network and it is what you iterate against. But a
+    local build is not the thing anyone visits. The redirects in
+    `public/_redirects` are applied by CLOUDFLARE and do not exist in dist at
+    all, Sanity content can be newer than the last local build, and a deploy can
+    simply fail while the folder on this laptop looks perfect.
+
+    So the same harness, pointed at the real origin. No local server is started
+    and dist/ is not read; --weigh and the audits work exactly as before,
+    against what a visitor actually gets.
+  */
+  const remote = ORIGIN ? ORIGIN.replace(/\/$/, "") : null;
+
+  if (!remote && !fs.existsSync(DIST)) {
+    console.error("\n  No dist/. Run `npm run build` first, or pass --origin=https://...\n");
     process.exit(1);
   }
 
-  const {server, port} = await serve();
-  const origin = `http://127.0.0.1:${port}`;
+  const {server, port} = remote ? {server: null, port: 0} : await serve();
+  const origin = remote ?? `http://127.0.0.1:${port}`;
+  if (remote) console.log(`\n  Looking at ${origin} — the deployed site, not dist/.`);
   const browser = await chromium.launch();
   let failures = 0;
 
@@ -1220,7 +1238,7 @@ async function main() {
     }
   } finally {
     await browser.close();
-    server.close();
+    server?.close();
   }
 
   if (AUDIT && failures) process.exit(1);
