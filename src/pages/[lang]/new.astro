@@ -51,13 +51,13 @@ import TextSurface from "../../components/TextSurface.astro";
 import MediaSurface from "../../components/MediaSurface.astro";
 import Statement from "../../components/Statement.astro";
 import {
-  byStage,
   getCollections,
   getGarmentsInCollection,
   getSiteSettings,
   type Collection,
   type Garment,
 } from "../../lib/content";
+import {isOrderable} from "../../lib/order";
 import {LOCALES, localePath, pick, toLocale} from "../../lib/locales";
 import {voiceState} from "../../lib/voice";
 import {imageUrl} from "../../lib/image";
@@ -82,7 +82,29 @@ const {collection, garments: unordered, others} = Astro.props as {
 const locale = toLocale(Astro.params.lang);
 const settings = await getSiteSettings();
 
-const garments = byStage(unordered).filter((g) => g.media?.[0]);
+/*
+  WHAT THE DROP PAGE SHOWS, AND IN WHOSE ORDER (2026-08-21). Two faults, found
+  on the deployed page the evening the three new Creature went up.
+
+  ONE: IT LISTED A PIECE NOBODY CAN BUY. The filter here was `media[0]` and
+  nothing else, so availability never entered into it — and the moment four
+  pieces were withdrawn the page announcing the CURRENT DROP led with Monumentus
+  Pants, marked Sold out. A shop may carry withdrawn work; an announcement of
+  new work may not open on it. `isOrderable` is the same predicate the cart and
+  the price list use, so this page cannot drift from them.
+
+  TWO: IT IGNORED HIS ORDER. `byStage` groups Tenebrae before Lux and puts
+  anything with no stage LAST, which is right for the catalogue, where the
+  grouping is the material story. Here it silently overruled the owner's own
+  drag order: the three newest pieces in the shop were the only ones that could
+  not reach a page called New, because two of them have no stage — and they have
+  none because he never said, and we do not invent one to fix a layout.
+
+  So this page follows the DROP'S OWN ORDER, which is the thing he controls in
+  the studio and the thing this page is for. The catalogue keeps `byStage`; the
+  announcement takes the order he dragged. Six is still the number.
+*/
+const garments = unordered.filter((g) => g.media?.[0] && isOrderable(g));
 const statement = pick(collection?.statement ?? null, locale);
 const voice = voiceState(settings, locale);
 const cover = collection?.cover ?? null;
