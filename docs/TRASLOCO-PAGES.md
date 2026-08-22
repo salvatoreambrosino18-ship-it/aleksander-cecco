@@ -41,7 +41,14 @@ Vanno letti dal pannello PRIMA della cancellazione, non dopo.
 - `PUBLIC_SANITY_PROJECT_ID` — `lq2xg1yd`
 - `PUBLIC_SANITY_DATASET` — `production`
 - `PUBLIC_SANITY_API_VERSION` — `2026-03-01`
-- `PUBLIC_SITE_URL` — nel nuovo progetto va messo `https://aleksandercecco.com`
+- `PUBLIC_SITE_URL` — **in produzione oggi vale `https://aleksander-cecco.pages.dev`**,
+  non il dominio. Verificato il 22/08 sul sito pubblicato: il link canonico e la
+  sitemap dicono `pages.dev`, che risponde. Il `.env` locale dice il dominio dal
+  16/08, ma la variabile di produzione non è mai stata cambiata — la sezione 136
+  lo scriveva già («NON FATTO, ED È SUO»). Chi legge il `.env` e conclude che il
+  sito pubblicato punti a un host morto sbaglia: è successo, ed è questa riga a
+  impedirlo la prossima volta. Nel nuovo progetto ci va il dominio, ma **solo
+  quando il dominio risponde**.
 - `PUBLIC_ALLOW_INDEXING` — oggi assente o `false`, e **deve restare così**
   finché non si decide di aprire il sito ai motori
 
@@ -65,6 +72,23 @@ account `ee5a294124af281868199258a6a200a0`, con permesso `account (read)`.
 Non importa: `scripts/pages-purge.mjs` non usa la sessione di wrangler, usa
 l'API REST con un `CLOUDFLARE_API_TOKEN` creato apposta. È la strada giusta
 proprio perché non dipende da chi è loggato.
+
+## `--delete` SPEGNE IL SITO. Non è un dettaglio.
+
+`scripts/pages-purge.mjs --delete` cancella **tutti** i deployment, compreso
+quello in produzione: usa `?force=true` proprio perché l'API altrimenti si
+rifiuta di cancellare l'ultimo di ogni ramo e quello in produzione, e lo dice
+nel suo stesso commento.
+
+Quindi nel momento in cui parte, `aleksander-cecco.pages.dev` smette di
+servire, e resta giù finché il progetto nuovo non ha completato la sua prima
+build nell'account del titolare. Non è la situazione della sezione 136, dove
+non andava giù niente: quella parlava di **attaccare un dominio**, non di
+**spostare il progetto**.
+
+Ne segue l'ordine giusto, che è il contrario di quello istintivo: **prima si
+costruisce e si verifica il progetto nuovo, poi si svuota e si cancella il
+vecchio.**
 
 ## Le due regole di questo trasloco
 
