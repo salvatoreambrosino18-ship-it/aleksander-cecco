@@ -90,6 +90,32 @@ Ne segue l'ordine giusto, che è il contrario di quello istintivo: **prima si
 costruisce e si verifica il progetto nuovo, poi si svuota e si cancella il
 vecchio.**
 
+## LE FUNCTIONS LEGGONO L'AMBIENTE AL MOMENTO DEL DEPLOY
+
+È la trappola sotto quasi tutti i guasti di questo trasloco, e si è già presa
+venti minuti tre volte in quindici giorni.
+
+Una variabile aggiunta nel pannello **non arriva alla Function che sta girando**.
+Il collegamento fra variabile e codice si fa quando il deployment viene creato,
+quindi:
+
+- variabile aggiunta e basta -> la Function continua a non vederla;
+- variabile aggiunta e poi **nuovo deploy** -> la vede;
+- **rollback** a un deployment vecchio -> tornano anche le sue variabili vecchie;
+- variabili di **Production** non arrivano ai deployment di **Preview**, che
+  hanno un elenco separato. Un indirizzo tipo `<hash>.<progetto>.pages.dev` gira
+  con quelle di anteprima.
+
+E due modi in cui una variabile «c'è» ma è vuota, che il pannello mostra uguale
+a una giusta:
+
+- uno spazio in coda al NOME: `RESEND_API_KEY ` è un'altra variabile;
+- un valore salvato vuoto: il codice tratta `""` come mancante, ed è voluto.
+
+Dal 22/08/2026 l'endpoint degli ordini **dice quale manca**, per nome e mai per
+valore (`functions/api/enquiry.ts`). Prima elencava tutti e tre i nomi con un
+«o» in mezzo, cioè ripeteva la domanda invece di rispondere.
+
 ## Le due regole di questo trasloco
 
 1. **Non si cancella niente finché lo snapshot non esiste e la chiave Resend

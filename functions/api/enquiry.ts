@@ -548,9 +548,30 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     });
   }
 
-  if (!env.RESEND_API_KEY || !env.RESEND_FROM || !env.ENQUIRY_TO_EMAIL) {
+  /*
+    IT NAMES THE MISSING ONES (2026-08-22), and the reason is twenty minutes,
+    three times in a fortnight.
+
+    This line used to say "RESEND_API_KEY, RESEND_FROM or ENQUIRY_TO_EMAIL
+    missing" — all three names and an `or`. It told a reader WHICH BRANCH they
+    were in, which they already knew from the page, and nothing about which
+    variable was actually empty. Every time it fired, somebody checked three
+    variables in a dashboard that renders a present-and-empty one exactly like
+    a correct one.
+
+    NAMES ONLY, NEVER VALUES. A log line that prints a secret is a secret in a
+    log, and Cloudflare's real-time stream is a place people paste screenshots
+    from. The name is the whole diagnosis: knowing that RESEND_FROM is the empty
+    one is the answer, and its value adds nothing to it.
+
+    AN EMPTY STRING COUNTS AS MISSING, deliberately. `!env.X` catches "" as well
+    as undefined, and a variable saved blank is the failure this endpoint has
+    actually had — not an absent one.
+  */
+  const missing = (["RESEND_API_KEY", "RESEND_FROM", "ENQUIRY_TO_EMAIL"] as const).filter((key) => !env[key]);
+  if (missing.length > 0) {
     // Honest, not silent: nobody is told an email was sent when none was.
-    console.warn("[enquiry] not configured: RESEND_API_KEY, RESEND_FROM or ENQUIRY_TO_EMAIL missing");
+    console.warn(`[enquiry] not configured, missing: ${missing.join(", ")}`);
     return new Response(
       page(locale, {heading: text.title, lines: [text.notConfigured], backHref, backAll: backIsCatalogue}),
       {status: 503, headers: {"Content-Type": "text/html; charset=utf-8"}},
