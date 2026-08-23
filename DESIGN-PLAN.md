@@ -10970,3 +10970,65 @@ Recorded so the first weeks of search results can be read against it:
 
 No structured data anywhere, so nothing can contradict the pages. Eighty-eight
 URLs in the sitemap. Nothing else a crawler sees that a reader does not.
+
+## 138. The newsletter, removed twice (2026-08-18 and 2026-08-22)
+
+Written on 2026-08-22, late: the code in `src/pages/[lang]/index.astro` has
+cited "section 138" since the 18th and there was no section 138. The reasoning
+below existed only in a source comment and a commit message, which is not where
+a decision of this kind should live.
+
+### First the field, to make the notice true (18/08)
+
+The home page carried an email field that POSTed to `/api/enquiry` with
+`intent=newsletter`. The endpoint answered 503, "sign-up is not open yet",
+saved nothing and forwarded nothing. For months that was enough: nothing was
+collected, so there was nothing to protect.
+
+Paragraph 11 of the lawyer's privacy notice changed it. It says an address
+entered in that field is "not stored **nor transmitted** until the function is
+activated". Not stored was true. Not transmitted was **false**: the form really
+did send the address over the network, the endpoint read it with `formData()`
+and it tripped the IP-keyed abuse counter, and only then was it refused. The
+refusal came *after* the transmission rather than instead of it.
+
+The signed text does not move, so the site moved. Without a form nothing is
+sent, and the sentence is true as written rather than true if you squint.
+
+**The section stayed** that day, deliberately: heading, the line about what the
+list would be, and "Sign-up is not open yet." Removing them would have hidden a
+fact instead of making it true.
+
+### Then the whole block, because half of it was a promise (22/08)
+
+The owner asked for "Sign-up is not open yet." to be taken off the home page.
+
+Taken alone, that leaves a heading announcing the next drops, a line saying "we
+write when a drop is ready", no way to join and no explanation — a promise with
+no mechanism. The notice says the function is *disabled*; the page would have
+read *coming*. A smaller contradiction than the field one, and a new one.
+
+So the whole block went: heading, line, sentence. **He wanted that sentence
+gone, and the sentence only existed because the rest of the block was there.**
+
+Now the site does not mention a newsletter anywhere, and paragraph 11 describes
+a function the site never refers to. That is disclosure of something absent
+rather than silence about something present — the safe direction, and the only
+arrangement in which the two texts cannot contradict each other.
+
+Removed with it, because a studio field no page reads is a promise the studio
+cannot keep: the strings `newsletter`, `newsletterLine`, `newsletterAction` and
+`newsletterClosed` in `src/i18n/ui.ts`, their entries in `OWNER_EDITABLE`, and
+their three fields in LE PAROLE DEL SITO. He had written his own version of
+none of them — all three were null in the dataset — so nothing of his was lost.
+
+### What is owed to the lawyer
+
+**Paragraph 11 refers to "the newsletter field", which has not existed since
+18/08.** Not urgent and not a breach: the notice claims less collection than
+occurs, which is the direction that costs nobody anything. It should be
+corrected at the next revision, and now that the site says nothing about a
+newsletter at all, paragraph 11 could simply go.
+
+Recorded in `docs/BRIEF-LEGALE.md` is the brief he was sent; this belongs in
+the next conversation with him rather than in a hurry.

@@ -544,43 +544,22 @@ const shareImage = opening ?? collections.find((c) => c.cover)?.cover ?? null;
     )
   }
 
-  <TextSurface class="flex flex-col gap-u5 pt-u8 pb-u5">
-    <h2 class="type-label text-label">{t(locale, "newsletter")}</h2>
-    <p class="type-body text-body max-w-prose">{t(locale, "newsletterLine")}</p>
-    {/*
-      IL CAMPO E' STATO TOLTO PERCHE' L'INFORMATIVA DICE CHE NON RACCOGLIE
-      NIENTE (2026-08-18, sezione 138).
+  {/*
+    LA SEZIONE NEWSLETTER NON C'È PIÙ (22/08/2026, sezione 138). Titolo, riga e
+    «Le iscrizioni non sono ancora aperte»: tutto tolto, non solo l'ultima frase.
 
-      COSA C'ERA. Un campo email che faceva POST su /api/enquiry con
-      `intent=newsletter`. L'endpoint rispondeva 503 «le iscrizioni non sono
-      ancora aperte» senza salvare e senza inoltrare niente, e per mesi questo
-      e' bastato: non si raccoglieva nulla, quindi non c'era niente da
-      proteggere.
+    Il campo era già sparito il 18/08 per rendere vera l'informativa. Quello che
+    restava annunciava una lista senza un modo per iscriversi, e la frase finale
+    era l'unica cosa che lo spiegava: toglierla sola avrebbe lasciato una
+    promessa senza meccanismo, cioè una pagina che dice «scriviamo quando un
+    drop è pronto» a un lettore che non può lasciare un indirizzo.
 
-      COSA L'HA CAMBIATO. Il paragrafo 11 dell'informativa dell'avvocato dice
-      che un indirizzo scritto in questo campo «non viene memorizzato NE'
-      TRASMESSO finche' la funzione non sara' attivata». Memorizzato no, ed era
-      vero. Trasmesso si': il modulo mandava davvero l'indirizzo alla rete,
-      l'endpoint lo leggeva con `formData()` e faceva scattare il contatore
-      antiabuso legato all'IP, e solo dopo rifiutava. Il rifiuto arrivava dopo
-      la trasmissione, non al posto suo.
-
-      LA SCELTA. Il testo e' firmato e non si tocca, quindi si cambia il sito
-      perche' la frase diventi vera com'e' scritta. Senza modulo non parte
-      nessuna richiesta, e «non viene trasmesso» e' vero senza doverci pensare.
-
-      LA SEZIONE RESTA. Il titolo e la riga che spiega cosa sara' la lista
-      valgono anche adesso: dicono a chi e' arrivato in fondo alla pagina che
-      esiste un modo per sapere del prossimo drop, e che non e' ancora aperto.
-      Toglierli avrebbe nascosto un fatto invece di renderlo vero.
-
-      L'ENDPOINT TIENE IL SUO RIFIUTO. Il ramo `intent=newsletter` resta dov'e':
-      niente lo raggiunge piu' dal sito, ma se qualcuno lo chiama a mano
-      continua a non salvare niente. Una porta chiusa vale anche quando la
-      strada che ci portava non c'e' piu'.
-    */}
-    <p class="type-body text-body max-w-prose">{t(locale, "newsletterClosed")}</p>
-  </TextSurface>
+    Il titolare voleva via quella frase. Via la frase e via la ragione per cui
+    esisteva: adesso il sito non nomina nessuna newsletter, e il paragrafo 11
+    dell'informativa descrive una funzione che il sito non menziona affatto —
+    che è dire più del dovuto, non meno, e nessuno dei due testi può
+    contraddire l'altro.
+  */}
 
   <BoundaryWash
     label={collections[0]?.name ?? null}

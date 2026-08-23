@@ -162,15 +162,6 @@ export default defineType({
       description:
         'Compare accanto ai capi «1 di 1» nel carrello, dove la quantità si ferma a uno. ' + blank,
     }),
-    defineField({
-      name: 'newsletterLine',
-      title: 'La riga sotto «Le prossime uscite»',
-      type: 'localeString',
-      group: 'negozio',
-      description:
-        'In fondo alla home. Attenzione, le iscrizioni NON sono ancora attive e chi si iscrive riceve ' +
-        'una risposta che lo dice. Finché non c\'è l\'informativa privacy resta così. ' + blank,
-    }),
 
     /* --------------------------------------------------------- le pagine */
     defineField({
@@ -270,13 +261,6 @@ export default defineType({
       type: 'localeString',
       group: 'titoli',
       description: blank,
-    }),
-    defineField({
-      name: 'newsletter',
-      title: 'Il titolo Le prossime uscite',
-      type: 'localeString',
-      group: 'titoli',
-      description: 'In fondo alla home. ' + blank,
     }),
     defineField({
       name: 'otherDrops',
@@ -556,13 +540,6 @@ export default defineType({
       type: 'localeString',
       group: 'bottoni',
       description: 'Lascia vuoto per tenere la parola che c\'è adesso.',
-    }),
-    defineField({
-      name: 'newsletterClosed',
-      title: 'Cosa risponde il sito a chi prova a iscriversi',
-      type: 'localeString',
-      group: 'bottoni',
-      description: 'Le iscrizioni sono spente finché non c\'è l\'informativa privacy. Questa è la frase che legge chi ci prova. Lascia vuoto per tenere la parola che c\'è adesso.',
     }),
     defineField({
       name: 'materials',

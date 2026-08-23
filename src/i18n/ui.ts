@@ -97,10 +97,6 @@ const ui = {
       leaves the site has to say so (2026-08-10).
     */
     instagramOpen: "Apri su Instagram",
-    newsletter: "Le prossime uscite",
-    newsletterLine: "Pochi pezzi, poche volte l'anno. Scriviamo quando un drop è pronto.",
-    newsletterAction: "Iscriviti",
-    newsletterClosed: "Le iscrizioni non sono ancora aperte.",
     email: "Email",
     footerNav: "Collegamenti",
     collection: "Collezione",
@@ -327,10 +323,6 @@ const ui = {
     instagram: "Instagram",
     instagramOpen: "Open on Instagram",
     email: "Email",
-    newsletter: "The next drops",
-    newsletterLine: "A few pieces, a few times a year. We write when a drop is ready.",
-    newsletterAction: "Subscribe",
-    newsletterClosed: "Sign-up is not open yet.",
     footerNav: "Links",
     collection: "Collection",
     category: "Category",
@@ -436,17 +428,17 @@ export type UIKey = keyof (typeof ui)["it"];
 export const OWNER_EDITABLE = [
   // the sentences the brand speaks
   "handcrafted", "madeInItaly", "shopIntro", "contactIntro", "contactWhere", "contactBuy",
-  "newsletterLine", "outsideCollections", "fitGuidance", "alsoExistsAs",
+  "outsideCollections", "fitGuidance", "alsoExistsAs",
   "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
   "cartIntro", "cartOnePiece", "cartNoPayment", "cartEmpty", "nothingYet", "notFound",
   // the titles that head a part of a page
   "theWork", "theProject", "bodyOfLight", "worn", "theMaking", "processTitle",
-  "newsletter", "otherDrops", "enterDrop", "allCreatures", "cart", "cartPieces",
+  "otherDrops", "enterDrop", "allCreatures", "cart", "cartPieces",
   "cartYourDetails", "support", "worldwideShipping", "shippingReturns", "footerNav",
   // his own words for his own things
   "creatures", "collections", "newDrop", "acquire", "uniqueAction", "cartAdd",
   // the menu, the catalogue's own words, the buttons, and the labels under a piece
-  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "cartSend", "backHome", "newsletterClosed", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
+  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "cartSend", "backHome", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
 ] as const satisfies ReadonlyArray<UIKey>;
 
 const editable = new Set<string>(OWNER_EDITABLE);
