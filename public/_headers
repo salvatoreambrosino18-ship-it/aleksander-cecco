@@ -1,16 +1,21 @@
 # Cloudflare Pages reads this file from the root of the build output.
 #
-# PRE-LAUNCH LOCK. The site carries {PLACEHOLDER} copy and seeded test content,
-# so every response tells crawlers not to index it. This is the second of two
-# locks: the first is the noindex meta tag, which follows the
-# PUBLIC_ALLOW_INDEXING environment variable. This one is deliberately manual,
-# because a header cannot be generated from an environment variable in a static
-# build, and because a second lock that has to be removed by hand is exactly
-# what you want protecting an unfinished site.
+# THE SECOND PRE-LAUNCH LOCK WAS REMOVED FROM HERE ON 2026-08-22, and this note
+# stands in its place so that nobody re-adds it by accident and nobody wonders
+# whether it was ever there.
 #
-# AT LAUNCH: delete the two lines below. See DESIGN-PLAN section 16.
-/*
-  X-Robots-Tag: noindex, nofollow
+# It was `/*  X-Robots-Tag: noindex, nofollow`, applied by Cloudflare to EVERY
+# response — including the ones a meta tag cannot reach: the sitemap, the JSON
+# price list, the photographs. That is why there were two locks rather than one,
+# and why this one was deliberately manual: a header cannot be generated from an
+# environment variable in a static build, and a lock that has to be removed by
+# hand is what you want protecting an unfinished site.
+#
+# The other lock is the noindex meta tag, which follows PUBLIC_ALLOW_INDEXING in
+# the Pages environment. See DESIGN-PLAN sections 16 and 137.
+#
+# TO PUT THE SITE BACK OUT OF SEARCH, both go back: these two lines, and the
+# variable. Removing one leaves a site that is invisible and looks fixed.
 
 # Self-hosted fonts are immutable: their contents never change under the same
 # filename, and a new subset would be a new file. Safe to cache hard.
