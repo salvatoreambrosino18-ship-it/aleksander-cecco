@@ -318,6 +318,17 @@ alle immagini su `cdn.sanity.io` descritta in §2.
 
 ### 6.2 Domande da porre, in ordine di impatto sul sito
 
+> **LE RISPOSTE SONO ARRIVATE IL 23/08/2026** e stanno in
+> `docs/RISPOSTE-LEGALI.md`, accanto a questo file. Le domande chiuse restano
+> scritte qui sotto con la risposta accanto, perché una domanda cancellata è una
+> domanda che qualcuno riporrà. Quello che resta aperto è marcato **APERTA**.
+>
+> **Tre cose vanno ancora messe sul sito**, e nessuna è nostra da scrivere:
+> la mezza frase sulle restrizioni internazionali nella pagina di Severya, i
+> quattro diritti sull'export nelle condizioni di vendita, e la correzione del
+> paragrafo 11 dell'informativa, che descrive un campo newsletter che dal
+> 18/08/2026 non esiste più.
+
 1. **IL DIRITTO DI RECESSO, ED È CAMBIATA LA DOMANDA (2026-08-12).** È la prima
    domanda per impatto, e non è più quella di prima.
 
@@ -371,14 +382,28 @@ alle immagini su `cdn.sanity.io` descritta in §2.
    riserva che stava scritta qui sulle misure che potessero arrivare per email
    dopo una richiesta di su misura, perché il su misura non viene più offerto e
    il sito non lo nomina più da nessuna parte.
-3. **Per quanto tempo vanno conservate le email degli ordini**, e cosa va fatto
-   scaduto quel termine? Serve una regola applicabile a mano da una persona, non
-   automatizzata.
-4. **La casella Gmail personale è adeguata** per ricevere e conservare questi
-   dati, o va spostata su una casella aziendale con contratto? È la modifica
-   tecnica più facile da fare adesso e la più costosa da fare dopo.
-5. **Servono contratti con Cloudflare, Resend e Sanity**, e in che forma? Uno di
-   questi soggetti tratta dati fuori dall'Unione: quali garanzie servono?
+3. **CHIUSA IL 23/08/2026** (`RISPOSTE-LEGALI.md` §2). Le email di ordini,
+   richieste e assistenza si conservano **un anno**, poi si eliminano o si
+   archiviano. Restano fuori dalla regola i documenti che vanno tenuti più a
+   lungo per obblighi di legge, fiscali, contabili o contrattuali, e in caso di
+   contenzioso. È una regola che una persona può applicare a mano, che è quello
+   che era stato chiesto.
+
+   **Non contraddice l'informativa**, e vale la pena dirlo perché sembra di sì:
+   il §«Periodi di conservazione» parla di dieci anni per la documentazione
+   commerciale e contrattuale, che è un'altra cosa dalle email nella casella.
+   Dieci anni la fattura, un anno il messaggio.
+4. **CHIUSA IL 23/08/2026** (`RISPOSTE-LEGALI.md` §3). La casella attuale va
+   bene, purché usata solo per ordini, clienti e assistenza, e purché il
+   titolare tenga accesso riservato, credenziali protette, comunicazioni sicure
+   e cancellazione periodica di ciò che non serve più. Il passaggio a una
+   casella aziendale resta possibile in futuro e non cambia finalità né regole.
+5. **CHIUSA IL 23/08/2026** (`RISPOSTE-LEGALI.md` §4). Non servono contratti
+   cartacei separati con ciascun fornitore: bastano i loro termini di servizio e
+   la loro documentazione privacy, purché disciplinino il trattamento e i ruoli.
+   Il titolare conserva o rende reperibili quei riferimenti. Per i trasferimenti
+   fuori dall'Unione valgono le garanzie previste dalla documentazione
+   contrattuale dei fornitori.
 6. **CHIUSA IL 17/08/2026.** Il titolare del trattamento è **Cecco Trading
    SRLS**, partita IVA **11133331212**, PEC **ceccotrading@pec.it**. La domanda
    che stava qui, se si potesse intestare un'informativa a una persona fisica,
@@ -393,17 +418,28 @@ alle immagini su `cdn.sanity.io` descritta in §2.
    REA con il registro delle imprese e il capitale sociale. **Non sappiamo se
    siano dovuti né in che forma**, e non li abbiamo: se servono, vanno chiesti al
    titolare insieme alla sede.
-7. **Serve un'età minima** per inviare il modulo, e va dichiarata?
-8. **La newsletter**: si può accendere insieme al lancio o conviene dopo, e con
-   quale meccanismo di consenso (§4)?
-9. **La dogana fuori dall'UE.** Sul sito **non c'è più nessuna frase**: quella
-   che diceva che dazi e imposte sono a carico del destinatario è stata tolta il
-   12/08/2026 perché era scritta da noi e non l'aveva confermata nessuno.
-   Verificato il 16/08/2026 sulle pagine pubblicate. Se una frase del genere
-   serve nelle condizioni di vendita, va scritta da chi può confermarla.
-10. **Statistiche in futuro**: se un domani il brand volesse contare le visite
-    con uno strumento senza cookie, cosa cambierebbe nell'informativa?
-11. **UN CAPO IN PELLE DI PITONE, E LA SPECIE È PROTETTA (20/08/2026).**
+7. **APERTA.** Serve un'età minima per inviare il modulo, e va dichiarata?
+   `RISPOSTE-LEGALI.md` non la tocca.
+8. **RISPOSTA IN ARRIVO, DOMANDA NON ESATTAMENTE QUELLA** (`RISPOSTE-LEGALI.md`
+   §6). Non dice QUANDO accenderla, dice **cosa serve prima**: consenso libero e
+   separato dall'ordine, informativa al momento della raccolta con sette
+   contenuti minimi, registrazione dell'iscrizione (indirizzo, data, modalità,
+   versione del testo mostrato) e disiscrizione facile in ogni messaggio.
+
+   **Sul sito, dal 22/08/2026, la newsletter non esiste più da nessuna parte**
+   (sezione 138 del DESIGN-PLAN): il campo era già sparito il 18/08 e il blocco
+   in home è stato tolto. Quindi non c'è niente da configurare finché non si
+   decide di rifarla, e quando si rifarà questa lista è la specifica.
+9. **CHIUSA.** La frase l'ha scritta lui: le condizioni di vendita pubblicate
+   contengono il paragrafo «Spedizioni internazionali», che dice che fuori
+   dall'Unione possono applicarsi dazi, imposte e oneri doganali, e che la loro
+   imputazione è indicata nella conferma d'ordine. Quella nostra, tolta il
+   12/08, non è mai tornata.
+10. **APERTA.** Statistiche in futuro: se un domani il brand volesse contare le
+    visite con uno strumento senza cookie, cosa cambierebbe nell'informativa?
+    `RISPOSTE-LEGALI.md` non la tocca.
+11. **CHIUSA IL 23/08/2026** (`RISPOSTE-LEGALI.md` §1). Le risposte sono in
+    fondo a questo punto. La domanda com'era posta il 20/08:
     Severya è in **pelle di pitone**. Fino al 20/08 il sito diceva «pelle di
     agnello, stampa serpente»: era una frase **nostra**, scritta quando nessuno
     ci aveva detto di che animale fosse, ed era falsa. Il titolare ha
@@ -433,6 +469,26 @@ alle immagini su `cdn.sanity.io` descritta in §2.
       movimento transfrontaliero.
     - Il capo è **1 di 1 dal sample sale**: cambia qualcosa che sia un pezzo già
       esistente e non di nuova produzione?
+
+    **QUELLO CHE HA RISPOSTO**, e cosa comporta per il sito:
+
+    - **La pagina del capo PUÒ dire che è vera pelle di pitone**, e che per
+      alcune destinazioni internazionali possono applicarsi restrizioni o
+      procedure specifiche. La composizione «Pelle di pitone» è già online dal
+      20/08; la seconda metà della frase **non c'è ancora**.
+    - **Il numero della documentazione CITES NON va pubblicato.** Specie,
+      provenienza, documentazione e tracciabilità restano nella documentazione
+      interna, commerciale o doganale del titolare.
+    - **Si può spedire fuori dall'Unione**, con formalità e autorizzazioni che
+      dipendono dal Paese di destinazione, e **la disponibilità della spedizione
+      può variare in base al Paese**.
+    - **Quattro diritti che il brand si riserva** e che vanno nelle condizioni
+      di vendita, dove oggi non ci sono: verificare prima se il prodotto è
+      esportabile; prendersi il tempo per ottenere autorizzazioni o documenti;
+      sospendere o ritardare la spedizione se servono controlli; annullare
+      l'ordine e rimborsare se la spedizione non può avvenire legalmente.
+    - Sul **1 di 1 dal sample sale** non dice nulla di diverso: valgono le
+      stesse regole.
 
 ### 6.3 Dove finiranno questi testi sul sito
 
