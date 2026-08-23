@@ -32,6 +32,8 @@ const SRC = path.join(ROOT, "docs/BENVENUTO.md");
 const OUT = path.join(ROOT, "docs/BENVENUTO.docx");
 const SHOTS_DIR = path.join(ROOT, "docs/benvenuto-shots");
 
+const SIGNATURE_SVG = path.join(ROOT, "assets/logo/logo-signature.svg");
+
 const SHOTS = [
   ["1-schermata-iniziale.png", "La schermata che vedi entrando"],
   ["2-prezzo-e-taglie.png", "Un capo aperto. Le fotografie in cima, il prezzo sotto"],
@@ -70,8 +72,20 @@ const para = (style, inner) =>
 
 /* ------------------------------------------------------------ il markdown */
 
+/*
+  LA FIRMA IN COPERTINA, dallo stesso SVG che il sito mette in cima a ogni
+  pagina. Word non sa disegnare un SVG, quindi si trasforma in PNG qui: e' la
+  stessa immagine, non un disegno rifatto per l'occasione.
+*/
+let signature = null;
+if (fs.existsSync(SIGNATURE_SVG)) {
+  const sharp = (await import("sharp")).default;
+  signature = await sharp(fs.readFileSync(SIGNATURE_SVG), {density: 600}).resize({width: 900}).png().toBuffer();
+}
+
 const lines = fs.readFileSync(SRC, "utf8").split("\n");
 const body = [];
+const extraMedia = [];
 let buffer = [];
 
 const flush = () => {
@@ -101,6 +115,24 @@ for (const line of lines) {
   }
 }
 flush();
+
+if (signature) {
+  const cx = 2200000;
+  const meta = {w: 900, h: Math.round((900 * 1) / 1)};
+  extraMedia.push({buffer: signature, name: "signature.png", rid: "rIdSig"});
+  body.unshift(
+    `<w:p><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0">` +
+      `<wp:extent cx="${cx}" cy="${Math.round(cx * 0.28)}"/><wp:docPr id="99" name="Aleksander Cecco"/>` +
+      `<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">` +
+      `<a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">` +
+      `<pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">` +
+      `<pic:nvPicPr><pic:cNvPr id="99" name="Aleksander Cecco"/><pic:cNvPicPr/></pic:nvPicPr>` +
+      `<pic:blipFill><a:blip r:embed="rIdSig"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>` +
+      `<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${Math.round(cx * 0.28)}"/></a:xfrm>` +
+      `<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr>` +
+      `</pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`,
+  );
+}
 
 /* ---------------------------------------------------------- le schermate */
 
@@ -171,21 +203,21 @@ write(
   `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
 <Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
-${media.map((m) => `<Relationship Id="${m.rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${m.name}"/>`).join("\n")}
+${[...media, ...extraMedia].map((m) => `<Relationship Id="${m.rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${m.name}"/>`).join("\n")}
 </Relationships>`,
 );
 
 const style = (id, name, size, bold, before, after, color) =>
   `<w:style w:type="paragraph" w:styleId="${id}"><w:name w:val="${name}"/><w:pPr>` +
   `<w:spacing w:before="${before}" w:after="${after}" w:line="276" w:lineRule="auto"/></w:pPr>` +
-  `<w:rPr><w:rFonts w:ascii="Helvetica Neue" w:hAnsi="Helvetica Neue"/>` +
+  `<w:rPr><w:rFonts w:ascii="Archivo" w:hAnsi="Archivo"/>` +
   `<w:sz w:val="${size}"/>${bold ? "<w:b/>" : ""}${color ? `<w:color w:val="${color}"/>` : ""}</w:rPr></w:style>`;
 
 write(
   "word/styles.xml",
   `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
-<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Helvetica Neue" w:hAnsi="Helvetica Neue"/><w:sz w:val="22"/></w:rPr></w:rPrDefault></w:docDefaults>
+<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Archivo" w:hAnsi="Archivo"/><w:sz w:val="22"/></w:rPr></w:rPrDefault></w:docDefaults>
 ${style("Title", "Title", 44, true, 0, 240)}
 ${style("Heading2", "heading 2", 30, true, 360, 160)}
 ${style("Heading3", "heading 3", 24, true, 240, 120)}
@@ -205,7 +237,8 @@ ${body.join("\n")}
 </w:body></w:document>`,
 );
 
-if (media.length) fs.mkdirSync(path.join(dir, "word/media"), {recursive: true});
+if (media.length || extraMedia.length) fs.mkdirSync(path.join(dir, "word/media"), {recursive: true});
+for (const m of extraMedia) fs.writeFileSync(path.join(dir, "word/media", m.name), m.buffer);
 for (const m of media) fs.copyFileSync(path.join(SHOTS_DIR, m.file), path.join(dir, "word/media", m.name));
 
 fs.rmSync(OUT, {force: true});
