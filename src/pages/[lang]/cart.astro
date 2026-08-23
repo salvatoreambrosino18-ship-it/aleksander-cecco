@@ -118,7 +118,7 @@ const catalogueJson = JSON.stringify(items).replace(/</g, "\\u003c");
 const currency = items[0]?.currency ?? "EUR";
 ---
 
-<Base locale={locale} title={t(locale, "cart")}>
+<Base locale={locale} title={t(locale, "cart")} noindex>
   <TextSurface class="flex flex-col gap-u5 pt-u13 pb-u8">
     <h1 class="type-display text-display">{t(locale, "cart")}</h1>
   </TextSurface>

@@ -10909,3 +10909,64 @@ The Resend secrets are the obvious one. Three more are not:
 
 And a VAT number is not a privacy notice. It closes the legal-entity item and
 nothing else.
+
+## 137. The launch, and three decisions taken out loud (2026-08-22)
+
+Everything on the required list of section 136 is done: the domain answers on
+his account, orders arrive, the lawyer's texts are in. What is left is the
+switch, and this section exists so that what went live is a record rather than
+a memory.
+
+### The cart stops depending on the pre-launch lock
+
+`PUBLIC_ALLOW_INDEXING` is a lock for an unfinished site, and it comes off once
+for everything. The cart needs something different: it should never be a search
+result, open site or not. It is linked from the header of EVERY page, so a
+crawler cannot miss it, and to anything that does not run scripts it is one
+sentence saying the cart needs JavaScript, twice, once per language.
+
+`astro.config.mjs` already excluded it from the sitemap for that exact reason.
+Now the meta tag says the same thing, through a `noindex` prop on the layout,
+so the two halves of the claim cannot drift apart. Proved before shipping by
+building with `PUBLIC_ALLOW_INDEXING=true`: the cart kept the tag, a Creature
+lost it, and `robots.txt` gained its `Sitemap:` line.
+
+**Written the day the locks came off rather than three weeks later**, which is
+the difference between a launch and a repair.
+
+### DECISION: the nineteen `inventedCopy` entries go live as they are
+
+Nineteen sentences on the site are OURS: both footer lines, shipping and
+returns, the customs line, the shop, drops and contact intros, the process
+text, the about notes, the material facts, the related-piece line.
+
+They are not held back, and this is a decision rather than an oversight. They
+are written in his register, he has read them on the site, and he has not
+objected to any of them. Holding a launch for them would be holding it for our
+own bookkeeping rather than for anything a reader or the owner gains. The flags
+stay set, `launch-check` keeps naming them, and they are replaced as he writes
+his own — after launch, one at a time, at no cost.
+
+### DECISION: `/order-catalogue.json` stays crawlable
+
+It becomes reachable to a crawler when the header lock goes, because a meta tag
+cannot reach a JSON file. It carries slug, name, price, currency, sizes and how
+many exist — **every one of which is printed on the piece's own page**. There is
+nothing in it a visitor could not read anyway, so there is nothing to hide and
+no rule to add.
+
+### What was still ours at the moment the locks came off
+
+Recorded so the first weeks of search results can be read against it:
+
+- **13 invented garment fields**: six Italian descriptions (Monumentus Lux,
+  Monumentus Pants, Styrax, Styrax Red Goat, Tibia Cut, Tomar), four `wornBy`
+  (Oblivion, Monumentus Vest, Monumentus Pants, Monumentus Lux), and
+  Vegmentum's price, description and size — Vegmentum being withdrawn, so
+  nothing is sold at a figure of ours.
+- **82 draft alt texts.** Invisible on the page and the one thing here that
+  reaches search results a visitor never sees, through image search.
+- **19 `inventedCopy` entries**, above.
+
+No structured data anywhere, so nothing can contradict the pages. Eighty-eight
+URLs in the sitemap. Nothing else a crawler sees that a reader does not.

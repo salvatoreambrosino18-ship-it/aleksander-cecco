@@ -32,6 +32,22 @@ interface Props {
   title?: string;
   description?: string;
   /*
+    A PAGE THAT STAYS OUT OF SEARCH ON ITS OWN (2026-08-22).
+
+    `PUBLIC_ALLOW_INDEXING` is the PRE-LAUNCH lock and it comes off once, for
+    the whole site. This is a different thing: a page that should never be a
+    search result even when the site is open, and which therefore must not
+    depend on that switch.
+
+    The cart is the case. It is linked from the header of every page, so a
+    crawler cannot miss it, and what it holds is one visitor's own state — to
+    anything that does not run scripts it is a single sentence saying the cart
+    needs JavaScript, twice, once per language. `astro.config.mjs` already keeps
+    it out of the sitemap for exactly this reason; the sitemap and the tag now
+    say the same thing instead of half of it.
+  */
+  noindex?: boolean;
+  /*
     EVERY PAGE IS PAPER (2026-08-11, section 82). The OWNER decided it, having
     been told what it costs, and no page passes this prop any more.
 
@@ -97,6 +113,7 @@ const {
   locale,
   title,
   description: rawDescription,
+  noindex = false,
   theme = "light",
   image,
   shopChrome = true,
@@ -202,7 +219,7 @@ const shareImage =
       the X-Robots-Tag header in public/_headers, removed by hand at launch.
       DESIGN-PLAN section 16.
     */}
-    {!allowIndexing && <meta name="robots" content="noindex, nofollow" />}
+    {(!allowIndexing || noindex) && <meta name="robots" content="noindex, nofollow" />}
     {canonical && <link rel="canonical" href={canonical.href} />}
     {
       Astro.site &&
