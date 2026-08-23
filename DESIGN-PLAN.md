@@ -10917,6 +10917,18 @@ his account, orders arrive, the lawyer's texts are in. What is left is the
 switch, and this section exists so that what went live is a record rather than
 a memory.
 
+### DONE. The site is in search from 2026-08-22
+
+Both locks are off and it was verified cold rather than assumed:
+
+    meta robots     0 occurrences on /en/
+    x-robots-tag    absent from the response headers
+    robots.txt      carries `Sitemap: https://aleksandercecco.com/sitemap-index.xml`
+
+The property is verified in Google Search Console and `sitemap-index.xml` is
+submitted. **Nothing in this repository should now tell a reader the site is
+hidden**; where it did, it has been corrected.
+
 ### The cart stops depending on the pre-launch lock
 
 `PUBLIC_ALLOW_INDEXING` is a lock for an unfinished site, and it comes off once

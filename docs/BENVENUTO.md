@@ -1,6 +1,6 @@
 # Benvenuto
 
-Questo è il tuo sito. Un foglio solo, da leggere una volta.
+Questo è il tuo sito, ed è aperto. Un foglio solo, da leggere una volta.
 Tutto il resto lo trovi nel pannello, e il pannello parla italiano.
 
 ---
@@ -18,17 +18,24 @@ sito.
 
 ---
 
-## La prima volta che entri
+## Dove sta il negozio adesso
 
-Le credenziali non stanno scritte qui, ed è voluto. Te le mandiamo a parte, per
-messaggio. Un foglio che gira per email o che finisce stampato su un tavolo non
-è il posto dove tenere una password.
+**Tredici capi in vendita**, da 150 a 870 euro. Ogni prezzo lo hai messo tu.
 
-Apri il pannello, entra con l'indirizzo che ti abbiamo dato, e la prima
-schermata che vedi è già quella giusta. Si chiama **Il tuo sito** e contiene le
-cose che farai più spesso, con un pulsante per ognuna.
+**Quattro capi restano sul sito senza vendersi.** Ghezard torna a dicembre,
+Rubedo non si può rifare, Monumentus Lux è esaurito, Vegmentum aspetta un
+prezzo tuo. Le loro pagine funzionano e si leggono, semplicemente non hanno il
+pulsante per comprare.
 
-Non devi cercare niente. Non devi imparare niente prima.
+**Gli ordini arrivano nella tua casella.** Chi compra sceglie la taglia, mette
+nel carrello e manda. La mail arriva a te con il nome, l'indirizzo e cosa ha
+scelto.
+
+**Le condizioni di vendita, la privacy e il diritto di recesso sono online**,
+scritte dall'avvocato. In fondo a ogni pagina ci sono i dati della società, la
+partita IVA e i due indirizzi.
+
+**Il sito è su Google** dal 22 agosto. Prima era nascosto apposta.
 
 ---
 
@@ -43,11 +50,12 @@ Stanno in cima al capo. La prima della lista apre la pagina, ed è anche quella
 che si vede nel catalogo e quando qualcuno condivide il link. Trascina per
 cambiare l'ordine.
 
-**3. Mettere un capo nuovo**
-Il pulsante **+** in alto nella lista dei capi. Servono tre cose. Una
-fotografia, il nome, e poi apri **Impostazioni del capo** in fondo al modulo e
-premi **GENERATE** per l'indirizzo della pagina. Senza quello il capo non si
-pubblica.
+**3. Togliere un capo dalla vendita**
+Non cancellarlo. Apri il capo, vai su **Si può comprare?** e scegli **No,
+adesso non lo faccio**. La pagina resta in piedi, le fotografie restano, il
+link che hai mandato in giro continua a funzionare, e sparisce solo il pulsante
+per comprare. Se vuoi dire perché, scrivilo nella riga qui sotto. Ghezard dice
+«Torna a dicembre» e lo dice così.
 
 **4. Cambiare la home**
 La fotografia di apertura, le tue righe sopra, e la fila di foto che scorre di
@@ -57,6 +65,41 @@ lato.
 Dentro **Le parole del sito** c'è ogni frase che il sito dice. Le caselle sono
 vuote apposta. Vuota vuol dire «lascia la frase che c'è adesso», quindi scrivi
 solo quello che vuoi cambiare.
+
+---
+
+## Mettere un capo nuovo, dall'inizio alla fine
+
+Lo abbiamo fatto tre volte insieme, con Abyssys, Tibia Cut e Tomar. Adesso lo
+puoi fare da solo. Il modulo è già nell'ordine giusto, quindi ti basta scendere.
+
+**1.** Nella lista dei capi, il pulsante **+** in alto.
+
+**2. Le fotografie, per prime.** Trascinale dentro. La prima della lista apre
+la pagina ed è quella che si vede quando mandi il link, quindi mettici la più
+forte, non la prima che hai scattato. Ne basta una per cominciare.
+
+**3. Il prezzo.** Solo il numero, senza euro.
+
+**4. Le taglie.** Spunta quelle che fai. Se il pezzo è uno solo per tutti,
+spunta **Taglia unica**. Se non spunti niente il sito non parte.
+
+**5. Si può comprare?** Lascia **Sì, c'è ed è in vendita**, a meno che non ne
+esista uno solo.
+
+**6. Il nome.**
+
+**7. I testi.** Di cosa è fatto e la descrizione. Scrivili in italiano e in
+inglese. Se lasci vuoto l'inglese, resta vuoto.
+
+**8. L'indirizzo della pagina.** In fondo al modulo apri **Impostazioni del
+capo** e premi **GENERATE**. Senza quello il capo non si pubblica. È l'unica
+cosa nascosta, ed è nascosta perché si fa una volta sola.
+
+**9. Publish.**
+
+Il capo nuovo compare in fondo al catalogo. Se lo vuoi più in alto, trascinalo
+nella lista dei capi, e l'ordine della lista è l'ordine del sito.
 
 ---
 
@@ -75,46 +118,33 @@ telefono che teneva la versione vecchia.
 
 ---
 
-## Cosa manca prima che il negozio possa aprire
+## Cosa resta da fare, ed è poco
 
-Il sito è finito e funziona. Un capo si sceglie, si mette nel carrello e
-l'ordine parte. Quello che manca non è codice, è tuo, e finché manca il sito
-resta fuori da Google apposta.
+Niente di questo tiene chiuso il negozio. Il negozio è aperto. Sono cose scritte
+da noi che aspettano una tua parola, e si sistemano una alla volta quando hai
+tempo.
 
-### Le cose che dipendono da te
+**Sei descrizioni in italiano.** L'inglese è tuo, l'italiano lo abbiamo tradotto
+noi. Sono Monumentus Lux, Monumentus Pants, Styrax, Styrax Red Goat, Tibia Cut e
+Tomar. Leggile e dicci solo quelle sbagliate.
 
-**I prezzi.** Quattordici capi hanno un numero scritto da noi per costruire le
-pagine, e uno non ha nessun prezzo. Chi visita non se ne accorge, ma nessuno di
-quei numeri è tuo. **Sono quindici numeri.**
+**Due prezzi, tutti e due su capi che non si vendono.** Vegmentum ha ancora un
+numero nostro e Rubedo non ne ha nessuno. Finché non ce li dai restano fuori
+dalla vendita, che è meglio che venderli a una cifra che non hai deciso tu.
 
-**I nomi di cinque capi.** Cinque Creature si chiamano ancora `capo-01` e così
-via. Le fotografie ci sono già, manca solo il nome, come hai fatto tu con
-MONUMENTUS, OBLIVION e STYRAX.
+**Ottantadue descrizioni delle fotografie.** Non si vedono sulla pagina. Le
+legge chi non vede, e le legge Google. Le abbiamo scritte noi guardando le foto
+e nessuno le ha ancora controllate.
 
-**Le composizioni di undici capi.** Una riga per dire di che pelle è fatto.
+**Dodici righe sotto le fotografie di dettaglio**, che aspettano una frase tua.
+Apri la pagina, guarda la foto, scrivi la riga.
 
-**Dodici righe sotto i dettagli.** Sotto ogni fotografia di dettaglio manca una
-frase tua. Apri la pagina, guarda la foto, scrivi la riga.
+**Diciannove frasi del sito** sono nostre. Stanno tutte in **Le parole del
+sito** e si cambiano quando vuoi.
 
-**Le descrizioni.** Tredici capi hanno una descrizione scritta da noi.
-
-**Diciotto frasi del sito** sono nostre e aspettano che tu le approvi o le
-riscriva. Stanno tutte in **Le parole del sito**.
-
-**Tre taglie.** Su tre pezzi la taglia unica l'abbiamo decisa noi guardando la
-fotografia. Vesper è una borsa, Vertex è un cappello, Glovyes sono ghette che
-si regolano con le cinghie. Se sbagliamo, correggi.
-
-### Le cose che dipendono da un avvocato
-
-**L'informativa privacy**, le **condizioni di vendita** e il **diritto di
-recesso**. Finché non esistono, gli ordini **non partono per email**. Il modulo
-c'è e funziona, ma chi ordina vede scritto che l'invio non è ancora attivo. È
-voluto, ed è la cosa che tiene chiuso il negozio.
-
-**I dati dell'azienda sul sito.** La partita IVA adesso ce l'hai, ma sul sito
-non compare ancora niente. Servono la denominazione, l'indirizzo e la partita
-IVA, scritti da qualche parte dove chi compra li possa leggere.
+**Su quattro capi abbiamo indovinato noi se sono da uomo o da donna.** Serve
+solo per il filtro nel catalogo. Se un capo è per chiunque, va bene lasciarlo
+vuoto.
 
 ---
 

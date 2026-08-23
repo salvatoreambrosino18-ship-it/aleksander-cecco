@@ -334,7 +334,7 @@ Onestamente, perché tu sappia quando chiamarci:
   che l'invio non è attivo. Serve un testo legale, non un lavoro tecnico.
 - **I pagamenti non ci sono.** Si concordano nella risposta via email. La
   posizione fiscale adesso c'è, quindi il passo successivo è possibile.
-- **Il dominio `aleksandercecco.com` è comprato e in corso di collegamento.**
+- **Il dominio `aleksandercecco.com` è collegato e il sito è online**, dal 22/08/2026, ed è visibile su Google.
   Finché non risponde, il sito si raggiunge all'indirizzo tecnico.
 - **Il sito è nascosto ai motori di ricerca**, apposta, finché non si lancia.
 - **Tagliare un video** non si fa dal pannello. Non serve, però: un video che
