@@ -233,6 +233,25 @@ const ui = {
     cartNoPayment: "Il pagamento non si fa qui. Ti rispondiamo per email e lo definiamo insieme.",
     cartSend: "Invia l'ordine",
     /*
+      LE QUATTRO RIGHE DELLA CARTA. Il sito non le mostra ancora: la pagina le
+      scrive nascoste e le accende solo se /api/checkout risponde che le due
+      variabili Stripe ci sono. Finché non ci sono, il carrello dice quello che
+      ha sempre detto, cioè `cartNoPayment` qui sopra.
+
+      `cartPay` NON È NOSTRA E NON È SUA, ed è l'unica riga di questo file di
+      cui si possa dire. L'art. 51 comma 2 del Codice del consumo vuole che il
+      pulsante che fa nascere l'obbligo di pagare lo dica senza equivoci, e
+      "ordine con obbligo di pagare" è la formula che la norma stessa nomina.
+      Per questo è QUI e non fra le stringhe modificabili dallo studio: una
+      dicitura di legge riscritta in un pomeriggio è un adempimento saltato, non
+      una scelta editoriale. La formula esatta è comunque da confermare
+      all'avvocato insieme al resto, ed è nel documento che gli va mandato.
+    */
+    cartPayIntro: "Puoi pagare adesso con carta, oppure inviare l'ordine e definire il pagamento per email.",
+    cartPay: "Ordina con obbligo di pagare",
+    cartPaid: "Pagamento ricevuto. Grazie. Ti scriviamo per la spedizione.",
+    cartPayProblem: "Il pagamento non è partito e non ti è stato addebitato niente. Riprova, oppure invia l'ordine qui sotto e lo definiamo per email.",
+    /*
       QUANDO IL BROWSER NON ESEGUE SCRIPT. Non è una scusa: è l'unica frase
       onesta che questa pagina può dire, e dice anche dove andare invece.
     */
@@ -382,6 +401,12 @@ const ui = {
     cartOnePiece: "One of one. Only this one exists.",
     cartNoPayment: "Payment does not happen here. We reply by email and settle it with you.",
     cartSend: "Send the order",
+    /* See the Italian above: `cartPay` carries a wording the law asks for, so
+       it is not editable from the studio. */
+    cartPayIntro: "You can pay by card now, or send the order and settle payment by email.",
+    cartPay: "Order with obligation to pay",
+    cartPaid: "Payment received. Thank you. We will write to you about shipping.",
+    cartPayProblem: "The payment did not start and you have not been charged. Try again, or send the order below and we will settle it by email.",
     cartNeedsScript: "The cart needs JavaScript, which is switched off in this browser. Every Creature can still be bought from its own page.",
     wornLine: "On bodies, in daylight.",
     /* See the Italian above (section 137) for why these four are not editable. */
@@ -431,6 +456,10 @@ export const OWNER_EDITABLE = [
   "outsideCollections", "fitGuidance", "alsoExistsAs",
   "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
   "cartIntro", "cartOnePiece", "cartNoPayment", "cartEmpty", "nothingYet", "notFound",
+  /* `cartPay` is absent from this list on purpose, and the reason is in the
+     block that defines it: it is a wording the Codice del consumo asks for, not
+     a sentence the brand gets to choose. */
+  "cartPayIntro", "cartPaid", "cartPayProblem",
   // the titles that head a part of a page
   "theWork", "theProject", "bodyOfLight", "worn", "theMaking", "processTitle",
   "otherDrops", "enterDrop", "allCreatures", "cart", "cartPieces",

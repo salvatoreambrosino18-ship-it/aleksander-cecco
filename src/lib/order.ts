@@ -28,6 +28,27 @@ export type OrderItem = {
   sizes: string[];
   /** How many of it can be ordered. A 1 of 1 is one, by definition. */
   max: number;
+  /**
+   * Whether a BUTTON may sell this, with nobody in the loop.
+   *
+   * Not the same question as `isOrderable`, and the difference is the whole
+   * reason this field exists. Orderable asks whether the piece can be asked
+   * for; this asks whether it can be PAID for at three in the morning while he
+   * is asleep, which is a stricter thing, because the answer to a card payment
+   * is a piece leaving the building.
+   *
+   * It is true only for `readyNow`, and the test is REMAKEABILITY rather than
+   * stock: he cuts another. A `unique` piece is one object — Severya is python
+   * and cannot be made again at all — so two buyers at the same minute is not
+   * two orders, it is one order and one apology. Those stay on the email model,
+   * where he answers, and the owner decided it that way.
+   *
+   * The pleasant consequence: Severya is the only python piece on the site, so
+   * this one condition also keeps every CITES export formality out of the paid
+   * path, where taking the money first would mean refunding a completed sale
+   * rather than declining a request.
+   */
+  payable: boolean;
 };
 
 /**
@@ -59,6 +80,7 @@ export function toOrderItem(g: Garment): OrderItem {
     sizes: g.sizes ?? [],
     /* unique means one exists: quantity cannot go above one. */
     max: g.availability === "unique" ? 1 : 10,
+    payable: g.availability === "readyNow",
   };
 }
 

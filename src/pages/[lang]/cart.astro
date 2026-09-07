@@ -143,6 +143,26 @@ const currency = items[0]?.currency ?? "EUR";
 
     {/* Written by the script, from localStorage, against the catalogue above. */}
     <div class="cart-live flex flex-col gap-u8" hidden>
+      {/*
+        BACK FROM STRIPE, PAID. The card path leaves this site and returns to
+        this same page with ?paid=1, which is the only moment the basket is
+        known to have been bought — so it is the only place it can be emptied,
+        for the reason the confirmation page in enquiry.ts already gives: the
+        cart lives in the visitor's localStorage and no server can reach it.
+        Without this a buyer's basket still holds everything they just paid
+        for, the count in the chrome still says three, and the obvious next act
+        is to buy it again.
+      */}
+      <div data-cart-paid class="flex flex-col gap-u5" hidden>
+        <p class="type-body text-body max-w-prose">{t(locale, "cartPaid")}</p>
+        <a
+          href={localePath(locale, "creature")}
+          class="type-label text-body hairline-under self-start"
+        >
+          {t(locale, "allCreatures")}
+        </a>
+      </div>
+
       <div data-cart-empty class="flex flex-col gap-u5" hidden>
         <p class="type-body text-body max-w-prose">{t(locale, "cartEmpty")}</p>
         <a
@@ -160,6 +180,17 @@ const currency = items[0]?.currency ?? "EUR";
         data-cart-form
         hidden
       >
+        {/*
+          THE CARD PATH DID NOT START. Shown on the way back from a refused
+          /api/checkout, and it says two things on purpose: nothing was charged,
+          and the order can still be sent from this same page. The basket is
+          untouched, so the second sentence is an instruction the reader can
+          follow without moving.
+        */}
+        <p class="type-body text-body max-w-prose" data-cart-problem hidden>
+          {t(locale, "cartPayProblem")}
+        </p>
+
         <p class="type-body text-body max-w-prose">{t(locale, "cartIntro")}</p>
 
         <h2 class="type-label text-label">{t(locale, "cartPieces")}</h2>
@@ -201,7 +232,18 @@ const currency = items[0]?.currency ?? "EUR";
             {t(locale, "returnsLink")}
           </a>
         </div>
-        <p class="type-body text-body max-w-prose">{t(locale, "cartNoPayment")}</p>
+        {/*
+          TWO SENTENCES ABOUT MONEY, AND ONLY ONE IS EVER TRUE.
+
+          The first is what this site has always said and is what it says today.
+          The second is written hidden and is revealed only when /api/checkout
+          answers that both Stripe variables exist in the Cloudflare project. So
+          the page cannot claim a card is accepted while the endpoint that would
+          take it is switched off, which is the failure worth engineering
+          against: a shop that offers a payment it cannot take.
+        */}
+        <p class="type-body text-body max-w-prose" data-no-payment>{t(locale, "cartNoPayment")}</p>
+        <p class="type-body text-body max-w-prose" data-pay-intro hidden>{t(locale, "cartPayIntro")}</p>
 
         {/*
           LA RIGA SUL TRATTAMENTO DEI DATI (2026-08-17, sezione 137). Sta qui,
@@ -237,6 +279,33 @@ const currency = items[0]?.currency ?? "EUR";
         >
           {t(locale, "cartSend")}
         </button>
+
+        {/*
+          THE CARD BUTTON, AND IT IS SECOND FOR A REASON THAT IS NOT TASTE.
+
+          A form's DEFAULT submit — the one the Enter key presses from inside a
+          text field — is the FIRST submit button in the document, and `hidden`
+          does not take a button out of that running. Put this one first and,
+          on every day this feature is switched off, Enter in the email field
+          would post the basket to a checkout endpoint that is not on. Second,
+          it cannot: Enter always sends the order, which is the path that works.
+
+          It is the same form, the same fields and the same validation: only the
+          `formaction` differs, so the size radios are still required and the
+          basket the endpoint prices is the basket the reader is looking at.
+          No script builds this request, which is why there is no third way for
+          it to be wrong.
+        */}
+        <button
+          type="submit"
+          formaction="/api/checkout"
+          class="type-label text-body hairline-under self-start"
+          data-pay-button
+          data-sending={t(locale, "sending")}
+          hidden
+        >
+          {t(locale, "cartPay")}
+        </button>
       </form>
     </div>
   </TextSurface>
@@ -268,6 +337,11 @@ const currency = items[0]?.currency ?? "EUR";
       const empty = document.querySelector("[data-cart-empty]");
       const totalOut = document.querySelector("[data-cart-total]");
       const source = document.querySelector("[data-cart-catalogue]");
+      const paid = document.querySelector("[data-cart-paid]");
+      const problem = document.querySelector("[data-cart-problem]");
+      const payButton = document.querySelector("[data-pay-button]");
+      const payIntro = document.querySelector("[data-pay-intro]");
+      const noPayment = document.querySelector("[data-no-payment]");
       if (!live || !form || !list || !empty || !source) return;
 
       const KEY = "ac-cart";
@@ -500,12 +574,69 @@ const currency = items[0]?.currency ?? "EUR";
         appears to have happened, so a person presses again. The button is not
         disabled — a disabled control leaves the accessibility tree mid-action.
       */
-      form.addEventListener("submit", () => {
-        const button = form.querySelector("button[type=submit]");
+      form.addEventListener("submit", (event) => {
+        /*
+          THE BUTTON THAT WAS PRESSED, not the first one on the form. This read
+          `querySelector("button[type=submit]")` while there was only one, and
+          the moment a second arrived it would have put the sending state on the
+          send button no matter which one the reader actually pressed.
+        */
+        const button = event.submitter || form.querySelector("button[type=submit]");
         if (!button) return;
         button.setAttribute("aria-busy", "true");
         button.textContent = button.dataset.sending;
       });
+
+      const params = new URLSearchParams(location.search);
+
+      /*
+        PAID, AND THEREFORE FINISHED. Stripe sends the buyer back here. Empty
+        the basket, tell the chrome so its count follows, say thank you, and
+        stop: there is no cart left on this page to render, no total to keep in
+        step and no form to guard, so everything below would be machinery
+        running over nothing.
+      */
+      if (params.has("paid") && paid) {
+        try {
+          localStorage.removeItem(KEY);
+        } catch (error) {
+          /* private mode: nothing was stored, so nothing needs removing */
+        }
+        document.dispatchEvent(new CustomEvent("ac-cart-changed"));
+        paid.hidden = false;
+        form.hidden = true;
+        empty.hidden = true;
+        live.hidden = false;
+        return;
+      }
+
+      if (params.has("problem") && problem) problem.hidden = false;
+
+      /*
+        IS THE CARD PATH ON? This page is static HTML written at build time and
+        cannot see a Cloudflare environment variable; /api/checkout can, and
+        answers {"enabled":true} only when both Stripe variables exist. So there
+        is ONE switch — the project's environment — rather than a build flag and
+        a runtime key free to disagree.
+
+        EVERY FAILURE LEAVES THE BUTTON HIDDEN: a network error, a bad status, a
+        body that is not what it should be. That is the direction this page
+        already fails in everywhere else, and its reason holds here too — a
+        control that cannot do its job is worse than no control, and a pay
+        button that cannot take money is the worst of them.
+      */
+      fetch("/api/checkout", {headers: {Accept: "application/json"}})
+        .then((res) => (res.ok ? res.json() : null))
+        .then((info) => {
+          if (!info || info.enabled !== true) return;
+          if (payButton) payButton.hidden = false;
+          if (payIntro) payIntro.hidden = false;
+          /* Only now is the older sentence untrue, so only now does it go. */
+          if (noPayment) noPayment.hidden = true;
+        })
+        .catch(() => {
+          /* Dark, and that is the safe answer. */
+        });
 
       try {
         render();
