@@ -282,31 +282,36 @@ function verdict({seconds, travel, seam}) {
 /* ------------------------------------------------------------------ main */
 
 /*
-  IL TOKEN SERVE SOLO PER SCRIVERE. Il dataset è pubblico, quindi la lettura
-  funziona senza. Se manca proprio quando serve, lo si dice qui e subito: senza
-  questo controllo lo scopriremmo alla riga `tx.commit()`, dopo aver scaricato e
-  misurato ogni video, con un errore HTTP che non nomina la causa.
-*/
-if (WRITE && !process.env.SANITY_WRITE_TOKEN) {
-  console.error(
-    "\n  Manca SANITY_WRITE_TOKEN, e con --write serve per forza.\n" +
-      "  In locale sta in .env; su GitHub in Settings > Secrets and variables > Actions.\n",
-  );
-  process.exit(1);
-}
+  SI LEGGE SENZA TOKEN, ED È IL PUNTO.
 
-const client = createClient({
+  Il dataset è pubblico. Le due query qui sotto sono le stesse che fa il sito, e
+  il sito non ha nessun token. Passarne uno lo rendeva un requisito per LEGGERE,
+  e quindi per OGNI giro — compresi quelli, cioè quasi tutti, che non hanno
+  niente da scrivere.
+
+  Il 01/09/2026 quel token è scaduto (SIO-401-AEX, "Session is expired") e da
+  quel momento il job è fallito a ogni giro: quaranta volte in sei giorni, sempre
+  sulla prima query, sempre per un permesso che quel giro non avrebbe usato. Non
+  uno di quei fallimenti voleva dire qualcosa — non c'era un video nuovo in
+  nessuno di essi — e un allarme che suona quaranta volte a vuoto insegna solo a
+  non aprire più la mail.
+
+  Questo stesso lettore ricontrolla in fondo, da anonimo, che il sito veda i
+  verdetti. Era già un secondo client identico: ora è lo stesso, ed è giusto che
+  sia lo stesso, perché la domanda è la stessa.
+*/
+const reader = createClient({
   projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.PUBLIC_SANITY_DATASET,
   apiVersion: process.env.PUBLIC_SANITY_API_VERSION || "2026-03-01",
-  token: process.env.SANITY_WRITE_TOKEN || process.env.SANITY_READ_TOKEN,
   useCdn: false,
+  perspective: "published",
 });
 
-const assets = await client.fetch(
+const assets = await reader.fetch(
   /* groq */ `*[_type == "sanity.fileAsset" && mimeType match "video/*"]{_id, originalFilename, url}`,
 );
-const measured = new Set(await client.fetch(/* groq */ `*[_type == "videoCheck"].assetId`));
+const measured = new Set(await reader.fetch(/* groq */ `*[_type == "videoCheck"].assetId`));
 const todo = ALL ? assets : assets.filter((a) => !measured.has(a._id));
 
 if (PENDING) {
@@ -326,9 +331,50 @@ console.log(
 */
 if (todo.length > 0) requireFfmpeg();
 
+/*
+  E IL TOKEN VALE LA STESSA IDENTICA REGOLA, per la stessa ragione: serve solo
+  per scrivere, quindi si chiede solo quando c'è qualcosa da scrivere.
+
+  E si controlla che FUNZIONI, non che ci sia. Un token scaduto È presente:
+  guardare se la variabile è piena — che è quello che faceva la versione
+  precedente — lascia passare esattamente il guasto del 01/09. Una richiesta
+  sola, prima di scaricare qualunque cosa, così l'errore nomina la causa invece
+  di arrivare a `tx.commit()` dopo aver scaricato e misurato ogni video.
+*/
+const writer = createClient({
+  projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.PUBLIC_SANITY_DATASET,
+  apiVersion: process.env.PUBLIC_SANITY_API_VERSION || "2026-03-01",
+  token: process.env.SANITY_WRITE_TOKEN,
+  useCdn: false,
+});
+
+if (WRITE && todo.length > 0) {
+  if (!process.env.SANITY_WRITE_TOKEN) {
+    console.error(
+      "\n  Manca SANITY_WRITE_TOKEN, e stavolta serve: c'è un video da misurare.\n" +
+        "  In locale sta in .env; su GitHub in Settings > Secrets and variables > Actions.\n",
+    );
+    process.exit(1);
+  }
+  try {
+    await writer.request({uri: "/users/me"});
+  } catch (err) {
+    console.error(
+      `\n  SANITY_WRITE_TOKEN c'è, ma Sanity lo rifiuta: ` +
+        `${err.response?.body?.message ?? err.message}\n` +
+        `  Va rifatto su sanity.io/manage > ${process.env.PUBLIC_SANITY_PROJECT_ID} > API > Tokens,\n` +
+        "  con permesso Editor, e rimesso in DUE posti: .env qui, e il secret su GitHub.\n" +
+        `  Intanto i ${todo.length} video nuovi partono una volta sola, che è il default\n` +
+        "  giusto: non si rompe niente, resta solo da decidere se possono andare in loop.\n",
+    );
+    process.exit(1);
+  }
+}
+
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), "videocheck-"));
 const rows = [];
-const tx = client.transaction();
+const tx = writer.transaction();
 
 try {
   for (const asset of todo) {
@@ -413,16 +459,12 @@ if (!WRITE) {
     ogni video sarebbe partito una volta sola per sempre, senza un errore da
     nessuna parte, e nessuno se ne sarebbe accorto. Un default sicuro nasconde
     i propri guasti, quindi il guasto va cercato apposta.
+
+    `reader` È quel lettore anonimo — lo stesso che ha aperto lo script. Da qui
+    in giù la domanda e chi la fa sono identici a quelli del sito.
   */
-  const anon = createClient({
-    projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
-    dataset: process.env.PUBLIC_SANITY_DATASET,
-    apiVersion: process.env.PUBLIC_SANITY_API_VERSION || "2026-03-01",
-    useCdn: false,
-    perspective: "published",
-  });
   await new Promise((r) => setTimeout(r, 2000));
-  const visible = await anon.fetch(`count(*[_type == "videoCheck"])`);
+  const visible = await reader.fetch(`count(*[_type == "videoCheck"])`);
   if (visible < expected) {
     console.error(
       `\n  ATTENZIONE: dovrebbero esserci ${expected} controlli ma il sito ne vede ${visible}.\n` +
