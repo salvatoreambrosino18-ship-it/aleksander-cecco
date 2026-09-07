@@ -328,10 +328,27 @@ const ui = {
     soldOut: "Sold out",
     noneMatch: "Nothing matches those filters.",
     noneMatchHint: "Clear the filter to see everything.",
-    allCreatures: "All Creature",
+    /*
+      THE ENGLISH PLURAL TAKES AN S (2026-09-07, the owner). His word stays his
+      word — the pieces are Creature, singular Creatura — but "All Creature"
+      reads in English as a singular, and he asked for the plural to say so.
+
+      ONLY THE ENGLISH MOVES. "Creature" IS the Italian plural, so the three
+      strings in the block above are already right and "Tutte le Creatures"
+      would be wrong.
+
+      AND THE URL DOES NOT MOVE, which is his decision too. `MENU_DESTINATIONS`
+      keeps the label and the path apart — {key: "creatures", path: "creature"}
+      — so the word can change without a single link moving. It matters that it
+      does not: /creature/ is ONE path serving both languages, an English plural
+      under /it/ would be wrong, and public/_redirects records at length what a
+      redirect added over a live path does to it. The Rubedo failure took a
+      session to find and cost nothing to avoid here.
+    */
+    allCreatures: "All Creatures",
     previousCreature: "Previous",
     nextCreature: "Next",
-    countCreatures: "Creature",
+    countCreatures: "Creatures",
     gallery: "Gallery",
     process: "Process",
     designer: "The designer",
@@ -374,7 +391,7 @@ const ui = {
     bodyOfLight: "BODY OF LIGHT",
     worn: "Worn",
     theMaking: "The making",
-    creatures: "Creature",
+    creatures: "Creatures",
     support: "Support",
     worldwideShipping: "Worldwide shipping",
     madeInItaly: "Handcrafted in South Italy",
