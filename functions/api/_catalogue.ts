@@ -47,24 +47,75 @@ type CatalogueItem = {
 };
 
 /**
+ * The shipping table, exactly as src/lib/shipping.ts defines it.
+ *
+ * It travels in this file rather than being imported because a Pages Function
+ * and the site are two builds; the catalogue is already the one channel through
+ * which the server is handed a fact it may believe, and the price of a parcel
+ * is the same kind of fact as the price of a coat.
+ */
+export type Shipping = {
+  /** Euro, INCLUSIVE: an order of exactly this much ships free. */
+  freeFrom: number;
+  rates: {europe: number; world: number};
+  europe: string[];
+  world: string[];
+};
+
+export type Catalogue = {items: Map<string, CatalogueItem>; shipping: Shipping};
+
+/**
  * The till roll, from this site's own origin.
  *
  * Returns null when it cannot be read, and the caller must REFUSE rather than
  * fall back to the figures in the POST. An order sheet with the wrong total is
  * worse than one that never arrived, because he would act on it.
+ *
+ * The shipping block is required for the same reason: an endpoint that cannot
+ * read what a parcel costs must not guess, and must not treat "unknown" as
+ * "free".
  */
-export async function loadCatalogue(request: Request): Promise<Map<string, CatalogueItem> | null> {
+export async function loadCatalogue(request: Request): Promise<Catalogue | null> {
   try {
     const res = await fetch(new URL("/order-catalogue.json", request.url).toString(), {
       cf: {cacheTtl: 300},
     } as RequestInit);
     if (!res.ok) return null;
-    const body = (await res.json()) as {items?: CatalogueItem[]};
+    const body = (await res.json()) as {items?: CatalogueItem[]; shipping?: Shipping};
     if (!body?.items?.length) return null;
-    return new Map(body.items.map((i) => [i.slug, i]));
+    const s = body.shipping;
+    if (!s || typeof s.freeFrom !== "number" || !s.rates || !Array.isArray(s.europe) || !Array.isArray(s.world)) {
+      return null;
+    }
+    return {items: new Map(body.items.map((i) => [i.slug, i])), shipping: s};
   } catch {
     return null;
   }
+}
+
+/**
+ * What a basket of `goodsTotal` costs to send to `country`.
+ *
+ * The same rule as src/lib/shipping.ts, over the same numbers, because they
+ * arrived from there. `goodsTotal` is the PIECES ONLY: shipping is never part
+ * of the sum that decides whether shipping is free.
+ *
+ * Null means we do not ship there, and the caller must refuse. Null is not
+ * zero.
+ */
+export function shippingFor(
+  shipping: Shipping,
+  goodsTotal: number,
+  country: string,
+): {zone: "europe" | "world"; amount: number} | null {
+  const code = country.trim().toUpperCase();
+  const zone = shipping.europe.includes(code)
+    ? ("europe" as const)
+    : shipping.world.includes(code)
+      ? ("world" as const)
+      : null;
+  if (!zone) return null;
+  return {zone, amount: goodsTotal >= shipping.freeFrom ? 0 : shipping.rates[zone]};
 }
 
 /**

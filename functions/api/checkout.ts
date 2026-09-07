@@ -3,23 +3,34 @@
   piece of server-side code on this site.
 
   IT SHIPS DARK, AND THAT IS THE POINT OF THE FILE. Nothing here can sell
-  anything until two environment variables exist in the Cloudflare project. Both
-  are absent today and are meant to stay absent until the reissued terms of sale
-  are transcribed into src/content/legal.ts. Until then this endpoint answers
-  "not switched on", the cart never renders a pay button, and the site sells
-  exactly as it did yesterday.
+  anything until STRIPE_SECRET_KEY exists in the Cloudflare project. It is
+  absent today and is meant to stay absent until the reissued terms of sale are
+  transcribed into src/content/legal.ts. Until then this endpoint answers "not
+  switched on", the cart never renders a pay button, and the site sells exactly
+  as it did yesterday.
 
-    STRIPE_SECRET_KEY          the account. Without it: dark.
-    STRIPE_SHIPPING_COUNTRIES  where he will send a parcel. Without it: dark.
+  THERE USED TO BE A SECOND SWITCH, STRIPE_SHIPPING_COUNTRIES, and it is gone on
+  purpose. It existed to force a decision nobody had taken: which countries the
+  brand ships to, and at what price. He took it on 2026-09-07 — 15 euro in
+  Europe, 35 to the rest of the world, free from 500 — so the list belongs in
+  src/lib/shipping.ts with the rates it goes with, not in a dashboard field
+  where it could quietly disagree with them.
 
-  THE SECOND ONE IS A SWITCH ON PURPOSE, and it is the only decision in this
-  file that is not ours. Today shipping is free and settled in the reply email,
-  so nobody has ever had to write down which countries the brand ships to; a
-  buyer in Australia sends an order and he decides afterwards. A checkout takes
-  the money BEFORE he decides, so the list has to exist first. Defaulting it to
-  Italy would be us making that call quietly, and defaulting it to everywhere
-  would be free worldwide shipping chosen by an absent variable. So there is no
-  default: unset means the card path stays shut and says so in the log.
+  WHERE THE PRICE OF A PARCEL COMES FROM. Not from this file and not from an
+  environment variable: from /order-catalogue.json, which this endpoint already
+  fetches to price the pieces, and which the build writes from
+  src/lib/shipping.ts. The cart page draws its picker from that same module. So
+  the figure the buyer is shown and the figure Stripe is given have one origin,
+  and the endpoint cannot invent a shipping price any more than it can invent
+  the price of a coat.
+
+  STRIPE CANNOT PRICE BY DESTINATION, WHICH IS WHY THE CART ASKS. Stripe's own
+  documentation is flat about it: "The hosted page integration doesn't support
+  dynamically customizing shipping options." It collects the address AFTER the
+  session exists, and there is no callback to reprice. So the destination is
+  asked for on our page, BEFORE the session is made, and then
+  `allowed_countries` is locked to that one country — otherwise a buyer could
+  pick Italy for the 15 euro rate and type a Japanese address into Stripe.
 
   ONLY `readyNow` PIECES CAN BE PAID FOR. The two 1 of 1 pieces — Severya and
   Styrax Red Goat — are orderable and are NOT payable, and the flag comes from
@@ -43,28 +54,17 @@
   Stripe collects. Stripe's own limits apply on top. If that ever stops being
   true the limiter in enquiry.ts is the one to reuse, not a second one.
 */
-import {loadCatalogue, priceLines} from "./_catalogue";
+import {loadCatalogue, priceLines, shippingFor} from "./_catalogue";
 
 type Env = {
   /** The Stripe secret key, `sk_live_…` or `sk_test_…`. Absent today. */
   STRIPE_SECRET_KEY?: string;
-  /**
-   * Two-letter ISO country codes he will ship to, comma separated, e.g.
-   * "IT,FR,DE,ES". His decision, not ours. See the header.
-   */
-  STRIPE_SHIPPING_COUNTRIES?: string;
 };
 
-/** Both switches on, or the card path does not exist. */
-function live(env: Env): {key: string; countries: string[]} | null {
+/** The one switch. Without it the card path does not exist. */
+function live(env: Env): {key: string} | null {
   const key = env.STRIPE_SECRET_KEY?.trim();
-  if (!key) return null;
-  const countries = (env.STRIPE_SHIPPING_COUNTRIES ?? "")
-    .split(/[\s,]+/)
-    .map((c) => c.trim().toUpperCase())
-    .filter((c) => /^[A-Z]{2}$/.test(c));
-  if (countries.length === 0) return null;
-  return {key, countries};
+  return key ? {key} : null;
 }
 
 const LOCALES = ["it", "en"] as const;
@@ -72,10 +72,10 @@ type Locale = (typeof LOCALES)[number];
 const toLocale = (v: unknown): Locale =>
   LOCALES.includes(String(v) as Locale) ? (String(v) as Locale) : "en";
 
-/** Free shipping, in the language of the page the buyer came from. */
-const SHIPPING_LABEL: Record<Locale, string> = {
-  it: "Spedizione inclusa",
-  en: "Shipping included",
+/** What the shipping line is called on Stripe's page, in their language. */
+const SHIPPING_LABEL: Record<Locale, {free: string; paid: string}> = {
+  it: {free: "Spedizione inclusa", paid: "Spedizione"},
+  en: {free: "Shipping included", paid: "Shipping"},
 };
 
 /*
@@ -122,18 +122,14 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   };
 
   const on = live(env);
-  if (!on) {
-    return back(
-      env.STRIPE_SECRET_KEY?.trim()
-        ? "STRIPE_SHIPPING_COUNTRIES is unset or holds no valid country code, so there is no shipping destination list to offer"
-        : "STRIPE_SECRET_KEY is unset: the card path is not switched on",
-    );
-  }
+  if (!on) return back("STRIPE_SECRET_KEY is unset: the card path is not switched on");
 
   const catalogue = await loadCatalogue(request);
-  if (!catalogue) return back("order-catalogue.json unreachable, refusing rather than pricing from the form");
+  if (!catalogue) {
+    return back("order-catalogue.json unreachable or missing its shipping block, refusing rather than guessing");
+  }
 
-  const lines = priceLines(form, catalogue);
+  const lines = priceLines(form, catalogue.items);
   if (lines.length === 0) return back("nothing in the basket that this site sells");
 
   /*
@@ -151,6 +147,26 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const currency = (lines[0]?.currency ?? "EUR").toLowerCase();
   if (lines.some((l) => (l.currency ?? "EUR").toLowerCase() !== currency)) {
     return back("basket mixes currencies, which no single Stripe session can take");
+  }
+
+  /*
+    WHERE IT IS GOING, chosen on our cart and re-decided here.
+
+    The picker on the cart is a convenience for the buyer and a display of the
+    figure; it is not evidence. This is a form field, so it is whatever arrived
+    in the POST, and a country we do not ship to is a REFUSAL rather than a
+    fallback to free — the one mistake in this file that would cost real money
+    on every order to a country nobody priced.
+  */
+  const goods = lines.reduce((sum, l) => sum + l.price * l.qty, 0);
+  const destination = String(form.get("destination") ?? "").trim().toUpperCase();
+  const ship = shippingFor(catalogue.shipping, goods, destination);
+  if (!ship) {
+    return back(
+      destination
+        ? `no shipping price for "${destination}": not a country this shop sends to`
+        : "no destination chosen, and shipping cannot be priced without one",
+    );
   }
 
   const body = new URLSearchParams();
@@ -193,20 +209,32 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     body.set(`line_items[${i}][quantity]`, String(line.qty));
   });
 
-  on.countries.forEach((code, i) => {
-    body.set(`shipping_address_collection[allowed_countries][${i}]`, code);
-  });
+  /*
+    LOCKED TO THE ONE COUNTRY THEY PICKED, and this is the whole safety of the
+    design. Offer a list and Stripe lets them enter any address on it, while the
+    shipping figure was fixed when the session was made: pick Italy for 15 euro,
+    type a Tokyo address, and the parcel costs 35 to send and 15 to have been
+    paid for. One country in the list, and the address they can type is the
+    address they were priced for.
+
+    The visible cost is that changing your mind means going back to the cart.
+    That is the correct direction: the alternative is a shop that is wrong about
+    money and does not know it.
+  */
+  body.set("shipping_address_collection[allowed_countries][0]", destination);
 
   /*
-    ONE SHIPPING OPTION AT ZERO. Shipping is free today and settled in the
-    reply; this says the same thing at the moment the money moves, so the buyer
-    sees a total that is the total. If he ever decides to charge for it, the
-    amount below is the only line that changes.
+    ONE SHIPPING OPTION, THE ONE THEY WERE QUOTED. Its amount was computed from
+    the table the build wrote, not from anything in the POST, so the figure the
+    cart displayed and the figure Stripe charges come from the same numbers.
   */
   body.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
-  body.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", "0");
+  body.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(Math.round(ship.amount * 100)));
   body.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", currency);
-  body.set("shipping_options[0][shipping_rate_data][display_name]", SHIPPING_LABEL[locale]);
+  body.set(
+    "shipping_options[0][shipping_rate_data][display_name]",
+    ship.amount === 0 ? SHIPPING_LABEL[locale].free : SHIPPING_LABEL[locale].paid,
+  );
 
   /* What he needs beside the money, in the Stripe dashboard and in its email. */
   const name = String(form.get("name") ?? "").trim().slice(0, 120);
@@ -214,6 +242,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const note = String(form.get("note") ?? "").trim().slice(0, 480);
   if (note) body.set("metadata[note]", note);
   body.set("metadata[lang]", locale);
+  body.set("metadata[shipping]", `${destination} ${ship.zone} ${ship.amount}`);
   body.set("metadata[pieces]", lines.map((l) => `${l.qty}x ${l.slug}${l.size ? `/${l.size}` : ""}`).join(", ").slice(0, 480));
 
   let session: {url?: string; error?: {message?: string}};

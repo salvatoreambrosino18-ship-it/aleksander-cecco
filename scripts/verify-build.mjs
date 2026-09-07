@@ -87,6 +87,104 @@ if (!fs.existsSync(DIST)) {
   }
 }
 
+/*
+  3. DOES THE BANNER PROMISE THE NUMBER THE TILL CHARGES?
+
+  The free-shipping threshold exists twice and cannot exist once. The code's
+  copy is in src/lib/shipping.ts and reaches the payment endpoint through
+  /order-catalogue.json. The other is a SENTENCE THE OWNER WRITES, in Sanity,
+  in his own words, in two languages — and he can change it from his phone.
+
+  Nothing links them. If he ever types 400 into that sentence, the banner on
+  every page promises free shipping over 400 and the checkout goes on charging
+  under 500, and no test, no type and no exit code notices: the site builds
+  green and lies on every page. That is precisely the failure the top of this
+  file was written about, arriving by a different road.
+
+  So this reads the number the build actually shipped, out of the catalogue, and
+  the sentence the build actually rendered, out of the banner, and refuses when
+  they name different figures.
+
+  IT DOES NOT REQUIRE HIM TO MENTION A NUMBER AT ALL. A sentence with no digits
+  in it is vaguer, not wrong, and he is allowed to write one. What he is not
+  allowed to do is publish a DIFFERENT number from the one the shop charges,
+  because that is a promise the shop will not keep.
+*/
+const CATALOGUE = path.join(DIST, "order-catalogue.json");
+let checked = null;
+if (fs.existsSync(CATALOGUE) && fs.existsSync(DIST)) {
+  let threshold = null;
+  try {
+    threshold = JSON.parse(fs.readFileSync(CATALOGUE, "utf8"))?.shipping?.freeFrom ?? null;
+  } catch {
+    threshold = null;
+  }
+
+  if (typeof threshold !== "number") {
+    problems.push(
+      "order-catalogue.json carries no shipping.freeFrom, so /api/checkout has no\n" +
+        "      threshold to price against and would refuse every card order.",
+    );
+  } else {
+    /*
+      IT LOOKS FOR THE BANNER RATHER THAN ASSUMING WHERE IT IS, AND SAYS SO WHEN
+      IT CANNOT FIND ONE.
+
+      The first version of this check read dist/<lang>/index.html and moved on
+      quietly if the banner was not in it. The banner is not in it: the home page
+      opens on a full-bleed photograph and suppresses the chrome, so the element
+      only exists on the other ninety pages. The check therefore passed every
+      build without ever having looked at anything — a guard that reports
+      success because it failed to run, which is the exact shape of the fault
+      the top of this file exists to catch. It was found by deliberately
+      breaking the banner and watching nothing happen.
+
+      So: the pages are searched, and finding NO banner is itself a problem.
+    */
+    const banners = new Map();
+    for (const lang of ["it", "en"]) {
+      const dir = path.join(DIST, lang);
+      if (!fs.existsSync(dir)) continue;
+      const seek = (d) => {
+        for (const entry of fs.readdirSync(d, {withFileTypes: true})) {
+          if (banners.has(lang)) return;
+          const f = path.join(d, entry.name);
+          if (entry.isDirectory()) seek(f);
+          else if (entry.name.endsWith(".html")) {
+            const hit = /class="[^"]*banner-line[^"]*"[^>]*>([^<]*)</.exec(fs.readFileSync(f, "utf8"));
+            if (hit) banners.set(lang, {sentence: hit[1].trim(), where: path.relative(DIST, f)});
+          }
+        }
+      };
+      seek(dir);
+
+      const found = banners.get(lang);
+      if (!found) {
+        problems.push(
+          `No ${lang.toUpperCase()} shipping banner was found in any built page, so the\n` +
+            "      promise the shop makes about free shipping could not be checked against the\n" +
+            `      ${threshold} the checkout charges by. Either the banner was removed on purpose\n` +
+            "      and this check should go with it, or it stopped rendering and nobody noticed.",
+        );
+        continue;
+      }
+
+      const wrong = (found.sentence.match(/\d+/g) ?? []).filter((n) => Number(n) !== threshold);
+      if (wrong.length > 0) {
+        problems.push(
+          `The ${lang.toUpperCase()} banner names ${wrong.join(", ")} and the shop charges by ${threshold}.\n` +
+            `      It reads: "${found.sentence}" (${found.where})\n` +
+            "      That sentence is his, in Sanity under Spedizione gratuita. Either it says\n" +
+            `      ${threshold}, or src/lib/shipping.ts changes to agree with it. A banner that\n` +
+            "      promises one number while the checkout charges by another is a promise the\n" +
+            "      shop breaks on every order between the two.",
+        );
+      }
+    }
+    checked = threshold;
+  }
+}
+
 if (problems.length) {
   console.error("\n  THE BUILD COMPLETED AND THE SITE IS WRONG.\n");
   for (const problem of problems) console.error(`    - ${problem}\n`);
@@ -94,4 +192,10 @@ if (problems.length) {
   process.exit(1);
 }
 
-console.log("  verify-build: queries clean, photographs present.");
+/* A green line that names what it looked at. "Passed" without a number is how
+   the banner check spent its first build verifying nothing. */
+console.log(
+  `  verify-build: queries clean, photographs present, banner and checkout agree on ${
+    checked ?? "?"
+  }.`,
+);

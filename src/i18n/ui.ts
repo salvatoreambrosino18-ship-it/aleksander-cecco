@@ -252,6 +252,18 @@ const ui = {
     cartPaid: "Pagamento ricevuto. Grazie. Ti scriviamo per la spedizione.",
     cartPayProblem: "Il pagamento non è partito e non ti è stato addebitato niente. Riprova, oppure invia l'ordine qui sotto e lo definiamo per email.",
     /*
+      LE RIGHE DELLA SPEDIZIONE. Sono etichette di campo, non voce del marchio,
+      quindi restano qui e non fra le stringhe modificabili dallo studio: una
+      casella "Dove lo mandiamo" senza etichetta e' un modulo rotto, non una
+      scelta editoriale. La riga che PROMETTE la spedizione gratuita e' invece
+      sua, sta in Sanity (`shippingFree`) e non e' qui.
+    */
+    cartDestination: "Dove lo mandiamo",
+    cartDestinationChoose: "Scegli il paese",
+    cartShipping: "Spedizione",
+    cartShippingFree: "Gratis",
+    cartToPay: "Da pagare",
+    /*
       QUANDO IL BROWSER NON ESEGUE SCRIPT. Non è una scusa: è l'unica frase
       onesta che questa pagina può dire, e dice anche dove andare invece.
     */
@@ -424,6 +436,12 @@ const ui = {
     cartPay: "Order with obligation to pay",
     cartPaid: "Payment received. Thank you. We will write to you about shipping.",
     cartPayProblem: "The payment did not start and you have not been charged. Try again, or send the order below and we will settle it by email.",
+    /* Field labels, so they stay ours. See the Italian above. */
+    cartDestination: "Where are we sending it",
+    cartDestinationChoose: "Choose a country",
+    cartShipping: "Shipping",
+    cartShippingFree: "Free",
+    cartToPay: "To pay",
     cartNeedsScript: "The cart needs JavaScript, which is switched off in this browser. Every Creature can still be bought from its own page.",
     wornLine: "On bodies, in daylight.",
     /* See the Italian above (section 137) for why these four are not editable. */

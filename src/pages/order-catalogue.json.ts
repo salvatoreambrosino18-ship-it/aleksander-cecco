@@ -21,6 +21,7 @@
 */
 import type {APIRoute} from "astro";
 import {orderCatalogue} from "../lib/order";
+import {SHIPPING} from "../lib/shipping";
 
 export const GET: APIRoute = async () => {
   /*
@@ -32,7 +33,15 @@ export const GET: APIRoute = async () => {
   */
   const items = await orderCatalogue();
 
-  return new Response(JSON.stringify({items}, null, 1), {
+  /*
+    AND WHAT A PARCEL COSTS, from src/lib/shipping.ts, for the same reason the
+    prices are here: the payment endpoint needs the threshold, the two rates and
+    the two country lists, and the only safe way for it to have them is to read
+    the ones the build wrote. It already fetches this file, so this costs one
+    key and removes the possibility of the shop and the till disagreeing about
+    the price of a parcel.
+  */
+  return new Response(JSON.stringify({items, shipping: SHIPPING}, null, 1), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "public, max-age=300",
