@@ -264,6 +264,13 @@ const ui = {
     cartShippingFree: "Gratis",
     cartToPay: "Da pagare",
     /*
+      I PEZZI UNICI, quando non si possono pagare. Sono stati, non voce del
+      marchio: dicono perché il pulsante non c'è, e restano qui.
+    */
+    cartHeld: "Qualcun altro sta pagando questo pezzo proprio adesso. Se non conclude, torna disponibile entro mezz'ora.",
+    cartSold: "Questo pezzo è appena stato venduto. Toglilo dal carrello per pagare il resto.",
+    cartUniqueOff: "Questo pezzo in questo momento non si può pagare.",
+    /*
       QUANDO IL BROWSER NON ESEGUE SCRIPT. Non è una scusa: è l'unica frase
       onesta che questa pagina può dire, e dice anche dove andare invece.
     */
@@ -442,6 +449,9 @@ const ui = {
     cartShipping: "Shipping",
     cartShippingFree: "Free",
     cartToPay: "To pay",
+    cartHeld: "Someone else is paying for this piece right now. If they don't finish, it becomes available again within half an hour.",
+    cartSold: "This piece has just been sold. Remove it from the cart to pay for the rest.",
+    cartUniqueOff: "This piece cannot be paid for right now.",
     cartNeedsScript: "The cart needs JavaScript, which is switched off in this browser. Every Creature can still be bought from its own page.",
     wornLine: "On bodies, in daylight.",
     /* See the Italian above (section 137) for why these four are not editable. */

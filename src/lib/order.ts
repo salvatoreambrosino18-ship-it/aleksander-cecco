@@ -29,26 +29,22 @@ export type OrderItem = {
   /** How many of it can be ordered. A 1 of 1 is one, by definition. */
   max: number;
   /**
-   * Whether a BUTTON may sell this, with nobody in the loop.
+   * Whether this is the only one there is.
    *
-   * Not the same question as `isOrderable`, and the difference is the whole
-   * reason this field exists. Orderable asks whether the piece can be asked
-   * for; this asks whether it can be PAID for at three in the morning while he
-   * is asleep, which is a stricter thing, because the answer to a card payment
-   * is a piece leaving the building.
+   * IT USED TO DECIDE WHO MAY SELL IT, and it no longer does. Until 2026-10-10
+   * this was `payable`, true only for `readyNow`: a 1 of 1 stayed on the email
+   * model because two buyers in the same minute is one order and one apology,
+   * and Severya, which is python, kept every CITES formality out of the paid
+   * path. The owner now has the full documentation with the lawyer and lifted
+   * that, so every orderable piece is paid by card.
    *
-   * It is true only for `readyNow`, and the test is REMAKEABILITY rather than
-   * stock: he cuts another. A `unique` piece is one object — Severya is python
-   * and cannot be made again at all — so two buyers at the same minute is not
-   * two orders, it is one order and one apology. Those stay on the email model,
-   * where he answers, and the owner decided it that way.
-   *
-   * The pleasant consequence: Severya is the only python piece on the site, so
-   * this one condition also keeps every CITES export formality out of the paid
-   * path, where taking the money first would mean refunding a completed sale
-   * rather than declining a request.
+   * What it decides now is HOW: a unique piece is claimed in the HOLDS database
+   * before a Checkout Session is made for it, so two people pressing pay at the
+   * same instant cannot both be charged for it, and it is marked sold — in the
+   * database at once, in the studio by the webhook — when the money arrives.
+   * See functions/api/_holds.ts.
    */
-  payable: boolean;
+  unique: boolean;
 };
 
 /**
@@ -80,7 +76,7 @@ export function toOrderItem(g: Garment): OrderItem {
     sizes: g.sizes ?? [],
     /* unique means one exists: quantity cannot go above one. */
     max: g.availability === "unique" ? 1 : 10,
-    payable: g.availability === "readyNow",
+    unique: g.availability === "unique",
   };
 }
 

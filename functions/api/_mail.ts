@@ -128,6 +128,13 @@ export async function send(
       }),
     });
     if (res.ok) return {ok: true};
+    /*
+      409 IS RESEND SAYING THIS KEY WAS ALREADY USED — the message was sent, or
+      is being sent by the request that got there first. Treating it as a
+      failure would turn every retried webhook into three days of 500s over a
+      letter that has already arrived.
+    */
+    if (res.status === 409 && msg.idempotencyKey) return {ok: true};
     // WHY, not just that: Resend's body names the reason, and it goes to the
     // function log, never to anyone outside.
     const reason = await res.text().catch(() => "(no body)");

@@ -327,6 +327,8 @@ const currency = items[0]?.currency ?? "EUR";
         </div>
 
         <input type="hidden" name="lang" value={locale} />
+        {/* This browser's id for the 1 of 1 lock: written by the script, see _holds.ts. */}
+        <input type="hidden" name="holder" value="" data-holder />
         <input type="hidden" name="renderedAt" value={String(Date.now())} />
 
         <button
@@ -386,6 +388,9 @@ const currency = items[0]?.currency ?? "EUR";
         remove: t(locale, "cartRemove"),
         onePiece: t(locale, "cartOnePiece"),
         free: t(locale, "cartShippingFree"),
+        held: t(locale, "cartHeld"),
+        sold: t(locale, "cartSold"),
+        unavailable: t(locale, "cartUniqueOff"),
       },
     }}
   >
@@ -500,6 +505,11 @@ const currency = items[0]?.currency ?? "EUR";
         link.href = item.href;
         naming.append(link, el("span", "type-mono text-mono", fmt.format(item.price)));
         if (item.max === 1) naming.append(el("span", "type-label text-label", labels.onePiece));
+        /* Why this piece cannot be paid for, when it cannot. Written by `block()`. */
+        const why = el("p", "type-body text-body max-w-prose");
+        why.dataset.blocked = "";
+        why.hidden = true;
+        naming.append(why);
         left.append(naming);
 
         const controls = el("div", "flex flex-wrap items-end gap-u5");
@@ -576,6 +586,7 @@ const currency = items[0]?.currency ?? "EUR";
           rendered lines rather than from what was stored.
         */
         sync(true);
+        block();
         const has = list.children.length > 0;
         form.hidden = !has;
         empty.hidden = has;
@@ -651,6 +662,28 @@ const currency = items[0]?.currency ?? "EUR";
       if (destination) destination.addEventListener("change", showShipping);
 
       /*
+        THE 1 OF 1 PIECES THE TILL WILL NOT TAKE, as /api/checkout reports them:
+        sold, being paid for by somebody else this minute, or not lockable at
+        all. Said beside the piece, and the card button goes while any of them
+        is in the basket — pressing it would only come back refused.
+      */
+      let blocked = new Map();
+      let cardOn = false;
+      function block() {
+        let any = false;
+        for (const li of list.querySelectorAll(".cart-line")) {
+          const why = blocked.get(li.dataset.slug);
+          const note = li.querySelector("[data-blocked]");
+          if (note) {
+            note.hidden = !why;
+            note.textContent = why ? labels[why] : "";
+          }
+          if (why) any = true;
+        }
+        if (payButton) payButton.hidden = !cardOn || any;
+      }
+
+      /*
         ON THE LIST, NOT ON THE FORM. The form also holds the name, the email
         and the note, and listening there rewrote the stored cart on every
         keystroke of somebody's address — for nothing, since none of it belongs
@@ -691,6 +724,28 @@ const currency = items[0]?.currency ?? "EUR";
         });
       }
 
+      /*
+        WHO IS ASKING, as far as the 1 of 1 lock is concerned. A random id kept
+        in this browser, so that coming back from Stripe and pressing pay again
+        takes back this browser's own hold instead of being told someone else
+        is paying. Not a cookie and not sent anywhere but /api/checkout.
+      */
+      const holderField = form.querySelector("[data-holder]");
+      if (holderField) {
+        let id = "";
+        try {
+          id = localStorage.getItem("ac-holder") || "";
+          if (!id) {
+            id = crypto.randomUUID();
+            localStorage.setItem("ac-holder", id);
+          }
+        } catch {
+          /* private mode: an id for this page view, which still covers a double click */
+          id = id || (crypto.randomUUID ? crypto.randomUUID() : "");
+        }
+        holderField.value = id;
+      }
+
       form.addEventListener("submit", (event) => {
         /*
           THE BUTTON THAT WAS PRESSED, not the first one on the form. This read
@@ -700,8 +755,29 @@ const currency = items[0]?.currency ?? "EUR";
         */
         const button = event.submitter || form.querySelector("button[type=submit]");
         if (!button) return;
+        /* Once is enough: a second press while the first is on its way only races it. */
+        if (form.dataset.busy) {
+          event.preventDefault();
+          return;
+        }
+        form.dataset.busy = "1";
+        button.dataset.label = button.textContent;
         button.setAttribute("aria-busy", "true");
         button.textContent = button.dataset.sending;
+      });
+
+      /*
+        BACK FROM STRIPE BY THE BACK BUTTON, the browser may hand back this very
+        page from its cache, mid-submit: busy, and the button still saying it is
+        sending. Put it back the way it was, or the buyer cannot press it again.
+      */
+      window.addEventListener("pageshow", (event) => {
+        if (!event.persisted) return;
+        delete form.dataset.busy;
+        for (const b of form.querySelectorAll("button[aria-busy]")) {
+          b.removeAttribute("aria-busy");
+          if (b.dataset.label) b.textContent = b.dataset.label;
+        }
       });
 
       const params = new URLSearchParams(location.search);
@@ -729,6 +805,16 @@ const currency = items[0]?.currency ?? "EUR";
 
       if (params.has("problem") && problem) problem.hidden = false;
 
+      /* Sent back by /api/checkout because a 1 of 1 in the basket was taken. */
+      const refused = params.get("unavailable");
+      if (refused && problem) {
+        const why = ["held", "sold"].includes(params.get("why")) ? params.get("why") : "unavailable";
+        const name = catalogue.get(refused)?.name;
+        problem.textContent = name ? `${name}: ${labels[why]}` : labels[why];
+        problem.hidden = false;
+        blocked.set(refused, why);
+      }
+
       /*
         IS THE CARD PATH ON? This page is static HTML written at build time and
         cannot see a Cloudflare environment variable; /api/checkout can, and
@@ -746,7 +832,14 @@ const currency = items[0]?.currency ?? "EUR";
         .then((res) => (res.ok ? res.json() : null))
         .then((info) => {
           if (!info || info.enabled !== true) return;
-          if (payButton) payButton.hidden = false;
+          cardOn = true;
+          blocked = new Map();
+          for (const slug of info.sold || []) blocked.set(slug, "sold");
+          for (const slug of info.held || []) blocked.set(slug, "held");
+          if (info.unique !== true) {
+            for (const [slug, item] of catalogue) if (item.max === 1) blocked.set(slug, "unavailable");
+          }
+          block();
           if (payIntro) payIntro.hidden = false;
           if (destField) destField.hidden = false;
           showShipping();

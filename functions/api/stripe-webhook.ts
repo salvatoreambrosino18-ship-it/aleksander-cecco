@@ -52,6 +52,12 @@
   The only way to get a 200 without his letter is a request that is not a paid
   Checkout Session at all.
 
+  A 1 OF 1 THAT IS PAID FOR STOPS BEING SOLD, before either letter goes: it
+  is marked sold in HOLDS, which the till asks before it opens a checkout, and
+  set to "No, è già di qualcuno" in the studio, which rebuilds the shop without
+  it. An expired session gives its hold back. See _holds.ts for the lock and
+  for why a lost event cannot sell the piece twice either.
+
   THE SIGNATURE IS CHECKED BEFORE ANYTHING IS READ. This URL is public; without
   the check anyone could POST a made-up order and have it emailed to him as
   paid. Stripe signs `<timestamp>.<raw body>` with the endpoint's secret
@@ -73,15 +79,24 @@
   this endpoint needs no API key of its own.
 */
 import {letter, send, type Row} from "./_mail";
+import {markSold, release, type HoldsEnv} from "./_holds";
 import {COMPANY_LINE} from "../../src/lib/company";
 
-type Env = {
+type Env = HoldsEnv & {
   /** The endpoint's signing secret, `whsec_…`, from the Stripe dashboard. */
   STRIPE_WEBHOOK_SECRET?: string;
   RESEND_API_KEY?: string;
   RESEND_FROM?: string;
   /** His inbox. Named for the email path it was created for; the same address. */
   ENQUIRY_TO_EMAIL?: string;
+  /**
+   * A Sanity token with Editor rights, so a 1 of 1 that has been paid for is
+   * set to "No, è già di qualcuno" in the studio without waiting for him. The
+   * project and dataset are the public identifiers the build already uses.
+   */
+  SANITY_WRITE_TOKEN?: string;
+  PUBLIC_SANITY_PROJECT_ID?: string;
+  PUBLIC_SANITY_DATASET?: string;
   /**
    * LOCAL TESTING ONLY. Verifies, parses and writes both letters, then answers
    * with them instead of sending them. Unset in production, where it does
@@ -176,7 +191,7 @@ type Session = {
   metadata?: Record<string, string> | null;
 };
 
-export type OrderLine = {slug: string; name: string; size: string; qty: number; unit: number};
+export type OrderLine = {slug: string; name: string; size: string; qty: number; unit: number; unique: boolean};
 
 /**
  * The pieces, as /api/checkout wrote them into the session.
@@ -192,8 +207,15 @@ export function readLines(metadata: Record<string, string>): OrderLine[] {
     const raw = metadata[`line_${i}`];
     if (!raw) break;
     try {
-      const l = JSON.parse(raw) as {k?: string; n?: string; s?: string; q?: number; p?: number};
-      lines.push({slug: String(l.k ?? ""), name: String(l.n ?? l.k ?? "?"), size: String(l.s ?? ""), qty: Number(l.q) || 1, unit: Number(l.p) || 0});
+      const l = JSON.parse(raw) as {k?: string; n?: string; s?: string; q?: number; p?: number; u?: number};
+      lines.push({
+        slug: String(l.k ?? ""),
+        name: String(l.n ?? l.k ?? "?"),
+        size: String(l.s ?? ""),
+        qty: Number(l.q) || 1,
+        unit: Number(l.p) || 0,
+        unique: l.u === 1,
+      });
     } catch {
       /* one unreadable line must not cost the whole letter */
     }
@@ -201,7 +223,7 @@ export function readLines(metadata: Record<string, string>): OrderLine[] {
   if (lines.length > 0) return lines;
   for (const part of (metadata.pieces ?? "").split(",")) {
     const m = part.trim().match(/^(\d+)x\s+([^/\s]+)(?:\/(\S+))?$/);
-    if (m) lines.push({slug: m[2], name: m[2], size: m[3] ?? "", qty: Number(m[1]), unit: 0});
+    if (m) lines.push({slug: m[2], name: m[2], size: m[3] ?? "", qty: Number(m[1]), unit: 0, unique: false});
   }
   return lines;
 }
@@ -326,11 +348,22 @@ export function ownerLetter(order: Order) {
     ? `https://dashboard.stripe.com/${order.test ? "test/" : ""}payments/${order.reference}`
     : "";
 
+  /*
+    THE SAME SENTENCE WHETHER THE STUDIO WRITE WORKED OR NOT. A retry re-sends
+    this letter under the same idempotency key, and a letter that changed with
+    the outcome would be a different letter under the same key. So it says
+    what the site does and what to look for, which is true in both cases.
+  */
+  const onlyOnes = order.lines.filter((l) => l.unique).map((l) => l.name);
   const {html, text} = letter({
     lang: "en",
     heading: order.test ? "Paid order (test)" : "Paid order",
     rows,
     lines: [
+      ...onlyOnes.map(
+        (name) =>
+          `${name} was one of one. The site has stopped selling it and marks it "No, è già di qualcuno" in the Studio; if the shop still shows it for sale in an hour, set that yourself.`,
+      ),
       "Paid by card through Stripe. The money is already taken: there is nothing to collect.",
       ...(dashboard ? [`The payment in Stripe: ${dashboard}`] : []),
       ...(order.email ? [`Reply to this message and it goes straight to ${order.email}.`] : []),
@@ -430,6 +463,49 @@ async function contactAddress(request: Request): Promise<string> {
   }
 }
 
+/*
+  THE STUDIO LEARNS IT IS SOLD. A paid 1 of 1 is set to `privateOrder` — "No,
+  è già di qualcuno", the value he already uses for a piece that has gone — on
+  the published document and on any draft of it, because a draft left saying
+  `unique` would put the piece back on sale the day he publishes it. The
+  change fires the Sanity webhook that rebuilds the site, the rebuild drops the
+  piece from /order-catalogue.json, and it leaves every cart that holds it.
+
+  HOLDS has already stopped it being paid for; this is what makes the shop stop
+  OFFERING it. Patching a field to the value it already has is a no-op, so a
+  retried event is harmless.
+*/
+type StudioResult = "done" | "no-token" | "not-found" | {error: string};
+
+async function markSoldInStudio(env: Env, slug: string): Promise<StudioResult> {
+  const token = env.SANITY_WRITE_TOKEN?.trim();
+  const project = env.PUBLIC_SANITY_PROJECT_ID?.trim();
+  const dataset = env.PUBLIC_SANITY_DATASET?.trim();
+  if (!token || !project || !dataset) return "no-token";
+  const api = `https://${project}.api.sanity.io/v2026-03-01/data`;
+  const auth = {Authorization: `Bearer ${token}`};
+  try {
+    const query = new URL(`${api}/query/${dataset}`);
+    query.searchParams.set("query", `*[_type == "garment" && slug.current == $slug]._id`);
+    query.searchParams.set("$slug", JSON.stringify(slug));
+    /* raw: the published document AND its draft, if one exists */
+    query.searchParams.set("perspective", "raw");
+    const found = await fetch(query.toString(), {headers: auth});
+    if (!found.ok) return {error: `query ${found.status}: ${(await found.text()).slice(0, 200)}`};
+    const ids = ((await found.json()) as {result?: string[]}).result ?? [];
+    if (ids.length === 0) return "not-found";
+    const res = await fetch(`${api}/mutate/${dataset}`, {
+      method: "POST",
+      headers: {...auth, "Content-Type": "application/json"},
+      body: JSON.stringify({mutations: ids.map((id) => ({patch: {id, set: {availability: "privateOrder"}}}))}),
+    });
+    if (!res.ok) return {error: `mutate ${res.status}: ${(await res.text()).slice(0, 200)}`};
+    return "done";
+  } catch (error) {
+    return {error: (error as Error).message};
+  }
+}
+
 /* -------------------------------------------------------------- handler */
 
 /*
@@ -463,7 +539,25 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   }
 
   const session = event.data?.object;
-  if (!PAID_EVENTS.has(event.type ?? "") || !session?.id) return reply(200, "ignored");
+  if (!session?.id) return reply(200, "ignored");
+
+  /*
+    AN ABANDONED CHECKOUT GIVES ITS 1 OF 1 BACK at once rather than when the
+    hold lapses on its own two minutes later. Only the row this session holds,
+    and never a sold one.
+  */
+  if (event.type === "checkout.session.expired") {
+    if (!env.HOLDS) return reply(200, "expired, nothing to release");
+    try {
+      await release(env.HOLDS, session.id);
+      return reply(200, "released");
+    } catch (error) {
+      console.error(`[stripe-webhook] could not release the hold of ${session.id}: ${(error as Error).message}`);
+      return reply(500, "release failed");
+    }
+  }
+
+  if (!PAID_EVENTS.has(event.type ?? "")) return reply(200, "ignored");
   if (session.payment_status !== "paid") {
     console.log(`[stripe-webhook] ${session.id} completed but not paid yet (${session.payment_status}); waiting for its async event`);
     return reply(200, "not paid yet");
@@ -480,6 +574,43 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
       headers: {"Content-Type": "application/json; charset=utf-8"},
     });
   }
+
+  /*
+    FIRST, STOP SELLING WHAT WAS JUST BOUGHT, before any letter: a 1 of 1 is
+    marked sold in HOLDS (the till) and in the studio (the shop). A failure
+    here does not hold up the letters — he must hear about the order whatever
+    else is wrong — but it does make the final answer a 500, so Stripe comes
+    back and the marking is tried again. The letters are idempotent and do not
+    repeat. A missing token is not retried: it will be just as missing in an
+    hour, and the letter already tells him what to set by hand.
+  */
+  let retryMarking = "";
+  for (const line of order.lines.filter((l) => l.unique)) {
+    if (env.HOLDS) {
+      try {
+        await markSold(env.HOLDS, line.slug, session.id);
+      } catch (error) {
+        console.error(`[stripe-webhook] ${line.slug} NOT MARKED SOLD in HOLDS (${session.id}): ${(error as Error).message}. Will retry.`);
+        retryMarking = "holds";
+      }
+    } else {
+      console.error(`[stripe-webhook] HOLDS is not bound: ${line.slug} paid in ${session.id} but not locked`);
+    }
+    const studio = await markSoldInStudio(env, line.slug);
+    if (studio === "no-token") {
+      console.error(`[stripe-webhook] SANITY_WRITE_TOKEN unset: ${line.slug} not marked sold in the studio; the letter tells him to`);
+    } else if (studio === "not-found") {
+      console.error(`[stripe-webhook] no garment with slug ${line.slug} in the studio; nothing to mark`);
+    } else if (studio !== "done") {
+      console.error(`[stripe-webhook] ${line.slug} NOT MARKED SOLD in the studio: ${studio.error}. Will retry.`);
+      retryMarking = "studio";
+    } else {
+      console.log(`[stripe-webhook] ${line.slug} marked sold (${session.id})`);
+    }
+  }
+  /* Every successful ending goes through here, so a marking failure is never answered 200. */
+  const finish = (body: string) =>
+    retryMarking ? reply(500, `${body}; marking sold failed (${retryMarking}), retry`) : reply(200, body);
 
   /* Names only, never values: see the same rule in enquiry.ts. */
   const missing = (["RESEND_API_KEY", "RESEND_FROM", "ENQUIRY_TO_EMAIL"] as const).filter((key) => !env[key]);
@@ -504,7 +635,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
 
   if (!buyer) {
     console.warn(`[stripe-webhook] ${session.id} carries no buyer email; no confirmation sent`);
-    return reply(200, "ok, no buyer email");
+    return finish("ok, no buyer email");
   }
 
   const toBuyer = await send(env, {
@@ -517,7 +648,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   });
   if (toBuyer.ok) {
     console.log(`[stripe-webhook] buyer confirmation sent: ${session.id}`);
-    return reply(200, "ok");
+    return finish("ok");
   }
   if (toBuyer.retryable) {
     console.error(`[stripe-webhook] BUYER CONFIRMATION NOT SENT (${session.id}): ${toBuyer.reason}. Stripe will retry.`);
@@ -548,7 +679,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     ...note,
     idempotencyKey: `paid-confirmation-failed/${session.id}`,
   });
-  return reply(200, "ok, confirmation refused");
+  return finish("ok, confirmation refused");
 };
 
 /* Stripe only ever POSTs. */

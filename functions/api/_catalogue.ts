@@ -32,8 +32,8 @@ export type PricedLine = {
   /** Whole units of `currency`, as the shop prints it. */
   price: number;
   currency: string;
-  /** Whether a card button is allowed to sell this. See src/lib/order.ts. */
-  payable: boolean;
+  /** The only one there is: claimed in HOLDS before it is sold. See _holds.ts. */
+  unique: boolean;
 };
 
 type CatalogueItem = {
@@ -43,7 +43,7 @@ type CatalogueItem = {
   currency?: string;
   sizes?: string[];
   max?: number;
-  payable?: boolean;
+  unique?: boolean;
 };
 
 /**
@@ -142,7 +142,9 @@ export function priceLines(form: FormData, catalogue: Map<string, CatalogueItem>
       qty: Math.min(wanted, Math.max(1, item.max ?? 10)),
       price: item.price,
       currency: item.currency ?? "EUR",
-      payable: item.payable === true,
+      /* `max === 1` as well, so a catalogue written before the flag existed
+         still locks its 1 of 1 pieces rather than selling them freely. */
+      unique: item.unique === true || item.max === 1,
     });
   }
   return lines;
