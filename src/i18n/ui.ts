@@ -249,7 +249,29 @@ const ui = {
     cartDestinationChoose: "Scegli il paese",
     cartShipping: "Spedizione",
     cartShippingFree: "Gratis",
-    cartToPay: "Da pagare",
+    /*
+      IL RIEPILOGO (2026-10-10). Etichette e stati, non voce del marchio: un
+      totale senza nome o un pulsante spento senza dire perché è un modulo
+      rotto, quindi restano qui.
+
+      LA SPUNTA è quella chiesta dal titolare, in tre pezzi perché due sono
+      link. Prende il posto di `consentLine`, la riga che spiegava cosa
+      succedeva a nome ed email lasciati qui: la pagina non li chiede più.
+      "Ho letto e accetto" vale per le condizioni; per l'informativa la
+      persona dichiara di averla letta, non presta un consenso — la formula
+      esatta è fra le domande per l'avvocato (docs/RICHIESTA-LEGALE-PAGAMENTI).
+    */
+    cartSummary: "Riepilogo",
+    cartSubtotal: "Subtotale",
+    cartPlusShipping: "+ spedizione",
+    cartAcceptA: "Ho letto e accetto le",
+    cartAcceptTerms: "condizioni di vendita",
+    cartAcceptJoin: "e l'",
+    cartAcceptPrivacy: "informativa privacy",
+    cartNeedBoth: "Scegli il paese e spunta la casella per continuare.",
+    cartNeedCountry: "Scegli il paese per continuare.",
+    cartNeedAccept: "Spunta la casella per continuare.",
+    cartNeedRemove: "Togli dal carrello il pezzo segnato per continuare.",
     /*
       I PEZZI UNICI, quando non si possono pagare. Sono stati, non voce del
       marchio: dicono perché il pulsante non c'è, e restano qui.
@@ -280,8 +302,9 @@ const ui = {
       scritto né la frase sul consenso né il riassunto del recesso, perché
       nessuna delle due è un testo legale: sono la traduzione in una riga di
       quello che il documento dice per esteso, nel posto dove serve saperlo.
-      Segnate `consentLine` e `returnsShort` in `inventedCopy`, quindi
-      launch-check le conta fra le cose ancora nostre.
+      Segnata `returnsShort` in `inventedCopy`, quindi launch-check la conta
+      fra le cose ancora nostre. (La frase sul consenso, `consentLine`, è
+      uscita il 2026-10-10 con i campi che descriveva.)
 
       MA NON PORTANO IL SEGNO DI BOZZA SULLA PAGINA, e la ragione va detta.
       Quel segno vuol dire «questa frase l'abbiamo scritta noi e aspetta la tua
@@ -297,8 +320,6 @@ const ui = {
     */
     privacyTitle: "Informativa privacy",
     termsTitle: "Condizioni di vendita",
-    consentLine: "I dati che lasci qui servono solo a gestire questo ordine.",
-    consentLink: "Leggi l'informativa privacy",
     returnsShort:
       "Quattordici giorni per cambiare idea, da quando ricevi il capo. La spedizione del reso è a tuo carico.",
     returnsLink: "Condizioni di vendita e recesso",
@@ -425,7 +446,17 @@ const ui = {
     cartDestinationChoose: "Choose a country",
     cartShipping: "Shipping",
     cartShippingFree: "Free",
-    cartToPay: "To pay",
+    cartSummary: "Summary",
+    cartSubtotal: "Subtotal",
+    cartPlusShipping: "+ shipping",
+    cartAcceptA: "I have read and accept the",
+    cartAcceptTerms: "terms of sale",
+    cartAcceptJoin: "and the ",
+    cartAcceptPrivacy: "privacy policy",
+    cartNeedBoth: "Choose a country and tick the box to continue.",
+    cartNeedCountry: "Choose a country to continue.",
+    cartNeedAccept: "Tick the box to continue.",
+    cartNeedRemove: "Remove the marked piece from the cart to continue.",
     cartHeld: "Someone else is paying for this piece right now. If they don't finish, it becomes available again within half an hour.",
     cartSold: "This piece has just been sold. Remove it from the cart to pay for the rest.",
     cartUniqueOff: "This piece cannot be paid for right now.",
@@ -435,8 +466,6 @@ const ui = {
     /* See the Italian above (section 137) for why these four are not editable. */
     privacyTitle: "Privacy policy",
     termsTitle: "Terms of sale",
-    consentLine: "The details you leave here are used only to handle this order.",
-    consentLink: "Read the privacy policy",
     returnsShort:
       "Fourteen days to change your mind, from the day you receive the piece. Return shipping is at your expense.",
     returnsLink: "Terms of sale and withdrawal",

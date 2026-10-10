@@ -133,33 +133,32 @@ const currency = items[0]?.currency ?? "EUR";
 ---
 
 <Base locale={locale} title={t(locale, "cart")} noindex>
-  <TextSurface class="flex flex-col gap-u5 pt-u13 pb-u8">
+  <TextSurface class="pt-u5 pb-u5">
     <h1 class="type-display text-display">{t(locale, "cart")}</h1>
   </TextSurface>
 
-  <TextSurface class="pb-u21">
+  <TextSurface class="pb-u13">
     {/*
       WITH NO SCRIPT THIS IS THE WHOLE PAGE. It is not a fallback bolted on
       afterwards: it is what the document says before anything runs, and the
       script hides it by putting `js` on <html> in the head. So a reader with
       scripts off never sees a control appear and then fail — they see a
-      sentence and a way on.
+      sentence.
     */}
     <div class="cart-noscript">
       <p class="type-body text-body max-w-prose">{t(locale, "cartNeedsScript")}</p>
     </div>
 
     {/* Written by the script, from localStorage, against the catalogue above. */}
-    <div class="cart-live flex flex-col gap-u8" hidden>
+    <div class="cart-live flex flex-col gap-u5" hidden>
       {/*
         BACK FROM STRIPE, PAID. The card path leaves this site and returns to
         this same page with ?paid=1, which is the only moment the basket is
         known to have been bought — so it is the only place it can be emptied,
         because the cart lives in the visitor's localStorage and no server can
-        reach it.
-        Without this a buyer's basket still holds everything they just paid
-        for, the count in the chrome still says three, and the obvious next act
-        is to buy it again.
+        reach it. Without this a buyer's basket still holds everything they
+        just paid for, the count in the chrome still says three, and the
+        obvious next act is to buy it again.
       */}
       <div data-cart-paid class="flex flex-col gap-u5" hidden>
         <p class="type-body text-body max-w-prose">{t(locale, "cartPaid")}</p>
@@ -181,120 +180,139 @@ const currency = items[0]?.currency ?? "EUR";
         </a>
       </div>
 
-      <form
-        method="POST"
-        action="/api/checkout"
-        class="flex flex-col gap-u8"
-        data-cart-form
-        hidden
-      >
-        {/*
-          THE CARD PATH DID NOT START. Shown on the way back from a refused
-          /api/checkout, and it says the one thing a buyer needs first: nothing
-          was charged. The basket is untouched, so trying again is one press.
-        */}
-        <p class="type-body text-body max-w-prose" data-cart-problem hidden>
-          {t(locale, "cartPayProblem")}
-        </p>
+      {/*
+        TWO COLUMNS FROM 64REM, ONE BELOW (2026-10-10). The pieces on the left,
+        what it all comes to on the right, held in view while the list scrolls,
+        so the figure and the button are never a screen away from the pieces
+        they price. Drawn in the site's own language — hairlines that mark the
+        grid and never close into a box — see `.cart-grid` in global.css.
 
-        <p class="type-body text-body max-w-prose">{t(locale, "cartIntro")}</p>
+        ON A PHONE THE SUMMARY COMES AFTER THE TERMS LINES, by document order:
+        the reader passes the shipping and returns sentences on the way down to
+        the button, which is where section 130 wanted them — before the money,
+        not after it.
+      */}
+      <form method="POST" action="/api/checkout" class="cart-grid" data-cart-form hidden>
+        <div class="flex flex-col gap-u5">
+          {/*
+            THE CARD PATH DID NOT START. Shown on the way back from a refused
+            /api/checkout, and it says the one thing a buyer needs first:
+            nothing was charged. The basket is untouched, so trying again is
+            one press. Rewritten by the script when a 1 of 1 was the reason.
+          */}
+          <p class="type-body text-body max-w-prose" data-cart-problem hidden>
+            {t(locale, "cartPayProblem")}
+          </p>
 
-        <h2 class="type-label text-label">{t(locale, "cartPieces")}</h2>
-        <ul class="flex flex-col gap-u5" data-cart-list></ul>
+          <p class="type-body text-body max-w-prose">{t(locale, "cartIntro")}</p>
 
-        {/*
-          THE TOTAL IS A CONVENIENCE, NOT A PRICE. It adds up the figures printed
-          beside it, all of which came out of the build. The authoritative figure
-          is computed by the endpoint from /order-catalogue.json, which a buyer
-          cannot edit. `aria-live` so a screen reader hears it change rather than
-          having to go and look.
-        */}
-        <p class="type-mono text-mono flex gap-u3">
-          <span>{t(locale, "cartTotal")}</span>
-          <output data-cart-total aria-live="polite"></output>
-        </p>
+          <div class="flex flex-col gap-u2">
+            <h2 class="type-label text-label">{t(locale, "cartPieces")}</h2>
+            <ul class="cart-list" data-cart-list></ul>
+          </div>
 
-        <div class="type-body text-body flex flex-col gap-u1">
-          {shippingLines.map((line) => <p class="max-w-prose">{line}</p>)}
-          {/* Il testo intero, per chi lo vuole prima di comprare. Sezione 137. */}
-          <a href={localePath(locale, "terms")} class="type-label text-label self-start hairline-under">
-            {t(locale, "returnsLink")}
-          </a>
-        </div>
-        {/*
-          WHERE IT GOES, ASKED HERE AND NOT ON STRIPE'S PAGE.
-
-          Stripe's hosted checkout collects the address AFTER the session
-          exists and its own documentation says flatly that it cannot reprice
-          shipping from it. So the destination is asked for before leaving, the
-          rate is computed from it, and `allowed_countries` is locked to this
-          answer so the address they type has to be the address they were
-          priced for.
-
-          It is worth more than the workaround it is: a buyer in Japan sees
-          their real shipping figure on this page, before committing to
-          anything, which no version that asked later could do.
-
-          REQUIRED, now that paying is the only way to order: there is no path
-          left that does not need to know where the parcel goes.
-        */}
-        <div class="field" data-destination-field hidden>
-          <label class="type-label text-label" for="destination">{t(locale, "cartDestination")}</label>
-          <select id="destination" name="destination" data-destination required>
-            <option value="">{t(locale, "cartDestinationChoose")}</option>
-            {destinations.map((d) => <option value={d.code}>{d.name}</option>)}
-          </select>
+          <div class="type-body text-body flex flex-col gap-u1">
+            {shippingLines.map((line) => <p class="max-w-prose">{line}</p>)}
+            {/* Il testo intero, per chi lo vuole prima di comprare. Sezione 137. */}
+            <a href={localePath(locale, "terms")} class="type-label text-label self-start hairline-under">
+              {t(locale, "returnsLink")}
+            </a>
+          </div>
         </div>
 
-        {/*
-          The figure, before they leave. Blank until a country is chosen, because
-          there is no honest number to print before that.
-        */}
-        <p class="type-mono text-mono flex gap-u3" data-shipping-line hidden>
-          <span>{t(locale, "cartShipping")}</span>
-          <output data-shipping-out aria-live="polite"></output>
-        </p>
-        <p class="type-mono text-mono flex gap-u3" data-topay-line hidden>
-          <span>{t(locale, "cartToPay")}</span>
-          <output data-topay-out aria-live="polite"></output>
-        </p>
+        <section class="cart-summary" aria-labelledby="cart-summary-title">
+          <h2 class="type-label text-label" id="cart-summary-title">{t(locale, "cartSummary")}</h2>
 
-        {/*
-          LA RIGA SUL TRATTAMENTO DEI DATI (2026-08-17, sezione 137). Sta qui,
-          sopra il pulsante e sotto i campi, perché è il punto in cui il lettore
-          ha appena scritto il proprio nome e la propria email e sta per
-          mandarli. Nostra, non dell'avvocato, e il link porta al suo testo.
+          {/*
+            THE FIGURES ARE A CONVENIENCE, NOT A PRICE. They add up numbers
+            printed beside the pieces, all of which came out of the build. The
+            authoritative amount is computed by /api/checkout from
+            /order-catalogue.json, which a buyer cannot edit. `aria-live` so a
+            screen reader hears them change rather than having to go and look.
+          */}
+          <p class="cart-row type-mono text-mono">
+            <span>{t(locale, "cartSubtotal")}</span>
+            <output data-subtotal-out aria-live="polite"></output>
+          </p>
 
-          NON È UNA CASELLA DA SPUNTARE, ed è una decisione. Il consenso non è
-          la base giuridica di questo trattamento — l'informativa dice misure
-          precontrattuali e contratto — quindi chiedere una spunta di consenso
-          sarebbe sbagliato nel merito oltre che un ostacolo in più fra una
-          persona e il capo che vuole. Quello che serve è l'informazione, prima
-          dell'invio, dove non si può non vederla.
-        */}
-        <p class="type-body text-body max-w-prose">
-          {t(locale, "consentLine")}{" "}
-          <a href={localePath(locale, "privacy")} class="hairline-under">{t(locale, "consentLink")}</a>
-        </p>
+          <div class="flex flex-col gap-u3" data-checkout hidden>
+            {/*
+              WHERE IT GOES, ASKED HERE AND NOT ON STRIPE'S PAGE. Stripe's hosted
+              checkout collects the address after the session exists and cannot
+              reprice shipping from it, so the destination is asked for before
+              leaving, the rate is computed from it, and `allowed_countries` is
+              locked to this answer: the address they type has to be the address
+              they were priced for. A buyer in Japan sees their real shipping
+              figure here, before committing to anything.
+            */}
+            <div class="field">
+              <label class="type-label text-label" for="destination">{t(locale, "cartDestination")}</label>
+              <select id="destination" name="destination" data-destination required>
+                <option value="">{t(locale, "cartDestinationChoose")}</option>
+                {destinations.map((d) => <option value={d.code}>{d.name}</option>)}
+              </select>
+            </div>
 
-        <input type="hidden" name="lang" value={locale} />
-        {/* This browser's id for the 1 of 1 lock: written by the script, see _holds.ts. */}
-        <input type="hidden" name="holder" value="" data-holder />
+            {/*
+              SHIPPING SAYS WHAT IT KNOWS. Before a country there is no honest
+              number below the threshold, so it says to choose one rather than
+              printing a zero that reads as free. From the threshold up it is
+              free to every country on the list, so it says so straight away.
+            */}
+            <p class="cart-row type-mono text-mono">
+              <span>{t(locale, "cartShipping")}</span>
+              <output data-shipping-out aria-live="polite"></output>
+            </p>
+            <p class="cart-row cart-row-total type-mono text-mono">
+              <span>{t(locale, "cartTotal")}</span>
+              <output data-total-out aria-live="polite"></output>
+            </p>
 
-        {/*
-          THE ONLY BUTTON. It goes to Stripe, which charges nothing until the
-          buyer confirms on Stripe's own page. Enter in a field never presses it
-          (see the script): starting a payment is always a deliberate press.
-        */}
-        <button
-          type="submit"
-          class="type-label text-body hairline-under self-start"
-          data-pay-button
-          data-sending={t(locale, "sending")}
-          hidden
-        >
-          {t(locale, "cartPay")}
-        </button>
+            {/*
+              THE TICK, ASKED FOR BY THE OWNER (2026-10-10). Required, and the
+              button stays off until it is ticked. It replaces the sentence that
+              used to sit here explaining what the e-mail form did with a name
+              and an address, which this page no longer asks for. Both texts are
+              a link away, in this tab's language.
+            */}
+            <label class="cart-accept type-body text-body">
+              <input type="checkbox" name="accept" value="1" required data-accept />
+              <span>
+                {t(locale, "cartAcceptA")}{" "}
+                <a href={localePath(locale, "terms")}>{t(locale, "cartAcceptTerms")}</a>
+                {" "}{t(locale, "cartAcceptJoin")}<a href={localePath(locale, "privacy")}>{t(locale, "cartAcceptPrivacy")}</a>.
+              </span>
+            </label>
+
+            <input type="hidden" name="lang" value={locale} />
+            {/* This browser's id for the 1 of 1 lock: written by the script, see _holds.ts. */}
+            <input type="hidden" name="holder" value="" data-holder />
+
+            {/*
+              THE ONLY BUTTON, CARRYING THE TOTAL. It keeps the words the law
+              asks for on the control that creates the obligation to pay (see
+              `cartPay` in ui.ts) and adds the amount, because that is the number
+              a person confirms before pressing. It goes to Stripe, which charges
+              nothing until the buyer confirms on Stripe's own page.
+
+              DISABLED UNTIL IT CAN WORK: no country, no tick, or a 1 of 1 the
+              till will not take. The line under it says which, so a reader is
+              never left looking at a control that ignores them. A disabled
+              submit is also out of the running for the Enter key; the script
+              stops Enter in any field as well, so starting a payment is always
+              a deliberate press.
+
+              Drawn the system's way: the resting hairline goes DASHED while it
+              cannot be pressed — the mark this site already uses for "not yet" —
+              and solid when it can. No grey, which this palette does not have.
+            */}
+            <button type="submit" class="cart-pay type-label text-body" data-pay-button disabled data-sending={t(locale, "sending")}>
+              <span data-pay-label>{t(locale, "cartPay")}</span>
+              <span class="type-mono text-mono" data-pay-amount></span>
+            </button>
+            <p class="type-label text-label" data-pay-hint aria-live="polite"></p>
+          </div>
+        </section>
       </form>
     </div>
   </TextSurface>
@@ -318,6 +336,13 @@ const currency = items[0]?.currency ?? "EUR";
         remove: t(locale, "cartRemove"),
         onePiece: t(locale, "cartOnePiece"),
         free: t(locale, "cartShippingFree"),
+        chooseCountry: t(locale, "cartDestinationChoose"),
+        plusShipping: t(locale, "cartPlusShipping"),
+        pay: t(locale, "cartPay"),
+        needBoth: t(locale, "cartNeedBoth"),
+        needCountry: t(locale, "cartNeedCountry"),
+        needAccept: t(locale, "cartNeedAccept"),
+        needRemove: t(locale, "cartNeedRemove"),
         held: t(locale, "cartHeld"),
         sold: t(locale, "cartSold"),
         unavailable: t(locale, "cartUniqueOff"),
@@ -329,18 +354,20 @@ const currency = items[0]?.currency ?? "EUR";
       const form = document.querySelector("[data-cart-form]");
       const list = document.querySelector("[data-cart-list]");
       const empty = document.querySelector("[data-cart-empty]");
-      const totalOut = document.querySelector("[data-cart-total]");
       const source = document.querySelector("[data-cart-catalogue]");
       const paid = document.querySelector("[data-cart-paid]");
       const problem = document.querySelector("[data-cart-problem]");
-      const payButton = document.querySelector("[data-pay-button]");
-      const destField = document.querySelector("[data-destination-field]");
+      const checkout = document.querySelector("[data-checkout]");
       const destination = document.querySelector("[data-destination]");
-      const shipLine = document.querySelector("[data-shipping-line]");
+      const accept = document.querySelector("[data-accept]");
+      const subtotalOut = document.querySelector("[data-subtotal-out]");
       const shipOut = document.querySelector("[data-shipping-out]");
-      const payLine = document.querySelector("[data-topay-line]");
-      const payOut = document.querySelector("[data-topay-out]");
-      if (!live || !form || !list || !empty || !source) return;
+      const totalOut = document.querySelector("[data-total-out]");
+      const payButton = document.querySelector("[data-pay-button]");
+      const payLabel = document.querySelector("[data-pay-label]");
+      const payAmount = document.querySelector("[data-pay-amount]");
+      const payHint = document.querySelector("[data-pay-hint]");
+      if (!live || !form || !list || !empty || !source || !checkout || !destination || !accept || !payButton) return;
 
       const KEY = "ac-cart";
       const read = () => {
@@ -364,9 +391,8 @@ const currency = items[0]?.currency ?? "EUR";
         THE PAGE MUST NOT GO BLANK IF ANY OF THIS FAILS. The no-script sentence
         is hidden the moment scripts run, and the live block stays hidden until
         this script shows it — so one error would leave a heading over an empty
-        page with no way on. Putting the sentence back is not a lie in that
-        state: the cart really does not work, and where to go instead is the
-        same answer either way.
+        page. Putting the sentence back is not a lie in that state: the cart
+        really does not work.
       */
       const fail = (error) => {
         document.documentElement.classList.remove("js");
@@ -401,12 +427,11 @@ const currency = items[0]?.currency ?? "EUR";
         markup, and there is no escaping rule for a later session to get wrong.
 
         THE CLASSES BELOW ONLY EVER EXIST INSIDE THIS SCRIPT, and they work
-        because Tailwind scans this file as TEXT and finds them in here. It was
-        checked in the compiled stylesheet rather than assumed. Two things
-        follow, and they are the kind that fail silently: a class assembled from
-        pieces (`"gap-u" + n`) would be found by nothing and would compile to
-        nothing, and moving this script to its own .js file outside the content
-        globs would take every rule here with it.
+        because Tailwind scans this file as TEXT and finds them in here. Two
+        things follow, and they fail silently: a class assembled from pieces
+        (`"gap-u" + n`) would be found by nothing and would compile to nothing,
+        and moving this script to its own .js file outside the content globs
+        would take every rule here with it.
       */
       function line(slug, entry) {
         const item = catalogue.get(slug);
@@ -433,19 +458,19 @@ const currency = items[0]?.currency ?? "EUR";
         link.href = item.href;
         naming.append(link, el("span", "type-mono text-mono", fmt.format(item.price)));
         if (item.max === 1) naming.append(el("span", "type-label text-label", labels.onePiece));
-        /* Why this piece cannot be paid for, when it cannot. Written by `block()`. */
+        /* Why this piece cannot be paid for, when it cannot. Written by `update()`. */
         const why = el("p", "type-body text-body max-w-prose");
         why.dataset.blocked = "";
         why.hidden = true;
         naming.append(why);
         left.append(naming);
 
-        const controls = el("div", "flex flex-wrap items-end gap-u5");
+        const controls = el("div", "cart-controls");
 
         /* A piece he cuts in one size has nothing to choose (section 101). */
         const sizes = (item.sizes || []).filter((s) => s !== "ONE");
         if (sizes.length > 0) {
-          const set = el("fieldset", "flex flex-col gap-u2");
+          const set = el("fieldset", "flex flex-col gap-u1");
           set.append(el("legend", "type-label text-label", labels.size));
           const row = el("div", "flex flex-wrap gap-u3");
           for (const size of sizes) {
@@ -456,11 +481,10 @@ const currency = items[0]?.currency ?? "EUR";
             radio.value = size;
             radio.checked = entry.size === size;
             /*
-              REQUIRED, AND NOTHING IS PICKED FOR THEM (section 130). The line
-              used to fall back to the first size when nothing was stored, so a
-              cart could carry XS for a piece whose size the buyer had never
-              chosen. The browser now refuses to send until they answer, which
-              is the same answer the piece page gives.
+              REQUIRED, AND NOTHING IS PICKED FOR THEM (section 130). A default
+              is a choice made on the buyer's behalf; the browser refuses to
+              send until they answer, which is the same answer the piece page
+              gives.
             */
             radio.required = true;
             label.append(radio, document.createTextNode(size));
@@ -470,7 +494,7 @@ const currency = items[0]?.currency ?? "EUR";
           controls.append(set);
         }
 
-        const qtyField = el("div", "field");
+        const qtyField = el("div", "field cart-qty");
         const qtyLabel = el("label", "type-label text-label", labels.quantity);
         qtyLabel.htmlFor = `qty-${slug}`;
         const qty = document.createElement("input");
@@ -509,12 +533,8 @@ const currency = items[0]?.currency ?? "EUR";
           in the chrome said 102 — measured, not imagined. A piece he has since
           sold or unpriced is dropped the same way and has to leave storage with
           it, or it comes back on the next page.
-
-          What the reader sees is the truth here, so the truth is taken from the
-          rendered lines rather than from what was stored.
         */
         sync(true);
-        block();
         const has = list.children.length > 0;
         form.hidden = !has;
         empty.hidden = has;
@@ -527,6 +547,7 @@ const currency = items[0]?.currency ?? "EUR";
         mirrors them back into storage, so the count in the chrome agrees and the
         cart is still theirs on the next page.
       */
+      let goods = 0;
       function sync(correct) {
         const next = {};
         let total = 0;
@@ -542,8 +563,7 @@ const currency = items[0]?.currency ?? "EUR";
             THE BOX IS CORRECTED WHEN THE READER LEAVES IT, NOT WHILE THEY TYPE.
             Clearing the box to type "12" empties it for one keystroke; writing
             "1" back into it at that instant fights the person using it. The
-            total and the stored cart always use the clamped number, so nothing
-            downstream ever sees the half-typed one.
+            figures and the stored cart always use the clamped number.
           */
           if (correct && String(qty) !== field.value) field.value = String(qty);
           const size = li.querySelector("input[type=radio]:checked")?.value;
@@ -551,53 +571,38 @@ const currency = items[0]?.currency ?? "EUR";
           total += qty * item.price;
         }
         write(next);
-        if (totalOut) totalOut.textContent = fmt.format(total);
         goods = total;
-        showShipping();
+        update();
       }
 
       /*
-        THE SHIPPING FIGURE, FROM THE SAME NUMBERS THE ENDPOINT USES.
-
-        `shipping` here is src/lib/shipping.ts, handed to this script by the
-        build and to /api/checkout through /order-catalogue.json. One table, two
-        readers, so the figure shown on this page cannot differ from the figure
-        Stripe is given — which is the only version of this feature worth
-        having, because the difference between them would be money.
-
-        It is DISPLAY ONLY. The endpoint recomputes all of it from the POST and
-        would refuse a destination it does not ship to; nothing here is trusted
-        by anything.
-      */
-      let goods = 0;
-      function showShipping() {
-        if (!destination || !shipLine || !payLine) return;
-        const code = destination.value;
-        const zone = shipping.europe.includes(code)
-          ? "europe"
-          : shipping.world.includes(code)
-            ? "world"
-            : null;
-        /* No country, no honest number to print. */
-        const known = Boolean(zone) && destField && !destField.hidden;
-        shipLine.hidden = !known;
-        payLine.hidden = !known;
-        if (!known) return;
-        const amount = goods >= shipping.freeFrom ? 0 : shipping.rates[zone];
-        if (shipOut) shipOut.textContent = amount === 0 ? labels.free : fmt.format(amount);
-        if (payOut) payOut.textContent = fmt.format(goods + amount);
-      }
-      if (destination) destination.addEventListener("change", showShipping);
-
-      /*
-        THE 1 OF 1 PIECES THE TILL WILL NOT TAKE, as /api/checkout reports them:
-        sold, being paid for by somebody else this minute, or not lockable at
-        all. Said beside the piece, and the card button goes while any of them
-        is in the basket — pressing it would only come back refused.
+        THE 1 OF 1 PIECES THE TILL WILL NOT TAKE, as /api/checkout reports them
+        or as it just refused one: sold, being paid for by somebody else this
+        minute, or not lockable at all.
       */
       let blocked = new Map();
       let cardOn = false;
-      function block() {
+
+      /*
+        EVERYTHING THE SUMMARY SAYS, from one function, so the figures, the
+        button and the line under it can never disagree with each other.
+
+        The shipping figure comes from the same numbers the endpoint uses:
+        `shipping` is src/lib/shipping.ts, handed to this script by the build and
+        to /api/checkout through /order-catalogue.json. One table, two readers,
+        so the figure shown here cannot differ from the figure Stripe is given.
+        It is DISPLAY ONLY: the endpoint recomputes all of it from the POST.
+      */
+      function update() {
+        if (subtotalOut) subtotalOut.textContent = fmt.format(goods);
+
+        const code = destination.value;
+        const zone = shipping.europe.includes(code) ? "europe" : shipping.world.includes(code) ? "world" : null;
+        const free = goods >= shipping.freeFrom;
+        const amount = free ? 0 : zone ? shipping.rates[zone] : null;
+        if (shipOut) shipOut.textContent = amount === null ? labels.chooseCountry : amount === 0 ? labels.free : fmt.format(amount);
+        if (totalOut) totalOut.textContent = amount === null ? `${fmt.format(goods)} ${labels.plusShipping}` : fmt.format(goods + amount);
+
         let any = false;
         for (const li of list.querySelectorAll(".cart-line")) {
           const why = blocked.get(li.dataset.slug);
@@ -608,14 +613,27 @@ const currency = items[0]?.currency ?? "EUR";
           }
           if (why) any = true;
         }
-        if (payButton) payButton.hidden = !cardOn || any;
+
+        const missing = any ? labels.needRemove : !zone && !accept.checked ? labels.needBoth : !zone ? labels.needCountry : !accept.checked ? labels.needAccept : "";
+        if (!form.dataset.busy) {
+          payButton.disabled = !cardOn || Boolean(missing);
+          if (payLabel) payLabel.textContent = labels.pay;
+          /* The amount as soon as it is known: with a country, or from the threshold up, where it is free everywhere. */
+          if (payAmount) payAmount.textContent = amount === null ? "" : fmt.format(goods + amount);
+        }
+        if (payHint) {
+          payHint.textContent = missing;
+          payHint.hidden = !missing;
+        }
       }
 
+      destination.addEventListener("change", update);
+      accept.addEventListener("change", update);
+
       /*
-        ON THE LIST, NOT ON THE FORM. The form also holds the destination, and
-        listening there rewrote the stored cart on every change that does not
-        belong to it. (It used to hold a name, an email and a note too; Stripe
-        asks for those now.)
+        ON THE LIST, NOT ON THE FORM. The form also holds the destination and
+        the tick, and listening there rewrote the stored cart on every change
+        that does not belong to it.
       */
       list.addEventListener("input", () => sync(false));
       list.addEventListener("change", () => sync(true));
@@ -630,22 +648,16 @@ const currency = items[0]?.currency ?? "EUR";
       });
 
       /*
-        THE SENDING STATE, the same enhancement every other form on this site
-        has: the browser navigates on submit, and on a slow connection nothing
-        appears to have happened, so a person presses again. The button is not
-        disabled — a disabled control leaves the accessibility tree mid-action.
-      */
-      /*
         ENTER NEVER STARTS A PAYMENT. A form's implicit submission presses its
         first submit button when Enter is pressed in a field, and the only
         button here leaves for Stripe. Changing a quantity and pressing Enter
         is a person confirming a number, not choosing to pay, so it is caught
-        here; the button, a click or a tap on it, is the one way to go.
+        here; the button itself, clicked or tapped, is the one way to go.
       */
       form.addEventListener("keydown", (event) => {
         if (event.key !== "Enter") return;
         const target = event.target;
-        if (target instanceof HTMLButtonElement || target instanceof HTMLTextAreaElement || target instanceof HTMLAnchorElement) return;
+        if (target instanceof HTMLButtonElement || target instanceof HTMLAnchorElement) return;
         event.preventDefault();
       });
 
@@ -671,24 +683,21 @@ const currency = items[0]?.currency ?? "EUR";
         holderField.value = id;
       }
 
+      /*
+        THE SENDING STATE: the browser navigates on submit, and on a slow
+        connection nothing appears to have happened, so a person presses again.
+        Once is enough — a second press while the first is on its way only
+        races it.
+      */
       form.addEventListener("submit", (event) => {
-        /*
-          THE BUTTON THAT WAS PRESSED, not the first one on the form. This read
-          `querySelector("button[type=submit]")` while there was only one, and
-          the moment a second arrived it would have put the sending state on the
-          send button no matter which one the reader actually pressed.
-        */
-        const button = event.submitter || form.querySelector("button[type=submit]");
-        if (!button) return;
-        /* Once is enough: a second press while the first is on its way only races it. */
         if (form.dataset.busy) {
           event.preventDefault();
           return;
         }
         form.dataset.busy = "1";
-        button.dataset.label = button.textContent;
-        button.setAttribute("aria-busy", "true");
-        button.textContent = button.dataset.sending;
+        payButton.setAttribute("aria-busy", "true");
+        if (payLabel) payLabel.textContent = payButton.dataset.sending;
+        if (payAmount) payAmount.textContent = "";
       });
 
       /*
@@ -699,10 +708,8 @@ const currency = items[0]?.currency ?? "EUR";
       window.addEventListener("pageshow", (event) => {
         if (!event.persisted) return;
         delete form.dataset.busy;
-        for (const b of form.querySelectorAll("button[aria-busy]")) {
-          b.removeAttribute("aria-busy");
-          if (b.dataset.label) b.textContent = b.dataset.label;
-        }
+        payButton.removeAttribute("aria-busy");
+        update();
       });
 
       const params = new URLSearchParams(location.search);
@@ -710,9 +717,7 @@ const currency = items[0]?.currency ?? "EUR";
       /*
         PAID, AND THEREFORE FINISHED. Stripe sends the buyer back here. Empty
         the basket, tell the chrome so its count follows, say thank you, and
-        stop: there is no cart left on this page to render, no total to keep in
-        step and no form to guard, so everything below would be machinery
-        running over nothing.
+        stop: there is no cart left on this page to render.
       */
       if (params.has("paid") && paid) {
         try {
@@ -743,30 +748,27 @@ const currency = items[0]?.currency ?? "EUR";
       /*
         IS THE CARD PATH ON? This page is static HTML written at build time and
         cannot see a Cloudflare environment variable; /api/checkout can, and
-        answers {"enabled":true} only when both Stripe variables exist. So there
-        is ONE switch — the project's environment — rather than a build flag and
-        a runtime key free to disagree.
+        answers {"enabled":true} only when the Stripe key exists. So there is ONE
+        switch — the project's environment — rather than a build flag and a
+        runtime key free to disagree. It also says which 1 of 1 pieces are gone
+        or being paid for, so the summary can say so before anybody presses.
 
-        EVERY FAILURE LEAVES THE BUTTON HIDDEN: a network error, a bad status, a
-        body that is not what it should be. That is the direction this page
-        already fails in everywhere else, and its reason holds here too — a
-        control that cannot do its job is worse than no control, and a pay
-        button that cannot take money is the worst of them.
+        EVERY FAILURE LEAVES THE CHECKOUT HIDDEN: a network error, a bad status,
+        a body that is not what it should be. A pay button that cannot take
+        money is the worst control this page could show.
       */
       fetch("/api/checkout", {headers: {Accept: "application/json"}})
         .then((res) => (res.ok ? res.json() : null))
         .then((info) => {
           if (!info || info.enabled !== true) return;
           cardOn = true;
-          blocked = new Map();
           for (const slug of info.sold || []) blocked.set(slug, "sold");
-          for (const slug of info.held || []) blocked.set(slug, "held");
+          for (const slug of info.held || []) if (!blocked.has(slug)) blocked.set(slug, "held");
           if (info.unique !== true) {
             for (const [slug, item] of catalogue) if (item.max === 1) blocked.set(slug, "unavailable");
           }
-          block();
-          if (destField) destField.hidden = false;
-          showShipping();
+          checkout.hidden = false;
+          update();
         })
         .catch(() => {
           /* Dark, and that is the safe answer. */

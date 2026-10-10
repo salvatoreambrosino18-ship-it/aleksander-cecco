@@ -1099,7 +1099,127 @@
     flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
-    gap: var(--s-u5);
+    gap: var(--s-u3);
+    padding: var(--s-u3) 0;
+    border-bottom: var(--hairline-w) solid var(--hairline);
+  }
+
+  /*
+    THE CART IN TWO COLUMNS (2026-10-10), the owner's request: the structure
+    most shops use — pieces on one side, what they come to on the other, held in
+    view — in this site's own hand rather than anybody else's.
+
+    WHAT THAT MEANS HERE, rule by rule:
+    - NO BOX. The summary is not a card. It is marked off by one hairline above
+      it, the way this system marks a grid ("never boxing content in"), and the
+      total by one more above it — a rule, not a fill.
+    - THE SAME FOUR VOICES. Labels name things, mono carries every figure, body
+      carries sentences. Nothing new was added to the type scale.
+    - THE SPACING SCALE, TIGHTER. The old single column put u8 between every
+      one of its seventeen children, which at desktop is 96px a time and put
+      the button three screens down. Inside a group things now sit u1 to u3
+      apart, and only the two columns are u8 apart.
+    - THE ACTION IS A FIELD, as everywhere else on the site (see
+      `hairline-under`): full width in its column, the hairline under it, the
+      amount set at its right edge in mono. While it cannot be pressed that
+      hairline is DASHED, the mark this system already uses for "not yet" —
+      there is no grey in this palette to reach for, and none was added.
+
+    Layout lives here, not in utilities on the elements, for the reason written
+    against `.tile` and `.cart-noscript`: utilities are a later layer, and a
+    display utility on one of these would beat the grid below it.
+  */
+  .cart-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-u8);
+  }
+  .cart-list {
+    border-top: var(--hairline-w) solid var(--hairline);
+  }
+  .cart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--s-u3);
+  }
+  .cart-qty {
+    width: 4.5rem;
+  }
+  .cart-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-u3);
+    border-top: var(--hairline-w) solid var(--hairline);
+    padding-top: var(--s-u2);
+  }
+  .cart-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s-u3);
+  }
+  .cart-row > output {
+    text-align: right;
+  }
+  .cart-row-total {
+    border-top: var(--hairline-w) solid var(--hairline);
+    padding-top: var(--s-u2);
+  }
+  .cart-accept {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-u2);
+  }
+  .cart-accept input {
+    flex: none;
+    margin: 0;
+    transform: translateY(0.15em);
+  }
+  /*
+    LINKS INSIDE A SENTENCE TAKE A TEXT UNDERLINE, not `hairline-under`: that
+    utility is a border on the box, padded below it, which on an inline link
+    that wraps draws one line under the last fragment and well below the words.
+    Same weight and colour as every hairline here; it only sits on the text.
+  */
+  .cart-accept a {
+    text-decoration: underline;
+    text-decoration-thickness: var(--hairline-w);
+    text-underline-offset: 0.25em;
+  }
+  .cart-accept a:hover,
+  .cart-accept a:focus-visible {
+    text-decoration-thickness: calc(var(--hairline-w) * 2);
+  }
+  .cart-pay {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s-u3);
+    width: 100%;
+    text-align: left;
+    border-bottom: var(--hairline-w) solid var(--fg);
+    padding: var(--s-u1) 0;
+  }
+  .cart-pay:not([disabled]):hover,
+  .cart-pay:not([disabled]):focus-visible {
+    border-bottom-width: calc(var(--hairline-w) * 2);
+    margin-bottom: calc(var(--hairline-w) * -1);
+  }
+  .cart-pay[disabled] {
+    border-bottom-style: dashed;
+    cursor: not-allowed;
+  }
+  @media (min-width: 64rem) {
+    .cart-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(20rem, 28rem);
+      align-items: start;
+    }
+    .cart-summary {
+      position: sticky;
+      top: calc(var(--chrome-h) + var(--s-u3));
+    }
   }
 
   /*
@@ -1186,7 +1306,8 @@
     gap: var(--s-u1);
   }
   .field input,
-  .field textarea {
+  .field textarea,
+  .field select {
     width: 100%;
     background: transparent;
     color: var(--fg);
