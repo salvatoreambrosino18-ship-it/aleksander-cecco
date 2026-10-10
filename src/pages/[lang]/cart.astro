@@ -305,11 +305,12 @@ const contact = settings.contactEmail?.trim() || "info@aleksandercecco.com";
             <input type="hidden" name="holder" value="" data-holder />
 
             {/*
-              THE ONLY BUTTON, CARRYING THE TOTAL. It keeps the words the law
-              asks for on the control that creates the obligation to pay (see
-              `cartPay` in ui.ts) and adds the amount, because that is the number
-              a person confirms before pressing. It goes to Stripe, which charges
-              nothing until the buyer confirms on Stripe's own page.
+              THE ONLY BUTTON, CARRYING THE TOTAL: "Paga 165 €" / "Pay €165".
+              The word is the one decided on 2026-10-10 in place of the longer
+              legal formula (see `cartPay` in ui.ts, and the lawyer document),
+              and the amount is the number a person confirms before pressing. It
+              goes to Stripe, which charges nothing until the buyer confirms on
+              Stripe's own page.
 
               DISABLED UNTIL IT CAN WORK: no country, no tick, or a 1 of 1 the
               till will not take. The line under it says which, so a reader is
@@ -637,6 +638,8 @@ const contact = settings.contactEmail?.trim() || "info@aleksandercecco.com";
           if (payLabel) payLabel.textContent = labels.pay;
           /* The amount as soon as it is known: with a country, or from the threshold up, where it is free everywhere. */
           if (payAmount) payAmount.textContent = amount === null ? "" : fmt.format(goods + amount);
+          /* What a screen reader says: the two spans would otherwise run together as "Paga165 €". */
+          payButton.setAttribute("aria-label", amount === null ? labels.pay : `${labels.pay} ${fmt.format(goods + amount)}`);
         }
         if (payHint) {
           payHint.textContent = missing;
@@ -715,6 +718,7 @@ const contact = settings.contactEmail?.trim() || "info@aleksandercecco.com";
         payButton.setAttribute("aria-busy", "true");
         if (payLabel) payLabel.textContent = payButton.dataset.sending;
         if (payAmount) payAmount.textContent = "";
+        payButton.setAttribute("aria-label", payButton.dataset.sending);
       });
 
       /*

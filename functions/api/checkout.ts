@@ -256,8 +256,8 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const body = new URLSearchParams();
   body.set("mode", "payment");
   body.set("locale", locale);
-  /* The button on Stripe's own page. The one on ours carries the wording the
-     Codice del Consumo asks for; see the cart page. */
+  /* The button on Stripe's own page: "Pay" / "Paga", the same word as ours
+     (see `cartPay` in src/i18n/ui.ts for why that word). */
   body.set("submit_type", "pay");
   body.set("success_url", `${cart}?paid=1`);
   body.set("cancel_url", cart);

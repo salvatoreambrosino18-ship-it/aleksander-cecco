@@ -226,16 +226,21 @@ const ui = {
       frasi sull'ordine per email e sul pagamento "definito insieme" sono
       andate con quel percorso.
 
-      `cartPay` NON È NOSTRA E NON È SUA, ed è l'unica riga di questo file di
-      cui si possa dire. L'art. 51 comma 2 del Codice del consumo vuole che il
-      pulsante che fa nascere l'obbligo di pagare lo dica senza equivoci, e
-      "ordine con obbligo di pagare" è la formula che la norma stessa nomina.
-      Per questo è QUI e non fra le stringhe modificabili dallo studio: una
-      dicitura di legge riscritta in un pomeriggio è un adempimento saltato, non
-      una scelta editoriale. La formula esatta è comunque da confermare
-      all'avvocato insieme al resto, ed è nel documento che gli va mandato.
+      `cartPay` E' "PAGA", SEGUITO DAL TOTALE (decisione del 2026-10-10). Era
+      "Ordina con obbligo di pagare", la formula che l'art. 51 comma 2 del
+      Codice del consumo nomina per il pulsante che fa nascere l'obbligo di
+      pagare. La norma ammette anche una "formulazione corrispondente
+      inequivocabile", e "Paga 165 €" dice senza equivoci che premendo si paga
+      quella cifra; il pulsante che addebita davvero è comunque quello di
+      Stripe, che dice anch'esso "Paga". La scelta è nostra ed è scritta
+      nel documento per l'avvocato (docs/RICHIESTA-LEGALE-PAGAMENTI), perché
+      possa obiettare.
+
+      RESTA QUI E NON FRA LE STRINGHE MODIFICABILI DALLO STUDIO: è la parola
+      sul pulsante che crea l'obbligo, e cambiarla è una decisione da prendere
+      con l'avvocato, non un pomeriggio in un pannello.
     */
-    cartPay: "Ordina con obbligo di pagare",
+    cartPay: "Paga",
     cartPaid: "Pagamento ricevuto. Grazie. Ti mandiamo una conferma per email, e ti scriviamo di nuovo quando il pacco parte.",
     cartPayProblem: "Il pagamento non è partito e non ti è stato addebitato niente. Riprova.",
     /*
@@ -443,9 +448,9 @@ const ui = {
     cartRemove: "Remove",
     cartPieces: "The pieces",
     cartOnePiece: "One of one. Only this one exists.",
-    /* See the Italian above: `cartPay` carries a wording the law asks for, so
-       it is not editable from the studio. */
-    cartPay: "Order with obligation to pay",
+    /* See the Italian above: `cartPay` is the word on the button that creates
+       the obligation to pay, so it is not editable from the studio. */
+    cartPay: "Pay",
     cartPaid: "Payment received. Thank you. A confirmation is coming to your email, and we will write again when the parcel leaves.",
     cartPayProblem: "The payment did not start and you have not been charged. Try again.",
     /* Field labels, so they stay ours. See the Italian above. */
