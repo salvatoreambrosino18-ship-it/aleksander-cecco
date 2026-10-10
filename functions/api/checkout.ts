@@ -244,6 +244,20 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   body.set("metadata[lang]", locale);
   body.set("metadata[shipping]", `${destination} ${ship.zone} ${ship.amount}`);
   body.set("metadata[pieces]", lines.map((l) => `${l.qty}x ${l.slug}${l.size ? `/${l.size}` : ""}`).join(", ").slice(0, 480));
+  /*
+    WHAT THE PAID ORDER EMAIL IS WRITTEN FROM. /api/stripe-webhook reads these
+    back out of the signed event, so the letter he packs from names exactly the
+    lines and the country this endpoint priced, without calling Stripe again.
+    One line per key because a value holds 500 characters and a basket does
+    not fit in one; Stripe allows 50 keys and the catalogue is far below that.
+  */
+  body.set("metadata[destination]", destination);
+  lines.slice(0, 40).forEach((l, i) => {
+    body.set(
+      `metadata[line_${i}]`,
+      JSON.stringify({k: l.slug, n: l.name.slice(0, 200), s: l.size, q: l.qty, p: l.price}),
+    );
+  });
 
   let session: {url?: string; error?: {message?: string}};
   try {
