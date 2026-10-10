@@ -97,6 +97,8 @@ type Env = HoldsEnv & {
   SANITY_WRITE_TOKEN?: string;
   PUBLIC_SANITY_PROJECT_ID?: string;
   PUBLIC_SANITY_DATASET?: string;
+  /** The public address of the shop, https://aleksandercecco.com, as the build uses it. */
+  PUBLIC_SITE_URL?: string;
   /**
    * LOCAL TESTING ONLY. Verifies, parses and writes both letters, then answers
    * with them instead of sending them. Unset in production, where it does
@@ -565,9 +567,17 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   }
 
   const order = readOrder(session);
-  const origin = new URL(request.url).origin;
+  /*
+    THE LINKS IN A LETTER POINT AT THE SHOP, NOT AT WHOEVER RECEIVED THE EVENT.
+    The request's own origin is wherever Stripe was told to post: a preview
+    alias during a test, the pages.dev name if the endpoint were ever set up
+    that way. A buyer's terms link must be the public site in every case, so it
+    is PUBLIC_SITE_URL, the same value the build uses for canonical links, and
+    the request origin only if that is somehow unset.
+  */
+  const site = /^https:\/\/[^/\s]+/.exec(env.PUBLIC_SITE_URL?.trim() ?? "")?.[0] ?? new URL(request.url).origin;
   const owner = ownerLetter(order);
-  const buyer = order.email ? buyerLetter(order, {origin}) : null;
+  const buyer = order.email ? buyerLetter(order, {origin: site}) : null;
   const contact = await contactAddress(request);
 
   if (env.MAIL_DRY_RUN) {
