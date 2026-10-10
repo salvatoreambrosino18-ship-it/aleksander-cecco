@@ -360,9 +360,10 @@ export function ownerLetter(order: Order) {
     heading: order.test ? "Paid order (test)" : "Paid order",
     rows,
     lines: [
-      ...onlyOnes.map(
-        (name) =>
-          `${name} was one of one. The site has stopped selling it and marks it "No, è già di qualcuno" in the Studio; if the shop still shows it for sale in an hour, set that yourself.`,
+      ...onlyOnes.map((name) =>
+        order.test
+          ? `${name} is one of one. Test payment: this environment has stopped selling it, and the Studio was not changed.`
+          : `${name} was one of one. The site has stopped selling it and marks it "No, è già di qualcuno" in the Studio; if the shop still shows it for sale in an hour, set that yourself.`,
       ),
       "Paid by card through Stripe. The money is already taken: there is nothing to collect.",
       ...(dashboard ? [`The payment in Stripe: ${dashboard}`] : []),
@@ -595,6 +596,19 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
       }
     } else {
       console.error(`[stripe-webhook] HOLDS is not bound: ${line.slug} paid in ${session.id} but not locked`);
+    }
+    /*
+      A TEST PAYMENT NEVER TOUCHES THE STUDIO (2026-10-10). Preview and
+      production read the same dataset, so a test-mode checkout of Styrax Red
+      on a preview would otherwise take the real coat off sale. `livemode`
+      comes from the signed event, so it cannot be forged by a POST, and it is
+      checked here rather than trusted to a missing token: the guard holds even
+      on the day somebody copies SANITY_WRITE_TOKEN into Preview. HOLDS above
+      is still written, because Preview has a database of its own.
+    */
+    if (order.test) {
+      console.log(`[stripe-webhook] test payment: ${line.slug} sold in this environment's HOLDS only; studio left unchanged`);
+      continue;
     }
     const studio = await markSoldInStudio(env, line.slug);
     if (studio === "no-token") {
