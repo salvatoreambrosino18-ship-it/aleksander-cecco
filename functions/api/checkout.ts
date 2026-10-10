@@ -224,6 +224,15 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   body.set("shipping_address_collection[allowed_countries][0]", destination);
 
   /*
+    WHAT STRIPE'S PAGE ASKS FOR, which is everything the e-mail form used to:
+    the email (Checkout always asks), the full name and the full address (the
+    shipping address block asks for both, in the one country above), and the
+    PHONE, which a courier wants on the label and which Checkout makes required
+    once it is switched on. The paid order letter prints all four.
+  */
+  body.set("phone_number_collection[enabled]", "true");
+
+  /*
     ONE SHIPPING OPTION, THE ONE THEY WERE QUOTED. Its amount was computed from
     the table the build wrote, not from anything in the POST, so the figure the
     cart displayed and the figure Stripe charges come from the same numbers.
