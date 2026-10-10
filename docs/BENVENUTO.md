@@ -65,9 +65,8 @@ virgole. Duecento si scrive `200`.
 
 **5.** **Publish**.
 
-Se cancelli il prezzo e lo lasci vuoto, il capo resta sul sito e si può ancora
-ordinare dal suo modulo, ma **sparisce dal carrello**, perché il carrello deve
-fare un totale.
+Se cancelli il prezzo e lo lasci vuoto, il capo resta sul sito ma **non si può
+più comprare**: si paga solo dal carrello, e il carrello deve fare un totale.
 
 ---
 
@@ -117,8 +116,9 @@ link continua a funzionare. Nel catalogo il capo si sposta in fondo, sotto
 per comprare.
 
 **Le altre due scelte.** «Sì, ma ne esiste uno solo» è per i pezzi unici: si
-compra normalmente ma se ne può prendere uno solo. «No, è già di qualcuno» è
-per un pezzo fatto per una persona.
+compra normalmente ma se ne può prendere uno solo, e quando qualcuno lo paga il
+sito lo mette da solo su «No, è già di qualcuno» (punto 16). «No, è già di
+qualcuno» è per un pezzo fatto per una persona, o già venduto.
 
 ---
 
@@ -375,6 +375,59 @@ Ne restano dodici.
 
 ---
 
+## 16. Quando arriva un ordine pagato
+
+Si paga solo con carta, sul sito. Chi compra sceglie il paese, spunta la casella
+sulle condizioni di vendita e sulla privacy, preme **Paga** e paga su Stripe.
+**Nessun ordine ti arriva senza i soldi.**
+
+**La mail.** Arriva nella tua casella di sempre, dallo stesso mittente degli
+ordini di prima. L'oggetto comincia con **Paid order**, poi il capo e il totale:
+«Paid order: Abyssys S — €165». Dentro c'è ogni capo con taglia e quantità, la
+spedizione pagata e il paese, il totale incassato, il nome, l'email, il telefono
+e l'indirizzo completo di chi ha comprato.
+
+**I soldi sono già presi.** Non devi chiedere niente a nessuno.
+
+**1.** Se in cima alla mail c'è una riga **Check**, fermati: la spedizione è
+stata pagata per un paese e l'indirizzo è in un altro. Non spedire e scrivici.
+Non dovrebbe succedere mai.
+
+**2.** Prepara il capo nella taglia scritta accanto al nome.
+
+**3.** Spedisci all'indirizzo sotto **Ship to**, con il telefono sull'etichetta:
+serve al corriere.
+
+**4.** Quando il pacco parte, **rispondi alla mail**: la risposta va dritta a chi
+ha comprato. Scrivigli che è partito e il numero per seguirlo. Gli abbiamo già
+detto che gli avresti scritto.
+
+**Chi compra riceve una mail sua**, nella sua lingua: cosa ha comprato, quanto ha
+pagato, dove arriva, e che gli scriverai quando parte. Se risponde a quella
+mail, la risposta arriva a info@aleksandercecco.com.
+
+**Se è un pezzo unico** (Severya, Styrax Red Goat), la mail lo dice. Il sito
+smette da solo di venderlo e nel pannello lo mette su **No, è già di qualcuno**.
+Se dopo un'ora lo vedi ancora in vendita, fallo tu, come al punto 3. Mentre
+qualcuno lo sta pagando, chi prova a comprarlo legge che qualcun altro lo sta
+pagando; se il primo non conclude, dopo mezz'ora torna libero.
+
+**Se ti arriva una mail Buyer not confirmed**, la mail al cliente non è partita.
+Rispondi a quella mail e scrivigli tu: la risposta va a lui.
+
+**Per rimborsare**, per esempio se chi ha comprato cambia idea entro i
+quattordici giorni: nella mail c'è il link **The payment in Stripe**. Aprilo e
+premi **Refund**, o **Rimborsa** se Stripe ti parla in italiano. I soldi tornano
+sulla stessa carta.
+
+**Una mail con [TEST] nell'oggetto** è una prova nostra. Non c'è niente da
+spedire.
+
+**Se il sito dice che al momento non si può ordinare**, Stripe non risponde o
+non accetta la chiave. Il negozio è fermo finché non torna: scrivici subito.
+
+---
+
 ## Quando una cosa non appare
 
 In ordine, e fermati appena la trovi.
@@ -417,7 +470,11 @@ sito. Non ti servono e non rompono niente.
 ## Cosa resta da fare, ed è poco
 
 Niente di questo tiene chiuso il negozio. Sono cose scritte da noi che
-aspettano una tua parola.
+aspettano una tua parola, e una che aspetta l'avvocato.
+
+**I testi del pagamento con carta.** Le condizioni di vendita e la privacy
+pubblicate descrivono ancora l'ordine per email. Le domande per l'avvocato sono
+scritte; quando risponde, i testi nuovi li mettiamo noi, parola per parola.
 
 **Sei descrizioni in italiano.** L'inglese è tuo, l'italiano lo abbiamo tradotto
 noi: Monumentus Lux, Monumentus Pants, Styrax, Styrax Red Goat, Tibia Cut e
@@ -445,10 +502,12 @@ solo per il filtro del catalogo.
 Rubedo non si può rifare, Monumentus Lux è esaurito, Vegmentum aspetta un
 prezzo.
 
-**Gli ordini arrivano nella tua casella**, con il nome, l'indirizzo e cosa ha
-scelto chi compra.
+**Si paga solo con carta, sul sito**, anche Severya e Styrax Red Goat. Gli
+ordini ti arrivano già pagati, con il nome, l'indirizzo e cosa ha scelto chi
+compra (punto 16).
 
 **Le condizioni di vendita, la privacy e il recesso sono online**, scritte
-dall'avvocato, e in fondo a ogni pagina ci sono i dati della società.
+dall'avvocato, e in fondo a ogni pagina ci sono i dati della società. Vanno
+aggiornate per il pagamento con carta: vedi sopra.
 
 **Il sito è su Google** dal 22 agosto.
