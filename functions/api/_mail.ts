@@ -3,17 +3,15 @@
 
   A MODULE BECAUSE THERE ARE NOW TWO LETTERS. The paid order he receives and the
   confirmation the buyer receives are both written here, in the register the
-  order email established on 2026-08-03 (see enquiry.ts): paper not ink, no web
+  order email established on 2026-08-03 for the e-mail path: paper not ink, no web
   fonts, every style inline, a plain text alternative alongside. He has read
   that layout every time somebody wanted a piece, so a paid order arrives in a
   shape he already knows how to read, and the only new word in it is "Paid".
 
   UNDERSCORED SO PAGES DOES NOT ROUTE IT, like _catalogue.ts.
 
-  enquiry.ts KEEPS ITS OWN COPY of the layout until the email path is removed,
-  which is a later commit. Folding a working endpoint onto a new module in the
-  same change that adds an unrelated feature is how the thing that works gets
-  broken.
+  The e-mail path (enquiry.ts) was removed on 2026-10-10, so this is now the
+  only copy of the layout.
 */
 
 export type MailEnv = {

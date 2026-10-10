@@ -612,7 +612,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   const finish = (body: string) =>
     retryMarking ? reply(500, `${body}; marking sold failed (${retryMarking}), retry`) : reply(200, body);
 
-  /* Names only, never values: see the same rule in enquiry.ts. */
+  /* Names only, never values: a log line that prints a secret is a secret in a log. */
   const missing = (["RESEND_API_KEY", "RESEND_FROM", "ENQUIRY_TO_EMAIL"] as const).filter((key) => !env[key]);
   if (missing.length > 0) {
     console.error(`[stripe-webhook] PAID ORDER NOT EMAILED (${session.id}), missing: ${missing.join(", ")}. Stripe will retry.`);

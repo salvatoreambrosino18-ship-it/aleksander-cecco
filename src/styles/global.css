@@ -1212,15 +1212,6 @@
     background: transparent;
     cursor: pointer;
   }
-  /* Visually gone, still reachable by anything that fills forms blindly. */
-  .spam-trap {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
 
   /*
     The menu. A <details> element so it works with no JavaScript; the open state

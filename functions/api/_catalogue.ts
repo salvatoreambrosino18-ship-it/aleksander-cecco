@@ -14,12 +14,8 @@
   exports no handler either, so the worst case if that ever changed is a path
   that answers nothing.
 
-  WHAT IT DELIBERATELY DOES NOT DO YET: enquiry.ts still carries its own older
-  copy of this logic, and folding it onto this module is a separate commit.
-  That endpoint is the brand's only working sales channel, and rewriting it in
-  the same change that adds an unrelated feature is how the thing that works
-  gets broken. The behaviour here was derived from it line by line; the merge is
-  mechanical and wants its own verification, not a footnote in this one.
+  It is now the only copy: enquiry.ts carried an older one and was removed with
+  the e-mail path on 2026-10-10.
 */
 
 /** One line of an order, priced by the site rather than by the buyer. */

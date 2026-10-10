@@ -145,7 +145,6 @@ const ui = {
       what the piece IS rather than implying it could be repeated.
     */
     unique: "Commissione privata. 1 di 1, fatta una volta sola.",
-    uniqueAction: "Acquista questo pezzo",
     privateOrder: "Ordine privato.",
     notTakingRequests: "Non in lavorazione ora.",
     // "Creatura" is the owner's own word for a piece, not ours (2026-08-02).
@@ -182,13 +181,6 @@ const ui = {
     price: "Prezzo",
     priceFrom: "Da",
     /*
-      THE ACTION IS AN ORDER (2026-08-04). "Send enquiry" told a buyer they were
-      writing a message; his own shop sells. The label carries the price, which
-      is the one number a person checks before pressing anything. Copy is ours,
-      flagged as enquiryCopy.
-    */
-    order: "Ordine",
-    /*
       INTRO LINES (2026-08-04). A shop needs a sentence where an exhibition
       needs silence, and with the invented-but-flagged regime there is no
       reason left for bare pages. All OURS, all counted by inventedCopy
@@ -213,30 +205,26 @@ const ui = {
       suoi fatti dentro, segnate `contactCopy`. / OURS, carrying his facts.
     */
     contactWhere: "Lo studio è a Napoli. La pelle si concia a un'ora di strada, a Solofra.",
-    contactBuy: "Per comprare un capo non serve scrivere. Ogni Creatura ha il suo modulo d'ordine.",
+    contactBuy: "Per comprare un capo non serve scrivere: lo metti nel carrello e paghi con carta.",
     /*
       IL CARRELLO (2026-08-16, sezione 129). NOSTRE, segnate `orderCopy`. Il
       totale non è un prezzo nuovo: è la somma dei prezzi che sono già sulle
       pagine dei capi.
     */
     cart: "Carrello",
-    cartIntro: "Questi sono i pezzi che hai scelto. Qui non si paga. Confermiamo tutto per email.",
+    cartIntro: "Questi sono i pezzi che hai scelto.",
     cartEmpty: "Il carrello è vuoto.",
     cartQuantity: "Quantità",
     cartTotal: "Totale",
-    cartYourDetails: "I tuoi dati",
     cartAdd: "Aggiungi al carrello",
     cartAdded: "Nel carrello",
     cartRemove: "Togli",
     cartPieces: "I pezzi",
     cartOnePiece: "Pezzo unico. Ne esiste uno solo.",
-    cartNoPayment: "Il pagamento non si fa qui. Ti rispondiamo per email e lo definiamo insieme.",
-    cartSend: "Invia l'ordine",
     /*
-      LE QUATTRO RIGHE DELLA CARTA. Il sito non le mostra ancora: la pagina le
-      scrive nascoste e le accende solo se /api/checkout risponde che le due
-      variabili Stripe ci sono. Finché non ci sono, il carrello dice quello che
-      ha sempre detto, cioè `cartNoPayment` qui sopra.
+      LE RIGHE DELLA CARTA, che dal 2026-10-10 è l'unico modo di ordinare: le
+      frasi sull'ordine per email e sul pagamento "definito insieme" sono
+      andate con quel percorso.
 
       `cartPay` NON È NOSTRA E NON È SUA, ed è l'unica riga di questo file di
       cui si possa dire. L'art. 51 comma 2 del Codice del consumo vuole che il
@@ -247,10 +235,9 @@ const ui = {
       una scelta editoriale. La formula esatta è comunque da confermare
       all'avvocato insieme al resto, ed è nel documento che gli va mandato.
     */
-    cartPayIntro: "Puoi pagare adesso con carta, oppure inviare l'ordine e definire il pagamento per email.",
     cartPay: "Ordina con obbligo di pagare",
     cartPaid: "Pagamento ricevuto. Grazie. Ti mandiamo una conferma per email, e ti scriviamo di nuovo quando il pacco parte.",
-    cartPayProblem: "Il pagamento non è partito e non ti è stato addebitato niente. Riprova, oppure invia l'ordine qui sotto e lo definiamo per email.",
+    cartPayProblem: "Il pagamento non è partito e non ti è stato addebitato niente. Riprova.",
     /*
       LE RIGHE DELLA SPEDIZIONE. Sono etichette di campo, non voce del marchio,
       quindi restano qui e non fra le stringhe modificabili dallo studio: una
@@ -274,7 +261,8 @@ const ui = {
       QUANDO IL BROWSER NON ESEGUE SCRIPT. Non è una scusa: è l'unica frase
       onesta che questa pagina può dire, e dice anche dove andare invece.
     */
-    cartNeedsScript: "Il carrello ha bisogno di JavaScript, che in questo browser è spento. Ogni Creatura si può comprare lo stesso, dalla sua pagina.",
+    cartNeedsScript: "Per comprare serve JavaScript, che in questo browser è spento.",
+    cartStorageRefused: "Questo browser non tiene il carrello",
     wornLine: "Addosso, alla luce del giorno.",
     /*
       IL PREZZO STA SUL PULSANTE (sezione 4) E IL TRATTINO NO (sezione 134).
@@ -314,12 +302,7 @@ const ui = {
     returnsShort:
       "Quattordici giorni per cambiare idea, da quando ricevi il capo. La spedizione del reso è a tuo carico.",
     returnsLink: "Condizioni di vendita e recesso",
-    forPrice: "per",
-    acquire: "Acquista",
-    placeOrder: "Invia l'ordine",
-    sending: "Invio in corso",
-    yourName: "Nome",
-    note: "Note",
+    sending: "Apro il pagamento",
     details: "Scheda tecnica",
     shippingReturns: "Spedizioni e resi",
     // Empty states. What is true, said plainly, never a token.
@@ -398,7 +381,6 @@ const ui = {
     chooseSize: "Choose a size",
     chooseSizeFirst: "Choose a size first",
     unique: "A private commission. 1 of 1, made once.",
-    uniqueAction: "Acquire this piece",
     privateOrder: "Private order.",
     notTakingRequests: "Not in the making now.",
     draftNotice: "Unapproved draft",
@@ -416,33 +398,28 @@ const ui = {
     madeInItaly: "Handcrafted in South Italy",
     price: "Price",
     priceFrom: "From",
-    order: "Order",
     // See the Italian above (section 108): the choice this line offered was
     // removed from the shop on 2026-08-12.
     shopIntro: "Every piece already exists. Handcrafted in South Italy.",
     enterDrop: "See the drop",
     contactIntro: "A person replies. Within one day, Italian time.",
     contactWhere: "The studio is in Naples. The leather is tanned an hour up the road, in Solofra.",
-    contactBuy: "To buy a piece you do not have to write. Every Creature has its own order form.",
+    contactBuy: "To buy a piece you do not have to write: add it to the cart and pay by card.",
     cart: "Cart",
-    cartIntro: "These are the pieces you chose. There is no payment here. We confirm everything by email.",
+    cartIntro: "These are the pieces you chose.",
     cartEmpty: "Your cart is empty.",
     cartQuantity: "Quantity",
     cartTotal: "Total",
-    cartYourDetails: "Your details",
     cartAdd: "Add to cart",
     cartAdded: "In the cart",
     cartRemove: "Remove",
     cartPieces: "The pieces",
     cartOnePiece: "One of one. Only this one exists.",
-    cartNoPayment: "Payment does not happen here. We reply by email and settle it with you.",
-    cartSend: "Send the order",
     /* See the Italian above: `cartPay` carries a wording the law asks for, so
        it is not editable from the studio. */
-    cartPayIntro: "You can pay by card now, or send the order and settle payment by email.",
     cartPay: "Order with obligation to pay",
     cartPaid: "Payment received. Thank you. A confirmation is coming to your email, and we will write again when the parcel leaves.",
-    cartPayProblem: "The payment did not start and you have not been charged. Try again, or send the order below and we will settle it by email.",
+    cartPayProblem: "The payment did not start and you have not been charged. Try again.",
     /* Field labels, so they stay ours. See the Italian above. */
     cartDestination: "Where are we sending it",
     cartDestinationChoose: "Choose a country",
@@ -452,7 +429,8 @@ const ui = {
     cartHeld: "Someone else is paying for this piece right now. If they don't finish, it becomes available again within half an hour.",
     cartSold: "This piece has just been sold. Remove it from the cart to pay for the rest.",
     cartUniqueOff: "This piece cannot be paid for right now.",
-    cartNeedsScript: "The cart needs JavaScript, which is switched off in this browser. Every Creature can still be bought from its own page.",
+    cartNeedsScript: "Buying here needs JavaScript, which is switched off in this browser.",
+    cartStorageRefused: "This browser will not keep a cart",
     wornLine: "On bodies, in daylight.",
     /* See the Italian above (section 137) for why these four are not editable. */
     privacyTitle: "Privacy policy",
@@ -462,12 +440,7 @@ const ui = {
     returnsShort:
       "Fourteen days to change your mind, from the day you receive the piece. Return shipping is at your expense.",
     returnsLink: "Terms of sale and withdrawal",
-    forPrice: "for",
-    acquire: "Acquire",
-    placeOrder: "Place the order",
-    sending: "Placing the order",
-    yourName: "Name",
-    note: "Note",
+    sending: "Opening the payment",
     details: "Technical details",
     shippingReturns: "Shipping and returns",
     nothingYet: "Nothing here yet.",
@@ -500,19 +473,19 @@ export const OWNER_EDITABLE = [
   "handcrafted", "madeInItaly", "shopIntro", "contactIntro", "contactWhere", "contactBuy",
   "outsideCollections", "fitGuidance", "alsoExistsAs",
   "availableNow", "oneSize", "unique", "privateOrder", "notTakingRequests", "wornLine",
-  "cartIntro", "cartOnePiece", "cartNoPayment", "cartEmpty", "nothingYet", "notFound",
+  "cartIntro", "cartOnePiece", "cartEmpty", "nothingYet", "notFound",
   /* `cartPay` is absent from this list on purpose, and the reason is in the
      block that defines it: it is a wording the Codice del consumo asks for, not
      a sentence the brand gets to choose. */
-  "cartPayIntro", "cartPaid", "cartPayProblem",
+  "cartPaid", "cartPayProblem",
   // the titles that head a part of a page
   "theWork", "theProject", "bodyOfLight", "worn", "theMaking", "processTitle",
   "otherDrops", "enterDrop", "allCreatures", "cart", "cartPieces",
-  "cartYourDetails", "support", "worldwideShipping", "shippingReturns", "footerNav",
+  "support", "worldwideShipping", "shippingReturns", "footerNav",
   // his own words for his own things
-  "creatures", "collections", "newDrop", "acquire", "uniqueAction", "cartAdd",
+  "creatures", "collections", "newDrop", "cartAdd",
   // the menu, the catalogue's own words, the buttons, and the labels under a piece
-  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "placeOrder", "cartSend", "backHome", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
+  "menuHome", "gallery", "process", "about", "contact", "designer", "creators", "experimentalLineBy", "filterAll", "filterEveryone", "filterMen", "filterWomen", "movementAvailable", "movementOneOfOne", "movementSold", "soldOut", "noneMatch", "noneMatchHint", "backHome", "materials", "availability", "price", "priceFrom", "thisPieceMeasurements", "referenceMeasurements", "collection", "details",
 ] as const satisfies ReadonlyArray<UIKey>;
 
 const editable = new Set<string>(OWNER_EDITABLE);

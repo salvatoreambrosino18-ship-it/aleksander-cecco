@@ -5,9 +5,14 @@
 
   WHAT HE ASKED FOR, in his words: choose a size on a Creature's page and add it
   to a cart; a cart icon in the header, always visible, with a count; and from
-  there a normal checkout — contact details, submit, the order arrives by email.
-  No payment, exactly as before. He has seen the page that listed every piece at
-  once and does not want it. That page is deleted rather than left standing.
+  there a normal checkout. He has seen the page that listed every piece at once
+  and does not want it. That page is deleted rather than left standing.
+
+  CARD ONLY, SINCE 2026-10-10. The cart used to end in a form that emailed the
+  order to him and settled the money in the reply; it now ends in one button
+  that goes to Stripe, which asks for the name, the email, the phone and the
+  address there. That e-mail path, the single-piece order form and the endpoint
+  behind both are gone, on the owner's decision.
 
   WHAT A CART COSTS ON THIS SITE, stated plainly because it is the whole reason
   this page is shaped the way it is. A cart is per-visitor mutable state that
@@ -29,21 +34,13 @@
   the site is served. The owner was told this before it was built and accepted
   it.
 
-  WHICH PAGES STOP WORKING WITHOUT A SCRIPT, and the answer is one — THIS ONE.
-  With scripts off it says so and sends the reader to the catalogue, where every
-  Creature still has its own order form, which is a plain HTML form that posts
-  to the same endpoint and has never needed a script. Nothing else on the site
-  changed: the menu is a <details>, the catalogue filter is CSS, every other
-  page renders, navigates and posts exactly as it did. The cart control in the
-  chrome and the add control on a piece are HIDDEN rather than dead in that
-  case, because a control that cannot do its job is worse than no control.
-
-  PAYMENT IS NOT HERE, and the form says so. It collects who is buying and what
-  they want and sends it to the brand; money is settled in the reply, when he
-  has a fiscal position for it. It posts to the SAME endpoint as every other
-  order, behind the SAME gate: with the Resend bindings unset the endpoint
-  answers 503 and says sending is not switched on. Nothing leaves this site
-  until the privacy notice exists.
+  WITHOUT A SCRIPT NOTHING CAN BE BOUGHT, and the page says so rather than
+  pretending. Until the e-mail path went, a reader with scripts off could still
+  order from a piece's own plain HTML form; that form went with it, so buying
+  now needs JavaScript on this page and on the piece's. Everything else on the
+  site still renders and navigates without one. The cart control in the chrome
+  and the add control on a piece are HIDDEN rather than dead in that case,
+  because a control that cannot do its job is worse than no control.
 
   THE PRICES ARE THE BUILD'S, NEVER THE FORM'S. Every figure on this page comes
   from the catalogue below, written by the build from the same query the shop
@@ -150,12 +147,6 @@ const currency = items[0]?.currency ?? "EUR";
     */}
     <div class="cart-noscript">
       <p class="type-body text-body max-w-prose">{t(locale, "cartNeedsScript")}</p>
-      <a
-        href={localePath(locale, "creature")}
-        class="type-label text-body hairline-under self-start"
-      >
-        {t(locale, "allCreatures")}
-      </a>
     </div>
 
     {/* Written by the script, from localStorage, against the catalogue above. */}
@@ -164,8 +155,8 @@ const currency = items[0]?.currency ?? "EUR";
         BACK FROM STRIPE, PAID. The card path leaves this site and returns to
         this same page with ?paid=1, which is the only moment the basket is
         known to have been bought — so it is the only place it can be emptied,
-        for the reason the confirmation page in enquiry.ts already gives: the
-        cart lives in the visitor's localStorage and no server can reach it.
+        because the cart lives in the visitor's localStorage and no server can
+        reach it.
         Without this a buyer's basket still holds everything they just paid
         for, the count in the chrome still says three, and the obvious next act
         is to buy it again.
@@ -192,17 +183,15 @@ const currency = items[0]?.currency ?? "EUR";
 
       <form
         method="POST"
-        action="/api/enquiry"
+        action="/api/checkout"
         class="flex flex-col gap-u8"
         data-cart-form
         hidden
       >
         {/*
           THE CARD PATH DID NOT START. Shown on the way back from a refused
-          /api/checkout, and it says two things on purpose: nothing was charged,
-          and the order can still be sent from this same page. The basket is
-          untouched, so the second sentence is an instruction the reader can
-          follow without moving.
+          /api/checkout, and it says the one thing a buyer needs first: nothing
+          was charged. The basket is untouched, so trying again is one press.
         */}
         <p class="type-body text-body max-w-prose" data-cart-problem hidden>
           {t(locale, "cartPayProblem")}
@@ -225,23 +214,6 @@ const currency = items[0]?.currency ?? "EUR";
           <output data-cart-total aria-live="polite"></output>
         </p>
 
-        <h2 class="type-label text-label">{t(locale, "cartYourDetails")}</h2>
-
-        <div class="field">
-          <label class="type-label text-label" for="name">{t(locale, "yourName")}</label>
-          <input id="name" name="name" type="text" required maxlength="120" autocomplete="name" />
-        </div>
-
-        <div class="field">
-          <label class="type-label text-label" for="email">Email</label>
-          <input id="email" name="email" type="email" required maxlength="254" autocomplete="email" />
-        </div>
-
-        <div class="field">
-          <label class="type-label text-label" for="note">{t(locale, "note")}</label>
-          <textarea id="note" name="note" rows="4" maxlength="2000" />
-        </div>
-
         <div class="type-body text-body flex flex-col gap-u1">
           {shippingLines.map((line) => <p class="max-w-prose">{line}</p>)}
           {/* Il testo intero, per chi lo vuole prima di comprare. Sezione 137. */}
@@ -249,19 +221,6 @@ const currency = items[0]?.currency ?? "EUR";
             {t(locale, "returnsLink")}
           </a>
         </div>
-        {/*
-          TWO SENTENCES ABOUT MONEY, AND ONLY ONE IS EVER TRUE.
-
-          The first is what this site has always said and is what it says today.
-          The second is written hidden and is revealed only when /api/checkout
-          answers that both Stripe variables exist in the Cloudflare project. So
-          the page cannot claim a card is accepted while the endpoint that would
-          take it is switched off, which is the failure worth engineering
-          against: a shop that offers a payment it cannot take.
-        */}
-        <p class="type-body text-body max-w-prose" data-no-payment>{t(locale, "cartNoPayment")}</p>
-        <p class="type-body text-body max-w-prose" data-pay-intro hidden>{t(locale, "cartPayIntro")}</p>
-
         {/*
           WHERE IT GOES, ASKED HERE AND NOT ON STRIPE'S PAGE.
 
@@ -276,14 +235,12 @@ const currency = items[0]?.currency ?? "EUR";
           their real shipping figure on this page, before committing to
           anything, which no version that asked later could do.
 
-          NOT `required` IN THE DOCUMENT, and set so only when the pay button is
-          the one being pressed. The send button posts to the e-mail path, which
-          has never asked where a parcel goes and must not start because a
-          second button appeared beside it.
+          REQUIRED, now that paying is the only way to order: there is no path
+          left that does not need to know where the parcel goes.
         */}
         <div class="field" data-destination-field hidden>
           <label class="type-label text-label" for="destination">{t(locale, "cartDestination")}</label>
-          <select id="destination" name="destination" data-destination>
+          <select id="destination" name="destination" data-destination required>
             <option value="">{t(locale, "cartDestinationChoose")}</option>
             {destinations.map((d) => <option value={d.code}>{d.name}</option>)}
           </select>
@@ -320,44 +277,17 @@ const currency = items[0]?.currency ?? "EUR";
           <a href={localePath(locale, "privacy")} class="hairline-under">{t(locale, "consentLink")}</a>
         </p>
 
-        {/* Hidden from people, not from bots: they fill it in, humans cannot. */}
-        <div class="spam-trap" aria-hidden="true">
-          <label for="website">Website</label>
-          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
-        </div>
-
         <input type="hidden" name="lang" value={locale} />
         {/* This browser's id for the 1 of 1 lock: written by the script, see _holds.ts. */}
         <input type="hidden" name="holder" value="" data-holder />
-        <input type="hidden" name="renderedAt" value={String(Date.now())} />
-
-        <button
-          type="submit"
-          class="type-label text-body hairline-under self-start"
-          data-sending={t(locale, "sending")}
-        >
-          {t(locale, "cartSend")}
-        </button>
 
         {/*
-          THE CARD BUTTON, AND IT IS SECOND FOR A REASON THAT IS NOT TASTE.
-
-          A form's DEFAULT submit — the one the Enter key presses from inside a
-          text field — is the FIRST submit button in the document, and `hidden`
-          does not take a button out of that running. Put this one first and,
-          on every day this feature is switched off, Enter in the email field
-          would post the basket to a checkout endpoint that is not on. Second,
-          it cannot: Enter always sends the order, which is the path that works.
-
-          It is the same form, the same fields and the same validation: only the
-          `formaction` differs, so the size radios are still required and the
-          basket the endpoint prices is the basket the reader is looking at.
-          No script builds this request, which is why there is no third way for
-          it to be wrong.
+          THE ONLY BUTTON. It goes to Stripe, which charges nothing until the
+          buyer confirms on Stripe's own page. Enter in a field never presses it
+          (see the script): starting a payment is always a deliberate press.
         */}
         <button
           type="submit"
-          formaction="/api/checkout"
           class="type-label text-body hairline-under self-start"
           data-pay-button
           data-sending={t(locale, "sending")}
@@ -404,8 +334,6 @@ const currency = items[0]?.currency ?? "EUR";
       const paid = document.querySelector("[data-cart-paid]");
       const problem = document.querySelector("[data-cart-problem]");
       const payButton = document.querySelector("[data-pay-button]");
-      const payIntro = document.querySelector("[data-pay-intro]");
-      const noPayment = document.querySelector("[data-no-payment]");
       const destField = document.querySelector("[data-destination-field]");
       const destination = document.querySelector("[data-destination]");
       const shipLine = document.querySelector("[data-shipping-line]");
@@ -684,10 +612,10 @@ const currency = items[0]?.currency ?? "EUR";
       }
 
       /*
-        ON THE LIST, NOT ON THE FORM. The form also holds the name, the email
-        and the note, and listening there rewrote the stored cart on every
-        keystroke of somebody's address — for nothing, since none of it belongs
-        to the cart.
+        ON THE LIST, NOT ON THE FORM. The form also holds the destination, and
+        listening there rewrote the stored cart on every change that does not
+        belong to it. (It used to hold a name, an email and a note too; Stripe
+        asks for those now.)
       */
       list.addEventListener("input", () => sync(false));
       list.addEventListener("change", () => sync(true));
@@ -708,21 +636,18 @@ const currency = items[0]?.currency ?? "EUR";
         disabled — a disabled control leaves the accessibility tree mid-action.
       */
       /*
-        THE DESTINATION IS REQUIRED FOR ONE OF THE TWO BUTTONS.
-
-        `click` fires before the browser validates the form, so setting the flag
-        here decides which rules the submit about to happen is judged by. The
-        pay path cannot price a parcel without a country; the e-mail path never
-        asked for one and still does not, which matters because that path is the
-        one that currently sells everything.
+        ENTER NEVER STARTS A PAYMENT. A form's implicit submission presses its
+        first submit button when Enter is pressed in a field, and the only
+        button here leaves for Stripe. Changing a quantity and pressing Enter
+        is a person confirming a number, not choosing to pay, so it is caught
+        here; the button, a click or a tap on it, is the one way to go.
       */
-      if (destination) {
-        form.addEventListener("click", (event) => {
-          const button = event.target.closest("button[type=submit]");
-          if (!button) return;
-          destination.required = button.hasAttribute("data-pay-button");
-        });
-      }
+      form.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        const target = event.target;
+        if (target instanceof HTMLButtonElement || target instanceof HTMLTextAreaElement || target instanceof HTMLAnchorElement) return;
+        event.preventDefault();
+      });
 
       /*
         WHO IS ASKING, as far as the 1 of 1 lock is concerned. A random id kept
@@ -840,11 +765,8 @@ const currency = items[0]?.currency ?? "EUR";
             for (const [slug, item] of catalogue) if (item.max === 1) blocked.set(slug, "unavailable");
           }
           block();
-          if (payIntro) payIntro.hidden = false;
           if (destField) destField.hidden = false;
           showShipping();
-          /* Only now is the older sentence untrue, so only now does it go. */
-          if (noPayment) noPayment.hidden = true;
         })
         .catch(() => {
           /* Dark, and that is the safe answer. */

@@ -1,13 +1,10 @@
 /*
-  POST /api/checkout — the card path. A Cloudflare Pages Function, the second
-  piece of server-side code on this site.
+  POST /api/checkout — the card path, and since 2026-10-10 the only way to
+  order: the e-mail path and its endpoint are gone, on the owner's decision.
 
-  IT SHIPS DARK, AND THAT IS THE POINT OF THE FILE. Nothing here can sell
-  anything until STRIPE_SECRET_KEY exists in the Cloudflare project. It is
-  absent today and is meant to stay absent until the reissued terms of sale are
-  transcribed into src/content/legal.ts. Until then this endpoint answers "not
-  switched on", the cart never renders a pay button, and the site sells exactly
-  as it did yesterday.
+  ONE SWITCH. Nothing here can sell anything unless STRIPE_SECRET_KEY exists in
+  the Cloudflare project. Without it this endpoint answers "not switched on",
+  and the cart shows no button and says that ordering is unavailable for now.
 
   THERE USED TO BE A SECOND SWITCH, STRIPE_SHIPPING_COUNTRIES, and it is gone on
   purpose. It existed to force a decision nobody had taken: which countries the
@@ -46,15 +43,15 @@
   website stays literally true. Elements would end all three in one commit.
 
   NO STRIPE SDK. The library is Node-shaped and large, and this is one HTTPS
-  call with a form-encoded body. enquiry.ts calls Resend the same way.
+  call with a form-encoded body. _mail.ts calls Resend the same way.
 
-  NO RATE LIMITER, DELIBERATELY, and this is the one place this file differs
-  from enquiry.ts on purpose. That endpoint limits because it spends a finite
-  resource — a hundred Resend emails a day — so a loop of requests could deny
-  the business its only sales channel. Creating a Checkout Session spends
-  nothing, sends nothing and reserves nothing; an abandoned session is garbage
-  Stripe collects. Stripe's own limits apply on top. If that ever stops being
-  true the limiter in enquiry.ts is the one to reuse, not a second one.
+  NO RATE LIMITER, DELIBERATELY. The old e-mail endpoint limited because it
+  spent a finite resource — a hundred Resend emails a day. Creating a Checkout
+  Session sends nothing; an abandoned session is garbage Stripe collects, and
+  Stripe's own limits apply on top. The one thing a session can reserve is a
+  1 of 1, and that hold lapses with the session and is taken back by the same
+  browser (see _holds.ts), so a loop of requests can delay a sale of one
+  unique piece by half an hour, not take it.
 */
 import {loadCatalogue, priceLines, shippingFor} from "./_catalogue";
 import {attach, claim, release, SESSION_SECONDS, status, type HoldsEnv} from "./_holds";
@@ -129,12 +126,10 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   /*
     EVERY REFUSAL GOES BACK TO THE CART, not to an error page of its own.
 
-    The cart is where the working alternative already is: the same basket, the
-    same fields, and a send button that puts the order in his inbox the way it
-    has always done. A buyer who cannot pay by card has not lost anything, and
-    the page says so in one sentence. Building a second confirmation page in
+    The cart still holds the same basket, so trying again is one tap, and it
+    says in one sentence that nothing was charged. Building a second page in
     this file to say "no" would be a second page style to keep in step with the
-    first for the sake of an outcome the buyer can recover from in one tap.
+    first for the sake of an outcome the buyer can recover from where they are.
   */
   const back = (why: string) => {
     console.error(`[checkout] refused: ${why}`);
@@ -221,16 +216,6 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
   */
   if (hold) body.set("expires_at", String(Math.floor(Date.now() / 1000) + SESSION_SECONDS));
 
-  /*
-    THE EMAIL THE BUYER ALREADY TYPED. They filled it in on the cart before
-    pressing pay, so asking again on Stripe's page would be the shop forgetting
-    something it was just told.
-  */
-  const email = String(form.get("email") ?? "").trim();
-  if (email && email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    body.set("customer_email", email);
-  }
-
   lines.forEach((line, i) => {
     /*
       THE PRICE IS THE PRICE. The owner's figures are what the buyer pays, VAT
@@ -288,11 +273,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     ship.amount === 0 ? SHIPPING_LABEL[locale].free : SHIPPING_LABEL[locale].paid,
   );
 
-  /* What he needs beside the money, in the Stripe dashboard and in its email. */
-  const name = String(form.get("name") ?? "").trim().slice(0, 120);
-  if (name) body.set("metadata[buyer]", name);
-  const note = String(form.get("note") ?? "").trim().slice(0, 480);
-  if (note) body.set("metadata[note]", note);
+  /* What he needs beside the money, in the Stripe dashboard and in the letters. */
   body.set("metadata[lang]", locale);
   body.set("metadata[shipping]", `${destination} ${ship.zone} ${ship.amount}`);
   body.set("metadata[pieces]", lines.map((l) => `${l.qty}x ${l.slug}${l.size ? `/${l.size}` : ""}`).join(", ").slice(0, 480));

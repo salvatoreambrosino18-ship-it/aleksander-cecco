@@ -173,7 +173,14 @@ function copyValue(key) {
       documento del genere non puo' permettersi: dire al titolare che non c'e'
       niente dove il sito invece parla.
     */
-    const src = read("src/i18n/enquiry.ts");
+    /* Il file e' sparito il 2026-10-10 con l'ordine per email: non c'e' piu'
+       niente da mostrare, e dirlo e' meglio che dire «vuoto». */
+    let src = "";
+    try {
+      src = read("src/i18n/enquiry.ts");
+    } catch {
+      return "(non esiste piu': l'ordine per email e' stato tolto)";
+    }
     const it = src.slice(src.indexOf("it: {"), src.indexOf("en: {"));
     const parts = [...it.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1]).filter((x) => x.length > 15);
     if (parts.length) return parts.join("\n");

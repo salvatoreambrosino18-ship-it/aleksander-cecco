@@ -470,14 +470,14 @@ const shareImage =
               localStorage.setItem(KEY, JSON.stringify(cart));
             } catch {
               /*
-                Private mode, or a full store. A cart cannot exist here, and
-                saying nothing would be the one unacceptable outcome: the reader
-                presses a button, the label says it went in, and nothing did.
-                So they go to this piece's own order form, which needs no
-                storage and no script and can still sell them the thing they
-                just asked for.
+                A blocked or full store. A cart cannot exist here, and saying
+                nothing would be the one unacceptable outcome: the reader presses
+                a button, the label says it went in, and nothing did. There used
+                to be a piece's own order form to send them to; it went with the
+                e-mail path, so the button says plainly that this browser will
+                not keep a cart, and stays saying it.
               */
-              if (button.dataset.fallbackHref) window.location.href = button.dataset.fallbackHref;
+              if (button.dataset.refused) button.textContent = button.dataset.refused;
               return;
             }
             /*
