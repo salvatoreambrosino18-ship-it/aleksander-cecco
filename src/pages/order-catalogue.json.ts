@@ -22,6 +22,7 @@
 import type {APIRoute} from "astro";
 import {orderCatalogue} from "../lib/order";
 import {SHIPPING} from "../lib/shipping";
+import {getSiteSettings} from "../lib/content";
 
 export const GET: APIRoute = async () => {
   /*
@@ -41,7 +42,16 @@ export const GET: APIRoute = async () => {
     key and removes the possibility of the shop and the till disagreeing about
     the price of a parcel.
   */
-  return new Response(JSON.stringify({items, shipping: SHIPPING}, null, 1), {
+  /*
+    AND WHERE A BUYER WRITES BACK. The paid order confirmation sets this as its
+    reply-to, so a customer's "when does it ship?" lands in the address the
+    footer publishes rather than in whatever inbox ENQUIRY_TO_EMAIL happens to
+    be. It is his panel value (`contactEmail`), and it reaches the Function the
+    way every other build fact does: through this file.
+  */
+  const settings = await getSiteSettings();
+  const contact = settings.contactEmail?.trim() || null;
+  return new Response(JSON.stringify({items, shipping: SHIPPING, contact}, null, 1), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "public, max-age=300",

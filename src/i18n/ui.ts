@@ -249,7 +249,7 @@ const ui = {
     */
     cartPayIntro: "Puoi pagare adesso con carta, oppure inviare l'ordine e definire il pagamento per email.",
     cartPay: "Ordina con obbligo di pagare",
-    cartPaid: "Pagamento ricevuto. Grazie. Ti scriviamo per la spedizione.",
+    cartPaid: "Pagamento ricevuto. Grazie. Ti mandiamo una conferma per email, e ti scriviamo di nuovo quando il pacco parte.",
     cartPayProblem: "Il pagamento non è partito e non ti è stato addebitato niente. Riprova, oppure invia l'ordine qui sotto e lo definiamo per email.",
     /*
       LE RIGHE DELLA SPEDIZIONE. Sono etichette di campo, non voce del marchio,
@@ -434,7 +434,7 @@ const ui = {
        it is not editable from the studio. */
     cartPayIntro: "You can pay by card now, or send the order and settle payment by email.",
     cartPay: "Order with obligation to pay",
-    cartPaid: "Payment received. Thank you. We will write to you about shipping.",
+    cartPaid: "Payment received. Thank you. A confirmation is coming to your email, and we will write again when the parcel leaves.",
     cartPayProblem: "The payment did not start and you have not been charged. Try again, or send the order below and we will settle it by email.",
     /* Field labels, so they stay ours. See the Italian above. */
     cartDestination: "Where are we sending it",

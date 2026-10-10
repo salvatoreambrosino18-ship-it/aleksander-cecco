@@ -109,7 +109,7 @@ export async function send(
     text: string;
     idempotencyKey?: string;
   },
-): Promise<{ok: true} | {ok: false; reason: string}> {
+): Promise<{ok: true} | {ok: false; reason: string; retryable: boolean}> {
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -131,8 +131,15 @@ export async function send(
     // WHY, not just that: Resend's body names the reason, and it goes to the
     // function log, never to anyone outside.
     const reason = await res.text().catch(() => "(no body)");
-    return {ok: false, reason: `Resend ${res.status}: ${reason.slice(0, 500)}`};
+    /*
+      RETRYABLE means "the same request might work later": Resend overloaded,
+      rate limited, or down. A 4xx otherwise is Resend saying THIS message is
+      wrong — a sender off the verified domain, a malformed address — and
+      sending it again in an hour will be refused in exactly the same words.
+    */
+    const retryable = res.status === 429 || res.status >= 500;
+    return {ok: false, reason: `Resend ${res.status}: ${reason.slice(0, 500)}`, retryable};
   } catch (error) {
-    return {ok: false, reason: `Resend unreachable: ${(error as Error).message}`};
+    return {ok: false, reason: `Resend unreachable: ${(error as Error).message}`, retryable: true};
   }
 }
