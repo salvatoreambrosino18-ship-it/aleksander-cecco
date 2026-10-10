@@ -130,6 +130,9 @@ const destinations = DESTINATIONS.map((code) => ({code, name: countryName.of(cod
   the symbol would be a lie the first time one is not.
 */
 const currency = items[0]?.currency ?? "EUR";
+
+/* Where to write when the till is down: his panel value, as the footer prints it. */
+const contact = settings.contactEmail?.trim() || "info@aleksandercecco.com";
 ---
 
 <Base locale={locale} title={t(locale, "cart")} noindex>
@@ -233,6 +236,19 @@ const currency = items[0]?.currency ?? "EUR";
           <p class="cart-row type-mono text-mono">
             <span>{t(locale, "cartSubtotal")}</span>
             <output data-subtotal-out aria-live="polite"></output>
+          </p>
+
+          {/*
+            THE TILL IS DOWN. Shown instead of everything below it when
+            /api/checkout says Stripe is off — no key, a key Stripe refuses, Stripe
+            not answering — or when /api/checkout itself does not answer in
+            time. Since the e-mail path went there is no other way to order, so
+            it says that plainly and gives the address; it never leaves a
+            button that can only fail.
+          */}
+          <p class="type-body text-body max-w-prose" data-unavailable hidden>
+            {t(locale, "cartUnavailable")}{" "}
+            <a href={`mailto:${contact}`} class="cart-inline-link">{contact}</a>.
           </p>
 
           <div class="flex flex-col gap-u3" data-checkout hidden>
@@ -358,6 +374,7 @@ const currency = items[0]?.currency ?? "EUR";
       const paid = document.querySelector("[data-cart-paid]");
       const problem = document.querySelector("[data-cart-problem]");
       const checkout = document.querySelector("[data-checkout]");
+      const unavailable = document.querySelector("[data-unavailable]");
       const destination = document.querySelector("[data-destination]");
       const accept = document.querySelector("[data-accept]");
       const subtotalOut = document.querySelector("[data-subtotal-out]");
@@ -753,25 +770,40 @@ const currency = items[0]?.currency ?? "EUR";
         runtime key free to disagree. It also says which 1 of 1 pieces are gone
         or being paid for, so the summary can say so before anybody presses.
 
-        EVERY FAILURE LEAVES THE CHECKOUT HIDDEN: a network error, a bad status,
-        a body that is not what it should be. A pay button that cannot take
-        money is the worst control this page could show.
+        EVERY FAILURE LEAVES THE CHECKOUT HIDDEN AND SAYS SO: a network error,
+        a bad status, a body that is not what it should be, or no answer in
+        eight seconds. A pay button that cannot take money is the worst control
+        this page could show, and silence where it should be is the second
+        worst — so the summary says ordering is unavailable and where to write.
       */
-      fetch("/api/checkout", {headers: {Accept: "application/json"}})
+      const down = () => {
+        if (cardOn) return;
+        checkout.hidden = true;
+        if (unavailable) unavailable.hidden = false;
+      };
+      const ask = new AbortController();
+      const giveUp = setTimeout(() => {
+        ask.abort();
+        down();
+      }, 8000);
+      fetch("/api/checkout", {headers: {Accept: "application/json"}, signal: ask.signal})
         .then((res) => (res.ok ? res.json() : null))
         .then((info) => {
-          if (!info || info.enabled !== true) return;
+          clearTimeout(giveUp);
+          if (!info || info.enabled !== true) return down();
           cardOn = true;
           for (const slug of info.sold || []) blocked.set(slug, "sold");
           for (const slug of info.held || []) if (!blocked.has(slug)) blocked.set(slug, "held");
           if (info.unique !== true) {
             for (const [slug, item] of catalogue) if (item.max === 1) blocked.set(slug, "unavailable");
           }
+          if (unavailable) unavailable.hidden = true;
           checkout.hidden = false;
           update();
         })
         .catch(() => {
-          /* Dark, and that is the safe answer. */
+          clearTimeout(giveUp);
+          down();
         });
 
       try {

@@ -94,7 +94,58 @@ const SHIPPING_LABEL: Record<Locale, {free: string; paid: string}> = {
 
   Not cached: flipping the switch in Cloudflare has to take effect on the next
   page view, not in five minutes.
+
+  A KEY THAT EXISTS IS NOT A KEY THAT WORKS (2026-10-10). With the e-mail path
+  gone there is no second way to order, so a revoked key or a Stripe outage
+  would leave the cart offering a button that can only fail. So `enabled` also
+  asks Stripe whether it takes the key — the cheapest authenticated read there
+  is — and remembers the answer at this location for five minutes when it is
+  yes and one minute when it is no, so the shop neither hammers Stripe nor stays
+  dark long after it recovers. 401 is a bad key; 403 is a restricted key
+  without that one read permission, which still creates sessions, so it counts
+  as working. Anything else, or no answer, is "not now", and the cart says that
+  ordering is unavailable and gives the address to write to.
 */
+const HEALTH_PATH = "/__stripe-health";
+
+async function stripeTakesKey(key: string, origin: string): Promise<boolean> {
+  /* On this site's own origin: the zone drops a cache put for a host it does not serve. */
+  const cacheKey = new Request(`${origin}${HEALTH_PATH}`);
+  try {
+    const hit = await caches.default.match(cacheKey);
+    if (hit) return (await hit.text()) === "ok";
+  } catch {
+    /* no cache, ask Stripe */
+  }
+  let ok = false;
+  try {
+    const res = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=1", {
+      headers: {Authorization: `Bearer ${key}`},
+    });
+    ok = res.ok || res.status === 403;
+    if (!ok) console.error(`[checkout] Stripe answered ${res.status} to the key check: ordering shown as unavailable`);
+  } catch (error) {
+    console.error(`[checkout] Stripe unreachable for the key check: ${(error as Error).message}`);
+  }
+  try {
+    await caches.default.put(
+      cacheKey,
+      new Response(ok ? "ok" : "down", {headers: {"Cache-Control": `max-age=${ok ? 300 : 60}`}}),
+    );
+  } catch {
+    /* an answer not remembered is asked again next time, which is fine */
+  }
+  return ok;
+}
+
+/* After Stripe refuses the key on a real attempt, the next page view must ask again. */
+async function forgetHealth(origin: string) {
+  try {
+    await caches.default.delete(new Request(`${origin}${HEALTH_PATH}`));
+  } catch {
+    /* nothing remembered, nothing to forget */
+  }
+}
 /*
   AND WHICH 1 OF 1 PIECES ARE GONE OR BEING PAID FOR, so the cart can say so
   beside the piece before anybody presses pay, rather than after a round trip
@@ -102,8 +153,9 @@ const SHIPPING_LABEL: Record<Locale, {free: string; paid: string}> = {
   binding, or the database did not answer), and then no unique piece can be
   paid for at all — the same answer the POST would give.
 */
-export const onRequestGet: PagesFunction<Env> = async ({env}) => {
-  const enabled = live(env) !== null;
+export const onRequestGet: PagesFunction<Env> = async ({request, env}) => {
+  const on = live(env);
+  const enabled = on !== null && (await stripeTakesKey(on.key, new URL(request.url).origin));
   let holds: {unique: boolean; sold: string[]; held: string[]} = {unique: false, sold: [], held: []};
   if (enabled && env.HOLDS) {
     try {
@@ -310,6 +362,7 @@ export const onRequestPost: PagesFunction<Env> = async ({request, env}) => {
     session = await res.json();
     if (!res.ok || !session?.url || !session.id) {
       await giveBack();
+      if (res.status === 401) await forgetHealth(origin);
       return back(`Stripe refused the session (${res.status}): ${session?.error?.message ?? "no url returned"}`);
     }
   } catch (error) {

@@ -1182,13 +1182,16 @@
     that wraps draws one line under the last fragment and well below the words.
     Same weight and colour as every hairline here; it only sits on the text.
   */
-  .cart-accept a {
+  .cart-accept a,
+  .cart-inline-link {
     text-decoration: underline;
     text-decoration-thickness: var(--hairline-w);
     text-underline-offset: 0.25em;
   }
   .cart-accept a:hover,
-  .cart-accept a:focus-visible {
+  .cart-accept a:focus-visible,
+  .cart-inline-link:hover,
+  .cart-inline-link:focus-visible {
     text-decoration-thickness: calc(var(--hairline-w) * 2);
   }
   .cart-pay {

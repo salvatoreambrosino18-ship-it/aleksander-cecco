@@ -273,6 +273,13 @@ const ui = {
     cartNeedAccept: "Spunta la casella per continuare.",
     cartNeedRemove: "Togli dal carrello il pezzo segnato per continuare.",
     /*
+      QUANDO LA CASSA NON C'È (2026-10-10): chiave Stripe assente o rifiutata,
+      Stripe che non risponde. Non c'è più un secondo modo di ordinare, quindi
+      la frase lo dice e dà l'indirizzo, invece di un pulsante che fallisce.
+      Seguita dall'indirizzo, preso dal pannello (`contactEmail`).
+    */
+    cartUnavailable: "Al momento non si può ordinare dal sito. Riprova tra poco, oppure scrivi a",
+    /*
       I PEZZI UNICI, quando non si possono pagare. Sono stati, non voce del
       marchio: dicono perché il pulsante non c'è, e restano qui.
     */
@@ -457,6 +464,7 @@ const ui = {
     cartNeedCountry: "Choose a country to continue.",
     cartNeedAccept: "Tick the box to continue.",
     cartNeedRemove: "Remove the marked piece from the cart to continue.",
+    cartUnavailable: "Ordering from the site is not available right now. Try again shortly, or write to",
     cartHeld: "Someone else is paying for this piece right now. If they don't finish, it becomes available again within half an hour.",
     cartSold: "This piece has just been sold. Remove it from the cart to pay for the rest.",
     cartUniqueOff: "This piece cannot be paid for right now.",
